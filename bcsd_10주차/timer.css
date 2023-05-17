@@ -1,0 +1,13 @@
+#timeShow{
+  display: flex;
+  font-size:100px;
+}
+
+#timerMode{
+  visibility: hidden;
+}
+
+
+#stopMode{
+  visibility: hidden;
+}

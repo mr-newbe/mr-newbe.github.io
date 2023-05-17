@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <link rel="stylesheet" href="timer.css">
+</head>
+<body>
+  <div id="oneAnd">0</div>
+  <button id="stop">스톱워치</button>
+  <button id="timer">타이머</button>
+
+  <div id="timerMode">
+    <!--타이머 요소가 들어갈 자리 -->
+    
+    <button id="reset">초기화</button>
+    <button id="ten_sec_timer">10초</button>
+    <button id="thirty_sec_timer">30초</button>
+    <button id="one_min_timer">1분</button>
+    <button id="ramen_timer">라면 타이머(3분)</button>
+    <button id="ten_min_timer">10분</button>
+
+    <button id="timer_button">시작</button>
+    
+  </div>
+
+  <div id="stopMode">
+    <!--스톱워치 요소가 들어갈 자리-->
+
+
+    <button id="stop_reset">초기화</button>
+    <button id="stop_button">시작</button>
+    <button id="fiveWait">5초 대기</button>
+  </div>
+
+  <div id="timeShow">
+    <div id="temMin">0</div>
+
+    <div id="oneMin">0</div>
+
+    <div>:</div>
+
+    <div id="tenSec">0</div>
+
+    <div id="oneSec">0</div>
+  </div>
+
+  
+  <script src="time_tocker.js"></script>
+</body>
+</html>
