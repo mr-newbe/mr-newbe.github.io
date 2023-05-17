@@ -116,7 +116,7 @@ function reset_stop(){
 function starter(){
   if(stopChecker ===false){
     stopChecker=true;
-    fiveWait()
+    
     stopWatch();
   }else{
     stopChecker=false;
