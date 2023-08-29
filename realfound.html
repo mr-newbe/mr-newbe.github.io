@@ -11,7 +11,7 @@
 <img id="img">
 <script>
   const iframe = document.getElementById("iframe");
-  iframe.src = "http://host3.dreamhack.games:16171/search?query=DH{";
+  iframe.src = "http://localhost:8000/search?query=DH{";
   iframe.onload = ()=> {
     img.src = `https://yonxbdu.request.dreamhack.games/${iframe.contentWindow.frames.length}`;
   };
