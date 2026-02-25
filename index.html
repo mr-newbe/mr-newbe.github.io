@@ -17,13 +17,12 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            transition: all 0.3s ease;
         }
 
         .container {
@@ -45,167 +44,126 @@
             background: linear-gradient(to right, #38bdf8, #818cf8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -0.025em;
         }
 
-        header p {
-            color: var(--muted-text);
-            font-size: 1.1rem;
-        }
-
-        .section-title {
+        .nav-tabs {
             display: flex;
-            align-items: center;
-            font-size: 1.5rem;
-            margin-bottom: 30px;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: var(--secondary-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover, .tab-btn.active {
+            border-color: var(--accent-color);
             color: var(--accent-color);
         }
 
-        .section-title i {
-            margin-right: 12px;
-        }
-
-        .post-list {
-            list-style: none;
-            padding: 0;
-        }
-
+        .post-list { list-style: none; padding: 0; }
+        
+        /* 카테고리별 필터링을 위한 간단한 CSS */
         .post-item {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             margin-bottom: 20px;
             padding: 24px;
-            transition: transform 0.2s ease, border-color 0.2s ease;
+            display: block; /* 기본값 */
         }
 
-        .post-item:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent-color);
-        }
-
-        .post-meta {
-            display: flex;
-            align-items: center;
-            font-size: 0.85rem;
-            color: var(--muted-text);
-            margin-bottom: 8px;
-        }
-
-        .post-meta i {
-            margin-right: 6px;
-        }
-
-        .post-title {
-            display: block;
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--text-color);
-            text-decoration: none;
-            margin-bottom: 12px;
-        }
-
-        .post-title:hover {
-            color: var(--accent-color);
-        }
-
-        .post-excerpt {
-            color: var(--muted-text);
-            font-size: 0.95rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        footer {
-            margin-top: 80px;
-            text-align: center;
-            font-size: 0.9rem;
-            color: var(--muted-text);
-            border-top: 1px solid var(--border-color);
-            padding-top: 40px;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            background-color: var(--accent-color);
-            color: var(--bg-color);
-            margin-left: 10px;
-            vertical-align: middle;
-        }
+        .post-meta { display: flex; align-items: center; font-size: 0.85rem; color: var(--muted-text); margin-bottom: 8px; }
+        .post-title { display: block; font-size: 1.3rem; font-weight: 700; color: var(--text-color); text-decoration: none; margin-bottom: 12px; }
+        .badge { padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; background-color: var(--accent-color); color: var(--bg-color); margin-left: 10px; }
+        
+        footer { margin-top: 80px; text-align: center; font-size: 0.9rem; color: var(--muted-text); border-top: 1px solid var(--border-color); padding-top: 40px; }
     </style>
+    <script>
+        function filterCategory(category) {
+            const items = document.querySelectorAll('.post-item');
+            const buttons = document.querySelectorAll('.tab-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </head>
 <body>
     <div class="container">
         <header>
             <h1><i class="fa-solid fa-shield-halved"></i> Park Sunny's Hub</h1>
-            <p>보안 전문가를 향한 여정 | AI & Security 트렌드 분석</p>
+            <p>보안 전문가를 향한 여정 | AI, Security, Research</p>
         </header>
 
+        <nav class="nav-tabs">
+            <button class="tab-btn active" onclick="filterCategory('all')">전체보기</button>
+            <button class="tab-btn" onclick="filterCategory('daily')">데일리 뉴스</button>
+            <button class="tab-btn" onclick="filterCategory('research')">학술 연구</button>
+            <button class="tab-btn" onclick="filterCategory('autonomous')">자율주행</button>
+        </nav>
+
         <main>
-            <div class="section-title">
-                <i class="fa-solid fa-newspaper"></i> 최신 포스트
-            </div>
-            
             <ul class="post-list">
-                <li class="post-item">
+                <!-- Research Category -->
+                <li class="post-item" data-category="research">
                     <div class="post-meta">
                         <span><i class="fa-regular fa-calendar"></i> 2026-02-25</span>
-                        <span class="badge">Daily Update</span>
+                        <span class="badge">Research</span>
                     </div>
-                    <a href="2026-02-25-security-ai-update.html" class="post-title">Daily Security & AI News Update</a>
-                    <div class="post-excerpt">Anthropic Claude distillation attacks, Wynn Resorts data breach by ShinyHunters, and AI-targeted supply chain threats via npm.</div>
+                    <a href="security-research-2026-02-25.html" class="post-title">최신 보안 논문 분석 (AI & Cybersecurity)</a>
+                    <div class="post-excerpt">해외 및 국내 최신 보안 연구 동향 분석. AI의 보안 활용과 LLM 자동화 연구 중심.</div>
                 </li>
-                <li class="post-item">
-                    <div class="post-meta">
-                        <span><i class="fa-regular fa-calendar"></i> 2026-02-24</span>
-                        <span class="badge">Daily Update</span>
-                    </div>
-                    <a href="2026-02-24-security-ai-update.html" class="post-title">Daily Security & AI News Update</a>
-                    <div class="post-excerpt">Wormable XMRig crypto-jacking, npm supply chain attacks on AI tools, and mental health app vulnerabilities.</div>
-                </li>
-                <li class="post-item">
+
+                <li class="post-item" data-category="autonomous">
                     <div class="post-meta">
                         <span><i class="fa-regular fa-calendar"></i> 2026-02-23</span>
-                        <span class="badge">Research</span>
+                        <span class="badge">Autonomous</span>
                     </div>
                     <a href="autonomous-research-topics.html" class="post-title">자율주행 특허 기반 연구 주제 제안</a>
-                    <div class="post-excerpt">마스터의 자율주행 플랫폼 활용을 극대화하기 위한 특허 분석 기반의 3가지 연구 주제 제안 목록입니다.</div>
+                    <div class="post-excerpt">마스터의 자율주행 플랫폼 활용을 위한 3가지 특허 기반 연구 주제.</div>
                 </li>
-                <li class="post-item">
+
+                <!-- Daily Category -->
+                <li class="post-item" data-category="daily">
                     <div class="post-meta">
-                        <span><i class="fa-regular fa-calendar"></i> 2026-02-23</span>
-                        <span class="badge">Daily Update</span>
+                        <span><i class="fa-regular fa-calendar"></i> 2026-02-25</span>
+                        <span class="badge">Daily News</span>
                     </div>
-                    <a href="2026-02-23-security-ai-update.html" class="post-title">Daily Security & AI News Update</a>
-                    <div class="post-excerpt">BeyondTrust RCE (CVE-2026-1731) exploitation, Cline CLI supply chain attack, and AI-powered Android malware trends.</div>
+                    <a href="2026-02-25-security-ai-update.html" class="post-title">Daily Security & AI News Update</a>
+                    <div class="post-excerpt">Claude Data Extraction, Wynn Resorts Breach, and more.</div>
                 </li>
-                <li class="post-item">
+                
+                <li class="post-item" data-category="daily">
                     <div class="post-meta">
-                        <span><i class="fa-regular fa-calendar"></i> 2026-02-22</span>
-                        <span class="badge">Daily Update</span>
+                        <span><i class="fa-regular fa-calendar"></i> 2026-02-24</span>
+                        <span class="badge">Daily News</span>
                     </div>
-                    <a href="2026-02-22-security-ai-update.html" class="post-title">Daily Security & AI News Update</a>
-                    <div class="post-excerpt">AI-Assisted Attacks on FortiGate, PromptSpy Malware analysis, and the latest in cybersecurity.</div>
-                </li>
-                <li class="post-item">
-                    <div class="post-meta">
-                        <span><i class="fa-regular fa-calendar"></i> 2026-02-21</span>
-                        <span class="badge">Research</span>
-                    </div>
-                    <a href="realfound.html" class="post-title">Security Foundational Research</a>
-                    <div class="post-excerpt">Exploring the core principles of web application security and modern threat landscapes.</div>
+                    <a href="2026-02-24-security-ai-update.html" class="post-title">Daily Security & AI News Update</a>
+                    <div class="post-excerpt">BYOVD XMRig Worm, AI npm supply chain attack analysis.</div>
                 </li>
             </ul>
         </main>
 
         <footer>
-            <p>&copy; 2026 Park Sunny (StairWalker). Powered by OpenClaw AI.</p>
+            <p>&copy; 2026 Park Sunny. Powered by OpenClaw AI.</p>
         </footer>
     </div>
 </body>
