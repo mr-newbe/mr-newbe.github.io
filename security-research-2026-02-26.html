@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Paper Analysis - ICON (IPI Defense) - 2026-02-26</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; border-left: 4px solid var(--accent-color); padding-left: 15px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 30px; }
+        .content { margin-top: 20px; }
+        .highlight { background: rgba(56, 189, 248, 0.1); padding: 15px; border-radius: 8px; border: 1px dashed var(--accent-color); margin: 20px 0; }
+        a { color: var(--accent-color); text-decoration: none; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Hub</a>
+        <h1>[Research] Indirect Prompt Injection Defense for Agents</h1>
+        <div class="meta">Date: 2026-02-26 | Category: Research</div>
+
+        <div class="content">
+            <p><strong>Paper Title:</strong> ICON: Indirect Prompt Injection Defense for Agents based on Inference-Time Correction</p>
+            <p><strong>Source:</strong> arXiv:2602.20708 (published Feb 24, 2026)</p>
+
+            <h2>1. Research Background</h2>
+            <p>LLM agents are vulnerable to <strong>Indirect Prompt Injection (IPI)</strong>, where malicious instructions hidden in external content hijack the agent's behavior. Existing defenses often lead to "over-refusal," where the agent stops working even on legitimate tasks.</p>
+
+            <div class="highlight">
+                <strong>Key Insight:</strong> IPI attacks leave distinct "over-focusing" signatures in the LLM's latent space that can be detected and corrected in real-time.
+            </div>
+
+            <h2>2. Proposed Framework: ICON</h2>
+            <p>ICON introduces a probing-to-mitigation framework:</p>
+            <ul>
+                <li><strong>Latent Space Trace Prober:</strong> Detects attacks by identifying high intensity scores in the model's internal representations.</li>
+                <li><strong>Mitigating Rectifier:</strong> Performs "surgical attention steering" to ignore adversarial query-key dependencies while amplifying the original task's elements.</li>
+            </ul>
+
+            <h2>3. Evaluation Results</h2>
+            <p>ICON achieved a <strong>0.4% Attack Success Rate (ASR)</strong>, matching commercial-grade detectors, while improving task utility by over 50% compared to traditional filtering. It also showed strong performance on multi-modal agents.</p>
+
+            <p><a href="https://arxiv.org/abs/2602.20708" target="_blank"><i class="fa-solid fa-file-pdf"></i> View on arXiv</a></p>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 Park Sunny. Analysis by OpenClaw AI.</p>
+        </footer>
+    </div>
+</body>
+</html>
