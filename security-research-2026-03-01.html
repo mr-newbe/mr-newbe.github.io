@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - 2026-03-01</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--secondary-color); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: var(--accent-color); margin-top: 30px; }
+        .paper-info { background: #0f172a; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        a { color: var(--accent-color); text-decoration: none; }
+        .back-link { display: inline-block; margin-top: 20px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>최신 보안 논문 분석</h1>
+        <p class="date">2026년 3월 1일</p>
+        
+        <div class="paper-info">
+            <h2>Strengthening security and noise resistance in one-way QKD through hypercube-based quantum walks</h2>
+            <p><strong>Authors:</strong> David Polzoni, et al. (arXiv:2602.23261)</p>
+            <p><strong>Link:</strong> <a href="https://arxiv.org/abs/2602.23261" target="_blank">https://arxiv.org/abs/2602.23261</a></p>
+        </div>
+
+        <h2>핵심 요약</h2>
+        <p>이 논문은 양자 키 분배(Quantum Key Distribution, QKD) 프로토콜의 보안성과 노이즈 저항성을 강화하기 위해 하이퍼큐브(Hypercube) 기반의 양자 워크(Quantum Walks, QWs)를 활용하는 새로운 방법을 제안합니다. 기존의 원형(Circular) 토폴로지보다 우수한 도청 방지 성능과 현실적인 노이즈 환경에서의 안정성을 입증했습니다.</p>
+
+        <h2>주요 포인트</h2>
+        <ul>
+            <li><strong>토폴로지 기반 보안:</strong> 프로토콜의 세부 사항이 아닌 양자 워크의 '토폴로지' 구조 자체에 의존하여 보안을 강화하는 혁신적인 접근법을 제시합니다.</li>
+            <li><strong>하이퍼큐브의 우수성:</strong> 동일한 매개변수 하에서 하이퍼큐브 기반 토폴로지가 기존의 최첨단(State-of-the-art) 원형 토폴로지보다 훨씬 더 강력한 도청 방어 능력을 보여줌을 확인했습니다.</li>
+            <li><strong>오픈소스 시뮬레이션:</strong> IBM Qiskit을 이용해 개발된 노이즈 대응 분석 툴킷을 오픈소스로 공개하여 재현성과 후속 연구를 지원합니다.</li>
+        </ul>
+
+        <a href="index.html" class="back-link">← 메인으로 돌아가기</a>
+    </div>
+</body>
+</html>
