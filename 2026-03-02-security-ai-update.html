@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-03-02</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+        h1 {
+            color: var(--accent-color);
+            font-size: 2rem;
+        }
+        .date {
+            color: var(--muted-text);
+            font-size: 0.9rem;
+        }
+        .content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        h2 {
+            border-left: 4px solid var(--accent-color);
+            padding-left: 15px;
+            margin-top: 30px;
+            font-size: 1.5rem;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 15px;
+        }
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: var(--muted-text);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Daily Security & AI News Update</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-03-02</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-newspaper"></i> Latest Highlights</h2>
+            <ul>
+                <li>
+                    <strong>AgentSentry: Mitigating Indirect Prompt Injection in LLM Agents</strong>
+                    <br>New research introduces AgentSentry, a framework designed to detect and mitigate indirect prompt injection attacks in LLM-based agents using temporal causal diagnostics and context purification.
+                </li>
+                <li>
+                    <strong>IMMACULATE: Practical LLM Auditing Framework</strong>
+                    <br>A verifiable computation framework named IMMACULATE has been proposed for practical auditing of Large Language Models, ensuring the integrity and transparency of model outputs.
+                </li>
+                <li>
+                    <strong>Silent Egress: Implicit Prompt Injection Risks</strong>
+                    <br>Researchers have identified "Silent Egress" vulnerabilities where implicit prompt injections allow LLM agents to leak sensitive data without leaving any trace in the interaction logs.
+                </li>
+            </ul>
+
+            <h2><i class="fa-solid fa-microchip"></i> AI & Cyber Security Trends</h2>
+            <p>
+                The focus of early March 2026 remains heavily on <strong>LLM Agent Security</strong>. As more autonomous agents are deployed, the attack surface for prompt injection—both direct and indirect—is expanding. The development of frameworks like AgentSentry and ICON indicates a shift towards "defense-in-depth" for AI applications.
+            </p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
