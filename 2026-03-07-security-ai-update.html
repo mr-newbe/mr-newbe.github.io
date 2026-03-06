@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-03-07</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-03-07 | <i class="fa-solid fa-tags"></i> Daily News, Research
+        </div>
+
+        <div class="content">
+            <h2>1. 최신 보안 뉴스: Transparent Tribe의 AI 기반 'Vibeware' 캠페인</h2>
+            <p>파키스탄 기반 해커 그룹 <strong>Transparent Tribe</strong>가 AI 코딩 도구를 활용해 대량의 멀웨어 임플란트를 생산하고 있음이 확인되었습니다.</p>
+            <ul>
+                <li><strong>핵심 전술:</strong> Nim, Zig, Crystal 등 비주류 언어를 AI로 자동 생성하여 'Vibeware'라 불리는 다국어 바이너리 대량 살포.</li>
+                <li><strong>특징:</strong> 기술적 정교함보다는 물량 공세를 통해 탐지를 어렵게 하며, Slack, Discord 등 신뢰할 수 있는 서비스를 C2 채널로 악용.</li>
+                <li><strong>시사점:</strong> AI가 멀웨어의 대량 생산 및 산업화를 가속화하고 있어 탐지 체계의 근본적 변화가 요구됨.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/03/transparent-tribe-uses-ai-to-mass.html" target="_blank">The Hacker News</a></p>
+
+            <h2>2. 최신 보안 논문: Osmosis Distillation (OD) - 데이터 증류 기반 모델 하이재킹</h2>
+            <p>전이 학습(Transfer Learning) 시 사용하는 <strong>합성 데이터셋(Synthetic Datasets)</strong>을 통한 새로운 모델 하이재킹 공격 기법인 OD 공격이 제안되었습니다.</p>
+            <ul>
+                <li><strong>공격 메커니즘:</strong> 데이터 증류(Dataset Distillation) 과정에서 소수의 오염된 샘플을 주입하여 타겟 모델을 하이재킹.</li>
+                <li><strong>위험성:</strong> 매우 적은 샘플만으로도 높은 공격 성공률을 보이며, 원본 모델의 유틸리티는 유지하면서 다양한 아키텍처에 걸쳐 하이재킹이 가능함.</li>
+                <li><strong>결론:</strong> 제3자가 제공하는 합성 데이터셋을 전이 학습에 사용할 때의 보안 위협에 대한 경각심이 필요함.</li>
+            </ul>
+            <p>논문 링크: <a href="https://arxiv.org/abs/2603.04859" target="_blank">arXiv:2603.04859</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
