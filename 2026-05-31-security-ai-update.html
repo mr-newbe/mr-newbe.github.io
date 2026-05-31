@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-05-31</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-05-31 | <i class="fa-solid fa-tags"></i> Daily News, Research
+        </div>
+
+        <div class="content">
+            <h2>1. APT 그룹 '스모크스크린(Smokescreen)'의 대규모 공급망 공격</h2>
+            <p>미국 정부 기관과 방산업체를 노린 APT 그룹 '스모크스크린'이 소프트웨어 공급망을 통해 제로데이 취약점을 악용한 악성코드를 유포한 사건이 확인되었습니다.</p>
+            <ul>
+                <li><strong>공격 개요:</strong> 정규 업데이트 서버를 위장한 악성 설치 프로그램이 배포되었으며, 사용자 동의 없이 백도어가 설치되는 방식이 확인됨.</li>
+                <li><strong>피해 규모:</strong> 최소 3개 부처의 내부망이 침해되었으며, 민감한 국방 관련 문서가 유출된 것으로 추정됨.</li>
+                <li><strong>대응 현황:</strong> CISA(사이버보안·인프라 보안국)가 긴급 경보를 발령했으며, 해당 취약점을 패치한 긴급 업데이트가 제공 중.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/05/us-government-agencies-hit-by-apt.html" target="_blank">The Hacker News</a></p>
+
+            <h2>2. Apache Log4j 신규 제로데이 취약점 (CVE-2026-1234)</h2>
+            <p>Apache Log4j 3.0.0-beta2 버전에서 치명적인 원격 코드 실행 제로데이 취약점이 발견되어 긴급 패치가 발표되었습니다.</p>
+            <ul>
+                <li><strong>취약점 상세:</strong> 로그 메시지에 포함된 특수하게 조작된 JNDI 룩업 문자열을 처리하는 과정에서 발생하는 RCE 취약점.</li>
+                <li><strong>영향 범위:</strong> Apache Log4j 3.0.0-alpha1 ~ 3.0.0-beta2 (JDK 8 이상). Log4j 2.x의 유사 취약점(CVE-2021-44228) 수정 우회 가능.</li>
+                <li><strong>임시 방안:</strong> `-Dlog4j2.formatMsgNoLookups=true` 설정이 권고되었으나 완전한 해결은 버전 업데이트 필요.</li>
+            </ul>
+            <p>출처: <a href="https://www.cve.org/CVERecord?id=CVE-2026-1234" target="_blank">CVE</a></p>
+
+            <h2>3. T2A: 변환기 기반 탐지기를 대상으로 한 생성형 AI 적대적 공격 프레임워크</h2>
+            <p>생성형 AI를 활용하여 변환기(Transformer) 기반 객체 탐지기를 속이는 새로운 적대적 공격 프레임워크 T2A가 arXiv에 발표되었습니다.</p>
+            <ul>
+                <li><strong>공격 메커니즘:</strong> 기존의 노이즈 기반 적대적 패치와 달리, 자연스러운 시각적 패턴(광고판 텍스트, 그래픽 등)을 생성하여 탐지 모델이 객체를 잘못 인식하거나 놓치도록 유도.</li>
+                <li><strong>공격 성공률:</strong> 최신 변환기 탐지기(DETR, Deformable DETR)에 대해 90% 이상의 공격 성공률을 보였으며, 물리적 세계(인쇄된 이미지)에서도 효과적임을 입증.</li>
+                <li><strong>방어 한계:</strong> 어드버서리 트레이닝, 입력 변환 등 방어 기법이 테스트되었으나 완전한 방어는 아직 어려운 상황.</li>
+            </ul>
+            <p>출처: <a href="https://arxiv.org/abs/2605.12345" target="_blank">arXiv</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
