@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-06-02</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-06-02 | <i class="fa-solid fa-tags"></i> Supply Chain, VPN Vulnerability, Malware
+        </div>
+
+        <div class="content">
+            <h2>1. 미아스마(Miasma) 공급망 공격 — Red Hat npm 패키지, 자격 증명 탈취 웜에 감염</h2>
+            <p>새로운 공급망 공격 캠페인 '미아스마(Miasma)'가 @redhat-cloud-services npm 패키지를 손상시켜 개발자 머신에서 자격 증명과 비밀 정보를 탈취하고 자기 증식형 웜을 유포하는 것으로 확인되었습니다. 이는 'Mini Shai-Hulud' 계열의 공격으로 분류됩니다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> @redhat-cloud-services/vulnerabilities-client, @redhat-cloud-services/tsc-transform-imports 등 여러 패키지에 악성 코드가 삽입되어 설치 시점에 자격 증명을 수집.</li>
+                <li><strong>웜 특성:</strong> 감염된 시스템에서 수집한 GitHub 토큰, npm 토큰 등 인증 정보를 사용해 자동으로 다른 저장소와 패키지로 확산되는 자기 증식 기능 보유.</li>
+                <li><strong>데이터 유출:</strong> 암호화된 통신 채널을 통해 탈취한 자격 증명, CI/CD 시크릿, 환경 변수 등이 공격자 서버로 유출됨.</li>
+                <li><strong>범인 추적:</strong> TeamPCP 그룹이 Shai-Hulud 공격 도구를 오픈소스화하여 여러 위협 행위자가 유사 공격을 수행할 수 있게 되었으며, 이에 따라 정확한 귀속(attribution)이 어려워짐.</li>
+                <li><strong>대응:</strong> Red Hat은 영향을 받은 패키지를 식별하고 악성 버전을 회수했으며, 사용자에게 즉시 패키지 업데이트 및 토큰 로테이션을 권고.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/06/miasma-supply-chain-attack-compromises.html" target="_blank">The Hacker News</a></p>
+
+            <h2>2. Palo Alto Networks PAN-OS GlobalProtect 인증 우회(CVE-2026-0257) 실제 공격 활성화</h2>
+            <p>Palo Alto Networks는 PAN-OS GlobalProtect VPN의 인증 우회 취약점(CVE-2026-0257, CVSS 7.8)이 실제 공격자들에 의해 활발히 악용되고 있다고 경고했습니다. 공격자는 유효한 자격 증명 없이도 VPN 연결을 설정하여 기업 네트워크에 침투할 수 있습니다.</p>
+            <ul>
+                <li><strong>취약점 세부:</strong> PAN-OS가 특정 구성에서 GlobalProtect 인증 재정의 쿠키를 신뢰하는 방식에서 발생한 취약점. HTTPS 서비스와 인증 쿠키에 동일한 인증서를 사용하는 환경에서 특히 위험.</li>
+                <li><strong>실제 악용:</strong> Rapid7 연구진은 5월 17일부터 여러 고객 환경에서 실제 익스플로잇 시도를 관찰했으며 PoC 기술 검증을 완료. CISA는 KEV(알려진 악용 취약점) 카탈로그에 등록.</li>
+                <li><strong>영향 범위:</strong> PAN-OS 및 Prisma Access 사용 방화벽이 영향을 받으며, GlobalProtect 포털 또는 게이트웨이가 활성화된 환경이 주요 표적.</li>
+                <li><strong>대응 현황:</strong> Palo Alto Networks는 심각도 등급을 상향 조정하고 긴급 패치를 발표. CISA는 연방 기관에 6월 1일까지 패치 적용을 의무화했으며, 모든 기업에 즉시 패치 적용 권고.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/palo-alto-globalprotect-vpn-auth-bypass-flaw-now-exploited-in-attacks/" target="_blank">BleepingComputer</a></p>
+
+            <h2>3. ChatGPT 공유 링크 악용 — 가짜 장애 페이지로 멀웨어 유포</h2>
+            <p>위협 행위자들이 ChatGPT의 콘텐츠 공유 기능을 악용하여 가짜 OpenAI 장애(Outage) 페이지를 표시하고, 사용자를 속여 ChatGPT 데스크톱 앱으로 위장한 악성 파일을 다운로드하도록 유도하는 캠페인이 발견되었습니다.</p>
+            <ul>
+                <li><strong>공격 체인:</strong> 공격자는 ChatGPT 공유 링크를 생성하여 가짜 "OpenAI 서비스 장애 중" 페이지를 호스팅. 페이지는 정상적인 OpenAI 장애 공지와 유사하게 디자인됨.</li>
+                <li><strong>악성 페이로드:</strong> 장애 해결을 위해 ChatGPT 데스크톱 앱 재설치를 유도하며, 실제로는 인포스틸러(inforstealer) 멀웨어가 포함된 악성 설치 파일을 다운로드하도록 함.</li>
+                <li><strong>전파 방식:</strong> 생성된 공유 링크는 소셜 미디어, 피싱 이메일, 포럼 게시물 등을 통해 유포되며, ChatGPT의 합법적인 도메인을 사용하므로 탐지가 어려움.</li>
+                <li><strong>표적:</strong> 주로 기업 환경의 ChatGPT 사용자를 대상으로 하며, 탈취한 자격 증명으로 추가 내부 시스템 침투를 시도하는 것으로 분석됨.</li>
+                <li><strong>대응 방안:</strong> OpenAI 공식 채널 외부에서 다운로드하지 말 것, 브라우저에서 실제 URL 확인, 엔드포인트 보안 솔루션을 통한 악성 파일 탐지 강화.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/chatgpt-share-links-abused-to-host-fake-outage-pages-to-deliver-malware/" target="_blank">BleepingComputer - Lawrence Abrams</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
