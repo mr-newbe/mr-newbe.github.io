@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-06-01</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-06-01 | <i class="fa-solid fa-tags"></i> Daily News, Cyber Attacks, Supply Chain, Vulnerabilities
+        </div>
+
+        <div class="content">
+            <h2>1. '드래곤 위브(Dragon Weave)' 작전 — 중국 연계 해킹 그룹, 체코·대만 표적 공격</h2>
+            <p>중국 연계 해킹 그룹이 '드래곤 위브(Operation Dragon Weave)'라는 코드명의 사이버 스파이 작전을 통해 체코 공화국과 대만의 정부·연구소·금융기관을 집중 표적으로 삼고 있는 것으로 확인되었습니다.</p>
+            <ul>
+                <li><strong>표적 분야:</strong> 정부 기관, 연구소, 학계, 기술 기업, 금융 서비스 업계 등 다양한 분야를 대상으로 표적 공격 수행.</li>
+                <li><strong>감염 경로:</strong> 정교한 스피어 피싱 이메일을 통해 ZIP 첨부파일을 유포하며, 내부에는 정상 파일로 위장한 다수의 실행 파일이 포함됨.</li>
+                <li><strong>페이로드 전달:</strong> Rust 기반 로더를 통해 2단계 감염 경로로 최종 AdaptixC2 에이전트를 드롭, 원격 제어 및 데이터 유출 수행.</li>
+                <li><strong>공격 체인:</strong> ZIP 압축 해제 시 PDF 문서로 위장한 악성 Windows 바로가기(LNK) 파일이 실행되는 경로와 직접 실행 파일을 통한 경로, 두 가지 방식이 확인됨.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/" target="_blank">The Hacker News - Seqrite Labs 분석</a></p>
+
+            <h2>2. OpenAI Codex 인증 토큰 탈취 — codexui-android npm 공급망 공격</h2>
+            <p>악의적인 npm 패키지 'codexui-android'가 OpenAI Codex 개발자의 인증 토큰을 가로채는 공급망 공격이 적발되었습니다. 이 패키지는 29,000회 이상의 주간 다운로드 수를 기록하며 광범위하게 유포되었습니다.</p>
+            <ul>
+                <li><strong>위장 수법:</strong> 단순한 타이포스쿼팅이 아닌, GitHub와 npm에 정상적인 기능을 제공하는 합법적인 원격 웹 UI 패키지로 위장하여 장기간 운영됨.</li>
+                <li><strong>악성 코드:</strong> 패키지가 약 한 달간 정상적으로 운영된 후 악성 코드가 추가로 삽입되었으며, GitHub 저장소는 깨끗하게 유지되어 탐지 회피.</li>
+                <li><strong>데이터 유출:</strong> 모든 Codex API 호출마다 인증 토큰이 공격자가 제어하는 서버로 조용히 유출됨. 약 한 달간 지속된 것으로 추정됨.</li>
+                <li><strong>영향:</strong> 피해자의 Codex 계정이 탈취되어 API 사용량 과금, 소스 코드 접근, 모델 설정 변경 등의 2차 피해 가능성 존재.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/" target="_blank">The Hacker News - Aikido Security</a></p>
+
+            <h2>3. Palo Alto Networks PAN-OS 인증 우회 취약점 (CVE-2026-0257) 실제 공격 발생</h2>
+            <p>Rapid7 연구진이 Palo Alto Networks PAN-OS의 GlobalProtect VPN 인증 우회 취약점(CVE-2026-0257)이 실제 공격자들에 의해 활발히 악용되고 있음을 확인했습니다. CISA는 이 취약점을 KEV(알려진 악용 취약점) 카탈로그에 등록했습니다.</p>
+            <ul>
+                <li><strong>취약점 개요:</strong> 특정 구성에서 GlobalProtect 인증 재정의 쿠키를 신뢰하는 PAN-OS의 동작 방식에서 발생한 인증 우회 취약점. 공격자는 유효한 자격 증명 없이 VPN 세션을 생성할 수 있음.</li>
+                <li><strong>실제 악용:</strong> Rapid7은 5월 17일부터 여러 고객 환경에서 성공적인 익스플로잇을 관찰했으며, 자체 PoC 테스트를 통해 공격 기술을 검증함.</li>
+                <li><strong>위험 요소:</strong> 동일한 인증서를 HTTPS 서비스와 인증 재정의 쿠키에 모두 사용하는 환경에서 위험도가 극대화됨. 쿠키 위조가 가능해짐.</li>
+                <li><strong>대응 현황:</strong> Palo Alto Networks는 심각도 등급을 상향 조정하고 최고 우선순위 패치를 발표함. CISA는 연방 기관에 6월 1일까지 패치를 의무화함.</li>
+            </ul>
+            <p>출처: <a href="https://www.theregister.com/2026/06/01/palo_alto_vpn_bug_active_exploitation/" target="_blank">The Register - Carly Page</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
