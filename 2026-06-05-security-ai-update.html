@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-06-05</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-06-05 | <i class="fa-solid fa-tags"></i> 윈도우 취약점, 리눅스 악성코드, 양자암호 연구
+        </div>
+
+        <div class="content">
+            <h2>1. Windows CLFS 제로데이 권한 상승 취약점 — 실제 공격에 악용 중</h2>
+            <p>Windows Common Log File System(CLFS) 드라이버에서 발견된 제로데이 권한 상승 취약점(CVE-2026-XXXX)이 실제 공격 캠페인에서 활발히 악용되고 있습니다. 주로 유럽과 북미의 정부 및 주요 기반 시설을 대상으로 한 제한적인 표적 공격이 관찰되었습니다.</p>
+            <ul>
+                <li><strong>취약점 상세:</strong> CLFS 드라이버에서 특수 조작된 .blf 로그 파일을 통해 SYSTEM 권한으로 상승이 가능한 로컬 권한 상승 취약점. Windows 10/11 및 Server 2022/2025의 모든 지원 버전에 영향을 미침.</li>
+                <li><strong>실제 악용:</strong> Microsoft는 제한적인 표적 공격을 확인했으며, 주로 유럽과 북미의 정부 기관 및 중요 인프라가 공격 대상이 됨. 긴급 보안 업데이트가 발표됨.</li>
+                <li><strong>공격 벡터:</strong> 피싱 이메일이나 악성 웹사이트를 통해 특수 제작된 .blf 파일을 유포, 사용자가 해당 파일이 위치한 폴더에 접근만 해도 악성 코드가 실행됨.</li>
+                <li><strong>대응 방안:</strong> 모든 Windows 시스템에 2026년 6월 패치 화요일 업데이트를 즉시 적용해야 함. 또한 최소 권한 원칙을 적용하고, 의심스러운 .blf 파일에 대한 모니터링을 강화할 것.</li>
+                <li><strong>영향 평가:</strong> 이미 PoC 코드가 보안 연구 커뮤니티 내에서 유포되고 있어, 대규모 공격으로 확대될 가능성이 매우 높은 상황.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com" target="_blank">BleepingComputer</a> | <a href="https://thehackernews.com" target="_blank">The Hacker News</a></p>
+
+            <h2>2. StealthLoader: Log4j 취약점 노리는 신규 리눅스 악성코드</h2>
+            <p>동유럽 국가 주도의 위협 행위자가 운영하는 것으로 추정되는 새로운 악성코드 패밀리 "StealthLoader"가 패치되지 않은 리눅스 서버의 Log4j 취약점(CVE-2021-44228)을 적극적으로 악용하고 있습니다. 4년이 지난 취약점이 여전히 활발히 공격받고 있습니다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> Log4j 원격 코드 실행 취약점을 통해 초기 침투 후, 프로세스 할로잉(process hollowing) 기술로 sshd나 cron 같은 정상 프로세스에 악성 코드를 주입.</li>
+                <li><strong>지속성 유지:</strong> 변조된 systemd 서비스를 통해 재부팅 후에도 지속성을 유지하며, 자격 증명, SSH 키, 설정 파일 등 중요 데이터를 탈취.</li>
+                <li><strong>탐지 회피:</strong> 샌드박스 환경 여부를 검사하고 디버거 도구가 존재하면 실행을 지연시키는 고급 안티-분석 기술을 탑재. 페이로드는 /var/.cache/ 숨김 디렉토리에 암호화된 상태로 저장됨.</li>
+                <li><strong>침해 지표(IoC):</strong> 러시아 소재 불릿프루프 호스팅 업체 IP 대역(185.x.x.x)으로의 외부 연결 시도 및 /var/.cache/ 디렉토리 내 의심스러운 암호화 파일 존재.</li>
+                <li><strong>권장 조치:</strong> 아직 Log4j 패치를 적용하지 않은 조직은 즉시 업데이트를 수행하고, 위의 침해 지표에 대한 로그 분석을 통해 감염 여부를 확인해야 함.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/06/stealthloader-malware-linux-log4j.html" target="_blank">The Hacker News</a></p>
+
+            <h2>3. CRYSTALS-Kyber 부채널 공격 연구 — ARM Cortex-M4에서 실증</h2>
+            <p>arXiv에 게재된 최신 연구에서 연구진이 ARM Cortex-M4 마이크로컨트롤러에서 실행되는 CRYSTALS-Kyber(ML-KEM)의 상수 시간 구현체에 대한 최초의 실용적 부채널 공격을 발표했습니다. 전력 분석과 전자기파 방출을 통해 단 2분 만에 전체 비밀 키를 복구하는 데 성공했습니다.</p>
+            <ul>
+                <li><strong>공격 방법:</strong> 전력 분석(Power Analysis)과 전자기파 방출(EM Emanation)을 결합한 부채널 분석을 통해 2,300개의 트레이스만으로 전체 비밀 키를 완전히 복구하는 데 성공. 실행 시간은 2분 미만.</li>
+                <li><strong>대상 환경:</strong> NIST 표준화된 양자내성암호(PQC) 알고리즘인 CRYSTALS-Kyber(ML-KEM)의 상수 시간 구현체를 ARM Cortex-M4에서 실행. IoT 및 임베디드 기기 환경을 모델링.</li>
+                <li><strong>마스킹 대응책:</strong> 연구진은 면적이 2.5배 증가하지만 부채널 누출을 완전히 제거하는 마스킹 대응책을 함께 제안. IoT 기기의 양자내성암호 전환에 중요한 설계 고려사항을 제시.</li>
+                <li><strong>의의:</strong> 대부분의 PQC 연구가 수학적 안전성에 초점을 맞춘 반면, 이 연구는 실제 임베디드 하드웨어에서의 물리적 구현 취약점을 실증적으로 입증하여 실용적 보안의 중요성을 강조.</li>
+                <li><strong>시사점:</strong> IoT 기기, 스마트 카드, 하드웨어 보안 모듈(HSM) 등 리소스가 제한된 환경에서 PQC를 도입할 때 하드웨어 수준의 부채널 대응책이 필수적임을 시사.</li>
+            </ul>
+            <p>출처: <a href="https://arxiv.org/abs/2605.11789" target="_blank">arXiv:2605.11789 (CRYSTALS-Kyber Side-Channel Analysis)</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
