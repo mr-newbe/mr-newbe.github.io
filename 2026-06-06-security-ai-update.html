@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-06-06</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-06-06 | <i class="fa-solid fa-tags"></i> Daily News, Supply Chain, Data Breach, AI Security
+        </div>
+
+        <div class="content">
+            <h2>1. IronWorm 및 새로운 Miasma 웜 변종, npm 생태계 공급망 공격</h2>
+            <p>JFrog 보안 연구진이 Rust 기반 정보 탈취형 악성코드인 <strong>IronWorm</strong>과 새로운 <strong>Miasma 웜</strong> 변종이 npm 생태계를 동시에 공격하고 있다고 밝혔습니다. 두 캠페인에서 50개 이상의 정상 패키지가 감염되거나 악의적인 버전으로 대체되었습니다.</p>
+            <ul>
+                <li><strong>IronWorm:</strong> Rust ELF 바이너리 기반 정보 탈취형 악성코드로, 개발자 머신에서 모든 시크릿(86개 환경 변수, AWS/Docker/Kubernetes/npm 자격증명, Exodus 암호화폐 지갑)을 스크래핑</li>
+                <li><strong>eBPF 커널 루트킷:</strong> eBPF 페이로드를 활용해 커널 레벨에서 프로세스와 소켓을 숨겨 분석을 회피</li>
+                <li><strong>자가 증식 메커니즘:</strong> 도난한 자격증명으로 GitHub 저장소에 악성 커밋을 푸시하고, npm 자체 배포(Trusted Publishing)를 통해 악성 패키지를 레지스트리에 게시</li>
+                <li><strong>Miasma 웜:</strong> 별도의 캠페인으로 57개 npm 패키지(286개 악성 버전) 감염. 'liuende501' GitHub 계정으로 데이터 유출, 236개 저장소가 스테이징됨</li>
+                <li><strong>위장 전술:</strong> 악성 커밋 작성자명을 'claude'로 설정해 Anthropic의 AI 챗봇으로 위장, GitHub Actions 워크플로우를 변조해 시크릿 수집</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/06/ironworm-and-new-miasma-worm-variant.html" target="_blank">The Hacker News - IronWorm and New Miasma Worm Variant Hit npm in Supply Chain Attacks</a></p>
+
+            <h2>2. 세계식량계획(WFP) 데이터 유출: 가자지구 60만 가구 개인정보 노출</h2>
+            <p>유엔 산하 인도주의 기관인 세계식량계획(WFP)이 보안 침해 사고를 공식 확인했습니다. 가자지구 구호품 자가등록 애플리케이션(SRA)이 침해되어 약 <strong>60만 가구</strong>의 개인정보가 유출되었습니다.</p>
+            <ul>
+                <li><strong>유출된 데이터:</strong> 신청자 이름, ID 번호, 전화번호, 위치 정보 등 60만 가자지구 가구의 민감한 개인정보가 부적절하게 접근됨</li>
+                <li><strong>발견 시점:</strong> WFP는 5월 14일 침해를 탐지했으며, 익명의 내부고발자에 따르면 독립 보안 전문가가 침해 2일 전에 취약점을 사전 경고했다고 주장</li>
+                <li><strong>조치 사항:</strong> WFP는 등록 플랫폼을 일시 중단하고 보안 개선 작업을 진행 중이며, 기존 등록자는 재등록 불필요</li>
+                <li><strong>영향:</strong> WFP는 매월 160만 팔레스타인인을 지원(가자 인구의 약 77%)하며, 영양실조 위기 속에서 식량 지원이 중단 없이 계속된다고 강조</li>
+                <li><strong>이전 사례:</strong> 2022년 적십자사도 사이버공격으로 가족 상봉 서비스를 중단한 바 있어, 인도주의 기관을 표적으로 한 사이버 공격이 지속적 문제로 대두</li>
+            </ul>
+            <p>출처: <a href="https://www.theregister.com/security/2026/06/05/world-food-programme-breach-exposes-data-of-600k-vulnerable-gazan-families/5251605" target="_blank">The Register - World Food Programme breach exposes data of 600k vulnerable Gazan families</a></p>
+
+            <h2>3. WebMCP 도구 표면 오염: LLM 에이전트 대상 런타임 변조 공격 연구</h2>
+            <p>arXiv에 발표된 최신 연구 논문에서, WebMCP 프로토콜을 통해 웹사이트가 AI 에이전트에 도구를 노출하는 과정에서 발생하는 새로운 보안 위협인 <strong>세션 내 도구 주입(MSTI, Mid-Session Tool Injection)</strong> 공격을 체계적으로 분석했습니다.</p>
+            <ul>
+                <li><strong>WebMCP의 새로운 위협:</strong> 웹사이트가 AI 에이전트에 도구를 동적으로 노출하는 WebMCP 프로토콜에서 제3자 스크립트를 통한 악성 도구 주입이 가능</li>
+                <li><strong>Tool Hijacking (도구 하이재킹):</strong> AbortSignal API나 경쟁 조건(race condition)을 이용해 에이전트가 보는 도구 세트 자체를 변조</li>
+                <li><strong>Tool Framing (도구 프레이밍):</strong> 도구 이름, 설명, readOnlyHint, inputSchema 등 메타데이터 필드를 조작해 에이전트의 도구 인식에 영향을 미침</li>
+                <li><strong>권장 대책:</strong> 도구 ID를 출처(origin)에 바인딩, 생명주기 일관성 보장, 제3자 도구 데이터 경계 강제, 도구 등록 및 호출의 추적 로그 유지</li>
+                <li><strong>의의:</strong> MCP(Model Context Protocol) 기반 에이전트 생태계가 확장됨에 따라 도구 표면(tool surface) 자체가 새로운 보안 우려 사항으로 부상</li>
+            </ul>
+            <p>출처: <a href="https://arxiv.org/abs/2606.06387" target="_blank">arXiv - WebMCP Tool Surface Poisoning: Runtime Manipulation Attacks on LLM Agents</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
