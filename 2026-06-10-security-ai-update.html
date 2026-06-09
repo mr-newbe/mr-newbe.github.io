@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-06-10</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-06-10 | <i class="fa-solid fa-tags"></i> Daily News, Vulnerability, Supply Chain, Zero-Day
+        </div>
+
+        <div class="content">
+            <h2>1. Veeam Backup & Replication RCE 취약점 (CVE-2026-44963, CVSS 9.4) — 도메인 사용자도 원격 코드 실행 가능</h2>
+            <p>Veeam이 Backup & Replication 소프트웨어의 치명적인 원격 코드 실행(RCE) 취약점에 대한 보안 패치를 긴급 출시했습니다. 이 취약점은 CVSS 점수 9.4로 최고 위험 등급에 해당하며, 인증된 도메인 사용자가 백업 서버에서 원격 코드를 실행할 수 있게 합니다.</p>
+            <ul>
+                <li><strong>취약점 상세:</strong> CVE-2026-44963, CVSS 9.4 — 인증된 도메인 사용자가 Backup 서버에서 RCE를 수행할 수 있는 치명적 결함</li>
+                <li><strong>영향 범위:</strong> Veeam Backup & Replication 12.3.2.4465 및 모든 이전 12.x 빌드; 13.x 버전은 아키텍처 변경으로 영향 없음</li>
+                <li><strong>발견자 및 패치:</strong> watchTowr 연구원 Sina Kheirkhah가 발견, Veeam 12.3.2.4854에서 패치 완료</li>
+                <li><strong>위험성:</strong> 이전 Veeam 취약점들은 이미 랜섬웨어 그룹에 의해 실제 공격에 악용된 사례가 있어 즉시 업데이트 필수</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/06/veeam-backup-replication-rce-flaw-lets.html" target="_blank">The Hacker News — Veeam Backup & Replication RCE Flaw Lets Domain Users Run Remote Code</a></p>
+
+            <h2>2. Chrome, 2026년 다섯 번째 제로데이 익스플로잇 긴급 패치 (CVE-2026-11645)</h2>
+            <p>Google이 2026년 들어 다섯 번째로 실제 공격에 악용 중인 Chrome 제로데이 취약점을 긴급 패치했습니다. V8 JavaScript 엔진의 Out-of-Bounds 메모리 접근 버그로, 발견자에게 $55,000의 현상금이 지급되었습니다.</p>
+            <ul>
+                <li><strong>취약점 상세:</strong> CVE-2026-11645 — Chrome V8 JavaScript 엔진의 Out-of-Bounds 메모리 접근 버그, 실제 공격에 악용 중</li>
+                <li><strong>현상금:</strong> Google이 연구자 "303f06e3"에게 $55,000 지급 (4월 27일 신고)</li>
+                <li><strong>2026년 제로데이 현황:</strong> 5번째 제로데이 (1월 CSS use-after-free, 3월 2건, 4월 1건, 6월 CVE-2026-11645)</li>
+                <li><strong>대비:</strong> 2025년 전체 8개 대비 2026년 상반기에만 5개로 증가 추세; Windows, macOS, Linux Stable Channel 업데이트 배포 완료</li>
+            </ul>
+            <p>출처: <a href="https://www.theregister.com/security/2026/06/09/chromes-zero-day-whac-a-mole-continues-with-fifth-exploited-bug-of-the-year/5252689" target="_blank">The Register — Chrome's zero-day Whac-A-Mole continues with fifth exploited bug of the year</a></p>
+
+            <h2>3. Miasma 웜, GitHub에서 공개 소스로 유포 — 공급망 공격 툴킷 전면 공개</h2>
+            <p>Miasma 공급망 공격 웜의 전체 소스코드가 GitHub에 공개되었습니다. 이 툴킷은 PyPI, npm, RubyGems, JFrog Artifactory, GitHub Actions 등 다양한 패키지 레지스트리와 CI/CD 파이프라인을 대상으로 하며, GitHub 자체를 C2 인프라로 활용하는 진화된 공격 방식이 특징입니다.</p>
+            <ul>
+                <li><strong>공개 현황:</strong> Miasma 웜 전체 소스코드가 GitHub에 "Miasma-Open-Source-Release" 저장소로 공개 (4개의 탈취된 개발자 계정 활용)</li>
+                <li><strong>공격 범위:</strong> PyPI, npm, RubyGems, JFrog Artifactory, GitHub Actions, AI 코딩 도구 설정 오염, SSH 기반 측면 이동 등 다양한 벡터 지원</li>
+                <li><strong>C2 혁신:</strong> GitHub 커밋 검색 채널을 C2로 활용 — 외부 C2 인프라 불필요, 전통적 네트워크 기반 탐지 우회</li>
+                <li><strong>영향 규모:</strong> GitHub이 70개 이상의 Microsoft 저장소 차단; Socket이 473개의 감염 패키지 아티팩트 추적; Red Hat 및 Microsoft 오픈소스 프로젝트 100개 이상 최초 감염</li>
+            </ul>
+            <p>출처: <a href="https://www.theregister.com/cyber-crime/2026/06/09/miasma-supply-chain-attack-toolkit-goes-public-on-github/5253074" target="_blank">The Register — Miasma worms its way onto GitHub as attack kit goes open source</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
