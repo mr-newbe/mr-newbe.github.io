@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-06-11</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        .highlight { background: linear-gradient(135deg, #1e293b, #0f172a); border-left: 3px solid var(--accent-color); padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-06-11 | <i class="fa-solid fa-tags"></i> Daily News, Vulnerability, Malware, Patch Tuesday
+        </div>
+
+        <div class="content">
+            <h2>1. 마이크로소프트, 역대 최다 206개 취약점 패치 — 제로데이 3개 포함</h2>
+            <p>마이크로소프트가 6월 Patch Tuesday에서 <strong>역대 최다인 206개의 보안 취약점</strong>을 수정했습니다. 이 중 39개는 Critical, 167개는 Important 등급입니다. 특히 3개의 제로데이 취약점이 공개적으로 알려졌으며, HTTP/2 Bomb 공격으로 불리는 CVE-2026-49160은 단일 가정용 PC에서 20초 만에 웹 서버를 무력화시킬 수 있는 DoS 취약점입니다.</p>
+            <ul>
+                <li><strong>CVE-2026-45657 (CVSS 9.8, Critical):</strong> Windows Kernel use-after-free 취약점으로 원격 코드 실행(RCE) 가능</li>
+                <li><strong>CVE-2026-49160 "HTTP/2 Bomb" (제로데이):</strong> AI 기반 연구로 발견된 DoS 취약점, 단일 PC로 웹 서버 20초 만에 다운</li>
+                <li><strong>CVE-2026-50507 (제로데이):</strong> Windows BitLocker 보안 기능 우회 — 물리적 접근 시 암호화 데이터 접근 가능</li>
+                <li><strong>CVE-2026-45586 (제로데이):</strong> Windows CTFMON 권한 상승 — 로컬 사용자가 SYSTEM 권한 획득 가능</li>
+                <li><strong>주요 카테고리:</strong> 권한 상승 65건, RCE 55건, 정보 노출 30건, 스푸핑 27건</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/06/microsoft-patches-record-206-flaws.html" target="_blank">The Hacker News — Microsoft Patches Record 206 Flaws</a></p>
+
+            <h2>2. Langflow CVE-2026-5027, 패치 없이 활성 익스플로잇 — AI 플랫폼 RCE 위협</h2>
+            <p>오픈소스 로우코드 AI 플랫폼 <strong>Langflow</strong>에서 발견된 경로 탐색(Path Traversal) 취약점 <strong>CVE-2026-5027 (CVSS 8.8)</strong>이 현재 활발히 익스플로잇되고 있습니다. Tenable이 3차례 연락 시도 후 2026년 3월에 공개했으며, VulnCheck가 실제 익스플로잇을 확인했습니다. 해당 취약점은 아직 공식 패치가 제공되지 않은 상태로, AI/ML 파이프라인을 운영 중인 조직의 즉각적인 대응이 필요합니다.</p>
+            <ul>
+                <li><strong>취약점 유형:</strong> `POST /api/v2/files` 엔드포인트의 경로 탐색(Path Traversal) — `../` 시퀀스로 임의 위치에 파일 쓰기 가능</li>
+                <li><strong>영향:</strong> 인증되지 않은 원격 공격자가 서버에서 임의 코드 실행(RCE) 가능</li>
+                <li><strong>CVSS 점수:</strong> 8.8 (High) — 낮은 복잡도, 인증 불필요</li>
+                <li><strong>현재 상태:</strong> 패치 미제공, 활성 익스플로잇 진행 중 — 임시 대책 필요</li>
+                <li><strong>대상:</strong> Langflow를 사용하는 AI/ML 워크플로우 및 파이프라인</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/06/unpatched-langflow-flaw-cve-2026-5027.html" target="_blank">The Hacker News — Unpatched Langflow Flaw CVE-2026-5027 Exploited</a></p>
+
+            <h2>3. SilabRAT 트로이목마, 세션 하이재킹으로 암호화폐 탈취 — MaaS 모델</h2>
+            <p>러시아어 사용 해커 'o1oo1'이 개발한 새로운 원격 접근 트로이목마 <strong>SilabRAT</strong>이 다크웹 포럼에서 월 $5,000에 Malware-as-a-Service(MaaS)로 판매되고 있습니다. 이 RAT은 HVNC(Hidden Virtual Network Computing) 기술과 브라우저 프로필 클로닝을 결합해 세션 기반 MFA를 우회하며, 감염된 시스템의 90% 이상이 한 달 넘게 운영될 정도로 정교합니다.</p>
+            <ul>
+                <li><strong>핵심 기술 — HVNC:</strong> 숨겨진 가상 데스크톱에서 눈에 보이는 창이나 커서 움직임 없이 시스템 제어</li>
+                <li><strong>브라우저 프로필 클로닝:</strong> 확장 프로그램, 저장된 데이터, 핑거프린팅 특성을 포함한 전체 브라우저 프로필 복제로 세션 기반 MFA 우회</li>
+                <li><strong>암호화폐 탈취:</strong> 백그라운드 모듈이 지갑 검색, 비밀번호 크래킹, 클립보드 클리핑으로 거래 중 지갑 주소 변조</li>
+                <li><strong>유포 방식:</strong> 텔레그램 채널을 통한 폐쇄형 판매 — 운영진이 고객을 선별</li>
+                <li><strong>가격:</strong> 월 $5,000 — 프리미엄 MaaS 모델, 90%+ 장기 체류율 주장</li>
+            </ul>
+            <p>출처: <a href="https://www.infosecurity-magazine.com/news/silabrat-trojan-session-hijacking/" target="_blank">Infosecurity Magazine — New SilabRAT Trojan Hijacks Sessions to Steal Crypto</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
