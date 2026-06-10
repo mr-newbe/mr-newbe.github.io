@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - Toward Secure LLM Agents: Threat Surfaces, Attacks, Defenses, and Evaluation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+        h1 {
+            color: var(--accent-color);
+            font-size: 2rem;
+        }
+        .date {
+            color: var(--muted-text);
+            font-size: 0.9rem;
+        }
+        .content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        h2 {
+            border-left: 4px solid var(--accent-color);
+            padding-left: 15px;
+            margin-top: 30px;
+            font-size: 1.5rem;
+        }
+        .paper-info {
+            background-color: var(--secondary-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px dashed var(--border-color);
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 15px;
+        }
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: var(--muted-text);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - Toward Secure LLM Agents: Threat Surfaces, Attacks, Defenses, and Evaluation</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-06-10</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Toward Secure LLM Agents: Threat Surfaces, Attacks, Defenses, and Evaluation<br>
+                <strong>저자:</strong> Yuchen Ling, Shengcheng Yu, Zhenyu Chen, Chunrong Fang<br>
+                <strong>분야:</strong> LLM Agent Security (AI 보안)
+            </div>
+            
+            <h3>핵심 분석:</h3>
+            <ul>
+                <li><strong>문제 제기:</strong> LLM 에이전트가 단순 대화형 인터페이스를 넘어 소프트웨어 컴포넌트로 진화하면서, 프롬프트 인젝션, 도구 권한 남용, 영구 상태 변조, 다중 에이전트 간 전파 등 새로운 차원의 보안 위협이 발생하고 있으나 연구가 파편화되어 통합적인 이해가 부재한 상황이다.</li>
+                <li><strong>연구 제안:</strong> 247편의 논문을 수집하여 정보 흐름(Information Flow), 위임 권한(Delegated Authority), 영구 상태(Persistent State)의 상호작용을 중심으로 하는 수명주기 기반 시스템 지향 프레임워크를 제안하며, 위협 표면, 공격 패밀리, 방어 기법, 평가 방법론을 4가지 질문으로 체계화한다.</li>
+                <li><strong>작동 원리:</strong> 프롬프트 인젝션과 도구 매개 제어 흐름 하이재킹이 여전히 지배적인 공격 벡터이며, 영구 상태 변조(Persistent State Corruption)와 다중 에이전트 전파(Multi-Agent Propagation)가 새로운 핵심 우려로 부상하고 있음을 밝힌다. 방어 기법은 유용한 빌딩 블록을 제공하지만 아직 구성성(Composability)이 부족하며, 기존 벤치마크는 장기적이고 상태를 가진 배포 환경의 위험을 과소평가하고 있음을 지적한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 시사점 및 결론</h2>
+            <p>
+                이 논문은 LLM 에이전트 보안 분야에서 가장 포괄적인 서베이 중 하나로, 247편의 관련 연구를 체계적으로 분석하여 통합적 관점을 제시한다. 핵심 시사점은 다음과 같다: (1) LLM 에이전트 보안은 단순히 텍스트 출력 안전성 문제가 아니라, 권한 제어(Privilege Control), 상태 관리(State Management), 신뢰 경계(Trust Boundary)를 포함하는 시스템 보안 문제로 확장되어야 한다. (2) 현재 방어 기법들은 개별적으로는 유효하나 상호 구성 가능한 조합으로 발전하지 못했다. (3) 프롬프트 인젝션 방어에 집중된 평가에서 벗어나, 장기 실행 작업, 상태 의존적 시나리오, 다중 에이전트 환경에서의 보안성을 측정할 수 있는 새로운 벤치마크와 평가 방법론이 시급하다.
+            </p>
+            <p>
+                특히 LLM 에이전트가 코드 실행, 파일 시스템 접근, 외부 API 호출 등 실질적인 권한을 가지는 현재의 아키텍처 트렌드를 고려할 때, 명시적 신뢰 경계, 원칙적인 권한 분리, 출처 인식 상태 관리(Provenance-Aware State Management), 실제 운영 환경을 반영한 평가 관행이 필수적이다. 이 연구는 AI 에이전트 보안 아키텍처를 설계하는 모든 개발자와 연구자에게 중요한 로드맵을 제공한다.
+            </p>
+            
+            <p>원문: <a href="https://arxiv.org/abs/2606.10749" target="_blank">https://arxiv.org/abs/2606.10749</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
