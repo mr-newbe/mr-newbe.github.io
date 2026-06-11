@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-06-12</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-06-12 | <i class="fa-solid fa-tags"></i> Daily News, Zero-Day, AI Security, Supply Chain
+        </div>
+
+        <div class="content">
+            <h2>1. ShinyHunters, Oracle PeopleSoft 제로데이(CVE-2026-35273) 악용해 100+ 조직 침해</h2>
+            <p>ShinyHunters 갈취 조직이 Oracle PeopleSoft의 패치되지 않은 원격 코드 실행 취약점(CVE-2026-35273, CVSS 9.8)을 악용해 전 세계 대학을 포함한 100개 이상의 조직을 침해했습니다. Oracle이 6월 10일에야 권고문을 발표하면서 취약점은 전체 공격 기간 동안 제로데이로 남아 있었습니다. Mandiant는 이 그룹을 UNC6240으로 추적하며, 5월 27일부터 6월 9일까지의 활동을 확인했습니다.</p>
+            <ul>
+                <li><strong>취약점 세부:</strong> PeopleTools 8.61/8.62의 Updates Environment Management 컴포넌트(PSEMHUB)에 존재. 인증 불필요, 사용자 상호작용 불필요, HTTP 접근만으로 서버 장악 가능.</li>
+                <li><strong>공격 방법:</strong> MeshCentral 원격 관리 에이전트를 Microsoft Azure 바이너리로 위장해 C2 서버(azurenetfiles.net)와 통신. SSH를 통한 내부 측면 이동 스크립트([victim]_fanout.sh) 사용.</li>
+                <li><strong>피해 규모:</strong> 피해 조직의 68%가 고등교육기관(대부분 미국). University of Nottingham이 첫 확인 피해자로, 약 455,000개의 고유 이메일 주소 유출.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/06/shinyhunters-exploits-oracle-peoplesoft.html" target="_blank">The Hacker News - ShinyHunters Exploits Oracle PeopleSoft Zero-Day (CVE-2026-35273) to Breach Universities</a></p>
+
+            <h2>2. 새로운 공격, OpenClaw AI 에이전트를 속여 코드 실행 및 비밀 유출 유도</h2>
+            <p>Imperva와 Varonis 두 보안 팀이 각각 독립적인 연구를 통해 OpenClaw AI 에이전트가 일반적인 입력을 통해 공격자가 제어하는 코드를 실행하거나 민감한 데이터를 유출하도록 조작될 수 있음을 입증했습니다. Imperva는 공유 연락처, vCard, 위치 핀에 명령어를 숨기는 방식으로, Varonis는 단순한 피싱 이메일로 에이전트를 속이는 방식으로 공격에 성공했습니다.</p>
+            <ul>
+                <li><strong>Imperva의 발견 (명령어 주입):</strong> OpenClaw가 연락처 이름이나 vCard 필드를 LLM 프롬프트에 그대로 평문으로 전달하면서, 악성 명령어가 포함된 데이터와 일반 데이터를 구분하지 못함. 연락처 이름 필드에 숨겨진 명령어로 에이전트가 원격 스크립트를 다운로드해 실행하도록 유도.</li>
+                <li><strong>Varonis의 발견 (에이전트 피싱):</strong> "Pinchy"라는 테스트 에이전트에 가짜 업무 이메일을 보내 AWS 키와 고객 데이터를 외부로 전송하도록 유도. 엄격한 보안 프로필이 설정된 상태에서도 긴급성과 일상적인 요청이라는 명분에 속아 데이터 유출.</li>
+                <li><strong>대응 및 시사점:</strong> Imperva의 취약점은 OpenClaw 2026.4.23에서 패치됨. Varonis의 발견은 패치로 해결 불가능 — AI 에이전트의 과도한 도움성(helpfulness)이 공격 표면이 되는 근본적인 한계.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/06/new-attacks-trick-openclaw-ai-agent.html" target="_blank">The Hacker News - New Attacks Trick OpenClaw AI Agent Into Running Code and Leaking Secrets</a></p>
+
+            <h2>3. GitHub, 공급망 공격 차단 위해 npm 설치 스크립트를 기본적으로 비활성화</h2>
+            <p>GitHub가 npm 12 버전에서 "npm install" 명령어가 의존성의 설치 스크립트를 기본적으로 실행하지 않도록 하는 획기적인 변경을 발표했습니다. 이는 npm 생태계에서 가장 큰 코드 실행 표면으로 지목된 라이프사이클 스크립트 악용을 방지하기 위한 조치입니다. npm 12는 다음 달 출시 예정입니다.</p>
+            <ul>
+                <li><strong>핵심 변경사항:</strong> npm install이 더 이상 의존성의 preinstall/install/postinstall 스크립트를 실행하지 않음. Git 의존성 및 원격 URL(tarball) 의존성도 기본적으로 차단되며, --allow-git과 --allow-remote 플래그로 명시적 허용 필요.</li>
+                <li><strong>보안 영향:</strong> 단일 손상된 패키지가 의존성 트리를 통해 개발자 머신이나 CI 러너에서 임의 코드를 실행하는 경로를 차단. --ignore-scripts 플래그로도 막을 수 없던 Git 의존성의 .npmrc 재정의 공격 경로도 함께 차단.</li>
+                <li><strong>마이그레이션 가이드:</strong> npm 11.16.0 이상으로 업그레이드 후 npm approve-scripts 명령어로 신뢰할 수 있는 패키지의 스크립트만 승인. 올해 초 도입된 "min-release-age" 설정과 함께 공급망 보안 강화.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/06/github-to-disable-npm-install-scripts.html" target="_blank">The Hacker News - GitHub to Disable npm Install Scripts by Default to Stop Supply Chain Attacks</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
