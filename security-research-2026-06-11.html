@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - A Five-Plane Reference Architecture for Runtime Governance of Production AI Agents</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+        h1 {
+            color: var(--accent-color);
+            font-size: 2rem;
+        }
+        .date {
+            color: var(--muted-text);
+            font-size: 0.9rem;
+        }
+        .content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        h2 {
+            border-left: 4px solid var(--accent-color);
+            padding-left: 15px;
+            margin-top: 30px;
+            font-size: 1.5rem;
+        }
+        .paper-info {
+            background-color: var(--secondary-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px dashed var(--border-color);
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 15px;
+        }
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: var(--muted-text);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - A Five-Plane Reference Architecture for Runtime Governance of Production AI Agents</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-06-11</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> A Five-Plane Reference Architecture for Runtime Governance of Production AI Agents<br>
+                <strong>저자:</strong> Krti Tallam<br>
+                <strong>분야:</strong> AI Security / Agent Governance
+            </div>
+            
+            <h3>핵심 분석:</h3>
+            <ul>
+                <li><strong>문제 제기:</strong> 기업 보안은 전통적으로 데이터 경계를 중심으로 설계되었지만, 프로덕션 AI 에이전트는 이러한 가정을 무너뜨린다. 에이전트가 맥락을 읽고, 도구를 호출하며, 커넥터를 통해 레코드 시스템을 직접 수정함으로써 위험이 단일 요청 수준이 아닌 워크플로 시퀀스 내부로 이동한다. 기존 정책 엔진은 이러한 에이전틱 환경에서 상태 저장 평가, 합성 주체(composite principals), 권한 위임 체인을 처리하지 못한다.</li>
+                <li><strong>연구 제안:</strong> 프로덕션 AI 에이전트를 위한 런타임 거버넌스 참조 아키텍처를 제시한다. 핵심 구성 요소는 4가지 합성 가능한 프리미티브로 구성된다: 5-평면 분해(의도 판단을 위한 추론 평면 + 네트워크/아이덴티티/엔드포인트/데이터 4개 실행 평면), 중단 가능한 중재(Stop-Anywhere Mediation), 권한 감쇠가 있는 합성 주체(Composite Principals with Capability Attenuation), 구조화된 증거 기반으로서의 감사(Audit).</li>
+                <li><strong>작동 원리:</strong> 추론 평면(Reasoning Plane)이 에이전트의 의도를 심의하고, 4개의 강제 평면(Enforcement Planes)이 각각 네트워크, 아이덴티티, 엔드포인트, 데이터 레벨에서 결정을 실현한다. 6가지 중단 프리미티브(interruption primitives)로 단순 허용/거부를 일반화하고, 4가지 정확성 불변식(correctness invariants)을 정의했다. 참조 구현에서 단일 마이크로초 단위의 판단 시간과 감사 기반의 변조 증명(tamper-evidence)을 실증했다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 시사점 및 결론</h2>
+            <p>
+                이 연구는 AI 에이전트가 기업 시스템에서 실제 업무를 수행하는 시대에 필수적인 보안 거버넌스 프레임워크를 제시한다. 기존의 단순 허용/거부 정책으로는 AI 에이전트의 복잡한 의사결정 체인을 안전하게 통제할 수 없다는 점을 명확히 지적하며, 5-평면 분해를 통해 의도 수준의 추론부터 네트워크, 데이터 수준의 실행까지 다층적으로 통제할 수 있는 아키텍처를 제공한다. 특히 감사(Audit)를 단순한 로깅이 아닌 구조화된 증거 기반(substrate)으로 설계하여 사고 발생 시 포렌식 분석과 책임 추적이 가능하도록 한 점이 돋보인다. AI 에이전트의 프로덕션 배포가 가속화되는 현 시점에서 실제 정책 엔진 구현과 마이크로초 단위의 성능 벤치마크를 함께 제시하여 실용성을 입증했다는 점에서 시의적절하고 영향력 있는 연구이다.
+            </p>
+            
+            <p>원문: <a href="https://arxiv.org/abs/2606.12320" target="_blank">https://arxiv.org/abs/2606.12320</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
