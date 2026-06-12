@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - Who Pays the Price? Stakeholder-Centric Prompt Injection Benchmarking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+        h1 {
+            color: var(--accent-color);
+            font-size: 2rem;
+        }
+        .date {
+            color: var(--muted-text);
+            font-size: 0.9rem;
+        }
+        .content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        h2 {
+            border-left: 4px solid var(--accent-color);
+            padding-left: 15px;
+            margin-top: 30px;
+            font-size: 1.5rem;
+        }
+        .paper-info {
+            background-color: var(--secondary-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px dashed var(--border-color);
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 15px;
+        }
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: var(--muted-text);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - Who Pays the Price? Stakeholder-Centric Prompt Injection Benchmarking</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-06-12</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Who Pays the Price? Stakeholder-Centric Prompt Injection Benchmarking for Real-world Web Agents<br>
+                <strong>저자:</strong> Zihao Wang, Yiming Li, Yutong Wu, Zheyu Liu, Kangjie Chen, Fok Kar Wai, Pin-Yu Chen, Vrizlynn L. L. Thing, Bo Li, Dacheng Tao, Tianwei Zhang<br>
+                <strong>분야:</strong> AI Security / LLM Web Agent 보안
+            </div>
+            
+            <h3>핵심 분석:</h3>
+            <ul>
+                <li><strong>문제 제기:</strong> LLM 기반 웹 에이전트가 실제 환경에서 신뢰할 수 없는 웹 콘텐츠 위에서 작동하며, 프롬프트 인젝션(악의적 지시를 포함한 콘텐츠가 에이전트 행동을 조작)에 취약하다. 기존 보안 벤치마크는 공격자 관점(attack-centric)에 치우쳐 있어 다양한 이해관계자(서비스 제공자, 에이전트 개발자, 사용자)의 위험을 종합적으로 평가하지 못한다.</li>
+                <li><strong>연구 제안:</strong> 8가지 실세계 웹 에이전트 시나리오에 걸쳐 이해관계자 중심의 프롬프트 인젝션 벤치마크를 제안한다. 공격자, 서비스 제공자, 에이전트 개발자, 최종 사용자 등 4개 이해관계자 그룹의 관점에서 각 공격 유형(직접/간접 인젝션, 데이터 도난, 악의적 행동 유발)의 영향을 체계적으로 정량화한다.</li>
+                <li><strong>작동 원리:</strong> 8개의 실제 웹 에이전트 태스크(쇼핑, 예약, 정보 검색, 파일 관리 등)를 설계하고, 각 태스크에 대해 다양한 프롬프트 인젝션 공격 벡터를 주입한 후, 각 이해관계자별 손실(cost)을 정량화하는 메트릭을 정의한다. 실험은 GPT-4, Claude 등 최신 LLM 기반 에이전트에서 수행되며, 공격 성공률 및 피해 규모를 다각도로 측정한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 시사점 및 결론</h2>
+            <p>
+                이 연구는 LLM 웹 에이전트의 프롬프트 인젝션 취약점이 단순한 공격 성공률을 넘어, 누가 실제 피해를 입는지(stakeholder cost)에 대한 중요성을 부각한다. 기존 연구가 공격자의 관점에서 "얼마나 잘 공격할 수 있는가"에 집중했다면, 이 논문은 서비스 제공자의 평판 손상, 에이전트 개발자의 법적 책임, 최종 사용자의 금전적/프라이버시 피해 등 실질적 영향을 종합적으로 평가하는 프레임워크를 제시한다. 특히 웹 에이전트가 실제 서비스(전자상거래, 클라우드 스토리지 등)와 상호작용하는 시나리오에서의 취약점을 체계적으로 분석하여, 향후 LLM 기반 에이전트 시스템을 개발할 때 고려해야 할 보안 설계 원칙을 도출한 점이 핵심 기여다.
+            </p>
+            
+            <p>원문: <a href="https://arxiv.org/abs/2606.13385" target="_blank">https://arxiv.org/abs/2606.13385</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
