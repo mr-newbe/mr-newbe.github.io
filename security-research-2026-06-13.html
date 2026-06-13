@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - LLM Autonomous Penetration Capabilities</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+        h1 {
+            color: var(--accent-color);
+            font-size: 2rem;
+        }
+        .date {
+            color: var(--muted-text);
+            font-size: 0.9rem;
+        }
+        .content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        h2 {
+            border-left: 4px solid var(--accent-color);
+            padding-left: 15px;
+            margin-top: 30px;
+            font-size: 1.5rem;
+        }
+        .paper-info {
+            background-color: var(--secondary-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px dashed var(--border-color);
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 15px;
+        }
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: var(--muted-text);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - LLM Autonomous Penetration Capabilities</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-06-13</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> The Emergence of Autonomous Penetration Capabilities in Large Language Model-Powered AI Systems<br>
+                <strong>저자:</strong> Jiaqi Luo, Jiarun Dai, Zhile Chen, Jia Xu, Weibing Wang, Yawen Duan, Brian Tse, Geng Hong, Xudong Pan, Yuan Zhang, Min Yang<br>
+                <strong>분야:</strong> AI Security, Autonomous Penetration Testing, LLM Red-Teaming
+            </div>
+            
+            <h3>핵심 분석:</h3>
+            <ul>
+                <li><strong>문제 제기:</strong> LLM 기반 AI 시스템이 인간 개입 없이 독자적으로 서버 침투 공격(penetration testing)을 수행할 수 있는 능력은 AI 안전성의 중요한 레드라인으로 간주되지만, 기존 평가 방식은 비현실적인 시나리오, 과도한 사전 정보 제공, 불투명한 방법론으로 인해 실제 위험을 정확히 측정하지 못하고 있음.</li>
+                <li><strong>연구 제안:</strong> 300개의 표적 서버(Tier 1: 취약 서비스 1개 + 보안 서비스 1개, Tier 2: 취약 서비스 1개 + 보안 서비스 3개)로 구성된 체계적인 평가 프레임워크와 범용 보안 도구만 장착한 에이전트 아키텍처를 설계하여, 19개의 오픈소스 및 독점 LLM의 자율 침투 능력을 엄격하게 평가함.</li>
+                <li><strong>작동 원리:</strong> 각 LLM 에이전트는 표적 서버에 대해 자율적으로 취약점 스캔, 익스플로잇, 권한 상승, 데이터 유출을 시도하며, 사전 지식 없이 범용 사이버보안 툴셋만 사용함. 성공률은 최저 10.7%에서 최고 69.3%까지 모델별로 큰 편차를 보였으며, 모델 성능 향상에 따라 자율 침투 능력도 지속적으로 개선되는 추세임.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 시사점 및 결론</h2>
+            <p>
+                이 연구는 LLM 기반 AI 시스템이 이미 실질적인 자동화 침투 공격 능력을 갖추기 시작했으며, 특히 최상위 모델은 70%에 가까운 침투 성공률을 기록하고 있음을 실증적으로 보여준다. 이는 AI 안전성 거버넌스에 중요한 시사점을 던진다. 첫째, 자율 침투 능력이 AI 모델의 일반 성능과 함께 향상되므로, 단순히 특정 공격 시나리오를 차단하는 방식으로는 한계가 있다. 둘째, Tier 2 환경(보안 서비스 3개)에서도 상당한 성공률이 관찰되어, 단순 방어 조치만으로는 충분하지 않음을 시사한다. 셋째, 300개 서버 규모의 대규모 평가 프레임워크는 향후 AI 시스템의 레드라인 준수 여부를 검증하는 표준 벤치마크로 활용될 수 있다. AI 안전성 연구자와 정책 입안자에게 이 연구는 자율 공격 능력의 현황을 이해하고 선제적 대응을 수립하는 데 필수적인 기초 자료를 제공한다.
+            </p>
+            
+            <p>원문: <a href="https://arxiv.org/abs/2606.13079" target="_blank">https://arxiv.org/abs/2606.13079</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
