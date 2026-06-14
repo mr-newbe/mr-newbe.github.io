@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - DIG: Oracle-Guided Directed Input Generation for One-Day Vulnerabilities</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+        h1 {
+            color: var(--accent-color);
+            font-size: 2rem;
+        }
+        .date {
+            color: var(--muted-text);
+            font-size: 0.9rem;
+        }
+        .content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        h2 {
+            border-left: 4px solid var(--accent-color);
+            padding-left: 15px;
+            margin-top: 30px;
+            font-size: 1.5rem;
+        }
+        .paper-info {
+            background-color: var(--secondary-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px dashed var(--border-color);
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 15px;
+        }
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: var(--muted-text);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - DIG: Oracle-Guided Directed Input Generation</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-06-14</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> DIG: Oracle-Guided Directed Input Generation for One-Day Vulnerabilities<br>
+                <strong>저자:</strong> Andrew Bao, Haochen Zeng, Peng Chen, Stephen McCamant, Pen-Chung Yew<br>
+                <strong>분야:</strong> Vulnerability Analysis, Directed Fuzzing, LLM for Security, Software Security
+            </div>
+            
+            <h3>핵심 분석:</h3>
+            <ul>
+                <li><strong>문제 제기:</strong> 원데이 취약점(one-day vulnerability)은 패치 적용이 지연되거나 불완전한 경우 심각한 위험을 초래한다. PoC(Proof-of-Concept) 입력 생성은 실제 영향을 평가하는 데 필수적이지만, 기존 directed fuzzing 기법은 취약점 트리거에 필요한 제약 조건을 명시적으로 식별하거나 해결하지 못하고, 에이전트 기반 접근법은 장기 추론 과정에서 목표 이탈(goal drift) 문제가 발생한다.</li>
+                <li><strong>연구 제안:</strong> DIG는 원데이 취약점의 핵심 속성—패치가 취약점 트리거에 필요한 선행 조건(precondition)을 종종 드러낸다는 점—을 활용한다. LLM이 패치를 분석하여 오라클(oracle)을 합성하고, 이 오라클은 두 수준에서 PoC 생성을 안내한다: (1) 상위 수준에서 에이전트가 제약 조건을 추론 및 해결하고, (2) 하위 수준에서 오라클을 대상 프로그램에 계측(instrument)하여 분기 거리(branch-distance) 피드백으로 directed fuzzing의 무작위 변이를 유도한다.</li>
+                <li><strong>작동 원리:</strong> 138개의 실제 CVE 대상 평가 결과, DIG는 최신 에이전트 2종과 퍼저 10종을 능가했다. DIG는 80개의 취약점을 트리거하여 최고 baseline 대비 40% 향상(57→80 CVE)을 기록했으며, 기존 기술로는 트리거할 수 없는 9개의 취약점을 단독으로 발견했다. 또한 92.9%의 경우에서 다른 도구들보다 빠르게 취약점을 트리거했으며, 48.8%에서는 100배 이상의 속도 향상, 최대 3,664배의 가속을 달성했다. 나아가 널리 사용되는 라이브러리에서 6개의 미발견 취약점(제로데이)을 추가로 발굴했다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 시사점 및 결론</h2>
+            <p>
+                DIG는 LLM과 퍼징의 시너지를 극대화한 혁신적인 접근법으로, 보안 연구에서 LLM이 단순한 코드 생성 도구를 넘어 취약점 분석의 핵심 추론 엔진으로 활용될 수 있음을 입증한다. 특히 패치 분석을 통해 오라클을 자동 합성하는 방식은 기존 퍼징의 근본적인 한계—무작위 변이에 의존하여 제약 조건이 복잡한 취약점을 놓친다는 점—을 효과적으로 극복한다. 6개의 제로데이 발견은 이 접근법이 실제 공격자에게도 활용될 가능성을 시사하며, 양날의 검(two-edged sword)으로서의 의미를 갖는다. 보안 패치의 신속한 적용과 취약점 분석 자동화의 중요성이 더욱 부각되는 결과이며, 보안 커뮤니티는 DIG와 같은 LLM 기반 취약점 분석 도구의 발전에 주목해야 한다.
+            </p>
+            
+            <p>원문: <a href="https://arxiv.org/abs/2606.13037" target="_blank">https://arxiv.org/abs/2606.13037</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
