@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - AgentCyberRange: Realistic Cyber Range Benchmark for AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+        h1 {
+            color: var(--accent-color);
+            font-size: 2rem;
+        }
+        .date {
+            color: var(--muted-text);
+            font-size: 0.9rem;
+        }
+        .content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        h2 {
+            border-left: 4px solid var(--accent-color);
+            padding-left: 15px;
+            margin-top: 30px;
+            font-size: 1.5rem;
+        }
+        .paper-info {
+            background-color: var(--secondary-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px dashed var(--border-color);
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 15px;
+        }
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: var(--muted-text);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - AgentCyberRange: Benchmarking Frontier AI Systems in Realistic Cyber Ranges</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-06-15</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> AgentCyberRange: Benchmarking Frontier AI Systems in Realistic Cyber Ranges<br>
+                <strong>저자:</strong> Fengyu Liu, Jiarun Dai, Yihe Fan, Wuyuao Mai, Ziao Li, Bofei Chen, Jie Zhang, Zheng Lou, Bocheng Xiang, Qiyi Zhang, Xudong Pan, Geng Hong, Yuan Zhang, Min Yang<br>
+                <strong>분야:</strong> AI Security, Cyber Range, Autonomous Attack Benchmarking
+            </div>
+            
+            <h3>핵심 분석:</h3>
+            <ul>
+                <li><strong>문제 제기:</strong> 최첨단 AI 시스템이 사이버 보안 작업(코드베이스 검사, 취약점 탐지, 익스플로잇)에서 점점 더 강력해지고 있지만, 실제 침투 공격 환경(서비스 발견 &#8594; 초기 침투 &#8594; 내부 정보 수집 &#8594; 호스트 간 확산)에서의 평가는 제한적이었다. 기존 벤치마크는 CTF 문제 해결, 취약점 재현 등 개별 능력만 측정할 뿐 현실적인 침투 워크플로를 반영하지 못했다.</li>
+                <li><strong>연구 제안:</strong> AgentCyberRange는 최초의 오픈소스 멀티-레인지 인프라로, 15개의 실제 웹 애플리케이션과 8개의 엔터프라이즈급 사이버 레인지(총 156개 내부 호스트)에 110개의 취약점을 포함한다. Cage라는 도구체인을 통해 실행, 오케스트레이션, 결과 수집 및 검증을 자동화했다. 벤치마크는 Web Exploitation(웹 애플리케이션 탐색 및 취약점 검증)과 Post-Exploitation(초기 침투 후 내부 확산)의 두 핵심 단계로 구성된다.</li>
+                <li><strong>작동 원리:</strong> 6개의 최첨단 AI 시스템(GPT-5.5, Codex 등)을 동일한 프롬프트와 예산 조건에서 평가했다. GPT-5.5 with Codex가 가장 우수한 성능을 보여 Web Exploitation 작업의 16.1%, Post-Exploitation 작업의 31.7%를 해결했다. 구체적인 힌트를 추가했을 때 각각 33.0%와 46.3%로 향상되었다. 또한 인기 프로젝트에서 발견된 알려지지 않은 취약점(out-of-benchmark findings)과 호스트 방어를 우회하는 페이로드 변형(payload mutation)도 관찰되었다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 시사점 및 결론</h2>
+            <p>
+                AgentCyberRange는 AI 시스템의 공격적 사이버 보안 능력을 현실적인 조건에서 평가할 수 있는 최초의 오픈 플랫폼을 제공한다. 가장 중요한 발견은 GPT-5.5 with Codex가 여전히 낮은 성공률(16-31%)을 보여, 현재 AI 시스템이 실제 침투 테스트에서 사람 전문가를 대체하기에는 아직 역량이 부족하다는 점이다. 그러나 구체적인 힌트를 제공했을 때 성능이 2배 가까이 향상되는 것은 AI가 인간의 방향 제시와 협력할 때 의미 있는 결과를 낼 수 있음을 시사한다. 특히 주목할 점은 벤치마크 의도 범위 밖에서 발견된 미지의 취약점과 자동 페이로드 변형 능력으로, 이는 AI 시스템이 통제된 평가 환경을 넘어 실제 위협으로 발전할 수 있는 초기 징후로 해석된다. 보안 커뮤니티는 이러한 공격적 AI 능력의 발전을 지속적으로 모니터링하고 평가 오픈소스 인프라를 구축해야 한다.
+            </p>
+            
+            <p>원문: <a href="https://arxiv.org/abs/2606.14295" target="_blank">https://arxiv.org/abs/2606.14295</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
