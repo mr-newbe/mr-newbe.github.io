@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-06-17</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-06-17 | <i class="fa-solid fa-tags"></i> Daily News, Cloud Security, Malware, Phishing
+        </div>
+
+        <div class="content">
+            <h2>1. Google Vertex AI SDK, 'Pickle in the Middle' 공격으로 모델 업로드 하이재킹 가능</h2>
+            <p>Palo Alto Networks Unit 42가 발견한 Google Cloud Vertex AI SDK 취약점으로, 공격자가 별도의 인증 없이 피해자의 ML 모델 업로드를 가로채 악성 코드를 Google 서빙 인프라 내에서 실행할 수 있었습니다. 'Pickle in the Middle'이라 명명된 이 기법은 예측 가능한 Cloud Storage 버킷 이름을 이용한 Bucket Squatting 공격입니다.</p>
+            <ul>
+                <li><strong>Bucket Squatting 취약점:</strong> SDK가 프로젝트 ID와 리전으로 예측 가능한 버킷명(project-vertex-staging-{region})을 생성했으며, 버킷 존재 여부만 확인하고 소유권은 검증하지 않음</li>
+                <li><strong>1.4초 윈도우 공격:</strong> Unit 42는 Cloud Function을 사용해 업로드 후 1.4초 내에 악성 pickle/joblib 모델로 교체, Vertex AI가 파일을 읽기 전에 스와핑 성공</li>
+                <li><strong>파급 효과:</strong> 탈취한 OAuth 토큰으로 동일 테넌트 내 다른 모델 아티팩트, BigQuery 메타데이터, GKE 클러스터명, 컨테이너 이미지 경로까지 접근 가능</li>
+                <li><strong>대응:</strong> Google이 v1.148.0에서 버킷 소유권 검증 패치 적용. SDK 사용 시 명시적 staging_bucket 설정 권장</li>
+                <li><strong>올해 두 번째:</strong> 2월에 패치된 CVE-2026-2473도 Vertex AI Experiments의 유사한 Bucket Squatting 취약점</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/06/google-vertex-ai-sdk-flaw-let-attackers.html" target="_blank">The Hacker News - Google Vertex AI SDK Flaw</a></p>
+
+            <h2>2. ClickFix 캠페인, 새로운 BabaDeda/Lorem Ipsum/Potemkin 로더로 확장</h2>
+            <p>보안 연구자들이 다수의 ClickFix 소셜 엔지니어링 캠페인을 포착했습니다. 이 캠페인은 BabaDeda Loader, Lorem Ipsum Loader, Potemkin이라는 세 가지 신규 멀웨어 로더를 유포하며, 교육 및 금융 기관을 표적으로 삼고 있습니다.</p>
+            <ul>
+                <li><strong>ClickFix 공격 체인:</strong> 사용자가 공급자 제공 PowerShell 명령을 실행하도록 속여 로더를 전달한 후, 정보 탈취기와 RAT(원격 접근 트로이목마)를 드롭</li>
+                <li><strong>BabaDeda Loader:</strong> 러시아/벨라루스 시스템 회피, 보안 제품 탐지 후 svchost.exe에 페이로드 인젝션. .NET 백도어로 브라우저 쿠키/비밀번호/암호화 키 탈취</li>
+                <li><strong>Lorem Ipsum Loader:</strong> 5개 이상의 손상된 WordPress 사이트를 통해 유포. 2026년 2월부터 활동 중이며 SEO 중독 및 가짜 다운로드 포털에서 ClickFix 전략으로 전환</li>
+                <li><strong>Storage Crypter:</strong> 외부 파일(List.Control.dat)에 페이로드를 저장하여 사후 분석 및 포렌식을 회피하는 새로운 단계적 로더 기법</li>
+                <li><strong>DLL Side-Loading:</strong> DanaBot 및 SectopRAT(ArechClient)를 DLL 측면 로딩 기법으로 실행하여 탐지 우회</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/06/clickfix-campaigns-expand-malware.html" target="_blank">The Hacker News - ClickFix Campaigns Expand</a></p>
+
+            <h2>3. FBI·Google, 중국 기반 'Outsider Enterprise' 피싱 서비스 적발 — 19억 달러 손실</h2>
+            <p>FBI와 Google이 중국에서 운영되던 대규모 Phishing-as-a-Service(PhaaS) 플랫폼 'Outsider Enterprise'를 적발했습니다. Telegram을 통해 조정된 이 네트워크는 9,000개 이상의 피싱 사이트를 운영하며 약 19억 달러의 손실을 초래했습니다.</p>
+            <ul>
+                <li><strong>PhaaS 규모:</strong> 9,000개 가짜 웹사이트, 100만 개 이상의 URL 생성. 2023년부터 활동하며 미국 및 54개국 이상의 개인을 표적으로 삼음</li>
+                <li><strong>피해 규모:</strong> 약 400만 개의 신용카드 정보 탈취, 19억 달러 손실. 수십만 명이 피해를 입음</li>
+                <li><strong>SMS 기반 공격:</strong> 안드로이드 사용자 대상 2주간 250만 건 이상의 피싱 SMS 발송. 유명 브랜드를 사칭한 피싱 킷 배포</li>
+                <li><strong>대응:</strong> FBI와 Google의 공조로 플랫폼 인프라 차단. Google이 9,000개 피싱 사이트 및 관련 URL 식별</li>
+                <li><strong>시사점:</strong> PhaaS(Pishing-as-a-Service) 생태계의 고도화를 보여주는 사례로, SMS 기반 피싱에 대한 경각심 필요</li>
+            </ul>
+            <p>출처: <a href="https://www.securityweek.com/fbi-google-dismantle-outsider-enterprise-phishing-service/" target="_blank">SecurityWeek - FBI, Google Dismantle Outsider Enterprise Phishing Service</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
