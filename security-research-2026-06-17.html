@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - Seeing Is Not Screening: Multimodal Hidden Instruction Attacks on Agent Skill Scanners</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+        h1 {
+            color: var(--accent-color);
+            font-size: 2rem;
+        }
+        .date {
+            color: var(--muted-text);
+            font-size: 0.9rem;
+        }
+        .content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        h2 {
+            border-left: 4px solid var(--accent-color);
+            padding-left: 15px;
+            margin-top: 30px;
+            font-size: 1.5rem;
+        }
+        .paper-info {
+            background-color: var(--secondary-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px dashed var(--border-color);
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 15px;
+        }
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: var(--muted-text);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - Seeing Is Not Screening: Multimodal Hidden Instruction Attacks on Agent Skill Scanners</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-06-17</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Seeing Is Not Screening: Multimodal Hidden Instruction Attacks on Agent Skill Scanners<br>
+                <strong>저자:</strong> Xiaojun Jia, Jie Liao, Simeng Qin, Ke Ma, Wenbo Guo, Yebo Feng, Aishan Liu, Yang Liu<br>
+                <strong>분야:</strong> LLM Agent 보안, 멀티모달 공격, 취약점 분석
+            </div>
+            
+            <h3>핵심 분석:</h3>
+            <ul>
+                <li><strong>문제 제기:</strong> LLM 기반 시스템에서 에이전트 스킬(Agent Skill)이 새로운 공격 표면으로 부상했으나, 기존 스킬 스캐너들은 텍스트(설명문, 매니페스트, 소스코드)에만 의존해 보안 분석을 수행한다. 이로 인해 이미지에 숨겨진 악성 명령어는 탐지되지 않은 채 배포 단계에서 멀티모달 에이전트가 이를 실행할 수 있는 심각한 사각지대가 존재한다.</li>
+                <li><strong>연구 제안:</strong> SkillCamo라는 문서 기반 멀티모달 명령어 은닉 공격을 제안한다. 이 공격은 악성 명령어를 스킬 번들에 포함된 이미지 내부에 숨기고, 문서화된 텍스트가 정상적인 워크플로우의 일부로 해당 이미지를 참조하도록 재작성함으로써 텍스트와 시각적 페이로드의 결합 해석을 유도한다. 동시에 방어 기법으로 ExecScan을 제안하는데, 이는 의도 추출, 행동 재구성, 악용 평가, 심의적 실행 시뮬레이션을 통해 스킬 아티팩트 전반을 분석하는 실행 기반 멀티모달 스캐닝 모듈이다.</li>
+                <li><strong>작동 원리:</strong> SkillCamo는 스킬 번들의 이미지 파일(아이콘, 스크린샷, 다이어그램 등)에 악성 명령어를 은닉(스테가노그래피)하고, 문서화된 텍스트가 해당 이미지를 정상 참조하도록 유도한다. 배포 시점에는 텍스트 스캐너를 통과하지만, 실행 시점에는 멀티모달 에이전트가 이미지를 해석해 숨겨진 명령(데이터 유출, 파일 삭제, 권한 상승 등)을 수행한다. ExecScan은 이에 대응하여 문서, 코드, 참조 리소스, 시각적 콘텐츠를 종합 분석하고, 실행 가능한 행동 체인을 재구성하여 데이터 유출, 파괴, 지속성, 기만, 권한 상승 등 5가지 위험 범주를 식별한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 시사점 및 결론</h2>
+            <p>
+                이 연구는 LLM 에이전트 생태계의 급속한 확장 속에서 보안 검증의 새로운 차원을 제시한다. 기존 스킬 스캐너가 텍스트 기반 분석에만 의존하는 취약점을 체계적으로 입증했으며, 특히 이미지에 숨겨진 명령어가 실행 환경에서 복원될 수 있다는 점을 실험적으로 확인했다. 이는 LLM 에이전트 마켓플레이스나 오픈소스 스킬 저장소에 등록된 스킬들이 겉보기에는 안전해 보이지만 실제로는 악성 행동을 수행할 수 있음을 의미한다. ExecScan의 제안은 실행 기반 분석이라는 새로운 방어 패러다임을 제시하며, 실제 행동 시뮬레이션을 통한 보안 검증이 중요함을 시사한다. 향후 LLM 에이전트 보안 표준 수립과 스킬 마켓플레이스의 검증 프로세스 강화에 중요한 기여를 할 것으로 기대된다.
+            </p>
+            
+            <p>원문: <a href="https://arxiv.org/abs/2606.18198" target="_blank">https://arxiv.org/abs/2606.18198</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
