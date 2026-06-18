@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - PhantomSkill: Malicious Code Injection in Agent Skill Ecosystems</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - PhantomSkill: Malicious Code Injection in Agent Skill Ecosystems</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-06-18</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> PhantomSkill: Malicious Code Injection in Agent Skill Ecosystems<br>
+                <strong>저자:</strong> Yu-Ting Lin, Chia-Mu Yu<br>
+                <strong>분야:</strong> cs.CR
+            </div>
+
+            <h3>핵심 분석:</h3>
+            <ul>
+                <li><strong>문제 제기:</strong> LLM 기반 코딩 에이전트가 서드파티 스킬 패키지를 통해 도메인 특화 기능을 획득하는 과정에서, 악성 코드를 스킬의 보조 리소스(auxiliary resources)에 은닉하는 새로운 공급망 공격 표면이 등장</li>
+                <li><strong>연구 제안:</strong> PhantomSkill 프레임워크 제안 — VulMask 기법을 통해 명백한 악성 스크립트를 취약점 형태로 변환하여, 공격자가 통제하는 트리거 조건에서만 악성 행위가 활성화되도록 설계</li>
+                <li><strong>작동 원리:</strong> 악성 스크립트를 취약점처럼 보이는 구현체로 재작성(VulMask)하여, 정적 분석 및 자동 리뷰어가 명백한 악성보다 경고·악성코드 탐지율을 훨씬 낮추게 만듦. 정상 유틸리티는 유지하면서 악성 신호를 감춤</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 시사점 및 결론</h2>
+            <p>이 연구는 에이전트 스킬 생태계가 단순한 텍스트 검증을 넘어 리소스 수준의 검증(vetting), 실행 시점의 격리(containment), 그리고 취약점을 잠재적 악성 페이로드로 간주하는 새로운 보안 정책이 필요함을 시사한다. 에이전트 공급망 보안의 패러다임 전환을 요구하는 중요한 연구이다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2606.19191" target="_blank">https://arxiv.org/abs/2606.19191</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
