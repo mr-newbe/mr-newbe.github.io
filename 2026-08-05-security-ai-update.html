@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-08-05</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-08-05 | <i class="fa-solid fa-tags"></i> Daily News, Phishing, Supply Chain, Ransomware, Vulnerability
+        </div>
+
+        <div class="content">
+            <h2>1. 'Greatness' PhaaS, 디바이스 코드 피싱 추가 — MFA 우회하고 토큰 탈취</h2>
+            <p>상용 Phishing-as-a-Service(PhaaS) 툴킷 'Greatness'가 OAuth 2.0 Device Authorization Grant를 악용하는 디바이스 코드 피싱(device code phishing)을 지원하기 시작했습니다. ZeroBEC의 보고에 따르면 이제 AiTM(adversary-in-the-middle) 자격증명·토큰 탈취, 디바이스 코드 피싱, OAuth 동의 남용을 하나의 운영자 패널에서 제공합니다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> 디바이스 코드 피싱은 합법적인 OAuth 2.0 기기 인증 흐름을 악용해 사용자가 공격자 기기에 로그인하도록 속여 MFA를 우회하고 세션 토큰을 탈취</li>
+                <li><strong>표적 플랫폼:</strong> Microsoft 365에 더해 iCloud, Yahoo, Google Workspace 등으로 확대 — 단순 자격증명 수집에서 통합 공격 생태계로 진화</li>
+                <li><strong>구독 모델:</strong> Telegram 채널(@GreatnessPage, 3,250+ 구독자)을 통해 월 $289(2024년 1월 $120에서 인상)에 판매. 대시보드, 도메인 설정, CAPTCHA 선택, 11개 이상의 루어 템플릿 제공</li>
+                <li><strong>배경:</strong> 2022년 중반부터 Microsoft 365 비즈니스 사용자 대상 공격에 활용, 2023년 5월 Cisco Talos가 최초 공개</li>
+                <li><strong>시사점:</strong> MFA를 우회하는 디바이스 코드 피싱 증가 추세 — 피싱 저항성 MFA(하드웨어 키 등) 도입과 OAuth 동의 화면 검증 필요</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/greatness-phaas-adds-device-code.html" target="_blank">The Hacker News - Greatness PhaaS Adds Device Code Phishing to Bypass MFA and Steal Tokens</a></p>
+
+            <h2>2. Keyv 연계 npm 웜, 수백 개 패키지 감염 — Claude Code·VS Code 훅 설치</h2>
+            <p>keyv@6.0.0에서 시작된 자격증명 탈취 npm 웜이 Keyv·Cacheable 네임스페이스를 넘어 여러 조직의 수백 개 패키지로 확산됐습니다. SafeDep은 npm 레지스트리에서 79개 패키지명에 걸친 353개 악성 버전을 검증했고, Aikido는 최대 868개 패키지·1,381개 버전으로 추산했습니다.</p>
+            <ul>
+                <li><strong>전파 방식:</strong> 악성 릴리스의 preinstall 스크립트가 개발자·CI 환경에서 자격증명 탈취 번들을 실행. 확보한 npm 게시 권한으로 추가 패키지 감염</li>
+                <li><strong>탈취 대상:</strong> 리포지토리, 패키지 레지스트리, 클라우드, 개인키(SSH 등) 자격증명. Keyv 저장소에는 사용자가 워크스페이스를 신뢰하면 페이로드를 실행하는 별도의 Claude Code·VS Code 훅도 존재</li>
+                <li><strong>피해 대응:</strong> Socket은 실행한 모든 워크스테이션·러너를 자격증명 노출로 간주하라고 경고. 자격증명 순환 전에 악성 '자격증명 폐기 감시자(revocation watcher)' 제거 필수 — 순환을 먼저 하면 공격자 로컬 핸들러가 실행될 수 있음</li>
+                <li><strong>방어:</strong> npm 12는 기본적으로 승인되지 않은 의존성 라이프사이클 스크립트를 차단하지만, 구버전 npm 및 기타 설치 경로는 여전히 노출</li>
+                <li><strong>시사점:</strong> 오픈소스 공급망 공격의 지속적 고도화 — 의존성 감사, 서명 검증, CI 환경 격리 필요</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/keyv-linked-npm-worm-poisons-hundreds.html" target="_blank">The Hacker News - Keyv-Linked npm Worm Poisons Hundreds of Packages, Plants Claude Code and VS Code Hooks</a></p>
+
+            <h2>3. cPanel 치명적 취약점 CVE-2026-58048 — 호스팅 고객이 DB 루트 권한으로 SQL 실행 가능</h2>
+            <p>cPanel이 인증된 호스팅 고객이 데이터베이스 관리자(root) 컨텍스트로 SQL을 실행할 수 있는 취약점을 패치했습니다. CVE-2026-58048(CVSS 4.0: 9.4)로 추적되며 지원되는 모든 cPanel & WHM 버전과 WP Squared에 영향을 줍니다.</p>
+            <ul>
+                <li><strong>근본 원인:</strong> 데이터베이스 이름 변경(rename) 과정에서 SQL 모드가 보존되지 않아 SQL이 root 컨텍스트에서 실행됨 — 계정 경계와 관리자 DB 정체성 사이의 권한 경계를 넘어섬</li>
+                <li><strong>공격 조건:</strong> 유효한 cPanel 계정과 MySQL/MariaDB 기능 접근 권한 필요. 임의 데이터베이스 명령을 전체 관리 권한으로 실행 가능, OS·DB 구성에 따라 OS 수준 침해로 확장될 수 있음</li>
+                <li><strong>패치 빌드:</strong> 11.110.0.137, 11.118.0.71, 11.126.0.78, 11.134.0.48, 11.136.0.32, WP Squared 138.1.6 (업데이트: /usr/local/cpanel/scripts/upcp --force)</li>
+                <li><strong>임시 대응:</strong> 즉시 업데이트가 어려운 서버는 cPanel 사용자의 MySQL 기능을 임시로 제거(기존 DB는 유지, 추가/삭제만 차단)</li>
+                <li><strong>위험 평가:</strong> CISA의 8월 4일 기록 기준 'Exploitation: none', 비자동화 가능, 기술적 영향은 'total' — 단, 이후 상황은 미반영</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/new-cpanel-critical-flaw-could-let.html" target="_blank">The Hacker News - New cPanel Critical Flaw Could Let Hosting Customers Run SQL as Database Root</a></p>
+
+            <h2>4. CISA, 실제 공격에 악용된 N-able N-central 취약점(CVE-2026-18577) KEV에 추가</h2>
+            <p>CISA가 N-able N-central의 고위험 취약점 CVE-2026-18577(CVSS 8.2)을 KEV(Known Exploited Vulnerabilities) 카탈로그에 추가했습니다. 이 취약점은 CVE-2026-18556에 대한 불완전한 패치로 인해 발생한 인증 우회·계정 탈취 문제로, 2026.3 HF1 버전에서 해결됐습니다.</p>
+            <ul>
+                <li><strong>공격 체인:</strong> 원격 공격자가 N-central 서버에 관리자 권한을 획득한 뒤 내장된 Take Control 기능을 악용해 관리 대상 엔드포인트로 피벗하고 지속성 메커니즘 배포</li>
+                <li><strong>IOC (N-able 제공):</strong> 기기 사용자 문서 폴더의 'svchost.exe' 파일, 'Cloudflared' 서비스 등록(Cloudflare 터널링 유틸리티 악용), 인바운드 연결 IP: 173.249.252[.]200, 87.249.138[.]34, 37.19.210[.]32, 68.235.46[.]214</li>
+                <li><strong>관측 동향:</strong> Huntress가 여러 조직에서 해당 결함을 노린 공격 관측. 아직 광범위한 무차별 캠페인 단계는 아니며, 특정 그룹으로의 공개 귀속은 없음. 공격 후 고수준 정찰 수행 패턴 확인</li>
+                <li><strong>대응:</strong> MSP 환경은 N-central을 2026.3 HF1 이상으로 즉시 업데이트하고 IOC 기반 탐지·헌팅 필요. Rapid7·Rescana 등 다수 벤더가 악용 보고</li>
+                <li><strong>시사점:</strong> 관리형 서비스 제공업체(MSP) 소프트웨어는 공급망 공격의 고가치 표적 — 패치 미적용 시 다수 고객 환경이 동시에 노출</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/cisa-adds-exploited-n-able-n-central.html" target="_blank">The Hacker News - CISA Adds Exploited N-able N-central Flaw to KEV After Customer Compromises</a></p>
+
+            <h2>5. INC 랜섬웨어, SonicWall SMA 1000 취약점 악용한 '지배적 위협 행위자'로 부상</h2>
+            <p>Resecurity 보고에 따르면 INC 랜섬웨어 작전이 SonicWall SMA 1000 시리즈 VPN 어플라이언스의 최근 공개된 취약점을 악용하는 '지배적 위협 행위자'로 부상했습니다. CVE-2026-15409와 CVE-2026-15410을 연쇄 악용해 임의 명령 실행 및 기기 장악이 가능하며, 두 결함은 제로데이로 무기화됐습니다.</p>
+            <ul>
+                <li><strong>피해 규모:</strong> Ransomware.Live 통계 기준 INC 그룹은 지금까지 885명의 피해자 주장, 최근 피해자는 8월 2일 등재. 2026년 8월 초부터 데이터 유출 사이트에 피해자 다수 공개</li>
+                <li><strong>공격 방식:</strong> 침투 후 고가치 자격증명, 활성 세션 DB, TOTP MFA 시드 설정 탈취 → 장기적 지속 접근 확보 → 내부 네트워크 측면 이동</li>
+                <li><strong>악성 도구:</strong> Volexity는 6월 22일부터의 사전공개 악용을 UTA0533 클러스터로 귀속. Python 스크립트 'KNUCKLEBALL'로 Suo5(오픈소스 HTTP 프록시)와 Behinder 유사 Java 웹쉘 'ORANGETAIL' 배포</li>
+                <li><strong>패치 현황:</strong> SonicWall이 2026년 7월 중순 두 취약점에 대한 수정 릴리스. Rapid7은 단일 행위자 또는 공조 그룹이 제로데이를 발견·악용했을 가능성이 높다고 평가</li>
+                <li><strong>시사점:</strong> VPN 어플라이언스 제로데이는 랜섬웨어 침투 경로의 핵심 — 경계 장비 패치 우선 적용, MFA 시드·세션 DB 보호, 네트워크 분할 필수</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/inc-ransomware-emerges-as-dominant.html" target="_blank">The Hacker News - INC Ransomware Emerges as Dominant Actor Exploiting SonicWall SMA 1000 Flaws</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
