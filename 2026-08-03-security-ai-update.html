@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-08-03</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-08-03 | <i class="fa-solid fa-tags"></i> Daily News, Ransomware, npm Supply Chain, Wallet Security
+        </div>
+
+        <div class="content">
+            <h2>1. INC 랜섬웨어, SonicWall SMA 1000 취약점 악용해 지배적 공격 주체로 부상</h2>
+            <p>INC 랜섬웨어 그룹이 SonicWall SMA 1000 시리즈의 취약점을 적극적으로 악용하며 주요 위협 행위자로 부상했습니다. 보안 업계는 이 그룹이 기존 랜섬웨어 그룹들을 제치고 가장 활발한 활동을 보이고 있다고 평가합니다.</p>
+            <ul>
+                <li><strong>공격 경로:</strong> SonicWall SMA 1000 시리즈의 인증 우회 및 원격 코드 실행 취약점을 악용해 엣지 디바이스 침투</li>
+                <li><strong>피해 유형:</strong> 데이터 암호화 후 이중 갈취(데이터 유출 협박 + 암호화) 방식 사용</li>
+                <li><strong>표적:</strong> 주로 중소기업 및 지방 정부 기관 대상, VPN/원격 접속 인프라 집중 공격</li>
+                <li><strong>대응:</strong> SonicWall은 SMA 1000 시리즈 패치 공개, 즉시 업데이트 및 다중 인증(MFA) 적용 권고</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/inc-ransomware-emerges-as-dominant-actor.html" target="_blank">The Hacker News - INC Ransomware Emerges as Dominant Actor Exploiting SonicWall SMA 1000 Flaws</a></p>
+
+            <h2>2. 악성 npm 패키지 18개, 알리바바 도구 사용자 대상 크로스 플랫폼 RAT 배포</h2>
+            <p>오픈소스 생태계에서 알리바바(Alibaba) 개발 도구 사용자를 노린 18개의 악성 npm 패키지가 발견되었습니다. 이 패키지들은 설치 시 크로스 플랫폼 원격 접근 트로이 목마(RAT)를 배포하는 것으로 확인됐습니다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> 타이포스쿼팅(유사 패키지명)과 의존성 혼동(dependency confusion) 기법으로 유포</li>
+                <li><strong>악성 기능:</strong> 자격 증명 탈취, 키로깅, 원격 셸 실행, 데이터 유출 기능 포함</li>
+                <li><strong>플랫폼:</strong> Windows, macOS, Linux 모두 지원하는 크로스 플랫폼 RAT</li>
+                <li><strong>탐지:</strong> npm 보안 연구진과 Sonatype이 발견, 악성 패키지 제거 조치 완료</li>
+                <li><strong>권고:</strong> 개발자는 패키지 설치 전 이름·게시자·다운로드 수 검증 필수, 잠금 파일(package-lock) 사용 권장</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/18-malicious-npm-packages-deliver-rat.html" target="_blank">The Hacker News - 18 Malicious npm Packages Deliver Cross-Platform RAT to Alibaba Tool Users</a></p>
+
+            <h2>3. 구글 비밀번호 관리자 공격, 패스키 보호 계정 하이재킹 가능</h2>
+            <p>연구진이 구글 비밀번호 관리자(Google Password Manager)의 설계 결함을 악용해 패스키(passkey)로 보호된 계정까지 하이재킹할 수 있는 공격 기법을 공개했습니다. 악성코드가 로컬에서 자격 증명을 탈취하는 방식입니다.</p>
+            <ul>
+                <li><strong>핵심 결함:</strong> 비밀번호 관리자의 로컬 자격 증명 저장소 접근 권한 검증 부재</li>
+                <li><strong>공격 시나리오:</strong> 악성코드가 사용자 세션 중 자격 증명을 추출, 패스키 기반 2단계 인증 우회</li>
+                <li><strong>영향 범위:</strong> 구글 크롬 및 안드로이드 내장 비밀번호 관리자 사용자</li>
+                <li><strong>대응:</strong> 구글에 취약점 보고됨, 사용자는 신뢰할 수 없는 기기에서 로그인 상태 유지 자제 권고</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/google-password-manager-attacks-passkey.html" target="_blank">The Hacker News - Google Password Manager Attacks Could Let Malware Hijack Passkey-Protected Accounts</a></p>
+
+            <h2>4. Coldcard 하드웨어 월렛 결함, 41분 만에 7천만 달러 비트코인 탈취와 연관</h2>
+            <p>인기 하드웨어 지갑인 Coldcard의 보안 결함이 41분 만에 약 7,000만 달러(약 930억 원) 규모의 비트코인 탈취 사건과 연관된 것으로 밝혀졌습니다. 하드웨어 월렛 시장의 신뢰성에 타격을 주는 사건입니다.</p>
+            <ul>
+                <li><strong>취약점 성격:</strong> 월렛 초기화 과정의 난수 생성기(RNG) 취약점으로 시드 복구 가능</li>
+                <li><strong>공격 방식:</strong> 탈취자가 복구된 시드로 지갑 접근, 대량 자금 이체</li>
+                <li><strong>피해 규모:</strong> 약 7,000만 달러 상당 비트코인, 41분 만에 분산 이체</li>
+                <li><strong>대응:</strong> Coldcard가 펌웨어 패치 배포, 사용자에게 펌웨어 업데이트 및 새 지갑 생성 권고</li>
+                <li><strong>시사점:</strong> 하드웨어 월렛이라도 물리적 보안과 펌웨어 관리가 필수적임을 보여주는 사례</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/coldcard-hardware-wallet-flaw-70m-bitcoin.html" target="_blank">The Hacker News - Coldcard Hardware Wallet Flaw Linked to $70 Million Bitcoin Theft in 41 Minutes</a></p>
+
+            <h2>5. 호텔 Wi-Fi 하이재킹, 가짜 업데이트로 감시 악성코드 배포</h2>
+            <p>공격자가 호텔 Wi-Fi 네트워크를 장악해 투숙객 기기에 가짜 소프트웨어 업데이트 알림을 띄우고 감시 악성코드를 설치하는 캠페인이 적발되었습니다. 여행 중 공용 네트워크 보안의 위험성을 보여주는 사례입니다.</p>
+            <ul>
+                <li><strong>공격 경로:</strong> 호텔 Wi-Fi의 DNS 하이재킹 및 MITM(중간자) 공격으로 업데이트 트래픽 가로챔</li>
+                <li><strong>악성코드:</strong> 카메라·마이크 접근, 키로깅, 위치 추적 기능을 가진 스파이웨어</li>
+                <li><strong>표적:</strong> 기업 임원·정부 관계자 등 고가치 여행객 대상 의심</li>
+                <li><strong>대응:</strong> 호텔 측 네트워크 모니터링 강화, 사용자는 VPN 사용 및 자동 업데이트 검증 필요</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/hijacked-hotel-wifi-fake-updates.html" target="_blank">The Hacker News - Hijacked Hotel Wi-Fi Pushes Fake Updates to Deliver Surveillance Malware</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
