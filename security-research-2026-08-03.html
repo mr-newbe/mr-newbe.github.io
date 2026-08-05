@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - SkillJack: Persistent Skill Backdoors in Self-Evolving Agents</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - SkillJack: Persistent Skill Backdoors in Self-Evolving Agents</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-08-03</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> SkillJack: Persistent Skill Backdoors in Self-Evolving Agents<br>
+                <strong>저자:</strong> Zonghao Ying, Xiangfan Wu, Huiyu Wu, Xing Zheng, Huangsheng Cheng, Xiaorong Shi, Jing Guo<br>
+                <strong>분야:</strong> cs.CR (Cryptography and Security)<br>
+                <strong>게시일:</strong> 2026-08-04
+            </div>
+
+            <h2><i class="fa-solid fa-crosshairs"></i> 연구 배경</h2>
+            <p>자기진화(self-evolving) AI 에이전트는 상호작용 기록을 재사용 가능한 스킬(skill)로 변환하여 개별 작업을 넘어 지속적으로 활용합니다. 기존 연구들은 메모리 및 검색 중독(poisoning) 공격을 다뤘지만, 이는 오염된 기록이 컨텍스트로 검색될 때만 영향이 있었습니다. SkillJack은 이보다 더 근본적인 위험을 제기합니다.</p>
+
+            <h2><i class="fa-solid fa-bug"></i> SkillJack 공격 개요</h2>
+            <ul>
+                <li><strong>핵심 발견:</strong> 오염된 경험이 에이전트 자신에 의해 지속적인 행동 아티팩트(스킬)로 변환될 수 있는 취약한 파이프라인 존재</li>
+                <li><strong>공격 방식:</strong> 런타임 컨텍스트를 직접 조작하는 대신, 자기진화 에이전트의 경험-스킬(experience-to-skill) 변환 파이프라인을 하이재킹</li>
+                <li><strong>지속성:</strong> 스킬은 개별 세션을 넘어 에이전트의 영구적인 행동 패턴으로 남아, 장기간 백도어로 작동</li>
+                <li><strong>차별점:</strong> 기존 메모리 중독 공격은 검색 시점에만 영향, SkillJack은 에이전트가 스스로 백도어를 '학습'하여 제거가 어려움</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 보안 시사점</h2>
+            <ul>
+                <li><strong>공급망 위험:</strong> 스킬 생태계(마켓플레이스, 공유 저장소)를 통한 악성 스킬 확산 가능성</li>
+                <li><strong>탐지 어려움:</strong> 백도어가 에이전트의 정상적인 학습 과정을 통해 생성되므로 정적 분석만으로 탐지 곤란</li>
+                <li><strong>방어 방향:</strong> 스킬 생성 파이프라인에 대한 검증(vetting), 스킬 실행 격리(containment), 주기적 스킬 감사 필요</li>
+                <li><strong>연계 연구:</strong> PhantomSkill(스킬 생태계 악성 코드 주입)과 함께 AI 에이전트 공급망 보안 연구의 중요한 축</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 시사점 및 결론</h2>
+            <p>SkillJack은 자기진화 에이전트의 학습 메커니즘 자체가 공격 표면이 될 수 있음을 보여주는 중요한 연구입니다. 에이전트가 스스로 백도어를 만들어내는 구조적 취약점을 드러냄으로써, 스킬 파이프라인 전반에 대한 보안 검증과 거버넌스가 필수적임을 시사합니다. AI 에이전트가 실제 업무에 배포되는 현 시점에서 매우 시의적절한 연구입니다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2608.03509" target="_blank">https://arxiv.org/abs/2608.03509</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
