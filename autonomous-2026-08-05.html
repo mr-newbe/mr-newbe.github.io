@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - Planning-oriented Autonomous Driving (UniAD)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - Planning-oriented Autonomous Driving (UniAD)</h1>
+            <p class="date"><i class="fa-regular fa-calendar"></i> 2026-08-05</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <p><strong>제목:</strong> Planning-oriented Autonomous Driving (UniAD)</p>
+                <p><strong>저자:</strong> Yihan Hu, Jiazhi Yang, Li Chen, Keyu Li, Chonghao Sima, Xizhou Zhu, Siqi Chai, Senyao Du, Tianwei Lin, Wenhai Wang, Lewei Lu, Xiaosong Jia, Qiang Liu, Jifeng Dai, Yu Qiao, Hongyang Li</p>
+                <p><strong>분야:</strong> Computer Vision (cs.CV) / Robotics (cs.RO) — End-to-End Autonomous Driving</p>
+                <p><strong>게시일:</strong> 2022-12-20 (arXiv:2212.10156, v3 2023-03-23) / CVPR 2023 Best Paper Award</p>
+                <p><strong>공식 구현:</strong> OpenDriveLab/UniAD (GitHub ★4.7k, Apache-2.0, 최근 커밋 2025-10-29 — UniAD 2.0)</p>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>UniAD는 자율주행 시스템의 기존 모듈식 구조(인지 → 예측 → 계획)를 하나의 네트워크로 통합한 최초의 종단간(End-to-End) 자율주행 프레임워크입니다. "모든 작업은 최종 목표인 주행 계획(planning)을 위해 존재한다"는 철학 아래, 센서 입력부터 주행 계획까지 전체 스택을 단일 아키텍처로 설계했습니다.</p>
+            <ul>
+                <li><strong>전체 스택 통합:</strong> 객체 감지(3D Detection), 다중 객체 추적(MOT), 맵 인식(Map Perception), 궤적 예측(Motion Prediction), 점유 예측(Occupancy Prediction), 계획(Planning)의 6개 작업을 하나의 네트워크에서 처리</li>
+                <li><strong>통합 쿼리 인터페이스:</strong> 작업 간 통신을 통일된 query 기반 인터페이스로 설계하여, 각 모듈의 특징 추상화가 전역적 관점에서 상호 보완되도록 함</li>
+                <li><strong>누적 오류 해소:</strong> 모듈식 파이프라인의 단계별 오차 누적(accumulative errors)과 작업 간 비효율적 협조 문제를 단일 네트워크 최적화로 해결</li>
+                <li><strong>nuScenes 벤치마크 검증:</strong> 까다로운 nuScenes 데이터셋에서 기존 SOTA 대비 모든 항목에서 큰 폭의 성능 향상을 입증</li>
+                <li><strong>오픈소스 공개:</strong> 코드와 사전학습 모델을 공개하여 후속 연구의 기반 제공 (UniAD 2.0까지 지속 업데이트)</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>CVPR 2023 Best Paper:</strong> 자율주행 분야에서 가장 권위 있는 상 중 하나로, 종단간 자율주행 패러다임의 대표작으로 인용 수천 회 이상</li>
+                <li><strong>종단간 패러다임의 전환점:</strong> 이후 VAD, SparseDrive 등 수많은 종단간 자율주행 연구의 기준선(baseline)이 되며, 계획 지향(planning-oriented) 설계 철학을 정립</li>
+                <li><strong>연구 재현성:</strong> Apache-2.0 라이선스로 완전한 코드/모델 공개 — 센서 퓨전, BEV 표현, 트래킹-예측-계획 파이프라인 학습에 바로 활용 가능</li>
+                <li><strong>플랫폼 활용 관점:</strong> KOREATECH 자율주행 연구에서 멀티태스크 공유 표현 학습, 경량화(Edge-AI), 악천후 강건성 연구의 출발점으로 적합</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>UniAD는 "개별 작업의 정확도"가 아니라 "최종 주행 성능"을 최적화 목표로 삼아야 한다는 자율주행 설계 철학을 제시했습니다. 단일 네트워크로 전체 스택을 통합하면 모듈 간 정보 손실과 오차 누적을 줄일 수 있음을 실증했으며, 이후 종단간 자율주행(End-to-End AD) 연구의 사실상 표준 기준선이 되었습니다. 다만 높은 연산 요구량과 복잡한 학습 절차(여러 단계의 학습 스케줄)는 실차/엣지 환경 적용의 과제로 남아 있으며, 이는 경량화 및 효율적 학습 연구의 동기가 되고 있습니다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2212.10156" target="_blank">https://arxiv.org/abs/2212.10156</a></p>
+            <p>GitHub: <a href="https://github.com/OpenDriveLab/UniAD" target="_blank">https://github.com/OpenDriveLab/UniAD</a></p>
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
