@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-08-06</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-08-06 | <i class="fa-solid fa-tags"></i> Daily News, Vulnerability, Malware, Supply Chain
+        </div>
+
+        <div class="content">
+            <h2>1. Veeam·Terraform MCP·Django, CVSS 10.0 크로스테넌트 버그 포함 11개 취약점 패치</h2>
+            <p>HashiCorp, Veeam, Django Software Foundation이 Terraform MCP Server, Veeam Service Provider Console, Django 전반에 걸쳐 11개의 취약점을 패치했다. 그중 최고 위험 항목은 CVSS 10.0 만점의 크로스테넌트 버그다.</p>
+            <ul>
+                <li><strong>핵심 취약점:</strong> 인증 없이 관리 에이전트 자격증명을 탈취할 수 있는 Veeam 콘솔 결함(CVSS 9.5), 한 사용자의 Terraform 토큰이 다른 사용자에게 재사용되는 HashiCorp MCP 서버 크로스테넌트 결함(CVSS 10.0) 포함</li>
+                <li><strong>대상:</strong> Veeam Service Provider Console, Terraform MCP Server, Django 프레임워크 사용자</li>
+                <li><strong>대응:</strong> 세 공급업체 모두 즉시 업데이트 배포 — 관리형 서비스 제공자(MSP)와 Terraform MCP 사용 환경 우선 적용 권고</li>
+                <li><strong>시사점:</strong> MCP(Machine Control Protocol) 서버와 클라우드 콘솔 같은 인프라 관리 계층이 새로운 공격 표면으로 부상</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/veeam-terraform-mcp-django-patch.html" target="_blank">The Hacker News - Veeam, Terraform MCP, Django Patch Critical Flaws, Led by CVSS 10.0 Cross-Tenant Bug</a></p>
+
+            <h2>2. OVSwrap: 리눅스 커널 Open vSwitch 결함으로 로컬 사용자 루트 권한 탈취 가능</h2>
+            <p>리눅스 커널의 Open vSwitch 데이터패스에서 메모리 손상 결함(CVE-2026-64531, CVSS 7.8)이 발견됐다. 일반 로컬 사용자가 광범위한 기본 설정 배포판에서 루트 권한을 얻을 수 있으며, 공개 익스플로잇에는 약 800개 커널 빌드용 사전 구축 레코드가 포함돼 있다.</p>
+            <ul>
+                <li><strong>취약점:</strong> Open vSwitch 데이터패스의 메모리 손상 — CVE-2026-64531 (CVSS 7.8), 코드명 OVSwrap</li>
+                <li><strong>영향:</strong> 기본 구성의 다수 리눅스 배포판에서 로컬 권한 상승(LPE)으로 이어질 수 있음</li>
+                <li><strong>위협:</strong> 공개 익스플로잇이 약 800개 커널 빌드용 레코드와 함께 배포되어 실제 악용 가능성 높음</li>
+                <li><strong>대응:</strong> 커널 업데이트 즉시 적용, Open vSwitch 미사용 환경은 모듈 비활성화 고려</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/new-ovswrap-linux-kernel-flaw-lets.html" target="_blank">The Hacker News - New OVSwrap Linux Kernel Flaw Lets Local Users Gain Root via Open vSwitch</a></p>
+
+            <h2>3. ClickFix 250+ 도메인, 브라우저 핑거프린팅으로 macOS 악성코드 유도 숨김</h2>
+            <p>250개 이상의 프런트엔드 도메인을 운영하는 macOS 대상 ClickFix 캠페인이 방문자를 핑거프린팅한 뒤 악성코드 유도 화면을 선택적으로 노출하는 방식으로 진화했다. Microsoft Threat Intelligence가 수주간 추적해온 인프라에서 확인됐다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> 서버 측 게이트가 크롤러·샌드박스를 걸러내고, 선별된 Mac 사용자에게만 가짜 소프트웨어 다운로드 화면 표시</li>
+                <li><strong>피해 규모:</strong> 250개 이상의 프런트엔드 도메인, 브라우저 핑거프린팅으로 탐지 회피</li>
+                <li><strong>대응:</strong> 비공식 소프트웨어 다운로드 차단, 클립보드 복사/붙여넣기 명령 실행(ClickFix 수법) 주의</li>
+                <li><strong>시사점:</strong> 사회공학 기반 멀웨어 유도가 타깃팅·회피 기술과 결합해 정교해지는 추세</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/over-250-clickfix-domains-use-browser.html" target="_blank">The Hacker News - Over 250 ClickFix Domains Use Browser Fingerprinting to Hide macOS Malware Lures</a></p>
+
+            <h2>4. 트로이 목마화된 npm 패키지, 블록체인에서 C2 IP 디코딩하는 NullReceiver 수법 사용</h2>
+            <p>보안 연구진이 블록체인 기반 C2(명령제어) 기법 EtherHiding의 진화형을 발견했다. 완전히 빈 이더리움 전송의 수신 주소 안에 C2 서버 IP를 숨기는 방식으로, "bianira-ui"와 "fluid-type-ui" 두 트로이 목마화된 npm 패키지에서 NullReceiver라는 코드명으로 관찰됐다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> 빈 이더리움 트랜잭션의 수신 주소에 C2 IP를 인코딩하는 dead drop resolver — 탐지 회피에 유리</li>
+                <li><strong>피해 규모:</strong> npm 레지스트리의 악성 패키지 2종 확인 (bianira-ui, fluid-type-ui)</li>
+                <li><strong>대응:</strong> 의존성 검토 및 서드파티 패키지 감사, 레지스트리 무결성 검증 강화</li>
+                <li><strong>시사점:</strong> 공급망 공격이 분산 원장을 인프라로 활용하는 방향으로 고도화</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/trojanized-npm-packages-decode-c2-ip.html" target="_blank">The Hacker News - Trojanized npm Packages Employ NullReceiver Tactic to Decode C2 IP from Blockchain</a></p>
+
+            <h2>5. OpenAI, 캄보디아 Poipet 기반 ChatGPT 사기 네트워크 적발·차단</h2>
+            <p>OpenAI가 생성형 AI 챗봇 ChatGPT를 활용해 투자·로맨스·도박·사칭 등 다양한 사기 수법을 벌여온 캄보디아 기반 사기 조직을 적발했다. 동남아시아에서 활동하는 Poipet 지역의 연계된 ChatGPT 계정 네트워크를 차단 조치했다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> ChatGPT를 투자 사기, 로맨스 스캠, 도박 유도, 법 집행기관 사칭에 악용</li>
+                <li><strong>피해 규모:</strong> 동남아시아 Poipet 지역 기반의 연계된 계정 네트워크 다수 차단</li>
+                <li><strong>대응:</strong> OpenAI가 계정 네트워크 차단 및 사기 패턴 추적 지속</li>
+                <li><strong>시사점:</strong> 생성형 AI가 사이버 사기 운영의 규모·자동화를 키우는 도구로 자리 잡는 추세</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/openai-disrupts-poipet-scam-network.html" target="_blank">The Hacker News - OpenAI Disrupts Poipet Scam Network Using ChatGPT Across Multiple Fraud Schemes</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
