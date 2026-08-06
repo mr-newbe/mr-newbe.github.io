@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - Apollo (ApolloAuto/apollo) — 오픈소스 자율주행 플랫폼</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - Apollo (ApolloAuto/apollo)</h1>
+            <p class="date"><i class="fa-regular fa-calendar"></i> 2026-08-06</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <p><strong>프로젝트:</strong> ApolloAuto/apollo — "An open autonomous driving platform"</p>
+                <p><strong>소유자:</strong> ApolloAuto (Baidu 주도 오픈소스 커뮤니티)</p>
+                <p><strong>Star 수:</strong> ★26,784 / Fork 9,958 / Watchers 1,092</p>
+                <p><strong>라이선스:</strong> Apache-2.0</p>
+                <p><strong>언어:</strong> C++ (Python, Shell 포함)</p>
+                <p><strong>생성:</strong> 2017-07-04 · <strong>최근 커밋:</strong> 2026-04-16 (Apollo 11.0 BEV+Occ 개발 활발)</p>
+                <p><strong>토픽:</strong> autonomous-driving, autonomous-vehicles, self-driving-car, autonomy</p>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>Apollo는 바이두(Baidu)가 2017년부터 공개한 세계 최대 규모의 오픈소스 자율주행 플랫폼입니다. HD 지도부터 인지, 예측, 계획, 제어, 클라우드 시뮬레이션까지 자율주행 전체 스택을 제공하며, 실제 로보택시(아폴로 고 / 萝卜快跑) 서비스에 적용되어 검증되었습니다.</p>
+            <ul>
+                <li><strong>전체 스택 제공:</strong> HD Map, 고정밀 위치추정(Localization), 센서 융합 인지(카메라·라이다·레이더), 예측(Prediction), 경로·속도 계획(Planning), 제어(Control), V2X까지 모듈별 완전한 파이프라인 구성</li>
+                <li><strong>Cyber RT 프레임워크:</strong> Apollo 전용 고성능 통신/스케줄링 프레임워크. 모듈 간 비동기 메시지 기반 통신으로 실시간성과 확장성을 확보</li>
+                <li><strong>DreamView 시각화:</strong> 웹 기반 시각화·시뮬레이션 도구로, 주행 중 센서·인지·계획 상태를 실시간 모니터링하고 시나리오를 재생할 수 있음</li>
+                <li><strong>실전 상용화 검증:</strong> 아폴로 고(萝卜快跑) 로보택시가 중국 다수 도시(우한, 베이징 등)에서 상용 서비스 중이며, 누적 주행 거리와 운행 규모에서 세계 최고 수준</li>
+                <li><strong>지속적 아키텍처 진화:</strong> v9.0(2023) 이후 v10~11로 이어지며 BEV(Bird's-Eye-View) + 점유 네트워크(Occ) 기반 차세대 인지 파이프라인(2026-02 "feat: add Apollo 11.0 bev+occ")으로 전환 중</li>
+                <li><strong>개발 환경·도구:</strong> Docker 기반 개발 환경, Dreamland 클라우드 시뮬레이션, 센서 캘리브레이션 도구, 데이터 수집/주석 파이프라인 등 생태계 전반 제공</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>GitHub 최다 스타 자율주행 프로젝트:</strong> ★26.8k로 'autonomous driving' 검색 결과 1위. 2017년부터 9년간 끊임없이 업데이트된 가장 오래되고 완성도 높은 오픈소스 AD 스택</li>
+                <li><strong>산업계 레퍼런스:</strong> 학계와 스타트업, 완성차 업계가 아폴로의 모듈 설계(HD Map → 인지 → 계획 → 제어)를 표준 아키텍처로 참고. ECCV/CVPR 등 최신 연구의 비교 베이스라인으로도 활용</li>
+                <li><strong>로보택시 실데이터 검증:</strong> 시뮬레이션에 그치지 않고 아폴로 고의 실제 상용 운행 데이터·피드백이 코드로 환류되는 유일무이한 규모</li>
+                <li><strong>학습 자료로서의 가치:</strong> EM Planner, Lattice Planner, MPC/LQR 제어 등 고전적 자율주행 알고리즘의 완전한 구현체 — 자율주행 연구자·학생에게 교과서적인 참조 코드</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>아폴로는 '오픈소스와 실전 상용화의 결합'이라는 자율주행 산업의 핵심 축을 보여줍니다. 최근 BEV+Occ 기반 11.0 개발은 테슬라식 카메라 중심 인지로의 전환을 반영하며, 업계 전반의 '센서 퓨전 → 카메라 중심 + 점유 네트워크' 패러다임 변화를 상징합니다. 다만 Apache-2.0 라이선스의 포괄성에도 불구하고 하드웨어·데이터·클라우드 의존성은 여전히 진입 장벽이며, 종단간(E2E) 학습 기반 접근(UniAD 등)과 고전적 모듈식 접근의 공존은 향후 아키텍처 통합의 주요 연구 과제로 남아 있습니다.</p>
+            <p>원문: <a href="https://github.com/ApolloAuto/apollo" target="_blank">https://github.com/ApolloAuto/apollo</a></p>
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
