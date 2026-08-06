@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-08-07</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-08-07 | <i class="fa-solid fa-tags"></i> Daily News, Vulnerability, Patch, Cybercrime
+        </div>
+
+        <div class="content">
+            <h2>1. Cisco, SD-WAN·IOS XE 12개 취약점 패치 — CVSS 9.8 심각도 3건 포함</h2>
+            <p>Cisco가 포괄적인 내부 보안 검토를 통해 Catalyst SD-WAN 및 IOS XE 소프트웨어 전반의 12개 보안 취약점을 해결하는 업데이트를 배포했다. 이 중 3건은 CVSS 9.8의 최고 심각도다.</p>
+            <ul>
+                <li><strong>핵심 취약점:</strong> Catalyst SD-WAN Software(장치 구성과 무관하게 영향)와 IOS XE Software(autonomous/controller 모드)에 존재하는 다수 결함 — 그중 3건 CVSS 9.8</li>
+                <li><strong>대상:</strong> Catalyst SD-WAN, IOS XE를 운영하는 기업 네트워크·라우터/스위치 인프라</li>
+                <li><strong>대응:</strong> Cisco 권고에 따라 최신 업데이트 즉시 적용, 노출된 관리 인터페이스 접근 통제 점검</li>
+                <li><strong>시사점:</strong> SD-WAN·IOS XE 같은 엣지 네트워크 인프라 결함이 대규모 네트워크 침투의 진입점으로 재차 부각</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/cisco-patches-12-sd-wan-and-ios-xe.html" target="_blank">The Hacker News - Cisco Patches 12 SD-WAN and IOS XE Flaws, Including Three 9.8 CVSS Score Bugs</a></p>
+
+            <h2>2. Zapscape (CVE-2026-64561): KVM 취약점으로 L1 게스트 코드가 호스트 탈출</h2>
+            <p>리눅스 커널의 새로운 취약점 Zapscape가 발견됐다. KVM/x86의 shadow 메모리 관리 장치(MMU) 결함(CVE-2026-64561)을 악용하면 L1 게스트 VM 내부에서 커널 권한을 가진 공격자가 중첩 가상화 환경에서 KVM 격리를 벗어나 호스트에서 코드를 실행할 수 있다.</p>
+            <ul>
+                <li><strong>취약점:</strong> KVM/x86 shadow MMU의 결함 — CVE-2026-64561, L1 게스트→호스트 VM escape</li>
+                <li><strong>영향:</strong> 신뢰할 수 없는 게스트에 중첩 가상화(nested virtualization)를 노출하는 환경이 위험</li>
+                <li><strong>대응:</strong> 리눅스 커널 패치 적용, 신뢰할 수 없는 게스트에 대한 중첩 가상화 노출 제한</li>
+                <li><strong>시사점:</strong> 가상화 경계(하이퍼바이저) 결함은 클라우드·멀티테넌트 환경에서 가장 치명적인 공격면 중 하나</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/new-zapscape-kvm-flaw-could-let.html" target="_blank">The Hacker News - New Zapscape KVM Flaw Could Let Privileged L1 Guest Code Escape to Linux Hosts</a></p>
+
+            <h2>3. INTERRUPT INJECTION: Intel·AMD CPU의 Spectre v2 방어를 우회하는 신규 공격</h2>
+            <p>MIT CSAIL 연구진(Daniël Trujillo, Mengjia Yan)이 프로세서가 브랜치 예측기를 정화(sanitize)한 직후부터 커널이 이를 사용하기 전의 갭에 하드웨어 인터럽트가 정확히 떨어지도록 타이밍을 맞춰, 방어 실행 후 예측기를 다시 오염시키는 공격 기법을 공개했다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> 비특권 리눅스 프로그램이 인터럽트 주입 타이밍으로 Spectre v2 완화(IBRS 등) 이후의 브랜치 예측기 상태를 재오염</li>
+                <li><strong>영향:</strong> AMD Zen 2 + Linux 6.14에서 모든 기본 Spectre v2 완화를 켠 상태로 시연 — Intel·AMD CPU 전반에 해당</li>
+                <li><strong>대응:</strong> 마이크로코드·커널 업데이트 추적, 민감 데이터 처리 환경에서는 하드웨어 완화 의존 재검토</li>
+                <li><strong>시사점:</strong> 추측 실행(speculative execution) 취약점 계열이 8년이 지나도 완전히 종결되지 않음을 재확인</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/new-interrupt-injection-attack-can.html" target="_blank">The Hacker News - New Interrupt Injection Attack Can Bypass Spectre v2 Defenses on Intel and AMD CPUs</a></p>
+
+            <h2>4. CISA, 활성 악용 중인 TeamCity CVE-2026-63077 RCE를 KEV 카탈로그에 등재</h2>
+            <p>CISA가 JetBrains TeamCity의 원격 코드 실행 취약점 CVE-2026-63077을 KEV(Known Exploited Vulnerabilities) 카탈로그에 추가했다. 보안 업계에서도 해당 취약점을 노린 실제 공격이 시작된 것으로 확인됐다.</p>
+            <ul>
+                <li><strong>취약점:</strong> JetBrains TeamCity RCE — CVE-2026-63077, 야생에서 활발히 악용 중</li>
+                <li><strong>대상:</strong> CI/CD 서버로 널리 쓰이는 TeamCity를 운영하는 개발·운영 환경</li>
+                <li><strong>대응:</strong> 패치 즉시 적용, TeamCity 서버 인터넷 노출 점검 및 접근 제어 강화 (FEB 2026 연방 기한 준수)</li>
+                <li><strong>시사점:</strong> 빌드/배포 파이프라인은 공급망 공격의 핵심 목표 — CI/CD 도구 패치 우선순위 상향 필요</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/cisa-flags-teamcity-cve-2026-63077-rce.html" target="_blank">The Hacker News - CISA Flags TeamCity CVE-2026-63077 RCE Flaw Under Active Exploitation in the Wild</a></p>
+
+            <h2>5. CryptoJS 약한 RNG가 원인 — $570만 상당 암호화폐 지갑 드레인, 5개 지갑 앱 영향</h2>
+            <p>Coinspect의 분석에 따르면 12년 전 도입된 JavaScript 암호화 라이브러리 CryptoJS의 `WordArray.random()` 함수가 약한 엔트로피를 공급해 복구 구문(시드) 생성에 이를 사용한 5개 암호화폐 지갑 앱이 Ill Bloom 드레인 캠페인의 피해를 입었다. 측정된 피해액은 5월 말 이후 두 차례 스윕에서 최소 $570만.</p>
+            <ul>
+                <li><strong>원인:</strong> CryptoJS.lib.WordArray.random()의 취약한 난수 생성 — 복구 구문 예측 가능</li>
+                <li><strong>피해 규모:</strong> 5개 지갑 앱, 5월 말 이후 두 차례 스윕에서 최소 $5.7M 탈취</li>
+                <li><strong>대응:</strong> 지갑 앱은 CSPRNG(예: Web Crypto API)로 교체, 사용자는 자금을 강력한 엔트로피 기반 지갑으로 이전</li>
+                <li><strong>시사점:</strong> 오래된 라이브러리의 '조용한' 결함이 금전적 피해로 직결되는 공급망 리스크의 전형</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/cryptojs-weak-rng-behind-57-million-in.html" target="_blank">The Hacker News - CryptoJS Weak RNG Behind $5.7 Million in Drains Affects Five Crypto Wallet Apps</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
