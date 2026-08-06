@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - LoginTrap: Task-Agnostic Phishing-Style Indirect Prompt Injection Attacks against LLM-based Web Agents</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - LoginTrap: Task-Agnostic Phishing-Style Indirect Prompt Injection Attacks against LLM-based Web Agents</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-08-06</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> LoginTrap: Uncovering Task-Agnostic Phishing-Style Indirect Prompt Injection Attacks against LLM-based Web Agents<br>
+                <strong>저자:</strong> Longtao Guo, Zelin Zhang, Kaifeng Huang, Yang Shi<br>
+                <strong>분야:</strong> cs.CR (Cryptography and Security)<br>
+                <strong>게시일:</strong> 2026-08-05 (arXiv:2608.04741)
+            </div>
+
+            <h2><i class="fa-solid fa-crosshairs"></i> 연구 배경</h2>
+            <p>LLM 기반 웹 에이전트는 사용자를 대신해 웹페이지를 관찰하고 브라우저 작업을 자동 실행한다. 실제 웹 서비스에서 작업하는 특성상 로그인은 자격증명과 민감 정보가 오가는 가장 중요한 인증 경계(authentication boundary)다. 기존 연구들은 악성 웹 콘텐츠가 에이전트의 행동을 조작할 수 있음을 보였지만, "로그인 자체를 유도해 데이터를 탈취하는" 종단 간(end-to-end) 공격은 본격적으로 다루지 않았다. LoginTrap은 바로 이 지점 — 악성 콘텐츠가 에이전트를 로그인으로 몰아넣어 개인정보 유출로 이어지게 하는 공격 표면 — 을 체계적으로 파고든다.</p>
+
+            <h2><i class="fa-solid fa-bug"></i> 핵심 내용</h2>
+            <ul>
+                <li><strong>공격 모델:</strong> 블랙박스 공격자가 사용자 작업 내용이나 에이전트 내부 구조를 전혀 모른 채, 통제 가능한 웹페이지 콘텐츠만으로 로그인 유도 공격을 수행. 사용자 태스크에 구애받지 않는 task-agnostic 설계</li>
+                <li><strong>공격 원리:</strong> 퍼징(fuzzing)에서 착안한 페이지별 간접 프롬프트 인젝션 생성 기법으로, 로그인이 "작업을 계속하기 위한 자연스러운 선행 조건"처럼 보이도록 페이지 콘텐츠를 조작하고, 에이전트가 공격자 통제 하의 로그인 페이지로 이동하도록 유도</li>
+                <li><strong>공격 성공률:</strong> 다양한 LLM 백본(backbone)을 대상으로 평균 86%의 종단 간 공격 성공률 달성. 에이전트 아키텍처와 방어 기법을 바꿔도 여전히 유효</li>
+                <li><strong>의의:</strong> 로그인 유도(login inducement)가 웹 에이전트의 체계적인 인증 경계 위험임을 최초로 입증. 피싱(phishing)과 유사한 메커니즘을 프롬프트 인젝션으로 구현한 점이 특징</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 보안 시사점</h2>
+            <ul>
+                <li><strong>인증 경계 위험:</strong> 웹 에이전트가 로그인 화면을 만나면 자격증명 입력·세션 처리 등 민감 동작을 수행하는데, 공격자가 이를 트리거로 활용할 수 있어 기존 콘텐츠 조작 공격보다 훨씬 위험한 데이터 유출 경로가 된다</li>
+                <li><strong>기존 방어의 한계:</strong> 콘텐츠 필터링·프롬프트 인젝션 탐지 등 기존 방어만으로는 로그인 유도 공격을 막기 어렵다는 실증 결과 — 인증 흐름 자체를 인지하는 방어가 필요</li>
+                <li><strong>사용자 신뢰 악용:</strong> 에이전트가 로그인을 "정상 절차"로 판단하면 사용자도 이를 신뢰하게 되어, 중간자 피싱 페이지에 자격증명이 노출되는 2차 피해로 이어질 수 있음</li>
+                <li><strong>연구 방향 제시:</strong> 웹 에이전트를 위한 인증 인지 방어(authentication-aware defense), 로그인 페이지 도메인 검증, 민감 작업 수행 전 인간 개입(human-in-the-loop) 단계 도입 등의 후속 연구가 필요</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 시사점 및 결론</h2>
+            <p>LoginTrap은 LLM 웹 에이전트가 단순한 콘텐츠 조작을 넘어 "인증 절차를 무기화"당할 수 있음을 보여주는 중요한 연구다. 86%라는 높은 공격 성공률은 현재 상용 웹 에이전트들이 로그인 유도 공격에 실질적으로 취약함을 시사하며, 에이전트 보안 설계에서 인증 경계를 최우선 보호 대상으로 다뤄야 함을 강조한다. 향후 로그인 페이지 화이트리스트, 도메인 무결성 검증, 민감 자격증명 입력 시 강제 사용자 승인 등의 방어 메커니즘이 표준으로 자리 잡을 필요가 있다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2608.04741" target="_blank">https://arxiv.org/abs/2608.04741</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
