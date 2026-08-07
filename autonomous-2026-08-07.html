@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - muSync-GS: 물리 동기화 주행 비디오 합성 (날씨·도로 위험)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - muSync-GS: Physics-Synchronized Driving Video Synthesis</h1>
+            <p class="date"><i class="fa-solid fa-calendar-days"></i> 2026-08-07 · <i class="fa-solid fa-tag"></i> Autonomous</p>
+        </header>
+
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <p><strong>제목:</strong> muSync-GS: Physics-Synchronized Driving Video Synthesis for Weather and Geometric Road Hazards</p>
+                <p><strong>저자:</strong> Yang Chen, Yicheng Zhu, Tao Li, Zilin Bian</p>
+                <p><strong>분야:</strong> cs.CV (Computer Vision)</p>
+                <p><strong>게시일:</strong> 2026-08-05 (arXiv:2608.04412)</p>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>자율주행 시스템과 생성형 월드 모델(generative world model)에는 고품질 주행 데이터가 필수적이지만, 악천후·저마찰 노면 제동·불규칙한 도로 형상 같은 <strong>안전-critical(희귀) 시나리오</strong>는 대규모로 수집하기에 비용과 위험이 크다. 기존 비디오 생성/3D Gaussian 편집 기법은 날씨나 도로 형상의 외형만 바꿀 뿐, 타이어-노면 상호작용이나 차량 동역학과 연동하지 않아 "편집된 도로 조건이 바뀌었는데 차량 궤적은 그대로"인 물리적으로 모순된 영상을 만든다.</p>
+            <p>muSync-GS는 이러한 한계를 해결하는 <strong>물리 동기화(physics-synchronized) 주행 비디오 합성 프레임워크</strong>다.</p>
+            <ul>
+                <li><strong>강수 기반 노면 상태 제어:</strong> 강수량(precipitation)에서 도출된 노면 상태가 도로 외관과 타이어 마찰 계수를 동시에 제어 — 날씨 편집과 제동 물리가 한 파이프라인에서 일관되게 변한다.</li>
+                <li><strong>공유 도로 고도 프로파일:</strong> 하나의 도로 고도(경사/요철) 프로파일이 눈에 보이는 도로 형상 편집과 차축 가진(axle excitation)을 함께 구동한다.</li>
+                <li><strong>캘리브레이션된 차량 모델:</strong> 속도·슬립비(slip ratio)·수직하중·피치(pitch)를 예측해 ego 카메라 궤적과 동기화된 물리적 주석(annotation)을 생성한다.</li>
+                <li><strong>검증 결과:</strong> 12개의 held-out CarSim 케이스(강수량·제동 입력·도로 프로파일 조합)에서 속도 RMSE 0.0273 m/s, 피치 0.0590°, 슬립비 0.0101, 휠당 수직하중 26.61 N으로 차량 응답을 정밀 재현.</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>엣지 케이스 데이터 생성:</strong> 위험·희귀 시나리오를 실제 주행 없이 합성으로 대량 생성 — 자율주행 훈련 데이터의 롱테일 문제를 직접 겨냥한다.</li>
+                <li><strong>물리 일관성 유지:</strong> 외형 편집에 그치지 않고 차량 동역학·카메라 모션까지 동기화해, 합성 데이터로 훈련한 모델이 실제와 괴리되는 sim-to-real 문제를 줄인다.</li>
+                <li><strong>월드 모델·시뮬레이션 확장:</strong> 날씨·노면 조건을 파라미터로 조절 가능해 생성형 월드 모델 학습과 안전성 검증 시나리오 자동 생성에 바로 활용 가능하다.</li>
+                <li><strong>3D Gaussian 편집 + 물리 시뮬레이션 융합:</strong> 최신 렌더링 기법(3DGS)과 차량 다이내믹스를 결합한 새로운 연구 방향을 제시한다.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>자율주행 안전성 확보의 핵심은 "보기 드문 위험 상황에서도 올바르게 대응하는 것"이다. muSync-GS는 그러한 상황을 <strong>물리적으로 그럴듯하게, 그리고 대량으로 합성</strong>할 수 있음을 보여줌으로써, 데이터 수집 비용 문제를 우회하는 실용적 대안을 제시한다. 특히 날씨·노면·차량 동역학을 하나의 일관된 모델로 엮었다는 점에서, 향후 생성형 데이터가 자율주행 검증 파이프라인의 표준 구성요소가 될 가능성을 시사한다. 다만 12개 CarSim 케이스라는 제한된 검증 범위와 실제 도로 데이터로의 일반화는 후속 연구 과제로 남는다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2608.04412" target="_blank">https://arxiv.org/abs/2608.04412</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
