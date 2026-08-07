@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-08-08</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-08-08 | <i class="fa-solid fa-tags"></i> Daily News, Supply Chain, Vulnerability, Cybercrime
+        </div>
+
+        <div class="content">
+            <h2>1. npm 레지스트리에 악성 패키지 800개 — 크로스플랫폼 RAT·인포스틸러 유포</h2>
+            <p>OpenSourceMalware 연구원들이 npm 레지스트리에 게시된 약 800개의 악성 패키지 클러스터를 발견했다. 이 패키지들은 AI가 생성한 듯한 무작위 typo-squatting 이름을 사용하며, Windows·Mac·Linux를 모두 노리는 강력한 RAT와 인포스틸러 페이로드를 전달한다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> AI 슬롭(slop) 스타일의 무작위/유사 패키지명으로 오염 — 개발자가 패키지를 설치하면 RAT·인포스틸러 실행</li>
+                <li><strong>피해 규모:</strong> 약 800개 패키지, Windows/Mac/Linux 전 플랫폼 대상 크로스플랫폼 악성코드</li>
+                <li><strong>대응:</strong> npm 패키지 설치 전 이름·게시자·다운로드 수 검증, 의존성 감사(Supply Chain Security) 강화</li>
+                <li><strong>시사점:</strong> AI 생성 패키지명을 이용한 typo-squatting은 오픈소스 생태계 공급망 공격의 새로운 징후</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/nearly-800-malicious-npm-packages.html" target="_blank">The Hacker News - Nearly 800 Malicious npm Packages Deliver Cross-Platform RAT and Infostealer</a></p>
+
+            <h2>2. 18년 묵은 Linux SCTP use-after-free — 로컬 권한으로 root 획득·컨테이너 탈출</h2>
+            <p>리눅스 커널의 SCTP 네트워킹 코드에서 2008년부터 존재해온 use-after-free 결함이 발견됐다. Tencent 연구진은 이를 호스트 전체 root 권한 획득으로 연결했고, 실제로 컨테이너를 탈출해 호스트에 도달하는 데 성공했다. 패치는 8월 3일 배포된 안정 커널(7.1.6, 6.18.42, 6.12.101, 6.6.148)에 이미 포함됐다.</p>
+            <ul>
+                <li><strong>취약점:</strong> SCTP 스택의 use-after-free — 2008년부터 존재한 18년 묵은 결함</li>
+                <li><strong>영향:</strong> 로컬 사용자가 root 권한 획득, 컨테이너 탈출로 호스트 장악 가능</li>
+                <li><strong>대응:</strong> 안정 커널 7.1.6 / 6.18.42 / 6.12.101 / 6.6.148 이상으로 즉시 업데이트, SCTP 미사용 시 비활성화</li>
+                <li><strong>시사점:</strong> 오래된 커널 결함이 컨테이너 격리까지 무너뜨리는 경로로 재확인 — 커널 패치 주기 준수 필수</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/18-year-old-linux-sctp-flaw-could-let.html" target="_blank">The Hacker News - 18-Year-Old Linux SCTP Flaw Could Let Local Users Gain Root and Escape Containers</a></p>
+
+            <h2>3. WordPress 로그인 화면 Pre-Auth XSS (CVE-2026-64638) — PHP 코드 실행으로 연계 가능</h2>
+            <p>WordPress가 로그인 화면의 pre-authentication 반사형 XSS 결함을 수정했다. CVE-2026-64638(CVSS 8.9)로 추적되는 이 결함은 모든 WordPress 버전에 영향을 미치며, pwn.ai는 로그인한 관리자가 공격자 제어 페이지와 상호작용할 때 서버에서 PHP 코드 실행까지 연계할 수 있음을 시연했다.</p>
+            <ul>
+                <li><strong>취약점:</strong> 로그인 화면 pre-auth 반사형 XSS — CVE-2026-64638, CVSS 8.9</li>
+                <li><strong>영향:</strong> 전체 WordPress 버전 대상, 관리자 상호작용 시 PHP 코드 실행(RCE)까지 체이닝 가능</li>
+                <li><strong>대응:</strong> 최신 WordPress 패치 즉시 적용, 관리자 계정 2FA 활성화 및 관리 페이지 접근 통제</li>
+                <li><strong>시사점:</strong> 인증 전 XSS가 RCE로 이어지는 체인은 CMS 보안 패치 우선순위를 높여야 하는 사례</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/new-wordpress-pre-auth-xss-could-lead.html" target="_blank">The Hacker News - New WordPress Pre-Auth XSS Could Lead to PHP Code Execution - Patch ASAP</a></p>
+
+            <h2>4. ClickFix 공격이 macOS 스틸러로 확산 — 암호화폐 지갑·iCloud Keychain 탈취</h2>
+            <p>ClickFix 방식의 공격이 Go 기반 macOS 악성코드를 유포하는 데 악용되고 있다. 이 스틸러는 암호화폐 자산은 물론 브라우저 저장 비밀번호, Apple iCloud Keychain 데이터, 캐시된 자격증명을 탈취한다. 감염 체인은 호스트를 프로파일링하는 셸 스크립트가 CPU 아키텍처에 맞는 macOS 페이로드를 내려받는 방식이다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> ClickFix 사기(가짜 오류 화면의 복사-붙여넣기 유도) → 셸 스크립트 → 아키텍처 맞춤형 macOS 페이로드</li>
+                <li><strong>피해 규모:</strong> 암호화폐 지갑, 브라우저 비밀번호, iCloud Keychain, 캐시된 자격증명 탈취</li>
+                <li><strong>대응:</strong> 가짜 오류/터미널 실행 유도에 대한 사용자 인식 제고, Gatekeeper·XProtect 최신 유지, 지갑 시드 구문 분리 보관</li>
+                <li><strong>시사점:</strong> ClickFix는 Windows를 넘어 macOS 생태계까지 진화 — 크로스플랫폼 사회공학 공격 트렌드 지속</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/clickfix-attacks-deliver-macos-stealer.html" target="_blank">The Hacker News - ClickFix Attacks Deliver macOS Stealer That Can Drain Crypto Wallets</a></p>
+
+            <h2>5. NatJack: NAT 테이블 조작으로 TCP 세션 하이재킹·DNS 스푸핑 가능한 신규 공격</h2>
+            <p>보안 연구원 Malcolm Stagg가 NAT(네트워크 주소 변환) 연결 상태를 조작해 활성 TCP 세션을 하이재킹하고 DNS 응답을 스푸핑하며, 매핑된 포트 노출과 NAT 테이블 고갈까지 유발하는 'NatJack' 공격 클래스를 공개했다. Black Hat USA 2026에서 발표된 이 연구는 Windows 등 독립적으로 구현된 다수 NAT 구현체에서 영향을 확인했다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> NAT 연결 상태 조작 — TCP 세션 하이재킹, DNS 응답 스푸핑, 포트 매핑 노출, NAT 테이블 고갈(DoS)</li>
+                <li><strong>영향:</strong> Windows 및 독립 구현 NAT 전반, 가정용/기업용 라우터 및 방화벽</li>
+                <li><strong>대응:</strong> NAT 구현체 벤더 패치 확인, 세션 수·NAT 테이블 모니터링, 중요 통신은 TLS/DNSSEC로 종단간 보호</li>
+                <li><strong>시사점:</strong> NAT라는 20년 넘은 인프라 기본기가 공격면으로 재조명 — Black Hat USA 2026 핵심 이슈</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/new-natjack-attacks-hijack-tcp-sessions.html" target="_blank">The Hacker News - New NatJack Attacks Hijack TCP Sessions and Spoof DNS by Manipulating NAT Tables</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
