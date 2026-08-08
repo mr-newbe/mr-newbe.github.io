@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-08-09</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-08-09 | <i class="fa-solid fa-tags"></i> Daily News, 제로데이, 취약점, 보안패치
+        </div>
+
+        <div class="content">
+            <h2>1. Metabase 제로데이, 인증 없는 관리자 접근 허용 — 실제 공격에 악용 중</h2>
+            <p>비즈니스 인텔리전스·데이터 시각화 소프트웨어 Metabase에서 최대 심각도(CVSS 10.0)의 취약점이 제로데이로 발견되어 실제 공격에 악용되고 있다. CVE 식별자는 아직 부여되지 않았으며, 인증되지 않은 원격 공격자가 Metabase 애플리케이션 데이터베이스에 임의 SQL을 주입해 관리자 권한을 획득할 수 있다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> 인증 없이 앱 데이터베이스에 임의 SQL 주입 (CVSS 10.0)</li>
+                <li><strong>영향:</strong> 관리자 계정 탈취, 데이터베이스 전체 접근 및 데이터 유출 가능</li>
+                <li><strong>대응:</strong> Metabase 공식 패치/업데이트 즉시 적용, 노출된 인스턴스 점검 필요</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/metabase-zero-day-exploited-in-wild.html" target="_blank">The Hacker News - Metabase Zero-Day Exploited in Wild Allows Admin Access Without Authentication</a></p>
+
+            <h2>2. Atlassian Rovo AI, Jira·Confluence 데이터 탈취에 악용 가능</h2>
+            <p>Atlassian의 AI 어시스턴트 Rovo가 공격자가 주입한 지시문에 속아 로그인 사용자가 접근 가능한 Jira·Confluence 데이터를 외부 서버로 전송할 수 있는 것으로 확인됐다. PromptArmor 등 두 보안 기업이 각각 다른 경로로 동일한 행동을 발견했으며, 현재까지 두 경로 중 하나만 공식적으로 차단된 상태다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> Rovo가 읽는 콘텐츠에 숨긴 악성 지시문(prompt injection) 활용</li>
+                <li><strong>영향:</strong> 기업 내부 Jira/Confluence 데이터(이슈, 문서, 인증 정보 포함 가능) 외부 유출</li>
+                <li><strong>시사점:</strong> AI 어시스턴트 도입 시 LLM 프롬프트 인젝션 대비 및 데이터 접근 범위 최소화 필요</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/atlassian-rovo-can-be-tricked-into.html" target="_blank">The Hacker News - Atlassian Rovo Can Be Tricked Into Sending Jira and Confluence Data to Attackers</a></p>
+
+            <h2>3. 새 CSS 공격 기법, 웹메일 방어 우회해 비밀번호·토큰 탈취</h2>
+            <p>PortSwigger 연구원 Gareth가 이메일 내부 콘텐츠가 메시지 경계를 벗어나 웹메일 인터페이스에 간섭할 수 있는 새로운 CSS 공격 체인을 발표했다. Outlook, Gmail, Fastmail, Proton Mail, Yahoo Mail, AOL Mail 전반에서 비밀번호 캡처, 타사 계정 탈취, 토큰 유출, 신뢰 UI 동작 하이재킹, 이메일을 읽는 AI 도구 조작까지 가능한 것으로 나타났다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> 이메일 본문의 CSS로 웹메일 UI 요소를 가로채는 크로스-경계 공격</li>
+                <li><strong>영향:</strong> 주요 웹메일 6종 대상 — 자격증명 캡처, 세션/토큰 탈취, AI 이메일 도구 조작</li>
+                <li><strong>대응:</strong> 웹메일 제공업체별 완화 조치 확인, 의심스러운 HTML 이메일 주의</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/new-css-attacks-can-break-webmail.html" target="_blank">The Hacker News - New CSS Attacks Can Break Webmail Defenses to Steal Passwords and Tokens</a></p>
+
+            <h2>4. Progress Kemp LoadMaster 취약점, CISA KEV 등재 — 공격 시도 792건</h2>
+            <p>미국 CISA가 Progress Kemp LoadMaster의 치명적 취약점 CVE-2026-8037(CVSS 9.6)을 KEV(Known Exploited Vulnerabilities) 카탈로그에 추가했다. 명령 주입(command injection) 결함으로 임의 코드 실행까지 이어질 수 있으며, 공개 이후 792건의 악용 시도가 보고됐다.</p>
+            <ul>
+                <li><strong>취약점:</strong> CVE-2026-8037 — 명령 주입, CVSS 9.6</li>
+                <li><strong>피해 규모:</strong> 792건의 실제 악용 시도 보고</li>
+                <li><strong>대응:</strong> CISA KEV 등재 — 연방 기관 3주 내 패치 의무, 전체 사용자 즉시 업데이트 권고</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/progress-kemp-loadmaster-flaw-hits-cisa.html" target="_blank">The Hacker News - Progress Kemp LoadMaster Flaw Hits CISA KEV After 792 Reported Exploit Attempts</a></p>
+
+            <h2>5. 18년 된 Linux SCTP 결함, 로컬 사용자 루트 권한·컨테이너 탈출 가능</h2>
+            <p>Linux 커널의 SCTP 네트워킹 코드에서 2008년부터 존재해 온 use-after-free 버그가 발견됐다. Tencent 연구진은 이 결함으로 호스트에서 완전한 루트 권한을 얻고 컨테이너를 탈출해 호스트 머신에 도달하는 데 성공했다. 8월 3일 릴리스된 안정 커널 7.1.6, 6.18.42, 6.12.101, 6.6.148에서 이미 수정됐다.</p>
+            <ul>
+                <li><strong>취약점:</strong> SCTP use-after-free (2008년부터 존재, 18년 경과)</li>
+                <li><strong>영향:</strong> 로컬 사용자 → 루트 권한 상승 + 컨테이너 탈출</li>
+                <li><strong>대응:</strong> 커널 7.1.6 / 6.18.42 / 6.12.101 / 6.6.148 이상으로 즉시 업데이트, SCTP 미사용 시 비활성화</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/18-year-old-linux-sctp-flaw-could-let.html" target="_blank">The Hacker News - 18-Year-Old Linux SCTP Flaw Could Let Local Users Gain Root and Escape Containers</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
