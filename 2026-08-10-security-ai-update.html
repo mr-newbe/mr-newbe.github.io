@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-08-10</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-08-10 | <i class="fa-solid fa-tags"></i> Daily News, RMM, Supply Chain, WordPress, Vishing
+        </div>
+
+        <div class="content">
+            <h2>1. N-able N-central 핫픽스 2 배포 — 공격자가 관리 시스템에 침투해 지속성 확보</h2>
+            <p>N-able이 RMM(원격 모니터링·관리) 제품 N-central의 제로데이 악용 사건과 관련해 두 번째 핫픽스를 배포했다. 공격자는 인증 우회 취약점으로 관리자 권한을 얻은 뒤 Take Control 기능을 악용해 관리 대상 시스템에 연결하고, Cloudflare Tunnel 서비스를 등록해 서버 접근이 차단된 후에도 지속성을 유지한 것으로 확인됐다.</p>
+            <ul>
+                <li><strong>취약점:</strong> CVE-2026-18577 (CVSS 8.2) — 인증 우회·계정 탈취, CVE-2026-18556의 불완전한 수정으로 발생 (2026.3.1.7 이전 모든 버전 영향)</li>
+                <li><strong>공격 방식:</strong> 원격 관리자 접근 → Take Control로 관리 대상 기기에 연결 → Cloudflare Tunnel 서비스 등록으로 지속성 유지</li>
+                <li><strong>대응:</strong> 온프레미스 고객은 026.3.1.10으로 즉시 업데이트, 핫픽스 1 적용 여부와 무관하게 핫픽스 2 필수</li>
+                <li><strong>시사점:</strong> 두 취약점 모두 CISA KEV에 등재된 활성 악용 항목 — RMM 솔루션은 공급망 공격의 핵심 경유지</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/n-central-attackers-reach-managed.html" target="_blank">The Hacker News - N-able Issues N-central Hotfix 2 as Attackers Reach Managed Systems and Persist</a></p>
+
+            <h2>2. 악성 npm 패키지 약 800개 발견 — 크로스플랫폼 RAT·인포스틸러 유포</h2>
+            <p>npm 레지스트리에서 약 800개의 악성 패키지가 발견됐다. AI가 생성한 듯한 무작위 타이포스쿼팅 이름을 사용하며, Windows·macOS·Linux를 모두 노리는 RAT(원격 접근 트로이목마)와 인포스틸러 페이로드를 전달한다.</p>
+            <ul>
+                <li><strong>전달 방식:</strong> lifecycle 훅 대신 README가 개발자에게 require()로 모듈을 로드하도록 유도 → WEL1DROPPER 다운로더 실행</li>
+                <li><strong>인프라:</strong> Cloudflare Workers 3개 호스트에서 OS·아키텍처별 페이로드 제공, 실패 시 DNS TXT 레코드로 C2 IP·페이로드 수신 (wel1[.]ru)</li>
+                <li><strong>최종 페이로드:</strong> Linux는 Sliver C2 프레임워크 배포, Windows는 ETW·AMSI 패치 후 영속성 설정, macOS는 디버거 탐지 후 비콘 실행</li>
+                <li><strong>표적:</strong> macOS 페이로드의 tcsbank[.]ru·cloudpayments[.]ru 도메인 — 러시아 금융 기관·모바일 결제 노린 것으로 추정</li>
+                <li><strong>시사점:</strong> 소나타입은 'Flooding Dropper'로 추적 — 오픈소스 의존성 검증의 중요성 재확인</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/nearly-800-malicious-npm-packages.html" target="_blank">The Hacker News - Nearly 800 Malicious npm Packages Deliver Cross-Platform RAT and Infostealer</a></p>
+
+            <h2>3. WordPress 사전 인증 XSS (CVE-2026-64638) — PHP 코드 실행까지 체이닝 가능, 7.0.3 패치</h2>
+            <p>WordPress 로그인 화면의 사전 인증 반사형 XSS 취약점이 모든 버전에서 발견됐다. pwn.ai 연구진은 이 결함을 관리자가 공격자 통제 페이지를 클릭하는 것만으로 서버에서 PHP 코드 실행으로 이어지는 체인(XSS2Shell)으로 확장하는 데 성공했다고 밝혔다.</p>
+            <ul>
+                <li><strong>취약점:</strong> CVE-2026-64638 (CVSS 8.9) — 인증 불필요, 실패한 로그인의 username 처리 과정에서 sanitize_user()와 wp_kses_post()의 파서 불일치로 발생</li>
+                <li><strong>공격 체인:</strong> 로그인 페이지 XSS → 사용자 프로필 스크립트(user-profile.js) 조작 → same-origin REST 요청 → PHP 코드 실행 (플러그인 설치·ZIP 업로드 변형 포함)</li>
+                <li><strong>패치:</strong> 8월 6일 WordPress 7.0.3에서 수정, 4.7 브랜치까지 백포트 — 자동 백그라운드 업데이트 지원 사이트는 자동 적용</li>
+                <li><strong>시사점:</strong> pwn.ai의 자율 시스템이 오픈소스 모델 기반 멀티 에이전트 워크플로로 4일 만에 발견·재현 — AI 기반 취약점 발견 가속화</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/new-wordpress-pre-auth-xss-could-lead.html" target="_blank">The Hacker News - New WordPress Pre-Auth XSS Could Lead to PHP Code Execution - Patch ASAP</a></p>
+
+            <h2>4. ClickFix 공격으로 macOS 스틸러 유포 — 암호화폐 지갑·iCloud 키체인 탈취</h2>
+            <p>ClickFix 방식의 공격이 Go 기반 macOS 악성코드를 유포하고 있다. 이 악성코드는 암호화폐 자산은 물론 브라우저 저장 비밀번호, Apple iCloud 키체인 데이터, 캐시된 자격증명까지 탈취할 수 있다.</p>
+            <ul>
+                <li><strong>감염 체인:</strong> 셸 스크립트가 호스트를 프로파일링한 뒤 CPU 아키텍처에 맞는 macOS 페이로드를 다운로드</li>
+                <li><strong>ClickFix 방식:</strong> 사용자에게 '복사-붙여넣기' 명령 실행을 유도해 터미널에서 악성 스크립트를 직접 실행하게 하는 사회공학 기법</li>
+                <li><strong>피해 범위:</strong> 암호화폐 지갑 탈취, 브라우저 자격증명, iCloud 키체인, 캐시된 크리덴셜</li>
+                <li><strong>시사점:</strong> 최근 250개 이상 도메인의 ClickFix 캠페인이 브라우저 핑거프린팅으로 대상 선별 — macOS 사용자도 사회공학 공격의 주요 표적</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/clickfix-attacks-deliver-macos-stealer.html" target="_blank">The Hacker News - ClickFix Attacks Deliver macOS Stealer That Can Drain Crypto Wallets</a></p>
+
+            <h2>5. UNC6671 비싱 공격, 직원 개인 휴대폰 노려 SaaS 데이터 탈취</h2>
+            <p>금융·사모펀드·전문 서비스 기업을 노린 데이터 갈취 그룹 UNC6671이 IT 헬프데스크로 위장한 음성 피싱(vishing)으로 직원의 개인 휴대폰에 직접 접촉해 SaaS 데이터를 탈취하고 있다. Google Threat Intelligence Group과 Mandiant가 분석을 공개했다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> 긴급 보안 마이그레이션을 가장한 전화 → 위장 로그인 포털로 유도 → AitM(adversary-in-the-middle) 인프라가 자격증명·MFA 토큰 가로채기</li>
+                <li><strong>후속 단계:</strong> 세션 지속성 확보 후 자동화된 Python·PowerShell 스크립트로 Microsoft 365, Okta 등 클라우드·SaaS 데이터 대량 탈취</li>
+                <li><strong>운영:</strong> Redact, Pink, Helix, Falcon 등 여러 갈취 브랜드로 다각화 (기존 BlackFile 브랜드는 5월 폐기)</li>
+                <li><strong>배경:</strong> ShinyHunters 관련 트레이드크래프트 사용, 북미·호주·영국 수십 개 조직 대상 고강도 공격</li>
+                <li><strong>대응:</strong> 피싱에 강한 MFA(phishing-resistant MFA) 도입 필수 — 개인 기기 대상 사회공학 대비 교육 강조</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/unc6671-vishing-attacks-target-personal.html" target="_blank">The Hacker News - UNC6671 Vishing Attacks Target Personal Phones to Steal SaaS Data</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
