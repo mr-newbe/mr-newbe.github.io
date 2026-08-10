@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - HarnessSafe: Evaluating Safety Across Persistent Carriers in Agent Harnesses</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - HarnessSafe: Evaluating Safety Across Persistent Carriers in Agent Harnesses</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-08-10</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> HarnessSafe: Evaluating Safety Across Persistent Carriers in Agent Harnesses<br>
+                <strong>저자:</strong> Xiao Zhang, Yusheng Wang, Yuhao Fei, Dongyuan Li, Zian Liang, Liuyu Xiang, Hongxun Gu, Zhaofeng He<br>
+                <strong>분야:</strong> cs.CR (AI 에이전트 보안)
+            </div>
+
+            <h2><i class="fa-solid fa-microscope"></i> 연구 배경</h2>
+            <p>현대 에이전트 하네스(harness)는 메모리, 스킬, 도구, 공유 아티팩트 등 '영속적 캐리어(persistent carriers)'를 통해 작업 간·세션 간 상태를 유지한다. 그러나 이 능력은 지연된(delayed) 보안 위험을 만든다. 공격자의 영향을 받은 콘텐츠가 시스템 경계를 넘어 저장된 뒤, 이후의 정상 요청 실행 과정에서 악용될 수 있기 때문이다. 기존 벤치마크는 소수의 캐리어나 특정 하네스만 다루거나, 엔드투엔드 공격 성공률만 집계하여 위험이 어떻게 전파되는지 보여주지 못했다.</p>
+
+            <h2><i class="fa-solid fa-flask"></i> 핵심 내용</h2>
+            <ul>
+                <li><strong>HarnessSafe 벤치마크:</strong> 7개 영속적 캐리어 패밀리(메모리·스킬·도구·공유 아티팩트 등)에 걸친 328개의 실행 가능한 테스트 케이스로 구성, 대부분의 주류 에이전트 하네스를 대상으로 평가</li>
+                <li><strong>Persistent-Risk Lifecycle:</strong> 각 케이스를 공격자의 초기 침투 → 캐리어·시스템 경계를 통한 영속화 → 이후 정상 트리거 → 관찰 가능한 위반으로 이어지는 전체 공격 체인으로 명세화</li>
+                <li><strong>다단계 트레이스 기반 평가:</strong> 실행 증거(trace)를 활용해 각 공격 체인이 어디까지 진행되고 어디서 차단되는지를 단계별로 측정 — 단순 성공/실패 이분법을 넘어 격리(containment) 수준을 정량화</li>
+                <li><strong>실험 결과:</strong> 격리 효과는 캐리어별로 크게 다르며 하네스-모델 구성에 강하게 의존. 하네스와 모델 백엔드 모두가 격리 결과를 결정하지만, 공격 성공률만으로는 체인 진행 양상의 차이를 반영할 수 없음</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 보안 시사점</h2>
+            <ul>
+                <li>프롬프트 인젝션 등 1회성 공격 방어만으로는 부족 — 에이전트의 영속 상태(메모리·스킬 등)가 '시간 지연형' 공격 전파 매개체가 될 수 있음을 공식화</li>
+                <li>캐리어별 차등 격리 정책과 실행 시점(trace 기반) 모니터링이 필요하며, 하네스-모델 조합별 위험 평가가 필수</li>
+                <li>엔드투엔드 성공률 중심의 보안 평가 관행을 체인 진행도·차단 지점 분석으로 보강해야 함</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 결론</h2>
+            <p>HarnessSafe는 에이전트 하네스의 영속적 캐리어가 만들어내는 지연된 공격 표면을 체계적으로 측정한 첫 벤치마크로, 에이전트 보안 평가의 기준을 '공격 성공 여부'에서 '공격 체인의 어느 단계에서 차단되는가'로 전환한다. 에이전트 플랫폼·하네스 설계자에게 캐리어별 격리와 trace 기반 가시성이 핵심 방어 원칙임을 시사한다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2608.06984" target="_blank">https://arxiv.org/abs/2608.06984</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
