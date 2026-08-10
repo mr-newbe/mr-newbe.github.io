@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - Scaling Self-Play for End-to-End Driving</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - Scaling Self-Play for End-to-End Driving</h1>
+            <p class="date">2026-08-10</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <p><strong>제목:</strong> Scaling Self-Play for End-to-End Driving (엔드투엔드 주행을 위한 셀프플레이 확장)</p>
+                <p><strong>저자:</strong> Luke Rowe, Roger Girgis, Rodrigue de Schaetzen, Daphne Cornelisse, Alaap Grandhi, Felix Heide, Eugene Vinitsky, Christopher Pal, Liam Paull</p>
+                <p><strong>분야:</strong> cs.RO (로보틱스), cs.CV (컴퓨터 비전)</p>
+                <p><strong>게시일:</strong> 2026-06-17 (v2: 2026-06-19)</p>
+                <p><strong>원문:</strong> <a href="https://arxiv.org/abs/2606.19641" target="_blank">https://arxiv.org/abs/2606.19641</a></p>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>엔드투엔드(E2E) 자율주행 모델은 일반적으로 오프라인 인간 시연 데이터로 학습된다. 하지만 이런 데이터는 상태 커버리지가 제한적이고 폐루프(closed-loop) 피드백이 없어, 실제 배치 시 오류 누적(compounding errors)과 장기 꼬리(long-tail) 상호작용에 취약하다는 근본적 한계가 있다. 이 논문은 이런 한계를 극복하기 위해 <strong>시뮬레이션에서 픽셀 관측으로 직접 대규모 셀프플레이(self-play) 학습</strong>하는 전략을 제안한다.</p>
+            <ul>
+                <li><strong>셀프플레이 패러다임:</strong> 인간 시연 없이 에이전트가 스스로 상호작용하며 학습 — AlphaGo/AlphaZero에서 성공을 입증한 방식. 기존 셀프플레이 연구는 BEV(벡터화된 조감도) 관측만 가정해 센서 픽셀을 직접 쓰는 E2E 정책과 호환되지 않았다.</li>
+                <li><strong>Gigapixel 시뮬레이터:</strong> 투시 렌더링(perspective rendering) 기반 고처리량 배치형 주행 시뮬레이터. 사진급 렌더링 대신 단순화된 바운딩박스 세계를 렌더링해 <strong>초당 5만 에이전트 스텝(50k steps/s)</strong> 처리량을 달성, 대규모 셀프플레이 RL을 현실적으로 만든다.</li>
+                <li><strong>Self-play DAgger 훈련:</strong> 픽셀 기반 정책을 프리빌리지드(privileged) RL 티처로부터 온폴리시 증류(on-policy distillation)로 학습. 픽셀 공간 직접 RL의 샘플 비효율 문제를 우회한다.</li>
+                <li><strong>Sim-to-Real 전이:</strong> 가벼운 지각 적응(lightweight perception adaptation)으로 셀프플레이 학습 정책을 실제 센서 데이터에 전이한다.</li>
+                <li><strong>성능:</strong> Gigapixel에서 학습 후 실데이터에 적응한 정책이 <strong>인간 궤적 지도(supervision) 없이</strong> HUGSIM·NAVSIM-v2 벤치마크에서 경쟁력 있는 성능을 달성. 셀프플레이 규모를 키울수록 성능이 비례해 향상된다.</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>패러다임 전환 제안:</strong> 사람 시연 의존(imitation learning)을 넘어, 게임·로봇공학에서 검증된 셀프플레이를 주행 정책 학습의 실용적·확장 가능한 전략으로 제시한 대표 연구.</li>
+                <li><strong>폐루프 피드백 해결:</strong> 오프라인 데이터셋 학습의 오류 누적·장기 꼬리 취약성이라는 E2E 주행의 핵심 난제를 정면으로 다룬다.</li>
+                <li><strong>계산 확장성(scaling law) 관점:</strong> 셀프플레이 규모 증가가 성능 향상과 비례한다는 결과는, LLM의 스케일링과 유사하게 주행 정책도 컴퓨트 스케일링 시대에 접어들었음을 시사한다.</li>
+                <li><strong>연구진 신뢰도:</strong> Mila/Université de Montréal(Liam Paull, Christopher Pal), Princeton(Felix Heide) 등 자율주행·머신러닝 권위 그룹의 합작. 소속 대학 산하 벤처(NAVSIM 시뮬레이터 개발진)와의 연계로 벤치마크 검증도 견고하다.</li>
+                <li><strong>안전 시나리오 생성 가능성:</strong> 셀프플레이로 장기 꼬리 위험 상황을 합성 생성할 수 있어, 안전 경계(safety boundary) 평가·강화에도 활용 가능하다.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>이 논문은 "인간이 가르쳐야만 운전을 배운다"는 암묵적 전제에 도전하며, 자율주행 정책 학습이 데이터 수집 중심에서 <strong>시뮬레이션 셀프플레이 + 컴퓨트 스케일링</strong> 중심으로 이동할 수 있음을 보여준다. 사진급 렌더링이 아니라 "충분한 구조 정보를 가진 단순 세계"로 50k steps/s 처리량을 확보한 설계 선택은, 규모가 현실감보다 중요할 수 있음을 시사한다. 물론 실제 도로의 비정형 요소(보행자 의도, 사회적 규범)를 셀프플레이가 얼마나 포착하는지는 추가 검증이 필요하며, 시뮬레이터 현실감과 RL 샘플 효율 사이의 트레이드오프가 향후 연구의 핵심 축이 될 전망이다. 자율주행 연구자에게는 E2E 정책 훈련 파이프라인을 재설계할 강력한 동기를 주는 논문이다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2606.19641" target="_blank">https://arxiv.org/abs/2606.19641</a></p>
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
