@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-08-12</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-08-12 | <i class="fa-solid fa-tags"></i> Daily News, AI Security, Ransomware, Supply Chain, Vulnerability
+        </div>
+
+        <div class="content">
+            <h2>1. OpenAI, 취약점 연구·익스플로잇 개발 특화 모델 'GPT-5.6-Cyber' 공개 — 가드레일 대폭 축소</h2>
+            <p>OpenAI가 월요일(현지시각) 사이버보안 전용 모델 GPT-5.6-Cyber를 공개했다. 제로데이 취약점 탐지와 익스플로잇 체인 개발 같은 고위험 작업에 특화하도록 훈련됐으며, 승인된 취약점 연구·보안 테스트 용도로 제공되는 'Daybreak Red' 등급을 통해 배포된다.</p>
+            <ul>
+                <li><strong>완료율:</strong> 자체 평가(Advanced Cybersecurity Completion Rate)에서 GPT-5.6-Cyber는 익스플로잇 체인 개발·인증 우회·권한 상승 요청의 95.0%를 완료 (GPT-5.6 Sol은 1.5%, 이전 GPT-5.5-Cyber는 57.3%)</li>
+                <li><strong>발견 사례:</strong> Chrome V8 엔진 OOB 읽기/쓰기 취약점 CVE-2026-15903(CVSS 8.8) 발견, 힙 샌드박스 탈출 연쇄 가능 — 7월 중순 구글 패치 완료</li>
+                <li><strong>추가 성과:</strong> 모바일 OS 권한 상승 체인 5건, DB 원격 코드 실행 취약점 3건, 유명 OS 커널 권한 상승 취약점 400건 이상 플래깅</li>
+                <li><strong>파트너십:</strong> Accenture, Akamai, Cisco, Cloudflare, CrowdStrike, Fortinet, IBM, Palo Alto Networks, PwC, Sophos 등에 우선 제공</li>
+                <li><strong>배경:</strong> 공격자의 AI 활용이 빨라지며 '방어 창(defense gap)'이 좁아지는 상황에 대응 — Daybreak Blue(방어용 가드레일 유지)와 Red(완화) 2등급 체계</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/openai-launches-gpt-56-cyber-with.html" target="_blank">The Hacker News - OpenAI Launches GPT-5.6-Cyber with Reduced Safeguards for Exploit Development</a></p>
+
+            <h2>2. 한미 공동 경고: Gunra 랜섬웨어, Fortinet·Schneider Electric 취약점 악용해 전 세계 주요시설 공격</h2>
+            <p>한국과 미국의 사이버보안·정보기관이 Gunra 랜섬웨어의 공격을 공동 경고했다. 인터넷 노출된 Schneider Electric PowerLogic P5(CVE-2024-5559)와 Fortinet FortiOS/FortiProxy(CVE-2025-24472) 취약점으로 초기 침투한 뒤 데이터 탈취+암호화 이중 갈취를 수행하며, 피해자가 5~7일 내 지불하지 않으면 유출 사이트에 데이터를 공개한다.</p>
+            <ul>
+                <li><strong>피해 규모:</strong> 2025년 4월 등장 이후 51개 기관 피해 — 한국·브라질·스페인·태국·홍콩 순, 대부분 호주·동아시아·유럽 집중</li>
+                <li><strong>주요 타깃:</strong> 의료·공중보건, 금융, 정부, 전문·비영리 서비스 등 주요 기반시설</li>
+                <li><strong>특징:</strong> Conti 계열, 2026년 1월 다크웹에서 RaaS 제휴 프로그램 출범, Windows/Linux 락커 제공 (Linux 빌드는 암호화 키 복구 가능한 치명적 결함 보고)</li>
+                <li><strong>공격 기법:</strong> Salsa20/ChaCha20 스트림 암호로 대용량(최대 9TB) 암호화, Impacket(psexec.py·secretsdump.py)으로 SMB 횡적 이동·NTDS 해시 탈취, OneDrive/SharePoint 데이터 탈취 후 MEGA로 유출</li>
+                <li><strong>운영 패턴:</strong> 오후 10시~새벽 6시 사이 주로 활동, 로그 삭제·명령 기록 제거, 'Golden Community' 등 브랜드 변경 및 침투테스터 영입으로 초기 접근 확보</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/gunra-ransomware-exploits-fortinet-and.html" target="_blank">The Hacker News - Gunra Ransomware Exploits Fortinet and Schneider Electric Flaws to Breach Networks</a></p>
+
+            <h2>3. Mozilla, Firefox·Thunderbird Linux 서명 키 폐기 — 키가 사내 저장소에 평문 유출</h2>
+            <p>Mozilla가 Firefox와 Thunderbird Linux 다운로드 파일의 서명에 쓰던 암호화 키를 폐기했다. 키의 암호화되지 않은 사본이 회사 사내(private) 코드 저장소에 실수로 커밋된 것이 원인이다. 현재까지 외부 유출 정황은 없지만, Mozilla는 예방 차원에서 즉시 키를 폐기하고 새 서브키를 발급했다.</p>
+            <ul>
+                <li><strong>영향:</strong> 폐기 인증서(revocation)를 가져온 뒤부터 구버전 Firefox/Thunderbird 다운로드 파일의 서명 검증이 실패 — 향후·과거 다운로드 모두 해당</li>
+                <li><strong>폐기 사유:</strong> 공개된 인증서의 reason code 2('key material has been compromised') — 일반 키 교체와 달리 이전 서명 전체를 불신</li>
+                <li><strong>대체 키:</strong> 새 서브키 지문 827E 6586 0867 9618 CD34 9F93 678E 455D 7676 7AA3, 2028년 8월 5일까지 유효 (기존 키는 2027년 3월까지 유효 예정이었으나 약 7개월 조기 교체)</li>
+                <li><strong>조치 필요 대상:</strong> 수동 서명 검증 사용자는 새 키+폐기 인증서 가져오기 필요, Mozilla RPM 패키지 설치자는 구 키 제거 후 재등록 필요 (dnf가 자동 처리하는 배포판도 있음)</li>
+                <li><strong>비적용:</strong> Debian/Ubuntu APT 저장소는 별도 키 사용, .deb는 영향 없음</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/mozilla-revokes-firefox-and-thunderbird.html" target="_blank">The Hacker News - Mozilla Revokes Firefox and Thunderbird Linux Signing Key After Key Lands in Private Repo</a></p>
+
+            <h2>4. BdThemes WordPress 플러그인 공급망 공격 — 원격 JSON 오염으로 가짜 관리자 계정 생성</h2>
+            <p>WordPress 플러그인 벤더 BdThemes의 공급망이 공격당해, 관리자 대시보드에 표시되는 프로모션 배너용 원격 JSON 데이터가 악성 페이로드로 교체됐다. 공식 저장소의 소스 코드는 전혀 수정되지 않은 비전형적 공급망 공격으로, WordPress.org 플러그인팀은 관련 플러그인 7종의 다운로드를 중단했다.</p>
+            <ul>
+                <li><strong>공격 경로:</strong> 플러그인 내 'Biggopti' 배너 컴포넌트가 DigitalOcean Spaces 버킷에서 JSON을 받아 렌더링 — 공격자가 버킷 쓰기 권한을 얻어 응답을 변조</li>
+                <li><strong>취약점:</strong> JSON 응답 파싱 코드의 XSS(display_id 파라미터, CVSS 5.4) — 로그인한 관리자 브라우저에서 wp-admin 페이지 로드마다 무소리로 실행</li>
+                <li><strong>페이로드 w2.js:</strong> C2(ia-cdn[.]com/fz/c)에서 타깃 지시 수신 → WordPress REST API로 가짜 관리자 계정 생성 → 웹셸 플러그인(emer-run.php) 업로드·설치</li>
+                <li><strong>피해 규모:</strong> Element Pack Addons(10만+ 활성 설치), Live Copy Paste, Ultimate Store Kit 등 7개 플러그인 — 변조는 2026년 3월 1일부터 시작</li>
+                <li><strong>특이점:</strong> 플러그인 업데이트나 디스크 파일 수정 없이 API 데이터만으로 진행된 드문 방식</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/bdthemes-supply-chain-attack-poisons.html" target="_blank">The Hacker News - BdThemes Supply Chain Attack Poisons JSON to Create Rogue WordPress Admins</a></p>
+
+            <h2>5. DEF CON 34 연구: Windows 11 USB 자동설치(PnP) 악용으로 SYSTEM 권한 탈취</h2>
+            <p>연구진이 Windows PnP 자동 설치 경로를 악용해 완전히 패치된 Windows 11에서 SYSTEM 코드 실행까지 연결하는 기법 'Plug And Pwn'을 공개했다. 가짜 USB 장치를 에뮬레이션해 서명된 벤더 소프트웨어의 설치 과정을 조작하는 방식으로, RDP 원격 변종도 존재한다.</p>
+            <ul>
+                <li><strong>로컬 체인:</strong> Sierra Wireless 장치 에뮬레이션 → SYSTEM 서비스 SwiService.exe(SetDNS 프리미티브) 설치로 DNS 리다이렉트 → Sony FeliCa 리더 에뮬레이션으로 경로 탐색(path traversal)을 이용해 System32에 악성 DLL 배치 → 재연결 시 DLL 로드로 SYSTEM 획득</li>
+                <li><strong>원격 변종:</strong> RDP로 합성 USB 트래픽 전송, 가짜 Intel RealSense 장치 제시 → 사용자 쓰기 가능 디렉터리의 CRYPTBASE.dll 탐색 순서 하이재킹으로 저권한 사용자가 SYSTEM 실행</li>
+                <li><strong>전제 조건:</strong> 로컬은 물리적 USB 에뮬레이션 가능 환경 필요, 원격은 PnP/USB 리다이렉션 활성화 필요 — Microsoft는 RDP 기본 설정에서 비활성임을 강조</li>
+                <li><strong>대응:</strong> 불필요한 USB 리다이렉션 비활성화, 장치 설치 제한(하드웨어/호환 ID, setup class) 정책 활용</li>
+                <li><strong>성격:</strong> 서명된 타사 패키지의 약점 + 정당한 권한 설치 경로 남용 — 벤더별 확인 전까지 연구 결과로 간주</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/researchers-turn-usb-auto-install-into.html" target="_blank">The Hacker News - Researchers Turn USB Auto-Install Into a Full SYSTEM Takeover on Windows 11</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
