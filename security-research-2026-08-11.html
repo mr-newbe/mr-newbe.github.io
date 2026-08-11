@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - ColluSkill: Adversarial Cross-Skill Composition for Evading Agent Skill Scanners</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - ColluSkill: Adversarial Cross-Skill Composition for Evading Agent Skill Scanners</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-08-11</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> ColluSkill: Adversarial Cross-Skill Composition for Evading Agent Skill Scanners<br>
+                <strong>저자:</strong> Puyu Zeng, Simeng Qin, Jingzhi Li, Ju Jia, Zheli Liu, Xiaojun Jia<br>
+                <strong>분야:</strong> cs.CR (AI 에이전트 보안 · 스킬 생태계)
+            </div>
+
+            <h2><i class="fa-solid fa-microscope"></i> 연구 배경</h2>
+            <p>LLM 기반 에이전트 시스템에서 '스킬(skill)'은 점점 더 중요한 공격 표면이 되고 있다. 현재 배포되는 스킬 스캐너(보안 검사기)는 대부분 개별 스킬 단위만 검사하므로, 스킬 간 조합(cross-skill composition)에서 발생하는 위험은 사각지대로 남는다. 개별적으로는 정상으로 보이는 여러 스킬이 에이전트 실행 중에 결합되어 유해한 워크플로우를 형성할 수 있지만, 기존 방어는 이를 감지하지 못한다.</p>
+
+            <h2><i class="fa-solid fa-flask"></i> 핵심 내용</h2>
+            <ul>
+                <li><strong>ColluSkill 공격 프레임워크:</strong> 악의적 의도를 상호 의존적인 하위 페이로드로 분해하여, 각각 독립 패키징된 스킬에 은닉하는 '공모형 다중 스킬 체인(multi-skill-chain)' 공격. 단일 악성 스킬에 의존하지 않고, 문맥 의존성·아티팩트 전달·실행 핸드오프를 통한 순차 조합에서 공격이 발현됨</li>
+                <li><strong>LLM 기반 체인 계획 + 스캐너 피드백 정제:</strong> 체인 수준의 공격 의미론을 유지하면서 개별 하위 스킬의 의심 신호를 줄이는 자동 정제 기법 적용</li>
+                <li><strong>ChainGuard 방어 프레임워크:</strong> 후보 스킬과 에이전트 환경에 이미 설치된 스킬을 함께 분석하는 문맥 인지 스캐너. 교차 스킬 의존성·아티팩트 흐름·능력 조합·하위 동작을 재구성하여 워크플로우 수준에서만 드러나는 위험 탐지</li>
+                <li><strong>실험 결과:</strong> 6개 대표 스킬 스캐너 대상 공격 성공률 평균 96.0%로 단일·다중 스킬 공격 베이스라인을 능가. ChainGuard는 공격 성공률을 22.5%로 낮추면서 정상 워크플로우의 99.5%를 통과</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 보안 시사점</h2>
+            <ul>
+                <li>개별 스킬 단위 검사만으로는 부족 — 스킬 생태계의 보안 검사는 '설치된 스킬 전체 집합'과 실행 순서를 고려한 체인 수준 분석으로 확장되어야 함</li>
+                <li>스킬 마켓플레이스/레지스트리 운영자는 단일 스킬 화이트리스트 방식 대신 문맥 인지 스캐닝과 실행 시점 모니터링을 병행할 필요가 있음</li>
+                <li>공격자 관점에서는 '로컬 정상, 글로벌 유해' 패턴이 스캐너 회피의 실용적 경로임을 보여주며, 에이전트 공급망 보안의 새로운 위협 모델로 주의해야 함</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 결론</h2>
+            <p>ColluSkill은 스킬 스캐너의 '개별 검사' 한계를 악용하는 공모형 스킬 체인 공격을 제시하고, 이를 막기 위한 ChainGuard라는 워크플로우 수준 방어를 함께 제안한다. 공격 성공률 96% vs 방어 적용 후 22.5%라는 대비는 에이전트 스킬 생태계의 보안 검사가 개별 스킬에서 체인 전체로 패러다임을 바꿔야 함을 강력히 시사한다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2608.09732" target="_blank">https://arxiv.org/abs/2608.09732</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
