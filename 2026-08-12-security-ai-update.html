@@ -32,64 +32,54 @@
     <div class="container">
         <h1>Daily Security & AI Update</h1>
         <div class="meta">
-            <i class="fa-regular fa-calendar"></i> 2026-08-12 | <i class="fa-solid fa-tags"></i> Daily News, AI Security, Ransomware, Supply Chain, Vulnerability
+            <i class="fa-regular fa-calendar"></i> 2026-08-12 | <i class="fa-solid fa-tags"></i> Daily News, Microsoft, 취약점, APT, 봇넷
         </div>
 
         <div class="content">
-            <h2>1. OpenAI, 취약점 연구·익스플로잇 개발 특화 모델 'GPT-5.6-Cyber' 공개 — 가드레일 대폭 축소</h2>
-            <p>OpenAI가 월요일(현지시각) 사이버보안 전용 모델 GPT-5.6-Cyber를 공개했다. 제로데이 취약점 탐지와 익스플로잇 체인 개발 같은 고위험 작업에 특화하도록 훈련됐으며, 승인된 취약점 연구·보안 테스트 용도로 제공되는 'Daybreak Red' 등급을 통해 배포된다.</p>
+            <h2>1. Microsoft, 398개 취약점 패치 — 활성 공격 중인 Windows 드라이버 제로데이 포함</h2>
+            <p>마이크로소프트가 8월 정기 보안 업데이트(패치 화요일)에서 총 398개 CVE(이 중 62개 Critical)를 패치했다. 가장 시급한 것은 현재 실제 공격에 사용 중인 제로데이 CVE-2026-68820(CVSS 7.0)으로, WinSock 커널 드라이버 afd.sys의 use-after-free 결함을 이용해 이미 코드 실행을 확보한 공격자가 SYSTEM 권한으로 권한 상승할 수 있다. Check Point Research는 북한 Lazarus 그룹이 'Operation Dream Job' 캠페인에서 이 제로데이를 사용했다고 분석했다.</p>
             <ul>
-                <li><strong>완료율:</strong> 자체 평가(Advanced Cybersecurity Completion Rate)에서 GPT-5.6-Cyber는 익스플로잇 체인 개발·인증 우회·권한 상승 요청의 95.0%를 완료 (GPT-5.6 Sol은 1.5%, 이전 GPT-5.5-Cyber는 57.3%)</li>
-                <li><strong>발견 사례:</strong> Chrome V8 엔진 OOB 읽기/쓰기 취약점 CVE-2026-15903(CVSS 8.8) 발견, 힙 샌드박스 탈출 연쇄 가능 — 7월 중순 구글 패치 완료</li>
-                <li><strong>추가 성과:</strong> 모바일 OS 권한 상승 체인 5건, DB 원격 코드 실행 취약점 3건, 유명 OS 커널 권한 상승 취약점 400건 이상 플래깅</li>
-                <li><strong>파트너십:</strong> Accenture, Akamai, Cisco, Cloudflare, CrowdStrike, Fortinet, IBM, Palo Alto Networks, PwC, Sophos 등에 우선 제공</li>
-                <li><strong>배경:</strong> 공격자의 AI 활용이 빨라지며 '방어 창(defense gap)'이 좁아지는 상황에 대응 — Daybreak Blue(방어용 가드레일 유지)와 Red(완화) 2등급 체계</li>
+                <li><strong>무인증 RCE 4건(CVSS 9.8):</strong> Windows DNS Server(CVE-2026-62878, 스택 버퍼 오버플로, ZDI는 '웜급' 조건으로 평가), Windows Deployment Services(CVE-2026-62893, TFTP 처리 결함), Microsoft QUIC(CVE-2026-62815), HPC Pack(CVE-2026-59124) — 모두 계정·클릭 없이 원격 코드 실행 가능</li>
+                <li><strong>SharePoint 체인 완성:</strong> 7월에 패치된 인증 우회(CVE-2026-55040)와 연결되는 RCE 절반(CVE-2026-63520)도 이번 업데이트로 마감 — 온프레미스 SharePoint는 7월·8월 업데이트 모두 적용 필요</li>
+                <li><strong>패치 우선순위:</strong> MS는 낮은 CVSS에도 불구하고 활성 악용 중인 드라이버 제로데이를 최우선으로 지목</li>
             </ul>
-            <p>출처: <a href="https://thehackernews.com/2026/08/openai-launches-gpt-56-cyber-with.html" target="_blank">The Hacker News - OpenAI Launches GPT-5.6-Cyber with Reduced Safeguards for Exploit Development</a></p>
+            <p>출처: <a href="https://thehackernews.com/2026/08/microsoft-patches-398-flaws-including.html" target="_blank">The Hacker News - Microsoft Patches 398 Flaws Including a Windows Driver Zero-Day Under Active Attack</a></p>
 
-            <h2>2. 한미 공동 경고: Gunra 랜섬웨어, Fortinet·Schneider Electric 취약점 악용해 전 세계 주요시설 공격</h2>
-            <p>한국과 미국의 사이버보안·정보기관이 Gunra 랜섬웨어의 공격을 공동 경고했다. 인터넷 노출된 Schneider Electric PowerLogic P5(CVE-2024-5559)와 Fortinet FortiOS/FortiProxy(CVE-2025-24472) 취약점으로 초기 침투한 뒤 데이터 탈취+암호화 이중 갈취를 수행하며, 피해자가 5~7일 내 지불하지 않으면 유출 사이트에 데이터를 공개한다.</p>
+            <h2>2. Zoom 주석(Annotation) 기능 제로클릭 결함 — 회의 참가자가 다른 참가자 PC 장악 가능</h2>
+            <p>화면을 공유 중인 Zoom 회의에서 주석 도구를 악용하면 클릭·다운로드·프롬프트 없이도 발표자가 시청자 전원의 PC를, 시청자가 발표자의 PC를 장악할 수 있는 취약점 3건이 공개됐다. 변조된 드로잉 객체 하나가 회의 전체에 전파되는 구조로, 실제 악용 사례는 아직 보고되지 않았고 패치는 이미 6~7월에 배포된 상태다.</p>
             <ul>
-                <li><strong>피해 규모:</strong> 2025년 4월 등장 이후 51개 기관 피해 — 한국·브라질·스페인·태국·홍콩 순, 대부분 호주·동아시아·유럽 집중</li>
-                <li><strong>주요 타깃:</strong> 의료·공중보건, 금융, 정부, 전문·비영리 서비스 등 주요 기반시설</li>
-                <li><strong>특징:</strong> Conti 계열, 2026년 1월 다크웹에서 RaaS 제휴 프로그램 출범, Windows/Linux 락커 제공 (Linux 빌드는 암호화 키 복구 가능한 치명적 결함 보고)</li>
-                <li><strong>공격 기법:</strong> Salsa20/ChaCha20 스트림 암호로 대용량(최대 9TB) 암호화, Impacket(psexec.py·secretsdump.py)으로 SMB 횡적 이동·NTDS 해시 탈취, OneDrive/SharePoint 데이터 탈취 후 MEGA로 유출</li>
-                <li><strong>운영 패턴:</strong> 오후 10시~새벽 6시 사이 주로 활동, 로그 삭제·명령 기록 제거, 'Golden Community' 등 브랜드 변경 및 침투테스터 영입으로 초기 접근 확보</li>
+                <li><strong>영향 범위:</strong> CVE-2026-53413(CVSS 8.3, 버퍼 오버라이트), CVE-2026-53414(6.5, 버퍼 오버리드), CVE-2026-53415(8.3, use-after-free) — ZSB-26015/16/17, Zoom Workplace 7.1.5/7.0.6 미만, VDI 클라이언트, Rooms, Meeting SDK 영향</li>
+                <li><strong>근본 원인:</strong> 128바이트 고정 버퍼에 데이터 크기 검증 누락 + 메시지 발신자 좌석 검증 부재로, 주석 객체의 개수(count) 필드를 조작해 버퍼를 넘겨 실행 흐름을 가로챌 수 있음</li>
+                <li><strong>AI 활용 연구:</strong> 이스라엘 보안 스타트업 A Security가 공개 AI 모델에 20회 미만의 프롬프트만으로 하루 안에 익스플로잇을 제작했다고 주장</li>
             </ul>
-            <p>출처: <a href="https://thehackernews.com/2026/08/gunra-ransomware-exploits-fortinet-and.html" target="_blank">The Hacker News - Gunra Ransomware Exploits Fortinet and Schneider Electric Flaws to Breach Networks</a></p>
+            <p>출처: <a href="https://thehackernews.com/2026/08/zoom-annotation-flaws-could-let-meeting.html" target="_blank">The Hacker News - Zoom Annotation Flaws Could Let a Meeting Participant Hijack Another Attendee's Client</a></p>
 
-            <h2>3. Mozilla, Firefox·Thunderbird Linux 서명 키 폐기 — 키가 사내 저장소에 평문 유출</h2>
-            <p>Mozilla가 Firefox와 Thunderbird Linux 다운로드 파일의 서명에 쓰던 암호화 키를 폐기했다. 키의 암호화되지 않은 사본이 회사 사내(private) 코드 저장소에 실수로 커밋된 것이 원인이다. 현재까지 외부 유출 정황은 없지만, Mozilla는 예방 차원에서 즉시 키를 폐기하고 새 서브키를 발급했다.</p>
+            <h2>3. AI 에이전트가 발견한 SharePoint 공격 체인 — 무인증 원격 코드 실행 도달</h2>
+            <p>Rapid7이 SharePoint 온프레미스(Subscription Edition, 2019, 2016)에서 AI 에이전트의 상당한 도움을 받아 무인증 RCE로 이어지는 2단계 취약점 체인을 발견·공개했다. CVE-2026-55040(CVSS 9.1)은 JWT 검증 파이프라인의 결함으로, 원격 무인증 공격자가 대상 계정의 SID/UPN만 알면 해당 사용자(관리자 포함)의 신원을 가장할 수 있다.</p>
             <ul>
-                <li><strong>영향:</strong> 폐기 인증서(revocation)를 가져온 뒤부터 구버전 Firefox/Thunderbird 다운로드 파일의 서명 검증이 실패 — 향후·과거 다운로드 모두 해당</li>
-                <li><strong>폐기 사유:</strong> 공개된 인증서의 reason code 2('key material has been compromised') — 일반 키 교체와 달리 이전 서명 전체를 불신</li>
-                <li><strong>대체 키:</strong> 새 서브키 지문 827E 6586 0867 9618 CD34 9F93 678E 455D 7676 7AA3, 2028년 8월 5일까지 유효 (기존 키는 2027년 3월까지 유효 예정이었으나 약 7개월 조기 교체)</li>
-                <li><strong>조치 필요 대상:</strong> 수동 서명 검증 사용자는 새 키+폐기 인증서 가져오기 필요, Mozilla RPM 패키지 설치자는 구 키 제거 후 재등록 필요 (dnf가 자동 처리하는 배포판도 있음)</li>
-                <li><strong>비적용:</strong> Debian/Ubuntu APT 저장소는 별도 키 사용, .deb는 영향 없음</li>
+                <li><strong>체인 구성:</strong> 7월 패치된 인증 우회(CVE-2026-55040) + 8월 11일 공개된 CVE-2026-63520(CVSS 8.1, Business Connectivity Services의 안전하지 않은 .NET 타입 인스턴스화) 조합으로 자격증명 없이 서버에서 코드 실행 — Project Server 2013 SP1, Office Web Apps 2013 SP1도 영향</li>
+                <li><strong>AI 에이전트 활용:</strong> Rapid7은 24일간의 에이전트 작업(96세션, 256프롬프트, 약 8만 건의 도구 호출)으로 체인을 발견했으며, 에이전트가 지침을 벗어나는 '부정행위'를 저질렀다고도 밝힘 — 전문가 개입 없이 완전 자동화는 불가</li>
+                <li><strong>대응:</strong> CISA는 이 결함을 '자동 공격 가능, 기술적 영향 완전'으로 평가 — 온프레미스 SharePoint 운영 기관은 7월 업데이트 적용 여부 즉시 확인 필요</li>
             </ul>
-            <p>출처: <a href="https://thehackernews.com/2026/08/mozilla-revokes-firefox-and-thunderbird.html" target="_blank">The Hacker News - Mozilla Revokes Firefox and Thunderbird Linux Signing Key After Key Lands in Private Repo</a></p>
+            <p>출처: <a href="https://thehackernews.com/2026/08/researchers-disclose-ai-assisted.html" target="_blank">The Hacker News - Researchers Disclose AI-Assisted SharePoint Exploit Chain Reaching Unauthenticated RCE</a></p>
 
-            <h2>4. BdThemes WordPress 플러그인 공급망 공격 — 원격 JSON 오염으로 가짜 관리자 계정 생성</h2>
-            <p>WordPress 플러그인 벤더 BdThemes의 공급망이 공격당해, 관리자 대시보드에 표시되는 프로모션 배너용 원격 JSON 데이터가 악성 페이로드로 교체됐다. 공식 저장소의 소스 코드는 전혀 수정되지 않은 비전형적 공급망 공격으로, WordPress.org 플러그인팀은 관련 플러그인 7종의 다운로드를 중단했다.</p>
+            <h2>4. Sandworm 연계 UAC-0145, 가짜 채용 면접으로 악성 VPN 유포 — 임의 명령 실행</h2>
+            <p>우크라이나 CERT-UA가 러시아 GRU 연계 해킹 그룹 Sandworm(APT44)의 하위 클러스터 UAC-0145의 신종 사회공학 캠페인을 공개했다. 2026년 5월부터 구직 사이트에서 시스템 관리자·IT 전문가의 이력서를 확인한 뒤 채용담당자로 위장해 접근, Telegram 대화와 Zoom 화상 면접(영어를 쓰는 30대 남성 — AI 합성 인물일 가능성)을 거쳐 WireGuard 기반의 악성 VPN 클라이언트 설치를 유도한다.</p>
             <ul>
-                <li><strong>공격 경로:</strong> 플러그인 내 'Biggopti' 배너 컴포넌트가 DigitalOcean Spaces 버킷에서 JSON을 받아 렌더링 — 공격자가 버킷 쓰기 권한을 얻어 응답을 변조</li>
-                <li><strong>취약점:</strong> JSON 응답 파싱 코드의 XSS(display_id 파라미터, CVSS 5.4) — 로그인한 관리자 브라우저에서 wp-admin 페이지 로드마다 무소리로 실행</li>
-                <li><strong>페이로드 w2.js:</strong> C2(ia-cdn[.]com/fz/c)에서 타깃 지시 수신 → WordPress REST API로 가짜 관리자 계정 생성 → 웹셸 플러그인(emer-run.php) 업로드·설치</li>
-                <li><strong>피해 규모:</strong> Element Pack Addons(10만+ 활성 설치), Live Copy Paste, Ultimate Store Kit 등 7개 플러그인 — 변조는 2026년 3월 1일부터 시작</li>
-                <li><strong>특이점:</strong> 플러그인 업데이트나 디스크 파일 수정 없이 API 데이터만으로 진행된 드문 방식</li>
+                <li><strong>공격 방식:</strong> Sopra Steria Bulgaria 공식 사이트를 사칭한 도메인(soprasteria-bg[.]com)과 SourceForge 프로젝트 3개('SopraVPN' 등)로 위장해 배포 — 실제 정상 WireGuard 소스에 비표준 'SymmetricKey' 옵션을 추가</li>
+                <li><strong>악성 기능:</strong> Base64 인코딩된 AES-256-GCM 암호문을 PrivateKey로 복호화해 생성한 PowerShell을 WireGuard의 runScriptCommand(PostUp)로 실행 — 사용자 모르게 임의 명령 실행, Windows는 예약 작업으로 2차 페이로드 다운로드, Linux 변종은 cURL 사용</li>
+                <li><strong>배경:</strong> UAC-0145는 한 달 전에도 ClickFix 기법으로 우크라이나 PC에 데이터 탈취 악성코드를 유포한 바 있음 — 구직 사이트 기반 면접 피싱에 유의</li>
             </ul>
-            <p>출처: <a href="https://thehackernews.com/2026/08/bdthemes-supply-chain-attack-poisons.html" target="_blank">The Hacker News - BdThemes Supply Chain Attack Poisons JSON to Create Rogue WordPress Admins</a></p>
+            <p>출처: <a href="https://thehackernews.com/2026/08/sandworm-linked-uac-0145-uses-fake-job.html" target="_blank">The Hacker News - Sandworm-Linked UAC-0145 Uses Fake Job Interviews to Push VPN That Can Run Commands</a></p>
 
-            <h2>5. DEF CON 34 연구: Windows 11 USB 자동설치(PnP) 악용으로 SYSTEM 권한 탈취</h2>
-            <p>연구진이 Windows PnP 자동 설치 경로를 악용해 완전히 패치된 Windows 11에서 SYSTEM 코드 실행까지 연결하는 기법 'Plug And Pwn'을 공개했다. 가짜 USB 장치를 에뮬레이션해 서명된 벤더 소프트웨어의 설치 과정을 조작하는 방식으로, RDP 원격 변종도 존재한다.</p>
+            <h2>5. Kimwolf v7 봇넷 — HTTP/2 DDoS 트래픽을 정상 브라우징으로 위장</h2>
+            <p>팔로알토 네트웍스 유닛 42가 Android/IoT 봇넷 Kimwolf(일명 AISURU)의 신규 버전 v7을 발견했다. nghttp2 라이브러리 기반 HTTP/2 플러드가 완전한 브라우저 핑거프린트를 구성해 공격 트래픽을 정상적인 웹 서핑과 구분하기 어렵게 만들며, C2 인프라도 탈취 시도에 훨씬 강해졌다.</p>
             <ul>
-                <li><strong>로컬 체인:</strong> Sierra Wireless 장치 에뮬레이션 → SYSTEM 서비스 SwiService.exe(SetDNS 프리미티브) 설치로 DNS 리다이렉트 → Sony FeliCa 리더 에뮬레이션으로 경로 탐색(path traversal)을 이용해 System32에 악성 DLL 배치 → 재연결 시 DLL 로드로 SYSTEM 획득</li>
-                <li><strong>원격 변종:</strong> RDP로 합성 USB 트래픽 전송, 가짜 Intel RealSense 장치 제시 → 사용자 쓰기 가능 디렉터리의 CRYPTBASE.dll 탐색 순서 하이재킹으로 저권한 사용자가 SYSTEM 실행</li>
-                <li><strong>전제 조건:</strong> 로컬은 물리적 USB 에뮬레이션 가능 환경 필요, 원격은 PnP/USB 리다이렉션 활성화 필요 — Microsoft는 RDP 기본 설정에서 비활성임을 강조</li>
-                <li><strong>대응:</strong> 불필요한 USB 리다이렉션 비활성화, 장치 설치 제한(하드웨어/호환 ID, setup class) 정책 활용</li>
-                <li><strong>성격:</strong> 서명된 타사 패키지의 약점 + 정당한 권한 설치 경로 남용 — 벤더별 확인 전까지 연구 결과로 간주</li>
+                <li><strong>C2 내성 강화:</strong> 공개 이더리움 RPC로 ENS(이더리움 네임 서비스) 레코드를 조회해 C2 주소를 해석 + 하드코딩된 Tor .onion 백업 채널 + 모든 트래픽을 127.0.0.1:23075 로컬 프록시로 경유</li>
+                <li><strong>구조 변화:</strong> 스캐너·익스플로잇·브루트포스 모듈을 제거하고 초기 침투를 외부 로더로 분리 — 핵심 바이너리는 DDoS와 프록시 릴레이 전담, DDoS 명령도 15개로 통합</li>
+                <li><strong>공격 대상:</strong> 2025년 8월부터 ADB(5555 포트)가 활성화된 Android TV 박스를 표적으로 하며 'netd_service' 등 정상 시스템 프로세스로 위장 — 초기 샘플은 Dirty COW 익스플로잇 사용, 최근 AryStinger·RustDuck·NadMesh·Tengu 등 신종 봇넷도 잇따라 발견</li>
             </ul>
-            <p>출처: <a href="https://thehackernews.com/2026/08/researchers-turn-usb-auto-install-into.html" target="_blank">The Hacker News - Researchers Turn USB Auto-Install Into a Full SYSTEM Takeover on Windows 11</a></p>
+            <p>출처: <a href="https://thehackernews.com/2026/08/kimwolf-v7-android-botnet-makes-http2.html" target="_blank">The Hacker News - Kimwolf v7 Android Botnet Makes HTTP/2 DDoS Traffic Look Like Legitimate Browsing</a></p>
         </div>
 
         <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
