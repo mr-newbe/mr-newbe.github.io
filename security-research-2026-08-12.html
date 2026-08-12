@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - On Understanding, Identifying, and Mitigating Vulnerabilities in Agentic Large Language Models</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - On Understanding, Identifying, and Mitigating Vulnerabilities in Agentic Large Language Models</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-08-12</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> On Understanding, Identifying, and Mitigating Vulnerabilities in Agentic Large Language Models<br>
+                <strong>저자:</strong> Md Jafrin Hossain, Mohammad Arif Hossain, Nirwan Ansari<br>
+                <strong>분야:</strong> cs.CR, cs.AI (arXiv: 2608.10530)
+            </div>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 연구 배경</h2>
+            <p>LLM이 무상태 대화 인터페이스에서 다단계 계획·도구 호출·코드 실행·영속 메모리를 갖춘 자율 에이전트로 진화하면서, 실제 권한(API 호출, 파일 수정, DB 쿼리)으로 작동할 때 단 한 번의 잘못된 추론 단계가 무단 데이터 접근, 되돌릴 수 없는 상태 변화, 연쇄 장애로 이어질 수 있다. 그러나 보안 연구 커뮤니티는 이러한 위험 증가 속도를 따라잡지 못하고 있다.</p>
+
+            <h2><i class="fa-solid fa-flask"></i> 핵심 내용</h2>
+            <ul>
+                <li><strong>체계적 문헌 검토:</strong> PRISMA 2020 지침에 따라 6개 데이터베이스에서 743건을 선별, 2023~2025년 에이전트 LLM 보안 논문 85편을 심층 분석</li>
+                <li><strong>공격 vs 방어 불균형:</strong> 공격 연구가 방어 연구를 3.9:1로 압도 — 방어 메커니즘 연구가 시급함을 정량적으로 입증</li>
+                <li><strong>계층별 연구 편향:</strong> 지각층(perception) 취약점(프롬프트 인젝션, 탈옥, 적대적 변조)이 전체 논문의 66%를 차지하는 반면, 실제 위험이 큰 행동층(action) 취약점(도구 남용, 코드 인젝션, 샌드박스 탈출)은 4.7%에 불과 — 연구가 실제 위험과 정렬되지 않음</li>
+                <li><strong>4계층 분류 체계:</strong> 지각(perception)·두뇌(brain)·행동(action)·상호작용(interaction) 4개 계층에 걸친 13가지 취약점 유형을 매핑하고, 격리(containment) 중심의 7가지 미해결 문제를 제시</li>
+                <li><strong>근본 원인:</strong> 에이전트 보안 불안정성은 계층 간 격리(isolation)가 약해 취약점이 계층을 넘어 전파되는 '구조적 결합(architectural coupling)'에서 비롯됨</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 보안 시사점</h2>
+            <ul>
+                <li>프롬프트 인젝션 탐지에 집중된 현재 연구는 행동층 위험(도구 남용·코드 실행)을 과소평가 — 실제 배포 환경의 위험 평가 기준 재조정이 필요</li>
+                <li>공격:방어 비율 3.9:1은 에이전트 권한 경계 설계(최소 권한, 단계별 승인), 샌드박싱, 격리 등 방어 연구 투자 확대가 시급함을 시사</li>
+                <li>계층 간 격리 부재(구조적 결합)는 단일 취약점이 전체 에이전트 파이프라인으로 전파되는 체인 공격을 가능하게 함 — 계층별 경계 강화가 핵심 설계 원칙이 되어야 함</li>
+                <li>코드 실행 보안(3.5%)·도구 증강 에이전트(12%) 연구는 실제 배포 비중 대비 크게 부족 — 향후 연구 방향을 제시</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flag-checkered"></i> 결론</h2>
+            <p>에이전트 LLM 보안 연구 현황을 최초로 체계적으로 정량화한 연구로, 지각층 중심의 연구 편향을 지적하고 4계층 취약점 분류 체계와 7대 미해결 과제를 제시한다. '구조적 결합'이라는 진단은 향후 에이전트 보안 아키텍처 설계에서 계층 간 격리를 최우선 원칙으로 삼아야 함을 알려주는 중요한 이정표다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2608.10530" target="_blank">https://arxiv.org/abs/2608.10530</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
