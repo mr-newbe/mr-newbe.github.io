@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - Autoware: 세계 최고 수준의 오픈소스 자율주행 소프트웨어</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - Autoware: 세계 최고 수준의 오픈소스 자율주행 소프트웨어</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-08-13</div>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <p><strong>소유자/이름:</strong> autowarefoundation/autoware</p>
+                <p><strong>Star / Fork:</strong> 11,974 / 3,686</p>
+                <p><strong>라이선스:</strong> Apache License 2.0</p>
+                <p><strong>주요 언어:</strong> C++·Python (ROS 2 기반)</p>
+                <p><strong>생성일:</strong> 2015-08-24 (Nagoya University 출신 Tier IV 창업자들이 시작)</p>
+                <p><strong>최근 릴리스:</strong> v1.9.0 (2026-07-16), 최근 커밋 2026-08-09 — 매우 활발한 개발</p>
+                <p><strong>홈페이지:</strong> <a href="https://www.autoware.org/" target="_blank">https://www.autoware.org/</a></p>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>Autoware는 <strong>"세계 최고 수준의 오픈소스 자율주행 소프트웨어 프로젝트"</strong>로 자처하는 풀스택 자율주행 플랫폼이다. 2015년 나고야대학 연구진이 만든 최초의 오픈소스 자율주행 스택으로 출발해, 2018년부터 비영리 Autoware Foundation이 관리하는 벤더 중립 프로젝트로 성장했다. ROS 2 기반의 모듈형 아키텍처로 실제 차량에 바로 이식·주행 가능한 수준의 완성도를 갖췄다.</p>
+            <ul>
+                <li><strong>풀스택 모듈 구성:</strong> 로컬라이제이션(NDT 스캔 매칭·EKF·GNSS), 인지(LiDAR·카메라 객체 검출, 센서 퓨전, 점유 격자), 예측, 플래닝(행동·모션 계획, 회피 경로), 제어(PID·MPC), 차량 인터페이스(CanBus·상태 머신)까지 전 과정 포함.</li>
+                <li><strong>Autoware Universe 아키텍처:</strong> 2023년부터 수백 개의 소형 패키지로 재구성된 "Universe" 구조 — 개발자가 필요한 모듈만 골라 확장 가능하며 Docker 기반 개발 환경과 함께 제공.</li>
+                <li><strong>시뮬레이션·검증 생태계:</strong> AWSIM·CARLA 등 시뮬레이터와 연동해 실차 없이도 개발·검증 가능하고, 안전 중심 설계(Autoware.Auto 계보)로 기능 안전을 고려한 설계 흐름을 유지.</li>
+                <li><strong>실제 상용 배포:</strong> Tier IV 로보택시·자율셔틀 등 실제 상용 프로젝트와 수많은 연구기관·경진대회(World Robot Summit 등)에서 표준 플랫폼으로 사용.</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>최초이자 가장 널리 쓰이는 오픈소스 자율주행 스택:</strong> 11년 이상 이어온 역사와 11,974 stars·3,686 forks로 Apollo·CARLA와 함께 오픈소스 자율주행 3대 축을 이룸.</li>
+                <li><strong>벤더 중립적 거버넌스:</strong> Autoware Foundation 산하에서 운영되어 특정 기업에 종속되지 않고, 학계·산업계가 공동으로 발전시키는 표준적 코드베이스.</li>
+                <li><strong>실차 검증된 완성도:</strong> 단순 레퍼런스가 아니라 실제 차량 주행에 쓰이는 수준의 풀스택 구현 — 연구자가 인지·플래닝 알고리즘만 교체해 바로 실험 가능.</li>
+                <li><strong>활발한 개발·릴리스:</strong> v1.9.0(2026-07)까지 정기 릴리스와 일주일 내 최신 커밋이 이어지며 LLM 기반 플래너(Diffusion Planner 등) 같은 최신 연구도 통합 중.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>Autoware는 자율주행 소프트웨어가 "닫힌 상용 스택"이 아니라 커뮤니티가 함께 키우는 공공 인프라가 될 수 있음을 보여준 사례다. ROS 2 기반 모듈형 설계는 학계의 최신 알고리즘(신경망 플래너, VLA 등)을 실차 스택에 빠르게 이식하는 징검다리 역할을 하며, 이는 자율주행 연구의 진입 장벽을 크게 낮췄다. 개방형 플랫폼 + 안전 설계 + 활발한 생태계라는 삼박자가 갖춰질 때 기술 발전 속도가 얼마나 빨라지는지 보여주는 대표적 프로젝트다.</p>
+            <p>원문: <a href="https://github.com/autowarefoundation/autoware" target="_blank">https://github.com/autowarefoundation/autoware</a></p>
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
