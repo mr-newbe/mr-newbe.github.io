@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - Convergent Detour Hijacking: Task-Preserving Resource Amplification in Skill-Based LLM Agents</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - Convergent Detour Hijacking: Task-Preserving Resource Amplification in Skill-Based LLM Agents</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-08-13</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Convergent Detour Hijacking: Task-Preserving Resource Amplification in Skill-Based LLM Agents<br>
+                <strong>저자:</strong> Junliang Liu, Ruoyu Li, Wenxin Tang, Jingyu Xiao, Zhenyu Liu, Jingheng Xu, Laizhong Cui<br>
+                <strong>분야:</strong> cs.CR, cs.AI (arXiv: 2608.12273)
+            </div>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 연구 배경</h2>
+            <p>LLM 에이전트는 점점 더 제3자 스킬(skill)에 의존한다. 자연어 설명은 스킬 선택에, 지시문 본문은 계획 수립에 사용되는 '점진적 공개(progressive disclosure)' 설계 덕분에, 신뢰할 수 없는 스킬 게시자는 선택(selection)과 계획(planning)이라는 두 개의 순차적 제어 지점을 공격할 수 있다. 기존 연구는 선택 조작, 악성 스킬 지시문, 도구 체인 리소스 증폭을 각각 개별적으로 다뤄 이들의 종단 간 결합 효과를 규명하지 못했다.</p>
+
+            <h2><i class="fa-solid fa-flask"></i> 핵심 내용</h2>
+            <ul>
+                <li><strong>Convergent Detour Hijacking (CDH):</strong> 텍스트 전용·런타임 독립 공격 — 선택 단계의 설명과 계획 단계의 본문을 '공유 의미 커버(shared semantic cover)'로 결합해 기존 공격 기법들을 하나의 체인으로 구성</li>
+                <li><strong>공격 흐름:</strong> ① 설명이 선택 단계에서 관련성을 확립 → ② 정렬된 본문이 동일한 근거를 재사용해 그럴듯한 의존성을 위조 → ③ 공격자 통제 코디네이터를 정상 스킬과 함께 선택 → ④ 불필요한 정상 스킬들을 유한한 우회 경로(detour)로 동원 → ⑤ 원래 경로로 재진입해 태스크 완료 유지</li>
+                <li><strong>평가 규모:</strong> 다중 LLM 백엔드, 491개 보류 태스크, 단일 턴·멀티 턴 조건에서 실측</li>
+                <li><strong>결과:</strong> DeepSeek-V4-Pro 기준 코디네이터 매칭 성공률 80.02%, 공격 성공 런 중 토큰 소비 +66.91%, 종단 간 실행 시간 +92.45% 증가 — 태스크 완료율은 유사하게 유지</li>
+                <li><strong>핵심 통찰:</strong> 올바른 결과(outcome)가 궤적 무결성(trajectory integrity)이나 비용 안전성을 보장하지 않는다</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 보안 시사점</h2>
+            <ul>
+                <li>스킬 마켓플레이스/플러그인 생태계의 공급망 위험이 실증됨 — 악성 스킬이 탐지되지 않고도 태스크 완료를 유지하며 리소스 비용만 증폭시켜, 결과 기반 모니터링만으로는 탐지 불가</li>
+                <li>선택·계획 단계의 제어 지점이 분리된 것처럼 보여도 '공유 의미 커버'로 결합될 수 있음 — 단계별 개별 방어(스킬 평판, 지시문 검증)만으로는 불충분</li>
+                <li>토큰/시간 비용 증폭(비용 DoS)과 더불어, 우회 경로 중 민감 도구 호출이 개입될 경우 데이터 유출로 확장 가능 — 에이전트 비용·권한 경계의 통합 모니터링 필요</li>
+                <li>80% 이상의 높은 매칭 성공률은 현재 스킬 선택 메커니즘이 의미 기반 유사성에 과도하게 의존함을 보여줌 — 실행 그래프 수준의 검증(의존성 실제성 확인)이 대응 방향</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flag-checkered"></i> 결론</h2>
+            <p>선택 조작·악성 지시문·리소스 증폭을 하나로 결합한 최초의 종단 간 공격으로, '태스크는 완료되지만 비용과 궤적은 공격자 통제'라는 새로운 공격 패러다임을 제시한다. 정확한 출력만으로 에이전트 안전성을 판단하던 기존 검증 방식의 맹점을 실증했으며, 스킬 생태계 보안(공급망)과 에이전트 비용 안전성 연구의 출발점이 될 중요한 논문이다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2608.12273" target="_blank">https://arxiv.org/abs/2608.12273</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
