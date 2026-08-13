@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-08-14</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-08-14 | <i class="fa-solid fa-tags"></i> Daily News, 제로데이, 취약점, 공급망, 패치
+        </div>
+
+        <div class="content">
+            <h2>1. SharePoint 인증 우회(CVE-2026-55040) — 공개 PoC 직후 실전 악용 시작</h2>
+            <p>Rapid7이 공개한 PoC 코드를 공격자들이 즉시 활용하며 Microsoft SharePoint의 치명적 인증 우회 취약점(CVE-2026-55040, CVSS 9.1)에 대한 실전 악용이 관측됐다. 7월 패치 화요일에서 이미 패치된 결함이지만, PoC 공개 후 공격이 급증해 올해 들어 악용된 5번째 SharePoint 취약점이 됐다.</p>
+            <ul>
+                <li><strong>근본 원인:</strong> JWT 토큰 검증 파이프라인의 4가지 약점 연쇄 — 'alg: none' 외부 헤더, SharePoint 자체 STS 인증서 지문(x5t) 남용, 신뢰되지 않은 발급자 수용, 서명 미검증으로 비인증 원격 공격자가 유효한 JWT를 위조해 임의 사이트 사용자·관리자로 위장 가능</li>
+                <li><strong>악용 규모:</strong> KEVIntel 텔레메트리 기준 7월 19일 이후 총 12건의 악용 시도 중 8건이 8월 12~13일 PoC 공개 이후에 집중 — 홍콩·일본·네덜란드·대만·미국 등 5개국 8개 IP에서 발생</li>
+                <li><strong>영향:</strong> 인증 우회로 파일 유출·데이터 변조 가능(가용성 영향은 없음). 올해 악용된 다른 SharePoint 결함(CVE-2026-45659, CVE-2026-56164, CVE-2026-58644, CVE-2026-50522)과 함께 SharePoint 인스턴스 최신 패치 유지 필요</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/attackers-exploit-sharepoint.html" target="_blank">The Hacker News - Attackers Exploit SharePoint Authentication Bypass After Public PoC Release</a></p>
+
+            <h2>2. GeoServer 제로데이 SQL 인젝션 — 공개 수 시간 만에 실전 악용 시도, RCE 가능</h2>
+            <p>오픈소스 지리공간 데이터 플랫폼 GeoServer의 패치되지 않은 제로데이 SQL 인젝션 취약점이 활발한 악용 시도를 맞고 있다. watchTowr는 공개 후 수 시간 만에 수백 건의 악용 시도를 관측했으며, 특정 구성에서는 원격 코드 실행(RCE)까지 이어질 수 있다고 경고했다.</p>
+            <ul>
+                <li><strong>취약점:</strong> CVE 미지정 — GeoServer jsonArrayContains의 비인가 SQL 인젝션. 연구자 @q1uf3ng가 8월 12일 X에 공개, 'sa' 데이터베이스 구성에서는 자연스럽게 RCE 달성 가능</li>
+                <li><strong>현황:</strong> 소수의 IP 풀에서 취약 시스템 탐색용 프로빙이 수백 건 발생, 아직 후속 공격 단계는 아니지만 패치 부재로 대규모 악용 전환 가능성 경고</li>
+                <li><strong>전례:</strong> 2024년 GeoServer GeoTools CVE-2024-36401(CVSS 9.8)은 활발히 악용돼 감염 장비가 DDoS·암호화폐 채굴 봇넷 및 리지덴셜 프록시로 전환된 바 있음 — CISA KEV 등재 다수</li>
+                <li><strong>대응:</strong> 노출 인스턴스 식별, 공개 접근 제한, 벤더 패치 모니터링 권고</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/unpatched-geoserver-zero-day-targeted.html" target="_blank">The Hacker News - Unpatched GeoServer Zero-Day Targeted in Active Exploitation Attempts, Can Lead to RCE</a></p>
+
+            <h2>3. SAP Commerce Cloud 최대 심각도 결함(CVE-2026-58231, CVSS 10.0) — 비인증 원격 코드 실행</h2>
+            <p>SAP가 Commerce Cloud(Data Hub Adapter)의 최대 심각도 취약점을 패치했다. 기본 인증 클라이언트를 남용해 검증이 부족한 특정 함수에 특수 제작된 입력을 전달하면 비인증 공격자가 임의 코드를 실행하고 내부 구성 요소를 손상시킬 수 있다.</p>
+            <ul>
+                <li><strong>취약점:</strong> CVE-2026-58231 (CVSS 10.0) — 불충분한 인가 검사·입력 검증으로 인한 RCE, 기밀성·무결성·가용성 모두에 높은 영향</li>
+                <li><strong>완화:</strong> 패치된 Commerce Cloud 릴리스로 업그레이드·재배포, 임시 조치로 IP 필터 세트 구성해 취약 엔드포인트 접근 제한</li>
+                <li><strong>8월 추가 패치 3건:</strong> CVE-2026-44772 (9.9) MII 코드 인젝션, CVE-2026-34265 (9.8) SAP NetWeaver ABAP DIAG 프로토콜 파싱 OOB 쓰기, CVE-2026-44758 (9.1) SSTI·SSRF 연계 명령 실행 — 패치 후 'Secure Transformer'에 허용 호스트 목록 설정 필요</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/sap-commerce-cloud-flaw-could-let.html" target="_blank">The Hacker News - SAP Commerce Cloud Flaw Could Let Unauthenticated Attackers Execute Arbitrary Code</a></p>
+
+            <h2>4. Cisco ASA/FTD 결함(CVE-2026-20349) 실전 악용 확인 — 원격 DoS 유발</h2>
+            <p>Cisco가 Secure Firewall ASA·FTD 소프트웨어에 영향을 주는 신규 취약점이 실전 악용되고 있다고 경고했다. HTTP 요청 처리 시 오류 검사 부족으로 비인증 원격 공격자가 Remote Access SSL VPN 서비스에 특수 제작된 요청을 보내 장비를 재시작시켜 서비스 거부(DoS)를 일으킬 수 있다.</p>
+            <ul>
+                <li><strong>취약점:</strong> CVE-2026-20349 (CVSS 8.6) — IKEv2 RA VPN(클라이언트 서비스), SSL-VPN(webvpn), ZTNA 구성이 활성화된 장비에 영향</li>
+                <li><strong>패치:</strong> ASA 9.16~9.24 (9.16.4.50, 9.18.4.50, 9.20.4.235, 9.22.3.191, 9.23.1.211, 9.24.1.221) 및 FTD 7.0~10.0 핫픽스 배포 완료</li>
+                <li><strong>대응:</strong> 우회 방법 없음 — 실전 악용이 확인된 만큼 노출된 원격 접속 VPN 서비스는 즉시 패치 적용 필요</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/cisco-asa-and-ftd-flaw-exploited-in.html" target="_blank">The Hacker News - Cisco ASA and FTD Flaw Exploited in the Wild Can Trigger Remote DoS</a></p>
+
+            <h2>5. 악성 LiteLLM 릴리스, Trivy 해킹과 연계 — 2,100개 이상 조직 자격증명 노출 가능성</h2>
+            <p>3월 PyPI에 40분간 게시됐던 악성 LiteLLM 릴리스(1.82.7, 1.82.8)가 클라우드 키·SSH 키·Kubernetes 토큰·데이터베이스 비밀번호를 탈취하는 코드를 담고 있었으며, CloudSEK가 입수한 공격자 데이터셋(약 43만 4,000개 파일) 분석 결과 2,500개 이상 조직이 잠재적으로 노출된 것으로 추정된다. 해당 공격은 Trivy 공급망 해킹(TeamPCP 캠페인)과 연계된 것으로 알려졌다.</p>
+            <ul>
+                <li><strong>공격 메커니즘:</strong> 1.82.8에 포함된 litellm_init.pth 파일이 Python 인터프리터 시작 시 자동 실행 — LiteLLM을 import하지 않아도 피해 — 수집한 자격증명을 공격자 도메인 models.litellm[.]cloud로 암호화 전송</li>
+                <li><strong>노출 규모:</strong> CloudSEK 공개 조회 도구로 확인 가능, NVIDIA·Cisco·Deloitte·Volkswagen·FedEx·Siemens·X Corp 등 포함 (자격증명 실제 사용 여부는 불명, High/Medium 신뢰도 레이블 제공)</li>
+                <li><strong>권고:</strong> FBI FLASH-20260702-01 — 관련 노출 기간의 CI/CD 시크릿·클라우드 자격증명·게시 토큰을 증거 확인 없이 일괄 로테이션, 장기 유효 토큰 대신 단기 임시 자격증명 사용 권장</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/malicious-litellm-releases-tied-to.html" target="_blank">The Hacker News - Malicious LiteLLM Releases Tied to Trivy Hack May Have Exposed 2,100+ Organizations</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
