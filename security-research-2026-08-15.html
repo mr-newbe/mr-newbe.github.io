@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>최신 보안 논문 분석 - LLM 기반 자율주행 소프트웨어 동적 위협 분석</title>
+<style>
+:root {
+  --bg-color: #0f172a;
+  --card-bg: #1e293b;
+  --text-color: #e2e8f0;
+  --muted-color: #94a3b8;
+  --accent-color: #38bdf8;
+  --border-color: #334155;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.7;
+  padding: 2rem 1rem;
+}
+.container { max-width: 800px; margin: 0 auto; }
+header { margin-bottom: 2.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 1.5rem; }
+h1 { font-size: 1.8rem; color: var(--accent-color); margin-bottom: 0.5rem; word-break: keep-all; }
+.date { color: var(--muted-color); font-size: 0.95rem; }
+.content h2 {
+  font-size: 1.25rem;
+  color: var(--accent-color);
+  margin: 2rem 0 0.8rem;
+  padding-left: 0.75rem;
+  border-left: 4px solid var(--accent-color);
+}
+.content p { margin-bottom: 1rem; color: var(--text-color); }
+.content ul { margin: 0 0 1rem 1.25rem; }
+.content li { margin-bottom: 0.5rem; }
+.paper-info {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+.paper-info p { margin-bottom: 0.4rem; }
+.paper-info strong { color: var(--accent-color); }
+a { color: var(--accent-color); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.back-link { display: inline-block; margin-top: 2.5rem; padding: 0.6rem 1.2rem; border: 1px solid var(--accent-color); border-radius: 6px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>최신 보안 논문 분석 - LLM 기반 자율주행 소프트웨어 스택의 동적 위협 분석</h1>
+    <p class="date">2026-08-15</p>
+  </header>
+  <div class="content">
+    <h2>논문 정보</h2>
+    <div class="paper-info">
+      <p><strong>제목:</strong> LLM-Assisted Dynamic Threat Analysis for Attacker-Reachable Software Weaknesses in Autonomous Vehicles</p>
+      <p><strong>저자:</strong> Md Wasiul Haque, Sagar Dasgupta, Mizanur Rahman, Md Rayhanur Rahman</p>
+      <p><strong>분야:</strong> 사이버보안 (cs.CR) / LLM 보안 · 취약점 연구</p>
+      <p><strong>게시일:</strong> 2026-08-13</p>
+    </div>
+
+    <h2>연구 배경</h2>
+    <p>자율주행 차량은 조향·제동 등 안전-critical 제어에 관여하는 대규모 소프트웨어 스택에 의존한다. 공격자 입력으로 도달 가능한(attacker-reachable) 약점은 정적 분석으로 후보를 찾을 수 있지만, 실제 악용 가능성을 동적으로 확인하려면 실행 가능한 테스트 하네스(harnass)를 수동으로 제작해야 해 비용이 매우 높다. 이 연구는 LLM이 이 과정을 자동화할 수 있는지, 오픈소스 자율주행 스택 Autoware를 대상으로 실증한다.</p>
+
+    <h2>핵심 내용</h2>
+    <ul>
+      <li>컴파일러 정밀(compiler-precise) 정적 분석을 185개 패키지에 수행, 1,375개 결정 규칙·2,274개 검증 체크·482개 입력-안전출력 플로우를 식별하고 약점 택소노미를 도출, 740개 도달 가능 사이트를 표본 추출.</li>
+      <li>로컬 오픈웨이트 LLM 2종(추론 모델·코드 특화 모델), 정적 컨텍스트 제거(ablation), naive 템플릿 기준선으로 총 3,700개 하네스 세트를 생성해 실제 빌드에서 sanitizer와 함께 컴파일하고, 컴파일러-in-the-loop 피드백으로 수리 후 퍼징.</li>
+      <li>핵심 발견: 첫 컴파일 실패의 80%가 프로그램 로직이 아닌 의존성 연결(dependency wiring) 문제라는 빌드 통합 실패 택소노미를 제시.</li>
+      <li>추론 모델은 첫 시도에 64%의 하네스를 컴파일한 반면, 코드 특화 모델은 6%에 그침. 수리 과정에서 추론 모델만 광범위한 stubbing을 통해 전체 객체 컴파일 가능 상태에 도달.</li>
+      <li>그러나 하네스의 절반 미만만 퍼저에 도달했고, 관찰된 37개 크래시는 전부 stubbed 코드에서 발생 — Autoware 자체가 아님. 예산 내에서 동적으로 확인된 약점은 0건.</li>
+    </ul>
+
+    <h2>보안 시사점</h2>
+    <ul>
+      <li>LLM 기반 동적 분석 자동화의 실제 병목은 후보 생성이나 퍼징이 아니라 '빌드 통합(build integration)'이며, 이는 대규모 실전 코드베이스에 LLM 보안 도구를 적용할 때 핵심 설계 고려사항이 된다.</li>
+      <li>stubbing으로 인한 크래시가 실제 타깃 크래시로 오인될 수 있어, LLM 생성 테스트 인프라의 결과는 '무엇이 검증되었는가'를 엄격히 추적해야 한다 — 잘못된 확신이 오탐(false positive)보다 위험할 수 있음.</li>
+      <li>추론 모델과 코드 특화 모델 간 컴파일 성공률 격차(64% vs 6%)는 LLM 선택이 취약점 분석 파이프라인의 효율을 결정적으로 좌우함을 시사한다.</li>
+      <li>자율주행 등 safety-critical 소프트웨어의 공급망·취약점 검증에서 '도달 가능하지만 미검증된' 약점이 다수 남을 수 있음을 보여주며, 동적 확인과 정적 분석의 결합 필요성을 재확인한다.</li>
+    </ul>
+
+    <h2>결론</h2>
+    <p>LLM이 자율주행 소프트웨어 스택의 동적 위협 분석을 자동화하는 데 상당한 가능성을 보였으나, 현재는 빌드 통합 장벽으로 인해 실제 약점의 동적 확인까지 도달하지 못했다. 연구는 LLM 기반 보안 자동화에서 '후보 생성 능력'보다 '실행 인프라 통합 능력'이 더 중요한 병목이라는 실증적 근거를 제공하며, 향후 컴파일러-in-the-loop 수리와 빌드 컨텍스트 주입을 개선하는 방향의 후속 연구가 필요함을 시사한다.</p>
+
+    <p><a href="https://arxiv.org/abs/2608.13450">원문 링크 (arXiv: 2608.13450)</a></p>
+    <a class="back-link" href="https://mr-newbe.github.io/">← 목록으로 돌아가기</a>
+  </div>
+</div>
+</body>
+</html>
