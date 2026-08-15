@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - openpilot: 300+ 차량에서 작동하는 세계 최대 오픈소스 자율주행 OS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - openpilot: 300+ 차량에서 작동하는 세계 최대 오픈소스 자율주행 OS</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-08-15</div>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <p><strong>프로젝트:</strong> commaai/openpilot — "An operating system for robotics"</p>
+                <p><strong>소유자:</strong> comma.ai (George Hotz 설립, 2016)</p>
+                <p><strong>Star / Fork:</strong> 63,414 ★ / 11,258 forks — GitHub에서 가장 많은 스타를 받은 자율주행 프로젝트</p>
+                <p><strong>라이선스:</strong> MIT (완전 오픈소스)</p>
+                <p><strong>언어:</strong> Python (C++ 핵심 안전 코드 포함)</p>
+                <p><strong>생성일:</strong> 2016-11-24, 최근 커밋: 2026-08-15 (매일 활발히 개발 중)</p>
+                <p><strong>최신 릴리스:</strong> v0.11.1 (2026-06-05)</p>
+                <p><strong>설명:</strong> 300개 이상의 지원 차량에서 운전자 보조 시스템(ADAS)을 업그레이드하는 오픈소스 자율주행 운영체제</p>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>openpilot은 comma.ai가 개발한 <strong>오픈소스 ADAS(첨단 운전자 보조 시스템) 플랫폼</strong>이다. 전용 하드웨어(comma four / comma 3X)와 차량 하네스를 연결하면, 기존 차량의 크루즈 컨트롤·조향 시스템을 제어해 적응형 크루즈 컨트롤(ACC), 차선 유지, 자동 차선 변경, 운전자 모니터링(dmonitoring), 대시캠 등의 기능을 추가한다. 현재 300개 이상의 차종을 지원하며, 소프트웨어는 'openpilot.comma.ai' URL 하나로 설치할 수 있다.</p>
+            <ul>
+                <li><strong>실제 차량에서 작동하는 레벨 2 자율주행:</strong> 연구·시뮬레이션용이 아니라 일반인이 구매한 차량에 장착해 매일 도로에서 주행하는 실전 검증된 소프트웨어. 다만 운전자의 감독이 필수인 L2/L2+ 수준이며 완전자율주행(L4~L5)은 아니다.</li>
+                <li><strong>수직 통합된 하드웨어·소프트웨어 스택:</strong> 카메라·컴퓨팅 유닛(comma four/3X)·차량 하네스까지 자체 설계 — 센서 캘리브레이션부터 모터 제어 명령 생성까지 전체 파이프라인을 한 코드베이스에서 관리.</li>
+                <li><strong>안전 중심 설계 문화:</strong> 안전 필수 코드는 C++로 분리해 대규모 시뮬레이션·하드웨어인더루프 테스트로 검증하며, 주행 중 이탈(disengagement) 데이터를 수집해 성능을 지속 측정 — 공개 커뮤니티가 버그를 보고하고 수정하는 구조.</li>
+                <li><strong>미리 빌드된 릴리스 브랜치 운영:</strong> 하드웨어별 릴리스 브랜치(release-mici / release-chestnut / release-tizi)를 제공해 일반 사용자가 최신 기능을 안정적으로 받아볼 수 있게 함 — 활발한 릴리스 사이클(v0.11.1, 2026-06)이 유지보수 수준을 보여줌.</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>해커 출신 창업자의 상징적 프로젝트:</strong> 아이폰 탈옥으로 유명한 George Hotz가 2016년 설립한 comma.ai의 핵심 프로젝트로, "자율주행을 민주화하겠다"는 사명 아래 MIT 라이선스로 전면 공개 — 기술 커뮤니티에서 가장 상징적인 자율주행 오픈소스.</li>
+                <li><strong>GitHub 최다 스타 자율주행 저장소:</strong> 63,000개가 넘는 스타와 11,000개 이상의 포크로, Apollo·CARLA·Autoware 등 다른 유명 프로젝트를 압도하는 커뮤니티 규모. 전용 Discord와 방대한 커스텀 펌웨어 생태계(Fork)가 형성되어 있음.</li>
+                <li><strong>2016년부터 10년간 지속된 활발한 개발:</strong> 생성일(2016-11)부터 오늘(2026-08-15)까지 매일 커밋이 이어지는 장수 프로젝트 — 0.x → v0.11.x까지 메이저 릴리스가 꾸준히 나오며, "자율주행 소프트웨어의 실제 수명주기"를 보여주는 사례.</li>
+                <li><strong>연구·교육용 레퍼런스로도 가치:</strong> 실제 차량 제어·센서 융합·안전 아키텍처를 공부하려는 연구자와 학생에게 완전한 실전 코드베이스를 제공하며, 자율주행 스타트업들의 벤치마킹 대상이기도 함.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>openpilot은 자율주행 기술이 "연구실 논문"을 넘어 <strong>일반인의 차량에서 매일 작동하는 제품</strong>이 될 수 있음을 증명한 프로젝트다. 오픈소스 + 상용 하드웨어 + 대규모 커뮤니티라는 결합이 안전 검증과 기능 개선을 동시에 가속하는 선순환을 만들었고, 최근에는 "자동차를 넘어 로보틱스 운영체제"로 정체성을 확장하며 로봇·드론 등으로 범위를 넓히고 있다. 다만 여전히 운전자 감독이 필요한 L2+ 수준이며, 완전자율주행까지의 격차와 안전 책임 문제는 풀어야 할 과제로 남는다. 자율주행의 산업화·대중화를 고민하는 사람에게 필수적으로 살펴봐야 할 오픈소스 레퍼런스다.</p>
+            <p>원문: <a href="https://github.com/commaai/openpilot" target="_blank">https://github.com/commaai/openpilot</a></p>
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
