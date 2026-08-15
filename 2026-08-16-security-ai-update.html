@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-08-16</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-08-16 | <i class="fa-solid fa-tags"></i> Daily News, 취약점, 악성코드, APT
+        </div>
+
+        <div class="content">
+            <h2>1. SAP Commerce Cloud 최대 심각도 결함(CVE-2026-58231, CVSS 10.0) — 패치 3일 만에 실전 악용 시도 포착</h2>
+            <p>SAP Commerce Cloud(Data Hub Adapter)의 최대 심각도 취약점 CVE-2026-58231(CVSS 10.0)이 패치 공개 3일 만에 실전 악용 시도가 관찰됐다. 기본 인증 클라이언트를 남용한 무인증 공격자가 검증이 부족한 특정 함수에 조작된 입력을 전달해 임의 코드 실행과 내부 컴포넌트 손상에 이를 수 있다.</p>
+            <ul>
+                <li><strong>악용 현황:</strong> 위협 인텔리전스사 Defused Cyber가 허니팟 시스템에서 패치 공개 3일 후 악용 시도를 탐지. 공개 PoC는 없는 상태였으나 스캐닝/악용 시도가 시작됨</li>
+                <li><strong>대응:</strong> Onapsis는 고객에게 패치된 Commerce Cloud 릴리스로 업그레이드 후 재빌드/재배포할 것을 권고. 임시 대응책으로 IP Filter Set 설정으로 취약 엔드포인트 접근 제한 가능</li>
+                <li><strong>배후:</strong> 현재 악용 주체는 미확인. 다만 과거 SAP NetWeaver 취약점(CVE-2025-31324)은 중국 연계 정찰 그룹(UNC5221, UNC5174, CL-STA-0048)과 사이버 범죄 조직(BianLian, RansomExx)이 무기화한 전례가 있음</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/sap-commerce-cloud-cve-2026-58231.html" target="_blank">The Hacker News - SAP Commerce Cloud CVE-2026-58231 Targeted in Exploitation Attempts Days After Patch</a></p>
+
+            <h2>2. Apple macOS Screen Sharing 취약점(CVE-2026-65400, CVSS 9.8) 악용 — 인터넷 노출 Mac에 Monero 채굴기 설치</h2>
+            <p>최근 패치된 Apple macOS 화면 공유(Screen Sharing) 인증 결함이 실전 악용되고 있다. 네덜란드 NCSC-NL 경고에 따르면 인터넷에 포트 5900이 노출된 Mac 시스템에서 루트 권한을 획득한 뒤 Monero 암호화폐 채굴기를 설치한 사례가 다수 확인됐다.</p>
+            <ul>
+                <li><strong>취약점:</strong> CVE-2026-65400(CVSS 9.8) — Screen Sharing 컴포넌트의 인증 문제로, 네트워크 접근이 가능한 공격자가 유효 자격증명 없이 내장 원격 데스크톱 서비스에 인증할 수 있음</li>
+                <li><strong>패치:</strong> 8월 6일 긴급 업데이트로 해결 — macOS Tahoe 26.6.1, Sequoia 15.7.9, Sonoma 14.8.9. 연구자 Alfredo Pesoli(Bynario)가 발견·신고</li>
+                <li><strong>관련 결함:</strong> 같은 Screen Sharing 서버 계열에서 CVE-2026-43779(9.8), CVE-2026-43777(7.5, DoS), CVE-2026-43760(8.6)도 함께 패치됨</li>
+                <li><strong>시사점:</strong> 제로데이 악용 여부와 공격 규모는 아직 확인 중 — 원격 데스크톱 서비스를 인터넷에 노출한 macOS 운영자는 즉시 패치 필요</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/apple-macos-screen-sharing-flaw.html" target="_blank">The Hacker News - Apple macOS Screen Sharing Flaw Exploited on Internet-Exposed Macs to Install Monero Miner</a></p>
+
+            <h2>3. Apple, 110개국 사용자에게 용병 스파이웨어 표적 가능성 경고 발송</h2>
+            <p>Apple이 용병 스파이웨어(mercenary spyware) 공격 표적이 됐을 가능성이 있는 사용자들에게 신규 위협 알림을 발송했다. 이번 배치로 누적 150개국 이상의 사용자에게 알림이 전달됐으며, 기자·활동가·정치인·외교관 등 개인 신분 때문에 표적이 된 고위험 인물들이 주 대상이다.</p>
+            <ul>
+                <li><strong>알림 방식:</strong> iPhone 잠금 화면·설정의 위협 알림, Apple 계정 이메일(threat-notifications@email.apple.com), account.apple.com 로그인 시 배너 3가지 경로로 통지</li>
+                <li><strong>성격:</strong> Apple은 특정 공격자나 지역을 특정하지 않으며, 스파이웨어 공급업체가 막대한 자원을 투입해 개발한 고도화 공격으로 일반 사이버 범죄보다 훨씬 정교함</li>
+                <li><strong>대응 권고:</strong> 최신 소프트웨어 업데이트, Apple 계정 2FA 활성화, Stolen Device Protection 켜기, Lockdown Mode 활성화, 알 수 없는 발신자의 링크·첨부물 차단</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/apple-warns-users-in-110-countries-they.html" target="_blank">The Hacker News - Apple Warns Users in 110 Countries They May Be Targets of Mercenary Spyware</a></p>
+
+            <h2>4. 해커, 만료 도메인에 약 700만 달러 투자 — 트래픽을 사기·악성코드로 리다이렉트</h2>
+            <p>위협 행위자들이 만료된 도메인(dropcatch domain)을 대량 확보해 이전 도메인의 트래픽과 평판을 물려받아 사기 사이트·악성코드로 유도하는 캠페인이 확산 중이다. DNS 보안 업체 Infoblox 분석에 따르면 2026년 상반기 기준 하루 평균 5만여 개의 dropcatch 도메인이 재등록되며 전체 신규 등록의 약 20%를 차지한다.</p>
+            <ul>
+                <li><strong>규모:</strong> gTLD만 하루 평균 50,400개, ccTLD 포함 시 약 65,000개 — 신규 등록 5건 중 1건이 만료 도메인 재등록</li>
+                <li><strong>위험성:</strong> 만료 도메인은 이전 생애의 평판·연결 관계를 상속받아 보안 제품과 평판 기반 알고리즘의 신뢰를 얻기 쉬워 공격자에게 특히 유용</li>
+                <li><strong>주요 TLD:</strong> .net과 .xyz가 가장 활발, .com은 3위. 주요 등록 대행사는 GoDaddy, Namecheap, DropCatch.com</li>
+                <li><strong>대응:</strong> 브랜드 도메인 만료 관리(갱신 기간 준수)와 만료 도메인의 재등록 모니터링이 필요</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/hackers-spend-nearly-7-million-on.html" target="_blank">The Hacker News - Hackers Spend Nearly $7 Million on Expired Domains to Redirect Traffic to Scams and Malware</a></p>
+
+            <h2>5. Mustang Panda(HoneyMyte), 서명된 Windows 커널 루트킷 장착한 CoolClient 백도어 신형 배포</h2>
+            <p>중국 연계 APT 그룹 Mustang Panda(일명 HoneyMyte)가 서명된 Windows 커널 모드 루트킷을 탑재한 업데이트된 CoolClient 백도어를 배포 중이다. 카스퍼스키는 미얀마·몽골·파키스탄·러시아에서 정부 기관 포함 피해자를 확인했으며, CoolClient는 PlugX 감염 이후 2차 백도어로 설치되는 패턴을 보인다.</p>
+            <ul>
+                <li><strong>루트킷:</strong> 커널 모드 드라이버가 악성 프로세스·파일·레지스트리·C2 네트워크 정보를 은닉. SCM 접근 권한과 SeTcbPrivilege가 있을 때 드라이버를 Windows 서비스로 설치하고 IOCTL로 제어</li>
+                <li><strong>기능:</strong> 키로깅, 클립보드 탈취, 자격증명 수집, 파일 관리, 시스템 정찰 및 플러그인 기반 추가 기능</li>
+                <li><strong>공격 체인:</strong> 미얀마 캠페인에서 PlugX가 1차 침투 후 CoolClient 배포 — Microsoft Defender 제외 설정, Sangfor 정상 실행 파일을 defender.exe로 개명해 DLL 사이드로딩, SYSTEM 권한 스케줄 작업으로 지속성 확보, UAC 우회</li>
+                <li><strong>IoC:</strong> 카스퍼스키가 파일 해시·경로·C2 도메인 등 침해 지표 공개</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/mustang-panda-adds-signed-windows.html" target="_blank">The Hacker News - Mustang Panda Adds Signed Windows Rootkit to CoolClient Backdoor for Stealth</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
