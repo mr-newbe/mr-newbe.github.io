@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-08-17</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-08-17 | <i class="fa-solid fa-tags"></i> Daily News, 데이터 유출, 제로데이, 공격 기법, APT, 피싱
+        </div>
+
+        <div class="content">
+            <h2>1. 하드웨어 지갑 업체 SafePal, 인가 결함으로 고객 39,798명 주문 정보 유출</h2>
+            <p>암호화폐 하드웨어 지갑 업체 SafePal이 주문 추적 플러그인의 '인가(authorization) 결함'으로 인해 약 3만 9,798명 고객의 주문 정보가 노출된 데이터 유출 사고를 공개했다. 공격자가 주문 번호만 바꿔 다른 고객의 영수증·배송 정보를 조회할 수 있는 IDOR 유형의 결함으로, 2025년 3월 2일부터 2026년 4월 11일 사이 주문 고객의 이름·주소·연락처가 노출됐다.</p>
+            <ul>
+                <li><strong>노출 데이터:</strong> 이름, 실제 주소, 연락처 등 주문 정보 — 단, 암호화폐 자금·시드 문구·개인 키·은행 정보·정부 ID는 노출되지 않음</li>
+                <li><strong>사고 원인:</strong> 주문 추적 플러그인의 인가 결함(무작위 주문 번호 조회로 타인 주문 열람 가능)</li>
+                <li><strong>후속 위험:</strong> 노출된 고객 대상 피싱·사칭 공격 위험 증가 경고</li>
+                <li><strong>시사점:</strong> 최근 Coldcard 해킹(약 1억 2,000만 달러 BTC 탈취)과 잇따라, 하드웨어 지갑도 무위험이 아님 — 보관 분산 필요성 대두</li>
+            </ul>
+            <p>출처: <a href="https://www.coindesk.com/tech/2026/08/16/crypto-wallet-safepal-reveals-a-data-breach-exposing-nearly-40-000-customers-order-info" target="_blank">CoinDesk - Crypto wallet SafePal reveals a data breach exposing nearly 40,000 customers' order info</a></p>
+
+            <h2>2. Microsoft Defender 패치 우회 제로데이 'ShieldBreak' PoC 공개 — SYSTEM 권한 탈취</h2>
+            <p>보안 연구자 'Chaotic Eclipse'(INFINITE NIGHTMARE)가 Microsoft Defender의 패치 우회 제로데이 'ShieldBreak' PoC를 공개했다. CVE-2026-50656 패치를 우회해 Defender가 활성화된 Windows 11 시스템에서 SYSTEM 권한으로 임의 코드 실행이 가능하며, 보안 전문가 케빈 보몬트(Kevin Beaumont)와 윌 도먼(Will Dormann)이 실제 동작을 검증했다. Microsoft는 현재 조사 중이라고 밝혔다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> Defender 클라우드 하이드레이션 스캔 중 cfapi(Cloud Filter API)를 통한 user-mode 콜백 훅으로 파일 내용 변조</li>
+                <li><strong>세부 절차:</strong> EICAR 파일 설치 → Object Manager 심볼릭 링크로 스캔 경로를 system32로 조작 → CLFS로 phoneinfo.dll(기본 부재 파일) 교체 → QueueReporting 스케줄 작업이 wermgr.exe -upload를 최고 권한으로 실행 → wer.dll이 phoneinfo.dll을 로드해 conhost.exe를 SYSTEM 권한으로 기동</li>
+                <li><strong>차이점:</strong> 기존 RoguePlanet(파일시스템 레이스)과 달리 클라우드 공급자·CLFS·하이드레이션·phoneinfo.dll을 활용하는 완전히 다른 기법</li>
+                <li><strong>대응:</strong> Windows 10도 취약하지만 PoC는 미지원, Windows 11에서 확인 — Microsoft "적극 조사 중"</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/shieldbreak-zero-day-poc-claims.html" target="_blank">The Hacker News - ShieldBreak Zero-Day PoC Claims Microsoft Defender Patch Bypass With SYSTEM Access</a></p>
+
+            <h2>3. Chrome DevTools 프로토콜 악용 신기법 'CDP-Enable-BOF' — 실행 중인 브라우저 세션 하이재킹</h2>
+            <p>SpecterOps가 실행 중인 Chrome/Edge 프로세스 내부에서 디버깅 서버를 직접 활성화하는 Beacon Object File(BOF) 'CDP-Enable-BOF'를 공개했다. CFG·TLS·CET 보호 우회를 위해 브라우저 UI 스레드에서 Chromium 내부 함수 StartRemoteDebuggingServer를 호출하며, 이를 통해 쿠키·저장된 비밀번호·방문 기록 등 브라우저 데이터 전체를 탈취할 수 있다.</p>
+            <ul>
+                <li><strong>동작 원리:</strong> chrome.dll/msedge.dll 모듈 탐색 → 마스크 바이트 시그니처로 내부 심볼 해석 → 원격 메모리에 스텁 할당 → 브라우저 UI 스레드에서 원격 디버깅 서버 기동</li>
+                <li><strong>활용 워크플로:</strong> Storage.getCookies로 쿠키 탈취, 방문 기록·북마크·확장 프로그램·스크린샷·저장된 비밀번호 메타데이터 및 비밀번호 복구까지 가능</li>
+                <li><strong>선행 연구:</strong> DeathFlamingo의 Edge CDP 인젝션(2025년 12월), Cedric Van Bockhaven의 'Modern Session Hijacking by Living off the DevTools Protocol' 기반</li>
+                <li><strong>제약:</strong> x64 시스템, 실행 중인 브라우저 프로세스 필요 — 관리자 권한 요구 여부는 미확정</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/chrome-devtools-technique-enables.html" target="_blank">The Hacker News - Chrome DevTools Technique Enables Authenticated Session Hijacking in Live Windows Browsers</a></p>
+
+            <h2>4. 채용 사기 피싱 캠페인 3,000개 이상 URL 적발 — BitB 가짜 로그인으로 기업 계정 탈취</h2>
+            <p>CTM360이 브라우저-인-브라우저(BitB) 기법으로 가짜 인증 팝업을 띄워 채용 사이트를 사칭하는 대규모 피싱 캠페인을 발견했다. 3,000개 이상의 URL 중 약 96%가 Calendly 테마를 사용하며, 실제 채용 담당자의 공개 정보를 도용해 신뢰를 만들고 기업 이메일 계정 탈취를 노린다.</p>
+            <ul>
+                <li><strong>피싱 킷 구조:</strong> Svelte/SvelteKit 상태 머신 기반 — CAPTCHA→ID→비밀번호→MFA(OTP·전화번호·접미사 검증) 단계를 Socket.IO로 제어</li>
+                <li><strong>표적 선별:</strong> 개인 이메일 도메인은 필터링하고 기업 계정만 통과시켜 엔터프라이즈 신원 탈취에 집중</li>
+                <li><strong>우회 방식:</strong> 실제 서비스에 로그인을 통과시켜 피해자에게 동일한 MFA 요청을 보여주고 코드를 가로채는 실시간 릴레이 방식 — 성공 시 정상 Calendly 페이지로 리다이렉트해 의심 차단</li>
+                <li><strong>인프라:</strong> 813개 등록 도메인(.cfd 40%, .com 25.1%), 50.9%가 AWS EC2 호스팅, Cloudflare로 실제 서버 은닉</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/ctm360-uncovers-over-3000-recruitment.html" target="_blank">The Hacker News - CTM360 Uncovers Over 3,000 Recruitment Phishing URLs Using Browser-in-the-Browser (BitB) Credential Traps</a></p>
+
+            <h2>5. 신종 백도어 'PATCHCORD' — 아프간 통신사와 인도 정부 IT망 동시 표적</h2>
+            <p>Acronis가 아프간 통신 인프라와 인도 정부 IT 네트워크를 노리는 신종 백도어 'PATCHCORD'를 발견했다. 브라우저 바로가기 하이재킹을 지속성 메커니즘으로 사용하는 것이 특징으로, 사용자가 평소처럼 브라우저를 실행하는 동안 백그라운드에서 악성코드가 동작한다. 인도 공격에서는 NIC 사칭 사이트로 SHEETCORD 변종을 유포하는 것도 확인됐다.</p>
+            <ul>
+                <li><strong>C2 명령 기능:</strong> 비콘 간격 조정, 프로세스 열거, 셸코드 메모리 내 복호화·실행, cmd.exe 통한 임의 명령 실행</li>
+                <li><strong>지속성 기법:</strong> HKCU\...\Run 레지스트리에 BeaconBrowserHijack 값 존재 시 우회, 없으면 브라우저 바로가기 하이재킹으로 재부팅 후에도 지속 — 하이재킹 시 정상 브라우저를 먼저 투명하게 실행해 사용자 경험 유지</li>
+                <li><strong>SHEETCORD 변종:</strong> 인도 정부 IT망 표적 — nic-support[.]site 사칭 사이트로 유포, PowerShell 기반 RCE, Google Sheets API를 C2로 사용, Brave·Opera·Vivaldi 바로가기도 하이재킹</li>
+                <li><strong>시사점:</strong> 통신·정부 IT 인프라를 노린 국가 지원 공격 그룹의 브라우저 신뢰 악용 확산</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/new-patchcord-backdoor-targets-afghan.html" target="_blank">The Hacker News - New PATCHCORD Backdoor Targets Afghan Telecom and Indian Critical Infrastructure</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
