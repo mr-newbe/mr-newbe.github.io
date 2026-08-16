@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - DH-VLM: 협력 주행을 위한 이중-호라이즌 잠재 추론 프레임워크</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - DH-VLM: 협력 주행을 위한 이중-호라이즌 잠재 추론 프레임워크</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-08-16</div>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <p><strong>논문:</strong> DH-VLM: Dual-Horizon Cooperative Latent Reasoning for Autonomous Driving</p>
+                <p><strong>저자:</strong> Ziyi Song, Chen Xia, Hang Yu, Sheng Zhou, Zhisheng Niu (칭화대 등)</p>
+                <p><strong>분야:</strong> cs.RO (로보틱스) — V2X 협력 주행, VLM 기반 계획</p>
+                <p><strong>게시일:</strong> 2026-08-10 (arXiv)</p>
+                <p><strong>arXiv:</strong> 2608.09333v1</p>
+                <p><strong>핵심 성과:</strong> 계획 L2 오차 14.6%↓, 충돌률 26.9%↓, 통신 비용 57.3%↓</p>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>DH-VLM은 <strong>인프라(도로변 장치, RSU)와 자차(ego vehicle) 간 비대칭 협력을 통해 자율주행 VLM의 추론을 강화하는 프레임워크</strong>다. 대규모 언어모델(LLM) 기반 주행 모델은 전역적 상황 이해와 장기 계획에 강점이 있지만, 단독 차량에서는 센서 감지 범위·가려짐(occlusion) 한계와 막대한 연산·지연 비용 때문에 실차 탑재가 어렵다. DH-VLM은 인프라가 다층 은닉 상태를 집약해 '전역 추론 호라이즌'의 잠재 가이던스(latent guidance)를 만들고, 이를 자차 모델에 주입하는 <strong>Infrastructure-Driven Latent Evolution</strong> 메커니즘으로 조건부 잠재 정제를 수행한다. 자차는 장거리 문맥을 활용하면서도 로컬 계획 호라이즌 내 자율적 의사결정은 그대로 유지한다.</p>
+            <ul>
+                <li><strong>이중-호라이즌 잠재 추론:</strong> 인프라의 '전역 추론 호라이즌'(global-reasoning horizon)과 자차의 '로컬 계획 호라이즌'(local planning horizon)을 분리 — 인프라가 멀리 보이는 장거리 문맥을 요약해 전달하고, 자차는 즉각적인 주행 결정은 스스로 내리는 구조로 안전성과 자율성을 동시에 확보.</li>
+                <li><strong>비대칭 협력 + 낮은 통신 비용:</strong> 원본 센서 데이터나 쿼리 기반 토큰을 주고받는 대신 '잠재 가이던스'만 교환해 통신 비용을 57.3%, GPU 메모리 사용량을 25.5% 절감 — 실도로 V2X 대역폭 제약에서 실용적.</li>
+                <li><strong>협력 전용 QA 데이터셋:</strong> 장면 이해와 자차 맞춤형 이해를 포함한 협력 지향 QA 데이터를 자체 구축해 반사실적(counterfactual)·안전 인지 추론을 학습에 반영.</li>
+                <li><strong>검증된 성능:</strong> 이전 SOTA 대비 계획 L2 오차 14.6%, 충돌률 26.9% 개선. 인프라 가이던스에 오류가 섞여 들어와도 강건함(robustness)을 유지하는 것으로 확인됨.</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>협력 주행(V2X)의 실용적 패러다임 제시:</strong> V2X·인프라 협력은 5G-V2X, C-V2X 상용화와 함께 자율주행 산업의 핵심 화두. DH-VLM은 '어떻게 하면 적은 통신량으로 인프라의 장거리 지능을 활용할 수 있는가'라는 실전 문제를 직접 해결해 산업적 파급력이 큼.</li>
+                <li><strong>VLM 기반 주행의 계산 비용 문제 해결:</strong> LLM/VLM 주행 모델의 최대 걸림돌인 차량 탑재 연산·지연 비용을 '인프라로 추론을 분산'하는 방식으로 우회 — 온보드 경량화와 협력 지능을 동시에 추구하는 최신 흐름을 대표.</li>
+                <li><strong>안전 인지 추론과 강건성 검증:</strong> 반사실적·안전 인지 QA와 인프라 오류에 대한 강건성 실험을 포함해, '통신 실패·오류 시에도 안전한가'라는 실도로 신뢰성 질문에 답하려 한 점이 연구·산업 양쪽에서 높게 평가받는 이유.</li>
+                <li><strong>국내외 협력주행 연구와 직결:</strong> 자율주행-인프라 협력(인프라 인식 정보 공유, C-ITS)은 국내 자율주행 실증 사업에서도 활발히 연구되는 주제로, KROAD 등 국내 연구와 접점이 큰 최신 레퍼런스.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>DH-VLM은 "단독 차량의 지능만으로는 한계"라는 협력 주행의 전제를, <strong>잠재 공간(latent space)에서의 비대칭 협력</strong>이라는 새로운 방식으로 풀어낸 논문이다. 원시 데이터 공유 대신 고수준의 잠재 가이던스만 교환하는 설계는 통신·연산 비용 문제를 완화하면서도 계획 성능을 끌어올렸고, 인프라 오류에 대한 강건성 검증까지 포함해 실제 도로 배포를 염두에 둔 실용성을 보여준다. 다만 단일 데이터셋 기반 평가라는 한계와, 인프라 신뢰성·보안(악의적 가이던스 주입)에 대한 추가 검증은 향후 과제로 남는다. 협력 주행이 자율주행의 다음 단계라면, DH-VLM은 그 '통신 효율'과 '지능 분산'의 방향을 가리키는 중요한 이정표다.</p>
+            <p>원문: <a href="https://arxiv.org/abs/2608.09333" target="_blank">https://arxiv.org/abs/2608.09333</a></p>
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
