@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>최신 보안 논문 분석 - 악성코드 분류 모델의 개념 드리프트 탐지 및 적응형 재학습</title>
+<style>
+:root {
+  --bg-color: #0f172a;
+  --card-bg: #1e293b;
+  --text-color: #e2e8f0;
+  --muted-color: #94a3b8;
+  --accent-color: #38bdf8;
+  --border-color: #334155;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.7;
+  padding: 2rem 1rem;
+}
+.container { max-width: 800px; margin: 0 auto; }
+header { margin-bottom: 2.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 1.5rem; }
+h1 { font-size: 1.8rem; color: var(--accent-color); margin-bottom: 0.5rem; word-break: keep-all; }
+.date { color: var(--muted-color); font-size: 0.95rem; }
+.content h2 {
+  font-size: 1.25rem;
+  color: var(--accent-color);
+  margin: 2rem 0 0.8rem;
+  padding-left: 0.75rem;
+  border-left: 4px solid var(--accent-color);
+}
+.content p { margin-bottom: 1rem; color: var(--text-color); }
+.content ul { margin: 0 0 1rem 1.25rem; }
+.content li { margin-bottom: 0.5rem; }
+.paper-info {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+.paper-info p { margin-bottom: 0.4rem; }
+.paper-info strong { color: var(--accent-color); }
+a { color: var(--accent-color); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.back-link { display: inline-block; margin-top: 2.5rem; padding: 0.6rem 1.2rem; border: 1px solid var(--accent-color); border-radius: 6px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>최신 보안 논문 분석 - 악성코드 분류 모델의 개념 드리프트 탐지 및 적응형 재학습</h1>
+    <p class="date">2026-08-16</p>
+  </header>
+  <div class="content">
+    <h2>논문 정보</h2>
+    <div class="paper-info">
+      <p><strong>제목:</strong> Concept Drift Detection and Adaptive Retraining of Malware Classification Models</p>
+      <p><strong>저자:</strong> Christofer Washington Berruz Chungata, Martin Jurecek, Katerina Potika, William B. Andreopoulos, Mark Stamp</p>
+      <p><strong>분야:</strong> 사이버보안 (cs.CR) / 머신러닝 보안 · 악성코드 탐지</p>
+      <p><strong>게시일:</strong> 2026-08-13</p>
+    </div>
+
+    <h2>연구 배경</h2>
+    <p>악성코드 탐지·분류 ML 모델은 공격자가 기존 악성코드를 끊임없이 변형하기 때문에 '개념 드리프트(concept drift)'로 인한 성능 저하에 특히 취약하다. 학습 시점의 데이터 분포와 운영 시점의 실제 데이터 분포가 달라지면 모델 정확도가 서서히 붕괴하지만, 이를 감지하지 못한 채 무작정 주기적으로 재학습하면 비용이 낭비된다. 이 연구는 드리프트가 실제로 발생했을 때만 재학습하는 '드리프트 인지(drift-aware)' 전략의 효용을 대규모 실험으로 검증한다.</p>
+
+    <h2>핵심 내용</h2>
+    <ul>
+      <li>자동 드리프트 탐지 기법 3종 비교: 신규 제안인 One-Class SVM(OCSVM) 기반 접근법, 기존 Minibatch K-Means(MK-Means), 통계적 기법인 Maximum Mean Discrepancy(MMD).</li>
+      <li>MLP, Random Forest, SVM, XGBoost 등 4개 학습 모델을 각각 ① 재학습 없는 정적(static) ② 무조건 주기 재학습(periodic) ③ 드리프트 감지 시에만 재학습(drift-aware) 시나리오로 평가.</li>
+      <li>드리프트 인지 시나리오에서는 정확도와 학습 효율 간 트레이드오프를 Pareto Front 분석으로 정량화.</li>
+      <li>결과: 3가지 드리프트 탐지 기법 모두 주기 재학습과 동등한 분류 정확도를 달성하면서도, 재학습해야 하는 모델 수를 크게 줄여 효율이 대폭 개선됨.</li>
+      <li>OCSVM 기반 드리프트 인지 재학습이 MK-Means·MMD 기반보다 전반적으로 우수한 성능을 보임.</li>
+    </ul>
+
+    <h2>보안 시사점</h2>
+    <ul>
+      <li>악성코드 탐지 파이프라인 운영에서 '언제 재학습할지'가 '어떻게 재학습할지'만큼 중요하며, 드리프트 감지 기반 재학습이 비용 대비 정확도를 최적화하는 실용적 방안임을 입증.</li>
+      <li>OCSVM 기반 탐지가 경량이면서도 우수해, 엔드포인트 보안 제품 등 자원 제약 환경의 온디바이스 모델 갱신에 적용 가능성이 높다.</li>
+      <li>공격자가 탐지 모델을 우회하기 위해 의도적으로 데이터 분포를 서서히 바꾸는 적응형 공격(adversarial drift)에 대응하는 모니터링 체계로 활용될 수 있다.</li>
+      <li>정적 모델(재학습 없음)과의 비교 결과는, 보안 ML 모델을 일회성으로 배포하고 방치하는 관행이 장기적으로 탐지 성능 붕괴로 이어짐을 재확인한다.</li>
+    </ul>
+
+    <h2>결론</h2>
+    <p>이 연구는 악성코드 분류 모델에서 개념 드리프트를 정확히 탐지할 수 있으며, 드리프트 인지 재학습이 주기 재학습과 동등한 정확도를 유지하면서 훨씬 적은 재학습 비용으로 달성 가능함을 대규모 실험으로 입증했다. OCSVM 기반 접근법이 가장 우수한 효율-정확도 균형을 보였으며, 이는 실전 보안 ML 시스템에서 비용 효율적인 모델 수명주기 관리의 설계 지침이 된다.</p>
+
+    <p><a href="https://arxiv.org/abs/2608.13465">원문 링크 (arXiv: 2608.13465)</a></p>
+    <a class="back-link" href="https://mr-newbe.github.io/">← 목록으로 돌아가기</a>
+  </div>
+</div>
+</body>
+</html>
