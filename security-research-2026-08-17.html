@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>최신 보안 논문 분석 - LLM 기반 의미론적 타입 검사를 통한 취약점 탐지</title>
+<style>
+:root {
+  --bg-color: #0f172a;
+  --card-bg: #1e293b;
+  --text-color: #e2e8f0;
+  --muted-color: #94a3b8;
+  --accent-color: #38bdf8;
+  --border-color: #334155;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.7;
+  padding: 2rem 1rem;
+}
+.container { max-width: 800px; margin: 0 auto; }
+header { margin-bottom: 2.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 1.5rem; }
+h1 { font-size: 1.8rem; color: var(--accent-color); margin-bottom: 0.5rem; word-break: keep-all; }
+.date { color: var(--muted-color); font-size: 0.95rem; }
+.content h2 {
+  font-size: 1.25rem;
+  color: var(--accent-color);
+  margin: 2rem 0 0.8rem;
+  padding-left: 0.75rem;
+  border-left: 4px solid var(--accent-color);
+}
+.content p { margin-bottom: 1rem; color: var(--text-color); }
+.content ul { margin: 0 0 1rem 1.25rem; }
+.content li { margin-bottom: 0.5rem; }
+.paper-info {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+.paper-info p { margin-bottom: 0.4rem; }
+.paper-info strong { color: var(--accent-color); }
+a { color: var(--accent-color); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.back-link { display: inline-block; margin-top: 2.5rem; padding: 0.6rem 1.2rem; border: 1px solid var(--accent-color); border-radius: 6px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>최신 보안 논문 분석 - LLM 기반 의미론적 타입 검사를 통한 취약점 탐지</h1>
+    <p class="date">2026-08-17</p>
+  </header>
+  <div class="content">
+    <h2>논문 정보</h2>
+    <div class="paper-info">
+      <p><strong>제목:</strong> Finding Vulnerabilities via LLM-Augmented Semantics-Aware Type-Checking</p>
+      <p><strong>저자:</strong> Ruizhe Wang, Meng Xu, N. Asokan</p>
+      <p><strong>분야:</strong> 사이버보안 (cs.CR) / LLM 기반 취약점 탐지 · 정적 분석</p>
+      <p><strong>게시일:</strong> 2026-08-14</p>
+    </div>
+
+    <h2>연구 배경</h2>
+    <p>기존 정적 분석 기반 취약점 탐지는 보안 전문가가 불안전한 코딩 패턴을 알고리즘 규칙으로 수작업 인코딩하는 방식에 의존한다. 그러나 이런 접근은 주로 구문(syntactic) 패턴에 집중하고 변수·함수 이름의 의미 같은 코드의 더 깊은 의미론적 정보를 간과한다. 소프트웨어 시스템이 복잡해질수록 구문 규칙만으로 취약점을 모델링하기가 점점 어려워진다. 이 연구는 LLM이 코드 심볼의 자연어 의미를 이해하는 능력을 활용해, 의미론 기반의 새로운 취약점 탐지 프레임워크를 제안한다.</p>
+
+    <h2>핵심 내용</h2>
+    <ul>
+      <li>SETYPE 제안: 소스 코드의 심볼·표현식 의미(자연어 기반)만으로 소스 코드에서 직접 도출할 수 있는 '의미론 인지 타입 시스템(semantics-aware type system)'.</li>
+      <li>타입 추론(type inference)과 타입 검사(type checking)를 모두 LLM이 수행하며, 타입 검사 실패 시 해당 지점을 잠재적 취약점으로 판정.</li>
+      <li>Python 웹 애플리케이션 대상 프로토타입 PYSETYPE 구현 및 실사용 애플리케이션에서 평가: 탐지 정밀도 87%, 탐지 정확도 88% 달성.</li>
+      <li>PYSETYPE로 15개의 잠재적 제로데이 취약점을 식별했고, 그중 9개는 개발자에 의해 실제 취약점으로 확인됨.</li>
+    </ul>
+
+    <h2>보안 시사점</h2>
+    <ul>
+      <li>LLM을 정적 분석의 '의미론 계층'에 통합하면 기존 구문 기반 규칙이 놓치는 논리·의미 수준의 결함을 찾을 수 있어, SAST 도구의 탐지 커버리지 확장 가능성을 보여준다.</li>
+      <li>코드베이스별 규칙을 수작업으로 작성할 필요 없이 심볼 의미만으로 타입 시스템을 구성하므로, 신규 언어·프레임워크에 대한 적응 비용이 낮다.</li>
+      <li>실제 제로데이 취약점 9건이 개발자 확인을 받았다는 점에서, LLM 기반 탐지가 단순 벤치마크 성공이 아닌 실전 발견으로 이어질 수 있음을 입증.</li>
+      <li>다만 LLM 추론 비용과 오탐(false positive) 관리, 그리고 LLM 자체가 악성 입력에 의해 오판정될 가능성 등이 실전 도입 전 해결 과제로 남는다.</li>
+    </ul>
+
+    <h2>결론</h2>
+    <p>이 연구는 코드의 자연어 의미를 타입 시스템으로 승격해 LLM이 타입 추론·검사를 수행함으로써 취약점을 탐지하는 SETYPE 프레임워크를 제시하고, PYSETYPE 프로토타입이 87% 정밀도·88% 정확도로 실사용 Python 웹 앱에서 15개의 잠재적 제로데이 취약점(9건 개발자 확인)을 발견했음을 보여준다. 구문 규칙에 의존하던 기존 정적 분석의 한계를 LLM의 의미론적 이해로 보완하는 유망한 방향을 제시한다.</p>
+
+    <p><a href="https://arxiv.org/abs/2608.14533">원문 링크 (arXiv: 2608.14533)</a></p>
+    <a class="back-link" href="https://mr-newbe.github.io/">← 목록으로 돌아가기</a>
+  </div>
+</div>
+</body>
+</html>
