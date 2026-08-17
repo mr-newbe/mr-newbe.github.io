@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-08-18</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-08-18 | <i class="fa-solid fa-tags"></i> Daily News, 취약점, 악성코드, APT, 패치
+        </div>
+
+        <div class="content">
+            <h2>1. GitLab GraphQL 치명적 결함(CVE-2026-19478, CVSS 9.4) — 비인증 공격자가 공개 프로젝트 삭제 가능</h2>
+            <p>GitLab이 자체 관리(Self-Managed) 설치 환경의 CE/EE를 대상으로 한 치명적 취약점을 해결하는 긴급 보안 업데이트를 배포했다. 특정 조건에서 비인증 공격자가 GraphQL 디렉티브를 악용해 공개 프로젝트와 사용자 데이터를 원격으로 수정하거나 삭제할 수 있다.</p>
+            <ul>
+                <li><strong>CVE:</strong> CVE-2026-19478 (CVSS 9.4, Critical) — 네트워크 경유, 자격증명 불필요, 피해자 조치 없이 악용 가능</li>
+                <li><strong>영향 버전:</strong> 18.2~18.11.10, 19.0~19.0.7, 19.1~19.1.5, 19.2~19.2.3 (18.2~18.10 브랜치는 수정 미포함)</li>
+                <li><strong>패치:</strong> GitLab 19.2.4, 19.1.6, 19.0.8, 18.11.11 — 정기 패치 주기(둘째/넷째 수요일) 밖 긴급 릴리스</li>
+                <li><strong>추가 결함:</strong> CVE-2026-19650 (CVSS 7.1, High) — GraphQL 멀티플렉스 쿼리 핸들러의 CSRF 취약점 (사용자 상호작용 필요)</li>
+                <li><strong>현황:</strong> GitLab.com/Dedicated은 이미 패치 적용, 실전 악용 및 공개 PoC는 아직 확인되지 않음</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/critical-gitlab-graphql-flaw-could-let.html" target="_blank">The Hacker News - Critical GitLab GraphQL Flaw Could Let Unauthenticated Attackers Delete Public Projects</a></p>
+
+            <h2>2. Snowflake GitHub Actions 워크플로우 인젝션 — 조작된 이슈로 내부 Jira 자격증명 탈취 (Wiz)</h2>
+            <p>Wiz 연구진이 Snowflake 공개 저장소(snowflakedb/snowflake-connector-net)의 GitHub Actions 워크플로우에서 명령 인젝션 취약점을 발견했다. 공격자가 조작된 GitHub 이슈를 생성하는 것만으로 내부 Jira API 토큰이 포함된 명령을 워크플로우에서 실행시킬 수 있다.</p>
+            <ul>
+                <li><strong>원인:</strong> .github/workflows/jira_issue.yml이 공개 이슈 생성 시 실행되며, 공격자 제어 값(제목/본문)을 shell run 블록에 직접 삽입 + 존재하지 않는 PR 속성 참조로 봇 체크 우회</li>
+                <li><strong>노출 정보:</strong> JIRA_BASE_URL, JIRA_USER_EMAIL, JIRA_API_TOKEN — qa@snowflake.net 소유 토큰으로 보안·컴플라이언스·버그바운티 Jira 프로젝트 읽기 권한 확인</li>
+                <li><strong>AI 각도:</strong> Wiz의 Red Agent(자율 공격 에이전트)가 최초 페이로드 문법 오류 후 전략을 바꿔 재시도하며 악용 성공 — GitHub Copilot Autofix 변경분과 연관 추정</li>
+                <li><strong>대응:</strong> 6월 23일 HackerOne 경유 신고 → 당일 PR #1402로 수정(환경변수+jq 인자 전달 방식), Jira 토큰 6월 24일 로테이션, 무단 접근 증거 없음</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/snowflake-github-actions-flaw-lets_0330881554.html" target="_blank">The Hacker News - Snowflake GitHub Actions Flaw Lets Crafted Issues Trigger Command Injection</a></p>
+
+            <h2>3. WordPress Forminator 플러그인 치명적 결함(CVE-2026-15748, CVSS 9.8) — 비인증 원격 코드 실행</h2>
+            <p>활성 설치 60만 개 이상의 WordPress 양식 플러그인 Forminator Forms에서 비인증 공격자가 악성 PHP 파일을 포함한 임의 파일을 업로드해 원격 코드 실행(RCE) 및 사이트 완전 장악에 이르게 할 수 있는 취약점이 공개됐다.</p>
+            <ul>
+                <li><strong>CVE:</strong> CVE-2026-15748 (CVSS 9.8) — handle_file_upload() 함수의 파일 유형 검증 부족, pipe-alternative MIME 키로 위험 확장자 블록리스트 우회</li>
+                <li><strong>전제 조건:</strong> File Upload 필드와 Select 필드를 모두 포함한 양식이 존재해야 악용 가능</li>
+                <li><strong>영향:</strong> 1.56.1 이하 모든 버전 → 1.56.2(7월 31일 배포)에서 해결</li>
+                <li><strong>악용 시나리오:</strong> 커스텀 업로드 저장 경로 사용 시 .htaccess 보호가 생성되지 않아 업로드된 PHP 요청만으로 코드 실행 가능</li>
+                <li><strong>관련 소식:</strong> Wordfence는 최근 User Profile Builder(활성 설치 4만+)의 인증 우회 결함(관리자 ID 1 계정 로그인 가능)도 공개</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/forminator-wordpress-flaw-can-enable.html" target="_blank">The Hacker News - Forminator WordPress Flaw Can Enable Unauthenticated RCE via Malicious PHP Uploads</a></p>
+
+            <h2>4. Unisoc VoLTE 영상통화 익스플로잇 체인 — Android 커널 전체 접근 권한 확보 (패치 없음)</h2>
+            <p>SSD Secure Disclosure가 Unisoc 모뎀 펌웨어를 탑재한 기기에서 VoLTE 영상통화를 통한 2단계 익스플로잇 체인을 공개했다. 전체 체인 완성 시 Android 커널 전체에 대한 접근 권한을 얻을 수 있으며, 칩셋 제조사의 수정이 이뤄지지 않은 상태다.</p>
+            <ul>
+                <li><strong>구성:</strong> 3월 공개된 SIP 영상통화 RCE(모뎀 레벨 발판) + 신규 권한 상승(CWE-1189, SoC 공유 리소스 격리 부재, CVE 미배정)</li>
+                <li><strong>영향 칩셋/기기:</strong> T606(모토로라 E13), T612(Realme C33), T7250(Xiaomi Redmi A5) 등 최소 3종 — 140개국 이상 판매 기기</li>
+                <li><strong>악용 조건:</strong> 공격자가 제어하는 사설 4G 셀룰러 네트워크 + 피해자가 수신 영상통화에 응답 (오픈소스 4G 코어 네트워크·SDR·특수 SIM으로 PoC 환경 구축)</li>
+                <li><strong>핵심 원인:</strong> 모뎀 프로세서와 앱 프로세서 간 공유 물리 메모리에 하드웨어 경계가 없어 모뎀 컨텍스트에서 커널 메모리 수정 가능</li>
+                <li><strong>현황:</strong> SSD가 이메일/LinkedIn으로 제조사에 연락했으나 응답 없음 — 2026년 2월 패치 모토로라 E13과 2026년 1월 패치 Redmi A5에서 확인</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/unisoc-volte-video-call-exploit-chain.html" target="_blank">The Hacker News - Unisoc VoLTE Video Call Exploit Chain Can Give Attackers Full Android Kernel Access</a></p>
+
+            <h2>5. 중국 추정 APT, VMware vCenter 취약점 악용해 Babuk 계열 랜섬웨어 배포 — 47개국 361개 IP 피해</h2>
+            <p>독일 IR 기업 QUIRSO가 최근 패치된 VMware vCenter 결함(CVE-2026-59310)을 악용한 공격 캠페인을 중국 연계 APT로 추정한다고 밝혔다. 공격자는 디렉토리 트래버설 결함으로 임의 코드 실행에 성공한 뒤 Babuk에서 파생된 랜섬웨어를 배포했다.</p>
+            <ul>
+                <li><strong>CVE:</strong> CVE-2026-59310 (CVSS 9.8, 디렉토리 트래버설 → 임의 코드 실행) — Broadcom이 7월 29일 패치 배포</li>
+                <li><strong>속성 근거:</strong> 공격 스크립트 내 중국어 아티팩트, 중국 보안 매체 연구 재사용, UTC+08:00 근무 패턴, 중국 본토 피해 배제 등 (중간 신뢰도)</li>
+                <li><strong>피해 규모:</strong> 공개 5일 후 악용 시작, 47개국 361개 피해 IP — 독일(55)·미국(41)·튀르키예(38)·이란(26)·프랑스(25) 순</li>
+                <li><strong>연계 공격:</strong> 같은 시스템에서 CVE-2026-59309(인증 우회) 악용 정황 — 8월 1일 관리자 계정 생성, "GoodMoodle-VCFleet/1.0" UA로 위장한 vSphere REST API 탐색</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/suspected-china-nexus-actor-exploits.html" target="_blank">The Hacker News - Suspected China-Nexus Actor Exploits VMware vCenter Flaw, Deploys Babuk-Derived Ransomware</a></p>
+
+            <h2>6. 신종 리눅스 봇넷 'Evooo1Bot' — 알려진 취약점 악용해 엣지 기기를 SOCKS5 프록시로 전환</h2>
+            <p>Fortinet FortiGuard Labs가 Mirai 봇넷 소스코드 기반의 미발견 리눅스 봇넷 패밀리 'Evooo1Bot'을 발견했다. 인터넷에 노출된 기기들을 장악해 SOCKS 프록시로 전환하며, 2026년 7월부터 실제 활동 중인 것으로 확인됐다.</p>
+            <ul>
+                <li><strong>기능:</strong> Mirai DDoS 엔진 재사용 + 암호화된 C2 통신, SSH 무차별 대입 스캐너, SOCKS 릴레이 모듈, 자격증명 스니퍼, 복수 취약점 익스플로잇 무기고</li>
+                <li><strong>악용 CVE:</strong> CVE-2007-3010(Alcatel), CVE-2016-6277(NETGEAR), CVE-2018-14558(Tenda), CVE-2021-46422(Telesquare), CVE-2024-29269(TLR-2005KSH), CVE-2025-55583(D-Link DIR-868L) 등 10개 이상</li>
+                <li><strong>감염 체인:</strong> wget.sh 로더 스크립트 실행 → 아키텍처별 봇넷 바이너리 다운로드 → Bash 히스토리 삭제로 흔적 제거</li>
+                <li><strong>탐지 회피:</strong> 분석 도구·샌드박스·가상환경 탐지 후 C2(포트 443)와 암호화 통신 — HTTPS 트래픽에 섞여 경계 탐지를 우회</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/evooo1bot-linux-botnet-exploits-known.html" target="_blank">The Hacker News - Evooo1Bot Linux Botnet Exploits Known Flaws to Turn Edge Devices Into SOCKS5 Proxies</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
