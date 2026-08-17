@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - BEVFormer: 카메라 전용 3D 인식의 랜드마크 프레임워크</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - BEVFormer: 카메라 전용 3D 인식의 랜드마크 프레임워크</h1>
+            <div class="date">2026-08-17</div>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>프로젝트:</strong> fundamentalvision/BEVFormer (ECCV 2022 공식 구현)</li>
+                    <li><strong>Star / Fork:</strong> 4,573 / 751</li>
+                    <li><strong>라이선스:</strong> Apache-2.0</li>
+                    <li><strong>언어:</strong> Python (PyTorch, mmdetection3d 기반)</li>
+                    <li><strong>생성 / 최근 커밋:</strong> 2022-03-30 / 2024-08-15 (연구용 완결 프로젝트, 최신 릴리스 v2.0 - 2022-06-27)</li>
+                    <li><strong>설명:</strong> 카메라만으로 자율주행 3D 인식(3D 객체 검출, BEV 시맨틱 맵 분할)을 수행하는 공식 구현</li>
+                </ul>
+            </div>
+            <h2>핵심 내용</h2>
+            <p>BEVFormer는 6대의 카메라 이미지를 Transformer 기반의 BEV(Bird's Eye View, 새의 눈으로 내려다보는 시점) 공간 표현으로 변환하는 프레임워크다. 자율주행의 인식(perception) 단계에서 LiDAR 없이 카메라만으로 주변 3D 환경을 이해하는 것을 목표로 한다.</p>
+            <ul>
+                <li><strong>Spatial Cross-Attention:</strong> BEV 공간의 각 query가 6개 카메라 이미지의 관심 영역(ROI)에서 특징을 샘플링해 2D 이미지 특징을 3D BEV 공간으로 올린다.</li>
+                <li><strong>Temporal Self-Attention:</strong> 이전 프레임의 BEV 특징을 현재 프레임의 query와 융합해 시간 축 정보를 활용, 정적 객체(정지 차량 등)와 동적 객체를 더 정확히 구분한다.</li>
+                <li><strong>성능:</strong> nuScenes 테스트셋에서 카메라 전용 방식으로 NDS 51.7%를 달성, 당시 최고 수준의 3D 객체 검출 성능을 기록했으며 Waymo에서도 검증됐다.</li>
+                <li><strong>확장성:</strong> 3D 객체 검출 외에도 BEV 시맨틱 맵 분할, 지도 생성 등 다양한 인식 태스크에 동일한 BEV 표현을 활용할 수 있다.</li>
+            </ul>
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>카메라 전용 인식의 기준점:</strong> Tesla가 주장해온 "Vision-Only" 접근을 연구 커뮤니티에서 실현한 대표 프레임워크로, LiDAR 대비 저렴한 하드웨어로 3D 인식이 가능함을 입증했다.</li>
+                <li><strong>압도적 인용과 영향력:</strong> ECCV 2022 발표 이후 수천 회 인용되며, 후속 BEV 기반 연구(BEVFormer v2, BEVDet, BEVDepth 등)의 출발점이 됐다.</li>
+                <li><strong>End-to-End 파이프라인의 백본:</strong> 지난 8월 5일/12일에 게시한 UniAD(CVPR 2023 Best Paper)를 비롯해 VAD, SparseDrive 등 최신 end-to-end 자율주행 프레임워크들이 BEVFormer의 BEV 표현을 인식 백본으로 채택했다.</li>
+                <li><strong>실용적 오픈소스:</strong> mmdetection3d 기반의 완성도 높은 학습/추론 코드와 사전학습 가중치를 제공해 연구 재현과 커스터마이징이 쉽다.</li>
+            </ul>
+            <h2>시사점 및 결론</h2>
+            <p>BEVFormer는 "카메라만으로도 충분히 강력한 3D 인식이 가능하다"는 것을 증명하며, 자율주행 인식의 패러다임을 2D 이미지 처리에서 3D BEV 공간 표현으로 전환시키는 데 결정적 역할을 했다. Transformer의 시공간 attention을 자율주행에 적용한 선구적 사례로, 현재 상용/연구용 시스템의 대부분이 채택하는 BEV 파이프라인의 표준을 세웠다. 다만 2022년 연구물 특성상 최근 활발한 유지보수는 없으며, 현대의 VLA(Vision-Language-Action) 기반 end-to-end 시스템들은 BEVFormer의 유산을 백본 수준에서 계승하며 진화하고 있다. 인식 → 예측 → 플래닝으로 이어지는 자율주행 스택 전체를 이해하려면 반드시 짚고 넘어가야 할 필수 레퍼런스다.</p>
+            <p>원문: <a href="https://github.com/fundamentalvision/BEVFormer" target="_blank">https://github.com/fundamentalvision/BEVFormer</a> (논문: <a href="https://arxiv.org/abs/2203.17270" target="_blank">arXiv:2203.17270</a>)</p>
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
