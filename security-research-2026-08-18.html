@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>최신 보안 논문 분석 - 대화형 에이전트의 프라이버시 인지 메모리 아키텍처</title>
+<style>
+:root {
+  --bg-color: #0f172a;
+  --card-bg: #1e293b;
+  --text-color: #e2e8f0;
+  --muted-color: #94a3b8;
+  --accent-color: #38bdf8;
+  --border-color: #334155;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.7;
+  padding: 2rem 1rem;
+}
+.container { max-width: 800px; margin: 0 auto; }
+header { margin-bottom: 2.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 1.5rem; }
+h1 { font-size: 1.8rem; color: var(--accent-color); margin-bottom: 0.5rem; word-break: keep-all; }
+.date { color: var(--muted-color); font-size: 0.95rem; }
+.content h2 {
+  font-size: 1.25rem;
+  color: var(--accent-color);
+  margin: 2rem 0 0.8rem;
+  padding-left: 0.75rem;
+  border-left: 4px solid var(--accent-color);
+}
+.content p { margin-bottom: 1rem; color: var(--text-color); }
+.content ul { margin: 0 0 1rem 1.25rem; }
+.content li { margin-bottom: 0.5rem; }
+.paper-info {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+.paper-info p { margin-bottom: 0.4rem; }
+.paper-info strong { color: var(--accent-color); }
+a { color: var(--accent-color); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.back-link { display: inline-block; margin-top: 2.5rem; padding: 0.6rem 1.2rem; border: 1px solid var(--accent-color); border-radius: 6px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>최신 보안 논문 분석 - 대화형 에이전트의 프라이버시 인지 메모리 아키텍처</h1>
+    <p class="date">2026-08-18</p>
+  </header>
+  <div class="content">
+    <h2>논문 정보</h2>
+    <div class="paper-info">
+      <p><strong>제목:</strong> What to Remember, What to Reveal: Privacy-Aware Memory for Conversational Agents</p>
+      <p><strong>저자:</strong> Wenjie Wang, Wenhe Si, Xinyue Xu, Yue Xu</p>
+      <p><strong>분야:</strong> 사이버보안 (cs.CR) / AI 에이전트 보안 · 개인정보 보호 · LLM 메모리</p>
+      <p><strong>게시일:</strong> 2026-08-17</p>
+    </div>
+
+    <h2>연구 배경</h2>
+    <p>장기 메모리(long-term memory)는 대화형 에이전트가 세션을 넘어 사용자 정보를 유지해 개인화된 서비스를 제공하게 해주는 핵심 기능이다. 그러나 기존 메모리 아키텍처는 주로 유용성(utility)만 최적화하고, PII(개인식별정보) 같은 민감 속성을 불필요하게 저장·재사용하는 프라이버시 위험을 간과해 왔다. 단순히 민감 값을 삭제하면 개인화 성능이 무너지기 때문에, 프라이버시 보호는 개별 레코드 정화가 아니라 민감 값의 전체 수명주기(life cycle)를 관리하는 방식으로 접근해야 한다는 것이 이 연구의 출발점이다.</p>
+
+    <h2>핵심 내용</h2>
+    <ul>
+      <li>SP-Mem(Sanitized Privacy-Mapped Memory) 제안: 메모리 유용성과 실제 민감 값 노출을 분리(decouple)하는 프라이버시 인지 메모리 아키텍처.</li>
+      <li>전 수명주기 설계: 원시 입력에서 민감 정보를 식별·분리하고, 정화된(sanitized) 콘텐츠와 실제 민감 값을 격리된 구조에 각각 저장.</li>
+      <li>작업 요구사항과 사용자 동의에 기반해 민감 값을 선택적으로만 검색(retrieve)하는 메커니즘으로 불필요한 노출 최소화.</li>
+      <li>응답 품질·프라이버시 행동·추론 비용을 함께 평가하는 프라이버시 인지 메모리 벤치마크를 도입하고, 다수 LLM 기반 에이전트 실험에서 SP-Mem이 더 강한 개인화를 유지하면서 불필요한 프라이버시 노출을 줄임을 입증.</li>
+    </ul>
+
+    <h2>보안 시사점</h2>
+    <ul>
+      <li>AI 에이전트가 장기 메모리에 PII를 축적·재사용하는 방식은 데이터 유출 사고 시 피해 범위를 확대하는 핵심 공격면이다. SP-Mem의 '정화 저장 + 격리 + 선택적 검색' 구조는 침해 발생 시 노출되는 민감 데이터의 표면을 줄이는 방어 설계 원칙을 보여준다.</li>
+      <li>메모리 프롬프트 인젝션·탈취 공격에 대비해, 민감 값을 별도 격리 구조에 두고 작업 필요 시에만 노출하는 것은 최소 권한(least privilege) 원칙을 메모리 계층에 적용한 사례로 볼 수 있다.</li>
+      <li>사용자 동의 기반의 선택적 검색은 GDPR 등 개인정보 규제에서 요구하는 데이터 최소화·목적 제한 원칙을 에이전트 메모리 설계에 실용적으로 구현하는 방향을 제시한다.</li>
+      <li>개인화 유용성과 프라이버시를 함께 평가하는 벤치마크가 공개되어, 향후 에이전트 메모리 보안 연구의 비교·검증 기준으로 활용될 수 있다.</li>
+    </ul>
+
+    <h2>결론</h2>
+    <p>이 연구는 대화형 에이전트의 장기 메모리에서 개인화 유용성을 희생하지 않으면서 PII 노출을 최소화하는 SP-Mem 아키텍처를 제시한다. 민감 정보의 식별·분리, 정화 저장, 동의 기반 선택적 검색이라는 전 수명주기 설계를 통해 기존 메모리 시스템의 '저장하면 노출된다'는 구조적 취약점을 완화했으며, 다수 LLM 에이전트 실험에서 개인화 성능을 유지하면서 불필요한 프라이버시 노출을 줄이는 효과를 검증했다. AI 에이전트 메모리 보안의 기준이 될 수 있는 의미 있는 연구다.</p>
+
+    <p><a href="https://arxiv.org/abs/2608.16551">원문 링크 (arXiv: 2608.16551)</a></p>
+    <a class="back-link" href="https://mr-newbe.github.io/">← 목록으로 돌아가기</a>
+  </div>
+</div>
+</body>
+</html>
