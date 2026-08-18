@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - GEO-Flag: Detecting and Measuring GEO-Optimized Web Content</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - GEO-Flag: Detecting and Measuring GEO-Optimized Web Content</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-08-19</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> GEO-Flag: Detecting and Measuring GEO-Optimized Web Content<br>
+                <strong>저자:</strong> Junjie Chu, Ye Leng, Mingjie Li, Yun Shen, Xinyue Shen, Yang Zhang<br>
+                <strong>분야:</strong> cs.CR / cs.LG / cs.IR (arXiv:2608.16824)
+            </div>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 연구 배경</h2>
+            <p>생성형 검색 엔진(Generative Engine)이 등장하면서 웹 콘텐츠가 검색 결과에 인용·선택될 가능성을 높이기 위해 페이지를 조작하는 <strong>GEO(Generative Engine Optimization)</strong>가 새로운 위협으로 부상했다. GEO로 최적화된 페이지는 실제 권위(authority)나 관련성과 무관하게 과도한 가시성을 얻고, 심지어 허위 정보가 그럴듯하게 뒷받침되는 것처럼 보일 수 있다. 기존 검색과 달리 생성형 검색은 경쟁 소스를 나란히 보여주는 대신 직접 답변을 합성하므로, 사용자가 출처의 신뢰성을 평가하기 위해 추가 상호작용을 해야만 하는 구조적 취약점이 있다. 그럼에도 GEO 페이지를 체계적으로 탐지·측정하는 방법은 거의 연구되지 않았다.</p>
+
+            <h2><i class="fa-solid fa-flask"></i> 핵심 내용</h2>
+            <ul>
+                <li><strong>GEOFlagBench 구축:</strong> 400개 쿼리, 4개 도메인, 8개 GEO 옵티마이저 계열에 걸친 3,200개 웹페이지 벤치마크를 구축하고 기존 GEO 탐지 방법을 체계적으로 평가</li>
+                <li><strong>기존 탐지기의 한계 발견:</strong> 가장 강력한 베이스라인도 통합 F1 0.880을 기록했지만, 방법별·저자 조건부(authorship-conditioned) 평가에서 상당한 취약점과 저자 관련 지름길(authorship shortcuts)에 대한 의존 가능성이 드러남</li>
+                <li><strong>IPT(Intervention-Paired Training) 제안:</strong> GEO 개입과 비GEO AI 폴리싱(논문·광고 문구 다듬기 등)에 대한 탐지기 응답을 함께 지도하는 훈련 기법. ModernBERT 기준 F1 0.862→0.944, 최악 그룹 정확도(worst-group accuracy) 0.725→0.883으로 대폭 개선</li>
+                <li><strong>GEO-gated 감사 에이전트:</strong> 탐지된 GEO 페이지의 Source Tier와 인용 URL의 검증 가능성(verifiability)을 감사하는 에이전트 시스템 개발</li>
+                <li><strong>실측 결과:</strong> Google Search 및 Gemini 기반 검색 결과 1,000개 실사용자 쿼리(10,095개 페이지)에 전체 파이프라인을 배포한 결과, 전체 GEO 보급률 8.90%, 2026년에 수정된 페이지 중에서는 16.36%에 달함</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 보안 시사점</h2>
+            <ul>
+                <li><strong>정보 조작의 새 경로:</strong> GEO는 SEO와 달리 사용자에게 보이는 '답변' 자체를 조작하므로, 허위 정보·악의적 콘텐츠가 공신력 있는 것처럼 포장되어 확산될 수 있는 공급망형 위협</li>
+                <li><strong>탐지 편향 위험:</strong> 저자 정보 등 표면적 신호에 의존하는 탐지기는 공격자가 authorship를 위장하면 쉽게 우회 가능 — IPT와 같은 개입 기반 학습으로 견고성을 높여야 함</li>
+                <li><strong>감사 자동화:</strong> GEO-gated Agent처럼 인용 URL의 검증 가능성을 자동 감사하는 방식은 생성형 검색 생태계의 무결성 모니터링 및 인시던트 대응 도구로 확장 가능</li>
+                <li><strong>실무 적용:</strong> 8.9%라는 실측 보급률은 생성형 검색에 의존하는 서비스(고객 지원, 보안 위협 인텔리전스 수집 등)가 출력물을 신뢰할 때 GEO 오염을 반드시 고려해야 함을 시사</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 결론</h2>
+            <p>GEO-Flag는 생성형 검색 시대의 콘텐츠 무결성 위협을 최초로 체계적으로 탐지·측정한 연구로, GEOFlagBench와 IPT라는 실용적 도구를 제공한다. 생성형 검색이 정보 소비의 주 채널이 되어가는 상황에서, GEO 탐지는 검색 생태계 신뢰성을 지키는 핵심 보안 기능이 될 것이다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2608.16824" target="_blank">https://arxiv.org/abs/2608.16824</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
