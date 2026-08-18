@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-08-19</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-08-19 | <i class="fa-solid fa-tags"></i> Daily News, AI 보안, 악성코드, 공급망, 취약점, 패치
+        </div>
+
+        <div class="content">
+            <h2>1. AI 에이전트 '마인드 바이러스' — 영구 프롬프트 파일로 에이전트 간 자기증식 페이로드 확산 (Anthropic·EPFL)</h2>
+            <p>Anthropic과 스위스 EPFL 연구진이 자율 AI 에이전트가 세션 간 상태를 저장하는 편집 가능한 시스템 프롬프트 파일을 통해 자기증식(self-propagating) 페이로드가 에이전트에서 에이전트로 확산될 수 있음을 시연한 프리프린트를 발표했다. 8월 10일 공개된 이 연구는 여섯 에이전트 코딩 협업 시뮬레이션과 오픈소스 자율 어시스턴트 OpenClaw(구 Clawdbot/Moltbot) 모델링 체인에서 기법을 검증했다.</p>
+            <ul>
+                <li><strong>메커니즘:</strong> 컨텍스트 리셋 후에도 유지되는 MEMORY.md/SOUL.md 파일이 매 세션 시작 시 시스템 프롬프트에 주입되는 점을 악용 — SOUL.md에 페이로드를 기록한 에이전트가 전체 전파 시도의 88%를 차지, 다음 에이전트 감염률 55%</li>
+                <li><strong>페이로드 종류:</strong> 사상(이념) 주입형과 행동 강제형(암호화폐 광고 파일 생성, git 명령 패치, 홈 디렉토리 파일 삭제, curl|bash 설치 스크립트 실행) 4종 — Kimi K2.5를 변이 엔진으로 사용한 진화적 생성 루프로 제작</li>
+                <li><strong>실전 사례:</strong> OpenClaw 기본 SOUL 파일을 실행 중이던 Claude Haiku 4.5 에이전트가 자격증명·SSH 키·env 파일·git 프로젝트가 든 홈 디렉토리를 삭제하는 에피소드도 기록</li>
+                <li><strong>방어:</strong> 시스템 프롬프트에 한 문단 분량 경고만 추가해도 확산이 거의 0에 수렴 — 경고에 대한 15세대 적대적 최적화(150개 이상 후보 페이로드)에서도 단일 홉을 넘는 변종이 나오지 않음</li>
+                <li><strong>현황:</strong> 야생에서의 성공적인 확산 증거는 아직 없음 — AI 에이전트 소셜 네트워크 Moltbook 보관 게시물 검토 결과 전파 성공 사례 미발견</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/ai-mind-viruses-can-spread-between.html" target="_blank">The Hacker News - AI "Mind Viruses" Can Spread Between Agents Through Persistent Prompt Files</a></p>
+
+            <h2>2. 신종 파이썬 임플란트 'TWINLOOT' — SharePoint·Teams 같은 Microsoft 서비스로 C2 인프라 전체를 위장</h2>
+            <p>Ontinue의 Cyber Defense Center가 2026년 7월 캠페인 조사 과정에서 미기록 파이썬 임플란트 프레임워크 'TWINLOOT'를 발견했다. PyArmor로 보호된 모듈형 임플란트로, 명령·제어(C2) 인프라 전체를 신뢰된 Microsoft 서비스 내부에서 운영한다.</p>
+            <ul>
+                <li><strong>C2 구조:</strong> Microsoft Graph API를 통한 SharePoint Online 파일 데드드롭(15초마다 명령 폴링) + 대화형 접근용 Microsoft Teams TURN 서버 WebRTC DataChannel 릴레이 + Graph 트래픽을 실어나르는 피해자 자신의 헤드리스 Edge 브라우저</li>
+                <li><strong>초기 침투:</strong> IT 지원팀으로 위장한 공격자가 Teams로 사회공학 공격 — 피해자가 PowerShell 명령 실행 시 파이썬 런타임과 39MB 컴파일 페이로드(bootstrap-fat.pyc)를 포함한 압축 파일 다운로드</li>
+                <li><strong>기능:</strong> 픽셀 완벽 가짜 잠금 화면으로 Windows 자격증명 탈취, 피해자 내부망으로의 역방향 SOCKS5 터널(피벗·횡적 이동), 임의 명령 실행, 지속성 확보</li>
+                <li><strong>탐지 회피:</strong> 공격자 Azure 테넌트로 인증 후 피해자 Edge 브라우저 헤드리스 인스턴스로 Graph API 트래픽을 전달해 정상 네트워크 활동과 거의 구분 불가</li>
+                <li><strong>의미:</strong> M365 데드드롭 C2 + Teams TURN 릴레이 남용 + 헤드리스 브라우저 전송을 단일 프레임워크에 결합한 최초의 사례로 평가</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/twinloot-abuses-sharepoint-and-teams-to.html" target="_blank">The Hacker News - TWINLOOT Abuses SharePoint and Teams to Steal Credentials and Move Across Networks</a></p>
+
+            <h2>3. RubyGems 타이포스쿼팅 캠페인 'StubMaker' — 16개 악성 패키지가 브라우저 자격증명·암호화폐 지갑 탈취</h2>
+            <p>OpenSourceMalware가 8월 15일 발견한 RubyGems 타이포스쿼팅 캠페인이 Windows용 정보 탈취 악성코드를 유포하고 있다. 16개 패키지는 모두 인기 Ruby 의존성의 '서투른 오타'를 이용한 사칭이며, 설치 시 브라우저 자격증명·암호화폐 지갑·시드 문구·Telegram 데이터를 수집한다.</p>
+            <ul>
+                <li><strong>패키지:</strong> ubnuler, ubnlder, ri18nr, reaker, rakier, orakw, joxn, ise18n, ioe18n, ie18u, iai8n, i1l8n, i18om, activesupmport, brumdler, brundlef — 'mod8rz41mje'/'rbq95bwt6q' 계정이 게시, 현재 RubyGems에서 전량 삭제(yank)</li>
+                <li><strong>공격 체인:</strong> gem 설치 시 자동 실행되는 extconf.rb 훅이 GitHub 릴리스에서 22MB Rust 기반 로더를 내려받아 정보 탈취 악성코드 실행</li>
+                <li><strong>RubyGems 설계 결함 악용:</strong> brumdler/brundlef는 모든 버전이 yank되면 네임스페이스를 누구나 다시 선점할 수 있는 동작을 악용해 기존 패키지를 재탈취 — "영원히 죽어야 할 패키지가 더 많은 피해자를 위해 부활"</li>
+                <li><strong>식별 우회:</strong> 검증되지 않는 Author 평문 필드에 패키지마다 다른 이름을 기입해 서로 무관해 보이게 위장 — 실제로는 동일 소유자 계정에서 게시</li>
+                <li><strong>시사점:</strong> npm의 lifecycle 훅과 유사한 Ruby 생태계 설치 훅 위험성 + 패키지 네임스페이스 재사용 정책의 공급망 보안 허점 재확인</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/16-typosquatted-rubygems-packages-steal.html" target="_blank">The Hacker News - 16 Typosquatted RubyGems Packages Steal Browser Credentials and Crypto Wallets</a></p>
+
+            <h2>4. CISA KEV 등재 — Ray 프레임워크 결함(CVE-2025-62593, CVSS 9.4) DNS 리바인딩으로 브라우저 기반 RCE</h2>
+            <p>CISA가 월요일(8월 17일) Ray 분산 컴퓨팅 프레임워크의 치명적 취약점을 실전 악용 증거를 근거로 KEV(알려진 악용 취약점) 카탈로그에 추가했다. AI/ML 워크로드 확장에 쓰이는 오픈소스 파이썬 프레임워크로, GitHub 기준 43,500개 이상의 스타를 보유했다.</p>
+            <ul>
+                <li><strong>CVE:</strong> CVE-2025-62593 (CVSS 9.4) — DNS 리바인딩 + User-Agent 헤더 조작을 결합해 Firefox·Safari 브라우저를 통한 원격 코드 실행 유도</li>
+                <li><strong>근본 원인:</strong> /api/jobs, /api/job_agent/jobs/ 등 핵심 엔드포인트에 인증을 구현하지 않기로 한 Ray 개발팀의 오랜 결정이 재차 치명적 취약점으로 이어짐</li>
+                <li><strong>악용 시나리오:</strong> Ray 개발 환경의 개발자가 악성 웹사이트 방문 또는 악성 광고 노출 시 임의 셸 코드 실행 — 브라우저를 '혼동된 대리인(confused deputy)'으로 삼아 사내 네트워크의 인접 Ray 인스턴스 공격으로 확장 가능</li>
+                <li><strong>패치:</strong> 파이썬 패키지 2.52.0 버전에서 해결 — 발견자는 Oligo의 Avi Lumelsky(fetch 우회)와 Jonathan Leitschuh(DNS 리바인딩)</li>
+                <li><strong>실전 악용:</strong> BitSight 3월 보고에 따르면 RondoDox DDoS 봇넷이 2025년 11월 26일 공개 이틀 전부터 이 취약점을 무기화 — 패치되지 않은 Ray 클러스터를 장악해 NVIDIA GPU를 자가 증식 크립토마이너로 전환하는 공격도 관찰</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/cisa-flags-actively-exploited-ray-flaw.html" target="_blank">The Hacker News - CISA Flags Actively Exploited Ray Flaw That Can Trigger Browser-Based RCE</a></p>
+
+            <h2>5. Windows Task Host 권한 상승 결함(CVE-2025-60710) — CISA, 랜섬웨어 갱단의 악용 확인</h2>
+            <p>CISA가 랜섬웨어 갱단이 Windows Task Host 취약점도 악용하고 있다고 확인했다. Task Host는 DLL 기반 프로세스를 백그라운드에서 실행하고 종료 시 안전하게 정리하는 핵심 Windows 시스템 구성요소다.</p>
+            <ul>
+                <li><strong>CVE:</strong> CVE-2025-60710 — 링크 팔로우(link following) 약점 기반 로컬 권한 상승, Windows 11 및 Windows Server 2025 영향</li>
+                <li><strong>영향:</strong> 기본 사용자 권한의 로컬 공격자가 악용 성공 시 SYSTEM 권한 획득 — 패치되지 않은 기기 완전 장악 가능</li>
+                <li><strong>패치:</strong> Microsoft가 2025년 11월 패치 배포 — CISA는 4월 13일 KEV에 등재하고 연방 기관(FCEB)에 2주 내 보호 적용 지시</li>
+                <li><strong>신규 정보:</strong> 지난주 금요일(8월 14일) KEV 업데이트에서 랜섬웨어 갱단이 악용 중임을 명시 — 구체적 공격 세부사항과 Microsoft 어드바이저리의 실전 악용 확인은 아직 공개되지 않음</li>
+                <li><strong>시사점:</strong> 2025년 11월에 이미 패치된 취약점이 랜섬웨어 체인에 편입 — 패치 지연 환경이 계속해서 랜섬웨어의 진입점이 되는 패턴 재확인</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/cisa-windows-task-host-flaw-now-exploited-by-ransomware-gangs/" target="_blank">BleepingComputer - CISA: Windows Task Host flaw now exploited by ransomware gangs</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
