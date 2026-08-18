@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - VAD: 벡터화 장면 표현 기반의 효율적 End-to-End 자율주행</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - VAD: 벡터화 장면 표현 기반의 효율적 End-to-End 자율주행</h1>
+            <div class="date">2026-08-18</div>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>논문:</strong> VAD: Vectorized Scene Representation for Efficient Autonomous Driving</li>
+                    <li><strong>저자:</strong> Bo Jiang, Shaoyu Chen, Qing Xu, Bencheng Liao, Jiajie Chen, Helong Zhou, Qian Zhang, Wenyu Liu, Chang Huang, Xinggang Wang (화중과기대 HUST + Horizon Robotics)</li>
+                    <li><strong>분야:</strong> cs.RO / cs.CV (로보틱스, 컴퓨터비전)</li>
+                    <li><strong>게시일:</strong> 2023-03-21 (arXiv) · ICCV 2023 게재</li>
+                    <li><strong>인용:</strong> Semantic Scholar 기준 763회 (2026-08-18 조회)</li>
+                    <li><strong>코드:</strong> github.com/hustvl/VAD — Apache-2.0, 1.3k+ stars / 169 forks, 최근 업데이트 2026-01-31 (VADv2의 ICLR 2026 채택 소식 포함)</li>
+                </ul>
+            </div>
+            <h2>핵심 내용</h2>
+            <p>VAD는 주변 환경을 '벡터화된 표현'으로 통째로 모델링하는 end-to-end 자율주행 패러다임이다. 기존 접근법들이 계산량이 큰 조밀한 래스터(raster) 기반 표현(에이전트 점유 격자, 시맨틱 맵)에 의존했던 것과 달리, VAD는 에이전트의 움직임과 지도 요소를 인스턴스 단위의 벡터로 표현해 인식 → 예측 → 플래닝 전 과정을 하나의 벡터 파이프라인으로 통합한다.</p>
+            <ul>
+                <li><strong>벡터화된 장면 표현:</strong> 조밀한 BEV 래스터 맵 대신 에이전트 모션과 맵 요소(차선, 정지선 등)를 벡터로 표현해 인스턴스 구조 정보를 보존하고, 래스터 생성에 드는 막대한 계산량과 수작업 후처리를 제거했다.</li>
+                <li><strong>인스턴스 레벨 플래닝 제약:</strong> 벡터화된 에이전트 모션과 지도 요소를 플래닝의 명시적 제약 조건으로 직접 활용해 계획의 안전성을 크게 끌어올렸다.</li>
+                <li><strong>nuScenes SOTA 성능:</strong> 기존 최고 end-to-end 플래닝 방법 대비 평균 충돌률을 29.0% 대폭 감소시켰고, 동시에 2.5배 빠른 추론 속도를 달성했다.</li>
+                <li><strong>경량 변형 VAD-Tiny:</strong> 추론 속도를 최대 9.3배까지 끌어올리면서도 경쟁력 있는 플래닝 성능을 유지해 실차 배포 가능성을 입증했다.</li>
+                <li><strong>3단계 통합:</strong> 벡터화 인식(에이전트/맵) → 벡터화 인터랙션(모션 예측) → 벡터화 플래닝으로 이어지는 완전한 end-to-end 구조를 제안했다.</li>
+            </ul>
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>End-to-end 플래닝의 양대 산맥:</strong> UniAD(CVPR 2023 Best Paper, 8월 5일/12일 게시)와 함께 end-to-end 자율주행 플래닝을 대표하는 논문으로, 760회 이상 인용되며 ICCV 2023에서 큰 주목을 받았다.</li>
+                <li><strong>래스터 → 벡터 패러다임 전환:</strong> 어제(8월 17일) 게시한 BEVFormer가 만든 BEV 인식 표현을 플래닝까지 벡터로 확장해, "무거운 래스터 없이도 안전한 플래닝이 가능하다"는 것을 증명했다.</li>
+                <li><strong>실용적 효율성:</strong> 래스터 표현 제거 + 수작업 후처리 제거로 2.5x~9.3x의 추론 가속을 달성해, 연구실 단계를 넘어 실차/엣지 배포의 관문을 연 첫 end-to-end 방식으로 평가받는다.</li>
+                <li><strong>지속되는 연구 라인:</strong> 같은 팀(HUST-VL)의 VADv2(ICLR 2026 채택), Senna(VLA 융합), DiffusionDrive(CVPR 2025), RAD(NeurIPS 2025)로 이어지며 end-to-end 플래닝 연구의 최전선을 유지하고 있다.</li>
+                <li><strong>재현성:</strong> mmdetection3d 기반의 공식 구현과 사전학습 가중치, VADv2 코어 코드까지 모두 공개되어 연구 재현과 확장이 쉽다.</li>
+            </ul>
+            <h2>시사점 및 결론</h2>
+            <p>VAD는 "어떻게 장면을 표현하는가"가 플래닝의 안전성과 효율성을 동시에 좌우한다는 점을 명확히 보여줬다. 인스턴스 구조가 살아있는 벡터 표현은 계산 비용을 낮추면서도 에이전트와 지도 요소를 플래닝 제약으로 직접 활용할 수 있게 해, 충돌률 감소와 실시간 추론이라는 실전 요구를 모두 충족시켰다. 이후 VADv2가 앵커 프리 확률적 플래닝으로, Senna가 대형 비전-언어 모델과의 융합으로, DiffusionDrive가 디퓨전 기반 궤적 생성으로 진화하면서 end-to-end 플래닝은 '안전하고 효율적인 벡터 표현'이라는 VAD의 유산 위에서 계속 발전하고 있다. 자율주행 인식에서 플래닝까지의 통합 흐름을 이해하려면 UniAD, BEVFormer와 함께 반드시 읽어야 할 필수 레퍼런스다.</p>
+            <p>원문: <a href="https://arxiv.org/abs/2303.12077" target="_blank">https://arxiv.org/abs/2303.12077</a> (코드: <a href="https://github.com/hustvl/VAD" target="_blank">https://github.com/hustvl/VAD</a>)</p>
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
