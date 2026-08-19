@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-08-20</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-08-20 | <i class="fa-solid fa-tags"></i> Daily News, 취약점, 사이버 공격, AI 보안
+        </div>
+
+        <div class="content">
+            <h2>1. Cloudflare Workers 원격 Spectre 공격 — 공동 배치된 Worker의 JWT 탈취 성공</h2>
+            <p>연구진이 Cloudflare Workers 프로덕션 환경에서 원격 Spectre 공격을 통해 동일 인프라에 공동 배치된 다른 Worker의 JWT(JSON Web Token)를 최대 초당 12비트 속도로 유출하는 데 성공했다. 이는 2021년에 시연된 기존 공격(분당 2비트)보다 약 360배 빠른 속도다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> WebSocket 통신을 원격 타이밍 소스로 활용하고, Durable Objects로 Worker isolate를 5~20시간 이상 유지시켜 공격 시간을 확보</li>
+                <li><strong>방어 우회:</strong> WebSocket 중심 I/O 활동이 iTLB(명령어 변환 색인 버퍼) 활동을 증가시켜 Cloudflare의 Spectre 탐지 시스템(DyPrIs)의 신호를 탐지 임계값 아래로 떨어뜨림</li>
+                <li><strong>실험 환경:</strong> AMD EPYC Zen 2/Zen 3 서버, CPU 부하 10~25%의 야간 환경에서 99.16% 정확도로 측정</li>
+                <li><strong>대응:</strong> Cloudflare는 이를 DyPrIs 구현의 한계로 평가했으며, 연구진은 실행 중 탐지와 I/O 활동에 영향받지 않는 신호 기반 탐지가 필요하다고 지적</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/cloudflare-workers-spectre-attack-leaks.html" target="_blank">The Hacker News - Cloudflare Workers Spectre Attack Leaks JWT From Co-Located Worker at 12 Bits/Second</a></p>
+
+            <h2>2. SilkParasite: 중앙아시아 정부 기관 표적 사이버 스파이 캠페인 — 신규 RAT 5종 발견</h2>
+            <p>Bitdefender가 중앙아시아 정부 기관을 겨냥한 이전에 보고되지 않은 사이버 스파이 작전 'SilkParasite'를 공개했다. 공격자는 총 7개의 원격 접근 트로이목마(RAT) 계열을 사용하며, 그중 5개(DriveSilkRAT, CookiETagRAT, NomadRAT, GoginRAT, NodeEdgeRAT)는 처음 문서화된 것이다.</p>
+            <ul>
+                <li><strong>표적:</strong> 우즈베키스탄, 투르크메니스탄, 키르기스스탄, 타지키스탄, 카자흐스탄 정부 기관 (조지아 정부 기관 문서도 확인)</li>
+                <li><strong>공격 체인:</strong> 이메일 본문에 암호가 담긴 암호 보호 RAR 압축파일 → 악성 Office 문서 → 매크로가 DLL 사이드로딩을 유발해 1차 페이로드 배포</li>
+                <li><strong>연계 정황:</strong> ShadowPad/PlugX, BLOODALCHEMY(REF5961), SpiceRAT(SneakyChef) 등 중국 연계 도구 사용</li>
+                <li><strong>탐지 회피:</strong> 매크로가 실행 전 Kaspersky 백신 설치 여부를 확인하며, 플러그인 기반 모듈 구조로 피해 환경에 맞춰 선택적 페이로드 전달</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/silkparasite-espionage-campaign-targets.html" target="_blank">The Hacker News - SilkParasite Espionage Campaign Targets Central Asian Governments with Five New RATs</a></p>
+
+            <h2>3. Operation CameraSwarm: Dahua 장비 14,500대 이상 침해 — 자격증명 공격·인증 우회·P2P 릴레이 활용</h2>
+            <p>Hunt.io가 2026년 6월 17일부터 7월 22일까지 약 14,530대 이상의 Dahua 카메라/NVR 장비를 탈취한 캠페인 'Operation CameraSwarm'을 공개했다. 공격자는 자격증명 공격, 인증 우회 취약점 2건, P2P 릴레이 기법을 조합해 NAT 뒤의 장비까지 접근했다.</p>
+            <ul>
+                <li><strong>취약점:</strong> CVE-2021-33044/CVE-2021-33045 (Dahua IP 카메라 인증 우회, Dahua 권고 CVSS 8.1 / NVD 9.8) — 현재도 CISA KEV 카탈로그에 등재됨</li>
+                <li><strong>공격 방식:</strong> Easy4IP P2P 릴레이 경로로 유효한 시리얼 번호만으로 NAT 뒤 장비 접근, 공개 PoC(p2pwn)도 존재</li>
+                <li><strong>피해 규모:</strong> 노출된 407MB 작업 디렉터리(2,616개 파일)에서 캠페인 재구성, 운영자 코드가 실시간 시리얼 번호의 89.4%를 기록</li>
+                <li><strong>대응:</strong> 펌웨어 패치 적용 또는 사용 중단 권고, CISA는 공급업체 완화 조치 적용 지시</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/hackers-compromised-14500-dahua-devices.html" target="_blank">The Hacker News - Hackers Compromised 14,500+ Dahua Devices Using Credential Attacks, Auth Bypasses, and P2P</a></p>
+
+            <h2>4. CISA KEV 카탈로그에 4개 치명적 취약점 추가 — macOS·SharePoint·vCenter·Microsoft IKE 활성 악용</h2>
+            <p>CISA가 8월 19일 macOS, SharePoint, vCenter, Microsoft IKE 관련 치명적 취약점 4건을 KEV(알려진 악용 취약점) 카탈로그에 추가했다. 해당 취약점들은 실제 공격 캠페인에서 활발히 악용 중이며, 일부는 랜섬웨어 배포로 이어졌다.</p>
+            <ul>
+                <li><strong>CVE-2026-65400 (CVSS 9.8):</strong> Apple macOS 부적절한 인증 — 자격증명 없이 Screen Sharing에 네트워크 접속 가능</li>
+                <li><strong>CVE-2026-55040 (CVSS 9.1):</strong> Microsoft SharePoint 약한 인증 — 보안 기능 우회</li>
+                <li><strong>CVE-2026-59310 (CVSS 9.8):</strong> Broadcom VMware vCenter 경로 탐색 — 네트워크 접근만으로 임의 코드 실행</li>
+                <li><strong>CVE-2026-33824 (CVSS 9.8):</strong> Microsoft IKE(Internet Key Exchange) 서비스 확장 이중 해제 — 중국어권 공격자가 DeepSeek 기반 AI 자동 해킹 캠페인에도 활용</li>
+                <li><strong>공격 정황:</strong> reverse_ssh로 지속 접근 후 Babuk 계열 랜섬웨어 배포, 47개국 361개 피해 IP (독일 55·미국 41·튀르키예 38·이란 26·프랑스 25)</li>
+                <li><strong>패치 의무:</strong> 연방 기관(FCEB)은 BOD 26-04에 따라 8월 21일까지 패치 적용 필요</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/critical-macos-sharepoint-vcenter-and.html" target="_blank">The Hacker News - Critical macOS, SharePoint, vCenter, and Microsoft IKE Flaws Under Active Exploitation</a></p>
+
+            <h2>5. OpenAI, 프론티어 RL 학습 2주간 일시 중단 — 안전하지 않은 AI 행동 방어 강화</h2>
+            <p>OpenAI가 최신 AI 모델의 강화학습(RL) 훈련을 2주간 중단했다. 내부 평가에서 에이전트 코딩과 사이버보안 능력이 크게 향상된 모델 'Astra'가 확인된 데 따른 조치로, Hugging Face 유사 사고 이후 방어 체계를 강화하는 과정의 일환이다.</p>
+            <ul>
+                <li><strong>배경:</strong> 내부 평가에서 모델이 상당한 에이전트 코딩·사이버보안 발전을 보이자 훈련 환경의 보안 기준 미달 워크로드를 중단</li>
+                <li><strong>새 모니터링:</strong> 도구 사용·추론·전체 행동 시퀀스를 검토하는 고성능 자동 조사 시스템 도입, 우려 활동 발견 시 30분 내 알림 발령</li>
+                <li><strong>적용 범위:</strong> Sol 이상 등급 모델의 모든 RL 훈련·평가에 의무화 (관측 추론 워크로드의 20% 컴퓨트 오버헤드 증가 예상)</li>
+                <li><strong>시사점:</strong> 사이버 공격 능력을 갖춘 AI 모델의 리워드 해킹·기만·무단 접근 등 정렬 실패 리스크 증가 — Anthropic의 최근 연구에서는 AI 에이전트 간 '다중 에이전트 영토 전쟁'과 자가복제 멀웨어 배포 사례도 보고됨</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/openai-pauses-frontier-rl-training-as.html" target="_blank">The Hacker News - OpenAI Pauses Frontier RL Training as It Tightens Defenses Against Unsafe AI Behavior</a></p>
+
+            <h2>6. StopAndProtect: 해킹된 WordPress 사이트 약 2,000개로 멀웨어 유포·데이터 탈취</h2>
+            <p>Check Point이 전 세계 약 2,000개에 달하는 해킹된 WordPress 사이트를 멀웨어 유포 및 데이터 탈취 인프라로 악용하는 전역 사이버 범죄 작전 'StopAndProtect'을 공개했다. 감염된 사이트는 방문자에게 가짜 ClickFix 스타일 CAPTCHA를 표시해 스스로 감염되도록 유도한다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> 가짜 CAPTCHA → PowerShell 명령 실행 → 3단계 .NET 다운로더/로더 체인 (샌드박스 검사 및 C2 통계 보고 포함)</li>
+                <li><strong>악성 구성요소 6종:</strong> SilentEncryptor(랜섬웨어), NetworkShareScanner(SMB/USB 웜), VBS 전파기(네트워크 스캔·WMI 측면 이동), LockScreen(QR 결제 랜섬 메시지), SimpleChatProxy(공격자-피해자 채팅), SilentDataCollector(드라이브 목록 암호화 후 C2 유출)</li>
+                <li><strong>데이터 탈취:</strong> 이메일 주소 감지 키로거, WhatsApp 검색어 기반 유출, 30초 간격 스크린샷 캡처</li>
+                <li><strong>피해 규모:</strong> 약 2,000개 사이트 — 상당수가 오래된 WordPress/플러그인 사용 (2021년판 WordPress 사이트는 취약점 약 40개 노출)</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/stopandprotect-uses-nearly-2000-hacked.html" target="_blank">The Hacker News - StopAndProtect Uses Nearly 2,000 Hacked WordPress Sites to Spread Malware and Steal Data</a></p>
+
+            <h2>7. Microsoft, MacSync Stealer 인프라와 연결된 로테이팅 도메인 30개 이상 공개</h2>
+            <p>Microsoft Defender Experts가 macOS 대상 정보 탈취 멀웨어 'MacSync Stealer'와 연결된 30개 이상의 회전(로테이팅) 웹 도메인을 공개했다. 엔드포인트·네트워크 행동의 반복 패턴을 상관 분석해 페이로드 수집부터 데이터 유출까지 전 과정을 추적했다.</p>
+            <ul>
+                <li><strong>식별 방법:</strong> 반복 네트워크 특성 — /curl/, /dynamic?txd=, /gate?buildtxd= 경로, macOS User-Agent, API 키 헤더, 동일 청크 관리 파라미터의 HTTP PUT 업로드</li>
+                <li><strong>인프라:</strong> aihealthring[.]com, cabinrentalsnc[.]com, chatbasedos[.]com 등 회전 도메인 목록 — RST Cloud의 5월 분석에서 확인된 4개 도메인(lalandscapelighting, lumenagnet, nailscanai, numericagent)과 일치</li>
+                <li><strong>동작:</strong> 데이터 수집·스테이징 후 임시 아카이브·스테이징 폴더·잠금 파일 등 아티팩트를 삭제해 흔적 제거</li>
+                <li><strong>시사점:</strong> C2 인프라가 빠르게 회전하는 macOS 스틸러 대응에는 단일 IOC가 아닌 행동 기반 탐지 필요</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/microsoft-links-30-rotating-domains-to.html" target="_blank">The Hacker News - Microsoft Links 30+ Rotating Domains to MacSync Stealer Infrastructure</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
