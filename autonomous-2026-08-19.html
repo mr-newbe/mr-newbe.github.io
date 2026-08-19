@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - End-to-end Autonomous Driving: OpenDriveLab의 올인원 연구 허브</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - End-to-end Autonomous Driving: OpenDriveLab의 올인원 연구 허브</h1>
+            <div class="date">2026-08-19</div>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>저장소:</strong> OpenDriveLab/End-to-end-Autonomous-Driving</li>
+                    <li><strong>Star / Fork:</strong> 3,674 stars / 336 forks</li>
+                    <li><strong>라이선스:</strong> MIT</li>
+                    <li><strong>생성일:</strong> 2023-04-04 · 최근 커밋 2025-07-02 (활발히 유지 중)</li>
+                    <li><strong>토픽:</strong> autonomous-driving, end-to-end-autonomous-driving, policy-learning, simulation</li>
+                    <li><strong>동반 논문:</strong> "End-to-End Autonomous Driving: Challenges and Frontiers" — arXiv:2306.16927, IEEE T-PAMI 2024 게재</li>
+                    <li><strong>저자:</strong> Li Chen, Penghao Wu, Kashyap Chitta, Bernhard Jaeger, Andreas Geiger, Hongyang Li (OpenDriveLab/상하이 AI Lab + 홍콩대 + 튀빙겐대)</li>
+                    <li><strong>인용:</strong> Semantic Scholar 기준 920회 (2026-08-19 조회)</li>
+                </ul>
+            </div>
+            <h2>핵심 내용</h2>
+            <p>이 저장소는 스스로를 "end-to-end 자율주행 연구에 필요한 모든 것"이라고 소개한다. OpenDriveLab이 운영하는 커뮤니티 허브로, 270편 이상의 논문을 분석한 T-PAMI 서베이를 중심으로 논문 컬렉션, 벤치마크·데이터셋, 경진대회, 학습 자료, 워크숍/강연을 한곳에 모아둔 것이 특징이다.</p>
+            <ul>
+                <li><strong>270+ 논문 서베이 (T-PAMI 2024):</strong> "Challenges and Frontiers" 논문이 end-to-end 자율주행의 동기, 로드맵, 방법론, 과제, 미래 방향을 체계적으로 정리한다. 각 모듈(인식·예측·플래닝)을 따로 최적화하던 기존 방식에서, 센서 입력 → 주행 계획까지 단일 파이프라인으로 통합하는 패러다임의 전개를 270편 이상의 연구를 통해 분석했다.</li>
+                <li><strong>방대한 논문 컬렉션 (papers.md):</strong> Survey, Language/VLM for Driving, World Model & Model-based RL, Multi-sensor Fusion, Multi-task Learning, Interpretability 등 카테고리별로 최신 논문을 지속 업데이트한다. VLM·LLM 기반 주행과 월드모델 섹션이 최신 트렌드를 대표한다.</li>
+                <li><strong>벤치마크·데이터셋 & 경진대회:</strong> nuScenes 등 주요 데이터셋과 함께, OpenDriveLab이 주관한 NAIC 등 end-to-end 자율주행 경진대회 자료를 공개해 연구자들이 직접 성능을 겨뤄볼 수 있다.</li>
+                <li><strong>학습 자료 & 워크숍:</strong> Andreas Geiger의 튀빙겐대 "Self-Driving Cars" 강의, 토론토대 Coursera 스페셜라이제이션, CVPR 2023/2024의 end-to-end 자율주행 워크숍·튜토리얼(예: Wayve의 "End-to-End Autonomy" 튜토리얼)과 강연 영상을 연결한다.</li>
+                <li><strong>커뮤니티 기여 구조:</strong> PR을 통해 누구나 자료를 추가할 수 있는 살아있는 문서(living document)로 운영된다.</li>
+            </ul>
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>End-to-end 자율주행 진입점 1순위:</strong> 3,674 stars로 end-to-end 자율주행 분야에서 가장 많이 참조되는 GitHub 저장소 중 하나. "어디서부터 시작할지" 막막한 신규 연구자에게 구조화된 로드맵을 제공한다.</li>
+                <li><strong>920회 인용의 T-PAMI 서베이:</strong> IEEE T-PAMI에 게재된 동반 서베이가 900회 이상 인용되며 이 분야의 표준 참고문헌이 되었다. 작성자에 튀빙겐대 Andreas Geiger(자율주행 비전 대가)와 OpenDriveLab의 Hongyang Li가 포함되어 권위가 높다.</li>
+                <li><strong>UniAD·BEVFormer와 같은 팀의 후속 프로젝트:</strong> OpenDriveLab은 CVPR 2023 Best Paper UniAD(8월 5일/12일 게시)와 BEVFormer(8월 17일 게시)를 만든 팀이다. 이 저장소는 그들이 만든 프레임워크들을 아우르는 "분야 전체의 지도" 역할을 한다.</li>
+                <li><strong>트렌드의 살아있는 기록:</strong> VLM·LLM 기반 주행, 월드모델, 멀티센서 융합 등 최신 연구 흐름이 papers.md에 즉시 반영되어, 지난주 게시한 VAD(8월 18일), BrainWAM(8월 14일) 같은 논문들의 위치도 한눈에 파악할 수 있다.</li>
+            </ul>
+            <h2>시사점 및 결론</h2>
+            <p>이 저장소는 end-to-end 자율주행이 단순한 유행이 아니라 "모듈별 최적화 → 통합 파이프라인"이라는 패러다임 전환의 한복판에 있음을 보여준다. 특히 VLM/LLM과 월드모델을 주행에 결합하는 흐름이 최전선으로 부상했으며, 이는 지난 며칠간 게시한 BrainWAM·DH-VLM 같은 논문들과도 맞닿아 있다. 개별 프레임워크(UniAD, VAD)를 공부할 때 이 저장소의 서베이·논문 컬렉션을 지도로 삼으면 연구의 맥락과 다음 단계가 훨씬 선명해진다 — 자율주행 리서치를 시작하거나 최신 동향을 따라잡고 싶다면 가장 먼저 방문할 곳이다.</p>
+            <p>원문: <a href="https://github.com/OpenDriveLab/End-to-end-Autonomous-Driving" target="_blank">https://github.com/OpenDriveLab/End-to-end-Autonomous-Driving</a></p>
+            <p>서베이 논문: <a href="https://arxiv.org/abs/2306.16927" target="_blank">https://arxiv.org/abs/2306.16927</a></p>
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
