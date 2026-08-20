@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - DA-WAM: 의사결정에 정렬된 미래 잠재표현 기반 주행 월드 모델</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - DA-WAM: 의사결정에 정렬된 미래 잠재표현 기반 주행 월드 모델</h1>
+            <div class="date">2026-08-20</div>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>논문:</strong> DA-WAM: Decision-Aligned Future Latents for Driving World Models</li>
+                    <li><strong>저자:</strong> Ruiguo Zhong, Benshan Ma, Xiaolong Chen, Lang Zhang, Mingyue Feng, Yaonong Wang, Pei Liu, Jun Ma (홍콩과기대(광저우) Jun Ma 그룹 등)</li>
+                    <li><strong>분야:</strong> cs.RO / cs.AI (로보틱스, 인공지능)</li>
+                    <li><strong>게시일:</strong> 2026-08-19 (arXiv v1, arXiv:2608.19085)</li>
+                    <li><strong>벤치마크:</strong> NAVSIM-v1 / NAVSIM-v2에서 State-of-the-Art (SOTA)</li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>자율주행 세계 모델(World Model)은 에고 차량의 행동에 따라 장면이 어떻게 진화할지를 예측하는 데 핵심 역할을 하지만, 기존 접근법은 "예측은 잘 하지만 의사결정에 직접적으로 기여하지 못한다"는 근본적 한계를 가진다. DA-WAM은 미래 예측과 주행 계획을 하나의 의사결정 목적 함수 아래 통합해, 예측된 미래가 실제로 어떤 궤적이 선택될지를 결정하도록 만든 프레임워크다.</p>
+            <ul>
+                <li><strong>문제 정의:</strong> 기존 방법은 미래 표현 학습을 계획 최적화와 분리하거나, 여러 후보 궤적에 동일한 예측 상태를 공유해 "행동별 결과 차이"를 희석시킨다. DA-WAM은 후보 궤적마다 구별되는 미래 잠재표현을 생성해 이 문제를 해결한다.</li>
+                <li><strong>통합 학습 구조:</strong> 온라인 인코더(online encoder)와 안정적 모멘텀 타깃(stable momentum target)을 통해 계획 최적화 전 과정에 예측적 지도(predictive supervision)를 유지하며, 미래 표현이 주행 태스크와 함께 공진화(co-evolve)한다.</li>
+                <li><strong>행동 조건부 예측기:</strong> 액션 조건부 예측기(action-conditioned predictor)가 궤적 후보마다 서로 다른 미래 잠재 상태를 생성하고, 이를 미래-잠재표현 조건부 팩터라이즈드 스코어러(factorized scorer)가 평가한다.</li>
+                <li><strong>전문가 궤적 정합:</strong> 전문가(expert)가 선택한 궤적에 대해서는 예측된 미래 잠재표현을 실제 관측된 미래 표현으로 직접 지도(supervise)한다.</li>
+                <li><strong>안전 경계 하드 네거티브:</strong> 계획 경계(planning boundary) 부근의 안전에 치명적인 하드 네거티브(hard negative) 샘플을 추가 지도 신호로 활용해 경계 상황에서의 판단을 강화한다.</li>
+                <li><strong>실험 결과:</strong> NAVSIM-v1과 NAVSIM-v2에서 SOTA 성능 달성, 절제 실험(ablation)과 진단 분석을 통해 각 핵심 구성요소의 기여도를 검증했다.</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>월드 모델 = 최신 트렌드:</strong> GenAD, GAIA-1, Vista 등 주행 월드 모델은 최근 자율주행 연구의 가장 뜨거운 축이며, DA-WAM은 여기에 "예측-계획 정렬"이라는 새로운 방향성을 제시한다.</li>
+                <li><strong>표준 오픈 벤치마크에서 SOTA:</strong> NAVSIM은 Waabi·Bosch 등이 주도하는 오픈루프 계획 평가의 사실상 표준 벤치마크로, 두 버전 모두에서 SOTA를 기록한 것은 객관적 성능 근거가 된다.</li>
+                <li><strong>근본적 갭 해결:</strong> "단순 예측"이 아닌 "의사결정에 정보를 주는 예측(decision-informative future)"이라는 문제를 명시적으로 정의하고 해법을 제시해, 월드 모델을 플래너의 일부로 격상시킨다.</li>
+                <li><strong>실용적 설계:</strong> 모멘텀 타깃, 하드 네거티브 마이닝 등 기존 자가지도 학습 기법을 계획 최적화에 결합한 구조라 오픈소스 NAVSIM 파이프라인에 구현하기 쉽다.</li>
+                <li><strong>연구진 신뢰도:</strong> 자율주행 계획·제어 분야에서 활발히 활동하는 Jun Ma 그룹이 포함되어 방법론의 견고성이 뒷받침된다.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>DA-WAM은 자율주행 월드 모델의 패러다임을 "미래를 예측하는 모델"에서 "의사결정을 이끄는 모델"로 전환하는 신호탄이다. 궤적 후보별로 분리된 미래 잠재표현을 생성하고 이를 스코어링에 직접 연결함으로써, 예측의 질과 계획의 질이 하나의 목적 함수에서 함께 최적화된다. 특히 안전 경계 부근 하드 네거티브 지도는 비용 함수 설계만으로는 잡기 어려운 위험 궤적을 학습 단계에서 명시적으로 배제하는 실용적 레시피를 제공한다. 앞으로 월드 모델이 RL/VLA 기반 폐루프 학습과 결합하고, 시뮬레이션-실차 간 격차(Sim2Real)를 좁히는 방향으로 발전한다면, "예측 → 계획 → 제어"의 전 과정이 단일 학습 목표로 수렴하는 end-to-end 주행의 완성에 한 걸음 더 가까워질 것이다.</p>
+            <p>원문: <a href="https://arxiv.org/abs/2608.19085" target="_blank">https://arxiv.org/abs/2608.19085</a></p>
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
