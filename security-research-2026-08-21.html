@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - COPA: 적응형 프롬프트 인젝션 방어를 위한 지속적 선호 최적화</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - COPA: 적응형 프롬프트 인젝션 방어를 위한 지속적 선호 최적화</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-08-21</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> COPA: Continual Preference Optimization for Adaptive Prompt Injection Defense<br>
+                <strong>저자:</strong> Roshan Sood, Onat Gungor, Tajana Rosing<br>
+                <strong>분야:</strong> cs.CR / cs.AI (LLM 보안)
+            </div>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 연구 배경</h2>
+            <p>LLM은 사용자 입력이나 외부 콘텐츠에 삽입된 적대적 지시문이 모델 행동을 조작하고 안전장치를 우회하는 프롬프트 인젝션 공격에 지속적으로 취약하다. 기존 방어는 고정된 정렬 목적함수 또는 공격별 필터링 메커니즘에 의존하는 정적 방식이 대부분이라, 새로운 공격 전략이 등장할 때마다 재설계가 필요하다. 최근의 평생 학습(lifelong alignment) 기법은 변화하는 사용자 선호는 처리하지만, 기존 방어의 취약점을 계속 파고드는 적응형 공격자(adaptive adversary)는 고려하지 못한다는 한계가 있다.</p>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 핵심 내용</h2>
+            <ul>
+                <li><strong>문제 정의:</strong> 프롬프트 인젝션 방어를 일회성 정렬이 아닌 평생 학습(lifelong learning) 문제로 재정의 — 실제 배포 환경에서 진화하는 공격 분포에 맞춰 지속 적응하면서도 기존 위협에 대한 견고성을 유지해야 함</li>
+                <li><strong>COPA 프레임워크:</strong> 새로 관찰된 공격으로부터의 피드백을 GRPO 기반 최적화로 점진적으로 통합하고, 마진 가중 경험 재생(margin-weighted experience replay)을 통해 이전 공격 클래스에 대한 방어를 보존</li>
+                <li><strong>핵심 설계:</strong> 재앙적 망각(catastrophic forgetting) 완화 + 일반 목적 모델 능력 보존을 동시에 달성 — 방어 성능만 높이고 범용 성능을 희생하는 기존 파인튜닝 방식과 차별화</li>
+                <li><strong>성과:</strong> 평생 프롬프트 인젝션 공격 스트림 실험에서 최대 6.3배, 평균 4.4배의 공격 성공률(ASR) 감소를 최신 SOTA 방어 대비 달성</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 보안 시사점</h2>
+            <ul>
+                <li>공격자가 계속 진화하는 현실에서 방어도 "배포 후에도 학습"해야 함 — 정적 방어·필터링만으로는 적응형 공격자에 영구히 대응할 수 없음을 실증</li>
+                <li>GRPO 기반 강화학습 정렬과 경험 재생의 조합이 LLM 보안에 효과적임을 보여줌 — 향후 에이전트 시스템의 인젝션 방어 설계에 직접 적용 가능한 패러다임</li>
+                <li>재앙적 망각 없이 방어를 축적하는 방식은 보안 패치의 "지속적 누적" 모델을 LLM에 도입한 사례로, 운영 환경의 LLM 게이트웨이·RAG 파이프라인 보안에 시사점 제공</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flag-checkered"></i> 결론</h2>
+            <p>COPA는 프롬프트 인젝션 방어를 지속적 선호 최적화 문제로 전환하여, 적응형 공격자에 맞서 방어를 계속 갱신하면서도 이전 방어와 범용 능력을 보존하는 최초의 프레임워크 중 하나다. 공격 성공률을 최대 6.3배까지 낮춘 실험 결과는 진화하는 LLM 위협에 대응하는 "평생 방어(lifelong defense)" 패러다임의 실용성을 입증한다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2608.19982" target="_blank">https://arxiv.org/abs/2608.19982</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
