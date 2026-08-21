@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - donkeycar: 10만 원대로 만드는 소형 오픈소스 자율주행 플랫폼</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - donkeycar: 10만 원대로 만드는 소형 오픈소스 자율주행 플랫폼</h1>
+            <div class="date">2026-08-21</div>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>프로젝트:</strong> autorope/donkeycar — Open source hardware and software platform to build a small scale self driving car</li>
+                    <li><strong>소유자:</strong> autorope (donkeycar 커뮤니티 조직)</li>
+                    <li><strong>Star / Fork:</strong> 3,493 / 1,366 (GitHub 기준)</li>
+                    <li><strong>라이선스:</strong> MIT</li>
+                    <li><strong>언어:</strong> Python (Keras/TensorFlow 기반)</li>
+                    <li><strong>생성일:</strong> 2016-12-10</li>
+                    <li><strong>최근 커밋:</strong> 2026-08-17 — Python 3.12/3.13·uv·Keras 3(.keras) 마이그레이션, Gymnasium 전환, OAK-D 카메라 수정 등 활발한 유지보수 중</li>
+                    <li><strong>최신 릴리스:</strong> 5.3.0 (2026-03-29)</li>
+                    <li><strong>홈페이지:</strong> https://www.donkeycar.com</li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>donkeycar는 라즈베리파이(Raspberry Pi) 또는 Jetson 보드와 RC카 섀시, 카메라만 있으면 누구나 10만 원대 예산으로 실제 주행하는 소형 자율주행 차량을 만들 수 있게 해주는 오픈소스 하드웨어+소프트웨어 플랫폼이다. NVIDIA DAVE-2 계열의 소형 CNN(컨벌루션 신경망)을 조향 각도 회귀 모델로 사용하며, 사람이 RC 조종기로 직접 운전해 수집한 데이터(tub)로 모방학습(behavioral cloning)을 수행한다.</p>
+            <ul>
+                <li><strong>구성 요소:</strong> 'tub'(주행 데이터 녹화 저장소), 'pilot'(Keras CNN 모델), 'vehicle'(모터/서보/카메라 하드웨어 인터페이스)의 3개 핵심 파츠로 설계되어 커스터마이징이 쉽다.</li>
+                <li><strong>학습 파이프라인:</strong> 조종기로 운전하며 카메라 영상+조향각을 녹화 → 튜닝 명령 하나로 CNN 학습 → 저장된 pilot 모델을 차량에 로드해 자율 주행. 학습에 GPU도 필수가 아니다.</li>
+                <li><strong>하드웨어 다양성:</strong> 라즈베리파이 3/4/5, Jetson Nano/NX/Orin 등 다양한 보드와 여러 RC카 섀시를 지원하며, 최근에는 OAK-D(스테레오 깊이 카메라) 지원도 강화됐다.</li>
+                <li><strong>시뮬레이터:</strong> Unity 기반 Donkey Sim으로 실차 없이 가상 트랙에서 데이터 수집·학습·평가가 가능해 교육용으로도 널리 쓰인다.</li>
+                <li><strong>관리 앱:</strong> 웹 기반 Donkey 앱에서 카메라 보정, 데이터 수집, 모델 학습, 주행 설정을 GUI로 제어한다.</li>
+                <li><strong>최신 기술 스택:</strong> 2026년 기준 Python 3.12/3.13 + Keras 3 + uv 패키징으로 현대화했고, RL 환경 표준인 Gymnasium으로 마이그레이션해 강화학습 연구에도 연동된다.</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>가장 접근성 높은 자율주행 진입점:</strong> Apollo(완성차급 플랫폼), CARLA(시뮬레이터), openpilot(양산차 개조)과 달리 donkeycar는 10만 원대 RC카로 실제 종단간(end-to-end) 주행을 경험하게 해준다. 실물 하드웨어로 딥러닝 주행을 만져볼 수 있는 사실상 유일한 대중적 플랫폼이다.</li>
+                <li><strong>10년 가까운 커뮤니티:</strong> 2016년 시작 이래 3,493 star, 1,366 fork를 기록했고, 전 세계 학교·대학의 자율주행 교육 커리큘럼과 동호회 레이스(donkeycar race) 문화를 만들었다.</li>
+                <li><strong>활발한 유지보수:</strong> 최근 커밋(2026-08-17)과 5.3.0 릴리스(2026-03)가 증명하듯 10년차 프로젝트가 여전히 최신 Python/Keras 스택을 따라가고 있어 '연구용 완결'이 아닌 살아있는 프로젝트다.</li>
+                <li><strong>교육·연구 양면 가치:</strong> 모방학습의 전 과정(데이터 수집→학습→배포→평가)을 한 학기 안에 체험할 수 있어 딥러닝·ROS·자율주행 입문 교육의 표준 도구가 됐고, 강화학습(RL) 연구 벤치마크로도 쓰인다.</li>
+                <li><strong>이전 글과의 연결점:</strong> CARLA(08-08, 시뮬레이터)와 openpilot(08-15, 양산차 OS) 사이에서 '실물 하드웨어 교육용'이라는 빈 자리를 채우는 프로젝트다.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>donkeycar는 자율주행이 대형 OEM과 연구소만의 영역이 아니라, 10만 원대 RC카와 라즈베리파이, 오픈소스 CNN 하나로 누구나 직접 만들고 실험할 수 있는 분야임을 증명한 프로젝트다. 2016년 '장난감'으로 시작한 접근이 10년 후에도 여전히 최신 스택으로 업데이트되며 수천 명의 커뮤니티를 유지한다는 사실은, 자율주행 교육·데모·연구 프로토타이핑에 있어 소형 플랫폼의 가치가 결코 사라지지 않았음을 보여준다. 특히 Keras 3·Gymnasium으로의 전환은 소형 차량이 강화학습·월드모델 등 최신 연구 트렌드의 실험 무대로 계속 쓰일 것임을 시사한다. 실물 차량 없이 시뮬레이션만으로 연구가 치우치는 흐름 속에서, donkeycar는 '실제 도로에서 부딪히며 배우는' 종단간 주행 학습의 가치를 다시 상기시킨다.</p>
+            <p>원문: <a href="https://github.com/autorope/donkeycar" target="_blank">https://github.com/autorope/donkeycar</a></p>
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
