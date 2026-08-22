@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-08-23</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-08-23 | <i class="fa-solid fa-tags"></i> Daily News, CVE, Data Breach, Cloud Security, Privacy
+        </div>
+
+        <div class="content">
+            <h2>1. TikTok, 미국 아동 개인정보 보호 소송 4억 달러 합의</h2>
+            <p>미국 법무부(DoJ)가 ByteDance 소유 TikTok과 2024년 제기된 아동 개인정보 보호법 위반 소송 관련 4억 달러(약 5,300억 원) 규모의 합의를 발표했다. 합의금은 3억 달러 즉시 지급에 더해 기존 동의 명령(consent decree)이 해제되는 시점에 1억 달러가 추가 지급되는 구조다.</p>
+            <ul>
+                <li><strong>합의 규모:</strong> COPPA(아동 온라인 개인정보 보호법) 관련 연방 합의 중 "사상 최대 규모의 회수" 중 하나로 평가</li>
+                <li><strong>배경:</strong> 2024년 소송에서 부모의 아동 계정 삭제 요청 미처리 등 아동 개인정보 보호 의무 위반 혐의를 받음</li>
+                <li><strong>전례:</strong> 2023년 9월 EU GDPR 아동 데이터 처리 위반으로 3억 4,500만 유로(약 5,000억 원) 벌금 부과된 바 있음</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/tiktok-agrees-to-400-million-settlement.html" target="_blank">The Hacker News - TikTok Agrees to $400 Million Settlement in U.S. Child Privacy Lawsuit</a></p>
+
+            <h2>2. 리눅스 NTFS3 드라이버: 조작된 NTFS 이미지로 루트 권한 획득 취약점</h2>
+            <p>리눅스 커널 NTFS3 파일시스템 드라이버에서 조작된 NTFS 이미지를 마운트하면 로컬 권한 상승으로 루트 권한을 얻을 수 있는 취약점이 공개됐다. 여름 초 비공개로 보고된 뒤 수정되지 않은 채 PoC와 함께 공개된 상태다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> $LXUID=0, $LXGID=0, $LXMOD=0104755 속성(EA)이 포함된 조작 NTFS 이미지를 마운트하면 setuid-root 바이너리가 즉시 생성 — setxattr 없이 디스크의 신뢰할 수 없는 데이터에서 S_ISUID/S_ISGID 비트를 직접 로드 (fs/ntfs3/xattr.c:1022)</li>
+                <li><strong>영향 범위:</strong> udisks 데스크톱 자동 마운터가 NTFS를 suid로 마운트하므로, 조작된 USB를 꽂는 것만으로 로컬 사용자가 euid=0 획득 가능</li>
+                <li><strong>대응:</strong> 제안된 1줄 수정은 inode->i_mode에서 S_ISUID|S_ISGID 비트를 제거하는 것 — 커널 패치 반영 전까지 신뢰할 수 없는 NTFS 볼륨 마운트 주의 필요</li>
+            </ul>
+            <p>출처: <a href="https://www.phoronix.com/news/NTFS3-Vulnerability-For-Root" target="_blank">Phoronix - Specially Crafted NTFS File-System Image Allows Root Access On Linux With NTFS3 Driver</a></p>
+
+            <h2>3. TrueConf Server 치명적 취약점 2건, CISA KEV 등재 — Head Mare 그룹 악용 중</h2>
+            <p>CISA가 활발히 악용되고 있는 TrueConf Server(자체 호스팅 화상회의 플랫폼)의 치명적 취약점 2건을 KEV 카탈로그에 추가하고 미국 연방 기관(FCEB)에 9월 3일까지 패치를 명령했다.</p>
+            <ul>
+                <li><strong>CVE-2026-72529 (인증 누락, Critical):</strong> 4307/TCP로 연결한 무인증 원격 공격자가 문서화되지 않은 중요 함수를 호출해 서버에서 임의 스크립트 실행 가능</li>
+                <li><strong>CVE-2026-72530 (코드 인젝션, Critical):</strong> 코드 생성 처리 결함으로 샌드박스를 이스케이프한 뒤 임의 명령 실행(RCE) 가능</li>
+                <li><strong>악용 현황:</strong> Kaspersky에 따르면 Head Mare 해킹 그룹이 7월부터 두 취약점을 악용해 클라이언트 설치 프로그램을 백도어 악성코드가 포함된 버전으로 교체 — 러시아 교통·에너지·IT·전자·SW 개발 조직 표적</li>
+                <li><strong>참고:</strong> 4월에는 중국 연계 공격자가 다른 TrueConf 결함(CVE-2026-3502)을 제로데이로 악용한 "Operation True Chaos" 캠페인이 보고됨</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/cisa-orders-feds-to-patch-actively-exploited-trueconf-server-flaws/" target="_blank">BleepingComputer - CISA orders feds to patch actively exploited TrueConf Server flaws</a></p>
+
+            <h2>4. 공개 노출된 AWS 액세스 키 9,300개 이상 아직 유효 — 기업 계정 완전 제어 위험</h2>
+            <p>Truffle Security의 4년간 추적 조사 결과, 2022년 8월~2026년 8월 사이 공개적으로 노출된 AWS 액세스 키 9,300개 이상이 현재도 활성 상태로 유효하며, 상당수가 기업 계정에 대한 완전한 제어권을 제공하는 것으로 나타났다.</p>
+            <ul>
+                <li><strong>규모:</strong> 유효 키 9,300+개 중 817개가 기업과 연결, 526개는 AWS 루트 키</li>
+                <li><strong>위험도:</strong> 242개 키가 AdministratorAccess 정책(전체 AWS 서비스 생성·수정·삭제 권한)을 가진 IAM 사용자에 연결</li>
+                <li><strong>시사점:</strong> 장기간 방치된 키 노출 — 루트 키 사용 금지, 최소 권한 원칙, 정기 키 회전 및 노출 모니터링 필수</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/hundreds-of-leaked-aws-keys-give-full-control-over-corporate-accounts/" target="_blank">BleepingComputer - Hundreds of leaked AWS keys give full control over corporate accounts</a></p>
+
+            <h2>5. 토론토 SickKids 소아병원, 직원·구직자 개인정보 유출 공개</h2>
+            <p>캐나다 토론토의 Hospital for Sick Children(SickKids)이 제3자 소프트웨어 결함으로 발생한 "사이버 보안 사건"으로 현재·이전 직원 및 구직자의 개인정보가 노출됐다고 공개했다. 임상 시스템과 환자 기록은 영향을 받지 않았다.</p>
+            <ul>
+                <li><strong>피해 범위:</strong> 직원·구직자 개인정보 노출, 채용(Careers) 웹사이트 일시 오프라인 후 복구</li>
+                <li><strong>원인:</strong> 제3자 소프트웨어의 결함(공급망 취약점)에서 비롯된 것으로 추정</li>
+                <li><strong>현황:</strong> 사고 범위 조사 진행 중, 환자 데이터는 무관하다고 밝힘</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/sickkids-data-breach-exposes-employee-and-job-applicant-info/" target="_blank">BleepingComputer - SickKids data breach exposes employee and job applicant info</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
