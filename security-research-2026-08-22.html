@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - EchoCoT: 대형 추론 모델의 숨겨진 사고사슬 추출 공격</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - EchoCoT: 대형 추론 모델의 숨겨진 사고사슬 추출 공격</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-08-22</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> EchoCoT: Extracting Hidden Chain-of-Thought from Large Reasoning Models<br>
+                <strong>저자:</strong> Yiting Qu, Ziqing Yang, Chi Cui, Ye Leng, Junjie Chu, Yang Zhang<br>
+                <strong>분야:</strong> cs.CR / LLM 보안 (추론 모델 프라이버시)
+            </div>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 연구 배경</h2>
+            <p>프론티어 상용 추론 모델(LRM)의 숨겨진 사고사슬(CoT)은 학습 데이터와 정렬 과정에서 파생된 고가의 모델 자산으로, 대부분의 공급자가 API 응답에서 제거한 채 "요약된 추론"만 노출한다. 그러나 블랙박스 모델을 상대로 이 숨겨진 CoT를 거의 원문 그대로 추출할 수 있는지에 대한 체계적 연구는 사실상 없었다. 본 논문은 API 상호작용만으로 숨겨진 CoT를 탈취할 수 있음을 최초로 실증한다.</p>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 핵심 내용</h2>
+            <ul>
+                <li><strong>새로운 공격 표면:</strong> 도구 호출(tool call) 사이의 "추론 재생 구간(reasoning replay surface)"을 식별 — 도구 사용을 유발하는 프롬프트로 모델이 추론 과정을 출력에 재현하도록 유도</li>
+                <li><strong>EchoCoT 공격:</strong> API가 반환하는 충실도 신호(fidelity signal)를 활용해 반복적으로 숨겨진 CoT를 추출하는 다단계 공격 파이프라인 구축</li>
+                <li><strong>자동화:</strong> LLM 기반 최적화 프레임워크로 데이터셋 전반에 일반화되는 범용 인젝션 경로(universal injection trajectory)를 자동 탐색</li>
+                <li><strong>실험 결과:</strong> 오픈소스 LRM에서 최대 66.4%의 근-원문(near-verbatim) 추출 성공 — 토큰 90% 이상 정확 일치, 길이 오차 10% 이내. 프론티어 상용 모델에서도 추론 길이·요약과 정합하는 CoT 대량 추출 확인, Gemini-2.5에서는 32,948토큰 타깃에서 33,463토큰 추출 성공</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 보안 시사점</h2>
+            <ul>
+                <li>숨겨진 CoT 추출이 실질적 보안 위험임을 입증 — 추론 과정에는 모델 학습 데이터·내부 가중치의 단서가 포함되어 있어 IP 유출 및 향후 증류(distillation) 공격의 기반이 될 수 있음</li>
+                <li>도구 사용·에이전트 워크플로우가 늘어날수록 공격 표면이 확대됨 — MCP·함수 호출 기반 에이전트 설계 시 추론 출력 재현을 차단하는 경계(boundary) 설계가 필수</li>
+                <li>기존 "CoT 숨기기" 정책(요약만 반환)만으로는 불충분 — 추론 과정에 대한 출력 필터링·모니터링, 추론 길이 정보의 최소 노출, 인젝션 경로 탐지가 함께 필요</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flag-checkered"></i> 결론</h2>
+            <p>EchoCoT는 도구 호출 구간이라는 간과된 표면을 통해 블랙박스 상용 추론 모델의 숨겨진 CoT를 거의 원문 수준으로 추출할 수 있음을 보여준 최초의 체계적 연구다. 오픈소스 모델에서 최대 66.4%, 상용 모델에서 수만 토큰 규모의 추출 성공은 추론 모델의 CoT 자산 보호가 단순 출력 정책이 아닌 아키텍처 수준의 방어를 요구함을 시사한다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2608.20055" target="_blank">https://arxiv.org/abs/2608.20055</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
