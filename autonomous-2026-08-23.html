@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - AirSim: 자율주행·드론 AI 연구의 표준 시뮬레이터 (Microsoft)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - AirSim: 자율주행·드론 AI 연구의 표준 시뮬레이터 (Microsoft)</h1>
+            <p class="date">2026-08-23</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="info-block">
+                <ul>
+                    <li><strong>프로젝트:</strong> AirSim (Microsoft AI & Research)</li>
+                    <li><strong>소유자/저장소:</strong> <a href="https://github.com/microsoft/AirSim" target="_blank">microsoft/AirSim</a></li>
+                    <li><strong>⭐ Star:</strong> 약 18,400개 / Fork 4,900+</li>
+                    <li><strong>언어:</strong> C++ (Unreal Engine 플러그인, Unity 실험 지원)</li>
+                    <li><strong>라이선스:</strong> MIT</li>
+                    <li><strong>생성일:</strong> 2017-02-14 / 최근 커밋: 2026-06-28 (README 유지보수)</li>
+                    <li><strong>최신 릴리스:</strong> v1.8.1 (2022-07-18)</li>
+                    <li><strong>홈페이지:</strong> <a href="https://microsoft.github.io/AirSim/" target="_blank">microsoft.github.io/AirSim</a></li>
+                    <li><strong>함께 읽기:</strong> AirSim 논문 (FSR 2017, arXiv:1705.05065) — Semantic Scholar 기준 <strong>2,520회 인용</strong></li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>AirSim은 Microsoft가 만든 오픈소스 자율주행 시뮬레이터로, 드론·자동차·그 이상의 차량을 Unreal Engine(실험적으로 Unity) 기반의 물리적으로 사실적인 3D 환경에서 시뮬레이션한다. 플러그인 형태로 개발되어 기존 언리얼 환경에 그대로 얹을 수 있으며, PX4·ArduPilot 같은 실제 비행 컨트롤러와의 소프트웨어-인-더-루프(SITL) 및 하드웨어-인-더-루프(HITL)를 지원한다.</p>
+            <ul>
+                <li><strong>차량+드론 통합 시뮬레이션:</strong> 자율주행 자동차와 쿼드콥터 드론을 하나의 플랫폼에서 시뮬레이션 — 도심/실내 등 다양한 환경 제공</li>
+                <li><strong>물리·시각 사실성:</strong> Unreal Engine 기반의 고품질 렌더링과 실제감 있는 물리 엔진으로 시뮬레이션-실제 간 격차(sim-to-real) 축소</li>
+                <li><strong>플랫폼 독립적 API:</strong> Python/C++/ROS API로 차량 상태 조회와 제어가 가능해 딥러닝·강화학습 에이전트를 붙이기 쉬움</li>
+                <li><strong>AI 연구 지향 설계:</strong> 컴퓨터 비전, 강화학습(RL), 딥러닝 알고리즘 실험을 위한 데이터 수집·제어 인터페이스 제공 — "AI 연구 플랫폼"이 공식 목표</li>
+                <li><strong>실제 컨트롤러 연동:</strong> PX4·ArduPilot SITL/HITL 지원으로 실제 비행 스택을 그대로 검증 가능</li>
+                <li><strong>크로스 플랫폼:</strong> Windows/Linux/macOS에서 빌드·실행, 사전 빌드 바이너리 제공</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>연구계 표준:</strong> 2017년 FSR 논문 "AirSim: High-Fidelity Visual and Physical Simulation for Autonomous Vehicles"가 Semantic Scholar 기준 2,520회 인용 — 자율주행·드론 RL/CV 연구에서 가장 많이 쓰인 시뮬레이터 중 하나</li>
+                <li><strong>대형 프로젝트 신뢰성:</strong> Microsoft AI & Research 산하 프로젝트로 18.4k+ star, 4.9k+ fork, 수백 명의 기여자</li>
+                <li><strong>교육·경진대회 활용:</strong> 강화학습·임베디드 AI 강의와 해커톤에서 실제 차량/드론 없이 알고리즘을 검증하는 표준 도구로 사용</li>
+                <li><strong>sim-to-real 브리지:</strong> PX4 등 실제 비행 스택과의 연동 덕분에 시뮬레이션에서 검증한 정책을 실제 하드웨어로 이전하는 연구 파이프라인 구축 가능</li>
+                <li><strong>CARLA와의 차별점:</strong> CARLA가 자동차·도시 주행에 특화됐다면 AirSim은 드론/항공 + 차량을 모두 아우르는 범용 플랫폼 — 이전 글(CARLA, 08-08)과 대비해 보면 좋음</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>자율주행 연구에서 "좋은 시뮬레이터"는 데이터·안전·비용이라는 세 가지 병목을 한 번에 푸는 인프라다. AirSim은 오픈소스·MIT 라이선스·무료라는 조건으로 연구자와 학생 누구나 현실적인 환경에서 드론과 자동차의 RL·CV 알고리즘을 검증할 수 있게 했고, 이 접근성 덕분에 수천 건의 논문이 탄생했다. 최근 코드 커밋은 유지보수 모드에 가깝지만, 여전히 강화학습 기반 주행·비행 연구의 입문 표준으로 남아 있으며, CARLA·Autoware·openpilot 같은 실전 지향 프로젝트와 함께 "시뮬레이션 → 실차 이전" 연구 파이프라인의 출발점으로 가치가 크다. GPU가 넉넉지 않은 환경에서도 사전 빌드 바이너리로 시작해 Python API만으로 RL 에이전트를 학습시켜볼 수 있다는 점이 매력적이다.</p>
+
+            <p>원문: <a href="https://github.com/microsoft/AirSim" target="_blank">https://github.com/microsoft/AirSim</a></p>
+            <p>관련 논문: <a href="https://arxiv.org/abs/1705.05065" target="_blank">https://arxiv.org/abs/1705.05065</a></p>
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
