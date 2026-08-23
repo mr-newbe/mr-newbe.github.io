@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-08-24</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-08-24 | <i class="fa-solid fa-tags"></i> Daily News, Data Breach, Ransomware, Malware, Phishing, Cloud Security
+        </div>
+
+        <div class="content">
+            <h2>1. 'TheHatman' Azure 테넌트 대량 유출 캠페인 — McDonald's·Vodafone 등 Fortune 500 기업 직원 데이터 수백만 건 판매 주장</h2>
+            <p>위협 인텔리전스 업체 Hudson Rock이 위협 행위자 'TheHatman'의 주장을 보도했다. 공격자는 인포스틸러 캠페인으로 탈취한 유출 자격증명을 이용해 여러 Fortune 500 기업의 Azure/Entra 테넌트에 침투, 직원 디렉터리 데이터 수백만 건을 빼내 판매하고 있다고 주장한다. Hudson Rock은 유출 데이터의 이메일 주소와 필드명이 실제 Azure 디렉터리 익스포트 형식과 일치해 진본으로 보인다고 분석했다.</p>
+            <ul>
+                <li><strong>피해 기업·규모:</strong> McDonald's(170만 건+), TCS(80만), Vodafone(42만 5,000), HCL Technologies(25만), IHG(18만 5,000) 외 Kyndryl, Gap, Hexaware, Wyndham Hotels 등</li>
+                <li><strong>유출 데이터:</strong> 직원 이름·회사 이메일·주소·전화·사번·직책·매니저 정보·그룹 멤버십·서비스 계정·고권한 계정(글로벌 관리자) 기록까지 포함</li>
+                <li><strong>위험성:</strong> 서비스 계정·글로벌 관리자 노출은 내부 보고 구조와 고가치 표적을 매핑해 스피어피싱·BEC(비즈니스 이메일 침해)·권한 상승 공격의 로드맵을 제공 — 즉각적인 후속 공격 위협</li>
+            </ul>
+            <p>출처: <a href="https://www.hudsonrock.com/blog/massive-azure-exfiltration-campaign-exposes-millions-of-enterprise-records-via-compromised-credentials-mcdonalds-vodafone-kyndryl-others" target="_blank">Hudson Rock - Massive Azure Exfiltration Campaign Exposes Millions of Enterprise Records via Compromised Credentials</a> / <a href="https://www.securityweek.com/fortune-500-companies-hit-in-azure-data-theft-campaign/" target="_blank">SecurityWeek - Fortune 500 Companies Hit in Azure Data Theft Campaign</a></p>
+
+            <h2>2. Medusa 랜섬웨어, 미국 크리티컬 인프라 500개 이상 조직 침해 — FBI·CISA·HHS 공동 경고</h2>
+            <p>CISA가 FBI, 보건복지부(HHS)와 공동으로 발표한 권고에 따르면 Medusa 랜섬웨어 갱단이 2021년 6월 이후 미국 크리티컬 인프라 조직 500개 이상을 침해한 것으로 나타났다. 이는 2025년 3월 공동 보고(약 300개 조직) 이후 크게 증가한 수치다.</p>
+            <ul>
+                <li><strong>피해 부문:</strong> 헬스케어·공공보건, 국방산업기지, 핵심 제조, 정부 서비스·시설, 정보기술, 금융 서비스 외 의료·교육·법률·보험·제조 업계</li>
+                <li><strong>규모:</strong> 2026년 4월 기준 500개 이상 피해 조직 (2025년 3월 300개+에서 급증)</li>
+                <li><strong>대응 권고:</strong> 알려진 취약점 패치, MFA 강화, 네트워크 분할, 백업 검증 등 랜섬웨어 방어 기본기 준수 — 연방 기관은 CISA KEV 기준 패치 의무</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/cisa-medusa-ransomware-hit-over-500-critical-infrastructure-orgs/" target="_blank">BleepingComputer - CISA: Medusa ransomware hit over 500 critical infrastructure orgs</a></p>
+
+            <h2>3. ToxicPanda 2.0 Android 악성코드 — VPN 권한으로 Google Play 차단 후 무선 ADB로 고권한 셸 확보</h2>
+            <p>모바일 보안 업체 Zimperium이 Android 은행 트로이목마 ToxicPanda의 진화된 신버전을 분석했다. ToxicPanda 2.0은 표적 앱을 349개로 확장하고 167개의 원격 명령을 지원하며, VPN 서비스 권한을 요청해 로컬 인터페이스를 생성, 네트워크 트래픽을 제어하는 방식으로 Google Play와 Play Protect 통신을 차단한 뒤 페이로드를 설치한다.</p>
+            <ul>
+                <li><strong>확장된 기능:</strong> 16개국 349개 금융·암호화폐·전자지갑 앱 대상 투명 피싱 오버레이, 140개 금융 앱 대상 PIN 탈취 모듈(표적 목록 동적 업데이트), 가짜 잠금화면·가짜 시스템 업데이트 화면으로 은닉</li>
+                <li><strong>무선 ADB 악용:</strong> 접근성 서비스 권한으로 개발자 옵션을 켜고 Wireless Debugging을 활성화, 6자리 페어링 코드와 포트를 추출해 로컬 ADB 데몬에 접속 — 런타임 동의 프롬프트를 우회해 광범위한 권한 자가 부여·영속성 확보</li>
+                <li><strong>'autoBoot' 명령:</strong> 기기 제조사를 식별해 Xiaomi·OPPO·Vivo·Samsung·Huawei별 자동 시작/전원 관리 설정을 실행, 백그라운드 프로세스 킬 방지 우회</li>
+                <li><strong>유포:</strong> Amazon AWS 호스팅 버킷 경유 — 무선 ADB 남용은 Group-IB가 보고한 RedHook 악성코드와 동일한 증가 추세</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/toxicpanda-android-malware-uses-vpn-permissions-to-block-google-play/" target="_blank">BleepingComputer - ToxicPanda Android malware uses VPN permissions to block Google Play</a></p>
+
+            <h2>4. SynkLoader — Teams 피싱으로 유포되는 신종 멀웨어, 가짜 잠금화면으로 Windows 비밀번호 탈취</h2>
+            <p>Expel의 보안 연구원 Marcus Hutchins가 Microsoft Teams 피싱 캠페인으로 유포되는 신종 멀웨어 'SynkLoader'를 분석했다. 공격자는 대상 회사의 IT 헬프데스크를 사칭해 Azure에 호스팅된 가짜 'PowerShell Cleaner'(.MSI) 설치를 유도하며, 멀웨어는 2026년 7월 28일경 최초 컴파일된 것으로 추정된다.</p>
+            <ul>
+                <li><strong>모듈 구성:</strong> System Profiler(AD 환경·도메인 규모 측정), Persistence(로그온·매일 오전 10시 예약 작업), PhishLocker(가짜 Windows 잠금화면으로 로그인 비밀번호 캡처), TrafficRedirector(내부 네트워크 역방향 프록시), Interactive Shell(RAT), StreamMaster(VNC 원격 제어)</li>
+                <li><strong>위험성:</strong> 탈취한 비밀번호 + 터널링 모듈 조합으로 IP 허용목록 제한을 우회해 기업 내부망 접근 가능 — AD 크기 측정 등으로 미뤄 랜섬웨어 선행 정찰 단계로 의심</li>
+                <li><strong>탐지 팁:</strong> 잠금화면 의심 시 Alt+Tab로 실제 창이 드러나는지 확인(가짜 잠금화면은 전체화면 GUI 앱일 뿐), IT 요청은 채널과 무관하게 독립적으로 검증</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/new-synkloader-malware-pushed-in-microsoft-teams-phishing-campaign/" target="_blank">BleepingComputer - New SynkLoader malware pushed in Microsoft Teams phishing campaign</a></p>
+
+            <h2>5. iAuthFlow V2 — 패스키를 등록해 비밀번호 변경·세션 폐기 후에도 접근을 유지하는 신형 피싱 툴킷</h2>
+            <p>러시아어 사이버범죄 포럼에서 판매되는 신형 피싱 툴킷 'iAuthFlow V2'가 발견됐다. 기존 피싱 툴킷과 달리 공격자가 제어하는 패스키를 피해자 계정에 등록하는 방식으로, 피해자가 비밀번호를 변경하거나 활성 세션을 모두 폐기해도 지속적인 계정 접근을 유지한다.</p>
+            <ul>
+                <li><strong>가격:</strong> 기본 툴킷 1만 달러(약 1,300만 원), 추가 모듈은 별도 판매</li>
+                <li><strong>지속성:</strong> 패스키 인증은 비밀번호와 독립적 — 비밀번호 재설정·세션 무효화를 우회하는 '피싱 방지 인증'의 역이용</li>
+                <li><strong>시사점:</strong> 패스키(비밀번호 없는 인증) 채택이 확대되는 흐름을 노린 피싱 고도화 — 계정 탈취 대응 체계(디바이스 인증기 관리, 의심 패스키 모니터링) 필요</li>
+            </ul>
+            <p>출처: <a href="https://www.securityweek.com/new-phishing-toolkit-uses-passkeys-to-maintain-access-after-password-resets/" target="_blank">SecurityWeek - New Phishing Toolkit Uses Passkeys to Maintain Access After Password Resets</a></p>
+
+            <h2>6. FTP 서버 배너를 명령 전달 채널로 악용 — E4del·PINHOLE RAT 유포 확인</h2>
+            <p>위협 인텔리전스 플랫폼 SOCRadar가 FTP 서버 배너(로그인 전 연결 호스트에 전송되는 인사말 문자열)에 명령을 숨겨 멀웨어 스테이저가 지시를 수신하는 '데드드롭 리졸버(DDR)' 기법을 발견했다. 이 기법은 2026년 7월 초부터 무기화됐으며 8월에도 신규 인프라가 관찰되는 등 여전히 운영 중이다.</p>
+            <ul>
+                <li><strong>감염 체인:</strong> ZIP 아카이브 → LNK 기반 체인(초기 침투는 피싱 추정), FTP 배너에서 PowerShell 스크립트를 받아 RAT 2종(E4del·PINHOLE)을 별도 경로로 배포</li>
+                <li><strong>E4del:</strong> Discord로 위장한 서명된 Electron 앱의 Node.js 기반 RAT — 영구·임시 셸, 스크린샷, WebSocket 데스크톱 스트리밍, 추가 페이로드 다운로드 실행</li>
+                <li><strong>PINHOLE:</strong> Pinterest 핀·SurveyMonkey 설문으로 C2 설정 수신, 셸코드 플럭추에이션(메모리 4KB 섹션만 유지), Early Bird APC로 ApplicationFrameHost.exe에 주입, 14개 명령·브라우저 자격증명 탈취 모듈 지원</li>
+                <li><strong>전망:</strong> X·GitHub·YouTube 등 웹 기반 DDR보다 눈에 띄지만 ClickFix 소셜 엔지니어링 캠페인에 쉽게 적응 가능한 범용 기법으로 평가</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/hackers-abuse-ftp-server-banners-to-deliver-new-windows-malware/" target="_blank">BleepingComputer - Hackers abuse FTP server banners to deliver new Windows malware</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
