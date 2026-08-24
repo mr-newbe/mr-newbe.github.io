@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - Utility Under Attack: 에이전트 메모리 중독 공격과 콘텐츠 검증의 한계</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - Utility Under Attack: 에이전트 메모리 중독 공격과 콘텐츠 검증의 한계</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-08-24</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Utility Under Attack: Agent Memory Poisoning and the Limits of Content Screening and Provenance Ranking<br>
+                <strong>저자:</strong> Arulnidhi Karunanidhi<br>
+                <strong>분야:</strong> cs.CR / AI 에이전트 보안 (메모리 중독)
+            </div>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 연구 배경</h2>
+            <p>장기 메모리(persistent memory)는 LLM 에이전트가 세션 간 맥락을 유지하는 핵심 기능이지만, 한번 저장된 잘못된 정보는 이후 모든 세션에서 지속적으로 재검색된다 — "거짓이 저장되면 거짓이 영속화된다". 기존 연구는 주로 프롬프트 인젝션·트리거 기반 공격에 집중했으나, 본 논문은 특별한 트리거나 최적화 없이 평범한 문장으로 작성된 단순 거짓 주장만으로 에이전트 메모리를 중독시킬 수 있는지, 그리고 현재의 방어 기법(콘텐츠 스크리닝, 출처 가중 검색)이 이를 막을 수 있는지를 측정한다.</p>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 핵심 내용</h2>
+            <ul>
+                <li><strong>공격 실효성:</strong> LongMemEval 말뭉치의 1.2%만 중독시켜도 에이전트 정확도가 0.850 → 0.300으로 급락 — 단일 패스로 생성한 평범한 거짓 주장만으로 달성되며, 인스트럭션·트리거·리트리버 최적화가 전혀 필요 없음</li>
+                <li><strong>콘텐츠 스크리닝의 한계:</strong> 간접 프롬프트 인젝션 대비 0.832 recall·1.5% 오탐률을 달성한 4단계 작성 시점(write-time) 스크리닝 파이프라인도 중독된 메모리 360건 중 0건만 탐지 — "거짓 주장과 참 주장의 구분"은 텍스트 자체만으로는 불가능하며 외부 근거(grounding)가 필수적이라는 경계를 실증</li>
+                <li><strong>출처 가중 검색의 딜레마:</strong> 현재 배포된 가중치는 방어 효과가 통계적으로 무의미(p=0.80)했고, 강한 가중치는 신뢰할 수 없는 콘텐츠를 배제할 때만 효용을 회복(정확도 0.3167 → 0.7000). 그러나 정답이 담긴 증거 자체가 신뢰할 수 없는 출처에서 오면 증거 재검색률이 0, 정확도 0.0417로 붕괴</li>
+                <li><strong>제안:</strong> 가산적(additive) 출처 페널티는 어떤 가중치로도 유효한 설정이 없다고 결론 — 대신 검색 시점의 "점유 상한(bounded occupancy) 제약"으로 신뢰할 수 없는 콘텐츠의 메모리 점유 비율을 제한하는 방향을 제안하며, 하네스·말뭉치·실행 리포트를 공개</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 보안 시사점</h2>
+            <ul>
+                <li>장기 메모리를 가진 에이전트는 "지속성 있는 거짓 정보"라는 새로운 공격 표면에 노출됨 — 1회성 입력 검증만으로는 부족하고, 메모리 쓰기(write) 경로에 대한 근거 기반(grounded) 검증이 필요</li>
+                <li>콘텐츠 스크리닝·프롬프트 인젝션 탐지 성능이 높다고 해서 거짓 정보 탐지로 이어지지 않음 — 지시문(instruction) 탐지와 사실성(factuality) 검증은 별개의 문제로 설계해야 함</li>
+                <li>출처 가중 검색은 공격 저항성과 정당한 비신뢰 콘텐츠 활용 사이에서 근본적 트레이드오프를 가짐 — 단순 가중치 튜닝이 아닌 메모리 점유율·격리(containment) 정책 같은 구조적 방어가 유망</li>
+                <li>에이전트가 웹 콘텐츠·이메일·도구 출력을 메모리에 축적하는 워크플로우가 확산될수록, 메모리 수명주기(쓰기·검색·만료) 전반의 보안 설계가 필수적</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flag-checkered"></i> 결론</h2>
+            <p>이 연구는 "아무런 최적화 없는 평범한 거짓 문장"만으로도 에이전트 장기 메모리를 효과적으로 중독시킬 수 있음을 보여주며, 현재 산업계가 채택한 콘텐츠 스크리닝과 출처 가중 검색이 모두 이 공격에 취약함을 정량적으로 입증했다. 텍스트 자체만으로 거짓을 판별할 수 없다는 한계를 인정하고, 외부 근거 검증과 메모리 점유 상한 같은 구조적 방어로 패러다임 전환이 필요함을 시사한다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2608.21230" target="_blank">https://arxiv.org/abs/2608.21230</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
