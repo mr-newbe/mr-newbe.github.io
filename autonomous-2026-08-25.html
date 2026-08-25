@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - PythonRobotics: 로보틱스 알고리즘의 교과서적 오픈소스 코드집 (30,000+ ⭐)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - PythonRobotics: 로보틱스 알고리즘의 교과서적 오픈소스 코드집 (30,000+ ⭐)</h1>
+            <p class="date">2026-08-25</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="info-block">
+                <ul>
+                    <li><strong>프로젝트:</strong> PythonRobotics (저자 Atsushi Sakai)</li>
+                    <li><strong>소유자/저장소:</strong> <a href="https://github.com/AtsushiSakai/PythonRobotics" target="_blank">AtsushiSakai/PythonRobotics</a></li>
+                    <li><strong>⭐ Star:</strong> 30,362 / Fork 7,389</li>
+                    <li><strong>언어:</strong> Python (matplotlib 시각화)</li>
+                    <li><strong>라이선스:</strong> MIT</li>
+                    <li><strong>생성일:</strong> 2016-03-21 / 최근 커밋: 2026-08-24 (활발히 유지보수 중)</li>
+                    <li><strong>최신 릴리스:</strong> 없음 — 릴리스 대신 지속 커밋 + Linux/macOS/Windows CI로 관리되는 '살아있는 교과서'</li>
+                    <li><strong>홈페이지:</strong> <a href="https://atsushisakai.github.io/PythonRobotics/" target="_blank">atsushisakai.github.io/PythonRobotics</a></li>
+                    <li><strong>함께 읽기:</strong> 동반 논문 "PythonRobotics: a Python code collection of robotics algorithms" (arXiv:1808.10703) — README가 학술 이용 시 공식 인용을 요청</li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>PythonRobotics는 로보틱스 핵심 알고리즘을 <strong>최소한의 Python 코드(대부분 100줄 안팎)로 구현해 matplotlib 애니메이션과 함께 보여주는 교과서 동반 코드집</strong>이다. 로봇이 '내가 어디에 있는지'(localization) → '주변이 어떻게 생겼는지'(mapping) → '어디로 갈지'(path planning) → '어떻게 따라갈지'(path tracking) 판단하는 전 과정을 하나의 저장소에서 순서대로 배울 수 있다. 자율주행차도 본질적으로 같은 구조를 가진다.</p>
+            <ul>
+                <li><strong>Localization (위치 추정):</strong> 확장 칼만 필터(EKF), 파티클 필터, 히스토그램 필터 — GPS·IMU·라이다 센서 잡음 속에서 차량의 정확한 위치를 추정하는 기법</li>
+                <li><strong>Mapping &amp; SLAM:</strong> 라이다→그리드 맵 변환, k-means 객체 클러스터링, ICP 매칭, FastSLAM 1.0 — 지도 없이 스스로 지도를 만들며 위치를 추정하는 동시적 위치추정·지도작성</li>
+                <li><strong>Path Planning (경로 계획):</strong> Dynamic Window Approach(DWA), 그리드 탐색(A*/Dijkstra), State Lattice, PRM, RRT, 5차 다항식 계획, Reeds-Shepp, LQR 기반 계획, <strong>Frenet 프레임 최적 궤적</strong> — 도로 상황에 맞는 주행 경로를 생성하는 핵심 모듈</li>
+                <li><strong>Path Tracking (경로 추종):</strong> <strong>Stanley 컨트롤</strong>(2005 DARPA 그랜드 챌린지 우승팀 Stanford가 실제로 사용), 후륜 피드백 제어, LQR 속도·조향 제어, <strong>MPC(모델 예측 제어)</strong>, 비선형 MPC(C-GMRES) — 생성된 경로를 실제 조향·가속 명령으로 변환</li>
+                <li><strong>교육 중심 설계:</strong> 모든 예제가 단일 파일로 실행 가능하고, 애니메이션으로 알고리즘 동작을 시각화 — README에 'Use-case'·'Contribution' 가이드까지 갖춘 교재형 구성</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>로보틱스 분야 최다 스타 저장소:</strong> 30,362⭐ / 7,389 fork — 자율주행·로보틱스 알고리즘을 다루는 GitHub 저장소 중 사실상 1위 규모로, 입문자의 표준 첫걸음</li>
+                <li><strong>10년째 살아있는 프로젝트:</strong> 2016년 생성 이후 2026-08-24까지 커밋이 이어지고 있으며 3개 OS CI가 상시 검증 — 수백 명의 기여자가 다듬은 'living textbook'</li>
+                <li><strong>MIT 라이선스의 자유로움:</strong> 학술·산업·교육 어디서든 자유롭게 사용 가능해 수많은 대학 강의와 기업 온보딩 교재로 채택</li>
+                <li><strong>자율주행 스택과의 연결:</strong> 이 블로그에서 다룬 UniAD(08-05/08-12)·VAD(08-18)·BEVFormer(08-17)가 '인식(perception)' 계층이라면, PythonRobotics는 그 다음 단계인 <strong>'결정·제어(planning &amp; control)' 계층</strong>의 표준 입문서 — Stanley·MPC·Frenet은 실제 상용 자율주행 스택에서도 그대로 쓰이는 알고리즘</li>
+                <li><strong>동반 논문으로 학술적 위상:</strong> arXiv:1808.10703으로 공식 발표되어 README가 인용을 요청하며, 코드를 그대로 실험·변형해 연구·졸업작품에 활용하기 쉬움</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>PythonRobotics는 "자율주행 = 인식 모델"이라는 편견을 바로잡아 주는 저장소다. 차량이 실제로 움직이려면 인식 결과를 바탕으로 <strong>어디로 갈지(계획)와 어떻게 갈지(제어)</strong>를 결정해야 하며, 그 알고리즘들(EKF→파티클 필터→SLAM→RRT/Frenet→Stanley/MPC)은 30년 넘게 다듬어진 고전이자 현장 표준이다. 30,000개가 넘는 스타는 단순한 인기를 넘어, 오픈소스 '교과서'가 학계·산업계 교육을 어떻게 바꿀 수 있는지를 보여주는 증거다. 입문자라면 이 저장소의 순서(위치 추정 → SLAM → 경로 계획 → 경로 추종)를 그대로 따라가며 각 알고리즘의 100줄 구현을 직접 돌려보는 것이, 최신 end-to-end 모델을 이해하기 전에 밟아야 할 가장 확실한 기초 공부가 된다.</p>
+
+            <p>원문: <a href="https://github.com/AtsushiSakai/PythonRobotics" target="_blank">https://github.com/AtsushiSakai/PythonRobotics</a> / 동반 논문: <a href="https://arxiv.org/abs/1808.10703" target="_blank">https://arxiv.org/abs/1808.10703</a></p>
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
