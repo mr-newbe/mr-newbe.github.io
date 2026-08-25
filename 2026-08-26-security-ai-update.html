@@ -32,7 +32,7 @@
     <div class="container">
         <h1>Daily Security & AI Update</h1>
         <div class="meta">
-            <i class="fa-regular fa-calendar"></i> 2026-08-26 | <i class="fa-solid fa-tags"></i> Daily News, AI 보안, 취약점, CVE, 패치, 피싱, KEV
+            <i class="fa-regular fa-calendar"></i> 2026-08-26 | <i class="fa-solid fa-tags"></i> Daily News, AI 보안, 취약점, CVE, 패치, 피싱, KEV, 제재, RAT, 공급망 공격
         </div>
 
         <div class="content">
@@ -84,6 +84,45 @@
                 <li><strong>대응:</strong> 아직 패치하지 않은 조직은 ZCS 10.1.20 이상으로 즉시 업그레이드 + 로그·웹셸 탐지 — 메일 서버는 지속적 표적(APT28·APT29·Winter Vivern)으로 KEV 기준 선제 대응 필수</li>
             </ul>
             <p>출처: <a href="https://www.bleepingcomputer.com/news/security/hackers-breached-over-270-zimbra-servers-in-ongoing-attacks/" target="_blank">BleepingComputer - Hackers breached over 270 Zimbra servers in ongoing attacks</a></p>
+
+            <h2>6. 미국 재무부, 이란 MOIS 연계 해커(Mabna Institute) 5명 제재 — '전례 없는' 전방위 경제 캠페인</h2>
+            <p>미국 재무부가 이란 사이버 행위자에 대한 새로운 제재를 발표했다. 재무부는 이를 이란과 그 지원 세력에 대한 "전례 없는, 정부 차원의 경제 캠페인"이라고 부르며, 핵무기·미사일·석유·사이버 네트워크와 디지털 자산 부문을 포함해 약 60개의 이란 연계 단체·개인·선박을 지정했다. 제재의 핵심 대상은 미국 핵심 인프라를 광범위하게 침해해 온 이란 정보보안부(MOIS) 연계 악성 사이버 그룹이다.</p>
+            <ul>
+                <li><strong>제재 대상:</strong> 지난주 미 법무부가 기소한 5명 — 테헤란 기반 Mabna Institute 구성원. Behzad Mesri(HBO 공격·Net Peygard Samavat 연루로 2018·2019년 OFAC 지정), Keyvan Fayyaz Ghareh Blagh, Saber Shahbazi Balujeh, Mohammad Reza Kadkhoda'i, Arman Kahzadian</li>
+                <li><strong>범행 내역:</strong> 2023년 말부터 에너지·방산·의료·IT·금융 등 미국 핵심 인프라 기업 다수 침해·데이터 탈취 — MOIS를 위해 활동하면서도 개인 이익도 추구, 2024년 여름에는 미국 지방·주·연방 정부 기관 다수 침해</li>
+                <li><strong>자금 흐름:</strong> TRM Labs 분석 결과 5명 연계 30개 지갑에 약 1,680만 달러 유입 — Keyvan Fayyaz Ghareh Blagh가 네트워크 온체인 볼륨의 92% 차지, Arman Kahzadian은 암호화폐 탈취 집중(3만 달러 상당 BTC 지갑 탈취)</li>
+                <li><strong>시사점:</strong> OFAC 제재 + 법무부 기소를 병행하는 '경제 압박·법적 추적' 결합 — 국가 후원 APT에 대한 전방위 대응 패턴</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/us-sanctions-iran-linked-hackers-behind.html" target="_blank">The Hacker News - U.S. Sanctions Iran-Linked Hackers Behind Critical Infrastructure Breaches</a></p>
+
+            <h2>7. Marimo 노트북 MCP 명령 코드 인젝션(CVE-2026-75149, CVSS 8.8) — 셀 실행 전 임의 명령 실행</h2>
+            <p>VulnCheck의 CNA 기록에 따르면 Marimo가 노트북 소프트웨어의 고심각도 보안 결함을 수정했다. 특수 제작된 노트북을 편집 모드로 열면 공격자가 공급한 Model Context Protocol(MCP) 명령이 셀 실행 전에 로컬 서브프로세스로 실행될 수 있다. CVE-2026-75149로 추적되는 코드 인젝션 결함으로 CVSS v4 8.7 / v3.1 8.8, 사용자 상호작용 필요·인증 불필요, 0.23.15 미만 버전이 영향 범위다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> 노트북 구성(metadata)에 공격자 제어 MCP 서버 command 주입 → 피해자가 편집 모드로 노트북을 여는 순간, 어떤 셀도 실행되기 전에 명령이 실행됨</li>
+                <li><strong>수정:</strong> Marimo의 PEP 723 하드닝 패치가 노트북 메타데이터를 공격자 제어로 취급하고 allowlist 방식으로 ai/mcp/completion/secrets/server 구성 섹션을 제거 (0.23.15에서 수정, 8월 17일 PyPI 0.24.0 릴리스)</li>
+                <li><strong>발견자:</strong> Gregory Tan(핸들 Grg0rry) — PEP 723 하드닝 커밋 공동 저자이기도 함</li>
+                <li><strong>연관 결함:</strong> CVE-2026-67618(CVSS 7.1, 0.23.15 이전 — 악성 AI base_url로 API 키 유출)과 CVE-2026-39987(/terminal/ws 무인증 PTY 셸, 0.23.0에서 수정)도 최근 공개된 Marimo 취약점</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/marimo-notebook-flaw-could-run-mcp.html" target="_blank">The Hacker News - Marimo Notebook Flaw Could Run MCP Commands Before Cells Execute in Edit Mode</a></p>
+
+            <h2>8. 24개 npm 패키지, unpkg 미러를 '무료 피싱 인프라'로 악용 — 가짜 Cloudflare CAPTCHA 호스팅</h2>
+            <p>OX Security 연구진이 24개 npm 패키지 클러스터가 공식 레지스트리와 미러를 무료 피싱 인프라로 사용해 ClickFix 스타일의 가짜 CAPTCHA 페이지로 리다이렉트하는 캠페인을 공개했다. 패키지 안의 단일 HTML 페이지가 unpkg 같은 미러에 복제되면 신뢰받는 도메인에서 렌더링되는 가짜 Cloudflare CAPTCHA 페이지가 된다. 공격자의 목적은 개발자를 감염시키는 것이 아니라 npm과 미러를 '검증된 저장소'로 활용하는 것이다.</p>
+            <ul>
+                <li><strong>동작 원리:</strong> 피해자가 unpkg[.]com/ndmxchdjxn2@1.0.0/index.html 같은 링크를 열면 신뢰 도메인에서 렌더링된 가짜 Cloudflare 인증 페이지가 표시 → ClickFix 피싱 인프라로 리다이렉트해 사용자가 악성 명령을 실행하도록 유도</li>
+                <li><strong>지속 진화:</strong> 초기엔 MS 로그인 사칭 typosquat 도메인(login[.]microsofte[.]live)을 사용했으나 Chrome Safe Browsing 차단 후 무료 키-값 저장소 KeyVal(api.keyval[.]org)을 DDR로 전환해 리다이렉트 URL을 추출·디코딩 — 현재는 정식 ChatGPT 사이트로 이동하지만 설정만 바꾸면 ClickFix 등으로 무장 가능</li>
+                <li><strong>배경:</strong> 2025년 10월 Beamglea 캠페인(175개 패키지, unpkg CDN 악용)에 이은 동일 패턴 재등장 — npm 패키지는 공식 스토어에서 삭제돼도 미러에 영구히 남아 지속성 확보</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/24-npm-packages-abuse-unpkg-mirrors-to.html" target="_blank">The Hacker News - 24 npm Packages Abuse unpkg Mirrors to Host Fake Cloudflare CAPTCHA Pages</a></p>
+
+            <h2>9. E4del·PINHOLE RAT — FTP 배너를 데드 드롭 리졸버로 악용한 신종 캠페인</h2>
+            <p>SOCRadar가 FTP 배너를 dead drop resolver(DDR)로 사용해 신종 원격 접근 트로이목마(RAT) 2종 — E4del과 PINHOLE — 을 유포하는 캠페인을 공개했다. FTP 프로토콜의 초기 응답(banner)에 명령을 심어 스테이저가 연결 즉시 명령을 받아오는 방식으로, MalwareHunterTeam이 지난달 초 최초로 조명한 기법이다.</p>
+            <ul>
+                <li><strong>E4del:</strong> Node.js 기반 RAT — Discord로 위장한 디지털 서명된 Electron 앱에 내장. 방어 회피·지속성·시스템 핑거프린팅·암호화 C2 지원, 3단계 지터 비콘(Active 0.2~2초 / Semi-Active 2~5초 / Inactive 5~9초)으로 정상 트래픽에 혼재. 전달 체인: 157.254.194[.]31 FTP 배너 → 2차 배너(167.148.41[.]164) → PowerShell로 ZIP 다운로드·실행</li>
+                <li><strong>PINHOLE:</strong> 더 진보된 계열 — Pinterest·SurveyMonkey 같은 고신뢰 플랫폼을 DDR로 사용하고 Cloudflare Workers로 C2 통신을 프록시. 209.99.185[.]38 배너가 MSXML2.XMLHTTP COM 객체로 cloudflare.milicare[.]in에서 2차 스크립트 수신</li>
+                <li><strong>유포 방식:</strong> 스페인어 바우처(상품권) 사칭 루어로 Windows LNK 실행 유도, ClickFix 스타일 가짜 CAPTCHA 병행 — 침해된 정상 웹사이트에 가짜 CAPTCHA를 심는 클러스터와 연계</li>
+                <li><strong>참고:</strong> FTP 기반 DDR은 웹 기반보다 눈에 띄어, 알 수 없는 FTP 연결을 비정상으로 플래깅하는 보안 통제에 탐지될 가능성이 높음</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/e4del-and-pinhole-rats-turn-ftp-banners.html" target="_blank">The Hacker News - E4del and PINHOLE RATs Turn FTP Banners Into Dead Drops for Malware Commands</a></p>
         </div>
 
         <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
