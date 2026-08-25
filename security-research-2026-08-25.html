@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - "Do Not"은 Deny가 아니다: CLAUDE.md 보안 규칙과 내장 제어의 간극</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - "Do Not"은 Deny가 아니다: CLAUDE.md 보안 규칙과 내장 제어의 간극</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-08-25</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> When "Do Not" Is Not Deny: Security Rules in CLAUDE.md vs Built-In Controls<br>
+                <strong>저자:</strong> Ting Yan<br>
+                <strong>분야:</strong> cs.CR / AI 에이전트 보안 (에이전트 정책·제어 강제)
+            </div>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 연구 배경</h2>
+            <p>CLAUDE.md의 "do not"은 모델이 해석해야 하는 자연어 지시문인 반면, Claude Code의 deny는 에이전트가 행동을 취하기 전에 차단하는 내장 제어(built-in control)다. 둘 다 같은 보안 목표를 표현할 수 있지만 에이전트를 통제하는 방식이 근본적으로 다르다. 개발자들은 보안 규칙을 CLAUDE.md에 자연어로 작성하는 데 익숙하지만, 그 규칙이 실제로 내장 제어에 의해 강제되는지, 아니면 모델의 선의에 맡겨지는지는 알 수 없다. 본 논문은 이 "규칙 작성"과 "규칙 강제" 사이의 간극을 481개 공개 CLAUDE.md 파일을 대상으로 정량 측정한다.</p>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 핵심 내용</h2>
+            <ul>
+                <li><strong>측정 방법:</strong> LLM이 481개 공개 CLAUDE.md에서 후보 보안 규칙을 추출하고, 이를 Claude Code의 문서화된 내장 제어(deny 규칙, 권한 규칙, 모드, 샌드박스 등)와 매칭. 두 명의 보안 실무자가 모델 응답과 서로의 라벨을 보지 않은 채(블라인드) 표본을 독립 검증</li>
+                <li><strong>결과:</strong> 일치 기준의 엄격함에 따라 추출된 보안 규칙 중 내장 제어와 매칭되는 비율은 약 4~16%에 불과. 가장 엄격한 기준에서는 4.4%(95% CI: 2.6–6.7%)였으며, 두 검증자의 판정은 높은 일치도를 보임</li>
+                <li><strong>추출 커버리지:</strong> 전체 파일 수동 검토 결과 추출 방법이 적격 보안 규칙의 66.3%를 포착 — 보고된 수치는 포착된 규칙 기준이므로 실제 강제율은 더 낮을 수 있음</li>
+                <li><strong>근본 원인:</strong> CLAUDE.md는 write-only 채널 — 개발자가 규칙을 작성해도 해당 규칙을 내장 제어가 강제할지에 대한 피드백이 전혀 없음. 동일한 평문 형식 안에 (a) 권한 규칙·모드·샌드박스로 강제 가능한 규칙과 (b) 모델 해석에만 의존하는 규칙이 구분 없이 섞여 있음</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 보안 시사점</h2>
+            <ul>
+                <li>자연어 보안 규칙의 대부분(~84~96%)은 모델의 해석에만 의존하는 "소프트" 규칙이며, 프롬프트 인젝션·탈옥 등으로 우회될 수 있음 — 에이전트 정책을 작성할 때 deny·권한 규칙·샌드박스 같은 하드 제어로 옮기는 것이 우선순위여야 함</li>
+                <li>write-only 채널 문제는 개발자에게 거짓된 안정감을 줌 — 규칙 작성 시 "이 규칙이 어느 제어 계층에서 강제되는지"를 명시적으로 알려주는 도구·검증 피드백(예: 정적 분석, 규칙-제어 매핑 리포터)이 필요</li>
+                <li>에이전트 프레임워크(Claude Code, Codex CLI, Cursor 등)는 자연어 정책과 하드 제어를 연결하는 선언적 정책 언어·컴파일러 접근을 고려해야 하며, 보안 규칙에 대한 강제 수준 라벨링이 보편화되어야 함</li>
+                <li>보안 감사 관점에서, 조직은 CLAUDE.md 등 에이전트 설정 파일을 코드로 취급해 리뷰·버전 관리·CI 검증 파이프라인에 포함시켜야 하며, "문서화된 규칙"과 "실제 강제되는 제어"의 차이를 정기 점검해야 함</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flag-checkered"></i> 결론</h2>
+            <p>이 연구는 에이전트 설정 파일에 작성된 자연어 보안 규칙 중 극소수만이 실제 내장 제어로 강제된다는 사실을 최초로 정량화했다. "규칙을 썼다"는 것과 "규칙이 지켜진다"는 것은 전혀 다른 문제이며, write-only 채널의 구조적 한계를 해결하지 않는 한 자연어 정책 기반 에이전트 보안은 근본적으로 취약하다. 에이전트가 코드베이스·CI·배포 파이프라인에 접근하는 워크플로우가 확산되는 시점에서, 정책 작성 도구의 피드백 설계와 하드 제어로의 전환이 시급한 실무 과제임을 시사한다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2608.23550" target="_blank">https://arxiv.org/abs/2608.23550</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
