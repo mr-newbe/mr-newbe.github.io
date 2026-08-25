@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-08-26</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-08-26 | <i class="fa-solid fa-tags"></i> Daily News, AI 보안, 취약점, CVE, 패치, 피싱, KEV
+        </div>
+
+        <div class="content">
+            <h2>1. 악성 웹페이지 하나로 로컬 AI 모델 '중독' — NVIDIA NemoClaw의 Ollama 노출 결함</h2>
+            <p>Oasis Security가 NVIDIA의 오픈소스 AI 에이전트 레퍼런스 스택 NemoClaw에서, 공격자가 제어하는 웹페이지 하나만으로 로컬 Ollama 인스턴스를 무인증으로 제어해 AI 모델 내부에 숨은 지시를 심을 수 있는 결함을 공개했다. NemoClaw가 Ollama를 OLLAMA_HOST=0.0.0.0:11434로 바인딩해 모든 네트워크 인터페이스에 노출하는데, 해당 API는 인증이 없고 DNS 리바인딩과 CORS 검증 우회를 결합하면 브라우저에서 직접 접근이 가능해진다.</p>
+            <ul>
+                <li><strong>공격 체인:</strong> OLLAMA_HOST=0.0.0.0 바인딩 → Host 헤더 검증 생략 → DNS 리바인딩으로 same-origin 위장 → /api/create로 채팅 템플릿을 변조해 모든 응답에 숨은 지시(프롬프트 인젝션) 주입 — 에이전트의 도구·접근 권한 전체 탈취</li>
+                <li><strong>영향 범위:</strong> NemoClaw는 OpenShell 샌드박스에서 OpenClaw 같은 에이전트를 실행하는 레퍼런스 스택으로, Ollama가 기본 로컬 추론 백엔드 — 에이전트를 제어하면 그 에이전트가 가진 모든 접근 권한·도구가 공격자 소유가 됨</li>
+                <li><strong>패치 상태:</strong> NemoClaw v0.0.35에서 macOS/Linux 수정, Windows/WSL 경로는 미수정(v0.0.34는 경고 표시만) — CVE 미지정, 8월 25일 기준 야생 악용 보고 없음</li>
+                <li><strong>배경:</strong> Ollama의 Host 헤더 검증은 2024년 NCC Group의 CVE-2024-28224 공개(수정 v0.1.29) 이후 도입됐으나, non-loopback 바인딩 시 검증을 건너뛰는 것이 재현된 문제 — 로컬 AI 인프라도 '원격 공격면'이라는 인식 전환 필요</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/a-malicious-webpage-could-poison-your.html" target="_blank">The Hacker News - A Malicious Webpage Could Poison Your Local AI Model Behind NVIDIA NemoClaw</a></p>
+
+            <h2>2. miniOrange SAML 플러그인 인증 우회 2건(CVSS 9.8·8.1) — WordPress 관리자 탈취 악용 시도</h2>
+            <p>공격자들이 Xecurify miniOrange SAML 2.0 Single Sign On 플러그인의 심각한 인증 우회 취약점 2건을 악용해 WordPress 관리자 계정 탈취를 시도하고 있다. Patchstack에 따르면 DigitalOcean 보안팀이 자사 네트워크 외부에서 발생한 비정상적인 관리자 세션 시도를 관찰한 뒤 취약점을 발견했다. PoC 공개로 인해 관리자 권한 탈취 체인 구성이 가능한 상태다.</p>
+            <ul>
+                <li><strong>CVE-2026-15981 (CVSS 9.8):</strong> 서명 알고리즘 혼동으로 위조 서명을 유효하게 처리하는 인증 우회 — mo_saml_validate_signature()가 PHP openssl_verify()의 오류 반환값(-1)을 truthy로 평가하는 결함으로, 조작된 SAMLResponse로 모든 기존 사용자(관리자 포함)로 로그인 가능 (17.0.6에서 수정)</li>
+                <li><strong>CVE-2026-61979 (CVSS 8.1):</strong> 서명 알고리즘 혼동을 통한 비인증 권한 상승 (17.0.5에서 수정)</li>
+                <li><strong>악용 정황:</strong> 6개 IP(207.211.214.41, 79.127.224.14, 102.91.71.83, 162.243.116.148, 84.201.6.54, 64.225.25.188)에서 무차별 스캐닝 — 에디션·버전 구분 없이 플러그인 설치 사이트 전부에 익스플로잇을 던지는 기회주의적 공격</li>
+                <li><strong>대응:</strong> 플러그인 설치 사이트는 즉시 17.0.6 이상으로 업데이트 — SSO 의존 조직은 관리자 세션·비정상 로그인 로그 점검 필요</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/attackers-target-miniorange-saml-flaws.html" target="_blank">The Hacker News - Attackers Target miniOrange SAML Flaws That Can Grant WordPress Admin Access</a></p>
+
+            <h2>3. CISA, 활성 악용 중인 Oracle WebLogic 결함(CVE-2026-21962, CVSS 10.0) KEV 등재</h2>
+            <p>CISA가 Oracle HTTP Server와 Oracle WebLogic Server Proxy Plug-in에 영향을 주는 최고 심각도 취약점 CVE-2026-21962(CVSS 10.0)를 Known Exploited Vulnerabilities(KEV) 카탈로그에 추가했다. 부적절한 접근 제어 결함으로, 인증되지 않은 공격자가 HTTP 네트워크 접근만으로 중요 데이터의 무단 생성·삭제·수정 및 전체 접근이 가능하다. Oracle은 지난 1월 패치를 출시했지만 이후 GreyNoise와 CloudSEK가 활발한 악용을 확인했다.</p>
+            <ul>
+                <li><strong>악용 현황:</strong> 2월 단일 IP("193."…)의 집중 공격이 시작점 — CloudSEK 허니팟은 CVE-2020-14882/14883(Console RCE), CVE-2020-2551(IIOP RCE), CVE-2017-10271(WLS-WSAT RCE) 등 레거시 WebLogic RCE 공격도 동시 포착</li>
+                <li><strong>시사점:</strong> 위협 행위자들이 검증된 소수의 '단순하고 효과적인' 취약점에 계속 의존 — 수년 묵은 결함도 여전히 침투 수단으로 활용됨</li>
+                <li><strong>의무 조치:</strong> BOD 26-04에 따라 연방 민간 행정부(FCEB) 기관은 8월 27일까지 패치 적용 — 민간 조직도 KEV 기준 즉시 대응 권고</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/actively-exploited-oracle-weblogic-flaw.html" target="_blank">The Hacker News - Actively Exploited Oracle WebLogic Flaw Lets Unauthenticated Attackers Access Critical Data</a></p>
+
+            <h2>4. Mirage2FA — Microsoft 365 로그인 흐름 악용한 2FA 우회 캠페인, 4,500개 기업 피해</h2>
+            <p>ANY.RUN 연구가 2024년부터 2026년까지 이어진 상용 피싱-as-a-service 툴킷 'Mirage2FA' 캠페인이 4,500개 이상(4,532개)의 미국·유럽 기업을 표적으로 삼았다고 밝혔다. Microsoft 365의 정당한 로그인 흐름을 악용해 AiTM(adversary-in-the-middle) 방식으로 비밀번호와 세션 쿠키를 탈취, 2FA를 우회한다. 표적 이메일 주소의 48%가 잠재적으로 손상된 것으로 추정된다.</p>
+            <ul>
+                <li><strong>피해 규모:</strong> 미국이 전체 피해의 63.7% — 인도·싱가포르·영국·캐나다·사우디아라비아·남아프리카 등 다국가 분포, 금융·보험 등 업종 집중</li>
+                <li><strong>영향:</strong> 쿠키·비밀번호 탈취, SSO 로그인, 2FA 우회를 포함한 9,000건 이상의 잠재적 손상 이벤트 — 탈취된 정당한 세션으로 M365 및 SSO 연결 서비스 전체에 측면 접근</li>
+                <li><strong>특징:</strong> 정상 로그인 플로우를 '중간자'로 우회해 전통적 MFA를 무력화 — 세션 탈취는 비밀번호 도난 이상의 확장 피해(사칭·사기·추가 침해)를 유발</li>
+                <li><strong>대응:</strong> 피싱 저항 인증(패스키·FIDO2) 도입, 세션 탈취를 신원 사고로 취급해 손상 세션·토큰 즉시 폐기, 샌드박스 기반 캠페인 탐지</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/mirage2fa-surge-hits-4500-us-and-eu.html" target="_blank">The Hacker News - Mirage2FA Surge Hits 4,500 US and EU Companies, Abusing Microsoft 365 Login Flows</a></p>
+
+            <h2>5. [후속] Zimbra CVE-2026-73570 공격, 270개 이상 서버 침해 확인 — CISA 긴급 패치 명령의 실체</h2>
+            <p>어제(8/25) CISA가 긴급 패치를 명령한 Zimbra 취약점(CVE-2026-73570)이 실제로 270개 이상의 Zimbra 인스턴스를 침해한 것으로 확인됐다. 수백만 사용자가 쓰는 Zimbra Collaboration Suite(ZCS)의 SNMP 모니터링 컴포넌트 명령 인젝션 결함으로, 인증 없는 원격 코드 실행이 가능하다. 패치는 7월 20일 출시된 ZCS 10.1.20에 포함됐으며, 폴란드 CERT Polska가 지난주 야생 표적 공격을 최초 경고했다.</p>
+            <ul>
+                <li><strong>악용 규모:</strong> Shadowserver 데이터 기준 12,000개 이상 노출 서버 중 270개 이상 침해 인스턴스 — 활발한 공격 지속 중</li>
+                <li><strong>공격 방식:</strong> SNMP 알림 활성화 환경에서 특수 제작 요청으로 명령 인젝션 → Zimbra 사용자 권한의 원격 코드 실행</li>
+                <li><strong>탐지 지표:</strong> Zimbra 서비스의 예기치 않은 재시작, /opt/zimbra/jetty/webapps/, /opt/zimbra/jetty_base/webapps/, /tmp/ 경로의 최근 30일 내 zimbra 사용자 생성 파일</li>
+                <li><strong>대응:</strong> 아직 패치하지 않은 조직은 ZCS 10.1.20 이상으로 즉시 업그레이드 + 로그·웹셸 탐지 — 메일 서버는 지속적 표적(APT28·APT29·Winter Vivern)으로 KEV 기준 선제 대응 필수</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/hackers-breached-over-270-zimbra-servers-in-ongoing-attacks/" target="_blank">BleepingComputer - Hackers breached over 270 Zimbra servers in ongoing attacks</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
