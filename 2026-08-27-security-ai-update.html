@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-08-27</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-08-27 | <i class="fa-solid fa-tags"></i> Daily News, 봇넷, 국가주도 공격, 취약점, CVE, 패치, KEV, RCE, Rowhammer, 피싱, PhaaS, 사이버범죄
+        </div>
+
+        <div class="content">
+            <h2>1. FBI·법무부, 중국 연계 QTFY 그룹의 QScan·QTRouter 해킹 인프라 교란 — NASA·연준 등 피해</h2>
+            <p>미국 법무부(DoJ)가 수요일(8/26) 중국 정부 지원 해킹 그룹 QTFY가 운영하는 두 해킹 플랫폼 'QScan'과 'QTRouter'의 교란을 발표했다. QTFY는 난징 소재 南京鑫玖维网络科技有限公司(Nanjing Xinjiuwei Network Technology)에 고용된 중국 국가안전부(MSS) 연계 그룹으로, 2018년 5월부터 활동해 온 것으로 추적됐다. 피해 기관에는 NASA, 연방준비제도(Fed), 에너지부, 법무부, 보건복지부(HHS), 국립보건원(NIH), 미 상원이 포함된다.</p>
+            <ul>
+                <li><strong>QScan:</strong> 전 세계 IoT 기기를 스캔·자동 감염시켜 QTRouter 네트워크에 편입시키는 도구 — 취약한 IoT 기기 악용 및 피해 네트워크 취약점 식별 담당</li>
+                <li><strong>QTRouter:</strong> 커스텀 OpenWrt 소프트웨어 라우터 + 상용 프록시 서비스 + 임대 VPS로 구성된 트래픽 난독화 네트워크. Clash로 프록시 연결을 맺고 노드를 체이닝해 공격자 실체를 은닉, 감염 IoT 기기의 위치를 활용해 합법 사용자처럼 위장</li>
+                <li><strong>운영 인프라:</strong> qt-proxy[.]org, mq-task.qt-proxy[.]org, mq-result.qt-proxy[.]org, www.qtproxy[.]xyz, securelink.qtproxy[.]xyz — 봇넷 관리는 Proxy Platform Management, Proxy Pool Management System, QTBotnet 3개 플랫폼</li>
+                <li><strong>추적 배경:</strong> Lumen Black Lotus Labs의 Damon Rouse가 18개월 넘게 추적 — 교란에도 패치되지 않은 IoT 기기가 계속 편입될 수 있어 모니터링 필요</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/fbi-disrupts-china-linked-qtfy.html" target="_blank">The Hacker News - FBI Disrupts China-Linked QTFY Infrastructure Used to Steal Data From U.S. Organizations</a></p>
+
+            <h2>2. Gitea CVE-2026-60004 코드 인젝션, 야생 악용 중 — CISA KEV 등재·연방 3일 내 패치 명령</h2>
+            <p>CISA가 자체 호스팅 Git 서비스 Gitea의 치명적 코드 인젝션 취약점이 실제 공격에 악용되고 있다고 경고했다. Salesforce 보안 연구원 Shai Rod가 보고한 CVE-2026-60004는 diffpatch API 엔드포인트를 통해 저장소 쓰기 권한이 있는 사용자가 Gitea 서비스 계정 권한으로 임의 셸 명령을 실행할 수 있게 하는 결함이다. 기본 설정 Gitea는 자체 계정 등록이 활성화돼 있어, 무인증 공격자도 계정을 등록하고 저장소를 만들어 쓰기 권한을 얻을 수 있다.</p>
+            <ul>
+                <li><strong>수정 버전:</strong> Gitea 1.27.1(7월 27일)에서 패치 — 운영자는 즉시 업그레이드 필요</li>
+                <li><strong>노출 규모:</strong> Shadowserver가 인터넷 노출 Gitea 인스턴스 약 5,000개 추적 중 (허니팟 여부는 불명)</li>
+                <li><strong>KEV 등재:</strong> 8/25(화) CISA KEV 카탈로그 추가, BOD 26-04에 따라 연방 민간 행정부(FCEB) 기관은 3일 내 패치 의무 — 민간 조직도 선제 대응 권고</li>
+                <li><strong>연쇄 악용:</strong> 7월에는 역방향 프록시 인증 헤더(X-WEBAUTH-USER)를 활성화한 인스턴스를 노린 Gitea 인증 우회(CVE-2026-20896) 악용도 포착된 바 있음</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/hackers-now-exploit-critical-gitea-flaw-in-code-injection-attacks/" target="_blank">BleepingComputer - Hackers now exploit critical Gitea flaw in code injection attacks</a></p>
+
+            <h2>3. Ubiquiti, UniFi 제품군 CVSS 10.0 최대 심각도 3건 패치 — 이어 18건 추가 발표</h2>
+            <p>Ubiquiti가 UniFi 제품군의 최고 심각도(CVSS 10.0) 취약점 3건을 패치했다. CVE-2026-77537은 UniFi Protect Application 영상 감시 플랫폼의 부적절한 입력 검증 결함으로, 인증 없는 공격자가 미패치 기기를 손상시킬 수 있다. CVE-2026-77550은 UniFi OS의 CRLF 인젝션으로 원격 무권한 공격자가 인증을 우회할 수 있으며, CVE-2026-77554는 UniFi Talk VoIP 시스템의 명령 인젝션이다. 모두 낮은 복잡도·사용자 상호작용 불필요 공격으로 악용될 수 있다.</p>
+            <ul>
+                <li><strong>수정 버전:</strong> UniFi Protect Application 7.2.105+, UniFi Talk Application 5.3.2+, UniFi OS Server 5.1.21+ — 야생 악용 여부는 미공개</li>
+                <li><strong>추가 패치:</strong> 8/27(목) UniFi OS Server, Network Application, Protect AI Key 엣지 컴퓨팅 기기, 라우터·게이트웨이·NAS·감시 시스템 전반의 critical 18건 추가 발표</li>
+                <li><strong>노출 규모:</strong> Censys가 인터넷 노출 UniFi OS 인스턴스 10만 개 이상 추적 중</li>
+                <li><strong>악용 이력:</strong> Ubiquiti 제품은 봇넷·프록시 악용이 잦음 — 2024년 2월 FBI가 GRU의 Moobot(Edge OS 라우터 봇넷) 해체, 6월에는 CISA가 활성 악용된 UniFi OS 결함 3건에 3일 패치 명령 (Bishop Fox는 해당 결함 연쇄로 권한 상승 RCE 시연)</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/ubiquiti-patches-three-max-severity-security-vulnerabilities/" target="_blank">BleepingComputer - Ubiquiti patches three max severity security vulnerabilities</a></p>
+
+            <h2>4. Avada 테마 제로클릭 RCE 체인 (CVE-2026-18431, CVSS 9.8) — 6개 결함 연쇄로 임의 PHP 코드 실행</h2>
+            <p>Wordfence가 인기 WordPress 테마 Avada에서 인증 없는 공격자가 서버에서 임의 PHP 코드를 실행할 수 있는 치명적 취약점 체인을 공개했다. 6개의 보안 이슈를 연쇄한 제로클릭 공격으로, CVE-2026-18431로 통합 추적되며 CVSS 9.8이다. 악용 시 멀웨어 설치, 데이터베이스 접근, 방문자 악성 사이트 리다이렉트, rogue 관리자 계정 추가까지 가능하다.</p>
+            <ul>
+                <li><strong>영향 범위:</strong> Avada ≤ 7.16 + Fusion Builder ≤ 3.16 동시 활성화 환경 — Avada는 100만 개 이상 판매된 인기 테마지만 두 컴포넌트가 모두 취약해야 악용 가능해 실제 표적 풀은 제한적</li>
+                <li><strong>수정:</strong> ThemeFusion이 Avada 7.16.1 / Fusion Builder 3.16.1에서 패치 (8/25 공개) — Wordfence는 관리자 패치 시간 확보를 위해 기술 상세를 일부러 공개하지 않음</li>
+                <li><strong>발견 과정:</strong> Wordfence 내부 에이전틱 프레임워크 'Argus'가 PoC 포함해 약 2시간 만에 발견·재현 (7/30 발견 → 8/5 벤더 보고 → 8/10 확인) — AI 에이전트 기반 취약점 발견의 실전 사례</li>
+                <li><strong>대응:</strong> Avada/Fusion Builder 최신 버전 즉시 업데이트 + 관리자 계정·파일 무결성 점검</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/critical-avada-wordpress-theme-flaw-enables-zero-click-rce/" target="_blank">BleepingComputer - Critical Avada WordPress theme flaw enables zero-click RCE</a></p>
+
+            <h2>5. GPUThor — NVIDIA GPU의 ECC 보호를 우회하는 새 Rowhammer 공격 (DoS + 루트 권한 상승)</h2>
+            <p>토론토 대학교 연구진이 오류 정정 코드(ECC) 보호를 우회하는 새로운 Rowhammer 공격 'GPUThor'를 공개했다. GDDR6 메모리를 쓰는 NVIDIA 워크스테이션 GPU(RTX A4000, A4500, A5000, A6000)를 대상으로 하며, 이 GPU들은 AI·클라우드 인프라에 광범위하게 쓰인다. AI 모델 학습이 GPU에 크게 의존하는 만큼 성공적인 Rowhammer 공격은 모델 정확도에도 치명적 영향을 줄 수 있다.</p>
+            <ul>
+                <li><strong>완화 회피:</strong> 비균일 해밍 패턴으로 GDDR6의 Target Row Refresh(TRR) 완화를 회피 — 메모리 요청 병합 방식과 TRR 활성 빈도라는 두 가지 미문서화 GPU 동작을 고려해 설계</li>
+                <li><strong>성능 향상:</strong> 이전 GPUHammer 대비 6.6배 많은 aggressor-row 활성화, 악용 가능한 비트 플립 발견 시간이 21.9시간 → 약 1.1분으로 단축 — CPU Rowhammer(Blacksmith) 수준에 근접</li>
+                <li><strong>ECC 무력화:</strong> ECC 활성 상태에서 387개의 double-bit error(감지되나 정정 불가)와 2개의 triple-bit error(잘못 정정되어 데이터 손상) 유발 — RTX A6000에서 DoS 상태 및 호스트 루트 셸 획득 시연</li>
+                <li><strong>영향 확장:</strong> 서버급 Ampere(A100)는 SECDED ECC 기반이라 권한 상승 가능, 일부 Blackwell은 RAS Repair로 시간만 지연 — HBM3e/GDDR7 온다이 ECC도 취약 가능성 제기</li>
+                <li><strong>대응:</strong> NVIDIA가 8/21 어드바이저리 발표 — SYS-ECC + IOMMU/DMA 격리 활성화, GPU 오류 텔레메트리 모니터링, 비신뢰 워크로드 실행 제한. 연구진은 크로스 테넌트 GPU 공유 회피·ECC 오류 카운터 모니터링·비신뢰 CUDA 코드 제한 권고</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/new-gputhor-attack-defeats-nvidia-ecc-protection-for-root-access/" target="_blank">BleepingComputer - New GPUThor attack defeats NVIDIA ECC protection for root access</a></p>
+
+            <h2>6. 미패치 Kaltura mwEmbed 결함 2건 — 원격 파일 읽기 + 코드 실행 (CVE-2026-19913/19912)</h2>
+            <p>CERT/CC가 Kaltura의 HTML5 비디오 플레이어 라이브러리 mwEmbed에서 원격·무인증 공격자가 서버의 임의 파일을 읽고 코드를 실행할 수 있는 미패치 취약점 2건을 공개했다. 두 결함 모두 mwEmbedLoader.php 엔드포인트의 안전하지 않은 역직렬화에서 비롯된다. 패치 버전이 없어 관리자의 수동 완화 조치가 필요하다.</p>
+            <ul>
+                <li><strong>CVE-2026-19913 (파일 읽기):</strong> ServiceUrl 파라미터가 KalturaClientBase PHP 클라이언트를 거쳐 출처·스킴·내용 검증 없이 unserialize()에 전달 — file:// 경로로 로컬 파일을 읽어 실패 에러 메시지에 원본 바이트가 반영됨. 이를 활용해 /opt/kaltura/app/configurations/local.ini(평문 DB 연결 문자열, 관리자·콘솔 비밀번호, 내부 호스트) 탈취 가능</li>
+                <li><strong>CVE-2026-19912 (RCE):</strong> 동일한 역직렬화를 uiconf_id 파라미터와 결합 — ../ 트래버설로 캐시 폴더 밖 웹 접근 디렉터리에 악성 직렬화 객체(실행 가능 PHP 코드)를 드롭하고 직접 요청해 웹서버 사용자 권한으로 실행. 파일 기반 캐시 백엔드(Kaltura 기본값)에서 성립, memcache 전용 구성은 해당 RCE 경로만 차단</li>
+                <li><strong>완화 조치:</strong> 레거시 mwEmbed를 서비스하지 않는 곳은 WAF·리버스 프록시·CDN에서 엔드포인트 차단 / ServiceUrl을 자체 API 호스트만 허용하는 allowlist로 제한(비-HTTP(S) 스킴 거부) / uiconf_id의 트래버설·절대경로·디렉터리 구분자 값 거부</li>
+                <li><strong>발견자:</strong> AndDone 연구원 Gerjan Wemekamp (화요일 기술 문서 공개)</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/unpatched-kaltura-mwembed-flaws-could.html" target="_blank">The Hacker News - Unpatched Kaltura mwEmbed Flaws Could Let Remote Attackers Read Files and Run Code</a></p>
+
+            <h2>7. NovaCookies — 정품 DocuSign 알림을 악용한 M365 세션 탈취 AitM 피싱 플랫폼</h2>
+            <p>Island 연구진이 Microsoft 365 로그인을 프록시로 리다이렉트하며 인증된 세션을 탈취하는 신종 adversary-in-the-middle(AitM) 피싱 툴킷 'NovaCookies'를 공개했다. 월 320달러의 구독형 피싱-as-a-service(PhaaS)로, Sneaky2FA 계열과 달리 인프라가 운영자 측에 중앙 호스팅되는 완전 관리형 모델이다. Microsoft 계정뿐 아니라 Okta, GoDaddy에 페더레이션된 Entra 도메인 전용 플로우도 포함한다.</p>
+            <ul>
+                <li><strong>공격 체인:</strong> '회계 부서가 remittance-advice PDF를 공유했다'는 정품 DocuSign 알림으로 위장 — 이메일 자체는 진짜 DocuSign 알림이라 발신자 인증·평판 검사 우회, 악성 목적지는 문서 내부의 메일 보안 제품이 검사하는 레이어 아래에 위치 → 이후 OAuth 오류 리다이렉트 기법(3월 Microsoft 공개)으로 공격자 인프라로 유도</li>
+                <li><strong>라이브 AitM 릴레이:</strong> 자격 증명·세션 정보를 캡처해 Microsoft에 실시간 중계 — 탈취한 세션으로 정당한 서비스 접근</li>
+                <li><strong>안티분석:</strong> .vu 도메인 루어(fordmotbvmorcompany[.]vu 등), PwPt-sHaRe·Ms36-AcCeSs 같은 대소문자 변형 라벨, Cloudflare 게이트 + 디버깅 도구 실행 탐지</li>
+                <li><strong>대응:</strong> 피싱 저항 MFA(패스키·FIDO2) 도입, 세션·쿠키 이상 탐지, 문서 첨부형 루어(특히 DocuSign 등 공식 알림 위장) 직원 교육</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/novacookies-campaigns-abuse-genuine.html" target="_blank">The Hacker News - NovaCookies Campaigns Abuse Genuine Docusign Notifications to Steal Microsoft 365 Sessions</a></p>
+
+            <h2>8. INTERPOL 'Operation Jackal IV' — 서아프리카 조직범죄 58명 체포·263명 신원 확인</h2>
+            <p>INTERPOL이 2025년 11월부터 2026년 6월까지 8개월간 진행한 'Operation Jackal IV'에서 서아프리카 조직범죄 네트워크(Black Axe 등) 연루자 58명을 체포하고 263명의 용의자 신원을 확인했다. 6개 대륙 22개국이 참여한 국제 공조 작전으로, 돈세탁 네트워크 해체·고가치 표적 식별·불법 자산 압수를 목표로 했다.</p>
+            <ul>
+                <li><strong>압수 성과:</strong> 현금·암호화폐 약 33만 유로(약 37.9만 달러), 부동산 6채, 고가 시계 다수 — 유럽 전역 돈세탁 네트워크 연계자 1명은 셸 회사·송금 서비스·현금 인출로 자금 원천을 은폐, 단일 계좌로 560건의 거래를 통해 약 84.5만 유로를 세탁한 것으로 확인</li>
+                <li><strong>역대 작전:</strong> Jackal I(2022) 75명 체포 → Jackal II(2023) 103명 체포·1,110명 신원 확인 → Jackal III(2024) 300명 체포 — 웨이브마다 규모 확대 중</li>
+                <li><strong>시사점:</strong> 서아프리카 범죄 네트워크의 글로벌 BEC·로맨스 사기·돈세탁 위협에 대한 국제 공조 단속 강화 추세 — '자금 흐름 추적'이 조직범죄 생명선 공격의 핵심 수단으로 부상</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/interpol-operation-jackal-iv-arrests-58.html" target="_blank">The Hacker News - INTERPOL Operation Jackal IV Arrests 58, Identifies 263 in Global Cyber Fraud Crackdown</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
