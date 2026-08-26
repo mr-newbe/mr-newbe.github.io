@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - StepGuard: Learning Step-Level Guardrails for LLM Agents</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - StepGuard: Learning Step-Level Guardrails for LLM Agents</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-08-26</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> StepGuard: Learning Step-Level Guardrails with Scalable Supervision and Safety-Utility Balancing<br>
+                <strong>저자:</strong> Zhijie Zheng, Yu Li, Chen Qian, Yuqian Fu, Yanwei Fu, Lu Sheng, Jing Shao, Dongrui Liu<br>
+                <strong>분야:</strong> cs.CR (LLM 에이전트 보안) — EMNLP 2026 채택
+            </div>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 연구 배경</h2>
+            <p>LLM 기반 에이전트는 도구 호출(tool invocation)을 통해 외부 환경과 상호작용하며 파일 수정, 정보 유출, 비인가 작업 같은 보안 위험에 노출된다. 기존 가드레일(guardrail)은 주로 완료된 궤적(trajectory) 전체를 사후 평가하는 방식이라, 실행 전 단계별(pre-execution) 행위 모니터링은 거의 다뤄지지 않았다. StepGuard는 에이전트가 위험한 행동을 실행하기 <em>전에</em> 개별 스텝 단위로 검사할 수 있는 가드 모델을 제안한다.</p>
+
+            <h2><i class="fa-solid fa-gears"></i> 핵심 내용</h2>
+            <ul>
+                <li><strong>StepGuard 모델:</strong> 완료된 에이전트 궤적을 감사(audit)하고, 도구 액션이 실행되기 전에 위험 여부를 판별하는 스텝 레벨 가드 모델</li>
+                <li><strong>StepGen 데이터 엔진:</strong> 동일한 컨텍스트에서 위험한 스텝만 다른 액션으로 바꾼 safe/unsafe 궤적 쌍을 자동 생성 — 확장 가능한(scalable) 학습 데이터 확보</li>
+                <li><strong>Balance-GRPO:</strong> 안전/위험 액션의 관측 정확도에 따라 학습 가중치를 동적으로 균형 조정하여 과잉 방어(over-defense)와 방어 부족(under-defense)을 동시에 완화</li>
+                <li><strong>실험 결과:</strong> 오픈웨이트 가드 모델 중 최고 평균 정확도(GPT-5.4에 준하는 성능). AgentDojo/AgentDyn에서 가드 적용 시 평균 공격 성공률(ASR) 77.3% 감소, 유틸리티 하락은 평균 2.8%p에 불과</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 보안 시사점</h2>
+            <ul>
+                <li>에이전트 보안을 "사후 감사"에서 "실행 전 차단"으로 전환할 수 있는 실용적 패러다임 제시 — 파일 수정·정보 유출·비인가 작업 같은 고위험 액션의 사전 차단이 가능</li>
+                <li>안전성과 유틸리티의 트레이드오프를 정량적으로 관리하는 접근법(Balance-GRPO)은 실제 에이전트 서비스 운영에서 과잉 차단으로 인한 거부감 문제를 해결하는 데 기여</li>
+                <li>합성 데이터 기반 자동 학습 파이프라인(StepGen)은 수동 라벨링 비용 없이도 다양한 에이전트 환경으로 가드레일을 확장할 수 있는 길을 열어줌</li>
+                <li>다만 가드 모델 자체가 공격 대상이 될 수 있으므로(가드 우회 프롬프트 등) 향후 가드의 강건성(robustness) 연구가 후속 과제로 중요</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flag-checkered"></i> 결론</h2>
+            <p>StepGuard는 LLM 에이전트 보안에서 스텝 레벨 사전 검사라는 간극을 메운 중요한 연구이다. 실행 전 차단을 통해 공격 성공률을 77% 이상 낮추면서도 유틸리티 손실을 최소화한 결과는, 에이전트 가드레일이 실제 배포 환경에서 안전성-유용성 균형을 이룰 수 있음을 실증한다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2608.24777" target="_blank">https://arxiv.org/abs/2608.24777</a> (프로젝트 페이지: <a href="https://zheng977.github.io/StepGuard/" target="_blank">zheng977.github.io/StepGuard</a>)</p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
