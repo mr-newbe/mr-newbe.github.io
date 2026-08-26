@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - TransFuser: 트랜스포머 센서퓨전으로 CARLA를 석권한 End-to-End 주행 (CVPR 2021)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - TransFuser: 트랜스포머 센서퓨전으로 CARLA를 석권한 End-to-End 주행 (CVPR 2021)</h1>
+            <p class="date">2026-08-26</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>논문:</strong> TransFuser: Imitation with Transformer-Based Sensor Fusion for Autonomous Driving (arXiv:2205.15997, TPAMI'23 저널판) — 원판 'Multi-Modal Fusion Transformer for End-to-End Autonomous Driving' (arXiv:2104.09224, CVPR 2021)</li>
+                    <li><strong>저자:</strong> Kashyap Chitta, Aditya Prakash, Bernhard Jaeger, Zehao Yu, Katrin Renz, Andreas Geiger (Max Planck Institute for Intelligent Systems · Universität Tübingen)</li>
+                    <li><strong>분야:</strong> 컴퓨터 비전 (cs.CV) · 인공지능 (cs.AI) · 로보틱스 (cs.RO)</li>
+                    <li><strong>게시일:</strong> 2021-04 (CVPR 2021 원판) / 2022-05-31 (TPAMI 저널판, arXiv:2205.15997)</li>
+                    <li><strong>공식 구현 (GitHub):</strong> <a href="https://github.com/autonomousvision/transfuser" target="_blank">autonomousvision/transfuser</a> — 1,599⭐ · 244 forks · MIT 라이선스 · Python (최근 커밋 2025-10, 활발히 유지보수)</li>
+                    <li><strong>인용:</strong> Semantic Scholar 인용수는 2026-08-26 저녁 API 제한으로 미확인 (이전 게시글에서 확인된 통상 700회 이상 수준)</li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>TransFuser는 독일 막스플랑크 지능시스템 연구소(MPI-IS)·튀빙겐대학의 Kashyap Chitta 팀이 제안한 end-to-end 자율주행 모델로, <strong>카메라(원근 뷰, PV)와 라이다(조감도, BEV) 표현을 트랜스포머 셀프어텐션으로 융합</strong>한다. 기존 접근법이 캘리브레이션에 의존해 두 센서의 특징을 기하적으로 하드 정합한 반면, TransFuser는 다중 해상도의 트랜스포머 모듈이 두 표현의 특징을 어텐션으로 선택·결합해 복잡한 도심 교통에서도 강건한 표현을 학습한다. 연구팀은 긴 경로와 밀집 교통으로 구성된 새 벤치마크 'Longest6'를 만들고, CARLA 시뮬레이터 공식 리더보드에서 제출 시점 모든 기존 연구를 driving score 기준 큰 격차로 제치고 1위에 올랐다. 핵심 성과는 <strong>기하 기반 융합 대비 주행 km당 평균 충돌 48% 감소</strong>다.</p>
+            <ul>
+                <li><strong>트랜스포머 센서퓨전:</strong> 카메라 PV 특징과 라이다 BEV 특징을 어텐션으로 융합 — 두 센서의 좌표계·밀도 불일치를 '하드 정합' 대신 '학습된 정합'으로 해결한 최초의 대표 연구</li>
+                <li><strong>다중 해상도 융합:</strong> 저해상도·고해상도 트랜스포머 모듈을 단계적으로 쌓아 지역적 세부 정보(차선·보행자)와 전역적 문맥(교차로 구조)을 동시에 포착</li>
+                <li><strong>신규 벤치마크 Longest6:</strong> 기존 CARLA 벤치마크는 경로가 짧아 성능 차이를 구분하기 어려웠던 문제를 해결 — 약 2km의 긴 경로 6개와 밀집 교통에서 장기 내비게이션 능력을 평가</li>
+                <li><strong>CARLA 리더보드 1위:</strong> 제출 시점 최고 driving score를 큰 격차로 갱신 — 이후 수년간 end-to-end 주행 성능 비교의 기준점이 됨</li>
+                <li><strong>행동 복제(imitation learning) 파이프라인:</strong> 오토파일럿 전문가 궤적으로 학습하는 온라인 IL 프레임워크 — 지도·측량 정보를 입력받아 steer/gas/brake를 출력</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>CVPR 2021 + TPAMI 2023:</strong> 최상위 학회와 저널 양쪽에 등재된 end-to-end 주행의 랜드마크 — 2021~2023년 CARLA 기반 주행 연구에서 가장 많이 인용·비교된 논문 중 하나</li>
+                <li><strong>사실상의 표준 베이스라인:</strong> 이후 InterFuser, Think2Drive, DriveAdapter, Bench2Drive 등 수많은 CARLA 기반 e2e 논문들이 TransFuser와 성능을 비교 — 리더보드·벤치마크에서 빠지지 않는 비교 대상</li>
+                <li><strong>1,599⭐ 오픈소스 구현:</strong> MIT 라이선스 공식 코드가 2025년 10월까지 유지보수되며 학계·산업계 실험의 출발점으로 쓰임</li>
+                <li><strong>CARLA와의 시너지:</strong> 이 블로그에서 다룬 CARLA(08-08)와 직결 — TransFuser는 CARLA가 end-to-end 주행 연구의 표준 '시험장'으로 자리잡는 데 핵심 기여</li>
+                <li><strong>DAVE-2의 진화형:</strong> 08-22에 다룬 DAVE-2(2016, 단일 카메라 CNN)에서 트랜스포머 멀티센서 융합(2021)으로 — end-to-end 주행의 5년 진화를 한눈에 보여주는 비교축</li>
+                <li><strong>정량적 안전 개선:</strong> 'km당 충돌 48% 감소'는 센서퓨전 설계가 안전성에 직결된다는 것을 대규모 시뮬레이션으로 입증한 첫 사례 중 하나</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>TransFuser는 자율주행 센서퓨전의 패러다임을 '기하 정합(geometry-based)'에서 '어텐션 기반 의미 정합(attention-based)'으로 전환한 분기점이다. 이후 트랜스포머 기반 융합은 end-to-end 주행의 주류가 되었고, 같은 팀의 후속 연구(Kingfisher, arXiv:2403.17247 — 세계모델 기반 안전 강화)와 다른 그룹의 InterFuser(arXiv:2202.05207, 안전 검증 모듈 추가)로 이어졌다. 다만 성능 검증의 대부분이 CARLA 시뮬레이터에서 이루어진 만큼, 실제 도로로 옮겨가는 sim2real 격차는 여전히 남아 있는 과제다. '센서를 어떻게 융합하느냐'가 곧 '얼마나 안전하게 주행하느냐'를 결정한다는 점을 보여준 TransFuser는, DAVE-2 이후 5년 만에 end-to-end 주행의 표현력과 안전성을 한 단계 끌어올린 연구로 평가받는다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2205.15997" target="_blank">https://arxiv.org/abs/2205.15997</a></p>
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
