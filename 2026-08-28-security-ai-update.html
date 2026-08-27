@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-08-28</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-08-28 | <i class="fa-solid fa-tags"></i> Daily News, 취약점, CVE, RCE, 제로데이, 패치, 데이터 유출, 공급망, AI 보안, 프롬프트 인젝션, KEV, 멀웨어, APT
+        </div>
+
+        <div class="content">
+            <h2>1. Next.js, AVIF 이미지 + Windows 경로 탐색 결함 패치 — 무인증 RCE 가능 (CVE-2026-75604)</h2>
+            <p>Vercel이 Next.js 웹 프레임워크의 치명적 취약점 2건을 패치했다. 둘 다 인증 없는 원격 코드 실행(RCE)으로 이어질 수 있으며, 하나는 특수 제작된 AVIF 이미지 파일, 다른 하나는 Windows 파일시스템을 쓰는 서버를 노리는 경로 탐색(path traversal) 결함이다. 두 결함 모두 사용자 상호작용 없이 악용 가능해 심각도가 높다.</p>
+            <ul>
+                <li><strong>CVE-2026-75604 (CVSS 9.0, Windows 경로 탐색):</strong> Pages Router + Cache Components 미사용 App Router 조합에서 Windows 파일시스템 서버만 영향 — Linux/macOS 배포는 무관. 우회책이 없어 Windows 호스팅 서버는 즉시 업그레이드 필요. 발견자: evolutionstorm, B0RI</li>
+                <li><strong>AVIF 힙 버퍼 오버플로 (GHSA-2xp9-vwfh-vxw4, CVSS v4 9.5):</strong> Next.js가 이미지 최적화에 쓰는 libheif의 스케일링 코드 힙 오버플로(GHSA-g89c-p67h-r497, libheif ≤1.23.1 전체 영향). 악성 AVIF가 8비트/16비트 두 Alpha 평면 항목을 만들어 약 16,384바이트 초과 쓰기 유발 — Next.js 10.0.0~15.5.23, 16.x~16.3.2 영향</li>
+                <li><strong>실제 RCE 확인:</strong> 연구원(rootxharsh, KarimPwnz)이 Python PoC 공개, "여러 애플리케이션에서 RCE 달성" 주장 (독립 검증은 아직 없음). AVIF 최적화는 next.config.js에 image/avif를 명시한 사이트만 노출</li>
+                <li><strong>수정 버전:</strong> Next.js 15.5.24 (Maintenance LTS) / 16.3.3 (Active LTS) — 8/26 월간 보안 일정보다 하루 앞당겨 배포. 패치 버전은 libheif 상류 수정 전파까지 AVIF 최적화를 일시 중단 (8/27 기준 libheif v1.23.2 미출시)</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/nextjs-patches-critical-avif-and.html" target="_blank">The Hacker News - Next.js Patches Critical AVIF and Windows Flaws Enabling Unauthenticated RCE</a></p>
+
+            <h2>2. PaperCut NG/MF 전 버전 제로데이 활성 악용 — 긴급 패치 배포, IoC 공개</h2>
+            <p>프린트 관리 소프트웨어 PaperCut이 NG/MF 전 버전에 영향을 주는 취약점이 제로데이 공격으로 활성 악용되고 있다고 경고했다. 실제 고객 피해 사례가 확인됐으며, 인터넷에 노출된 PaperCut Application Server를 대상으로 한 공격이다. 취약점 세부 내용은 아직 공개되지 않았지만 대학 고객이 제공한 정보로 재현에 성공해 긴급 패치를 배포했다.</p>
+            <ul>
+                <li><strong>긴급 패치:</strong> 공개 노출된 NG/MF 서버 대상 긴급 패치 제공 — 대안 조치가 어려운 환경 우선. 방화벽 규칙/NAC로 웹 인터페이스를 신뢰 IP로 제한 권고</li>
+                <li><strong>IoC:</strong> 정상 프로세스 pc-app.exe의 의심 활동, server.log의 수정·삭제·누락, "ERROR No suitable driver found for jdbc:no:x", "ERROR DatabaseUtils - Database error looking up cardID" 로그 — IoC 없음이 침해 없음을 보장하지는 않음</li>
+                <li><strong>미공개 정보:</strong> 공격 주체, 침해 후 행위, 데이터 탈취 여부는 아직 미공개 — 조사 진행 중 어드바이저리 갱신 예정</li>
+                <li><strong>전례:</strong> 2023년 4월 CVE-2023-27350 (무인증 RCE)은 Clop·LockBit 랜섬웨어, 이란 정부 지원 그룹, Bl00dy 랜섬웨어 갱단(교육 부문)이 초기 침투 경로로 악용한 바 있음</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/papercut-warns-of-ng-mf-flaw-exploited-in-zero-day-attacks/" target="_blank">BleepingComputer - PaperCut warns of NG, MF flaw exploited in zero-day attacks</a></p>
+
+            <h2>3. 호주, 공급망 공격 'TeamPCP' 용의자 2명 기소 — Trivy·KICS·LiteLLM 5대 생태계 오염</h2>
+            <p>호주 연방경찰(AFP)이 2026년 3월 오픈소스 보안 스캐너 Trivy·Checkmarx KICS와 AI 게이트웨이 LiteLLM을 손상시킨 사이버 범죄 조직 TeamPCP의 용의자 2명(23세, 21세)을 총 14개 혐의로 기소했다. 신뢰받는 오픈소스 프로젝트의 배포 자격 증명을 탈취해 정식 릴리스 채널로 독이 든 버전을 유포한 공급망 공격으로, 전 세계 1,000개 이상 조직이 피해를 본 것으로 추정된다.</p>
+            <ul>
+                <li><strong>연쇄 공격:</strong> Trivy 스캐너 손상으로 탈취한 자격 증명 → Checkmarx KICS 액션 공격 → LiteLLM 빌드 파이프라인이 버전 고정 없는 Trivy 설치 → 독이 든 스캐너가 배포 토큰 탈취 → 3월 말 백도어된 LiteLLM 릴리스 유포</li>
+                <li><strong>5대 생태계:</strong> GitHub Actions, Docker Hub, npm, PyPI, OpenVSX — 한 프로젝트의 손상이 다음 공격의 자격 증명 공급원이 되는 연쇄 구조</li>
+                <li><strong>피해 규모:</strong> 잠재적 피해 조직 1,000+ 개, 탈취 자격 증명 50만+ 개, 최소 300GB 데이터 유출 (Unit 42, CloudSEK, Hudson Rock 추산)</li>
+                <li><strong>혐의:</strong> 데이터 소지·무단 데이터 수정·데이터 공급, 3LA 명령 불응(최대 징역 10년), 10만 달러 이상 범죄 수익 취급(최대 20년) — 8/27 퍼스 법원 기소</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/alleged-teampcp-hackers-charged-in.html" target="_blank">The Hacker News - Alleged TeamPCP Hackers Charged in Australia Over Major Supply Chain Attacks</a></p>
+
+            <h2>4. Carhartt 데이터 유출 — ShinyHunters가 1,290만 계정 정보 공개 (Databricks 플랫폼 경유)</h2>
+            <p>ShinyHunters 갈취 그룹이 미국 의류업체 Carhartt에서 탈취한 약 1,290만 계정의 민감 데이터를 다크웹에 공개했다. Have I Been Pwned(HIBP)의 분석 결과 이번 유출은 Carhartt의 Databricks 분석 플랫폼 손상과 연결된 것으로 확인됐다. Carhartt는 아직 사고를 공식 확인하지 않았으며, 협상 중단을 통보한 것으로 알려졌다.</p>
+            <ul>
+                <li><strong>공격 경위:</strong> 8/13 ShinyHunters가 공격 주장, 50GB 이상 문서 탈취 — 고객·직원·법인 데이터 및 로열티 정보 등. HIBP 설립자 Troy Hunt가 50GB 아카이브 분석 후 Databricks 연계 확인</li>
+                <li><strong>노출 데이터:</strong> 1,290만+ 계정, 15,000+ 개 @carhartt.com 직원 이메일 — 실존 인물과 무관한 일부 레코드는 유출 건수에서 제외</li>
+                <li><strong>협상:</strong> Carhartt 측 협상자가 "협상·추가 논의를 진행하지 않기로 했다"고 통보 — 이후 데이터 전체 공개</li>
+                <li><strong>그룹 전력:</strong> ShinyHunters는 Snowflake 고객 다수, Salesforce 고객 수백 곳(15억+ 레코드 주장), Oracle PeopleSoft 제로데이 연쇄(100+ 조직: 구글·시스코·유럽위원회 등) 침해 주장 이력</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/carhartt-data-breach-exposes-information-of-129-million-accounts/" target="_blank">BleepingComputer - Carhartt data breach exposes information of 12.9 million accounts</a></p>
+
+            <h2>5. Boston Scientific, 사이버 공격으로 전 세계 운영 차질 — SEC 공시</h2>
+            <p>의료기기 제조사 Boston Scientific이 사이버 공격으로 일부 IT 시스템이 교란돼 전 세계적으로 운영 차질을 겪고 있다고 밝혔다. 8/25 침해를 탐지했으며 네트워크 중단으로 고객 주문 처리·배송 등 업무 애플리케이션 접근에 영향이 발생했다. 사고 대응 절차를 가동하고 외부 전문가를 투입해 조사 중이다.</p>
+            <ul>
+                <li><strong>기업 규모:</strong> 스텐트·카테터·심박조율기·제세동기·내시경 등 최소침습 의료기기 제조 — 직원 59,000명, 제조 시설 13곳, 127개국 진출, 2025년 매출 200억 달러 이상</li>
+                <li><strong>공격 유형 미공개:</strong> SEC 공시에 공격 유형·공격자·초기 침투 경로·데이터 탈취 여부는 미포함 — 전체 복구 시점도 미정</li>
+                <li><strong>현황:</strong> 아직 어떤 랜섬웨어·탈취 그룹도 Boston Scientific 공격을 주장하지 않음 — 조사 지속 중</li>
+                <li><strong>업계 시사점:</strong> 의료기기 제조사는 OT/IT 경계와 공급망 영향이 커, 이번 사고로 의료 산업 사이버 복원력 논의 재점화 예상</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/boston-scientific-says-cyberattack-disrupted-operations-globally/" target="_blank">BleepingComputer - Boston Scientific says cyberattack disrupted operations globally</a></p>
+
+            <h2>6. Amazon Kiro 프롬프트 인젝션 — Kiro Powers로 민감 데이터 유출 가능 (AI IDE)</h2>
+            <p>Mindguard 연구진이 Amazon의 AI 에이전트 IDE 'Kiro'에서 프롬프트 인젝션과 Kiro Powers를 통한 데이터 유출 취약점을 공개했다. CVE 번호는 없으며 Windows용 Kiro IDE 0.7.45에서 재현됐고, 0.8.140에서 수정됐다. 악용 난이도가 낮고, 사용자가 악성 프롬프트를 직접 제출하지 않아도 공격이 성립한다.</p>
+            <ul>
+                <li><strong>공격 조건:</strong> 공격자가 제작한 워크스페이스 파일을 열고 아무 메시지를 보내는 것만으로 트리거 — 신뢰/비신뢰 워크스페이스 모두 재현. 민감 데이터가 사용자 동의 없이 외부로 유출될 수 있음</li>
+                <li><strong>신뢰 경계 붕괴:</strong> 저장소 콘텐츠 → 에이전트가 로컬 민감 정보 판독 → IDE 보안 관련 설정에 기록 → IDE 기능이 설정을 네트워크 활동으로 전환하는 4단계 체인</li>
+                <li><strong>전력:</strong> Kiro는 6월 CVE-2026-10591 (CVSS 8.8, .vscode/tasks.json·MCP 설정 경유 무인증 원격 명령 실행) 패치, 스티어링 파일로 로컬 파일을 Markdown 이미지 요청에 포함해 외부 전송하는 결함 수정 이력</li>
+                <li><strong>시사점:</strong> AI 개발 환경이 '해석'과 '실행'을 한 워크플로에 결합하면서 저장소 파일이 모델 컨텍스트이자 공격면이 되는 신규 위협 패턴 — AI IDE 도입 조직은 신뢰 경계 모델링 필요</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/amazon-kiro-prompt-injection-can.html" target="_blank">The Hacker News - Amazon Kiro Prompt Injection Can Exfiltrate Sensitive Data Through Kiro Powers</a></p>
+
+            <h2>7. CISA, KEV에 6개 악용 결함 추가 — NetScaler CVE-2026-8452 웹셸 악용 확인, 토요일까지 연방 패치 명령</h2>
+            <p>CISA가 활성 악용 증거를 근거로 KEV(Know Exploited Vulnerabilities) 카탈로그에 6개 결함을 추가했다. 특히 Citrix NetScaler ADC/Gateway의 고위험 버퍼 결함 CVE-2026-8452는 웹셸 드롭 공격이 확인돼 연방 기관에 토요일까지 패치가 명령됐다. 이번 추가 중 4개는 Cisco Talos가 보고한 중국 사이버 범죄 그룹 UAT-10147의 공격과 연관된다.</p>
+            <ul>
+                <li><strong>KEV 추가 6건:</strong> CVE-2019-1068 (MS SQL Server RCE), CVE-2026-8452 (NetScaler ADC/Gateway 버퍼 결함), CVE-2022-0995 (리눅스 커널 OOB 쓰기), CVE-2015-5287 (Red Hat ABRT 권한 상승), CVE-2015-3246 (Red Hat libuser), CVE-2021-23758 (Ajax.NET Professional 역직렬화 RCE)</li>
+                <li><strong>NetScaler 악용 정황:</strong> Defused Cyber·Previdian이 활성 악용 경고 — 공격자가 'x.php'·'z.php' 웹셸을 드롭하고 'id'·'echo' 등 탐색 명령 실행. 텔레메트리상 스위스·독일·홍콩·일본·네덜란드·러시아·싱가포르·튀르키예·미국·베트남 등 다국적 공격자 IP</li>
+                <li><strong>UAT-10147 연계:</strong> 교육·미디어·기술·게임 부문의 Windows/Linux 웹 서버를 노리는 중국 사이버 범죄 그룹 — 커널·ABRT·libuser·AjaxPro 결함 악용</li>
+                <li><strong>CISA 분석:</strong> 2024~2025년 CVE 분석에서 인젝션 약점이 최다(2024년 7,701건 → 2025년 21,019건), 메모리 안전·입력 검증 약점이 KEV에 불균형 등재 — AI가 악용 자동화에 활용되는 추세 경고</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/cisa-adds-six-exploited-flaws-to-kev.html" target="_blank">The Hacker News - CISA Adds Six Exploited Flaws to KEV, Including NetScaler, Linux, and SQL Server Bugs</a></p>
+
+            <h2>8. GoCaracal — 이더리움 스마트 계약으로 C2 주소를 교체하는 신종 Go 멀웨어 (Dark Caracal 연계)</h2>
+            <p>Arctic Wolf가 Dark Caracal(중간 신뢰도)과 연계된 미문서화 Go 기반 멀웨어 프레임워크 'GoCaracal'을 공개했다. 2026년 6월 베네수엘라의 통신 조직 침해에서 발견됐으며, 원격 셸·페이로드 실행 기능에 브라우저 데이터 탈취·키로깅·원격 데스크톱 등 확장 프로필을 갖췄다. 특징은 C2 장애 시 이더리움 스마트 계약에서 대체 C2 주소를 조회하는 폴백 메커니즘이다.</p>
+            <ul>
+                <li><strong>이더리움 폴백 C2:</strong> 기본 C2 통신 실패 시 공개 Ethereum JSON-RPC 엔드포인트에 eth_getStorageAt 요청 → 스마트 계약에 저장된 대체 주소를 메모리 설정에 기록 후 재통신 — 운영자가 바이너리 재배포 없이 C2 주소 변경 가능, 전체 C2 채널이 체인 위에 있지는 않음</li>
+                <li><strong>확장 프로필:</strong> 원격 셸·페이로드 실행 + 브라우저 데이터 탈취, 키로깅, WebRTC 원격 데스크톱, 숨은 브라우저 조작, SOCKS5 프록시, 지속성 기능</li>
+                <li><strong>유포:</strong> 금융·세무 테마 파일명과 100+ SVG 파일이 동일 악성 호스팅 사이트와 통신 — 피싱 유포로 추정 (원본 이메일 미확보)</li>
+                <li><strong>배경:</strong> Dark Caracal은 라틴아메리카 활동 이력(2018년 Bandook 최초 공개, 2020년 리툴링, 2021년 베네수엘라 공격) — 브라질·에콰도르·칠레·콜롬비아·엘살바도르·우루과이 연계 인프라 확인(중간 신뢰도)</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/gocaracal-malware-uses-ethereum-smart.html" target="_blank">The Hacker News - GoCaracal Malware Uses Ethereum Smart Contract to Fetch Replacement C2 Address</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
