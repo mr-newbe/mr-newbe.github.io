@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - EVOMAL: Self-Poisoning in Self-Evolving Coding Agents</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - EVOMAL: Self-Poisoning in Self-Evolving Coding Agents</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-08-27</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> EVOMAL: Self-Poisoning in Self-Evolving Coding Agents<br>
+                <strong>저자:</strong> Xiaodong Wu, Yu Shi, Qi Li, Zhimin Zhao, Xiangman Li, Bram Adams, Ahmed E. Hassan, Jianbing Ni<br>
+                <strong>분야:</strong> cs.CR / cs.AI (LLM 코딩 에이전트 보안, 공급망 공격)
+            </div>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 연구 배경</h2>
+            <p>자기 진화(self-evolving) LLM 코딩 에이전트는 공유 스킬 라이브러리에서 스킬을 검색·모방하여 스스로 새 도구를 작성한다. 이 순환 구조에 치명적 취약점이 있다. 에이전트가 스킬을 '작성(authoring)'하는 과정에서 악성 스킬이 새 스킬의 템플릿이 되어 페이로드가 그대로 보존될 수 있다. 저자들은 이를 <em>자기 중독(self-poisoning)</em>이라 명명하고, 공격자가 스킬을 직접 실행하지 않고도 라이브러리에 심은 악성 스킬 하나가 에이전트 스스로 증식·실행되는 사슬을 만드는 공격 EvoMal을 제안한다.</p>
+
+            <h2><i class="fa-solid fa-gears"></i> 핵심 내용</h2>
+            <ul>
+                <li><strong>자기 중독(self-poisoning) 취약점:</strong> 에이전트가 검색된 스킬을 모방해 새 스킬을 작성할 때, 악성 스킬이 템플릿이 되어 페이로드가 복제·저장·실행되는 구조적 취약점</li>
+                <li><strong>EvoMal 공격:</strong> 교체 가능한 페이로드를 '배너(banner)' — 무해해 보이는 구조적 요소 — 로 감싸 모방 에이전트가 내장 코드를 재현하도록 유도. 공격자는 스킬을 실행할 필요 없이 라이브러리에 심기만 하면 됨</li>
+                <li><strong>자가 증식 웜:</strong> 에이전트가 작성한 악성 스킬이 다시 라이브러리에 들어가 재모방되며, 심어진 스킬을 제거한 뒤에도 지속되는 자기 전파형 웜 형성</li>
+                <li><strong>실험 결과:</strong> 6개 모델, SWE-bench Verified 153개 도구 관련 태스크에서 ASPR(에이전트 자기 중독률) 20.3~41.8%, 오염 라이브러리의 악성 스킬 수는 심은 양의 4.9~9.0배. 배너 없이도 DeepSeek-V4-Pro는 11.1% ASPR, 태스크 계열 맞춤 설명으로 86.7%까지 상승. 시드 제거 후에도 Qwen3는 round-5 ASPR 68%로 지속</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 보안 시사점</h2>
+            <ul>
+                <li>자기 진화형 에이전트의 '스킬 작성-재사용' 루프가 공급망 공격의 새 경로가 됨 — 공유 스킬 라이브러리는 이제 코드 저장소만큼이나 검증이 필요한 신뢰 경계</li>
+                <li>공격자가 스킬을 '실행'하지 않아도 된다는 점은 기존 샌드박스·실행 모니터링만으로는 탐지가 어렵다는 것을 의미 — 작성(authoring) 단계의 콘텐츠 검증이 필수</li>
+                <li>자가 증식·지속성(제거 후에도 68% ASPR) 특성은 전통적 악성코드 제거 대응을 무력화하며, 에이전트 메모리/스킬 라이브러리 감사(audit) 체계가 필요함</li>
+                <li>배너 없이도 11.1%, 맞춤 설명 시 86.7%의 높은 성공률은 실용적 방어(출처 검증, 스킬 서명, 모방 시 페이로드 무해화)가 시급함을 시사</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flag-checkered"></i> 결론</h2>
+            <p>EvoMal은 자기 진화 코딩 에이전트의 스킬 모방 루프가 공격자 주입 악성코드의 증폭기로 전락할 수 있음을 최초로 실증한 연구이다. 실행 없이 심기만 해도 수 배로 증식하고 제거 후에도 살아남는 웜 특성은, 에이전트 기반 개발 환경의 공유 라이브러리를 새로운 공급망 공격면으로 규정한다. 스킬 라이브러리 신뢰 모델과 작성 단계 방어가 향후 에이전트 보안의 핵심 과제가 될 것이다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2608.25776" target="_blank">https://arxiv.org/abs/2608.25776</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
