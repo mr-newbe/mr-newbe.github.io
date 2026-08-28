@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - When Context Gets Root: LLM 하네스의 권한 상승</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - When Context Gets Root: LLM 하네스의 권한 상승</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-08-28</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> When Context Gets Root: Privilege Escalation in LLM Harnesses<br>
+                <strong>저자:</strong> Xingbang He, Yuanwei Chen, Yi Qian, Haiyang Wei, Ligeng Chen, Zenan Fu, Linzhang Wang, Hao Wu, Bing Mao<br>
+                <strong>분야:</strong> cs.CR (LLM 에이전트 보안, 프롬프트 인젝션, 권한 상승)
+            </div>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 연구 배경</h2>
+            <p>LLM 에이전트는 사용자·도구·웹 콘텐츠 등 다양한 출처의 지시를 동시에 처리하므로, 모델 제공자들은 <em>지시 계층 구조(instruction hierarchy)</em>를 도입해 지시의 출처에 따라 서로 다른 권한 수준을 부여한다. 이는 '모델 측 방어'로, 낮은 권한의 콘텐츠가 모델의 행동을 통제하지 못하도록 설계된다. 그러나 실제 에이전트 실행에서 <em>하네스(harness)</em>가 매 호출마다 컨텍스트를 구성하는 과정이 개입한다. 저자들은 바로 이 컨텍스트 구성 단계에서 낮은 수준의 콘텐츠가 더 높은 지시 수준으로 '승격'될 수 있다는 점에 주목해, 모델 측 방어를 우회하는 새로운 공격 벡터 <em>지시 권한 상승(instruction privilege escalation)</em>을 제안한다.</p>
+
+            <h2><i class="fa-solid fa-gears"></i> 핵심 내용</h2>
+            <ul>
+                <li><strong>지시 권한 상승 공격:</strong> 공격자가 에이전트를 유도해 낮은 권한의 악성 콘텐츠(예: 웹페이지·문서 속 내용)를 하네스의 컨텍스트 구성 과정에서 더 높은 지시 수준(시스템 프롬프트·사용자 지시 수준)으로 승격시키게 만듦 — 승격된 콘텐츠는 원래 수준에서는 따르지 않았을 지시를 강제함</li>
+                <li><strong>멀티 에이전트 악용:</strong> 여러 에이전트가 컨텍스트를 서로 재구성하는 구조를 이용해 승격을 유발 — 단일 에이전트 방어가 무력화되는 지점을 체계적으로 공격</li>
+                <li><strong>실험 결과:</strong> 6개 코딩 에이전트 하네스 대상 13개 공격 목표(기밀성·무결성·가용성·원격 코드 실행) 전부 달성. 무제한 액션 실행 시 6개 하네스 모두에서 13/13 성공, 자동 권한 검토 모드를 제공하는 3개 하네스에서도 13/13 성공</li>
+                <li><strong>지속성 재현:</strong> 하네스가 제공하는 영구 목표(persistent goals)와 예약 태스크를 통해서도 취약점 재현 — 일회성 인젝션이 아닌 상시 유지되는 승격 경로 확인</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 보안 시사점</h2>
+            <ul>
+                <li>지시 계층 구조만으로는 에이전트 보안이 보장되지 않음 — 컨텍스트를 '조립'하는 하네스 계층 자체가 신뢰 경계로 재정의되어야 함</li>
+                <li>자동 권한 검토(permission review) 모드도 승격된 지시에는 무력했으며, 이는 검토 로직이 '지시의 원래 수준'을 추적하지 못하는 구조적 한계를 드러냄</li>
+                <li>영구 목표·예약 태스크로 재현되는 지속성은, 승격된 지시가 세션을 넘어 살아남을 수 있어 장기 실행 에이전트의 위험을 키움</li>
+                <li>컨텍스트 구성 파이프라인에서 콘텐츠의 출처·권한 수준을 보존하는 메타데이터 검증(정보흐름 제어 등)이 모델 측 방어를 보완하는 실질적 방어선이 될 수 있음</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flag-checkered"></i> 결론</h2>
+            <p>이 연구는 '지시 계층 구조'라는 모델 측 방어가 하네스의 컨텍스트 구성 과정에서 손쉽게 우회될 수 있음을 6개 실제 하네스와 13개 공격 목표로 실증했다. 방어가 모델 내부에만 존재하는 한, 컨텍스트를 조립하는 코드 경로는 언제나 승격의 통로가 될 수 있다. 에이전트 보안의 다음 과제는 모델의 '지시 이해'가 아니라 하네스의 '컨텍스트 신뢰' 문제임을 보여주는 중요한 연구이다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2608.27299" target="_blank">https://arxiv.org/abs/2608.27299</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
