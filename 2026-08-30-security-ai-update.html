@@ -32,7 +32,7 @@
     <div class="container">
         <h1>Daily Security & AI Update</h1>
         <div class="meta">
-            <i class="fa-regular fa-calendar"></i> 2026-08-30 | <i class="fa-solid fa-tags"></i> Daily News, 취약점, CVE, RCE, 패치, 데이터 유출, 랜섬웨어, 블록체인, 공급망, KEV, AI 에이전트, 확장 프로그램, 멀웨어, 사이버 사찰
+            <i class="fa-regular fa-calendar"></i> 2026-08-30 | <i class="fa-solid fa-tags"></i> Daily News, 취약점, CVE, RCE, 패치, 데이터 유출, 랜섬웨어, 블록체인, 공급망, KEV, AI 에이전트, 확장 프로그램, 멀웨어, 사이버 사찰, WordPress, 브리치, 헬스케어, 음성 피싱, IoT 로봇
         </div>
 
         <div class="content">
@@ -115,6 +115,47 @@
                 <li><strong>권고:</strong> 설치된 확장 프로그램의 게시자·권한·최근 업데이트 이력 점검, 비필수 확장 제거 — 확장 스토어 심사 우회 공급망 공격의 대표 패턴</li>
             </ul>
             <p>출처: <a href="https://thehackernews.com/2026/08/19-chrome-and-edge-extensions-found.html" target="_blank">The Hacker News - 19 Chrome and Edge Extensions Found With Wallet-Stealing and Crypto-Draining Code</a></p>
+
+            <h2>9. WordPress 플러그인·테마 5종 치명적 결함 — 인증 우회·RCE·계정 탈취로 사이트 장악 (CVE-2026-82222 등)</h2>
+            <p>Wordfence와 Patchstack이 WPMU DEV Dashboard, Avada, TranslatePress, Pods, GiveWP 등 WordPress 플러그인·테마 5종의 치명적 결함을 공개했다. CVSS 9.8~10.0으로, 조합 시 무인증 인증 우회, 원격 코드 실행, 관리자 계정 탈취까지 가능해 사이트 완전 장악으로 이어진다. (8/27 게시물의 Avada 제로클릭 RCE 후속 — 이번에는 5종 통합 공시)</p>
+            <ul>
+                <li><strong>CVE-2026-76581 (CVSS 9.8, WPMU DEV Dashboard ≤5.0.1):</strong> 인증 우회 — Hub SSO 활성화 + 관리자 매핑 환경에서 무인증 공격자가 관리자 접근 권한 획득, 사이트 탈취 가능</li>
+                <li><strong>CVE-2026-18431 (CVSS 9.8, Avada 테마 ≤7.16):</strong> 임의 파일 쓰기 — Fusion Builder(≤3.16) 활성 시 무인증 공격자가 서버에 임의 파일을 써서 PHP 파일 생성·실행으로 RCE 달성</li>
+                <li><strong>CVE-2026-19632 (CVSS 9.8, TranslatePress ≤3.3.1):</strong> 민감 정보 노출 — 자동 문자열 저장 활성 + 관리자 프로필 로캘이 2차 언어 설정 시, 무인증 공격자가 관리자 비밀번호 재설정 URL(평문 리셋 키 포함) 추출로 계정 탈취</li>
+                <li><strong>CVE-2026-19598 (CVSS 9.8, Pods ≤3.3.9):</strong> 권한 상승 — 무인증 공격자가 관리자로 승격하거나 사이트 소유자 포함 임의 계정 비밀번호 덮어쓰기 가능</li>
+                <li><strong>CVE-2026-82222 (CVSS 10.0, GiveWP ≤4.16.7.1):</strong> 임의 명령 실행 — 기부 폼 1개 + 활성 결제 게이트웨이 조건에서 '안전한 unserialize' 헬퍼 우회 + 기부 흐름의 공격자 제어 데이터 + GiveWP 내장 가젯 체인을 연결한 PHP 객체 인젝션→RCE (Patchstack 분석: "신뢰하는 직렬화 정화기가 객체를 실제로 제거하지 못하고, DB에서 읽은 데이터를 신뢰하며, 개발용 라이브러리가 프로덕션에 포함된 전형적 뿌리 원인")</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/five-critical-wordpress-plugin-and.html" target="_blank">The Hacker News - Five Critical WordPress Plugin and Theme Flaws Enable Site Takeover or RCE</a></p>
+
+            <h2>10. McKesson, SEC 8-K로 브리치 공시 — ShinyHunters가 '음성 피싱' 주장 (mckesson[.]claims 도메인 사용)</h2>
+            <p>미국 헬스케어 유통 대기업 McKesson이 8월 25일 발견된 사이버 사고를 SEC 8-K 신고로 공시했다. 제3자 애플리케이션과 관련된 무단 접근·데이터 유출(exfiltration)이 확인됐으며, 갈취 그룹 ShinyHunters가 배후를 주장하며 직원 다수를 상대로 한 음성 피싱(vishing) 사회공학 공격으로 침투했다고 밝혔다.</p>
+            <ul>
+                <li><strong>공시 내용:</strong> 사고 발견 8월 25일, 조사 초기 단계 — 현재까지 '중대성(materiality)' 판단은 유보. 고객 통지에서는 제3자 앱 관련 무단 접근·데이터 유출 확인</li>
+                <li><strong>ShinyHunters 주장:</strong> 직원 다수에 대한 비싱(음성 피싱) 사회공학으로 접근 권한 획득. BleepingComputer 취재 결과 mckesson[.]claims 도메인이 공격에 사용됐으며, 이는 ReliaQuest가 최근 문서화한 ShinyHunters 캠페인과 일치</li>
+                <li><strong>영향:</strong> 고객 대상 일시적 서비스 저하 가능성 경고 — 그러나 시스템 분리(disconnect)는 선제적으로 하지 않는다고 밝힘. 탈취 데이터 범위·공격 경로는 아직 미공개</li>
+                <li><strong>시사점:</strong> 헬스케어 공급망 대기업을 상대로 한 비싱 기반 침투 + 갈취 그룹의 책임 주장 — 의료 데이터 탈취 위협과 공급망 리스크 재확인</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/mckesson-discloses-breach-after-shinyhunters-claims-patient-data-theft/" target="_blank">BleepingComputer - McKesson discloses breach after ShinyHunters claims patient data theft</a></p>
+
+            <h2>11. Unitree G1 EDU 휴머노이드 로봇, 루트 RCE 2건 — BLE 경로는 페어링 없이 로봇 간 전파 가능 (CVE-2026-76639·CVE-2026-76640)</h2>
+            <p>보안 연구원 Olivier Laflamme가 Unitree G1 EDU 휴머노이드 로봇에서 루트 원격 코드 실행(RCE)으로 이어지는 독립적인 공격 체인 2건을 공개했다. 하나는 네트워크 인접 경로, 다른 하나는 Bluetooth Low Energy(BLE)를 통한 경로로, 후자는 로봇의 Locomotion PC에서 루트까지 도달한다.</p>
+            <ul>
+                <li><strong>CVE-2026-76639 (네트워크 인접 RCE):</strong> chat_go와 bashrunner를 통한 독립적 RCE — 네트워크 인접 공격자가 루트 실행 가능</li>
+                <li><strong>CVE-2026-76640 (BLE 체인):</strong> BLE 초기화(bootstrap) 상호작용이 블루투스 페어링 없이 수락됨 — Unitree 클라우드의 키 복구 요청이 '계정이 해당 로봇을 소유하는지' 검증하지 않는 인가 공백으로 타 로봇의 키 자료를 복구, 인증된 BLE 상태 확립 → Wi-Fi 프로비저닝 코드의 버퍼 오버플로로 Locomotion PC 루트 권한 획득</li>
+                <li><strong>전파 테스트:</strong> 한 방 안의 G1 로봇 2대로 전파 실험 — "로봇 하나를 해킹하면 다음 로봇에 도달" 가능. 다른 Unitree 모델로의 영향 범위는 미확인</li>
+                <li><strong>대응:</strong> 8월 27일 공개 시점에 Unitree 클라우드 인가 수정이 해당 PoC 흐름을 차단 — 펌웨어 수정 버전·영향 제품 범위는 확인 중</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/two-unitree-g1-edu-humanoid-robot-flaws.html" target="_blank">The Hacker News - Two Unitree G1 EDU Humanoid Robot Flaws Enable Root RCE, One Starts Over Bluetooth</a></p>
+
+            <h2>12. Hasbro, 직원 개인정보 브리치 통지 — 3월 사이버 공격과의 연관성 질문에 답변 회피</h2>
+            <p>장난감·게임 대기업 Hasbro가 직원들에게 개인정보가 브리치로 유출됐을 수 있다고 통지했다. 매사추세츠주 법무장관실 제출 통지서 기준으로 이름, 주소, 전화번호, 국가 ID 번호, 금융 정보 등이 포함되며, 마스 주민 436명이 영향받은 것으로 집계됐다.</p>
+            <ul>
+                <li><strong>영향 범위:</strong> 현재·전직 직원의 개인정보 일부 접근 가능성 — 전체 피해 규모는 미공개, 수백~수천 명 수준으로 추정 (Hasbro 전 세계 직원 약 4,600명, 대부분 미국)</li>
+                <li><strong>3월 공격 연계:</strong> Hasbro는 올 3월 말 사이버 공격으로 일부 시스템을 오프라인 전환했음 — 그 공격은 정리 비용 1,100만 달러와 시스템 중단으로 인한 제품 판매 지연 2,500만 달러를 초래. 새 브리치 통지가 3월 공격과 연결되는지 질문에 회사는 직접 답하지 않음</li>
+                <li><strong>대응:</strong> 개인정보 오용 정황은 발견되지 않았고 향후 오용 가능성도 없을 것으로 판단 — 예방적 차원에서 신원 보호 서비스 제공</li>
+                <li><strong>시사점:</strong> 기업의 사고 공시 시점 차이 — 8-K 의무 공시(공개사)와 주별 브리치 통지 법률의 공백에서 실제 피해 규모 파악이 지연되는 사례</li>
+            </ul>
+            <p>출처: <a href="https://www.securityweek.com/hasbro-data-breach-exposed-employee-personal-information/" target="_blank">SecurityWeek - Hasbro Data Breach Exposed Employee Personal Information</a></p>
 
         </div>
 
