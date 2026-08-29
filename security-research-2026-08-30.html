@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - RedEvoAgent: 경험 기반 스킬 진화 자동 레드티밍 에이전트</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - RedEvoAgent: 경험 기반 스킬 진화 자동 레드티밍 에이전트</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-08-30</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> RedEvoAgent: Automatic Red-Teaming Agent with Experience-Driven Skill Evolution<br>
+                <strong>저자:</strong> Junjie Zhang, Hui Liu, Kecheng Chen, Xianbo Mo<br>
+                <strong>분야:</strong> cs.CR (LLM 에이전트 보안, 자동 레드티밍, 젤브레이크)
+            </div>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 연구 배경</h2>
+            <p>LLM 기반 에이전트는 실제 제품 수준의 실행 하네스(harness)에 배포되면서, 젤브레이크가 단순한 유해 텍스트 생성이 아닌 <em>유해한 도구 사용과 영구적 상태 변경</em>을 유발할 수 있게 되었다. 그러나 기존 자동 레드티밍 기법은 고정된 공격 패턴에 의존하는 경우가 많고, 최근 에이전트형 공격자(agentic attacker)는 여러 젤브레이크 도구를 조합하며 궤적(trajectory) 기반 검색으로 더 강력한 잠재력을 보였지만, 검색 편향(retrieval bias)과 도구 기여도 불명확성으로 오해를 유발하는 경험을 재사용할 수 있고, 전체 궤적을 컨텍스트로 쓰면 오버헤드가 커지고 해석 가능성이 떨어진다는 한계가 있다. 저자들은 이를 극복하기 위해 <em>경험을 간결한 공격 스킬로 증류</em>하고 스스로 진화시키는 블랙박스 레드티밍 에이전트를 제안한다.</p>
+
+            <h2><i class="fa-solid fa-gears"></i> 핵심 내용</h2>
+            <ul>
+                <li><strong>스킬 증류(Skill Distillation):</strong> 여러 사례에 걸친 공격 궤적을 인간이 읽을 수 있는 간결한 공격 스킬로 압축 — 전체 궤적 재사용의 컨텍스트 오버헤드와 해석 불가능성 문제 해결</li>
+                <li><strong>경험 기반 스킬 진화:</strong> 도구 효과성 프로파일링(tool-effectiveness profiling)과 도구 기여도를 명확히 귀속시키는 Deciding-Tool Attribution을 통해 스킬을 업데이트하고, 검증 성능을 개선하는 업데이트만 유지하는 <em>검증 래칫(validation ratchet)</em>으로 악화를 방지</li>
+                <li><strong>블랙박스 공격:</strong> 대상 모델의 내부에 접근하지 않고 여러 벤치마크·대상 모델·실행 하네스에서 고정 공격 및 기존 에이전트형 공격자보다 우수한 성능을 달성</li>
+                <li><strong>전이 가능성:</strong> 학습된 공격 스킬이 공격자 모델과 대상 실행 하네스를 가로질러 전이되며, 도구 효율성(tool efficiency)도 개선됨</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 보안 시사점</h2>
+            <ul>
+                <li>공격 궤적을 '스킬'로 증류·진화시키는 패러다임은 자동 레드티밍의 확장성을 크게 높임 — 수작업 프롬프트 엔지니어링 없이도 진화하는 공격 능력에 방어가 직면하게 됨</li>
+                <li>도구 수준의 실행 권한을 가진 에이전트 환경에서는 젤브레이크 1회가 영구 상태 변경·민감 도구 오용으로 이어질 수 있어, 기존 텍스트 안전성 평가만으로는 부족함을 재확인</li>
+                <li>검증 래칫 설계는 '효과적인 공격 스킬만 남기는' 메커니즘으로, 방어자 입장에서는 지속적으로 개선되는 공격 스킬 라이브러리에 대비한 상시 레드티밍 파이프라인이 필요함</li>
+                <li>공격 스킬의 모델·하네스 간 전이는 한 번 만들어진 공격 지식이 생태계 전체에 재사용될 수 있음을 의미 — 공급망 수준의 공격 지식 유포 위험도 시사</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flag-checkered"></i> 결론</h2>
+            <p>이 연구는 자동 레드티밍을 '고정 공격 집합'이 아니라 '경험에서 배우고 스스로 진화하는 스킬'로 재정의했다. 궤적을 간결한 스킬로 증류하고, 도구 기여도를 명확히 귀속시키며, 검증 래칫으로 품질을 보장하는 설계는 공격 효율과 전이성을 동시에 끌어올렸다. 방어자에게는 진화하는 공격 스킬을 가정한 지속적 보안 평가가 필수임을 보여주는 시의적절한 연구이다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2608.27439" target="_blank">https://arxiv.org/abs/2608.27439</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
