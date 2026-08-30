@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - 사용자 작성 권한 정책은 AI 에이전트 과잉 행동을 막는가</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>최신 보안 논문 분석 - 사용자 작성 권한 정책은 AI 에이전트 과잉 행동을 막는가</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-08-30</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Do User-Authored Permission Policies Improve Protection Against AI Agent Overreach?<br>
+                <strong>저자:</strong> Ting Yan<br>
+                <strong>분야:</strong> cs.CR (AI 에이전트 보안, 권한 정책 UX, 사용자 연구)
+            </div>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 연구 배경</h2>
+            <p>AI 에이전트가 이메일·파일·결제·개인 데이터를 다루는 핵심 인터페이스로 부상하면서, 비전문 사용자가 서비스 전반에 걸친 에이전트 행동을 통제할 방법이 필요해졌다. 대표적 접근 중 하나는 언어모델이 행동을 '평문 결과 범주(consequence category)'로 매핑하고, 사용자가 그 범주별로 "허용(allow)"·"물어보기(ask)"·"금지(never)" 규칙을 미리 작성하는 '선언적 권한 정책'이다. 핵심 질문은 — 매 행동마다 개별 승인하는 방식 대신, 재사용 가능한 규칙으로 사전 결정하는 방식이 실제로 무엇을 얻고 잃는가이다. 저자는 113명의 비전문 사용자를 대상으로 한 대조 실험으로 이 질문에 답한다.</p>
+
+            <h2><i class="fa-solid fa-gears"></i> 핵심 내용</h2>
+            <ul>
+                <li><strong>실험 설계:</strong> 비전문 배경의 참가자 113명을 3개 조건으로 무작위 배정 — ① 행동별 인간 승인(HITL), ② 자동 모델 검토(AUTO), ③ 사용자 작성 결과정책(POLICY). 4개 결과 범주 × 2개 예시를 판단한 뒤, POLICY 집단은 범주별 규칙 1개씩 작성</li>
+                <li><strong>시뮬레이션:</strong> 전원이 18개 행동의 하루 시나리오를 감독 — 그중 7개는 과잉 행동(overreach). POLICY는 HITL 대비 과잉 행동 차단이 -20.1%p(95% CI [-32.1, -8.1]), AUTO 대비 -14.5%p(95% CI [-25.8, -3.2])로 유의미하게 낮음</li>
+                <li><strong>비용 트레이드오프:</strong> POLICY는 런타임 프롬프트 수를 18.0→10.9로 줄였지만, 규칙 작성 시간을 포함하면 총 개입 시간은 유의미하게 낮지 않음 — '사전 결정'의 효율 이득이 부분 상쇄</li>
+                <li><strong>반직관적 발견:</strong> 참가자들은 140개 규칙 중 114개를 "ask"로 선택해 대부분의 과잉 행동을 다시 런타임 승인으로 되돌림. POLICY에서 실행된 과잉 행동 148건 중 133건이 인간 승인을 거쳤고, 15건만 "allow" 규칙으로 자동 실행</li>
+                <li><strong>선호와 몰입의 간극:</strong> 7개 과잉 행동 전체에서 POLICY의 승인률이 가장 높았음 — 사용자가 '사전에 막을 기회'가 있었음에도 런타임 승인 시 통과시킴. 반복적 "ask" 선택은 건건이 선택권을 보존하지만, 정책이 결정을 사전에 확정하지 못하게 만듦</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 보안 시사점</h2>
+            <ul>
+                <li>자연어로 된 사용자 작성 권한 정책은 그 자체로는 per-action 검토(HITL/AUTO)보다 오히려 보호 수준이 낮음 — '정책을 세웠다'는 사실이 곧 보호가 아님을 실증</li>
+                <li>"ask"가 기본값이 되면 정책의 의미가 무너짐: 승인 피로(approval fatigue)로 과잉 행동이 통과되고, 사전 차단 기회도 사라짐 — 정책 UX는 '기본 거부(deny-by-default)'와 의미 있는 "never" 규칙 작성을 유도해야 함</li>
+                <li>AI 에이전트 플랫폼의 권한 설계자는 규칙 작성 UI뿐 아니라 '몰입 메커니즘'(작성 후 쉽게 우회 불가, ask 선택에 대한 비용 노출)을 함께 설계해야 함</li>
+                <li>에이전트 과잉 행동 방어는 단일 메커니즘(정책·승인·모델 검토)으로는 부족 — 사용자 정책 + 런타임 검토를 결합한 다계층 접근이 필요함을 시사</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flag-checkered"></i> 결론</h2>
+            <p>이 연구는 '사용자가 직접 쓴 권한 정책'이 AI 에이전트 과잉 행동 방어에 실제로 도움이 되는지 처음으로 대조 실험으로 검증한 연구다. 결과는 반직관적이다: 규칙을 미리 세우는 방식은 오히려 HITL·AUTO보다 과잉 행동 차단에 취약했고, 그 원인은 사용자들이 "ask"를 남발해 결정을 런타임으로 미루는 '선호-몰입 간극'이었다. AI 에이전트 권한 시스템을 설계하는 실무자에게 '정책 기능을 추가하는 것'과 '실제 보호를 제공하는 것'은 다르다는 명확한 교훈을 준다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2608.27443" target="_blank">https://arxiv.org/abs/2608.27443</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
