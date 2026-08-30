@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[클래식] Smashing The Stack For Fun And Profit - 버퍼 오버플로우의 교과서 (1996)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💥 Smashing The Stack For Fun And Profit — 버퍼 오버플로우의 교과서 (1996)</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-08-30 · 클래식 보안 논문</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Smashing The Stack For Fun And Profit<br>
+                <strong>저자:</strong> Aleph One (Elias Levy)<br>
+                <strong>발표:</strong> Phrack Magazine, 49호, 1996-11-08<br>
+                <strong>분야:</strong> 시스템 보안, 익스플로잇 개발, 버퍼 오버플로우
+            </div>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 연구 배경</h2>
+            <p>1996년은 인터넷이 상업화되던 시기였고, 1988년 Morris 웜 이후 취약점 연구는 태동기를 지나고 있었다. 그러나 "버퍼 오버플로우"는 그때까지 체계적으로 문서화된 적이 없었다. Aleph One은 스택 메모리 구조와 취약한 C 코드가 어떻게 공격자에게 제어권을 넘겨주는지를 <strong>최초로 단계별로 설명</strong>하며, 이후 30년간 모든 익스플로잇 개발의 기준이 된 논문을 Phrack에 게재했다.</p>
+
+            <h2><i class="fa-solid fa-gears"></i> 핵심 내용</h2>
+            <ul>
+                <li><strong>스택 구조 분석:</strong> 함수 호출 시 인자·리턴 주소·지역 변수가 스택에 쌓이는 정확한 레이아웃을 어셈블리 수준에서 설명 — 버퍼가 리턴 주소보다 낮은 주소에 위치한다는 핵심 통찰!</li>
+                <li><strong>익스플로잇 원리:</strong> strcpy() 같은 경계 검사 없는 함수로 버퍼를 넘치게 채워 <strong>리턴 주소(EIP)를 공격자 주소로 덮어쓰기</strong> → 실행 흐름 탈취!</li>
+                <li><strong>셸코드 + NOP 슬레드:</strong> 정확한 주소가 없어도 성공하도록 <code>0x90</code> NOP 슬레드로 "착륙 지대"를 넓히고, 그 뒤에 setuid(0) + execve("/bin/sh") 셸코드를 배치</li>
+                <li><strong>setuid 공격:</strong> root 소유 setuid 바이너리를 공격해 <strong>root 셸 획득</strong> — 당시 인터넷 데몬들의 치명적인 취약점을 실증</li>
+                <li><strong>완성된 PoC:</strong> vuln.c (취약 프로그램) + exploit.c (공격 코드) 전체 소스 제공 — 교육적 가치 극대화</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-arrow-trend-up"></i> 영향과 의의</h2>
+            <ul>
+                <li><strong>익스플로잇 개발의 출발점:</strong> 이후 20년간 버퍼 오버플로우는 모든 주요 보안 사고의 근본 원인 (Code Red, Slammer, Blaster 웜 등!)</li>
+                <li><strong>완화 기법 탄생의 계기:</strong> 이 논문 이후 StackGuard(1997), ASLR, NX/DEP, SSP 등 모든 메모리 보호 기법이 이 공격에 대응하기 위해 등장</li>
+                <li><strong>보안 교육 필수 교재:</strong> 대학 보안 과정, CTF 대회, 익스플로잇 개발 서적(Hacking: The Art of Exploitation 등)의 공통 출발점 — 수천 회 인용</li>
+                <li><strong>여전히 유효한 개념:</strong> 30년이 지난 지금도 힙 오버플로우, 스택 스매싱, ROP는 모두 이 논문의 직계 후손</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>Phrack 원문: <a href="http://phrack.org/issues/49/14.html" target="_blank" rel="noopener">phrack.org/issues/49/14.html</a></li>
+                <li>위키백과 (Buffer overflow): <a href="https://en.wikipedia.org/wiki/Buffer_overflow" target="_blank" rel="noopener">en.wikipedia.org/wiki/Buffer_overflow</a></li>
+                <li>Aleph One 소개: <a href="https://en.wikipedia.org/wiki/Elias_Levy" target="_blank" rel="noopener">en.wikipedia.org/wiki/Elias_Levy</a></li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로</a>
+    </div>
+</body>
+</html>
