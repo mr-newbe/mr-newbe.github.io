@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-08-31</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-08-31 | <i class="fa-solid fa-tags"></i> Daily News, ClickFix, 멀웨어, 역방향 터널, RCE, CVE, 패치, KEV, 인포스틸러, AI 보안, 세션 탈취, Android, ECH, 프라이버시, 북한, 원격 근로자, 신원 위장, PaperCut, Gitea, 공급망
+        </div>
+
+        <div class="content">
+            <h2>1. TerminalFix — 가짜 Cloudflare CAPTCHA로 역방향 터널 백도어 배포 (ClickFix 변종)</h2>
+            <p>Microsoft가 가짜 Cloudflare CAPTCHA 검증 화면으로 사이트 방문자를 속여 Windows Terminal이나 PowerShell에서 악성 명령을 실행하게 하는 새로운 ClickFix 변종 'TerminalFix'를 공개했다. 기존 ClickFix가 Windows 실행(Run) 대화상자를 노렸다면, TerminalFix는 Terminal/PowerShell로 유도해 복잡한 명령도 실행될 가능성을 높인다.</p>
+            <ul>
+                <li><strong>공격 체인:</strong> 악성 PowerShell 명령이 dui70.dll 사이드로딩을 개시 → bestsocialmedianewspapper[.]com / offlineupdater[.]com에서 PNG 이미지에 스테가노그래피로 숨긴 2차 페이로드 수신 → 레지스트리 Run 키 + 예약 작업으로 지속성 확보 → 도메인 정찰 후 Python 기반 역방향 터널 C2(client.py) 배포</li>
+                <li><strong>C2 구조:</strong> gitnow[.]dev:443으로 암호화 WebSocket 터널을 열어 임의 TCP 트래픽을 전송 — C2 서버가 피해자 네트워크에서 보이는 모든 호스트에 도달 가능</li>
+                <li><strong>정찰 단계:</strong> 시스템 메타데이터 수집, 도메인 트러스트·도메인 관리자·AD 사용자/컴퓨터 열거, 네임드 서버 ping으로 내부 네트워크 지형 파악</li>
+                <li><strong>추가 기능:</strong> 텍스트 파일을 감시하다가 새 명령이 기록되면 Invoke-Expression으로 실행하고 결과를 출력 파일에 쓰는 PowerShell 파일 감시 루프</li>
+                <li><strong>위험성:</strong> Microsoft는 역방향 터널을 통한 내부망 직접 접근이 권한 상승, 보안 통제 무력화, 민감 데이터 유출, 랜섬웨어 배포로 이어질 수 있다고 경고</li>
+                <li><strong>대응:</strong> AppLocker·Application Control·그룹 정책으로 표준 사용자의 PowerShell/Run 대화상자 실행 제한, DLL 사이드로딩 모니터링, PowerShell 스크립트 블록 로깅 활성화, 직원 대상 ClickFix 교육</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/terminalfix-uses-fake-cloudflare.html" target="_blank">The Hacker News - TerminalFix Uses Fake Cloudflare CAPTCHAs to Deploy Reverse-Tunnel Backdoor</a></p>
+
+            <h2>2. Gitea 서버 8,393대, 진행 중인 RCE 공격에도 미패치 — CVE-2026-60004 (KEV 등재)</h2>
+            <p>사이버보안 감시 기관 Shadowserver가 인터넷에 노출된 Gitea 인스턴스 약 8,393대가 활발한 원격 코드 실행(RCE) 공격에 여전히 취약하다고 경고했다. Salesforce 보안 연구원 Shai Rod가 보고한 코드 주입 취약점 CVE-2026-60004는 diffpatch API 엔드포인트를 통해 Gitea 서비스 계정 권한으로 임의 셸 명령 실행을 허용한다.</p>
+            <ul>
+                <li><strong>취약점:</strong> diffpatch 엔드포인트를 악용해 저장소 콘텐츠에서 Git 훅을 설치·실행 — 저장소 쓰기 권한이 있는 공격자가 Gitea OS 사용자 권한으로 임의 셸 명령 실행</li>
+                <li><strong>심각성 배경:</strong> Gitea는 자체 등록(self-registration)이 기본 활성화 — 무인증 공격자도 계정 등록 → 저장소 생성 → 취약점 트리거가 가능해 사실상 무인증 공격 경로</li>
+                <li><strong>패치 현황:</strong> 7월 27일 v1.27.1로 수정됐지만 8월 27일 스캔 기준 8,393개 IP가 여전히 취약 — 400,000개 이상 설치본을 가진 셀프호스팅 Git 플랫폼 특성상 패치 지연이 장기화</li>
+                <li><strong>공격 양상:</strong> CISA는 KEV에 등재하고 연방 기관에 3일 내 패치를 명령(BOD 26-04) — 실제 공격에서는 미패치 서버에 암호화폐 채굴 멀웨어를 배포하는 정황이 포착됨</li>
+                <li><strong>추가 취약점:</strong> 7월에는 공식 Gitea Docker 이미지의 인증 우회 취약점 CVE-2026-20896(리버스 프록시 인증 헤더 활성 환경)도 악용된 바 있음</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/over-8-300-gitea-servers-vulnerable-to-code-execution-attacks/" target="_blank">BleepingComputer - Over 8,300 Gitea servers vulnerable to code execution attacks</a></p>
+
+            <h2>3. Anthropic, 인포스틸러가 Claude 세션 탈취해 사용량 소진 — 세션 쿠키 보호 경고</h2>
+            <p>Anthropic이 일부 Claude 사용자에게 PC에 설치된 인포스틸러 멀웨어가 활성 Claude 로그인 세션을 탈취해 공격자가 계정에 접근하고 사용량을 소진했다고 경고했다. 영향받은 사용자는 Claude에서 로그아웃 처리하고 저장된 결제 수단을 제거했으며, 무단 청구로 확인된 금액은 환불 조치된다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> 일반 목적 인포스틸러(Vidar, LummaC2, StealC, RedLine, Acreed — Windows / Atomic Stealer(AMOS) — 일부 Mac)가 브라우저에 저장된 로그인 쿠키·세션을 수집한 뒤, 공격자가 그중 Claude 세션만 골라내 사용</li>
+                <li><strong>증상:</strong> "사용량 한도가 충전된 것처럼 보였다가 쓰지 않는데 다시 소진되는" 패턴 — Anthropic은 이 경우 세션 탈취 가능성을 의심하라고 안내</li>
+                <li><strong>대응:</strong> 영향 세션 무효화 + 저장된 결제 수단 제거 + 무단 청구 환불. 다만 "로그아웃이 멀웨어를 제거하진 않는다 — 다음 로그인 세션도 같은 방식으로 탈취될 수 있다"며 크레덴셜 변경과 멀웨어 제거를 강조</li>
+                <li><strong>시사점:</strong> AI 서비스 세션 탈취가 실제 피해로 이어진 사례 — 브라우저 세션 쿠키가 인포스틸러의 주요 수집 대상임을 재확인. AI 사용량·결제 수단이 연결된 계정의 보호 중요성 부각</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/artificial-intelligence/anthropic-warns-infostealer-malware-is-hijacking-claude-sessions-to-drain-usage/" target="_blank">BleepingComputer - Anthropic warns infostealer malware is hijacking Claude sessions to drain usage</a></p>
+
+            <h2>4. Android 17, OS 전역 ECH 지원 — 네트워크 제공자로부터 방문 사이트 숨김</h2>
+            <p>Google이 Android 17의 새로운 네트워크 보안 기능을 발표했다. 최우선은 ECH(Encrypted Client Hello) 지원으로, 네트워크 제공자와 스누퍼가 사용자가 방문하는 웹사이트를 엿볼 수 없게 한다. Chrome 117·Firefox 118에 이어 OS 전역으로 보호 범위가 확대됐다.</p>
+            <ul>
+                <li><strong>ECH:</strong> 방문 사이트의 도메인 이름을 목적지 웹사이트만 해독할 수 있는 비밀 키로 암호화 — 지원 웹사이트·앱에서 네트워크 제공자의 프로파일링을 차단</li>
+                <li><strong>ECH GREASE:</strong> ECH를 지원하지 않는 사이트에도 가짜·무작위 ECH 확장을 보내 모든 연결 요청을 동일하게 보이게 하는 기법 — Android 17에서 기본 활성화되어 ECH 보호 여부 자체가 노출되지 않음</li>
+                <li><strong>OkHttp 통합:</strong> 오픈소스 HTTP/HTTP2 클라이언트의 핵심 라이브러리에 ECH 통합 — 서드파티 Android 앱 개발자도 새 기능 활용 가능</li>
+                <li><strong>기타 보호 기능:</strong> 로컬 네트워크 스캔·연결 시 앱 권한 필수(Local Network Protection), 인증서 투명성(CT) 기본 활성화, 통신사가 가입자 대상 2G 기본 차단(제로클릭) — SMS 블래스터·가짜 기지국·다운그레이드 공격 대응</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/android-17-adds-os-wide-ech-to-hide.html" target="_blank">The Hacker News - Android 17 Adds OS-Wide ECH to Hide Website Visits From Network Providers</a></p>
+
+            <h2>5. 북한 원격 근로자, IT 넘어 영업·마케팅·의료까지 진출 — 위조 문서·노트북 팜 정황 (Huntress)</h2>
+            <p>Huntress의 최근 조사에 따르면 북한(DPRK) 원격 근로자들이 IT 직군을 넘어 영업·마케팅, 의료 분야 취업까지 확장하고 있다. 계정 침해가 아니라 '원격 채용' 자체를 공격 경로로 활용하며, 도난 신분증·VPN·프록시 서비스로 정체와 위치를 위장한다.</p>
+            <ul>
+                <li><strong>사례 1 (호주 헬스케어):</strong> 6개월간 로그인 기록 분석 결과 Astrill VPN + IPRoyal 프록시를 경유, 정상 근무 시간 활동이 50% 미만, 활동 피크가 북한 시간대 오전 9시와 일치 — 위조 주민 ID·여권·전기요금 고지서는 동일 템플릿, 동일 발급 경찰서, 같은 폰 모델·촬영 각도로 생성</li>
+                <li><strong>사례 2 (금융 서비스):</strong> 신규 채용 노트북에 PiKVM(KVM-over-IP)이 연결되고, MSP 네트워크 → 여행용 라우터 → 'Pickle_Rick' 홈 Wi-Fi → 유선 이더넷으로 이동한 이력 — '노트북 팜(laptop farm)' 운영 정황. Guermok USB 캡처 카드가 웹캠으로 등록돼 화면 탈취 가능</li>
+                <li><strong>탐지 시사점:</strong> DPRK 근로자는 실제 업무를 수행하므로 행동 기반 탐지가 어려움 — 위조 문서 템플릿·로그인 시간 패턴·하드웨어 경로 분석 등 신원 검증이 핵심 방어</li>
+            </ul>
+            <p>출처: <a href="https://www.helpnetsecurity.com/2026/08/28/north-korean-remote-workers-jobs-sales-and-marketing/" target="_blank">Help Net Security - North Korean remote workers are broadening their job hunt beyond IT</a></p>
+
+            <h2>6. PaperCut 서버 스캔 활발 — 추적 설치본의 47% 여전히 미패치, Huntress 전체 RCE 체인 재현 [후속]</h2>
+            <p>프린트 관리 소프트웨어 PaperCut 서버가 활발한 공격을 받고 있는 가운데, 추적되는 설치본의 47%가 RCE에 취약한 미패치 버전을 실행 중이다. PaperCut은 8월 27일 무인증 RCE 제로데이가 실제 환경에서 악용되고 있음을 확인했고, Huntress는 바닐라 PaperCut NG 25.0.11.75758 서버에서 전체 무인증 RCE 체인을 재현했다. (8/28~30 게시물의 PaperCut 제로데이 후속)</p>
+            <ul>
+                <li><strong>CVE-2026-81578 (인증 우회):</strong> PaperCut이 표시하는 페이지의 권한만 검사하고 실제 수행하는 액션의 권한은 검사하지 않는 인가 실수 — 무인증 공격자가 로그인 없이 서버 설정 변경 가능</li>
+                <li><strong>CVE-2026-82078 (RCE):</strong> 데이터베이스 유틸리티가 안전하지 않은 Java 클래스를 로드 — 임의 Java 코드 실행. 두 결함을 체이닝하면 무인증 RCE 달성</li>
+                <li><strong>실제 공격 양상:</strong> 관찰된 침해 중 하나는 2분 미만으로 종료, whoami·ver 같은 기초 명령만 실행하거나 tasklist로 프로세스 확인 — 취약점 심각도에 비해 탐지 회피에 집중하는 정찰성 공격</li>
+                <li><strong>침해 지표(IoC):</strong> PaperCut 설치 디렉터리에 직접 드롭된 악성 .class 파일(명령 실행·결과 임시 파일 기록·로그 삭제) + Derby DB 로그의 "memory:...\pwn" 항목 — PaperCut 자체 조사 가이드가 고신뢰 IoC로 명시</li>
+                <li><strong>대응:</strong> 최신 긴급 패치(Emergency Patch Release 2) 적용 필수 — 학교·병원·사무실 전반에 설치된 소프트웨어 특성상 미패치 설치본의 광범위한 노출이 우려됨</li>
+            </ul>
+            <p>출처: <a href="https://securityaffairs.com/198107/uncategorized/hackers-are-probing-papercut-servers-and-47-still-have-no-patch" target="_blank">Security Affairs - Hackers Are Probing PaperCut Servers, and 47% Still Have No Patch</a></p>
+
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
