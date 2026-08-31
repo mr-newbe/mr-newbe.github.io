@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>보안 논문 분석 - Timing Attacks: 사이드채널 공격의 시작 (1996)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔓 Timing Attacks — 사이드채널 공격의 시작 (1996)</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-08-31</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Timing Attacks on Implementations of Diffie-Hellman, RSA, DSS, and Other Systems<br>
+                <strong>저자:</strong> Paul C. Kocher<br>
+                <strong>발표:</strong> CRYPTO '96 (Springer LNCS 1109), 1996<br>
+                <strong>분야:</strong> 사이드채널 공격, 구현 보안 (암호 구현 분석)<br>
+                <strong>Semantic Scholar 인용:</strong> 미확인 (API 제한 — 429)
+            </div>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 연구 배경</h2>
+            <p>1990년대 중반까지 암호학계의 주류 가정은 "암호 알고리즘이 수학적으로 안전하면, 그 구현도 안전하다"는 것이었다. 공격자는 오직 입출력 값(평문·암호문)만 관찰할 수 있다고 간주했다. 그러나 Paul Kocher는 1996년 CRYPTO에서 <em>암호 연산이 실제로 걸리는 시간</em>이라는 물리적 부수 정보(사이드 채널)만으로도 RSA·Diffie-Hellman·DSS의 비밀 키를 복구할 수 있음을 실증적으로 보여주며, "구현의 안전성"이라는 새로운 연구 축을 열었다. 이 논문은 이후 전력 분석(SPA/DPA), 전자기파 분석, 캐시 타이밍 공격 등 사이드채널 공격 전체 분야의 출발점이 된 고전이다.</p>
+
+            <h2><i class="fa-solid fa-gears"></i> 핵심 내용</h2>
+            <ul>
+                <li><strong>타이밍 누설의 원리:</strong> 모듈러 지수승(예: RSA의 m^d mod n)은 키 비트 값에 따라 수행되는 연산이 달라진다 — 비트가 1이면 추가 곱셈이 실행되어 실행 시간이 미세하게 길어진다. 수천~수만 회의 서명/복호화 시간을 통계적으로 측정하면 이 마이크로초 수준의 편차를 키 복구 신호로 쓸 수 있다</li>
+                <li><strong>최적화가 오히려 누설을 키움:</strong> 당시 널리 쓰이던 몽고메리 곱셈, 슬라이딩 윈도우, CRT 가속 등의 성능 최적화 기법은 키 비트와 실행 경로의 상관관계를 더 뚜렷하게 만들어 타이밍 공격을 더 쉽게 만든다</li>
+                <li><strong>적용 대상:</strong> RSA 개인키 연산, Diffie-Hellman 키 교환, DSS 서명, 그리고 스마트카드·하드웨어 토큰 등 키가 물리적으로 고정된 기기 전반에 적용 가능 — 네트워크 지연이 큰 환경에서도 통계적 방법으로 극복 가능함을 시연</li>
+                <li><strong>대응책 제시:</strong> 상수 시간(constant-time) 구현, 블라인딩(랜덤 값으로 입력을 마스킹), 타이밍 노이즈 주입, 그리고 연산 횟수 고정 등을 체계적으로 정리 — 이후 모든 암호 구현의 표준 요구사항이 됨</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 보안 시사점</h2>
+            <ul>
+                <li><strong>"블랙박스는 안전하지 않다":</strong> 알고리즘의 수학적 안전성과 구현의 안전성은 완전히 별개의 문제 — 실행 시간·전력·전자기파 같은 부수 채널이 키를 누설할 수 있다는 인식의 전환점</li>
+                <li><strong>상수 시간 구현의 표준화:</strong> 오늘날 OpenSSL, BoringSSL, RustCrypto 등 주요 암호 라이브러리의 상수 시간 코드, 그리고 CTF·보안 평가에서의 타이밍 분석은 모두 이 논문의 직계 후손</li>
+                <li><strong>하드웨어 보안 평가 체계:</strong> 스마트카드·HSM·TEE의 CC(Common Criteria) 보안 평가와 FIPS 인증에서 사이드채널 시험 항목이 필수가 된 배경</li>
+                <li><strong>현대까지 이어지는 공격 계보:</strong> 2000년대 캐시 타이밍(Meltdown/Spectre), 2010년대 웹 타이밍 오라클, 최근의 원격 측정 기반 키 복구까지 — '시간'이라는 채널의 탐구는 이 논문에서 시작되었다</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flag-checkered"></i> 결론</h2>
+            <p>Kocher의 타이밍 공격 논문은 "암호는 수학 문제다"라는 당대의 믿음을 뒤엎고, 보안을 <em>추상적 알고리즘</em>이 아니라 <em>물리적으로 구현된 시스템</em>의 속성으로 재정의했다. 30년이 지난 지금도 모든 암호 구현은 "타이밍 누설이 없는가"라는 질문을 먼저 받으며, 사이드채널 분석은 하드웨어 보안과 암호 공학의 필수 과목이 되었다. 구현 보안 연구의 출발점으로서 가장 많이 인용되는 고전 중 하나다.</p>
+
+            <p>원문: <a href="https://link.springer.com/chapter/10.1007/3-540-68697-5_9" target="_blank">Springer LNCS — Timing Attacks on Implementations of Diffie-Hellman, RSA, DSS, and Other Systems</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
