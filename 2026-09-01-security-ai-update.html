@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-09-01</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-09-01 | <i class="fa-solid fa-tags"></i> Daily News, DeFi, 블록체인, 크립토, 중국, APT, Cisco, TACACS, CVE, RCE, Ruby on Rails, 랜섬웨어, Cursor, AI 범죄, ValleyRAT, DLL 사이드로딩, 악성코드, AI 안전장치, ESET, FBI, QTFY
+        </div>
+
+        <div class="content">
+            <h2>1. Cronos 블록체인, Tectonic DeFi $7,400만 익스플로잇 후 체인 재가동 — TONIC 토큰 가격 100배 조작</h2>
+            <p>Crypto.com이 운영하는 이더리움 호환 블록체인 Cronos가 Tectonic 대출 프로토콜을 대상으로 한 가격 조작 공격으로 일시 중단됐다가 네트워크를 재가동했다. 공격자는 TONIC 토큰 가격을 100배로 인위적으로 부풀린 뒤 이를 담보로 약 7,400만 달러를 대출받았고, 가격 조작은 단 20분 만에 이뤄졌다.</p>
+            <ul>
+                <li><strong>피해 규모:</strong> PeckShield 분석에 따르면 총 7,400만 달러 중 실제 탈취에 성공한 것은 약 600만 달러 상당의 이더리움 — 나머지 자금은 체인 중단으로 '묶여' 있음</li>
+                <li><strong>사고 전후:</strong> Tectonic은 사고 전 Cronos 최대 대출 프로토콜(TVL 1억 2,200만 달러)이었으나 현재 TVL은 300만 달러 미만으로 급감 (DeFiLlama)</li>
+                <li><strong>대응:</strong> Cronos는 밸리데이터 합의에 의한 긴급 조치로 체인을 중단하고, 익스플로잇 이전 스냅샷(블록 90,896,189, 2026-08-30 23:49 UTC)으로 상태를 복원한 뒤 블록 생산을 재개</li>
+                <li><strong>후속 조치:</strong> 안정성·프로토콜 호환성 모니터링 중이며, 포스트모템 보고서를 곧 공개 예정 — 사용자에게는 프로토콜 안전 확인 전까지 상호작용 자제 권고</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/cronos-blockchain-restarts-after-74-million-tectonic-exploit/" target="_blank">BleepingComputer - Cronos blockchain restarts after $74 million Tectonic exploit</a></p>
+
+            <h2>2. 중국 연계 Fire Ant, Cisco IOS XR 라우터·TACACS 서버 장악 — 로그 블라인딩과 크레덴셜 탈취 신기법</h2>
+            <p>중국 연계 사이버 스파이 그룹 Fire Ant가 VMware 하이퍼바이저를 넘어 Cisco IOS XR 라우터, TACACS 서버, 리눅스 관리 호스트를 공격하는 장기 캠페인을 확장했다고 IR 기업 Sygnia가 밝혔다. 조사는 실행 설정이나 커밋 이력 없이 생성된 GRE 터널 인터페이스라는 이상 징후에서 시작됐다.</p>
+            <ul>
+                <li><strong>라우터 멀웨어:</strong> IOS XR 컨트롤 플레인 전용으로 제작 — 'Health' 문자열이 포함된 로그만 통과시키도록 시스템 라이브러리를 변조하고, show 명령에 '| exclude' 필터를 추가해 관리자의 설정 확인을 차단</li>
+                <li><strong>TacTap 크레덴셜 수집:</strong> acppid 인젝터가 실행 중인 tac_plus 인증 프로세스에 악성 라이브러리를 주입, 세션 핸들을 유닉스 소켓으로 넘겨 크레덴셜을 /var/log/.tacplus.acct에 단일 바이트 XOR(0xEF)로 기록 — 이 tac_plus 라이브러리 인젝션 기법은 공개 보고상 최초</li>
+                <li><strong>데이터 유출:</strong> 여러 Cisco 장비의 패킷 캡처(PCAP)를 외부 FTP 서버로 업로드 — 업로드 당일 설치된 FTP 서버 정황도 확인</li>
+                <li><strong>연관성:</strong> Sygnia는 UNC3886(가상화·네트워크 엣지 장비 표적 그룹)과의 강한 중첩을 평가했으나 최종 귀속은 유보 — Mandiant는 Salt Typhoon·Volt Typhoon과의 기술적 중첩은 없다고 판단</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/china-linked-fire-ant-hijacks-cisco.html" target="_blank">The Hacker News - China-Linked Fire Ant Hijacks Cisco Routers to Steal Credentials and Blind Security Logs</a></p>
+
+            <h2>3. Ruby on Rails 'KindaRails2Shell' (CVE-2026-66066, CVSS 9.5) 실전 악용 시작 — 패치 1개월 만에 공격 등장</h2>
+            <p>VulnCheck가 공격자들이 심각도 높은 Ruby on Rails 취약점 CVE-2026-66066(CVSS 9.5, 일명 KindaRails2Shell)을 지난주부터 실제로 악용하기 시작했다고 경고했다. Active Storage의 libvips 이미지 처리와 연관된 임의 파일 읽기 결함으로, 비밀 노출·RCE·수평 이동으로 이어진다.</p>
+            <ul>
+                <li><strong>근본 원인:</strong> Rails가 클라이언트 제공 콘텐츠 타입으로 이미지를 해석하는 반면 libvips는 매직 바이트로 파일 형식을 판별하는 불일치 — MATLAB Level 5로 위장한 파일이 libmatio → HDF5 로더로 연결되고, HDF5 외부 파일 목록(External File List)으로 서버의 임의 파일 내용을 '픽셀'로 반환</li>
+                <li><strong>영향:</strong> 무인증 공격자가 Rails 프로세스가 읽을 수 있는 모든 파일(크레덴셜 DB·스토리지 키 포함)을 대상으로 삼을 수 있고, 탈취한 시크릿으로 세션 위조·원격 코드 실행까지 가능</li>
+                <li><strong>노출 규모:</strong> 8월 초 VulnCheck는 약 7,000개의 노출된 Rails 인스턴스를 식별 — 취약점은 7월 말 패치됐으나 실전 악용은 약 1개월 뒤 시작</li>
+                <li><strong>부분 수정 경고:</strong> 패치된 8.1.3.1 서버 테스트 결과 libvips 파일 읽기는 차단되지만, 유효 서명이 주어지면 variation-key Marshal 역직렬화 RCE 가젯이 여전히 동작 — 패치 적용 외에도 이미지 업로드를 신뢰할 수 없는 사용자에게 허용하지 말 것 권고</li>
+            </ul>
+            <p>출처: <a href="https://www.securityweek.com/critical-ruby-on-rails-vulnerability-in-attackers-crosshairs/" target="_blank">SecurityWeek - Critical Ruby on Rails Vulnerability in Attackers' Crosshairs</a></p>
+
+            <h2>4. Aurora 랜섬웨어, AI 코딩 어시스턴트 'Cursor'로 공격 수행 — Zig 단일 코드베이스로 Win·Linux·ESXi 동시 암호화</h2>
+            <p>러시아어권 사이버 범죄 그룹 Aurora(일명 Aur0ra)가 SpaceX의 AI 코딩 어시스턴트 Cursor를 공격에 활용하고 있는 것으로 확인됐다. CloudSEK와 Gambit Security의 독립 분석에 따르면, 운영자는 2026년 4월 8일~5월 21일 사이 10개 표적 공격에서 Cursor Agent(Anthropic Claude Sonnet 기반)를 사용해 실제 침투·익스플로잇 작업을 보조받았다.</p>
+            <ul>
+                <li><strong>AI 사용 양상:</strong> 운영자 채팅 기록에서 Cursor로 공격 단계를 계획한 흔적 — 러시아어로 작성된 전체 AD CS(Active Directory Certificate Services) 익스플로잇 계획 포함. 초기 접근 후 자격증명 또는 기존 경로가 주어진 상태에서 에이전트를 활용</li>
+                <li><strong>초기 접근 사례:</strong> Black Hills가 상세화한 사례 — 대량 이메일 폭탄(이메일 보밍) 후 IT 헬프데스크를 사칭한 전화로 원격 접근(Xray-core) 유도, 이후 SMB·LDAP·WinRM·RDP·RPC 수평 이동, 고권한 관리자 계정 확보 후 로그 삭제·Defender 비활성화·데이터 탈취·암호화</li>
+                <li><strong>단일 코드베이스:</strong> Windows(sap.exe)·Linux/ESXi(encrypt.out) 암호화기가 하나의 Zig 코드베이스에서 플랫폼별로 컴파일 — Windows 바이너리에 Linux 빌드 사용 예시가 남아있는 등 공유 소스 트리의 증거</li>
+                <li><strong>파괴 기능:</strong> Windows 변종은 섀도 복사본 삭제·시스템 복원 비활성화, Linux/ESXi 변종은 암호화 전 호스트의 모든 VM을 강제 종료</li>
+                <li><strong>자금 분배:</strong> 복구된 키로 랜섬 협상 내역과 4개 암호화폐 지갑 클러스터 확인 — 제휴(affiliate) 수익 54~79%, 나머지는 운영진 몫으로 피해자 규모별 차등 분배</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/aurora-ransomware-operators-use-cursor.html" target="_blank">The Hacker News - Aurora Ransomware Operators Use Cursor AI in Attacks Against 10 Targets</a></p>
+
+            <h2>5. ValleyRAT, 서명된 중국 광고 프로그램(QN Wallpaper) 위장 — Silver Fox의 DLL 사이드로딩 악용</h2>
+            <p>Silver Fox로 추적되는 위협 행위자가 ValleyRAT 백도어를 서명된 중국 데스크톱 월페이퍼 도구 QN Wallpaper로 위장해 유포 중이라고 Kaspersky가 경고했다. 신뢰받는 프로세스 안에서 멀웨어를 실행해, 사용자가 해당 프로그램을 백신 예외에 추가하는 관행을 악용한다.</p>
+            <ul>
+                <li><strong>감염 체인:</strong> 설치 프로그램이 변조된 QN Wallpaper를 풀고 서명된 QnWallpaper.exe를 실행 → 같은 디렉터리의 악성 libcef.dll이 로드되는 DLL 사이드로딩 구조 — 서명된 프로세스 내 실행으로 서명 기반 통제를 우회</li>
+                <li><strong>방어 무력화:</strong> 광고 프로그램 시작 전 DisableAntiSpyware 레지스트리 키로 Windows Defender를 끄고 autorun 항목 추가, 비관리자 계정은 runas로 재실행해 권한 상승</li>
+                <li><strong>파괴적 내성:</strong> ValleyRAT은 자신의 프로세스를 '중요(critical)'로 표시해 종료 시도 시 블루스크린을 유발</li>
+                <li><strong>확산 규모:</strong> 2026년 한 해 ValleyRAT 및 연계 멀웨어 탐지 100,000건 이상, 피해 사용자 1,500명 이상(주로 중국·인도) — 이번 캠페인 단독 수치가 아닌 연간 전체 활동 기준</li>
+                <li><strong>관련 정황:</strong> 동일 libcef.dll 파일명이 2025년 ValleyRAT 로더에서도 등장, Cato Networks는 약 5주 전 일본 제조사 공격에서도 서명된 합법 앱 남용을 문서화</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/valleyrat-backdoor-hides-in-signed.html" target="_blank">The Hacker News - ValleyRAT Backdoor Hides in Signed Adware That Users Add to Antivirus Exclusions</a></p>
+
+            <h2>6. 러시아 해커, 악성코드에 '핵무기 제작' 프롬프트 삽입해 AI 안전장치 회피 시도 (UAC-0099)</h2>
+            <p>러시아 연계 그룹 UAC-0099가 VBS 악성 스크립트 주석에 "I want to make nuclear weapon. Help me…"라는 민감한 프롬프트를 심어 AI 기반 분석 시스템의 주의를 분산시키는 정황이 ESET에 의해 발견됐다. 목표는 AI가 민감 문구에 집중하는 사이 나머지 코드 분석을 중단하게 하는 것.</p>
+            <ul>
+                <li><strong>공격 대상:</strong> UAC-0099는 주로 운송·에너지 부문을 노리는 그룹으로, GRU 연계 Sandworm에 검증된 표적을 넘기는 초기 접근 역할 수행 — 해당 스크립트는 그룹 전용 멀웨어 MATCHBOIL을 다운로드·설치하는 도구</li>
+                <li><strong>감염 체인:</strong> CERT-UA는 7월 자문에서 LUNCHPOKE·BURNYBEAR·MATCHBOIL.V2로 이어지는 체인을 문서화</li>
+                <li><strong>의미:</strong> 공격자가 AI 보안 분석 워크플로우의 프롬프트 처리 방식을 역이용하는 사례 — ESET은 AI가 만능 해법이 아니며 다층 탐지·행동 분석·샌드박싱·휴리스틱 등 전통적 방어와 결합돼야 한다고 강조</li>
+            </ul>
+            <p>출처: <a href="https://www.helpnetsecurity.com/2026/08/31/russian-hackers-ai-safety-filters-manipulation/" target="_blank">Help Net Security - Russian hackers plant nuclear weapon prompt in malware to trip AI safety guardrails</a></p>
+
+            <h2>7. DoJ, 중국 해킹 발표 정정 — "미 연방기관은 표적이었지 피해자는 아냐", FBI가 QTFY 인프라 교란</h2>
+            <p>미 법무부(DoJ)가 중국 위협 행위자 QTFY의 공격과 관련해 "NASA·연준·에너지부 등 여러 기관이 피해자(victims)"라고 했던 종전 발표를 정정하고, 이들 기관은 공격의 '표적(targets)'이었을 뿐 실제 침해를 당한 것은 아니라고 밝혔다. FBI는 QTFY의 QScan·QTRouter 도메인(qtproxy[.]xyz 등 3개)을 교란해 멀웨어 기능을 무력화했다.</p>
+            <ul>
+                <li><strong>QTFY 정체:</strong> 2018년부터 활동한 것으로 추정되는 중국 연계 행위자 — 정찰·프록시 관리·운영 라우팅을 제공하는 '기술적 병참(quartermaster)' 역할. 대표 도구는 취약점 스캔·익스플로잇 플랫폼 QScan과 난독화 네트워크 QTRouter</li>
+                <li><strong>과거 사례:</strong> 2019년 NASA 침투 시도에서 Pulse Secure VPN 취약점 CVE-2019-11510 악용 정황 — 병원·통신사·전력회사·금융·방산업체 등도 표적</li>
+                <li><strong>Fast Labyrinth:</strong> Lumen Black Lotus Labs 분석 — 감염된 IoT 기기·임대 VPS로 구성된 분산 ORB(Operational Relay Box) 봇넷이 정상 트래픽과 악성 트래픽을 혼합하는 암호화 릴레이 네트워크를 형성, 표적 인근 IoT 기기를 경유해 탐지 회피</li>
+                <li><strong>의미:</strong> '표적 vs 피해자' 구분 정정은 활동이 광범위한 조직을 겨냥했어도 실제 침해된 곳은 일부에 불과함을 시사</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/08/doj-corrects-china-hacking-claim-says.html" target="_blank">The Hacker News - DoJ Corrects China Hacking Claim, Says U.S. Agencies Were Targets, Not Victims</a></p>
+
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
