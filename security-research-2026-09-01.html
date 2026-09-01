@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>보안 논문 분석 - ECLIPSE: 장기 과업 에이전트를 겨냥한 자기진화형 은밀 프롬프트 인젝션 (2026)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛡️ 최신 보안 논문 분석 - ECLIPSE: 장기 과업 에이전트를 겨냥한 자기진화형 은밀 프롬프트 인젝션 (2026)</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-09-01</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> ECLIPSE: Self-Evolving Stealthy Prompt Injection Attack against Long-Horizon Agentic Systems<br>
+                <strong>저자:</strong> Shiqian Zhao, Yangfan Zhou, Xinfeng Li, Runyi Hu, Yechao Zhang, Yi Xie, Tianwei Zhang, Luu Anh Tuan<br>
+                <strong>발표:</strong> arXiv:2608.30441, 2026-08-31 (사전공개)<br>
+                <strong>분야:</strong> LLM 에이전트 보안, 프롬프트 인젝션, 에이전트 안전 벤치마크<br>
+                <strong>Semantic Scholar 인용:</strong> 미확인 (게재 직후 신규 논문, API 제한)
+            </div>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 연구 배경</h2>
+            <p>Codex, Claude Code, OpenClaw 같은 LLM 에이전트는 이제 반복적인 툴 호출을 통해 장기 과업(long-horizon task)을 스스로 계획하고 실행한다. 이런 능력은 동시에 프롬프트 인젝션의 새로운 공격면을 열었다. 기존 공격은 두 가지 한계에 부딪혔다 — 악성 목적을 <em>하나의 명시적 지시</em>에 담으면 탐지가 쉽고, 반대로 의도를 <em>여러 실행 단계에 분산</em>시키면 공격 성공이 불안정하다. ECLIPSE는 "공격 계획 자체를 진화시키고, 실행 중 오류를 스스로 교정"하는 프레임워크로 두 한계를 동시에 우회한다.</p>
+
+            <h2><i class="fa-solid fa-gears"></i> 핵심 내용</h2>
+            <ul>
+                <li><strong>Stealthy Attack Trajectory Synthesis (은밀 공격 궤적 합성):</strong> 샌드박스에서 후보 툴 체인을 생성하고 반복 검증한 뒤, 검증된 체인을 <em>자연스러운 원샷 프롬프트</em>로 렌더링해 직접 사용자 프롬프트 인젝션에 사용 — 명시적 악성 지시로 보이지 않게 위장</li>
+                <li><strong>Tool-Chain Steering (툴 체인 조종):</strong> 계획을 타깃 환경으로 옮기기 위한 두 메커니즘 — Static Workflow Encoding(SWE)은 상태 전이 단서를 타깃 툴의 설명(description)에 임베드하고, Dynamic Trajectory Correction(DTC)은 실행이 계획된 체인에서 벗어날 때 교정 신호를 공급</li>
+                <li><strong>LASE-Bench (새 평가 벤치마크):</strong> 120개의 악성 과업과 198개의 고유 툴로 구성된 장기 과업 에이전트 안전성 벤치마크 — 과업의 96.7%가 최소 5회 이상의 툴 호출을 요구</li>
+                <li><strong>실험 결과:</strong> 무방어 환경에서 공격 성공률 최대 <strong>96.7%</strong>, 일반 안전 필터(common safety filter) 적용 시에도 <strong>69.2%</strong> — 방어 환경에서 최강 베이스라인보다 <strong>27.5%p</strong> 높은 성공률을 기록</li>
+                <li><strong>방어 한계:</strong> 대표적 방어 기법들에 대한 평가 결과, 기존 안전장치가 ECLIPSE를 안정적으로 막지 못함 — 더 효과적인 방어의 필요성을 제기</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 보안 시사점</h2>
+            <ul>
+                <li><strong>장기 과업 에이전트는 "위장된 계획"에 취약:</strong> 공격자가 공격 궤적을 미리 검증·자연화할 수 있다면, 안전 필터는 악성 의도를 구분하기 어렵다 — 기존의 단일 지시 탐지 패러다임의 한계</li>
+                <li><strong>툴 설명이 공격 채널이 된다:</strong> SWE가 상태 전이 단서를 툴 설명에 심는 것처럼, MCP/툴 스키마의 description 필드는 간접 인젝션의 전달 매체 — 툴 메타데이터에 대한 입력 검증과 무결성 관리가 필요</li>
+                <li><strong>단일 방어로는 부족:</strong> 실행 단계별 모니터링, 툴 체인 검증, 샌드박스 실행, 그리고 공격 궤적과의 편차 감지(DTC에 대한 역공격) 등 다층 방어가 요구됨</li>
+                <li><strong>벤치마크 표준화:</strong> LASE-Bench처럼 장기 과업·다단계 툴 호출을 반영한 안전성 평가가 있어야 방어 연구의 진척을 측정할 수 있다</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flag-checkered"></i> 결론</h2>
+            <p>ECLIPSE는 "공격 계획의 자동 검증·자연화 + 실행 중 동적 교정"이라는 두 축으로 프롬프트 인젝션을 한 단계 끌어올린 연구다. 에이전트가 더 길고 복잡한 과업을 맡을수록 이런 은밀·자기진화형 공격의 실용성은 커지며, 기존 안전 필터만으로는 방어가 어렵다는 점을 수치로 보여준다. 에이전트 보안의 평가 기준과 방어 아키텍처를 재설계해야 한다는 신호를 주는 최신 연구다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2608.30441" target="_blank">arXiv:2608.30441 — ECLIPSE: Self-Evolving Stealthy Prompt Injection Attack against Long-Horizon Agentic Systems</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
