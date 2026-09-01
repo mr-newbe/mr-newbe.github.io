@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-09-02</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-09-02 | <i class="fa-solid fa-tags"></i> Daily News, JFrog, Artifactory, CVE-2026-82329, 공급망, Langflow, CVE-2026-0768, Ruby on Rails, CVE-2026-66066, PaperCut, 제로데이, 데이터 탈취, Aesto Health, 의료 데이터 유출, Breeze Comet, 브라질, 결제 사기, Packagist, iOS, 암호화폐, WebKit, METR, AI 보안, API 키
+        </div>
+
+        <div class="content">
+            <h2>1. JFrog Artifactory 치명적 취약점(CVE-2026-82329, CVSS 9.8), 공개 며칠 만에 실전 악용 — 관리자 토큰 대량 발급</h2>
+            <p>watchTowr에 따르면 공격자들이 패치된 지 며칠 지나지 않은 JFrog Artifactory의 치명적 인증 우회 취약점 CVE-2026-82329(CVSS 9.8)를 실제로 악용해 관리자 토큰을 발급하고 있다. 기본 설정에서 네트워크 접근만으로 관리자 권한을 얻을 수 있는 결함으로, 공급망 전체를 위협하는 'RCE 폭탄'으로 평가된다.</p>
+            <ul>
+                <li><strong>취약점:</strong> 자격증명 발급·검증을 담당하는 JFrog Access 컴포넌트의 인증 우회 — 추가 조인 키(join key) 미설정 인스턴스는 기본 설정 그대로 공격 노출, 무인증·무상호작용으로 관리자 권한 획득 가능</li>
+                <li><strong>패치:</strong> Artifactory 7.161.20(2026-08-28 배포)에서 수정 — 7.161.0~19, 7.146.0~36, 7.133.0~28 등 다수 버전 영향</li>
+                <li><strong>악용 정황:</strong> watchTowr가 관리자 토큰 발급·사용자/그룹/크레덴셜 집합/페더레이션 접근 토폴로지 열거를 관찰 — Vercel CEO는 "기본 설정에 무인증·무상호작용, 바이너리를 호스팅하는 Artifactory 특성상 전부 오염시킬 수 있는 RCE 폭탄"이라고 경고</li>
+                <li><strong>권고:</strong> 인터넷 노출 자체관리형 인스턴스는 즉시 패치, 감사 로그 점검, 노출된 크레덴셜 교체, 연결 시스템의 악성 변경·백도어 여부 검토</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/attackers-exploit-critical-jfrog.html" target="_blank">The Hacker News - Attackers Exploit Critical JFrog Artifactory Flaw to Mint Admin Tokens Days After Disclosure</a></p>
+
+            <h2>2. Langflow(CVE-2026-0768)·Ruby on Rails(CVE-2026-66066) 악용 — OpenAI·AWS 키 탈취와 C2 활동 포착</h2>
+            <p>VulnCheck가 Langflow와 Ruby on Rails의 치명적 결함 2건이 크레덴셜 프로빙과 C2 활동에 악용되는 것을 확인했다. AI 개발 플랫폼인 Langflow는 무인증 RCE(CVE-2026-0768, CVSS 9.8)로 환경변수의 관리자 키와 OpenAI·AWS 시크릿을 탈취당하고 있으며, Rails 결함도 패치 후에도 RCE 가젯이 살아있는 것으로 나타났다.</p>
+            <ul>
+                <li><strong>Langflow 악용:</strong> 공격 요청이 LANGFLOW_SUPERUSER, OPENAI_API*, AWS_ACCESS*, AWS_SECRET* 환경변수와 /root/.cache/langflow/secret_key를 질의 — 파이썬 크레덴셜 하베스터, 프록시 에이전트, SimpleHelp 원격 접근 드롭 확인 (BC 분석, Bill Condon)</li>
+                <li><strong>규모:</strong> 2025년 이후 12개 취약점 악용, CVE-2026-0769·CVE-2025-3248·CVE-2026-5027 기준 15,000건 이상 성공 시도 — CVE-2025-3248로 XMR 크립토마이닝 봇넷에 편입시키는 사례도 관찰, auditd를 비활성화해 포렌식 사각지대 생성</li>
+                <li><strong>Rails CVE-2026-66066:</strong> 싱가포르·이스라엘·영국 카나리 표적 악용 — 프랑스 단일 IP에서 시작해 이스라엘 호스트로 C2 연결, 초기 접근 공급원 트래픽은 주로 러시아</li>
+                <li><strong>부분 수정 경고:</strong> 패치된 8.1.3.1 서버 테스트에서 libvips 파일 읽기는 차단되지만 유효 서명이 주어지면 variation-key Marshal 역직렬화 RCE 가젯은 여전히 동작 — Langflow는 1.11.6으로 업그레이드 권고</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/attackers-exploit-critical-langflow-and.html" target="_blank">The Hacker News - Attackers Exploit Critical Langflow and Rails Flaws in Credential-Probing and C2 Activity</a> · <a href="https://www.bleepingcomputer.com/news/security/critical-langflow-flaw-exploited-to-steal-openai-and-aws-keys/" target="_blank">BleepingComputer - Critical Langflow flaw exploited to steal OpenAI and AWS keys</a></p>
+
+            <h2>3. PaperCut NG/MF 제로데이 2건(CVE-2026-81578·CVE-2026-82078), 데이터 탈취 공격에 악용 — 3차례 긴급 패치</h2>
+            <p>지난주 제로데이로 악용된 후 패치된 PaperCut NG·MF 인쇄 관리 소프트웨어의 취약점 2건이 이제 데이터 탈취 공격에 사용되고 있다. 두 결함은 체인으로 연결하면 인증 우회 후 원격 코드 실행까지 가능하며, 공격자는 RCE 대신 데이터베이스 덤프를 통한 데이터 탈취 경로를 선택하는 것으로 관찰됐다.</p>
+            <ul>
+                <li><strong>영향 범위:</strong> 70,000개 이상 조직, 1억 사용자가 사용하는 소프트웨어 — 대기업·정부 기관·교육 기관 포함, Shadowserver는 800개 이상의 노출된 PaperCut 서버 추적 중</li>
+                <li><strong>긴급 패치:</strong> 목요일·금요일·화요일 3차례에 걸쳐 응급 패치 배포 — 서버를 오프라인으로 전환하지 못하는 고객을 위한 완화 조치</li>
+                <li><strong>악용 정황:</strong> Defused 허니팟에서 8월 29일(UTC)부터 익스플로잇 활동 관찰 — 인증 우회로 외부 사용자 조회(external user-lookup)를 하이재킹해 Derby DB 테이블을 덤프하는 데이터 탈취 방식, 공개된 RCE 경로와는 다른 전술</li>
+                <li><strong>권고:</strong> 아직 패치하지 않은 조직은 즉시 최신 패치 적용, 노출된 인쇄 서버의 외부 접근 제한</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/recently-patched-papercut-zero-days-used-in-data-theft-attacks/" target="_blank">BleepingComputer - Recently patched PaperCut zero-days used in data theft attacks</a></p>
+
+            <h2>4. Aesto Health 데이터 유출 — 954만 명 이상 환자 의료정보 노출</h2>
+            <p>헬스케어 SaaS 기업 Aesto Health가 최근 발견된 데이터 유출이 950만 명 이상에 영향을 미친다고 공시했다. 의료기관의 환자 데이터 마이그레이션·보관·접근을 지원하는 이 회사는 미 보건복지부(HHS) 신고에서 9,540,683명이 영향을 받았다고 밝혔다.</p>
+            <ul>
+                <li><strong>유출 시점:</strong> 2025년 12월 2일~12월 18일 사이 보호 건강정보(PHI)가 무단 접근·획득되었을 가능성 — 2026년 5월 26일 확인</li>
+                <li><strong>노출 정보:</strong> 전체 이름, 생년월일, 의료 정보, 운전면허번호 등 민감 PHI 포함</li>
+                <li><strong>후속 조치:</strong> Experian을 통한 24개월 신원 도용 방지·신용 모니터링 서비스 제공, 현재까지 공격 주장한 위협 그룹은 없음</li>
+                <li><strong>맥락:</strong> iRhythm, Xolis, Medronic, MCBS, Health-ISAC, CareCloud, Nutex Health, McKesson에 이은 헬스테크 데이터 유출 시리즈의 연장선</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/aesto-health-says-data-breach-affects-over-95-million-patients/" target="_blank">BleepingComputer - Aesto Health says data breach affects over 9.5 million patients</a></p>
+
+            <h2>5. Breeze Comet(구 UNC5669), 브라질 결제 시스템 통해 수백 건 사기 거래 실행 — LATAM·아프리카 확장 조짐</h2>
+            <p>Google Threat Intelligence Group(GTIG)과 Mandiant가 재정 동기 위협 행위자 Breeze Comet(구 UNC5669)이 2024년부터 브라질 금융·소매·이커머스를 대상으로 결제 시스템과 은행 소프트웨어를 조작해 사기 이체를 수행해왔다고 밝혔다. Pix, STR, Boleto 등 브라질 결제 인프라가 주요 표적이다.</p>
+            <ul>
+                <li><strong>운영 요건:</strong> ① RSFN(국가 금융 시스템 네트워크) 접근 ② Pix·STR 거래 주문 인증용 mTLS 크레덴셜 ③ 표적 조직 AD·클라우드 계정 다수 확보 ④ 이체 처리 절차·네트워크 통제·핀테크 통합·안티프라우드 시스템 이해 — 이 4가지 요건을 모두 충족해야 공격 성립</li>
+                <li><strong>전술:</strong> 손상된 브라질 소규모 정부 사이트로 RMM 도구·인포스틸러(정상 세금·영수증 문서 위장)·XWorm 백도어 스테이징 및 C2 엔드포인트로 활용해 평판 필터 우회</li>
+                <li><strong>하드웨어 침투:</strong> 불량 하드웨어 장치를 소매점 네트워크에 직접 연결해 발판 확보 후 내부 시스템으로 수평 이동, Netcat·커스텀 스크립트로 포스트익스플로잇 프레임워크 다운로드</li>
+                <li><strong>도구:</strong> Impacket, ADRecon, ADVipscan, 커스텀 LDAP 무차별 도구 REALBREEZE로 내부 정찰·권한 상승, Chisel 등 프록시 유틸리티 활용</li>
+                <li><strong>확장 정황:</strong> 나이지리아·파라과이·가나·베네수엘라에서 유사 작전 방식 재현 — 라틴아메리카·아프리카로 인프라 확장 의도</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/breeze-comet-executes-hundreds-of.html" target="_blank">The Hacker News - Breeze Comet Executes Hundreds of Fraudulent Transactions via Brazilian Payment Systems</a></p>
+
+            <h2>6. Packagist 악성 테마 패키지 13개 — 미패치 iPhone 노려 암호화폐 지갑 시드 탈취</h2>
+            <p>보안 연구자들이 베트남 영화·만화 스트리밍 사이트에 JavaScript를 주입하는 13개의 악성 Composer 테마 패키지를 Packagist에서 발견했다. 주입된 코드는 방문자의 미패치 iOS 기기를 대상으로 WebKit 체인과 커널 이스케이프를 활용한 스파이웨어를 설치하고, 최신 변종은 암호화폐 지갑 시드까지 탈취한다.</p>
+            <ul>
+                <li><strong>공격 체인:</strong> WebKit 취약점 CVE-2025-31277·CVE-2025-43529(CVE-2025-43529는 18.7.3·26.2에서 패치)를 DarkSword 익스플로잇 킷과 유사한 방식으로 무기화 — WebContent 샌드박스 → GPU 프로세스 → AppleM2ScalerCSCDriver IOKit 유저클라이언트로 커널 권한 획득</li>
+                <li><strong>커널 이스케이프:</strong> iOS 26.1·macOS 26.1에서 이미 패치된 결함(CVE 미공유, CVE-2025-43398·43510·43520 중 하나로 추정)</li>
+                <li><strong>탈취 데이터:</strong> 키체인 DB, Wi-Fi 비밀번호, SMS DB, 주소록, 사진, 브라우저 쿠키, 통화 기록, 위치 기록, 계정 DB를 AES 암호화 후 HTTPS POST /upload로 순환 C2 도메인 풀에 업로드</li>
+                <li><strong>최신 변종:</strong> 2026년 8월 12일 iOS 18.4~18.6.x 대상 재배포 — Bitget, BitKeep, Bitpie, Phantom, Tonkeeper, Trust Wallet, OKX 지갑 시드·니모닉 탈취 기능 추가로 데이터 수집을 넘어 직접 금전 탈취로 진화</li>
+                <li><strong>잠재 위험:</strong> 동일 5개 벤더 네임스페이스의 추가 테마 패키지들이 'Custom JS' 필드를 통해 언제든 악성 코드를 활성화할 수 있도록 대기 중</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/13-malicious-packagist-packages-target.html" target="_blank">The Hacker News - 13 Malicious Packagist Packages Target Unpatched iPhones to Steal Crypto Wallet Seeds</a></p>
+
+            <h2>7. METR API 키 도난 — AI 크레딧 약 $60만 상당 소진, '바이브코딩' 사이트 노려</h2>
+            <p>프런티어 AI 모델 평가 비영리 기관 METR(Model Evaluation and Threat Research)이 두 건의 보안 사고를 공개했다. 한 건은 공격자가 신규 등록 웹사이트(인증서 투명성 목록)에서 '바이브코딩' AI 사이트를 찾아내 에이전트를 조작해 API 키를 빼내고 약 $60만 상당의 AI 크레딧을 소진한 사례다.</p>
+            <ul>
+                <li><strong>사고 1(4월):</strong> 공격자가 최근 등록된 LLM·에이전트 관련 키워드 사이트를 인증서 투명성 로그로 스캔 → 에이전트에 직접 모델 제공자 API 키를 요구, SSH 키 추가로 영구 접근, 3주간 공개 모델 API 크레딧 대량 소비 — $60만 청구액이었으나 모델 제공자가 무상 제공해 실지불은 없음</li>
+                <li><strong>미탐지 이유:</strong> METR이 대규모 평가·실험으로 평소 토큰 소비가 많고 지출 상한(캡)이 없어 이상 징후로 인지되지 못함</li>
+                <li><strong>사고 2(5월):</strong> 금전 동기 공격자의 '지속적 외부 공격 캠페인' — 크레덴셜 스터핑, OAuth 토큰 그랜트 시도, 신규 서비스 스캔, 직원 피싱까지 에이전트를 대거 활용</li>
+                <li><strong>추가 노출:</strong> 공개 트랜스크립트 뷰어의 읽기 전용 SQL 쿼리 메커니즘 버그로 미공개 평가 데이터 접근 가능 — DB에 공개 데이터만 있어야 할 민감 모델 데이터가 '우연히' 포함</li>
+                <li><strong>대응:</strong> 비-METR 인프라·기기 내 크레덴셜 배치 금지 정책, 모니터링 강화, 키별 지출 알림 도입</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/attackers-steal-metr-api-key-and.html" target="_blank">The Hacker News - Attackers Steal METR API Key and Consume AI Credits Worth About $600,000</a></p>
+
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
