@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - VectorNet: HD 맵과 에이전트 동역학을 벡터 표현으로 인코딩한 행동 예측 (Waymo, CVPR 2020)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - VectorNet: HD 맵과 에이전트 동역학을 벡터 표현으로 인코딩한 행동 예측 (Waymo, CVPR 2020)</h1>
+            <p class="date">2026-09-02</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>논문:</strong> VectorNet: Encoding HD Maps and Agent Dynamics from Vectorized Representation</li>
+                    <li><strong>저자:</strong> Jiyang Gao, Chen Sun, Hang Zhao, Yi Shen, Dragomir Anguelov, Congcong Li, Cordelia Schmid (Waymo LLC / Google Research)</li>
+                    <li><strong>분야:</strong> cs.CV / cs.LG — 자율주행 행동 예측(Behavior Prediction)·궤적 예측</li>
+                    <li><strong>게시일:</strong> 2020-05-08 (arXiv v1) / CVPR 2020 구두 발표</li>
+                    <li><strong>인용:</strong> Semantic Scholar API 제한(429)으로 이번 조회에서 미확인 — CVPR 2020 발표 후 행동 예측 분야의 사실상 표준 참조 논문</li>
+                    <li><strong>공식 코드:</strong> 웨이모 내부용으로 비공개 — 다만 커뮤니티 PyTorch 재구현 다수 (대표: xk-huang/yet-another-vectornet 422⭐, Liang-ZX/VectorNet 292⭐)</li>
+                    <li><strong>원문:</strong> <a href="https://arxiv.org/abs/2005.04259" target="_blank">https://arxiv.org/abs/2005.04259</a></li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>VectorNet은 자율주행차가 '다음 순간 주변 에이전트(차량·보행자)가 어디로 움직일지'를 예측하는 <strong>행동 예측 모델</strong>이다. 당시 주류였던 '조감도(BEV) 이미지로 렌더링 → CNN 인코딩' 방식이 해상도 제한으로 도로 구조 정보를 잃고 계산 비용이 크다는 문제를 지적하며, HD 맵과 에이전트 궤적을 <strong>벡터(폴리라인 조각) 표현 그대로</strong> 계층적 그래프 신경망(GNN)에 넣는 패러다임을 제안했다.</p>
+            <ul>
+                <li><strong>벡터화 표현:</strong> 차선·정지선·횡단보도 같은 HD 맵 요소와 차량·보행자의 과거 궤적을 각각 짧은 폴리라인 벡터로 분해해 시작점·끝점·길이·종류 등 저차원 특징으로 인코딩 — 이미지 렌더링 없이 도로 구조의 정밀도를 그대로 유지</li>
+                <li><strong>계층적 GNN:</strong> 1단계에서 각 폴리라인 내부(로컬) 노드 상호작용을 서브그래프로 처리하고, 2단계에서 모든 폴리라인을 노드로 하는 글로벌 그래프 어텐션으로 에이전트-에이전트·에이전트-맵 간 고차 상호작용을 모델링</li>
+                <li><strong>출력:</strong> 각 에이전트의 미래 궤적(후보 목적지·경로)에 대한 확률 분포를 생성해 하위 플래닝/결정 모듈에 전달 — 예측 불확실성을 확률적으로 표현</li>
+                <li><strong>성능:</strong> BEV 렌더링 기반 CNN 베이스라인 대비 훨씬 작은 모델 크기로 더 정확한 예측을 달성 — 특히 HD 맵 정보가 빈약한 구간(교차로 안쪽 등)에서 벡터 표현의 강점이 두드러짐</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>웨이모(구글)의 행동 예측 대표작:</strong> 자율주행 상용화 1위 기업이 CVPR 2020에서 공개한 논문으로, '예측 계층' 연구의 기준점이 됨 — 이 시리즈의 인식(08-17 BEVFormer)·통합 파이프라인(08-05/12 UniAD) 포스트와 짝을 이루는 미싱 퍼즐</li>
+                <li><strong>'벡터화' 패러다임의 원조:</strong> 렌더링 손실(lossy rendering) 논쟁을 종결하며, 이후 HD 맵 구축(HDMapNet 2021, MapTR 2022)과 벡터 쿼리 기반 통합 모델(UniAD, VAD 등)까지 도로 구조를 벡터로 다루는 표현이 사실상 표준으로 자리잡는 토대를 마련</li>
+                <li><strong>효율과 정확성의 동시 확보:</strong> CNN 기반 BEV 파이프라인의 해상도 제한·계산 비용 문제를 구조적으로 해결해, 이후 경량 실시간 모델들이 참조하는 설계 원칙을 제시</li>
+                <li><strong>재현 생태계:</strong> 공식 코드는 비공개지만 PyTorch 재구현이 다수(400⭐ 이상 포함) 존재해 궤적 예측을 공부하는 입문자에게 가장 많이 인용되는 레퍼런스 중 하나</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>VectorNet은 자율주행 스택에서 예측이 왜 별도의 핵심 계층인지 보여준다. 인식이 '지금 무엇이 어디에 있는지'를 알려준다면, 예측은 '다음에 무엇이 어디로 움직일지'를 결정하고 플래닝은 그 위에서 안전한 결정을 내린다 — 예측 오차는 곧 사고 위험으로 직결된다. 이 논문의 통찰(도로 구조를 이미지로 굽지 말고 벡터로 유지하라)은 2026년 현재 HD 맵·예측·통합 자율주행 연구 전반에 스며들었고, 트랜스포머 기반 벡터 쿼리(UniAD·VAD 계열)로 진화했다. 인식·예측·플래닝이 하나의 신경망으로 합쳐지는 end-to-end 흐름 속에서도, 예측 모듈의 해석 가능성과 안전 검증 가능성은 여전히 상용화의 관건이며 VectorNet은 그 논의의 출발점 중 하나로 남아 있다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2005.04259" target="_blank">https://arxiv.org/abs/2005.04259</a></p>
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
