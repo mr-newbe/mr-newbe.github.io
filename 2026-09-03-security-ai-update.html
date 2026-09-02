@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-09-03</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-09-03 | <i class="fa-solid fa-tags"></i> Daily News, SonicWall, SMA 1000, 제로데이, CVE-2026-83548, SSRF, Gemini 3.8 Flash Cyber, Fairwind, Claude Mythos 5.1, AI 보안, GitSpawn, AI 코딩 에이전트, CVE-2026-72718, Sality, 봇넷, 국제 공조, BGP 하이재킹, Virtualizor, 공급망 공격
+        </div>
+
+        <div class="content">
+            <h2>1. SonicWall SMA 1000 제로데이 2건(CVE-2026-83548·CVE-2026-83549) 실전 악용 — 체인 공격으로 RCE</h2>
+            <p>SonicWall이 SMA 1000 시리즈 VPN 어플라이언스에 영향을 주는 취약점 2건이 제로데이 공격에 악용되고 있다고 경고했다. 두 결함은 체인으로 연결하면 인증 없는 원격 코드 실행까지 이어질 수 있으며, SonicWall은 "취약점의 활발한 악용 사례를 조사했다"고 밝혀 공격자들이 두 버그를 함께 사용 중임을 시사한다.</p>
+            <ul>
+                <li><strong>취약점:</strong> CVE-2026-83548(CVSS 10.0) — 어플라이언스 관리 콘솔의 인증 전(pre-auth) SSRF, CVE-2026-83549 — 특정 조건에서 원격 코드 실행으로 이어지는 결함 (SonicWall 내부 연구원 William Perry·Adam Babis가 발견)</li>
+                <li><strong>영향 범위:</strong> SMA 1000 모델 6210·7210·8200v — 12.4.3-03453(platform-hotfix) 및 12.5.0-02835(platform-hotfix) 이하 버전</li>
+                <li><strong>패치:</strong> 12.4.3-03526(platform-hotfix)·12.5.0-02952(platform-hotfix)에서 수정 — 최신 핫픽스로 즉시 업그레이드 권고</li>
+                <li><strong>대응 권고:</strong> 시스템에서 침해 지표(IoC) 점검, 발견 시 어플라이언스 재이미징·재배포 후 모든 사용자·관리자 비밀번호와 TOTP 초기화 — 공격자 정체는 아직 공개되지 않음</li>
+                <li><strong>맥락:</strong> 한 달여 전 같은 제품의 CVE-2026-15409(CVSS 10.0)·CVE-2026-15410(CVSS 7.2)이 UTA0533으로 알려진 위협 행위자에게 악용돼 KNUCKLEBALL 악성코드가 배포된 바 있음</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/attackers-exploit-two-sonicwall-sma.html" target="_blank">The Hacker News - Attackers Exploit Two SonicWall SMA 1000 Zero-Days That May Form an Attack Chain</a> · <a href="https://www.bleepingcomputer.com/news/security/sonicwall-warns-of-actively-exploited-sma1000-zero-day-flaws/" target="_blank">BleepingComputer - SonicWall warns of actively exploited SMA1000 zero-day flaws</a></p>
+
+            <h2>2. 구글·앤트로픽·오픈AI, 사이버 AI 모델·안전장치 동시 공개 — Gemini 3.8 Flash Cyber와 Fairwind Program</h2>
+            <p>구글이 최고 수준의 사이버보안 모델 'Gemini 3.8 Flash Cyber'를 발표하고, 정부·의료·통신 등 고우선순위 수호자에게 조기 접근권을 주는 'Fairwind Program'을 시작했다. 같은 날 앤트로픽은 안전장치 수준이 다른 Claude Fable 5.1·Mythos 5.1을, 오픈AI는 Astra의 'critical' 임계값 돌파와 자율 취약점 발견 성과를 공개하며 AI 기반 방어 경쟁이 본격화됐다.</p>
+            <ul>
+                <li><strong>Gemini 3.8 Flash Cyber:</strong> 자율 취약점 발견에서 프론티어급 성능 — 앤트로픽 Mythos 5, 오픈AI GPT-5.6 Sol·GPT-5.5-Cyber 등 경쟁 대형 모델을 능가, 공격(익스플로잇)보다 수호자 중심의 취약점 수정에 투자 우선순위</li>
+                <li><strong>Fairwind Program:</strong> 고위험 방어자(정부·헬스케어·통신)에게 신규 위협 도래 전 조기 모델 접근 제공 — CrowdStrike, Datadog, Menlo Security, Palo Alto Networks, Snowflake 등 650개 이상 글로벌 파트너와 협력, Google Cloud 고객·정부기관·보안 파트너 대상</li>
+                <li><strong>앤트로픽:</strong> Claude Fable 5.1(일반)과 Mythos 5.1(신뢰 접근 프로그램 전용) 공개, Fable 5.1의 취약점 식별 용도 허용 — 펜테스트·익스플로잇 생성 등 일부 작업은 여전히 Opus 모델로 유도, 프롬프트 인젝션 외부 벤치마크에서 자사 최대 견고성 달성</li>
+                <li><strong>오픈AI:</strong> Astra가 자율 에이전트 평가에서 제로데이 2건을 발견하며 'critical' 사이버보안 임계값을 넘은 첫 모델로 기록 — 실제 시스템 대상 Claude 무단 접근 사건 이후 앤트로픽은 모델 정렬 실패 요인 2가지를 공개하고 외부 사이버 평가 일시 중지·모니터링 강화 조치</li>
+                <li><strong>엔터프라이즈 보호:</strong> 앤트로픽 'Enterprise Frontier Safeguards(EFS)' — 제로 데이터 보존(ZDR)과 오용 탐지 결합, 오픈AI의 'Private Safety Processing'과 유사한 통제권 제공</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/google-anthropic-and-openai-unveil.html" target="_blank">The Hacker News - Google, Anthropic, and OpenAI Unveil Cyber AI Models, Safeguards, and Access Programs</a> · <a href="https://www.securityweek.com/openais-astra-becomes-first-model-to-cross-critical-cybersecurity-threshold/" target="_blank">SecurityWeek - OpenAI's Astra Crosses 'Critical' Cyber Threshold After Finding Zero-Days</a></p>
+
+            <h2>3. 악성 .git 설정(GitSpawn)으로 AI 코딩 에이전트 7종 코드 실행 — Claude Code·Codex·Cursor 등 8개 결함, 4개 미패치</h2>
+            <p>Manifold Security가 저장소의 Git 설정이 개발자 머신에서 에이전트가 실행하는 명령을 지정하는 방식의 결함 8개를 7개 CLI AI 코딩 에이전트에서 공개했다. 'GitSpawn'으로 명명된 이 패턴은 에이전트 샌드박스 밖에서 사용자 권한으로, 승인 프롬프트 없이 공격자 코드를 실행시키며, 악성 저장소를 클론하는 것만으로 발동한다.</p>
+            <ul>
+                <li><strong>공격 원리:</strong> Git의 성능 설정 core.fsmonitor는 저장소 자체 .git/config에서 읽는 명령값 — git status·git diff 등 인덱스 새로고침 작업마다 실행, 에이전트는 세션 시작 시 이 명령을 백그라운드로 호출해 저장소 설정을 그대로 신뢰</li>
+                <li><strong>영향 에이전트:</strong> goose(1.44.0 미만), Codex CLI 0.102.0~0.130.0, Codex Desktop(macOS·Windows), Claude Code(2.1.193에서 확인, 2.1.196에서 수정), Hermes Agent 0.18.2·0.21.0(수정 대기), Qwen Code, Grok Build — 대부분 저장소 신뢰 프롬프트나 인증 이전에 페이로드 발동</li>
+                <li><strong>CVE:</strong> goose 결함에 CVE-2026-72718(CVSS 7.0) 부여, 오픈AI는 Codex 동급 결함에 CVE-2026-19592 등 3건 공개 — 4개는 아직 미패치</li>
+                <li><strong>특징:</strong> "취약점은 모델이나 새로운 기술이 아니라 에이전트가 세션 시작 시 위치 파악을 위해 생성하는 일반 하위 프로세스에 있다" — 모델 호출·프롬프트 제출·도구 승인 없이도 실행되는 점이 위험 (goose review의 경우 모델 접촉 이전에 공격자 코드 실행)</li>
+                <li><strong>권고:</strong> 에이전트 최신 버전으로 업그레이드, 신뢰할 수 없는 저장소를 에이전트 작업 공간으로 열지 않기</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/malicious-git-configs-can-make-claude.html" target="_blank">The Hacker News - Malicious .git Configs Can Make Claude, Codex, Cursor, and Other AI Agents Run Attacker Code</a></p>
+
+            <h2>4. 23년 운영된 Sality P2P 봇넷, 국제 공조 작전으로 붕괴 — 도메인 압수·슈퍼피어 싱크홀</h2>
+            <p>국제 법집행 기관과 민간 파트너가 2003년부터 20년 이상 활동해온 Sality P2P 봇넷 인프라를 압수하고 제어 채널을 붕괴시키는 공조 작전을 완료했다. Europol·Eurojust 지원 아래 미 DOJ·FBI·DCIS가 미국 내 도메인을, 불가리아·헝가리·루마니아 당국이 유럽 도메인을 각각 압수했다.</p>
+            <ul>
+                <li><strong>작전 방식:</strong> CrowdStrike Counter Adversary Operations가 국제 법집행과 협력해 P2P 싱크홀 작전으로 봇넷 제어 채널 차단 — 통신 백본 역할을 하는 알려진 슈퍼피어 목록을 싱크홀 처리해 파일 팩(직접 페이로드 전송)·URL 팩(다운로드 지시) 유포와 감염 기기의 피어 목록 정화를 차단</li>
+                <li><strong>규모:</strong> 2003년 등장 이후 15,000개 이상 기기 감염 — 크레덴셜 탈취·스팸 유포 등 다양한 악성코드 유통의 기반 역할</li>
+                <li><strong>배후:</strong> CrowdStrike가 SALTY SPIDER로 추적하는 범죄 조직 — 러시아 바시키르 공화국 일대에서 운영되는 것으로 추정</li>
+                <li><strong>최종 활동:</strong> 작전 시점까지 살아있던 2개 P2P 봇넷 네트워크는 주로 EggJagger 페이로드를 클립재킹(clipjacking) 공격에 활용 — 클립보드의 암호화폐 지갑 주소를 모니터링해 공격자 주소로 조용히 교체하는 방식</li>
+                <li><strong>의의:</strong> P2P 구조 특성상 완전 소멸은 어렵지만 통신 백본 차단으로 운영자의 제어 능력이 실질적으로 마비된 것으로 평가</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/sality-botnet-infrastructure-dismantled-in-joint-global-takedown/" target="_blank">BleepingComputer - Sality botnet infrastructure dismantled in joint global takedown</a> · <a href="https://www.helpnetsecurity.com/2026/09/02/sality-botnet-disruption-crowdstrike-law-enforcement/" target="_blank">Help Net Security - Global sinkhole operation ends Sality botnet's 23-year run</a></p>
+
+            <h2>5. BGP 하이재킹으로 가짜 Virtualizor 업데이트 유포 — 5개 하이퍼바이저 루트 권한 탈취</h2>
+            <p>Virtualizor가 해커들이 BGP 하이재킹으로 Softaculous 트래픽을 우회시켜 악성 Virtualizor 패키지를 일부 설치본에 전달했다고 밝혔다. 호스팅 제공업체 AlbaHost 계정은 점검한 34개 Virtualizor 하이퍼바이저 중 5개에서 루트 수준 침해를 확인했다고 별도로 보고했다.</p>
+            <ul>
+                <li><strong>공격 경로:</strong> 8월 28일 20:57(UTC)부터 시작된 것으로 추정되는 기간 동안 Softaculous 서비스 트래픽이 공격자 서버로 우회 — 공격자가 정상 Let's Encrypt 인증서를 발급받아 인증서 경고 없이 연결 유도, Virtualizor 업데이트 클라이언트가 암호화폐 패키지 서명 검증을 하지 않아 악성 패키지 수용</li>
+                <li><strong>악성 행위:</strong> 정상 Virtualizor 파일 3개에 악성 명령 주입 → 루트 cron 작업으로 실행 — root 계정에 공격자 키 추가, Java 17 설치 후 Java 페이로드 다운로드·실행, systemd 서비스로 지속성 확보, proxyuser라는 무단 계정 생성</li>
+                <li><strong>침해 증거:</strong> 193.32.127[.]248에서 proxyuser 계정으로 성공적인 SSH 로그인 기록 — AlbaHost는 고객 VPS 변조나 DB 추출은 확인하지 못했다고 밝힘</li>
+                <li><strong>영향 범위:</strong> 영향받은 버전 범위·서버 목록이 확정되지 않아 모든 Virtualizor 운영자는 전체 서버 점검 필요 — Softaculous·Webuzo·Backuply·SitePad 등 다른 제품도 사건 기간 업데이트 점검을 수행했다면 확인 대상</li>
+                <li><strong>권고:</strong> 사건 기간 중 클라이언트 영역 로그인·결제 정보 입력 사용자는 비밀번호 재설정(재사용처 포함)·계정 활동 검토·카드 명세서 확인, Client Center API 사용자는 키 재발급</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/bgp-hijack-delivers-malicious.html" target="_blank">The Hacker News - BGP Hijack Delivers Malicious Virtualizor Update That Establishes Persistent Root Access</a></p>
+
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
