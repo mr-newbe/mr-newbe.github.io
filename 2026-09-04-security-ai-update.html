@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-09-04</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-09-04 | <i class="fa-solid fa-tags"></i> Daily News, Cisco, Nexus 9000, CVE-2026-20212, IOS XR, CISA KEV, SonicWall, Sangoma, Kestra, LiteLLM, JFrog, Elementor Pro, CVE-2026-32475, WordPress, Thomson Reuters, C-Track, 데이터 유출, Manchester Airports, 랜섬웨어, Node.js, Symantec, CrowdStrike Falcon, FalconFlank, 권한 상승
+        </div>
+
+        <div class="content">
+            <h2>1. Cisco Nexus 9000 치명적 취약점(CVE-2026-20212) — 인증 없이 root 권한 코드 실행, IOS XR 하드닝 릴리스 7건 우산 CVE</h2>
+            <p>Cisco가 Silicon One 기반 Nexus 9000 스위치 10개 모델에 영향을 주는 치명적 결함에 대한 패치를 발표했다. 특수 제작된 입력으로 루트 권한 코드 실행이 가능한 CVE-2026-20212(CVSS 9.8) 외에도 IOS XR 하드닝 릴리스가 7개 우산 CVE(2건 CVSS 9.8)를 묶어 수정했으며, IOS XR 전 버전에는 우회 방법이 없는 것으로 알려졌다.</p>
+            <ul>
+                <li><strong>취약점:</strong> CVE-2026-20212(CVSS 9.8) — 제한 없는 IP 주소 바인딩으로 TCP 43210·43211 포트가 기본 L3 VRF 인스턴스에 노출, 스위치 주소에 도달 가능한 공격자가 서비스에 직접 연결해 루트 권한 코드 실행 — 악용 시도 시 S1HAL 프로세스가 붕괴하며 장비가 재부팅될 수도 있음</li>
+                <li><strong>영향 모델:</strong> N9324C-SE1U·N9348Y2C6D-SE1U(스마트 스위치), N9364E-SG2-O/Q, N9396T12C-SE1, N9348Y12C-SE1, N9396Y12C-SE1, N9336C-SE1, N9K-C9804, N9K-C9808 — Cisco는 9월 2일 공개 시점까지 악용 사례를 확인하지 못함</li>
+                <li><strong>영향 범위:</strong> CVE 기록 기준 NX-OS 10.3(1)~10.6(3s) 45개 릴리스 — 고정 릴리스 표는 미공개 상태로 Cisco Software Checker로 확인 필요, ACI 모드·Nexus 3000/7000 계열은 영향 없음</li>
+                <li><strong>임시 완화:</strong> 43210·43211 포트 차단 iACL, NX-OS 10.6(3)/(3s) 전용 Live Protect 실드 lp00031(9804·9808은 미지원) — SSH/Telnet/NX-API 접근 필요</li>
+                <li><strong>IOS XR 하드닝 릴리스:</strong> CWE 버킷별 1개 CVE 부여 방식 — CVE-2026-20274(메모리 안전성)·CVE-2026-20279(접근 제어, 인증 누락 포함) 각각 CVSS 9.8, 나머지 5건(CVE-2026-20275~20278·20280)은 8.2~8.8</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/critical-cisco-nexus-9000-flaw-lets.html" target="_blank">The Hacker News - Critical Cisco Nexus 9000 Flaw Lets Unauthenticated Remote Attackers Run Code as Root</a></p>
+
+            <h2>2. CISA KEV 카탈로그에 7개 악용 결함 추가 — SonicWall·Sangoma·JFrog·Kestra·LiteLLM, 리버스 셸·코인 마이너 악용 확인</h2>
+            <p>CISA가 공격자 표적이 된 취약점 7건을 KEV(Known Exploited Vulnerabilities) 카탈로그에 추가했다. SonicWall SMA 1000 2건(CVSS 10.0 포함)은 자사가 '활발한 악용 조사'를 확인한 제로데이 쌍이며, Kestra 결함은 리버스 셸·암호화폐 마이너 배포에 악용된 정황이 마이크로소프트 보고로 드러났다.</p>
+            <ul>
+                <li><strong>SonicWall SMA 1000:</strong> CVE-2026-83548(CVSS 10.0) 인증 전 SSRF + CVE-2026-83549(CVSS 7.8) 인증 후 OS 명령 주입 — 전날 발표된 실전 악용 제로데이 2건이 KEV 등재</li>
+                <li><strong>네트워크 장비 악용:</strong> CVE-2026-9586(CVSS 9.3) Sangoma Switchvox SQL 인젝션 → PostgreSQL 대상 RCE, CVE-2026-82329(CVSS 9.8) JFrog Artifactory 인증 결함 → 관리자 권한 — Horizon3.ai·watchTowr가 리버스 셸 배포·관리자 토큰 발급에 무기화된 것을 관찰</li>
+                <li><strong>오픈소스·AI 스택:</strong> CVE-2026-48710(CVSS 6.5) Starlette HTTP 요청 스머글링(인증 우회, LiteLLM CVE-2026-42271과 체인 시 RCE), CVE-2026-59822(CVSS 8.8) LiteLLM MCP Streamable HTTP 임의 Bearer 토큰 인증 우회 — Qilin(Agenda) 랜섬웨어 연계(Wiz 관찰), 허니팟에서 모델 열거 엔드포인트 프로빙 확인</li>
+                <li><strong>워크플로 엔진:</strong> CVE-2026-49869(CVSS 10.0) Kestra OSS OS 명령 주입 — 인증 없이 임의 워크플로 생성·실행 가능, MS 보고 기준 지난 6월 말 리버스 셸·Docker 환경 탐색·방어 회피·코인 마이너·데이터 수집에 악용</li>
+                <li><strong>시사점:</strong> KEV 등재는 연방 기관 대상 패치 기한 설정을 의미 — SonicWall SMA 1000 운영자는 전날 게시물(09-03)의 핫픽스·IoC 점검 지침을 즉시 적용 필요</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/cisa-adds-seven-exploited-flaws-as.html" target="_blank">The Hacker News - CISA Adds Seven Exploited Flaws as Attackers Deploy Reverse Shells and Crypto Miners</a></p>
+
+            <h2>3. Elementor Pro 치명적 결함(CVE-2026-32475) 실전 악용 — 웹셸로 WordPress 사이트 탈취, 차단 시도 19만 건</h2>
+            <p>최근 패치된 WordPress 플러그인 Elementor Pro의 치명적 취약점이 웹셸을 배포해 서버에서 임의 명령을 실행하는 공격에 악용되고 있다. 활성 설치 600만 개가 넘는 인기 플러그인으로, Wordfence는 8월 19일~23일 사이 19만 건 이상의 악용 시도를 차단했다고 밝혔다.</p>
+            <ul>
+                <li><strong>취약점:</strong> CVE-2026-32475 — Elementor Pro 폼 파일 업로드 배열 검증 결함(4.2.1 및 이하 버전) — 파일 업로드 필드를 배열로 제출하되 첫 요소를 비우고 두 번째 요소에 .php 페이로드를 넣으면 검증 우회</li>
+                <li><strong>공격 방식:</strong> 업로드된 PHP 파일이 /wp-content/uploads/elementor/forms/ 디렉터리에 랜덤 파일명으로 저장 — 공격자가 해당 파일을 직접 요청해 서버에서 임의 명령 실행, 웹셸을 통한 지속적 제어</li>
+                <li><strong>악용 시점:</strong> 8월 19일(패치 버전 4.2.2 출시일)부터 시작 — 패치와 동시에 악용이 시작된 전형적 패턴, 수천 개 IP가 공격에 사용됨</li>
+                <li><strong>대응:</strong> Elementor Pro 4.2.2 이상으로 즉시 업그레이드, /wp-content/uploads/elementor/forms/ 디렉터리에 rogue PHP 파일 존재 여부 점검 — PHP 파일 발견 시 강력한 침해 지표로 간주하고 정리 작업 수행</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/critical-elementor-pro-flaw-exploited-to-take-over-wordpress-sites/" target="_blank">BleepingComputer - Critical Elementor Pro flaw exploited to take over WordPress sites</a></p>
+
+            <h2>4. Thomson Reuters 법원 소프트웨어(C-Track) 침해 — 11개 주·캐나다 24개 법원기관, SSN·비공개 기록 노출 가능성</h2>
+            <p>Thomson Reuters 산하 West Publishing이 판매하는 법원 케이스 관리 플랫폼 C-Track에서 3월부터 6월까지 4개월간 무단 접근이 발생했다. 미국 11개 주와 버진아일랜드, 캐나다 온타리오의 24개 법원기관이 영향권이며, 일부 기록에는 주민등록번호(SSN)와 비공개(sealed) 문서가 포함될 수 있다.</p>
+            <ul>
+                <li><strong>침해 개요:</strong> 3월 1일~6월 29일(발견은 6월 30일) 사이 Thomson Reuters 클라우드 환경의 백업 저장소에 무단 접근 — 미네소타 법원은 항소법원 데이터 노출 확인 후 TR 접근 차단·비밀번호 재설정 강제</li>
+                <li><strong>노출 데이터:</strong> 이름·주소·전화번호, 사건번호·혐의·공판 기록 설명, 일부 형사 피고인의 운전면허번호·생년월일 — SSN과 비공개 기록도 하위 집합에 포함 가능</li>
+                <li><strong>영향 기관:</strong> 앨라배마·켄터키·몬태나·네바다·뉴햄프셔·노스다코타·오하이오·펜실베니아·사우스캐롤라이나·테네시·와이오밍 주 법원 + 버진아일랜드·온타리오 — 미네소타는 공지 목록에 빠졌지만 자체 발표로 별도 확인</li>
+                <li><strong>쟁점:</strong> 몬태나 주는 '문제 해결 목적으로 TR에 제공된 DB 사본'이 노출됐다고 설명, 앨라배마는 요청한 적 없는 백업 파일이 TR 클라우드에 존재했다고 지적 — 법원 데이터 관리 관행에 대한 감사 필요성 부각</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/thomson-reuters-court-software-breach.html" target="_blank">The Hacker News - Thomson Reuters Court Software Breach May Have Exposed SSNs and Sealed Data</a> · <a href="https://www.helpnetsecurity.com/2026/09/03/thomson-reuters-reveals-breach-that-exposed-u-s-and-canadian-court-records/" target="_blank">Help Net Security - Thomson Reuters reveals breach that exposed U.S. and Canadian court records</a></p>
+
+            <h2>5. 영국 Manchester Airports Group, 랜섬 미지급 후 550GB 데이터 유출 — 여행객 880만 명 개인정보</h2>
+            <p>영국 맨체스터·런던 스탠스테드·이스트미들랜즈 공항을 운영하는 MAG(Manchester Airports Group)가 랜섬 요구를 거부한 뒤 공격자가 약 550GB의 데이터를 공개했다. HaveIBeenPwned 집계 기준 약 880만 개의 이메일 주소와 전화번호가 노출됐다.</p>
+            <ul>
+                <li><strong>유출 규모:</strong> 이메일·전화번호 약 880만 건 + 이름·브라우저 정보·차량 등록번호 — 주차·라운지·Fast Track 예약(구매 기록 2,482,763건)·공항 Wi-Fi 가입 데이터, 예약 관련 SMS 461,433건 포함</li>
+                <li><strong>공격 경로:</strong> FulcrumSec으로 알려진 그룹이 '노출된 관리자 키'로 접근했다고 주장 — MAG는 제3자 호스팅 DB에 보관된 데이터가 유출됐다고 확인, 공항 운영에는 영향 없음</li>
+                <li><strong>추가 정황:</strong> 공격자가 MAG 3개 공항 웹사이트 프런트엔드 JavaScript에 백도어를 주입한 것으로 알려짐 — 결제·예약 페이지 방문자 대상 추가 위험</li>
+                <li><strong>시사점:</strong> HIBP 등재로 사칭 피싱·계정 탈취 위험 증가 — 관련 이용자는 비밀번호 재사용 점검·의심 이메일 주의 필요, 랜섬 미지급 후 대량 데이터 공개 사례가 잇따르는 추세</li>
+            </ul>
+            <p>출처: <a href="https://www.securityweek.com/manchester-airports-group-data-on-8-8-million-people-leaked-after-ransom-refusal/" target="_blank">SecurityWeek - Manchester Airports Group Data on 8.8 Million People Leaked After Ransom Refusal</a></p>
+
+            <h2>6. 공격자들, '신뢰받는' Node.js 런타임을 악성코드 전달 도구로 악용 — ClickFix 체인과 결합</h2>
+            <p>Symantec Threat Hunter Team이 위협 행위자들이 신뢰받는 Node.js 런타임을 악성 페이로드 배포 수단으로 활용하는 공격을 다수 포착했다고 보고했다. 지난 2월부터 정부 부처·기술 기업·호텔을 대상으로 한 공격에 사용됐다.</p>
+            <ul>
+                <li><strong>공격 원리:</strong> node.exe(합법 서명된 런타임)로 공격자 JavaScript를 실행해 PowerShell·Windows CLI 도구와 체이닝 — 보안 솔루션의 합법 프로세스 허용 정책을 우회하는 living-off-the-land 방식</li>
+                <li><strong>최초 접근:</strong> ClickFix 소셜 엔지니어링 기법으로 유입 — 가짜 오류 화면의 '수정' 클립보드 명령 실행 유도, IAB(초기 접근 브로커) KongTuke(aka Woodgnat) 연계 추정</li>
+                <li><strong>도구 세트:</strong> ModeloRAT·Mistic(MLTBackdoor), NexShield 악성 Chrome 확장(CrashFix ClickFix 변종), 계층형 암호화·피해자 핑거프린팅 .NET 페이로드 GateKeeper, Node.js 기반 AsukaStealer·EtherRAT — 일부 공격은 이더리움 블록체인 연결도 관찰</li>
+                <li><strong>사례:</strong> 미국 핀테크 기관 공격 — 5월 6일 ClickFix로 AdaptixC2·Cobalt Strike 비콘 설치 후 2개월 이상 뒤 Rust 기반 백도어 C2Looper(Zscaler 문서화) 배포 — 장기 은밀 작전 패턴</li>
+                <li><strong>시사점:</strong> 합법 런타임·듀얼 유즈 도구의 남용으로 다양한 숙련도의 공격자가 Node.js를 활용 중 — 엔드포인트의 프로세스 실행 체인 모니터링 필요</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/attackers-turn-trusted-nodejs-runtime.html" target="_blank">The Hacker News - Attackers Turn Trusted Node.js Runtime Into Malware Delivery Tool in Targeted Attacks</a></p>
+
+            <h2>7. 'FalconFlank' — CrowdStrike Falcon 권한 상승 제로데이 PoC 공개, 연구원의 3연속 엔드포인트 제품 공략</h2>
+            <p>Chaotic Eclipse(aka INFINITE NIGHTMARE)으로 알려진 연구원이 CrowdStrike Falcon Sensor의 '오피스 악성 매크로 교정' 기능을 남용하는 권한 상승 제로데이 FalconFlank의 PoC를 공개했다. 완전히 업데이트된 Windows 11 25H2와 Windows Server 2025에서 동작한다.</p>
+            <ul>
+                <li><strong>취약점:</strong> FalconFlank — Falcon Sensor의 매크로 교정 프로세스 제어를 가로채 권한 상승 — 연구원은 CrowdStrike가 이미 탐지 규칙을 보유했을 수 있다고 언급, 테스트 시 제외 처리·DLL 로드 기법 난독화 필요</li>
+                <li><strong>동일 연구원 연쇄 공개:</strong> Kaspersky 엔드포인트 제품(14.0.0.504) 대상 HardBreacher PoC — Kaspersky는 자동 업데이트로 수정 완료했다고 답변</li>
+                <li><strong>배경:</strong> 지난달 공개한 Microsoft Defender 제로데이 ShieldBreak(CVE-2026-69414)는 NT AUTHORITY\SYSTEM 권한 임의 코드 실행 — CVE-2026-50656(RoguePlanet) 패치 우회로 평가되며 MS는 아직 수정을 내놓지 않음</li>
+                <li><strong>시사점:</strong> EDR 자체가 권한 상승 공격면이 되는 사례가 잇따르는 가운데, 공급업체의 제로데이 대응·연구원 커뮤니케이션 관행에 대한 논쟁 지속</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/researcher-releases-falconflank-poc.html" target="_blank">The Hacker News - Researcher Releases FalconFlank PoC Showing Privilege Escalation in CrowdStrike Falcon</a></p>
+
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
