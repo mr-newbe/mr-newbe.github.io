@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - Alpamayo 1 (NVIDIA): Chain-of-Causation 추론 VLA 모델로 롱테일 주행에 도전</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - Alpamayo 1 (NVIDIA): Chain-of-Causation 추론 VLA 모델로 롱테일 주행에 도전</h1>
+            <p class="date">2026-09-04</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>프로젝트:</strong> NVlabs/alpamayo — NVIDIA Alpamayo 1 (구 Alpamayo-R1), 추론형 VLA(Vision-Language-Action) 주행 모델 공식 구현</li>
+                    <li><strong>소유자/라이선스:</strong> NVIDIA (NVlabs) · Apache-2.0 (추론 코드) / OpenMDW-1.1 (모델 가중치, HF 게이트)</li>
+                    <li><strong>Star/포크:</strong> 2,014⭐ · 337 forks (2026-09-04 기준, 생성 2025-11-19)</li>
+                    <li><strong>최근 커밋:</strong> 2026-08-29 — diffusion expert용 bounded CUDA graph replay 추가 (#116) 등 활발한 유지보수</li>
+                    <li><strong>주요 기술:</strong> Vision-Language-Action · Chain-of-Causation 추론 · world models · end-to-end driving · trajectory prediction</li>
+                    <li><strong>논문:</strong> "Alpamayo-R1: Bridging Reasoning and Action Prediction for Generalizable Autonomous Driving in the Long Tail" (arXiv:2511.00088, 2025-10-30, cs.RO/AI/LG, NVIDIA 44인 — Yan Wang, Boris Ivanovic, Marco Pavone 등)</li>
+                    <li><strong>원문:</strong> <a href="https://github.com/NVlabs/alpamayo" target="_blank">https://github.com/NVlabs/alpamayo</a> · <a href="https://arxiv.org/abs/2511.00088" target="_blank">https://arxiv.org/abs/2511.00088</a></li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>Alpamayo 1은 NVIDIA가 2026년 1월 CES에서 발표한 자율주행용 <strong>추론형 VLA 모델</strong>로, '왜 그렇게 주행하는가'를 설명하는 추론(사고사슬)과 실제 주행 궤적 생성을 하나의 모델로 결합한다. 모방학습 기반 end-to-end 주행이 롱테일(희귀·위험) 상황에서 취약한 원인을 '인과적 이해 부족'으로 보고, 결정에 정렬된 인과 추론 데이터(CoC)를 만들어 해결하려는 접근이다.</p>
+            <ul>
+                <li><strong>Chain-of-Causation(CoC) 데이터셋:</strong> 자동 라벨링 + 사람 검수(HITL) 하이브리드 파이프라인으로, 주행 행동과 인과적으로 연결된 결정 근거형 추론 트레이스를 구축 — 단순 주행 영상이 아니라 '이런 상황이라서 이렇게 판단했다'는 설명까지 포함</li>
+                <li><strong>모듈형 VLA 아키텍처:</strong> Physical AI용으로 사전학습된 Cosmos-Reason 비전-언어 백본 + 실시간으로 동역학적으로 타당한 궤적을 생성하는 diffusion 기반 트래젝토리 디코더(액션 전문가) 결합 — 멀티카메라 영상과 자차 이고모션(egomotion) 이력을 입력으로 6.4초 호라이즌·64 웨이포인트(10Hz) 궤적을 출력</li>
+                <li><strong>다단계 학습:</strong> ① SFT로 추론 능력 유도 → ② RL(강화학습) 후학습으로 추론-행동 정합성(reasoning-action consistency) 강제 — 단, 이번 공개 10B 가중치는 SFT 단계까지만 포함(RL 가중치는 미공개, 코드는 Cosmos-RL 기반으로 제공)</li>
+                <li><strong>검증 성능:</strong> 어려운 케이스에서 궤적 단독 베이스라인 대비 플래닝 정확도 최대 +12%, 폐루프 시뮬레이션에서 근접 충돌(close encounter)율 -35%, RL 후학습 시 추론 품질 +45%·추론-행동 정합성 +37%, 0.5B→7B 스케일링에서 일관된 성능 향상</li>
+                <li><strong>실차 검증:</strong> 도심 실도로 주행 테스트에서 99ms 지연(실시간)으로 동작 확인 — 해석 가능한 추론과 정밀 제어의 결합으로 L4 자율주행으로 가는 실용 경로를 제시</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>NVIDIA의 공식 VLA 주행 모델:</strong> CES 2026에서 발표된 자율주행용 파운데이션 모델로, 추론 코드(2,000+⭐)와 가중치(HuggingFace nvidia/Alpamayo-R1-10B, 게이트)를 모두 공개 — '말로 설명하며 운전하는' 모델 생태계의 기준점</li>
+                <li><strong>추론(Reasoning)+행동(Action) 결합의 대표 사례:</strong> 이 블로그의 월드모델 계열(08-14 BrainWAM, 08-20 DA-WAM)과 짝을 이루는 NVIDIA판 접근 — '블랙박스 궤적 생성'을 넘어 의사결정 과정을 언어로 설명하는 해석 가능한 end-to-end 흐름의 정점</li>
+                <li><strong>롱테일 문제에 대한 실용적 답:</strong> 라벨이 희귀한 안전-크리티컬 시나리오에서 모방학습이 무너지는 문제를, 자동라벨링+인간검수로 만든 인과 추론 데이터로 극복 — 데이터 효율과 안전 검증 가능성을 동시에 높이는 전략</li>
+                <li><strong>에코시스템 확장:</strong> Physical AI AV 데이터셋(HF) 공개, SFT·RL 후학습 레시피는 NVlabs/alpamayo-recipes로 분리 운영, 차기 버전 Alpamayo 1.5도 출시(NVlabs/alpamayo1.5) — NVIDIA의 자율주행 파운데이션 모델 로드맵을 한눈에 보여줌</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>Alpamayo 1은 자율주행 end-to-end 모델이 '성능' 다음 단계인 '설명 가능성과 안전성'으로 나아가는 흐름을 상징한다. RLHF로 정렬된 LLM처럼, 주행 모델도 단순히 궤적을 맞추는 것에서 나아가 결정 이유를 언어 추론으로 생성하고 이를 행동과 정합시키는 방향으로 진화하고 있다. 다만 README가 명확히 밝히듯 이 모델은 연구·벤치마킹용 파운데이션이지 완전한 주행 스택이 아니며, 실차 안전장치·자동차급 검증 없이는 상용 운행에 쓸 수 없다. '설명하는 AI 운전자'의 실용화는 여전히 검증·규제·안전 문화와 함께 성숙해야 할 과제로 남아 있다 — 그 출발선에 NVIDIA가 공개한 이 오픈소스가 자리잡고 있다.</p>
+
+            <p>원문: <a href="https://github.com/NVlabs/alpamayo" target="_blank">https://github.com/NVlabs/alpamayo</a> (논문: <a href="https://arxiv.org/abs/2511.00088" target="_blank">arXiv:2511.00088</a>)</p>
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
