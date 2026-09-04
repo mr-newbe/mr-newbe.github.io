@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - PointPillars: 라이다 3D 객체 검출의 'Pillar 인코딩' — 실시간을 만든 표준 엔코더 (nuTonomy/Aptiv, CVPR 2019)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - PointPillars: 라이다 3D 객체 검출의 'Pillar 인코딩' — 실시간을 만든 표준 엔코더 (nuTonomy/Aptiv, CVPR 2019)</h1>
+            <p class="date">2026-09-05</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>논문:</strong> PointPillars: Fast Encoders for Object Detection from Point Clouds</li>
+                    <li><strong>저자:</strong> Alex H. Lang, Sourabh Vora, Holger Caesar, Lubing Zhou, Jiong Yang, Oscar Beijbom (nuTonomy → Aptiv, 현 Motional)</li>
+                    <li><strong>분야:</strong> cs.CV / cs.LG / stat.ML — 자율주행 라이다(LiDAR) 3D 객체 검출</li>
+                    <li><strong>게시일:</strong> 2018-12-14 (arXiv v1) / CVPR 2019 발표</li>
+                    <li><strong>인용:</strong> Semantic Scholar 기준 4,727회 (2026-09 확인)</li>
+                    <li><strong>공식 코드:</strong> 미공개 — 대신 OpenPCDet(2026-09-01 포스팅), mmdetection3d, second.pytorch 등 주요 3D 검출 툴박스의 표준 베이스라인으로 구현</li>
+                    <li><strong>원문:</strong> <a href="https://arxiv.org/abs/1812.05784" target="_blank">https://arxiv.org/abs/1812.05784</a></li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>PointPillars는 라이다 포인트 클라우드를 <strong>'수직 기둥(Pillar)'</strong> 단위로 묶어 PointNet으로 인코딩한 뒤, 이를 평면(2D pseudo-image)으로 펼쳐 표준 2D CNN 검출 파이프라인에 넣는 엔코더다. 당시 3D 검출은 '고정(fixed) 엔코더: 빠르지만 부정확' vs '학습(learned) 엔코더: 정확하지만 느림(VoxelNet 계열 3D conv)'의 이분법에 갇혀 있었는데, PointPillars는 <strong>학습되는 엔코더이면서 3D 연산을 완전히 제거</strong>해 속도와 정확도를 동시에 잡았다.</p>
+            <ul>
+                <li><strong>Pillar 인코딩:</strong> 포인트들을 XY 평면 그리드의 '기둥'으로 모으고, 기둥 내부 포인트를 (x, y, z, 반사 강도 + 기둥 중심 대비 상대 좌표)로 표현 — 기둥별로 포인트를 고정 개수 샘플링한 뒤 PointNet으로 인코딩해 특징 벡터 생성. 점이 존재하는 기둥만 처리하므로 sparse 연산 낭비가 없고, 높이 정보는 채널로 유지해 3D 구조를 보존</li>
+                <li><strong>2D CNN 백본 + SSD 헤드:</strong> 기둥 특징을 채널로 갖는 pseudo-image를 RPN(2D CNN)으로 처리하고, SSD식 앵커로 3D 박스(위치·크기·요각)를 회귀 — 기존 2D 검출 아키텍처를 그대로 재사용 가능한 모듈식 설계</li>
+                <li><strong>성능:</strong> 순수 라이다만으로 KITTI 3D 및 BEV 벤치마크에서 퓨전(카메라+라이다) 방식까지 포함한 기존 SOTA를 크게 능가하면서 <strong>62 Hz로 동작</strong>(기존 대비 2~4배 향상), 더 빠른 변형은 <strong>105 Hz</strong>에서 SOTA 정확도에 매칭</li>
+                <li><strong>의의:</strong> '정확한 학습 엔코더 = 느리다'는 공식을 깨며, 자율주행 실차 파이프라인이 요구하는 실시간성(수십 Hz)과 3D 검출 정확도를 처음으로 동시 충족한 실용적 설계를 제시</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>4,700+ 인용의 표준 엔코더:</strong> 라이다 3D 객체 검출에서 'voxel 대신 pillar' 패러다임을 사실상의 표준으로 정착시킨 논문 — 이후 CenterPoint, VoxelNeXt 등 후속 검출기의 공통 토대이자 비교 대상 1순위</li>
+                <li><strong>실시간성의 기준점:</strong> 로보택시 상용화를 목표로 한 nuTonomy/Aptiv(현 Motional)의 실차 검출 파이프라인에서 검증된 설계로, 산업계가 3D 검출을 실제 스택에 올릴 수 있게 한 전환점</li>
+                <li><strong>시리즈 내 연결:</strong> nuScenes 데이터셋(2026-08-24 포스팅)과 연구진(Holger Caesar 등)이 겹치고, OpenPCDet(2026-09-01 포스팅)과 BEVFormer(2026-08-17 포스팅)로 이어지는 라이다 인식 계보의 중추</li>
+                <li><strong>재현성의 닻:</strong> 공식 코드는 없지만 OpenPCDet·mmdetection3d 등 모든 주요 툴박스가 가장 먼저 구현하는 베이스라인 — 후속 연구들이 'PointPillars보다 얼마나 나은가'로 성과를 입증하는 분야의 공통 언어</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>PointPillars의 핵심 통찰은 "포인트 클라우드를 굳이 무거운 3D 연산으로 다루지 말고, 정보 손실 없이 2D로 펼칠 방법을 찾자"는 것이다. 이후 3D 검출은 center-based(CenterPoint), 순수 voxel(VoxelNeXt), BEV 트랜스포머(BEVFormer) 등으로 진화했지만, PointPillars는 속도-정확도 균형의 기준선이자 '첫 3D 검출기'로 여전히 회자된다. '학습 엔코더 + 표준 2D 검출 헤드'라는 단순한 모듈식 분해가 오랜 생명력을 얻은 이유이며, 2026년 현재 로보택시·배송 로봇 등 경량 실시간 라이다 인식이 필요한 응용에서도 기본적인 비교점으로 남아 있다. 한 줄 요약: 3D 검출을 실시간으로 만들고 싶다면, 복잡한 3D conv부터 시작하지 말고 PointPillars부터 — 이 논문은 그 선택이 왜 합리적인지 4,700회 이상 증명했다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/1812.05784" target="_blank">https://arxiv.org/abs/1812.05784</a></p>
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
