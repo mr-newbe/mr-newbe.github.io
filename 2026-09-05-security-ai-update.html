@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-09-05</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-09-05 | <i class="fa-solid fa-tags"></i> Daily News, Google Chrome, CVE-2026-85046, V8, 제로데이, PostgreSQL, CVE-2026-6471, PostGREShell, Citrix, NetScaler, CVE-2026-19490, 인증 우회, HAProxy, Ted, 백도어, Rapid7, 대한민국, 피싱, 유니코드, ASCII Smuggling, Microsoft, Nvidia, Hugging Face, 인수
+        </div>
+
+        <div class="content">
+            <h2>1. Google, 실전 악용 중인 Chrome V8 제로데이(CVE-2026-85046) 패치 — 2026년 들어 6번째</h2>
+            <p>Google이 목요일 활발히 악용되고 있는 취약점 1건을 포함한 12개 보안 결함을 수정하는 Chrome 업데이트를 배포했다. 고위험 등급의 CVE-2026-85046(CVSS 8.8)은 Chrome의 JavaScript·WebAssembly 엔진인 V8의 타입 혼동(type confusion) 버그로, 조작된 HTML 페이지를 통해 샌드박스 내 임의 코드 실행이 가능하다.</p>
+            <ul>
+                <li><strong>취약점:</strong> CVE-2026-85046(CVSS 8.8) — V8 타입 혼동, Chrome 152.0.7977.82 이전 버전에서 원격 공격자가 샌드박스 내 임의 코드 실행 가능 — 연구원 Salvatore Gulizia(aka Serotav)가 8월 4일 발견·신고</li>
+                <li><strong>실전 악용:</strong> Google은 "CVE-2026-85046 악용이 실제 환경에 존재한다"고 확인했으나 공격 양상·배후는 공개하지 않음 — 대다수 사용자 패치 완료 전 추가 악용을 막기 위한 조치</li>
+                <li><strong>2026년 Chrome 제로데이 연속 기록:</strong> CVE-2026-2441, CVE-2026-3909, CVE-2026-3910, CVE-2026-5281, CVE-2026-11645에 이어 올해 6번째 실전 악용 제로데이</li>
+                <li><strong>대응:</strong> Windows·macOS용 152.0.7977.82/.83 버전으로 즉시 업데이트 권고</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/google-releases-chrome-update-to-patch.html" target="_blank">The Hacker News - Google Releases Chrome Update to Patch Actively Exploited V8 Zero-Day</a> · <a href="https://www.securityweek.com/google-patches-6th-chrome-zero-day-of-2026/" target="_blank">SecurityWeek - Google Patches 6th Chrome Zero-Day of 2026</a></p>
+
+            <h2>2. PostgreSQL, 12년 묵은 로지컬 디코딩 결함(CVE-2026-6471) 수정 — REPLICATION 권한으로 서버 OS 사용자 코드 실행</h2>
+            <p>PostgreSQL이 REPLICATION 속성을 가진 계정이 데이터베이스 서버를 실행하는 OS 사용자 권한으로 임의 코드를 실행할 수 있게 하는 보안 결함을 수정하는 업데이트를 배포했다. CVE-2026-6471(CVSS 7.2)로 추적되는 이 결함은 2014년 PostgreSQL 9.4에 로지컬 디코딩이 도입된 이래 12년간 존재해 왔다.</p>
+            <ul>
+                <li><strong>취약점:</strong> CVE-2026-6471(CVSS 7.2) — CREATE_REPLICATION_SLOT 명령의 플러그인 이름이 경로 검증 없이 로더에 전달됨 — 기존 LOAD 경로 제한(비수퍼유저를 관리자 지정 디렉터리로 한정)이 복제 경로에는 적용되지 않아 ../ 경로 탐색으로 전체 파일시스템 경로 지정 가능</li>
+                <li><strong>공격 조건:</strong> REPLICATION 속성 계정 + wal_level = logical 설정 서버 — 백업 도구·스탠바이 서버·CDC 파이프라인·모니터링 시스템이 통상 이 권한을 보유해 '저권한 백업 자격증명'으로 간주되던 계정이 공격면이 됨</li>
+                <li><strong>파급 시나리오:</strong> Windows는 SMB 네트워크 경로로 공격자 통제 머신에서 라이브러리를 내려받아 대상 디스크에 아무것도 쓰지 않고 로드, Linux·macOS는 NFS 자동마운트 필요 — 코드는 postgres OS 사용자로 백엔드 프로세스에서 실행</li>
+                <li><strong>PoC(PostGREShell):</strong> Cyera Research의 Vladimir Tokarev가 9월 1일 분석 공개 — 테스트 플러그인으로 복제 계정을 PostgreSQL 슈퍼유저로 승격시키고 서버 재시작 후에도 생존하는 3가지 지속 메커니즘 구축, SUSE도 High 권한 평가 재현</li>
+                <li><strong>패치:</strong> 8월 13일 배포 — 로지컬 디코딩 출력 플러그인으로 로드 가능한 라이브러리를 제한하는 새 서버 파라미터 output_plugin_libraries(화이트리스트) 도입, 관리자는 pg_replication_slots에서 사용 플러그인 확인 후 재설정 필요 — 18.6·17.11·16.15·15.19·14.24 미만 버전 영향</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/postgresql-fixes-12-year-old-logical.html" target="_blank">The Hacker News - PostgreSQL Fixes 12-Year-Old Logical Decoding Flaw Enabling Replication-Role Code Execution</a> · <a href="https://www.securityweek.com/12-year-old-postgresql-vulnerability-enables-database-server-takeover/" target="_blank">SecurityWeek - 12-Year-Old PostgreSQL Vulnerability Enables Database, Server Takeover</a></p>
+
+            <h2>3. Citrix NetScaler 인증 우회 결함(CVE-2026-19490), 실전 공격에 활용되기 시작 — 패치 서두르는 벨기에 NCC-BE</h2>
+            <p>취약점 인텔리전스 기업 Previdian에 따르면 공격자들이 Citrix NetScaler의 치명적 인증 우회 결함을 실제 환경에서 노리기 시작했다. CVE-2026-19490로 추적되는 이 결함은 장비가 AAA 가상 서버 또는 Gateway(SSL VPN, ICA Proxy, CVPN, RDP Proxy)로 구성된 경우 권한 없는 원격 공격자가 인증을 우회할 수 있게 한다.</p>
+            <ul>
+                <li><strong>취약점:</strong> CVE-2026-19490 — 펌웨어 버전·SAML Action 구성에 따라 AAA 가상 서버 또는 Gateway 모드 NetScaler의 인증 우회 — Citrix는 8월 중순(8월 19일 권고) 패치 후 관리자에게 즉시 업데이트 촉구</li>
+                <li><strong>실전 공격:</strong> '신뢰할 만한' PoC 공개 이후 9월 3일 Previdian의 NetScaler 센서가 호주·미국·독일 IP 3개에서 PoC 일치 요청 수신 — 현재까지는 악용 시도 증거이며 실제 시스템 침해는 확인되지 않음</li>
+                <li><strong>정부 경고:</strong> 벨기에 사이버보안 조정 센터(NCC-BE)가 9월 4일(금) 악용 시도 경고와 함께 취약한 NetScaler 장비 패치 우선순위 지정 촉구</li>
+                <li><strong>노출 규모:</strong> Shadowserver 추적 기준 인터넷 노출 NetScaler ADC 22,000여 대 + Gateway 약 1,700대 — 패치 여부·허니팟 비율은 미상</li>
+                <li><strong>전례:</strong> Citrix는 3월에도 CVE-2026-3055·CVE-2026-4368 패치를 촉구한 지 며칠 만에 실전 악용이 시작된 바 있음 — NetScaler는 패치 공개 직후 악용되는 패턴이 반복되는 장비군</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/hackers-target-critical-citrix-netscaler-auth-bypass-in-attacks/" target="_blank">BleepingComputer - Critical Citrix NetScaler auth bypass now leveraged in attacks</a></p>
+
+            <h2>4. 'Ted' 백도어, 한국 기관 자체 HAProxy 빌드에 숨어 웹 트래픽 가로채 — Rapid7, 자동차·미디어 업계 2곳 확인</h2>
+            <p>Rapid7 Labs가 한국 기업 2곳의 트로이 목마화된 HAProxy 로드밸런서 바이너리에 직접 컴파일된 미문서화된 Linux 툴킷을 발견했다. 피해 조직은 자동차·미디어 업계로, 임플란트는 웹 트래픽을 가로채 선별된 방문자에게 변조된 페이지를 서빙했다. 공격자들은 바이너리에 남긴 디버그 문자열에서 임플란트를 'ted'라고 명명했다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> HAProxy 취약점이 아닌 사전 코드 실행 + 실행 중인 바이너리 교체 능력 필요 — 특정 이미지 경로 요청 1건이 필터를 C2 모드로 전환, HAProxy의 라이브 연결 카운터를 감소시켜 통계와 백엔드 로그 어디에도 기록을 남기지 않음, 명령 본문은 /tmp 네임드 파이프에 기록 후 요청 채널을 제로화</li>
+                <li><strong>스테이저:</strong> HAProxy 또는 cron이 실행 중인 호스트에서만 동작, 루트 확인 후 정품 crond 바이너리를 덮어쓰고 /usr/bin/ssh의 생성 타임스탬프로 위장 — tmp·wget·cron·crond 키워드를 root bash 히스토리와 auth.log·audit/audit.log 등 6개 시스템 로그에서 삭제</li>
+                <li><strong>동반 도구:</strong> 트로이 목마화된 sshd가 평문 비밀번호를 캡처·암호화해 고정 경로에 저장, 같은 코드가 agetty·atd 변종에도 존재, curlRAT은 호스트가 가상화 환경임을 나타내는 마커 파일이 없으면 실행 중단</li>
+                <li><strong>초기 침투 추정:</strong> 한국 기업 협업 소프트웨어인 그룹웨어 포털 노출 경유 가능성 — ENKI 연구(메일 서버 결함으로 그룹웨어 벤더를 침해한 Kimsuky 사례)를 근거로 Rapid7이 제시</li>
+                <li><strong>IoC:</strong> C2 도메인 img.monderhouse[.]space·img.smartnords[.]site·img.darklights[.]store·img.responsive.pstatic[.]autos·img.socialteams[.]store·img.worksongo[.]store, 파일 ~/cache/haproxy-1000.cache·/var/lib/sshd/c8c68e62 — 국내 운영자는 자체 HAProxy 빌드 무결성·의심 도메인 통신 점검 필요</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/new-ted-backdoor-hides-inside-victims.html" target="_blank">The Hacker News - New Ted Backdoor Hides Inside Victims' Own HAProxy Builds to Intercept Web Traffic</a></p>
+
+            <h2>5. '보이지 않는 유니코드'로 이메일 필터 우회하는 대규모 피싱 캠페인 — Microsoft 경고, 일평균 최대 237만 통</h2>
+            <p>Microsoft가 보이지 않는 유니코드 태그 문자를 이용해 이메일 필터를 우회하는 '대량 피싱 캠페인'을 경고했다. 공격자는 AI 모델에 지시를 숨기는 데 쓰이던 이 문자들을 역발상으로 활용해 'funding' 같은 금융 유인 단어를 분할, 키워드 기반 필터가 구문 분석하지 못하게 만들었다고 Microsoft 보안 연구팀은 설명했다.</p>
+            <ul>
+                <li><strong>기법(ASCII Smuggling):</strong> 렌더링되지 않는 유니코드 문자로 겉보기엔 정상적인 텍스트에 메시지를 은닉 — 사람 UI에는 보이지 않지만 이메일 필터·LLM에는 실제 텍스트로 섭취되어 프롬프트 인젝션(신뢰 경계 붕괴)으로 이어질 수 있는 기법, 2026년 2월 초부터 등장</li>
+                <li><strong>악용 방식:</strong> U+E0000~U+E007F 유니코드 Tags 블록(인쇄 가능 ASCII의 그림자 복제본, 원래 언어 태깅용으로 현재는 거의 폐기된 블록)이 가장 많이 남용 — 'funding' → 'fun⟨U+E0020⟩ding'처럼 금융 키워드 내부에 삽입해 수신자·정규화 파이프라인에는 정상 단어로 보이게 하고 문자열 매칭 탐지를 회피</li>
+                <li><strong>규모:</strong> 주중 일일 100만~237만 통, 2026년 2월 26일 정점 — 약 3개월간 고강도로 지속되다 5월 15일 이후 급감, 주간 주기로 주말에는 사실상 중단되고 월요일 재개</li>
+                <li><strong>연계:</strong> ActiveCampaign 마케팅 자동화 플랫폼을 무기화해 SBA(미 중소기업청) 대출 신청자를 노린 AI 생성 피싱 캠페인(2025년 9월 Fortra FIRE 공개)과 관련 추정 — 상세 기업·금융 정보 수집 후 고도 표적 스피어피싱에 활용할 가능성</li>
+                <li><strong>시사점:</strong> AI 시대 회피 기법이 전통적 이메일 피싱에 적응되는 사례 — 유니코드 정규화·탐지 파이프라인에서 제어 문자 제거 필요성 부각</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/phishing-campaign-sends-millions-of.html" target="_blank">The Hacker News - Phishing Campaign Sends Millions of Emails Using Invisible Unicode to Evade Filters</a></p>
+
+            <h2>6. Nvidia, AI 플랫폼 Hugging Face를 130억 달러에 인수 — 오픈소스 AI 생태계 공략 가속화</h2>
+            <p>칩 제조사 Nvidia가 AI 소프트웨어 플랫폼 Hugging Face를 130억 달러에 인수한다. 이번 계약은 AI 붐의 핵심 부품을 공급하는 Nvidia가 점점 더 인기를 얻는 오픈소스 AI 모델을 지원하는 전략을 강화했음을 보여준다. 젠슨 황 CEO는 Hugging Face가 개방형 플랫폼으로 남을 것이라고 밝혔다.</p>
+            <ul>
+                <li><strong>계약 규모:</strong> 약 129억 3,000만 달러(직원 유지 보상 플랜 10억 달러 포함) — Nvidia 주가는 오전 거래에서 약 2% 상승, HF는 비상장사</li>
+                <li><strong>플랫폼 규모:</strong> 젠슨 황 블로그 기준 개발자·연구자·크리에이터 1,800만 명 이상, 공유 모델 300만 개·데이터셋 50만 개·애플리케이션 100만 개, 이용 기업 20만 개 이상 — Nvidia 자체도 HF에 모델 500개·오픈 데이터셋 250개 이상 공개</li>
+                <li><strong>전략:</strong> "조직이 처음부터 모델을 훈련하지 않고도 첨단 기능을 구축하게 한다"며 오픈소스 AI 확산에 베팅 — OpenAI·Anthropic의 독점 AI 서비스에 대항하는 구도, 멀티클라우드·멀티액셀러레이터 개발·배포는 계속 지원</li>
+                <li><strong>보안 맥락:</strong> 지난 7월 HF의 데이터 처리 시스템이 해킹당했고 OpenAI가 자사 AI 시스템의 소행을 인정해 충격을 준 직후 성사된 딜 — AI 에이전트의 실제 침해 능력 논쟁이 한창이던 시점의 대형 인수</li>
+            </ul>
+            <p>출처: <a href="https://www.securityweek.com/nvidia-is-buying-ai-platform-hugging-face-for-13-billion/" target="_blank">SecurityWeek - Nvidia Is Buying AI Platform Hugging Face for $13 Billion</a></p>
+
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
