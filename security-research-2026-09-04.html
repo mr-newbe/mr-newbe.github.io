@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[클래식] Differential Cryptanalysis of DES-like Cryptosystems — DES를 무너뜨린 차분 분석의 탄생 (1990)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 [클래식] Differential Cryptanalysis of DES-like Cryptosystems — DES를 무너뜨린 차분 분석의 탄생 (1990)</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-09-04 · 카테고리: Research (클래식 보안 논문)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Differential Cryptanalysis of DES-like Cryptosystems<br>
+                <strong>저자:</strong> Eli Biham (테크니온), Adi Shamir (와이즈만 연구소)<br>
+                <strong>발표:</strong> CRYPTO '90 (1990년 8월) → Journal of Cryptology 4(1):3–72, 1991<br>
+                <strong>분야:</strong> 암호해독(Cryptanalysis), 대칭키 블록 암호, 차분 분석<br>
+                <strong>Semantic Scholar 인용:</strong> 3,145회 (검증 완료)
+            </div>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 연구 배경 — "비밀의 블랙박스", DES</h2>
+            <p>DES(Data Encryption Standard)는 1977년 미국 표준으로 채택된 세계 최초의 공개 블록 암호다. 56비트 키로 16라운드 Feistel 구조를 쓰는 DES는 1990년대 초까지 가장 널리 쓰였지만, 두 가지 그림자가 드리워져 있었다. 첫째, 핵심 부품인 <strong>S-box(치환 테이블)의 설계 기준이 비공개</strong>였다. 둘째, IBM이 설계 과정에서 NSA(미 국가안보국)의 개입을 받았다는 사실은 알려져 있었으나 그 의도는 수수께끼였다. Biham과 Shamir는 바로 이 S-box를 통계적으로 파고들어, <strong>"선택 평문만으로 DES를 전수조사보다 빠르게 깰 수 있다"</strong>는 놀라운 결과를 CRYPTO '90에서 발표했다. 이후 이 방법은 <strong>차분 분석(Differential Cryptanalysis)</strong>이라는 이름으로 현대 블록 암호 분석의 가장 기본적인 도구가 된다.</p>
+
+            <h2><i class="fa-solid fa-gears"></i> 핵심 내용 — "차분(difference)"을 따라가는 통계적 공격</h2>
+            <ul>
+                <li><strong>차분 특성(Differential Characteristic):</strong> 두 평문의 <strong>XOR 차분</strong>이 라운드를 거치며 어떻게 전파되는지를 확률적으로 추적한다. S-box는 입력 차분에 따라 특정 출력 차분이 다른 것보다 압도적으로 자주 나타나는데, 이 <strong>비균등한 확률 분포</strong>가 공격의 원료다.</li>
+                <li><strong>선택 평문 공격:</strong> 공격자는 고정된 차분을 가진 평문 <em>쌍</em>을 대량으로 암호화해 그 결과를 비교한다. 특정 차분이 높은 확률로 살아남는 경로(라운드 축소판)를 찾아내면, 마지막 라운드의 <strong>후보 키를 통계적으로 추려낼 수 있다</strong> — 틀린 키는 무작위 분포를 만들고, 맞는 키만 편향된 분포를 만들기 때문이다.</li>
+                <li><strong>결정적 결과:</strong> 16라운드 전체 DES를 <strong>선택 평문 약 2^47개</strong>로 공격 — 전수조사(평균 2^55)보다 훨씬 빠르다. 축소 라운드 DES(8라운드)는 고작 2^14개의 선택 평문으로 무너뜨렸고, 이를 실험으로 직접 검증해 보였다.</li>
+                <li><strong>일반화된 프레임워크:</strong> DES에만 국한되지 않고 Feistel 구조의 "DES 유사(DES-like)" 암호 전반을 분석하는 체계적 방법론을 제시 — 라운드 수·S-box 설계에 따른 안전성 한계를 이론적으로 도출했다.</li>
+                <li><strong>역사적 반전 — NSA의 '선견지명':</strong> 분석 결과 DES의 S-box는 차분 분석에 <strong>이미 저항하도록 정교하게 설계</strong>되어 있었다. 이는 IBM/NSA가 1970년대 중반, 공개 학계보다 약 15년 먼저 차분 분석을 알고 있었음을 강력히 시사한다. (IBM의 Don Coppersmith가 1994년 이를 공식 확인)</li>
+            </ul>
+            <blockquote>"We have developed a new method for cryptanalysis of DES-like cryptosystems... capable of breaking the full 16-round DES in 2^47 chosen plaintexts." — Biham &amp; Shamir, Journal of Cryptology (1991)</blockquote>
+
+            <h2><i class="fa-solid fa-arrow-trend-up"></i> 영향과 의의</h2>
+            <ul>
+                <li><strong>암호 설계의 새로운 표준:</strong> 차분 분석 이후, 새 블록 암호는 "차분 공격에 대한 안전성 수치"를 설계 단계에서 제시해야 했다. AES로 선정된 Rijndael의 wide-trail 설계, 그리고 거의 모든 현대 암호의 S-box/라운드 설계가 이 논문의 직접적 후예다.</li>
+                <li><strong>차분 분석 계열 전체의 시발점:</strong> truncated differential, 불능 차분 공격(impossible differential), 부메랑 공격(boomerang), 관련 키 공격 등 후속 연구 전부가 이 논문의 개념을 확장한 것이다. Matsui의 선형 공격(1993, DES를 2^43 기지 평문으로 파훼)과 함께 '현대 대칭 암호 분석의 양대 축'을 이룬다.</li>
+                <li><strong>해시 함수 분석에도 적용:</strong> 차분 기법은 MD5·SHA-1 충돌 공격 등 해시 함수 암호해독의 핵심 도구로도 이어진다 — 암호학 전 분야를 관통하는 방법론이 되었다.</li>
+                <li><strong>투명성 논쟁에 종지부:</strong> 비밀 설계 기준(S-box)이 "우연한 견고함"이 아니라 NSA의 사전 지식 때문이었음을 드러내며, <em>암호는 반드시 공개 검증을 거쳐야 한다</em>는 현대 암호학의 원칙(Kerckhoffs의 원리)을 역사적으로 입증한 사례로 남았다.</li>
+                <li><strong>오늘날의 의미:</strong> DES 자체는 1998년 전수조사 하드웨어(Deep Crack)로도 무너졌지만, 차분 분석이라는 '생각의 도구'는 AES, 경량 암호, 포스트퀀텀 후보 분석에 이르기까지 30년 넘게 살아 있는 현역 방법론이다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>Journal of Cryptology 원문 (Springer, DOI 10.1007/BF00630563): <a href="https://link.springer.com/article/10.1007/BF00630563" target="_blank" rel="noopener">link.springer.com/article/10.1007/BF00630563</a></li>
+                <li>위키백과 (Differential cryptanalysis): <a href="https://en.wikipedia.org/wiki/Differential_cryptanalysis" target="_blank" rel="noopener">en.wikipedia.org/wiki/Differential_cryptanalysis</a></li>
+                <li>위키백과 (Data Encryption Standard): <a href="https://en.wikipedia.org/wiki/Data_Encryption_Standard" target="_blank" rel="noopener">en.wikipedia.org/wiki/Data_Encryption_Standard</a></li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
