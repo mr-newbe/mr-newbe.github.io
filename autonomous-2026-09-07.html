@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - HighwayEnv: 자율주행 의사결정 RL 연구의 표준 환경 제품군 (Farama Foundation)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - HighwayEnv: 자율주행 의사결정 RL 연구의 표준 환경 제품군 (Farama Foundation)</h1>
+            <p class="date">2026-09-07</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>프로젝트:</strong> Farama-Foundation/HighwayEnv — 자율주행 및 전술 의사결정(tactical decision-making) 연구용 강화학습 환경 컬렉션</li>
+                    <li><strong>소유자/라이선스:</strong> Farama Foundation (원저자 Édouard Leurent, 현 메인테이너 Jin Huang) · MIT</li>
+                    <li><strong>Star/포크:</strong> 3,303⭐ · 888 forks (2026-09-07 기준, 프로젝트 시작 2017-11-15)</li>
+                    <li><strong>최근 커밋/릴리스:</strong> 2026-09-05 커밋(`close_objects_to` count=0 수정 등) · 최신 릴리스 v1.12.1 (2026-08-07) — 활발한 유지보수 중</li>
+                    <li><strong>주요 기술:</strong> Gymnasium API · kinematic 차량 모델 · RL/계획 기반 정책 · SB3·RLlib 연동 · 멀티에이전트·V2X(connected lane) · 절차적 도로 생성</li>
+                    <li><strong>환경 구성:</strong> 10개 주행 시나리오 제품군 — highway · merge · roundabout · intersection · racetrack · lane-keeping · parking · exit · two-way · u-turn (+ continuous control, multi-agent, connected-lane 등 변형)</li>
+                    <li><strong>원문:</strong> <a href="https://github.com/Farama-Foundation/HighwayEnv" target="_blank">https://github.com/Farama-Foundation/HighwayEnv</a> · 문서 <a href="https://highway-env.farama.org/" target="_blank">https://highway-env.farama.org/</a></li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>HighwayEnv는 '센서로 세상을 보는 인식'이 아니라 <strong>'언제 차선을 바꾸고, 합류하고, 양보하고, 교차로를 통과할지'를 결정하는 전술 의사결정 계층</strong>에 특화된 가볍고 빠른 RL 실험 환경이다. 2017년 Édouard Leurent가 시작해 지금은 Gymnasium(구 OpenAI Gym)을 만든 Farama 재단이 관리하며, 2023년 Gymnasium 표준 API로 전면 재작성되어 현대 RL 스택과 즉시 호환된다.</p>
+            <ul>
+                <li><strong>10개 시나리오 제품군 + 변형:</strong> 고속도로·차선합류·라운드어바웃·교차로·주차·레이스트랙·U턴 등 10개 가족에, continuous-control(저수준 제어), multi-agent(다중 자차), connected-lane(V2X 통신차량) 변형을 제공 — 연구 목적에 맞는 난이도 선택 가능</li>
+                <li><strong>Gymnasium 표준 API:</strong> `pip install highway-env` 후 `gym.make("highway-v0", config={...})` 한 줄로 생성. 관측은 kinematic(주변 차량 그래프)·lidar·occupancy grid 등 모드 선택 가능하며, config로 차선 수·교통 밀도·상대 차량의 행동 모델(IDM 등)을 세밀히 조절</li>
+                <li><strong>전술 의사결정에 특화된 설계:</strong> 자차는 고수준 행동(차선 유지/변경, 속도)을 선택하고 저수준 궤적은 kinematics가 처리 — 전체 센서 파이프라인이 필요 없어 수천 에피소드를 수 분 내에 돌리는 경량 벤치마크. 'hierarchical driving'의 의사결정 계층만 집중 연구 가능</li>
+                <li><strong>내장 에이전트 예시:</strong> 문서에 DQN·DDPG(RL)와 Value Iteration·MCTS(계획)으로 학습된 정책 예제를 제공 — 모델프리 RL vs 모델기반 계획 접근을 같은 환경에서 직접 비교하는 교과서적 실험 구성</li>
+                <li><strong>생태계 확장 (2026):</strong> SB3·RLlib·Google Colab 튜토리얼 지원, 2026-08 RandomRoadEnv(#715)로 절차적 도로망 생성 추가 — 단일 맵에 과적합되는 일반화(generalization) 연구 가능</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>RL×자율주행의 사실상 표준 벤치마크:</strong> 2017년 시작 이후 8년 넘게 유지된 3,300+⭐ 저장소로, '차선 변경·합류' 같은 의사결정 문제를 다루는 강화학습 논문에서 가장 많이 사용되는 경량 환경 중 하나 — 문서에 수록된 인용 논문 목록만으로도 영향력이 확인됨</li>
+                <li><strong>Farama 재단 공식 환경:</strong> OpenAI Gym의 후속 표준인 Gymnasium을 만든 비영리 재단 산하라 API 표준을 항상 따라가며, SB3 등 최신 RL 라이브러리와 '설치 즉시' 동작</li>
+                <li><strong>학습 실험의 재현성과 속도:</strong> 2D kinematic 시뮬레이션이라 렌더링 부담이 없고 결정 경계가 명확해, 논문의 알고리즘 비교·하이퍼파라미터 검증을 수 분~수 시간 안에 재현 가능 — 고충실도 시뮬레이터의 보완재 역할</li>
+                <li><strong>이 블로그 시뮬레이터 시리즈와 대비:</strong> 08-08 CARLA·08-23 AirSim이 카메라/라이다를 포함한 전체 센서-제어 스택의 고충실도 시뮬레이터라면, HighwayEnv는 그 위 '의사결정 계층'만 떼어낸 경량 표준 — perception 이후의 행동 연구에 진입하는 최단 경로</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>자율주행의 실용적 난제는 객체를 '보는' 문제를 넘어, 제한된 시간 안에 안전하고 사회적으로 수용되는 행동을 '고르는' 전술 의사결정에 있다. HighwayEnv는 이 계층을 환경 설계의 중심에 둠으로써, 세계 최고 수준의 시뮬레이터 없이도 RL·계획·모방학습 등 의사결정 알고리즘을 엄밀하게 비교·검증할 수 있는 재현 가능한 실험대를 제공한다. 표준 Gymnasium API에 기반해 최신 알고리즘을 즉시 적용할 수 있고, multi-agent·V2X·절차적 도로 생성(RandomRoadEnv)으로 단순 벤치마크를 넘어 상호작용·일반화 연구로 계속 진화 중이다 — 인식 모델이 아무리 좋아져도 '언제 무엇을 할지'를 가르치는 이 환경의 가치는 당분간 유지될 것이다.</p>
+
+            <p>원문: <a href="https://github.com/Farama-Foundation/HighwayEnv" target="_blank">https://github.com/Farama-Foundation/HighwayEnv</a></p>
+
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
