@@ -32,7 +32,7 @@
     <div class="container">
         <h1>Daily Security & AI Update</h1>
         <div class="meta">
-            <i class="fa-regular fa-calendar"></i> 2026-09-07 | <i class="fa-solid fa-tags"></i> Daily News, MikroTik, RouterOS, MikroTrick, CERT Polska, SSH, REVSTEALER, Elastic, 정보탈취, 암호화폐 채굴, IDScan, Krebs, 개인정보 유출, 운전면허, OWASP, OASIS, AI 보안, Google, Mantis, 취약점 스캔
+            <i class="fa-regular fa-calendar"></i> 2026-09-07 | <i class="fa-solid fa-tags"></i> Daily News, MikroTik, RouterOS, MikroTrick, CERT Polska, SSH, REVSTEALER, Elastic, 정보탈취, 암호화폐 채굴, IDScan, Krebs, 개인정보 유출, 운전면허, OWASP, OASIS, AI 보안, Google, Mantis, 취약점 스캔, Anthropic, Mythos, Echo, exploit 자동화, CNIL, GDPR, 병원 벌금, Coder, 공급망 공격, Terraform, Cloudflare
         </div>
 
         <div class="content">
@@ -87,6 +87,37 @@
                 <li><strong>의의:</strong> AI 코드 스캐너의 신뢰성 문제(오탐·환각)를 에이전트 간 검증과 샌드박스 재현으로 해결하려는 흐름의 대표 사례 — OWASP OASIS(위 4번)와 함께 'AI가 보안 수정을 대신하는' 주간 트렌드를 형성</li>
             </ul>
             <p>출처: <a href="https://www.infoq.com/news/2026/09/google-mantis-vulnerability-scan/" target="_blank">InfoQ - Google Mantis: An Agentic Vulnerability Scanning Harness for Reducing False Positives</a></p>
+
+            <h2>6. Anthropic 'Echo' 보고서 — Mythos가 알려진 결함을 '작동하는 exploit'으로 전환, 구세대 대비 약 90배 성능 점프</h2>
+            <p>Anthropic이 공개한 사이버 보안 보고서(Echo)에서 Mythos 계열 취약점 분석 모델의 공격적 악용 능력 평가 결과가 공개됐다(9월 6일 국제 보도로 재확산). Mythos Preview는 누군가 이미 발견한 크래시를 '작동하는 임의 코드 실행(ACE) exploit'으로 전환하는 데 181회 시도 만에 72.4% 성공률을 기록한 반면, 직전 세대 모델인 Claude Opus 4.6은 1% 미만에 그쳐 모델 세대 간 약 90배의 격차가 확인됐다.</p>
+            <ul>
+                <li><strong>평가 성능:</strong> 취약점당 5회 시도, 총 250회 평가 — Mythos Preview는 181회(72.4%)만에 크래시→ACE exploit 전환, 29회 추가로 부분 레지스터 제어 달성. Opus 4.6은 2회 성공(<1%)</li>
+                <li><strong>비용·체이닝:</strong> 알려진 Linux 커널 use-after-free(UAF)를 작동하는 root exploit으로 전환하는 데 추론 비용 2,000달러 미만·런타임 1일 미만 — 커널 traffic-control 스케줄러에서 직접 찾은 두 번째 UAF와 체이닝</li>
+                <li><strong>평가 조건·한계:</strong> 모든 시도가 '이미 발견된 크래시'에서 시작, Firefox 브라우저 샌드박스 등 방어 심층이 제거된 하네스에서 진행, Anthropic 자체 설계·운영 평가로 독립 재현되지 않음. '행동할 가치가 있는 취약점' 발견은 여전히 수천 달러가 들고 높은·치명적 심각도 보장도 없음</li>
+                <li><strong>보고서 설문(Echo, 2026년 7월):</strong> 미국 보안 리더 80명+ 대상 — 37%가 '수리 능력을 초과하는 취약점 탐지'를 소프트웨어 공급망 보안 최대 장벽으로 지목. Anthropic은 자체 팀·외부 파트너의 검토 역량 부족으로 유지보수자에게 아직 전달하지 못한, 수동 확인된 추가 취약점을 보유 중이라고 인정</li>
+                <li><strong>의의:</strong> 'AI가 취약점을 발견하는 것'을 넘어 '작동하는 exploit을 만드는 것'까지 실증 — 같은 주간의 OWASP OASIS·Google Mantis(위 4·5번, 자동 패치)와 대비되며 공격·방어 양측 AI 자동화 경쟁을 보여줌</li>
+            </ul>
+            <p>출처: <a href="https://www.helpnetsecurity.com/2026/09/04/echo-claude-mythos-vulnerability-findings/" target="_blank">Help Net Security - Most of the bugs Claude Mythos found have never been checked by a human</a></p>
+
+            <h2>7. 프랑스 CNIL, 생테티엔 병원(HPL)에 GDPR 위반 €50만 벌금 — 환자·제3자 72만 7,000명 데이터 노출</h2>
+            <p>프랑스 개인정보보호기구 CNIL이 Ramsay Santé 그룹 산하 Hôpital privé de la Loire(HPL)에 50만 유로(약 58만 달러)의 벌금을 부과했다. 2025년 여름 공격자가 전자 환자 기록 시스템에 침투해 치료를 받은 환자 52만 4,867명과 동행·지원 명목으로 기록된 신뢰 제3자 20만 2,246명 등 총 72만 7,000명 이상의 민감 데이터를 탈취한 데 대해, CNIL 조사가 GDPR 32조·34조 위반 다수를 확인했기 때문이다.</p>
+            <ul>
+                <li><strong>지적된 위반:</strong> ① 개인 개업 의사 등 외부 사용자가 VPN·다중인증(MFA) 없이 시스템 접근 가능 ② 부적절한 접근 통제로 손상된 계정이 병원 전체 환자 기록에 접근 가능 ③ 실시간·근실시간 모니터링·알림 부재로 공격자가 수일간 탐지되지 않은 채 대량 데이터 추출 ④ 피해 환자에게만 통보하고 제3자 20만 2,246명에게는 직접 통보하지 않음</li>
+                <li><strong>공격자:</strong> 'Marak'이라는 10대 해커가 텔레그램으로 프랑스 언론 Le Progrès에 범행 주장 — 단일 의사 계정 침해로 병원 전체 내부 시스템에 접근했다고 설명. 탈취 데이터를 단일 구매자에게 2,000~5,000유로에 판매하려 했으나 판매·공개되지는 않은 것으로 후속 보도</li>
+                <li><strong>병원 규모:</strong> 생테티엔(Saint-Étienne) 소재 종합병원 — 직원 650명(의사 180명), 5개 진료과 333병상, 연간 약 6만 명 진료</li>
+                <li><strong>시사점:</strong> 의료 분야 제3자·공급망 경유 데이터 노출과 '통보 의무' 위반이 GDPR 벌금 산정의 핵심 축으로 작용한 사례</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/french-hospital-fined-500-000-after-breach-exposes-data-of-727-000/" target="_blank">BleepingComputer - French hospital fined €500,000 after breach exposes data of 727,000</a></p>
+
+            <h2>8. Coder 레지스트리 공급망 침해 — Cloudflare 인프라 장악으로 악성 Terraform 모듈 유포, 자격증명 탈취</h2>
+            <p>셀프호스티드 클라우드 개발 환경 플랫폼 Coder가 자사 모듈 레지스트리(registry.coder.com)를 운영하는 Cloudflare 인프라가 침해당했다고 공시했다. 공격자는 Cloudflare 뒤편의 기본 인프라에 접근해 레지스트리 서버 풀에 무단 IP 주소를 추가했고, Cloudflare가 일부 레지스트리 요청을 공격자 서버로 라우팅하면서 악성 코드가 포함된 위조 레지스트리가 소수 사용자에게 전달됐다. 악성 아티팩트 전달 창은 8월 31일(월) 07:35~21:45 UTC다.</p>
+            <ul>
+                <li><strong>유포물:</strong> 워크스페이스 템플릿 구성용 Terraform 모듈의 변조 버전 — 인포스틸러로 동작해 provisioner 환경변수·시크릿, 클라우드·AI 툴링 API 키, CI/CD 자격증명, 설정 파일 시크릿·터미널 히스토리, 사용자 OIDC 토큰, SSH 키, 1회용 외부 인증 토큰, coderd 내 실행 시 Coder DB 비밀번호 등을 수집해 유사 도메인 'coder-infra[.]com'으로 유출</li>
+                <li><strong>고객층:</strong> Dropbox·Palantir·Square·Mercedes-Benz·KKR·EnBW, 미국 정부·방산 기업 등 — Coder는 잠재적 영향 고객에게 관련 시크릿 전면 회전을 권고</li>
+                <li><strong>패치·탐지:</strong> 수정 릴리스 2.37.0/2.36.4/2.35.7/2.34.9 — 방화벽·프록시·DNS·VPC flow 로그에서 coder-infra[.]com 연결 여부 확인, provisioner 로그에서 data.external.telemetry 검색, 노출 기간 중 받은 모듈 식별·악성 캐시 패키지 제거용 SQL 쿼리 제공</li>
+                <li><strong>불확실성:</strong> refresh token은 provisioner에 전달되지 않았고 Coder가 유지하는 고객 데이터 영향 증거는 없다고 밝혔으나, 공격자 인프라가 Coder 통제 밖에 있어 관련 로그를 확보하지 못해 침해된 배포를 모두 식별할 수는 없다고 경고</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/coders-registry-infrastructure-compromised-to-push-malicious-modules/" target="_blank">BleepingComputer - Coder's registry infrastructure compromised to push malicious modules</a></p>
 
             <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
         </div>
