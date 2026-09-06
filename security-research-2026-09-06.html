@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>최신 보안 논문 분석 - Beyond the Trust Boundary: FIDO2 위협 모델의 재평가 — 패스키는 '설계상 안전'이라는 착각 (2026)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛡️ 최신 보안 논문 분석 - Beyond the Trust Boundary: FIDO2 위협 모델의 재평가 — "패스키는 설계상 안전"이라는 착각 (2026)</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-09-06 · 카테고리: Research (최신 보안 논문)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Beyond the Trust Boundary: A Critical Reassessment of the FIDO2 Threat Model<br>
+                <strong>저자:</strong> Aditya Mitra, Kolluru Sai Abhiram, Sibi Chakkaravarthy Sethuraman, Anitha S<br>
+                <strong>발표:</strong> arXiv:2609.03789 (cs.CR, 2026-09-03 제출)<br>
+                <strong>분야:</strong> 인증 보안(FIDO2/WebAuthn), 위협 모델링, 하드웨어·생태계 공격<br>
+                <strong>Semantic Scholar 인용:</strong> 미확인 (API 제한 — 게재 직후 신규 논문)
+            </div>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 연구 배경 — "암호학이 완벽하면 인증도 안전한 걸까?"</h2>
+            <p>FIDO2/WebAuthn은 공개키 암호화와 하드웨어 인증기를 결합한 <strong>피싱 저항(phishing-resistant) 인증</strong>의 사실상 표준이다. 패스키(passkey)라는 이름으로 일상에 빠르게 확산되면서, 많은 보안팀은 "암호학적 구현만 올바르면 FIDO2의 안전성은 설계상 보장된다"고 전제한다. 저자들은 이 전제 자체를 겨냥한다. FIDO2는 실제로는 <strong>암호 레이어 너머의 '신뢰할 수 있는 환경'(브라우저, OS, 하드웨어, 프로토콜 스택, 메타데이터 인프라)</strong>에 광범위하게 의존하는데, 현실적인 배포 조건에서 이 환경에 대한 가정들이 여럿 붕괴할 수 있다는 것이다. 논문은 암호화 계층을 넘어 FIDO2 스택 전반을 가로지르는 <strong>8가지 공격 벡터</strong>를 분석하고, 공격 체인이 단일 계층의 보안 보증을 어떻게 무력화하는지 보여준다.</p>
+
+            <h2><i class="fa-solid fa-gears"></i> 핵심 내용 — FIDO2 스택을 가로지르는 8가지 공격 벡터</h2>
+            <ul>
+                <li><strong>악성 브라우저 확장 프로그램:</strong> WebAuthn API 호출을 가로채거나 조작할 수 있는 확장 프로그램은 자격 증명 흐름 자체를 탈취할 수 있다 — 사용자는 여전히 '정상적인' 패스키 인증을 하고 있다고 믿는다.</li>
+                <li><strong>플랫폼 핸들러 악성코드:</strong> OS의 패스키/인증기 핸들러 프로세스를 감염시키면, 하드웨어 인증기는 안전해도 그 위에서 자격 증명을 다루는 플랫폼 계층이 통째로 적대적이 된다.</li>
+                <li><strong>수동 스니핑(passive sniffing)과 가상 디바이스 드라이버:</strong> 인증기-플랫폼 사이 트래픽 도청, 그리고 가상 CTAP 디바이스를 흉내 내는 드라이버로 자격 증명을 중간에서 가로채는 경로다.</li>
+                <li><strong>CTAP2 특화 악성코드:</strong> CTAP2(인증기 통신 프로토콜) 레벨에서 동작하는 악성코드는 PIN/제스처 확인이나 자격 증명 선택 같은 프로토콜 단계를 직접 공격한다.</li>
+                <li><strong>USB/하드웨어 임플란트 및 악성 USB 허브·도크·익스텐더:</strong> 인증기-호스트 사이 물리적 링크에 개입하는 하드웨어 공격으로, 펌웨어가 안전한 인증기라도 그 '배선'이 적대적이면 통신 내용이 노출·변조될 수 있다.</li>
+                <li><strong>NFC 릴레이 공격:</strong> NFC 기반 패스키의 무선 구간을 릴레이해, 물리적으로 떨어진 공격자가 사용자 인증기를 '원격 대여'하는 고전적 중계 공격이다.</li>
+                <li><strong>AAGUID·타이밍 정보를 이용한 사용자 프로파일링:</strong> 인증기 식별자(AAGUID)와 인증 타이밍 메타데이터는 익명으로 보이지만, 결합하면 <strong>사용자 추적과 표적 공격</strong>의 재료가 된다.</li>
+                <li><strong>MDS3 메타데이터 서비스 공격:</strong> 인증기 메타데이터의 신뢰 루트인 FIDO Metadata Service(MDS3)를 겨냥해 <strong>디바이스 증명(attestation)을 훼손</strong>하면, '신뢰할 수 있는 인증기' 판정 자체를 속일 수 있다.</li>
+            </ul>
+            <blockquote>"The primary weakness in a FIDO2 deployment is often not the cryptographic layer, but the surrounding trusted environment." — Mitra et al. (arXiv:2609.03789)</blockquote>
+            <ul>
+                <li><strong>가정 붕괴의 구조:</strong> 브라우저·OS·하드웨어 중 어느 하나라도 침해되면, <strong>기저 암호 프리미티브가 온전하더라도</strong> FIDO2의 보안 보증은 무너진다. 공격자 관점에선 값비싼 암호 분석이 필요 없다 — 더 약한 주변 계층을 공략하면 된다.</li>
+                <li><strong>다계층 연쇄 공격(attack chains):</strong> 단일 벡터로는 부족해도, 브라우저 확장 → OS 핸들러 → USB 링크를 잇는 체인은 계층별 완화를 개별적으로 우회하며 의도된 보안 보증 전체를 무력화할 수 있음을 실증한다.</li>
+                <li><strong>공격자 특성 분류:</strong> 각 공격 벡터를 <strong>요구 권한·기술 숙련도·자원 규모</strong> 기준으로 특성화해, 어떤 위협이 어떤 배포 환경(개인 사용자 vs 기업 관리형)에서 현실적인지 판단할 수 있는 틀을 제공한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-arrow-trend-up"></i> 영향과 의의</h2>
+            <ul>
+                <li><strong>"설계상 안전" 신화의 해체:</strong> 패스키 마케팅의 핵심 메시지인 '암호학적으로 피싱 불가'는 암호 레이어에만 국한된 진실이다. 이 논문은 위협 모델의 경계를 <strong>신뢰 환경(trust boundary) 전체</strong>로 확장해야 함을 보여준다 — FIDO2 도입을 검토하는 조직의 위협 모델 문서에 직접 반영할 만한 결론이다.</li>
+                <li><strong>실무 시사점 — 층위적 방어의 복귀:</strong> 패스키를 도입했다고 해서 엔드포인트 보호(EDR), 브라우저 확장 관리, 하드웨어 공급망 검증을 소홀히 해서는 안 된다. 인증 혁신은 주변 환경 보안의 '대체재'가 아니라 '상위 레이어'임을 계량적으로 보여준다.</li>
+                <li><strong>표준·인프라 보호의 필요성:</strong> MDS3 공격 벡터는 인증기 메타데이터 인프라 자체가 하나의 중요한 공격 표면임을 환기시킨다. FIDO 얼라이언스 및 브라우저 벤더의 메타데이터 유통·검증 파이프라인 보안 강화 논의에 근거를 제공한다.</li>
+                <li><strong>연구 공백의 재조명:</strong> CTAP2 특화 악성코드, NFC 릴레이, 악성 USB 허브 등은 학계에서 상대적으로 덜 다뤄진 영역이다. '암호는 맞지만 환경이 틀린' 공격 체인을 체계적으로 분류한 본 연구는 향후 FIDO2 생태계 보안 연구의 출발점이 될 수 있다.</li>
+                <li><strong>최신 흐름과의 연결:</strong> 패스키 도입이 확산될수록(최근 뉴스에서도 패스키 피싱 툴킷·iAuthFlow V2 등 공격 도구의 등장이 확인됨) '인증기의 안전 ≠ 인증의 안전'이라는 이 논문의 경고는 더욱 현실감을 얻는다. 피싱 저항 인증도 결국 <strong>전체 스택의 보안</strong> 위에서만 성립한다는 점을 상기시킨다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>arXiv 초록 페이지: <a href="https://arxiv.org/abs/2609.03789" target="_blank" rel="noopener">arxiv.org/abs/2609.03789</a></li>
+                <li>FIDO Alliance (FIDO2/WebAuthn 개요): <a href="https://fidoalliance.org/fido2/" target="_blank" rel="noopener">fidoalliance.org/fido2</a></li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
