@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-09-07</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-09-07 | <i class="fa-solid fa-tags"></i> Daily News, MikroTik, RouterOS, MikroTrick, CERT Polska, SSH, REVSTEALER, Elastic, 정보탈취, 암호화폐 채굴, IDScan, Krebs, 개인정보 유출, 운전면허, OWASP, OASIS, AI 보안, Google, Mantis, 취약점 스캔
+        </div>
+
+        <div class="content">
+            <h2>1. MikroTik 라우터, 인터넷 노출 SSH만으로 무인증 장악 — CERT Polska가 'MikroTrick' 경고, 전 버전대 패치 긴급 권고</h2>
+            <p>폴란드 CERT Polska가 9월 5일, 인터넷에 노출된 SSH 원격 접속 서비스를 통해 인증 없이 MikroTik 라우터의 전체 관리 권한을 획득하는 공격이 진행 중이라고 경고했다. 성공적인 공격은 최소 9월 2일부터 관측됐으며, CERT는 이번에 보고된 2개 결함의 조합을 'MikroTrick'으로 명명했다. 피해 규모나 공격자 신원은 아직 확인되지 않았다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> 인터넷에 SSH(22번 포트)가 열린 RouterOS 장비를 대상으로 인증 없이 관리 권한 탈취 — 정확한 취약점 체인·CVE는 CERT와 MikroTik 모두 명시하지 않아 제로데이 여부는 미확인(수정판이 공격 이전에 공개됐는지 불분명)</li>
+                <li><strong>영향 범위:</strong> RouterOS 6.0.0 이상 6.49.21 미만, 7.0.0 이상 7.23.4 미만, 7.24 이상 7.24.2 미만</li>
+                <li><strong>패치:</strong> 6.49.21(6.x 보안 릴리스), 7.23.5(long-term 채널 — 7.23.4에서 발생한 IPv6 DHCP 회귀 문제도 함께 수정), 7.24.2(stable), 7.25beta3(개발 채널)</li>
+                <li><strong>임시 완화:</strong> 패치 전까지 SSH·WWW/WWW-SSL·bandwidth-test 등 노출 서비스를 차단하거나 신뢰할 수 있는 관리 네트워크로 접근 제한, 미패치 장비에서의 TLS 연결·RouterOS 내장 SSH 클라이언트 사용 자제</li>
+                <li><strong>침해 징후·대응:</strong> 업데이트 후 /system/device-mode/print로 'Flagged' 상태 확인, 고권한 ops 계정과 'ssh:-2@'가 포함된 계정 생성 로그 점검 — 침해가 의심되면 로그·구성 보존 후 공장 초기화, 신뢰할 수 있는 구성으로 재구축하고 피해 장비의 백업을 맹신하지 말 것, 사용 중인 비밀번호·키 전면 교체</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/attackers-hijack-mikrotik-routers.html" target="_blank">The Hacker News - Attackers Hijack MikroTik Routers Through Internet-Exposed SSH Without Authentication</a></p>
+
+            <h2>2. REVSTEALER 연계 신종 모듈 4종 발견 — Windows Update·Defender 무력화 후 암호화폐 채굴기 실행</h2>
+            <p>Elastic Security Labs가 상업용 인포스틸러 REVSTEALER와 연관된 미보고 프로그램 4종(ProManager, WinUpdate, SoftManager, LockAppHost)을 문서화했다(9월 2일 발표·기술 백서 공개). REVSTEALER는 2026년 2월부터 판매된 신흥 Windows 정보탈취 악성코드로, 브라우저 비밀번호·쿠키, 50개 이상의 암호화폐 지갑, 게임·메신저 세션 등을 탈취한 뒤 스스로 삭제되며 잔존물을 남기지 않지만, 이번에 공개된 모듈들은 각자 사용자 프로필에 설치돼 지속적으로 남는다.</p>
+            <ul>
+                <li><strong>ProManager:</strong> 지갑 파일·브라우저 지갑 확장 탈취 — Electron 기반 데스크톱 지갑 창 위에 공격자 콘텐츠를 정확히 오버레이해 가짜 화면을 보여주고, 비밀번호·복구 구문 입력을 키로깅(Registry Run key로 지속)</li>
+                <li><strong>WinUpdate:</strong> 클립보드를 감시해 복사된 암호화폐 주소를 공격자 주소로 치환, 지갑 복구 구문으로 보이는 텍스트 수집(예약 작업 지속)</li>
+                <li><strong>SoftManager:</strong> 감염 PC를 역방향 프록시로 전환해 공격자의 네트워크 트래픽을 피해자 연결로 경유(로그온 스크립트·예약 작업·Run key 지속)</li>
+                <li><strong>LockAppHost:</strong> 가장 파괴적 — Windows CMSTP 도구를 남용해 관리자 권한 획득 후 Windows Update 서비스 5개·예약 업데이트 작업 11개·악성코드 제거 작업 2개를 비활성화하고 Defender 제외 폴더를 추가한 뒤, 합법 Windows 프로세스 내부에 암호화폐 채굴기를 은닉·실행</li>
+                <li><strong>연관 근거:</strong> 동일한 패커·런타임 함수 해석 기법, Polygon 스마트 계약을 백업 구성 채널로 사용하는 공통 트레이드크래프트 — 다만 4개 모듈이 실제 감염 호스트에 전달된 사례는 아직 관측되지 않음(코드 유사성 기반 연관)</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/four-revstealer-linked-modules-disable.html" target="_blank">The Hacker News - Four REVSTEALER-Linked Modules Disable Windows Update and Defender to Run a Crypto Miner</a></p>
+
+            <h2>3. IDScan 데이터 유출 소송 제기 — 다크웹 'Nexus'가 美·加 운전면허 1억 5,300만 건 판매 광고</h2>
+            <p>신원 확인 기술 업체 IDScan을 상대로 한 다수의 소송이 제기됐다. 앞서 9월 1일 Brian Krebs는 다크웹 신원 사기 서비스 'Nexus'가 미국·캐나다 운전면허 스캔본 1억 5,300만 건 이상, ID 카드 1,000만 건, 여행 서류 300만 건, 의료카드 57만 9,000건의 판매를 광고했다고 보도했으며, Krebs는 표본이 본인과 동의한 개인들의 기록과 일치함을 확인하고 유출 출처를 IDScan으로 추적했다.</p>
+            <ul>
+                <li><strong>피해 업체:</strong> IDScan은 정부 발급 신분증의 스캔·인증·정보 추출 하드웨어/소프트웨어를 제공 — 미국 렌터카·소매·총기상·금융기관·카나비스 디스펜서리·숙박업 등에서 광범위하게 사용</li>
+                <li><strong>법적 대응:</strong> 다수 로펌(Ma.., DeMarco, Hall Attorneys 등)이 잠재적 집단소송 조사를 시작했고, 이미 소장이 제기된 상태 — 피해 규모를 감안한 대규모 집단소송으로 비화할 전망</li>
+                <li><strong>회사 대응:</strong> IDScan은 현재까지 침해를 공식 인정하거나 영향 고객에게 통보하지 않은 상태</li>
+                <li><strong>위험:</strong> 운전면허 스캔본은 신분 도용·대출 사기·계정 탈취 등 장기적 사기에 악용될 수 있는 고위험 민감 데이터</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/idscan-sued-over-alleged-data-breach-affecting-153-million-drivers/" target="_blank">BleepingComputer - IDScan sued over alleged data breach affecting 153 million drivers</a></p>
+
+            <h2>4. OWASP, 오픈소스 취약점 '발견→수정' 간극을 메우는 AI 이니셔티브 'OASIS' 출범 — AI 생성 패치 + 인간 검증 3단계 구조</h2>
+            <p>OWASP가 8월 26일 샌프란시스코에서 OASIS(Open Automated Security Initiative for Software) 출범을 발표했다. 오픈소스가 상업 코드베이스의 약 98%를 차지(Black Duck 2026 OSSRA 보고서)하지만, 유지보수자들이 수리 경로 없이 취약점만 쏟아내는 스캔 결과에 압도당하고 있는 현실에 착안해, AI가 생성한 수정안에 AppSec 전문가의 인간 검증을 결합한 신뢰할 수 있는 패치를 유지보수자에게 전달하는 것이 목표다. 9월 6일 OWASP 공식 채널을 통한 재공지로 다시 주목받고 있다.</p>
+            <ul>
+                <li><strong>3단계 구조:</strong> ① 자동 도구가 널리 쓰이는 저장소를 스캔해 취약점 발견 시 AI 패치 후보 생성 → ② AppSec 실무자·에이전트 커뮤니티가 각 후보의 정확성·안전성을 검증(검증 시간을 수 분으로 단축) → ③ 검증된 패치를 업스트림에 제출해 유지보수자가 바로 다듬어 적용할 수 있는 출발점 제공</li>
+                <li><strong>후원·참여:</strong> 창립 후원사 AppSecAI·Intigriti·DryRun Security — 조기 가입에만 수백 명의 AppSec 전문가가 참여</li>
+                <li><strong>배경:</strong> 공격자들이 '바이브 해킹'(vibe hacking)과 AI 기반 취약점 발견으로 수동 방어를 앞지르는 시대 — DryRun Security CEO는 "공격을 가속하는 생성 AI는 독립 검증과 커뮤니티 전문성만 결합되면 방어도 가속할 수 있다"고 강조</li>
+                <li><strong>의의:</strong> 코드 리뷰 경험을 가진 보안 전문가가 낮은 마찰로 기여할 수 있는 창구를 만든다는 점에서, AI 생성 코드의 품질·신뢰 문제를 '인간-에이전트 공동 검증'으로 푸는 대표 사례</li>
+            </ul>
+            <p>출처: <a href="https://cybersecuritynews.com/owasp-oasis-ai-initiative/" target="_blank">CyberSecurityNews - OWASP Launches OASIS AI Initiative to Fix Open Source Vulnerabilities at Scale</a> · <a href="https://www.owasp-oasis.org/news/launch" target="_blank">OWASP OASIS - 공식 출범 공지</a></p>
+
+            <h2>5. Google, 취약점 수명주기 자동화 AI 에이전트 프레임워크 'Mantis' 오픈소스 공개 — 환각·오탐 억제로 토큰 사용량 85% 절감</h2>
+            <p>Google이 소프트웨어 취약점의 수명주기 — 식별부터 검증, 재현, 수정까지 — 를 자동화하는 AI 에이전트 프레임워크 Mantis를 오픈소스로 공개했다. Google은 기존 AI 기반 코드 스캔이 환각으로 만든 취약점과 오탐(false positive)을 너무 많이 생산해 진양성률이 7% 미만에 그친다는 문제에 대응하기 위해 Mantis를 설계했다고 밝혔다.</p>
+            <ul>
+                <li><strong>설계:</strong> 크리틱(critic)·리뷰어(review) 에이전트 등 표준적인 에이전틱 기법으로 오탐을 걸러내고 의미 있는 발견에 우선순위를 부여 — 샌드박스 환경에서 취약점을 실제로 재현해 LLM 판단이 아닌 실증적 근거로 검증</li>
+                <li><strong>분석 방식:</strong> 파일을 무작정 스캔하는 대신 저장소 히스토리·기존 보안 수정 사례·아키텍처·위협 모델을 분석하고, 파일 요약을 디렉터리·저장소 수준 컨텍스트의 계층 트리로 구성해 토큰 사용량을 85% 줄이면서 구조 정보는 유지</li>
+                <li><strong>위치:</strong> Google의 내부 '머신 속도로 취약점을 찾고 수정하는' 접근법의 일부로, Mantis는 그 워크플로의 오픈소스화된 구성요소</li>
+                <li><strong>의의:</strong> AI 코드 스캐너의 신뢰성 문제(오탐·환각)를 에이전트 간 검증과 샌드박스 재현으로 해결하려는 흐름의 대표 사례 — OWASP OASIS(위 4번)와 함께 'AI가 보안 수정을 대신하는' 주간 트렌드를 형성</li>
+            </ul>
+            <p>출처: <a href="https://www.infoq.com/news/2026/09/google-mantis-vulnerability-scan/" target="_blank">InfoQ - Google Mantis: An Agentic Vulnerability Scanning Harness for Reducing False Positives</a></p>
+
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
