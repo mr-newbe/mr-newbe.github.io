@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[클래식] Meltdown: Reading Kernel Memory from User Space — CPU의 '비순차 실행' 부작용으로 커널 메모리를 읽어낸 하드웨어 취약점 (2018)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🖥️ [클래식] Meltdown — CPU의 '비순차 실행' 부작용으로 커널 메모리를 통째로 읽어낸 하드웨어 취약점 (2018)</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-09-07 · 카테고리: Research (클래식 보안 논문)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Meltdown: Reading Kernel Memory from User Space<br>
+                <strong>저자:</strong> Moritz Lipp, Michael Schwarz, Daniel Gruss, Thomas Prescher, Werner Haas, Anders Fogh, Jann Horn, Stefan Mangard, Paul Kocher, Daniel Genkin, Yuval Yarom, Mike Hamburg (TU Graz·Cyberus Technology·Google Project Zero 등)<br>
+                <strong>발표:</strong> USENIX Security Symposium 2018 (<strong>Best Paper</strong>) · arXiv:1801.01207 (2018-01-03 공개)<br>
+                <strong>분야:</strong> 하드웨어 보안, 마이크로아키텍처 사이드채널, 커널 메모리 격리<br>
+                <strong>Semantic Scholar 인용:</strong> 미확인 (API 제한 — S2 비율 제한으로 조회 불가)
+            </div>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 연구 배경 — "커널 메모리는 읽을 수 없다"는 전제</h2>
+            <p>모든 현대 OS의 보안은 <strong>메모리 격리(memory isolation)</strong>라는 단일 전제 위에 세워져 있다. 커널 주소 영역은 사용자 프로세스에서 접근 불가로 표시되어 있고, CPU의 권한 비트(ring)가 이를 강제한다. 유저 프로세스가 커널 주소를 읽으려 하면 페이지 폴트가 발생하고 프로세스는 죽는다 — 이것이 수십 년간 '당연한' 사실이었다. Meltdown은 이 '당연함'이 <strong>하드웨어의 성능 최적화 — 비순차 실행(out-of-order execution)</strong> 때문에 지켜지지 않음을 증명한다. 소프트웨어 취약점도, OS 버그도 없이, 일반 유저 프로세스가 커널 메모리 전체(다른 프로세스의 비밀번호, 파일 캐시, 패스워드 등)를 읽어낼 수 있음을 보인 것이다.</p>
+
+            <h2><i class="fa-solid fa-gears"></i> 핵심 내용 — 권한 검사는 '순서대로 실행'될 때만 의미가 있다</h2>
+            <ul>
+                <li><strong>비순차 실행의 부작용:</strong> 최신 CPU는 명령어를 프로그램 순서대로 처리하지 않는다. 성능을 위해 순서를 뒤섞어 실행하고, 결과만 원래 순서대로 '은퇴(retire)'시킨다. Meltdown은 이 과정에서 <strong>권한 위반(privilege fault)이 발생하는 load 명령어도, 폐기되기 전까지는 실제로 실행된다</strong>는 점을 이용한다 — 권한 검사는 은퇴 단계에서야 이루어지기 때문이다.</li>
+                <li><strong>트랜잭트 명령어(transient instructions):</strong> 폐기될 운명인 권한 위반 load가 커널 주소의 값을 레지스터로 가져오면, 그 직후 이 값을 주소로 쓰는 후속 명령어들도 '트랜잭트하게' 실행된다. 이 명령어들은 결과가 폐기되지만, <strong>캐시에 남기는 흔적(side effect)은 폐기되지 않는다.</strong></li>
+                <li><strong>3단계 공격 절차:</strong> ① 유저 영역에서 커널 주소를 읽는 faulting load를 던져 값을 캐시에 유출 → ② 유출된 값으로 특정 캐시 라인에 접근하는 트랜잭트 명령어 실행 → ③ Flush+Reload 기법으로 '어느 캐시 라인이 로드됐는지'를 시간차로 측정해 <strong>1바이트를 복원</strong>. 이를 반복하면 커널 메모리 전체를 덤프할 수 있다.</li>
+                <li><strong>피해 범위:</strong> 최소 2010년 이후의 인텔 마이크로아키텍처 전반에서 동작하며(그 후 ARM Cortex-A75 등에서도 확인), OS에 독립적이고 가상화 환경(para-virtualization)의 격리도 함께 깨뜨린다. 근본 원인은 소프트웨어가 아니라 <strong>CPU 하드웨어 자체</strong>다.</li>
+                <li><strong>완화책 — KPTI:</strong> 커널이 사용자 공간에 매핑하던 페이지 테이블 항목을 제거하는 KAISER/KPTI(Kernel Page-Table Isolation)가 Linux 4.15 등에 긴급히 적용됐다. 커널 주소를 유저 공간에서 아예 '보이지 않게' 해서 공격 표면을 없애는 대가로, 시스템 콜 오버헤드에 따른 <strong>성능 하락</strong>이 전 산업계의 논쟁이 되었다.</li>
+            </ul>
+            <blockquote>"The root cause of Meltdown is the hardware. The attack is independent of the operating system, and it does not rely on any software vulnerabilities." — Lipp et al. (arXiv:1801.01207)</blockquote>
+
+            <h2><i class="fa-solid fa-arrow-trend-up"></i> 영향과 의의</h2>
+            <ul>
+                <li><strong>사이드채널 공격의 패러다임 전환:</strong> 2018년 1월 3일, Meltdown은 Spectre와 함께 <strong>Project Zero(TU Graz·Cyberus 등 다수 팀의 사전 조율)</strong>를 거쳐 동시 공개됐다(CVE-2017-5754). '추측 실행(speculative execution)의 부작용'이라는 전혀 새로운 공격 부류가 학계와 산업계에 동시에 던져졌다.</li>
+                <li><strong>전 산업계 패치 대란:</strong> OS 벤더(마이크로소프트·애플·리눅스)는 물론 AWS·Azure·GCP 등 클라우드 제공사가 <strong>전 세계 인프라를 순차 재부팅</strong>하며 마이크로코드·커널 업데이트를 적용했다. CPU 마이크로아키텍처 결함 하나가 인터넷 전체의 운영 일정을 바꾼 첫 사례였다.</li>
+                <li><strong>"하드웨어도 신뢰 경계"라는 교훈:</strong> OS와 소프트웨어가 아무리 안전해도, 그 아래 CPU가 보안 가정을 어기면 모든 소프트웨어 보안이 무의미해질 수 있음을 보여줬다. 이후 CPU 설계에서 보안이 1급 요구사항이 되고, 클라우드 테넌트 격리 연구에도 깊은 영향을 남겼다.</li>
+                <li><strong>트랜지언트 실행(transient execution) 연구의 시작:</strong> Meltdown은 이후 Spectre 변종들, Foreshadow(L1TF), ZombieLoad, RIDL·Fallout, MDS 등 <strong>'트랜지언트 실행 공격' 계열 전체의 출발점</strong>이 되었다. 학계에 하나의 새로운 하위 분야를 만든 논문으로 평가된다.</li>
+                <li><strong>함께 보면 좋을 시리즈:</strong> 같은 Kocher가 저술에 참여한 타이밍 공격 고전(1996, 08-31 게시), 차분 분석(09-04), 그리고 소프트웨어 버퍼 오버플로우 고전 Smashing the Stack(08-30)과 대비하면 — '소프트웨어 결함'과 '하드웨어 결함'이라는 두 안전 가정 붕괴 축을 모두 조망할 수 있다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>arXiv 초록 페이지: <a href="https://arxiv.org/abs/1801.01207" target="_blank" rel="noopener">arxiv.org/abs/1801.01207</a></li>
+                <li>공식 대응 사이트 (meltdownattack.com): <a href="https://meltdownattack.com/" target="_blank" rel="noopener">meltdownattack.com</a></li>
+                <li>USENIX Security 2018 논문 페이지: <a href="https://www.usenix.org/conference/usenixsecurity18/presentation/lipp" target="_blank" rel="noopener">usenix.org/conference/usenixsecurity18/presentation/lipp</a></li>
+                <li>NIST CVE-2017-5754: <a href="https://nvd.nist.gov/vuln/detail/CVE-2017-5754" target="_blank" rel="noopener">nvd.nist.gov/vuln/detail/CVE-2017-5754</a></li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
