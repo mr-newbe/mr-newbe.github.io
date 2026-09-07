@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-09-08</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta"><i class="fa-regular fa-calendar"></i> 2026-09-08 | <i class="fa-solid fa-tags"></i> Daily News, 제로데이, Nightmare Eclipse, CrowdStrike, Nvidia, Avast, CVE-2026-86218, N-able, ScreenConnect, PEEP, JSCeal, vishing, Arctic Wolf</div>
+        <div class="content">
+            <h2>1. 리서처 'Nightmare Eclipse', CrowdStrike·Nvidia·Avast 제로데이 3종 PoC 공개 — SYSTEM 권한 상승</h2>
+            <p>제로데이 익스플로잇 연구로 유명한 'Nightmare Eclipse'(일명 Chaotic Eclipse, Infinite Nightmare, MSNightmare)가 지난주 짧은 기간 동안 Avast·CrowdStrike·Nvidia 제품을 대상으로 한 신규 제로데이 익스플로잇 3종을 연달아 공개했다. PoC는 모두 권한 상승으로 이어지며 System 권한의 셸을 생성하는 것으로 알려졌다.</p>
+            <ul>
+                <li><strong>PrettyPrague:</strong> Avast 대상 권한 상승 제로데이 PoC</li>
+                <li><strong>FalconFlank:</strong> CrowdStrike Falcon Sensor의 Office 악성 매크로 교정(remediation) 기능 결함 악용 — CrowdStrike는 "조사 중이며, Microsoft Office File Suspicious Macro Removal Windows 정책 비활성화 권고"라고 답변</li>
+                <li><strong>GreenSection:</strong> Nvidia 제품의 out-of-bounds 결함 대상 — Nvidia는 SecurityWeek 문의에 대한 입장을 업데이트로 추가</li>
+                <li><strong>배경:</strong> 연구자는 8월 말에도 Kaspersky 엔드포인트 제품 권한 상승 제로데이 'HardBreacher'를 공개했고, 이는 8월 31일 패치됨</li>
+            </ul>
+            <p>출처: <a href="https://www.securityweek.com/nightmare-eclipse-drops-crowdstrike-nvidia-avast-zero-day-exploits/" target="_blank">SecurityWeek - Nightmare Eclipse Drops CrowdStrike, Nvidia, Avast Zero-Day Exploits</a></p>
+
+            <h2>2. N-able, N-central 무인증 RCE 결함 5주 만에 4번째 핫픽스 발표 — 야생 악용 여부 두고 발표 간 엇갈림</h2>
+            <p>RMM(원격 모니터링·관리) 플랫폼 N-central의 무인증 원격 코드 실행 취약점(CVE-2026-86218)을 두고 N-able이 5주 만에 4번째 핫픽스(2026.3.1.14)를 출시했다. 2026.3.1.14 미만의 모든 온프레미스 빌드 — 하루 전 Hotfix 3를 적용한 서버까지 — 가 영향권에 있다.</p>
+            <ul>
+                <li><strong>모순된 발표:</strong> N-able 릴리스 노트는 "제3자 책임 공개, 프로덕션 악용 확인 없음"이라고 밝히는 반면, 인시던트 공지(status page)는 "새 결함이 야생에서 악용되는 것이 관찰됐다"고 주장 — 관찰 주체·시점은 공개 안 됨</li>
+                <li><strong>Huntress 관측:</strong> 9월 4일, 완전히 패치된 고객 N-central 프로덕션 환경 침해를 조사하기 시작 — 로그 순환으로 "이번 CVE가 악용됐는지 단정 불가"</li>
+                <li><strong>조치 권고:</strong> Huntress는 콘솔 인바운드 접근을 IP 허용목록/VPN으로 제한하고, 인터넷 노출 서버는 핫픽스 적용 전 오프라인 전환 권고</li>
+                <li><strong>이력:</strong> Hotfix 1(2026.3.1.7, 8월 2일)부터 시작해 8월 이후 총 3건의 별개 취약점 세트를 수정</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/n-able-issues-fourth-n-central-hotfix.html" target="_blank">The Hacker News - N-able Issues Fourth N-central Hotfix in Five Weeks for Unauthenticated RCE Flaw</a></p>
+
+            <h2>3. 변조된 ScreenConnect 클라이언트, 신규 연결 호스트에 4단계 VBScript 체인 전파 — 웜형 공격</h2>
+            <p>Huntress는 ConnectWise ScreenConnect를 악용해 새로 연결되는 시스템에 악성 VBScript 페이로드를 배포하는 웜과 유사한 활동을 공개했다. 2026년 8월 관측된 3건의 무관한 사고 모두 서로 다른 초기 접근 방식으로 4단계 VBScript 체인을 구동해 변조된(rogue) ScreenConnect 설치로 이어졌다.</p>
+            <ul>
+                <li><strong>초기 접근 3종:</strong> Quick Assist 기술지원 사기, 피싱으로 유포된 MSI 설치 프로그램, 가짜 Geek Squad 환불 양식 미끼</li>
+                <li><strong>전파 단계:</strong> 1.vbs가 호스트 프로파일링(보안 제품·RAM·기존 ScreenConnect 확인) 후 3비트 상태 변수 기록 → 2·3.vbs가 상태값에 따라 Dropbox에서 단계별 페이로드 다운로드 → 4.vbs가 PowerShell로 암호화 페이로드 복호화·실행</li>
+                <li><strong>페이로드:</strong> 상태값에 따라 사용자 수준 ScreenConnect 백도어, UAC 우회 통한 권한 상승 툴, 터널링 유틸리티·암호화폐 채굴기 등 최소 3종 확인</li>
+                <li><strong>C2:</strong> tele-sync.opik[.]net(45.13.237[.]190), 131.123.40[.]98:8041, borertors92.anondns[.]net 등 사용</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/rogue-screenconnect-clients-spread-four.html" target="_blank">The Hacker News - Rogue ScreenConnect Clients Spread Four-Stage VBScript Chain to Newly Connected Hosts</a></p>
+
+            <h2>4. 'PEEP' — Chrome·Edge를 사후 침투 백도어로 바꾸는 Chromium 툴킷, Web Store 검사 우회</h2>
+            <p>SOCRadar가 북마크 확장 프로그램으로 위장한 정교한 Chromium 기반 사후 침투(post-exploitation) 툴킷 'PEEP'을 공개했다. 관리자 권한이나 코드 실행 권한이 선행돼야 하지만, 설치 시 Chromium의 Secure Preferences 무결성 값을 위조해 Web Store 검사와 사용자 프롬프트를 우회하고 확장 프로그램을 Chrome/Edge 프로필에 직접 주입한다.</p>
+            <ul>
+                <li><strong>동작:</strong> 'Smart Bookmarks'(ID: ejkndncpkdcjcikfhiamcdehdoegilbj) 확장이 30초마다 HTTP로 C2(206.237.30[.]232, xfjcc[.]fun)에 폴링하며 브라우저 데이터 탈취·명령 수신</li>
+                <li><strong>RAT 전환:</strong> OS 작업이 필요한 경우 네이티브 메시징 호스트(nm_host.exe)를 호출 — 셸 명령 실행, 파일 관리, 프로세스·서비스 탐색, 스크린샷·클립보드·JS 주입까지 수행</li>
+                <li><strong>지속성:</strong> 사이드로딩, 기업 강제 설치 정책(ExtensionInstallForcelist), preference 무결성 조작, ScriptCache 폴백 등 다중 방식</li>
+                <li><strong>기원·배후:</strong> 오픈소스 툴킷 RedExt의 파생형으로, 소스코드 내 중국어 아티팩트로 중국어 사용 위협 행위자 가능성 제기 — 아직 특정 행위자에 귀속되진 않음</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/peep-turns-chrome-and-edge-into-post.html" target="_blank">The Hacker News - PEEP Turns Chrome and Edge Into Post-Compromise Backdoors for Host Command Execution</a></p>
+
+            <h2>5. 가짜 IT 헬프데스크 전화, 임원 겨냥 M365 데이터 탈취·협박 공격 'PREY-0058' — AitM 토큰 재생</h2>
+            <p>Arctic Wolf 위협 헌터들이 IT 헬프데스크 비싱(vishing)과 중간자(AitM) 토큰 탈취, 리지덴셜 프록시 로그인을 결합해 Microsoft 365 등 SaaS 데이터를 대량 탈취·협박하는 광범위한 위협 클러스터 'PREY-0058'의 세부를 공개했다. 주로 이사·부사장 등 임원급이 표적이 되며, 엔드포인트 악성코드나 네트워크 측면 이동 없이 클라우드 데이터만 집중적으로 탈취한다.</p>
+            <ul>
+                <li><strong>공격 흐름:</strong> 가짜 IT 지원 전화로 시작해 운영자 제어 AitM 로그인 페이지로 유도 — 자격증명과 MFA 승인을 탈취해 인증된 세션 토큰 확보</li>
+                <li><strong>토큰 재생:</strong> 탈취한 토큰은 NodeMaven 등 프록시 인프라와 피해자와 동일한 지역·ASN의 IP에서 재생(replay)되어 탐지 회피</li>
+                <li><strong>탈취 범위:</strong> 초기 접근 후 SharePoint·Entra ID에서 검색·정찰 수행 → SharePoint, OneDrive, Exchange, Box에서 대량 수집·외부 유출 후 협박</li>
+                <li><strong>대응 권고:</strong> Conditional Access 정책, 피싱 저항형 MFA, SharePoint 데이터 접근 범위 최소화, 헬프데스크 직원 비싱 교육</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/microsoft-365-attackers-use-help-desk.html" target="_blank">The Hacker News - Fake IT Calls Target Executives in Microsoft 365 Data Theft and Extortion Attacks</a></p>
+
+            <h2>6. 컴파일된 V8 자바스크립트 악성코드 'JSCeal', 훔친 세션 쿠키로 Google 인증 우회 — SourTrade 멀버타이징과 겹침</h2>
+            <p>Check Point Research가 정교한 난독화를 적용한 컴파일형 V8 JavaScript(JSC) 악성코드 'JSCeal'의 전체 역공학 결과를 발표했다. 자격증명 수집·감시·트래픽 가로채기 기능을 갖췄으며, 페이로드는 RC4 문자열 보호·제어 흐름 평탄화 등 4가지 변환 그룹으로 보호된다.</p>
+            <ul>
+                <li><strong>유포:</strong> Facebook·Google 악성 광고로 가짜 암호화폐 거래소 사이트에 유도, 위장 TradingView 설치 프로그램 다운로드 유도 — WEEVILPROXY·MeadowLocust 클러스터와 연관</li>
+                <li><strong>탈취 기능:</strong> Chromium 계열 브라우저(Chrome·Edge·Brave·Opera·Vivaldi 등)의 쿠키·비밀번호·OAuth 토큰 탈취 — 훔친 세션 쿠키로 Google 인증 우회</li>
+                <li><strong>분석 우회:</strong> Check Point는 완전 정적 deobfuscation 파이프라인을 개발해 실행 흐름과 기능을 복원</li>
+                <li><strong>SourTrade 연관:</strong> 지난달 Confiant가 공개한 대규모 멀버타이징 'SourTrade'(Solana·Luno·TradingView 사칭)는 완성된 악성코드를 배포하지 않고 브라우저 메모리에서 직접 조립하게 하는 방식 — JSCeal 캠페인(2025년 9월 Bitdefender 보고)과 활동 겹침 관측</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/jsceal-malware-can-bypass-google.html" target="_blank">The Hacker News - JSCeal Malware Can Bypass Google Authentication Using Stolen Session Cookies</a></p>
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
