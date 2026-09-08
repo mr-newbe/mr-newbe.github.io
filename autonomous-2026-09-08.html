@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - ChauffeurNet (Waymo): '최고를 모방하고 최악을 합성하라' — 폐루프 모방 학습으로 실차 주행 정책을 만든 RSS 2019</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - ChauffeurNet (Waymo): '최고를 모방하고 최악을 합성하라' — 폐루프 모방 학습으로 실차 주행 정책을 만든 RSS 2019</h1>
+            <p class="date">2026-09-08</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>논문:</strong> ChauffeurNet: Learning to Drive by Imitating the Best and Synthesizing the Worst</li>
+                    <li><strong>저자:</strong> Mayank Bansal, Alex Krizhevsky, Abhijit Ogale (Waymo)</li>
+                    <li><strong>분야:</strong> cs.RO / cs.CV / cs.LG — 모방 학습(imitation learning) 기반 자율주행 모션 플래닝</li>
+                    <li><strong>게시일:</strong> arXiv v1 2018-12-07 / RSS 2019 (Robotics: Science and Systems XV, 2019-06-22)</li>
+                    <li><strong>인용:</strong> 미확인 (Semantic Scholar API 일시 제한, 2026-09-08) — 명성은 게재지·저자·영향력 계보로 확인</li>
+                    <li><strong>코드:</strong> 공식 코드 미공개 (Waymo 내부 연구) — 커뮤니티 재구현 Iftimie/ChauffeurNet 133⭐, aidriver/ChauffeurNet 71⭐ (2026-09 확인)</li>
+                    <li><strong>원문:</strong> <a href="https://arxiv.org/abs/1812.03079" target="_blank">https://arxiv.org/abs/1812.03079</a></li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>ChauffeurNet은 Waymo가 2018년에 발표한 <strong>중간 수준(mid-level) 모방 학습 기반 주행 정책</strong> 연구다. 주변 객체와 도로 지도를 top-down 래스터 이미지로 렌더링해 CNN에 넣고, 자차의 미래 경로(waypoint 시퀀스)를 예측하도록 학습시킨 뒤, 저수준 컨트롤러가 이를 추종하는 구조다. 저자들은 핵심 질문을 던진다: "전문가 주행 데이터만 대량으로 모방하면(behavior cloning) 충분한가?" — 답은 <strong>'아니오'</strong>였다.</p>
+            <ul>
+                <li><strong>3천만 개로도 부족한 표준 행동 클로닝:</strong> 인식 시스템(입력 전처리)과 컨트롤러(출력 실행)를 완비한 파이프라인에서도, 3,000만 개의 전문가 예제를 단순 모방한 정책은 복잡한 실제 주행 시나리오를 감당하지 못했다 — 회귀적 모방 학습의 '분포 밖(off-distribution)' 붕괴 문제를 대규모 실험으로 입증</li>
+                <li><strong>최악의 상황 합성(synthesizing the worst):</strong> 해법은 전문가 궤적에 <strong>섭동(perturbation)</strong>을 가해 데이터를 합성하는 것 — 경로를 살짝 틀어 충돌·도로 이탈·보행자 접근 같은 위험 상황을 인위적으로 만들어 학습에 노출시킨다. "모방 데이터로 좋은 행동을 배우되, 합성 섭동으로 나쁜 상황에서 회복하는 법을 배운다"는 아이디어</li>
+                <li><strong>모방 손실 + 보조 손실:</strong> 순수 모방 손실만 쓰지 않고, <strong>바람직하지 않은 이벤트를 벌점</strong>(충돌·오프로드·정지·역주행 등)하고 <strong>진행(progress)을 장려</strong>하는 보조 손실을 결합 — 섭동 샘플이 이 보조 손실들의 '음성 신호'를 제공해 정책이 원인-결과(causal factor)에 올바르게 반응하도록 만든다</li>
+                <li><strong>폐루프(closed-loop) 지향 설계:</strong> 정책 자체는 중간 수준 표현(객체 박스 + 맵)을 입력받아 waypoint를 출력하고, 저수준 컨트롤러가 추종하는 구조 — 시뮬레이션의 복잡한 상황 처리 + 광범위한 절제 실험(ablation)으로 각 구성 요소의 기여를 검증했으며, 최종적으로 <strong>실차(real vehicle) 주행을 시연</strong></li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>Waymo의 학습 기반 모션 플래닝 대표작:</strong> 로보택시 리더 Waymo가 2018년 시점에 '수작업 규칙 기반 플래너' 대신 '데이터로 학습되는 주행 정책'의 가능성을 정면으로 검증한 연구 — 이후 Waymo/산업계 학습 파이프라인의 방향을 보여준 이정표</li>
+                <li><strong>Alex Krizhevsky(AlexNet) 공저:</strong> 딥러닝 붐을 연 저자가 자율주행 정책 학습에 직접 참여한 논문으로, 학계·업계의 관심을 한 몸에 받음</li>
+                <li><strong>'섭동 합성 + 폐루프 학습'의 원형(prototype):</strong> 전문가 궤적에 섭동을 가해 위험 시나리오를 만들고, 벌점 손실로 복구를 학습하는 방식은 이후 모방 학습 기반 드라이빙 연구(Learning by Cheating, Roach 등)와 자율주행 시나리오 증강 전반에 지대한 영향을 준 표준 레시피</li>
+                <li><strong>시리즈 내 연결:</strong> DAVE-2(2026-08-05 포스팅, 저수준 E2E 모방 학습의 원형)와 같은 계보에서 '중간 수준 입력 + 보조 손실 + 폐루프'로 한 단계 진화한 위치 — 같은 Waymo 산하 행동 예측 연구 VectorNet(2026-09-02 포스팅)과도 방법론적으로 상보적이며, 최신 VLA/엔드투엔드 정책(Alpamayo 2026-09-04, TransFuser 등)의 '학습된 주행 정책' 논쟁의 출발점</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>ChauffeurNet이 남긴 메시지는 두 가지다. 첫째, <strong>"데이터를 많이 모으면 모방 학습만으로 충분하다"는 믿음은 틀렸다</strong> — 3천만 예제로도 실패하는 상황이 존재하며, 정책이 스스로 벗어나기 어려운 분포 밖 상태(충돌 직전, 도로 이탈)는 실제 데이터에서는 거의 수집되지 않는다. 둘째, 그 빈틈은 <strong>'최악의 상황을 인위적으로 합성'해 메울 수 있다</strong> — 섭동 기반 데이터 증강과 '벌점 + 진행 장려' 보조 손실의 조합은 실데이터 수집 비용을 낮추면서 정책의 회복 능력을 키우는 실용적 처방이다. 2026년 현재 대부분의 데이터 기반 주행 정책 학습이 폐루프 미세조정과 시나리오 증강을 기본으로 쓰는 이유를 설명해 주는, '학습된 드라이빙 정책' 연구의 교과서적 출발점이다. 한 줄 요약: 좋은 운전은 좋은 데이터를 모방하는 것만으로는 배울 수 없고, 실패에서 회복하는 법을 가르쳐야 배울 수 있다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/1812.03079" target="_blank">https://arxiv.org/abs/1812.03079</a></p>
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
