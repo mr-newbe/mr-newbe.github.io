@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[최신] Injected and Leaked — EM 주입으로 사이드채널 누출을 증폭시키는 InjectEave: 30m 밖 헤드폰 소리를 도청하는 능동형 하드웨어 공격 (2026)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📡 [최신] Injected and Leaked — EM 주입으로 사이드채널 누출을 '증폭'하는 InjectEave: 30m 밖 헤드폰 소리를 도청하는 능동형 하드웨어 공격 (2026)</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-09-08 · 카테고리: Research (최신 보안 논문)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Injected and Leaked: Actively Inducing Side-Channel Leakage Using Electromagnetic Injection and Hardware Nonlinearity<br>
+                <strong>저자:</strong> Haoran Yan, Ziyu Shao, Shuhao Zhang, Qinhong Jiang, Yan Long<br>
+                <strong>발표:</strong> arXiv:2609.04785 (2026-09-04 공개, 20쪽 규모의 신규 결과)<br>
+                <strong>분야:</strong> 하드웨어 보안, EM 사이드채널 · 전자파 주입, TEMPEST/물리 보안<br>
+                <strong>Semantic Scholar 인용:</strong> 미확인 (API 제한 — 2026-09-04 게시 직후 신규 논문이라 아직 인용 집계 전)
+            </div>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 연구 배경 — '수동 도청'과 '능동 주입'은 원래 별개의 위협이었다</h2>
+            <p>전자기(EM) 사이드채널 공격은 <strong>기기가 의도치 않게 방사하는 전자파를 수동으로 측정</strong>해 내부 비밀(화면 신호, 오디오, 키 입력 등)을 복원하는 기법이다. CRT 모니터를 원격 도청한 van Eck(1985)에서부터 현대 TEMPEST 방호 기준까지, 이 위협의 전제는 '공격자는 수동 관찰자(passive observer)'라는 점이다. 반면 EM <strong>주입(injection)</strong> — 고출력 전자파를 표적에 쏘아 회로 오동작을 유발하는 방식 — 은 데이터 <strong>무결성(integrity)</strong>을 깨는 능동 공격으로 분류되어 왔다. 즉 '누출을 듣는다'와 '회로를 교란한다'는 서로 다른 연구·방어 체계로 취급됐다. 이 논문은 이 둘을 하나로 묶는다: <strong>EM 주입이 '원래는 측정 불가능했던' 사이드채널 누출을 능동적으로 증폭</strong>할 수 있음을 이론적 모델링과 실측으로 보여주고, 폐루프(closed-loop) EM 보안 분석 프레임워크를 제시한다.</p>
+
+            <h2><i class="fa-solid fa-gears"></i> 핵심 내용 — 비선형 하드웨어가 주입 캐리어 위에 비밀 신호를 '실어 보낸다'</h2>
+            <ul>
+                <li><strong>비선형성(nonlinearity)이 만드는 주파수 변환:</strong> 증폭기(amplifier), ADC, 전력 변환기(power converter) 등 <strong>어디에나 있는 비선형 아날로그 부품</strong>은 두 신호를 '혼합(mix)'한다. 공격자가 특정 주파수의 EM 캐리어를 주입하면, 내부의 저주파 비밀 신호(오디오, 전력 소비, 센서 값)가 이 캐리어에 실려 — AM 변조처럼 — <strong>측정 가능한 고주파 EM 대역으로 상향 변환(upconvert)</strong>된다. 도청에 불리했던 '거의 DC에 가까운 저주파 누출'이 멀리서 잡히는 RF 신호로 승격되는 것이다.</li>
+                <li><strong>능동적 누출 '성형(shaping)':</strong> 기존 사이드채널 공격이 주어진 누출을 그저 측정할 뿐이라면, InjectEave는 주입 주파수와 진폭을 조절해 <strong>누출의 유효 스펙트럼과 엔트로피를 능동적으로 조형</strong>한다. 측정 → 주입 파라미터 조정 → 재측정의 폐루프가 가능해져, 신호 대 잡음비가 낮아 도청이 '불가능했던' 시나리오를 공격자가 직접 바꿔버린다.</li>
+                <li><strong>InjectEave 공격 데모:</strong> 시중에서 구할 수 있는 RF 장비만으로 <strong>유선·무선 헤드폰의 재생 오디오를 최대 30m 거리에서 도청</strong>했으며, <strong>벽 너머(through-wall) 시나리오</strong>에서도 성공했다. 오디오에 그치지 않고 스마트홈 기기의 전력 소비, 아날로그 센서 입력 등 다른 저주파 비밀의 주입 유도 누출도 특성화했다.</li>
+                <li><strong>도청을 넘어 '조작'으로 — 유선전화 사례:</strong> 사례 연구에서는 유선전화 통화에 대해 폐루프 <strong>도청과 동시에 통화 내용 조작(manipulation)</strong>까지 수행했다. 주입이 단순한 정보 유출(information leak)을 넘어, 공격자가 대화에 개입할 수 있는 양방향 채널이 됨을 보여준다.</li>
+                <li><strong>방법론:</strong> 'Injection-Induced EM Side Channel' 프레임워크 — 이론 모델링(비선형 혼성에 의한 캐리어 변조)과 실측을 결합해 주입 조건에 따른 누출 변화를 예측·검증한다. 방어 측면에서는 주입 캐리어 자체가 '능동 신호'이므로 탐지 가능하다는 점, 그리고 선형성·필터링·차폐의 한계를 함께 논의한다.</li>
+            </ul>
+            <blockquote>"Nonlinear hardware components, such as ubiquitous amplifiers, analog-to-digital converters, and power converters, can modulate secret electrical signals onto an injected EM carrier and thus upconvert low-frequency secrets into measurable EM emissions." — Yan et al. (arXiv:2609.04785)</blockquote>
+
+            <h2><i class="fa-solid fa-arrow-trend-up"></i> 영향과 의의</h2>
+            <ul>
+                <li><strong>TEMPEST 방호의 전제에 균열:</strong> 기존 차폐·거리·구역(zone) 기준은 '누출은 주어져 있고 공격자는 수동으로 듣는다'는 가정 위에 설계됐다. 능동 주입이 누출 자체를 증폭·합성할 수 있다면, '조용한 환경 + 먼 거리'만으로 안전하다는 기존 가정은 재검토가 필요해진다.</li>
+                <li><strong>공격 표면의 확장 — 기밀성+무결성 동시 위협:</strong> 사이드채널(기밀성 침해)과 주입(무결성 침해)이 하나의 폐루프 공격으로 합쳐지면서, 유선전화·오디오·산업 센서 등 '저주파 아날로그 세계' 전체가 잠재적 공격 대상이 된다. 물리 보안 시설에서 헤드폰·마이크 사용을 제한하는 기존 규정의 기술적 근거가 더 단단해졌다.</li>
+                <li><strong>하드웨어 비선형성 = 새로운 보안 경계:</strong> '기능상 당연한' 아날로그 부품의 비선형성이 곧 정보 유출 경로가 될 수 있음을 보여준 사례다. 09-07 게시된 Meltdown(CPU 비순차 실행)처럼, '정상 동작의 부수 효과'가 보안 가정을 무너뜨리는 하드웨어 계열 연구의 연장선에 있다.</li>
+                <li><strong>방어 방향:</strong> ① 주입 신호는 '능동적'이므로 EM 센서로 탐지·경보 가능, ② 아날로그 경로의 선형성 요구와 대역 필터링으로 혼성(upconversion) 자체를 억제, ③ 오디오·전력 라인에 대한 EM 차폐/간섭 완화 설계. 저비용 RF 장비로 30m 도청이 가능하다는 실증은 보안 평가 기준(예: 스마트 기기 인증)에도 반영 여지가 크다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>arXiv 초록 페이지: <a href="https://arxiv.org/abs/2609.04785" target="_blank" rel="noopener">arxiv.org/abs/2609.04785</a></li>
+                <li>프로젝트 웹사이트 (InjectEave): <a href="https://injecteave.github.io/" target="_blank" rel="noopener">injecteave.github.io</a></li>
+                <li>arXiv DOI: <a href="https://doi.org/10.48550/arXiv.2609.04785" target="_blank" rel="noopener">doi.org/10.48550/arXiv.2609.04785</a></li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
