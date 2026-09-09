@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[클래식] The Geometry of Innocent Flesh on the Bone — W⊕X를 무너뜨린 return-oriented programming의 탄생 (2007)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔧 [클래식] The Geometry of Innocent Flesh on the Bone — W⊕X를 무너뜨린 return-oriented programming의 탄생 (2007)</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-09-09 · 카테고리: Research (전통 보안 고전 논문)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> The Geometry of Innocent Flesh on the Bone: Return-into-libc without Function Calls (on the x86)<br>
+                <strong>저자:</strong> Hovav Shacham (UC San Diego)<br>
+                <strong>발표:</strong> ACM CCS 2007 (Proceedings of the 14th ACM Conference on Computer and Communications Security, 2007-10-28)<br>
+                <strong>분야:</strong> 익스플로잇 기법 · 시스템 보안 — 코드 인젝션 방어(W⊕X/NX) 우회, return-oriented programming (ROP)<br>
+                <strong>Semantic Scholar 인용:</strong> 1,601회
+            </div>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 연구 배경 — '주입은 막았지만 돌아오는 길은 남았다'</h2>
+            <p>1996년 Aleph One의 "Smashing the Stack for Fun and Profit"(2026-08-30 게시)이 스택 버퍼 오버플로우로 <strong>셸코드(코드 인젝션)</strong>를 실행하는 법을 대중화하자, 방어자들은 실행 권한이 없는 메모리(NX)와 W⊕X(쓰기 XOR 실행) 정책을 내놓았다. 코드를 주입해도 CPU가 그 페이지에서 실행을 거부하도록 만든 것이다. 그러자 공격자들은 <strong>이미 실행 가능한 libc 코드로 '돌아가는'</strong> return-into-libc 공격(Solar Designer 1997, Nergal의 Phrack 2001)을 사용했고, 방어자들은 '함수 몇 개를 막거나 제거하면 된다'고 생각했다. Shacham의 이 논문은 그런 협소한 방어 논쟁 자체를 끝내버린다: <strong>함수를 하나도 호출하지 않고</strong>, libc 바이트열 속에 우연히 존재하는 'ret로 끝나는 짧은 명령 조각'만 이어 붙여서 <strong>임의 계산(arbitrary computation)</strong>을 완성하는 체계를 제시했다. 이것이 오늘날 모든 익스플로잇의 표준 어휘가 된 <strong>return-oriented programming (ROP)</strong>의 출발점이다.</p>
+
+            <h2><i class="fa-solid fa-gears"></i> 핵심 내용 — '무고한 살점' 속에서 가젯을 찾다</h2>
+            <ul>
+                <li><strong>함수 호출 제로(zero function calls):</strong> 전통적 return-into-libc는 system() 같은 <em>함수</em>를 호출하므로, 방어자가 해당 함수를 제거하거나 라이브러리를 재컴파일하면 무력화됐다. Shacham의 공격은 함수를 전혀 호출하지 않는다 — 어셈블러가 만든 코드가 아니라 <strong>libc 바이트열에 '우연히' 존재하는 명령 시퀀스</strong>만 사용하므로, 특정 함수 제거나 코드 생성 방식 변경에도 강하다.</li>
+                <li><strong>가젯(gadget)의 발견과 조립:</strong> x86은 가변 길이 명령어 집합이라, <strong>명령 경계를 무시하고 중간 바이트부터 디코딩</strong>하면 원래 코드와 전혀 다른 '숨겨진' 명령들이 나타난다. 논문은 libc를 정적 분석해 <strong>'ret로 끝나는 짧은 명령 시퀀스'</strong>를 효율적으로 찾아내는 알고리즘을 제시하고, 그 조각들을 사슬처럼 연결해 로드/스토어·산술·제어 흐름을 구현하는 가젯들을 설계했다.</li>
+                <li><strong>Turing-complete 계산:</strong> 개별 가젯은 사소하지만, ret가 스택을 통해 다음 가젯 주소로 흐름을 넘기는 '체인' 구조 덕분에 <strong>임의의 계산을 표현</strong>할 수 있음을 보였다. 공격자는 스택을 '가젯 주소의 배열'로 채우는 것만으로 프로그램 전체를 흉내 낸다 — 코드 인젝션과 '전혀 다를 바 없이(powerful as code injection)' 강력하다.</li>
+                <li><strong>핵심 테제(thesis):</strong> "충분히 큰 x86 실행 코드 어디에나 비슷한 가젯을 만들 수 있는 시퀀스가 존재한다"는 주장을 특정 glibc 배포판 실증과 함께 제시했다. 이는 특정 라이브러리 버전에 의존하는 공격이 아니라 <strong>x86 명령어 집합 자체의 구조적 속성</strong>에서 나오는 위협임을 뜻한다.</li>
+                <li><strong>이름의 유래:</strong> 논문은 이 체계를 농담 삼아 "return-oriented programming"이라 명명했다(facetiously, return-oriented programming). 제목의 '무고한 살점(innocent flesh)'은 프로그램이 '뼈대(의도된 코드)'에 기대는 데이터·패딩 바이트까지도 공격자가 다른 의미로 '읽어낼' 수 있다는 통찰을 암시한다.</li>
+            </ul>
+            <blockquote>"We present new techniques that allow a return-into-libc attack to be mounted on x86 executables that calls no functions at all. Our attack combines a large number of short instruction sequences to build gadgets that allow arbitrary computation." — Shacham, CCS 2007</blockquote>
+
+            <h2><i class="fa-solid fa-arrow-trend-up"></i> 영향과 의의 — '방어의 종말'에서 '새 방어의 시작'으로</h2>
+            <ul>
+                <li><strong>W⊕X만으로는 부족하다는 증명:</strong> 이 논문은 NX/DEP(W⊕X)가 코드 인젝션을 막아도 <strong>실행 가능한 기존 코드를 재조립하는 공격은 막지 못함</strong>을 결정적으로 보여줬다. 이후 방어의 축은 '무엇을 실행하나'에서 '어디로 흐름이 갈 수 있나'로 이동했다.</li>
+                <li><strong>ASLR로의 압박:</strong> ROP가 라이브러리 코드의 <em>주소</em>를 알아야 하므로, 무작위 배치(ASLR)가 핵심 방어로 부상했다. 그러나 정보 누출(정보 유출 취약점)과 결합된 ROP는 ASLR도 뚫었고, 실제 공격(브라우저 원격 코드 실행, iOS/Android 탈옥, 랜섬웨어 익스플로잇)의 표준 2단계(정보 누출 → ROP 체인)로 자리 잡았다.</li>
+                <li><strong>후속 연구의 원류:</strong> 가젯을 ret 대신 간접 점프로 연결하는 jump-oriented programming(Checkoway et al., 2010), RISC 아키텍처(SPARC·ARM)로의 일반화, 그리고 이를 다시 막기 위한 <strong>제어 흐름 무결성(CFI)</strong> 연구 전체가 이 논문에서 출발했다. 오늘날 Intel CET(Shadow Stack + IBT), ARM BTI, GCC/Clang의 CFI 옵션은 모두 ROP에 대한 대응이다.</li>
+                <li><strong>8/30 Smashing the Stack 게시물과의 연속선:</strong> 코드 인젝션(1996) → 실행 방지 정책 → return-into-libc → <strong>함수 호출 없는 ROP(2007)</strong> → CFI/하드웨어 스택 보호로 이어지는 익스플로잇-방어 공진화에서, 이 논문은 공격자가 '방어의 전제'를 통째로 바꿔버린 전환점이다. '유명한 공격 논문'이 곧 '유명한 방어 연구 분야의 탄생 논문'이기도 한 대표적 사례다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>ACM DL (원문): <a href="https://dl.acm.org/doi/10.1145/1315245.1315313" target="_blank" rel="noopener">dl.acm.org/doi/10.1145/1315245.1315313</a></li>
+                <li>DOI: <a href="https://doi.org/10.1145/1315245.1315313" target="_blank" rel="noopener">doi.org/10.1145/1315245.1315313</a></li>
+                <li>저자 공개 PDF: <a href="https://hovav.net/ucsd/dist/geometry.pdf" target="_blank" rel="noopener">hovav.net/ucsd/dist/geometry.pdf</a></li>
+                <li>관련 게시물 — Smashing the Stack for Fun and Profit (2026-08-30): <a href="security-research-2026-08-30.html" target="_blank" rel="noopener">security-research-2026-08-30.html</a></li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
