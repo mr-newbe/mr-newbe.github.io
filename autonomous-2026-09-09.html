@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - CARLA: 자율주행 연구의 '공개 도시 실험실' — 업계 표준이 된 오픈소스 시뮬레이터 (CoRL 2017, ⭐14.4k)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - CARLA: 자율주행 연구의 '공개 도시 실험실' — 업계 표준이 된 오픈소스 시뮬레이터 (CoRL 2017, ⭐14.4k)</h1>
+            <p class="date">2026-09-09</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>유형:</strong> GitHub 프로젝트 (오픈소스 시뮬레이터) + 원형 논문 CARLA: An Open Urban Driving Simulator</li>
+                    <li><strong>소유자/저장소:</strong> carla-simulator/carla (C++, Unreal Engine 기반)</li>
+                    <li><strong>Star / Fork:</strong> 14,376 ⭐ / 4,684 forks (2026-09-09 확인)</li>
+                    <li><strong>라이선스:</strong> MIT (완전 오픈소스, 상용 활용 가능)</li>
+                    <li><strong>설명:</strong> Open-source simulator for autonomous driving research (홈페이지 carla.org)</li>
+                    <li><strong>최신 릴리스:</strong> 0.9.16 (2025-09-16) — UE5 기반 nightly 빌드 배포 진행 중 (커밋: 2026-09-02 'Deploy UE5 nightly to Cloudflare R2')</li>
+                    <li><strong>최근 활동:</strong> 2026-07 V2X 센서 계열 추가(CAM 서비스·path-loss·CustomV2X·V2I, #9757), WalkManager 신호등 보호 수정(#9758) 등 — 커밋 2026-09 기준 매우 활발</li>
+                    <li><strong>원형 논문:</strong> Alexey Dosovitskiy, German Ros, Felipe Codevilla, Antonio M. López, Vladlen Koltun — CoRL 2017 (Conference on Robot Learning), 수천 회 인용</li>
+                    <li><strong>원문:</strong> <a href="https://github.com/carla-simulator/carla" target="_blank">https://github.com/carla-simulator/carla</a></li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>CARLA(CAR Learning to Act)는 2017년 Intel 연구진이 발표한 <strong>'연구 전용' 공개 도시 주행 시뮬레이터</strong>다. Unreal Engine 위에 자동차·도로·신호등·보행자가 살아있는 가상 도시를 구축하고, 자율주행 스택 전체(인식→플래닝→제어)를 안전하게 개발·검증할 수 있는 환경을 제공한다. '실차 실험이 위험하고 비싼 문제'를 시뮬레이션으로 옮긴, 현대 자율주행 연구 인프라의 사실상 표준이다.</p>
+            <ul>
+                <li><strong>풍부한 센서 시뮬레이션:</strong> RGB·깊이·세그멘테이션 카메라, LiDAR, 레이더, GNSS/IMU, V2X(차량-인프라 통신)까지 — 물리 기반 렌더링과 현실적인 노이즈/감쇠 모델로 센서 융합·인식 연구의 입력을 재현</li>
+                <li><strong>동적 도시 환경:</strong> 여러 도시 맵(Town 시리즈)과 날씨·시간대(낮/밤/비/안개) 조합, 교통량·보행자 시뮬레이션 — Traffic Manager가 현실적인 주변 차량 흐름을 생성해 복잡한 도심 시나리오 재현</li>
+                <li><strong>Python API + 시나리오 엔진:</strong> 클라이언트-서버 구조의 Python API(carla 라이브러리)로 차량·센서·맵을 코드로 제어하고, ScenarioRunner로 NHTSA 사전충돌 시나리오 등 <strong>위험 상황을 의도적으로 재현</strong> — RL·모방 학습 에이전트 학습에 최적화된 환경</li>
+                <li><strong>ROS/ROS2 브리지·벤치마크 생태계:</strong> ROS 기반 스택과의 연동 브리지, 그리고 CARLA Leaderboard(자율주행 챌린지)와 공식 벤치마크로 서로 다른 주행 정책의 성능을 <strong>동일 조건에서 비교 평가</strong>하는 표준 절차를 제공</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>자율주행 논문의 '공동 실험실':</strong> CVPR·CoRL·ICRA 등 최신 엔드투엔드/모방 학습/RL 주행 연구(TransFuser, UniAD 계열, 인터랙티브 플래닝 등)의 상당수가 CARLA에서 학습·평가됨 — 실차 없이도 '도시 주행' 문제를 재현할 수 있는 표준 무대</li>
+                <li><strong>업계·학계 양쪽의 채택:</strong> MIT 라이선스로 완전 공개되어 상용/교육/연구 무관하게 사용 가능, 14.4k ⭐·4.7k fork에 이르는 커뮤니티 — 도요타 연구소, 웨이모 등 실차 기업도 보조 검증 환경으로 활용(연구 인용 수천 회)</li>
+                <li><strong>8년 넘게 이어지는 활발한 유지보수:</strong> 2017년 생성 후 지금까지 릴리스와 커밋이 끊이지 않음(최근엔 UE5 이전과 V2X·차량-인프라 통신 센서 계열 추가) — 학계 '토이'가 아닌, 계속 진화하는 산업 수준 인프라</li>
+                <li><strong>시리즈 내 연결:</strong> 전술 의사결정 RL 환경 HighwayEnv(2026-09-07 포스팅)가 '경량 정책 학습'이라면, CARLA는 센서 입력부터 저수준 제어까지 풀스택을 다루는 '고충실도 검증' 담당 — ChauffeurNet(2026-09-08 포스팅)이 합성 위험 시나리오로 정책을 훈련한 것과 같은 맥락에서, CARLA의 시나리오 엔진은 그 '위험 상황 재현'을 표준화한 플랫폼</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>CARLA가 보여주는 통찰은 자율주행의 경쟁이 '알고리즘'을 넘어 '<strong>검증 인프라</strong>'로 이동했다는 점이다. 실도로 테스트는 비용·안전·시간의 벽에 막히지만, 고충실도 시뮬레이터는 위험한 시나리오를 무한정·재현 가능하게 생성해 학습과 평가를 가속한다. 2017년 '오픈소스 시뮬레이터 하나'로 시작한 프로젝트가 2026년 현재 자율주행 연구의 사실상 공용 실험실이 된 것은, 연구 커뮤니티가 '같은 환경에서 비교하는 재현성'을 얼마나 갈망했는지를 방증한다. 특히 최근의 V2X·차량-인프라 통신 지원과 UE5 기반 차세대 버전은 시뮬레이션이 단순 훈련 도구를 넘어 <strong>V2X·협력 주행 같은 미래 시스템의 설계 무대</strong>로 확장되고 있음을 시사한다. 한 줄 요약: 좋은 자율주행 연구의 출발점은 좋은 알고리즘이 아니라, 실패를 안전하게 반복할 수 있는 '가상 도시'다.</p>
+
+            <p>원문: <a href="https://github.com/carla-simulator/carla" target="_blank">https://github.com/carla-simulator/carla</a></p>
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
