@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[최신] Are Unreachable Nodes Truly Safe? — NAT 뒤 '도달 불가' 노드까지 삼키는 모네로 P2P 완전 식립(이클립스) 공격 Nyx·Moros (2026)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌑 [최신] Are Unreachable Nodes Truly Safe? — NAT 뒤 '도달 불가' 노드까지 삼키는 모네로 P2P 완전 식립(이클립스) 공격 Nyx·Moros (2026)</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-09-10 · 카테고리: Research (최신 보안 논문)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Are Unreachable Nodes Truly Safe? Fully Eclipsing Monero's P2P Network!<br>
+                <strong>저자:</strong> Ruisheng Shi, Jiaqi Zeng, Lina Lan, Shihan Zhang, Bing Han, Xiapu Luo, Qishu Jin, Wenliang Du, Qin Wang<br>
+                <strong>발표:</strong> arXiv:2609.10260 (2026-09-09) · <strong>ACM CCS 2026</strong> (The Hague, The Netherlands) 채택<br>
+                <strong>분야:</strong> 네트워크 보안 · 블록체인/P2P — 이클립스(Eclipse) 공격, NAT 뒤 '도달 불가(unreachable)' 노드, 프라이버시 코인(모네로)<br>
+                <strong>Semantic Scholar 인용:</strong> 미확인 (API 제한) — 게시 1일차 신규 논문
+            </div>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 연구 배경 — 'NAT 뒤에 있으면 안전하다'는 통념에 도전</h2>
+            <p><strong>이클립스 공격(Eclipse attack)</strong>은 블록체인 노드의 P2P 연결을 공격자가 독점해, 그 노드가 보는 세상(피어·블록·트랜잭션) 전체를 조작하는 공격이다. 기존 연구 — 모네로(NDSS'25), 비트코인(USENIX'15/21, S&amp;P'20), 이더리움(WWW'26) — 는 모두 <strong>공격자가 피해 노드로 인바운드(inbound) 연결을 맺을 수 있다</strong>고 가정했다. 그런데 실제 네트워크의 상당수(그리고 실질적으로 다수) 노드는 <strong>NAT·방화벽 뒤에서 인바운드 연결을 받지 않는 '도달 불가(unreachable) 노드'</strong>로 동작한다. 이 노드들은 외부에서 직접 연결할 수 없으니 <strong>더 강한 네트워크를 누린다</strong>고 널리 믿겨 왔다.</p>
+            <p>이 논문은 그 믿음을 정면으로 반박한다. 저자들은 <strong>인바운드 접근이 전혀 필요 없는</strong>, 도달 불가 노드 전용 이클립스 공격을 최초로 제시하고, "도달 불가 ≠ 안전"임을 모네로 네트워크에서 실증한다.</p>
+
+            <h2><i class="fa-solid fa-gears"></i> 핵심 내용 — '릴레이 오염 → 아웃바운드 독점'이라는 2단계 공격</h2>
+            <ul>
+                <li><strong>발상의 전환 — 피해자 대신 '이웃'을 노린다:</strong> 도달 불가 노드는 직접 공격할 수 없다. 대신 공격자는 <strong>도달 가능한(reachable) 노드들의 피어리스트(peerlist)를 오염</strong>시킨다. 이 오염된 노드들이 전파 릴레이 역할을 하면서, 그 정보가 도달 불가 노드의 <strong>화이트리스트(whitelist)를 점진적으로 감염</strong>시킨다. 즉 피해자를 직접 건드리지 않고도 그 이웃 목록을 공격자의 통제 하에 넣는다.</li>
+                <li><strong>모네로의 '아웃바운드 연결 갱신 로직'을 무기화:</strong> 모네로 노드는 주기적으로 아웃바운드 연결을 갱신(재선택)한다. 오염된 화이트리스트를 물려받은 피해 노드는 이 갱신 과정에서 <strong>선량한(benign) 이웃을 스스로 밀어내고 공격자 노드들로 교체</strong>하게 된다. 결과적으로 피해 노드의 <strong>모든 아웃바운드 연결이 공격자에게 독점</strong>된다 — 정상 프로토콜 동작을 역이용한 것이 핵심이다.</li>
+                <li><strong>공격 1 — Nyx (장기 실행 노드 대상):</strong> 네트워크 전역에 걸친 대규모 오염(network-wide poisoning)을 통해, 오랫동안 켜져 있는 도달 불가 노드를 <strong>완전하고 지속적인(persistent) 이클립스 상태</strong>로 몰아넣는다. 한 번 성공하면 오래 유지된다.</li>
+                <li><strong>공격 2 — Moros (신규 노드 대상, 은밀형):</strong> 노드가 네트워크에 <strong>부트스트래핑</strong>하는 순간을 노려, 갓 합류한 도달 불가 노드를 <strong>빠르고 은밀하게</strong> 이클립스한다. 부트스트랩 단계는 신뢰할 피어 정보가 아직 없어 방어가 특히 얇다는 약점을 찌른다.</li>
+                <li><strong>평가 — 시뮬레이션 + 메인넷 실증:</strong> Nyx는 <strong>SEED Emulator</strong>로 구축한 대규모 모네로 네트워크 시뮬레이션에서 검증했고, Moros는 <strong>모네로 메인넷(mainnet)</strong>에서 통제된 대상에게 실증했다(윤리적 절차 준수). 결과는 "도달 불가 노드도 <strong>안정적이고 장기적인 이클립스 상태</strong>로 확실히 유도된다"는 것.</li>
+                <li><strong>대응책 제시:</strong> 저자들은 공격을 보고하는 데서 그치지 않고, 화이트리스트 신뢰 전파·연결 갱신 로직을 겨냥한 완화책(countermeasures)도 함께 제안한다.</li>
+            </ul>
+            <blockquote>"Unreachability does NOT imply the expected resilience. ... 우리는 피해자에 대한 인바운드 접근이 전혀 필요 없는, 도달 불가 노드 전용 최초의 이클립스 공격을 제시한다." — 논문 초록</blockquote>
+
+            <h2><i class="fa-solid fa-arrow-trend-up"></i> 영향과 의의 — 'NAT는 방패가 아니다'</h2>
+            <ul>
+                <li><strong>방어 가정의 붕괴:</strong> 그동안 "인바운드가 막힌 노드는 이클립스로부터 안전하다"는 가정은 네트워크 설계·노드 운영의 암묵적 전제였다. 이 논문은 그 전제가 <strong>프로토콜의 정상 동작(피어 발견·연결 갱신)을 통해 우회된다</strong>는 것을 보여, 이클립스 위협 모델 자체를 확장한다.</li>
+                <li><strong>프라이버시 코인에 치명적:</strong> 이클립스는 단순 가용성 문제가 아니다. 모네로 같은 프라이버시 중심 체인에서는 노드가 보는 피어 집합을 장악당하면 <strong>트랜잭션·블록 전파가 통제되어 프라이버시와 합의 안전성이 동시에 흔들린다</strong>. '도달 불가 노드 다수'라는 모네로 네트워크의 실제 구성이 오히려 공격 표면이 된다.</li>
+                <li><strong>'릴레이 경유 오염'이라는 새 공격 클래스:</strong> 피해자를 직접 건드리지 않고 <strong>도달 가능한 제3자들을 릴레이로 삼아</strong> 도달 불가 노드를 감염시키는 이 기법은 모네로를 넘어 NAT 뒤 노드가 다수인 모든 P2P 시스템(비트코인 라이트 노드, 이더리움, 분산 스토리지 등)에 일반화될 수 있는 패턴이다.</li>
+                <li><strong>실무적 시사:</strong> 노드 운영자·프로토콜 개발자에게는 (1) 화이트리스트/피어리스트의 신뢰 전파 경로를 최소화하고, (2) 부트스트랩 단계에 더 강한 피어 검증을 넣고, (3) 연결 갱신 로직이 '오염된 선호'를 그대로 따르지 않도록 다양성(diversity) 제약을 걸어야 한다는 구체적 요구로 이어진다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>arXiv 원문(초록): <a href="https://arxiv.org/abs/2609.10260" target="_blank" rel="noopener">arxiv.org/abs/2609.10260</a></li>
+                <li>PDF: <a href="https://arxiv.org/pdf/2609.10260" target="_blank" rel="noopener">arxiv.org/pdf/2609.10260</a></li>
+                <li>arXiv cs.CR 최신 목록: <a href="https://arxiv.org/list/cs.CR/recent" target="_blank" rel="noopener">arxiv.org/list/cs.CR/recent</a></li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
