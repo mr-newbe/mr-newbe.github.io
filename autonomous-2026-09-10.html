@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - CenterPoint: 3D 객체를 '점'으로 검출·추적하다 — nuScenes·Waymo SOTA를 만든 BEV 키포인트 표준 (CVPR 2021, ⭐2.1k)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - CenterPoint: 3D 객체를 '점'으로 검출·추적하다 — nuScenes·Waymo SOTA를 만든 BEV 키포인트 표준 (CVPR 2021, ⭐2.1k)</h1>
+            <p class="date">2026-09-10</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>논문:</strong> Center-based 3D Object Detection and Tracking (CenterPoint)</li>
+                    <li><strong>저자:</strong> Tianwei Yin, Xingyi Zhou, Philipp Krähenbühl (UT Austin / MIT)</li>
+                    <li><strong>분야:</strong> cs.CV — 라이다 포인트 클라우드 기반 3D 객체 검출 및 추적 (BEV 키포인트 패러다임)</li>
+                    <li><strong>게시일:</strong> arXiv v1 2020-06-19 / CVPR 2021 (2021-06, DOI 10.1109/cvpr46437.2021.01161 — Crossref 확인)</li>
+                    <li><strong>인용:</strong> 미확인 (Semantic Scholar API 일시 제한, 2026-09-10) — 명성은 CVPR 게재·공식 구현 스타·벤치마크 계보로 확인</li>
+                    <li><strong>코드:</strong> <a href="https://github.com/tianweiy/CenterPoint" target="_blank">tianweiy/CenterPoint</a> ⭐2,188 / fork 475, MIT, Python — 최신 릴리스 v0.2 (2021-11-04), 최근 푸시 2024-05-16 (2026-09 확인)</li>
+                    <li><strong>원문:</strong> <a href="https://arxiv.org/abs/2006.11275" target="_blank">https://arxiv.org/abs/2006.11275</a></li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>CenterPoint는 <strong>"3D 객체는 박스가 아니라 점(point)으로 표현하자"</strong>는 한 문장으로 요약되는 논문이다. 2D 검출의 경계 상자(bounding box)를 3D로 그대로 확장하면, 회전 자유도를 가진 물체에 축 정렬 박스를 맞추기 어렵고 모든 방향(orientation)을 열거해야 하는 문제가 생긴다. 저자들은 이 대신 <strong>BEV(bird-eye-view) 평면의 객체 중심점을 키포인트로 검출</strong>하고, 나머지 속성(3D 크기·방향·속도)을 회귀하는 방식을 택했다.</p>
+            <ul>
+                <li><strong>1단계 — BEV 히트맵 키포인트 검출:</strong> 라이다 포인트를 VoxelNet/PointPillars류 인코더로 BEV 특징 맵으로 만든 뒤, 표준 2D 합성곱 헤드로 중심점 히트맵과 밀집 회귀 출력(중심 오프셋, 높이, 3D 크기, 회전, <strong>속도</strong>)을 함께 뽑는다. 검출은 국소 피크 추출 + 정제(refinement)만으로 끝나는 단순한 구조다.</li>
+                <li><strong>2단계 — 표면 포인트 피처로 정제:</strong> 1단계 박스에서 뽑은 객체 표면의 라이다 포인트 피처를 추가로 사용해 박스를 재조정(refine). 이 2단계가 붙으면 단일 단계 검출기보다 정확도가 크게 오른다.</li>
+                <li><strong>추적이 '공짜'에 가까워진다:</strong> 각 객체의 중심점에 속도 벡터가 회귀되므로, 3D 추적 문제가 <strong>이전 프레임 중심점과의 탐욕적 최근접 매칭(greedy closest-point matching)</strong>으로 단순화된다 — 별도 모션 모델이나 복잡한 데이터 연관(data association) 없이 추적이 검출의 부산물로 나온다.</li>
+                <li><strong>숫자로 증명한 SOTA:</strong> 단일 모델로 nuScenes 검출·추적 동시 SOTA(65.5 NDS, 추적 63.8 AMOTA), Waymo Open Dataset에서 이전 모든 단일 모델을 큰 격차로 앞서며 라이다 전용 제출 1위. 최고 단일 모델 기준 <strong>Waymo 71.9 mAPH · 11FPS+</strong>. 2021년 Waymo 실시간 3D 검출 챌린지에서는 <strong>2위(72.8 mAPH / 57.1 ms)</strong>를 기록했다.</li>
+                <li><strong>확장성:</strong> 앵커 기반 검출기를 쓰던 기존 파이프라인에서 헤드만 교체하면 되는 구조라, 이후 다양한 3D 검출·추적 연구의 베이스라인으로 빠르게 흡수됐다. 공식 저장소에는 TensorRT 구현(PointPillar 기반, Waymo에서 ~60FPS)과 ONNX 변환 저장소까지 커뮤니티가 붙였다.</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>CVPR 2021 + 사실상의 표준 베이스라인:</strong> 발표 직후 nuScenes·Waymo 양대 벤치마크를 석권하고, 이후 3D 검출 논문들이 거의 예외 없이 비교군으로 삼는 기준선이 됐다. 오픈소스 검출 프레임워크(OpenPCDet, MMDetection3D 계열)의 대표 모델로 자리잡아 <strong>'라이다 3D 검출의 디폴트 모델'</strong>로 통한다.</li>
+                <li><strong>CenterNet 계보의 3D 확장:</strong> 저자 Xingyi Zhou의 2D 키포인트 검출 CenterNet(2019) 아이디어를 3D 라이다로 옮긴 작업으로, '중심점 + 속성 회귀'라는 앵커 프리 패러다임이 3D에서도 통한다는 것을 보여줬다. 표현을 단순화하면서 정확도·속도·확장성을 동시에 얻은 드문 사례다.</li>
+                <li><strong>시리즈 내 연결 — PointPillars의 짝:</strong> 2026-09-05 포스팅한 <strong>PointPillars</strong>가 "포인트를 기둥(pillar)으로 인코딩해 실시간성을 만든 엔코더"였다면, CenterPoint는 그 인코더 위에서 <strong>헤드를 중심점 검출로 바꿔 검출·추적을 하나로 묶은</strong> 작업이다. 두 논문을 함께 보면 라이다 인식 파이프라인의 '엔코더 — 헤드' 두 축이 완성된다.</li>
+                <li><strong>데이터셋·추적 벤치마크와 직결:</strong> nuScenes(2026-08 포스팅)의 검출·추적 리더보드를 사실상 표준화했고, BEV 표현 계보(BEVFormer 2026-08-17 포스팅)와 나란히 'BEV에서 무엇을 어떻게 표현할까'라는 질문의 라이다 쪽 대표 해답으로 남아 있다.</li>
+                <li><strong>실배포 지향성:</strong> TensorRT/ONNX 구현과 11FPS+ 단일 모델 추론은 로보택시뿐 아니라 ADAS·엣지 인식 스택에서의 실사용 가능성을 보여준다. 후속으로 멀티모달 융합 버전(MVP)까지 공개돼 확장 경로도 명확하다.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>CenterPoint가 남긴 교훈은 <strong>"표현(representation)의 선택이 곧 아키텍처"</strong>라는 것이다. 객체를 '회전하는 박스'로 보면 방향 열거·앵커 설계·매칭 규칙이 줄줄이 복잡해지지만, <strong>'BEV 위의 점'으로 보는 순간</strong> 검출은 히트맵 피크 추출이 되고 추적은 최근접 매칭이 되며 속도까지 자연스럽게 붙는다. 덕분에 검출·추적을 따로 개발하던 파이프라인이 하나의 네트워크로 합쳐졌고, 2026년 현재 라이다 인식 연구 대부분이 이 중심점 기반 표현을 기본값으로 깔고 있다. 자율주행 스택에서 '무엇을 표현할 것인가'를 정하는 일이 성능 최적화보다 먼저 온다는 점을, 5년이 지난 지금도 가장 잘 보여주는 논문이다. 한 줄 요약: 박스를 포기하고 점을 택한 순간, 검출과 추적이 동시에 풀렸다.</p>
+
+            <p>함께 읽기: <a href="https://arxiv.org/abs/1812.05784" target="_blank">PointPillars (2026-09-05 포스팅)</a> · <a href="https://arxiv.org/abs/1903.11027" target="_blank">nuScenes 데이터셋</a> · <a href="https://arxiv.org/abs/2203.17270" target="_blank">BEVFormer (2026-08-17 포스팅)</a></p>
+
+            <p>원문: <a href="https://arxiv.org/abs/2006.11275" target="_blank">https://arxiv.org/abs/2006.11275</a></p>
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
