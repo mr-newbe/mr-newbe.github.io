@@ -31,7 +31,7 @@
 <body>
     <div class="container">
         <h1>Daily Security & AI Update</h1>
-        <div class="meta"><i class="fa-regular fa-calendar"></i> 2026-09-12 | <i class="fa-solid fa-tags"></i> Daily News, Anthropic, GTG-20006, Claude, Midnight Blizzard, JFrog Artifactory, CVE-2026-42016, CVE-2026-42018, CVE-2026-82329, Wiz, Sogou, UNC3569, GRAYRABBIT, GitLab, CVE-2026-85706, Microsoft Defender, ShieldCrash, CVE-2026-69414, EU CRA, ENISA, Trezor, Brevo, Surfshark, IDScan</div>
+        <div class="meta"><i class="fa-regular fa-calendar"></i> 2026-09-12 | <i class="fa-solid fa-tags"></i> Daily News, Anthropic, GTG-20006, Claude, Midnight Blizzard, JFrog Artifactory, CVE-2026-42016, CVE-2026-42018, CVE-2026-82329, Wiz, Sogou, UNC3569, GRAYRABBIT, GitLab, CVE-2026-85706, Microsoft Defender, ShieldCrash, CVE-2026-69414, EU CRA, ENISA, Trezor, Brevo, Surfshark, IDScan, AI 증류, Alibaba, Moonshot, DeepSeek, MiniMax, Florida DMV, ShinyHunters, 패스키 피싱, AiTM, IMEI, Conti, Windows Server RDS</div>
         <div class="content">
             <h2>1. Anthropic 154페이지 위협 보고서 — 러시아 GTG-20006, Claude로 멀웨어를 '자동 재빌드'해 탐지 회피</h2>
             <p>Anthropic이 2025년 12월부터 2026년 8월까지 약 8개월간 자사 Claude 모델이 사이버 공격·무기 설계·선전·대규모 감시에 악용된 사례를 정리한 154페이지 위협 인텔리전스 보고서를 공개하고, 이들 행위자를 '생성형 위협 그룹(GTG, Generative Threat Group)'으로 명명했다. 전날 공개된 '네 번째 AI 해킹 사고(Claude Opus 4.6)'에 이어 나온 후속 상세 내용으로, 국가 후원 조직과 금전 목적 범죄 조직이 섞여 있다.</p>
@@ -40,8 +40,10 @@
                 <li><strong>표적:</strong> 정부 부처, 국방·정보기관, 대사관, 싱크탱크, 방산기업 등 20개 이상 조직 — 주로 우크라이나·유럽이며 중동과 아시아 해양 관련 정부기관까지 확대. AI로 도메인 등록, 피싱 인프라 구축, C2 채널 모니터링까지 수행</li>
                 <li><strong>호텔 Wi-Fi 하이재킹(CaptiveCrunch):</strong> 게스트 Wi-Fi를 운영하는 호텔 업체 최소 3곳의 관리자 자격증명을 탈취해 DNS 레코드를 공격자 서버로 돌리고(디엔에스 하이재킹), 투숙객의 트래픽·기기 식별자·IP를 수집. 이후 Windows(PowerChrome·WUEngine·Shadow C2·MiniPlasma·CloudSyncSvc), Android(GiftDrop), iOS(DarkSword) 멀웨어를 맞춤 배포하고 WhatsApp 계정 탈취도 시도</li>
                 <li><strong>다른 GTG들:</strong> GTG-10007(중국 후난성 추정 대학생 포함, 교육·소매·에너지·기술·헬스케어·금융·제조·정부 약 50개 조직 표적·엔드포인트 보안제품 취약점 연구 프로그램 운영), GTG-50014(ShinyHunters 계열, AWS EC2 워커 10대로 안드로이드 APK 180만 개를 수집·TruffleHog로 하드코딩 시크릿 스캔 후 텔레그램 전송), GTG-50020(4일간 AI 벤더 약 30곳의 모델 제공자 API 키 탈취 시도), GTG-50021(가짜 Claude 리셀러로 자격증명 수확), GTG-50029(유럽 정당·언론·싱크탱크 표적)</li>
+                <li><strong>ShinyHunters 구성원 ‘frkoo’ 추가 정황(BleepingComputer):</strong> 다양한 앱스토어에서 180만 개 Android APK를 대량 다운로드·디컴파일해 TruffleHog로 하드코딩된 시크릿을 스캔하고, 검증된 결과만 100개 이상 소스 유형으로 분류된 텔레그램 그룹에 실시간 전송. 같은 행위자는 GitHub 조직 이메일을 수집해 개인 액세스 토큰(PAT)을 발급받는 별도 자동화도 운영해 ‘확인된 침해의 대부분’에 초기 접근 자격증명을 공급했고, 프랑스 경찰을 사칭한 카딩 샵 policenationale[.]cc에서 도난 카드 정보를 판매</li>
+                <li><strong>AI 속도:</strong> Claude의 도움으로 Azure AD 인증 토큰 2,100여 세트(기업 Microsoft 테넌트 40곳 이상)를 탈취하기까지 약 34시간 — Anthropic은 "거의 모든 작업을 AI 에이전트가 수행"했다고 설명</li>
             </ul>
-            <p>출처: <a href="https://thehackernews.com/2026/09/russian-state-sponsored-hackers-use.html" target="_blank">The Hacker News - Russian State-Sponsored Hackers Use Claude to Rebuild Malware After Detection</a> · <a href="https://thehackernews.com/2026/09/claude-used-to-automate-exploitation.html" target="_blank">The Hacker News - Claude Used to Automate Exploitation and Data Theft Across Multiple Victims</a> · <a href="https://www.securityweek.com/anthropic-says-russian-hackers-used-claude-ai-to-automate-malware-evasion/" target="_blank">SecurityWeek - Anthropic Says Russian Hackers Used Claude AI to Automate Malware Evasion</a></p>
+            <p>출처: <a href="https://thehackernews.com/2026/09/russian-state-sponsored-hackers-use.html" target="_blank">The Hacker News - Russian State-Sponsored Hackers Use Claude to Rebuild Malware After Detection</a> · <a href="https://thehackernews.com/2026/09/claude-used-to-automate-exploitation.html" target="_blank">The Hacker News - Claude Used to Automate Exploitation and Data Theft Across Multiple Victims</a> · <a href="https://www.securityweek.com/anthropic-says-russian-hackers-used-claude-ai-to-automate-malware-evasion/" target="_blank">SecurityWeek - Anthropic Says Russian Hackers Used Claude AI to Automate Malware Evasion</a> · <a href="https://www.bleepingcomputer.com/news/security/hackers-abused-claude-to-extract-secrets-from-18m-android-apps/" target="_blank">BleepingComputer - Hackers abused Claude to extract secrets from 1.8M Android apps</a></p>
 
             <h2>2. JFrog Artifactory 결함 2건 체인 — 익명 토큰이 관리자 권한으로 승격, 백도어 설치</h2>
             <p>클라우드 보안업체 Wiz는 공격자들이 JFrog Artifactory의 결함 2건을 연쇄 악용해 자체 호스팅 서버의 관리자 권한을 장악하고 백도어를 심었다고 보고했다. Wiz가 확인한 공격은 2026년 8월 15일부터 9월 8일 사이에 이뤄졌으며, JFrog는 그 이전에 두 결함을 모두 수정했기 때문에 미업데이트 서버만 영향을 받았다.</p>
@@ -126,6 +128,70 @@
                 <li><strong>시사점:</strong> 신분증 원본 스캔을 대량 보관하는 신원확인 업체가 공급망의 단일 실패점이 될 수 있음을 보여주며, 유출된 신분증 데이터는 재사용·계정 개설 사기에 악용될 위험이 크다</li>
             </ul>
             <p>출처: <a href="https://www.helpnetsecurity.com/2026/09/11/idscan-net-data-breach-153-million-drivers-licenses/" target="_blank">Help Net Security - IDScan confirms breach after 153 million driver's licenses leak on dark web</a> · <a href="https://www.bleepingcomputer.com/news/security/idscan-confirms-breach-tied-to-153-million-stolen-drivers-licenses/" target="_blank">BleepingComputer - IDScan confirms breach tied to 153 million stolen driver's licenses</a></p>
+
+            <h2>10. Anthropic, 중국계 AI 랩 7곳의 '산업적 규모' Claude 증류 공격 차단 — 1억 5,100만 건 교환 관습</h2>
+            <p>Anthropic은 9월 10일(목), 알리바바·문샷(Moonshot)·딥시크·Z.ai(지푸)·MiniMax 등 중국 소재 7개 AI 연구소가 Claude를 대상으로 벌인 '산업적 규모의 불법 증류(illicit distillation) 공격'을 식별해 차단했다고 밝혔다. 지식 증류 자체는 정당한 학습 기법이지만, 불법 증류는 도난 카드·자격증명·API 키로 만든 가짜 계정 네트워크를 동원해 모델의 역량을 무단 복제하는 캐페인을 뜻한다. 9월 10일 NSA·CISA·FBI가 중국 AI 기업들의 프론티어 모델 증류를 바난한 데 대한 업체 차원의 후속 조치 성격이다.</p>
+            <ul>
+                <li><strong>GTG-16005(알리바바 연계):</strong> 2026년 5~7월 1억 5,100만 건의 교환을 관습 — Anthropic이 측정한 '역대 최대 증류 공격'. 하루 최대 약 300만 건, 3,500개 이상의 사기 계정에서 에이전트 작업·소프트웨어 엔지니어링·커널 개발·장시간 과제를 겨냥해 Claude Opus 4.6·4.7의 사고 연쇄(CoT) 추론 기록을 탈취</li>
+                <li><strong>GTG-16002(Moonshot AI):</strong> 5~7월 2,300만 건 — 고객 요청을 Kimi가 아닌 Claude로 은밀히 재라우팅하고 Claude의 응답을 사용자에게 표시. 10일간 5,380개 사기 계정(대부분 싱가포르·일본 소재) 프록시망으로 약 30만 건의 고객 요청을 중계하고 일부를 저장해 CoT 모델 학습에 사용</li>
+                <li><strong>GTG-16001(딥시크):</strong> 2026년 7월 14일간 1,200만 건 이상 — Moonshot과 동일하게 사용자 요청을 조용히 중계하는 방식. 증류 학습에 DeepSeek·샤오미·Moonshot이 자사 모델과 사용자 간 대화를 Claude에 입력</li>
+                <li><strong>접근 수법:</strong> 전달·중계소(proxy) 서비스를 통해 가상 신원·위조·도난 신용카드·불법 수집 API 키로 수천 개 신규 계정 생성. 제3자 리셀러에게서 사용자 대화 기록을 구매하거나, 사용자 동의 없이 요청을 Claude로 재라우팅해 대화를 수집하고, 프롬프트 조작으로 방어 우회를 시도. 일부 교환에는 개인 사용자·다국적 기업·국가 관련 행위자의 민감 정보가 포함됐다고 Anthropic은 밝혔다</li>
+                <li><strong>범위:</strong> 2026년 2월 이후 중국 기반 랩의 불법 증류 캐페인 6건 탐지 — 노리는 역량은 에이전트·도구 사용, 코딩·데이터 분석, 논리 추론</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/anthropic-says-seven-china-based-ai.html" target="_blank">The Hacker News - Anthropic Says Seven China-Based AI Labs Ran Industrial-Scale Claude Distillation Attacks</a></p>
+
+            <h2>11. 플로리다 DMV 데이터베이스 침해 확인 — 경찰관 개인기기에 저장된 자격증명이 발판</h2>
+            <p>플로리다 고속도로안전·자동차국(FLHSMV)이 운전자 정보 시스템 DAVID 데이터베이스가 침해됐음을 확인했다. 앞서 ShinyHunters 갈취 그룹이 DAVID를 해킹해 20만 건 이상의 운전자 기록을 탈취했다고 주장한 데 따른 공식 확인이다.</p>
+            <ul>
+                <li><strong>기관 발표:</strong> "2026년 9월 4일 국제 사이버범죄 조직에 의한 데이터 침해를 인지했으며, 침해는 신속히 차단돼 추가 침해나 진행 중인 침해는 없다" — 플로리다 법무장관실에 통보하고 디지털서비스국·법집행국과 공동 대응 중</li>
+                <li><strong>공격자 진입 경로(기관 조사):</strong> Plant City 경찰서 사용자 1명의 훼손된 자격증명 — 해당 직원의 개인 전자기기에 부적절하게 보관돼 있었다</li>
+                <li><strong>해커 주장과 불일치:</strong> ShinyHunters는 비밀번호 재설정 결함을 악용해 DMV 직원·FBI 요원 계정을 포함한 다수 DAVID 계정에 접근했고, 9월 3일부터 레코드 ID를 순회하며 HTML 페이지·이미지를 내려받았다고 주장. 증거로 제프리 엡스타인 관련 DAVID 레코드 스크린샷을 공개했다</li>
+                <li><strong>미확인 사항:</strong> FLHSMV는 접근·탈취된 레코드 수를 공개하지 않았고 20만 건 주장도 확인하지 않았다. 형사 조사가 진행 중이라 추가 정보는 추후 공개 예정</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/florida-confirms-dmv-database-breached-via-stolen-police-account/" target="_blank">BleepingComputer - Florida confirms DMV database breached via stolen police account</a></p>
+
+            <h2>12. '패스키 갱신' 미끼 피싱 → Microsoft 365 데이터 탈취 — ShinyHunters·Helix 생태계</h2>
+            <p>Microsoft는 ShinyHunters·Helix 등 갈취 조직과 연계된 위협 행위자들이 패스키·싱글사인온(SSO) 테마의 사회공학 공격으로 기업 Microsoft 계정을 장악하고 Microsoft 365 데이터를 탈취하고 있다고 밝혔다. 활동은 2026년 5월부터 관습됐다.</p>
+            <ul>
+                <li><strong>수법:</strong> 조직·직원을 사전 조사한 뒤 기업 IT 헬프데스크를 사칭해 전화·메시지로 접근, "패스키·MFA·SSO 구성을 긴급히 갱신하지 않으면 접근 권한을 잃는다"고 겁을 준다. 링크는 직원 개인 휴대폰으로 문자 발송되기도 한다</li>
+                <li><strong>핵심 — 패스키를 등록시키는 것이 아니다:</strong> 패스키 미끼는 미끼일 뿐, 실제로는 적대적 중간자(AiTM) 피싱 사이트에 로그인하게 만들어 자격증명과 세션 토큰을 탈취하거나, Microsoft의 정상 인증 페이지를 악용한 디바이스 코드(device code) 인증 흐름을 쓰게 만든다</li>
+                <li><strong>인프라:</strong> 기업명 + 패스키·SSO·키 동기화·계정 설정·신원 확인 관련 단어를 조합한 피싱 도메인 등록 — passkeyhelpdesk[.]com, secure-passkey[.]com, setupmypasskey[.]com, add-passkey[.]com, integratedsso[.]com, oktasession[.]com, keysyncos[.]com, oskeysync[.]com 등. 회사명을 서브도메인(company-name.secure-passkey[.]com)에 넣어 로그인 포털처럼 위장</li>
+                <li><strong>귀속:</strong> 초기 접근은 같은 갈취 생태계의 복수 행위자 — ShinyHunters·Falcon 갈취와 연계된 Storm-3121, BlackFile 구성원이 Helix 이름으로 활동하는 Storm-3032. Google Threat Intelligence가 문서화한 공격과도 걹친다</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/passkey-themed-phishing-attacks-lead-to-microsoft-365-data-theft/" target="_blank">BleepingComputer - Passkey-themed phishing attacks lead to Microsoft 365 data theft</a></p>
+
+            <h2>13. IMEI만 알면 남의 휴대폰·알람패널을 원격 차단 — 비용 2.5~4달러, 20~80초</h2>
+            <p>미시간주립대 등 4개 대학 연구진은 봉인된 상자에 인쇄된 IMEI를 복사해 '분실'로 신고한 뒤 상자를 열어 개통한 신형 스마트폰이 통신망에 접속하지 못하게 되는 것을 확인했다. 통신사가 분실·도난 기기를 차단하는 체계 전반에서 6개 결함을 찾아냈으며, 미국 3대 통신사와 리셀러에서 실험했다.</p>
+            <ul>
+                <li><strong>비용·시간:</strong> 소유하지 않은 기기를 차단하는 데 2.50~4달러, 20~80초. 표적은 휴대폰에 국한되지 않고 가정용 알람 패널도 가능하다</li>
+                <li><strong>신원 확인 허술:</strong> 3사 모두 선불 계정 개설 시 SSN·정부 발급 신분증을 확인하지 않았고, 선불 가입자도 동일하게 분실 신고가 가능했다. 선불 요금제는 월마트 매대에서 산 익명 Visa 기프트카드로 결제할 수 있다</li>
+                <li><strong>소유권 검증이 '기기 이력'으로 대체:</strong> 통신사는 기기가 계정에 붙어 있었는지로 소유를 추정할 뿐 소유자를 확인하지 않는다. 한 통신사는 1초 부착만으로, 나머지 둘은 1분이면 충분했고, 스푸핑된 기기로 이력은 즉석에서 만들 수 있다</li>
+                <li><strong>신고 가능 기기 범위 남용:</strong> 스마트워치, 산업장비용 셀룰러 개발보드, 해당 통신사 주파수로 동작 자체가 불가능한 휴대폰까지 3사 모두 신고가 통과됐다. 신고되면 기기는 다시 망에 붙지 못한다</li>
+                <li><strong>공격 1 — 알람 무력화:</strong> 알람 게이트웨이의 Wi-Fi를 끊어 셀룰러 백업으로 유도한 뒤 소형 가짜 기지국으로 IMEI를 요청(실험 17초, 이후 기지국을 꺼 탐지 흔적 없음). 나중에 다시 Wi-Fi를 끊고 분실 신고를 넣으면 게이트웨이가 셀룰러로 낙하한 뒤 망에 붙지 못해 알람이 집주인·관제센터에 도달하지 않는다. 취약 칩셋 2개 벤더의 합산 점유율이 40%를 넘고, 미국 알람시장 상위 2개 사업자가 41% 이상을 차지하며 수도·전력 계량기, 산업용 센서, 심장 모니터에도 같은 칩이 들어간다</li>
+                <li><strong>공격 2 — 출시 전 기기 차단:</strong> IMEI는 출시 전에 부여되며 공급망 검증 업체에서 DB를 살 수 있다 — 연구진은 600달러에 전체 DB, 월 30달러에 갱신을 구입해 갤럭시 Z Fold 7 번호가 출시(2025-07-25) 전에 등재돼 있음을 확인. 선불 계정 1개로 기기 10대 신고가 가능했고, Z Fold 7 100대 차단에 계정 10개·250~400달러·33분~2시간이면 충분했다(기기 가치는 20만 달러)</li>
+                <li><strong>복구의 어려움:</strong> 피해자는 아무 통보도 받지 못하고 서비스가 그냥 멈춘다. 해제하려면 IMEI가 적힌 영수증 등 소유 증명과 신원 확인이 필요하고, 신고가 다른 통신사를 통해 들어왔다면 GSMA의 전역 차단 목록까지 거쳐야 해 지연이 커진다. 역설적으로 한 통신사에서 분실 신고된 기기가 7일 뒤 다른 두 통신사에서는 정상 동작해 전역 목록 동기화도 이루지지 않고 있었다</li>
+            </ul>
+            <p>출처: <a href="https://www.helpnetsecurity.com/2026/09/11/cellular-network-lost-phone-reporting/" target="_blank">Help Net Security - Getting a stranger's phone kicked off the cellular network costs a few dollars</a></p>
+
+            <h2>14. Conti 랬섬웨어 개발자, 미국서 4년형 선고 — 최대 20년 가능했던 협의</h2>
+            <p>미국 법원이 Conti 랬섬웨어 조직에서 활동한 우크라이나 국적 올렉시 올렉시요비치 리트비네코(44)에게 징역 4년을 선고했다. 그는 2023년 아일랜드에서 체포돼 2025년 말 미국으로 송환됐다.</p>
+            <ul>
+                <li><strong>협의:</strong> 2026년 6월 전신사기(wire fraud) 유죄를 인정 — Conti 조직의 멀웨어 개발을 도왔고 도난 피해자 데이터를 소지한 사실을 시인했다. 최대 20년형이 가능했던 협의다</li>
+                <li><strong>활동 기간:</strong> 당국은 2020~2022년 Conti 활동으로 봤으나 본인은 2021년 9월 합류를 인정. 멀웨어 로더 개발을 도왔고, 조사 결과 Conti 조직이 종료된 뒤에도 체포 시점까지 랬섬웨어 공격에 관여한 것으로 드러났다</li>
+                <li><strong>Conti 규모:</strong> 최소 1억 5,000만 달러의 몽샒을 받은 것으로 추정되며, 30개국 이상(미국 대부분의 주 포함) 조직을 표적으로 삼았다</li>
+                <li><strong>연속 단속:</strong> 몇 달 전 Karakurt 협상 담당 라트비아 국적 데니스 졸로타료프스에게 8.5년, 지난달 Ransom Cartel 창설·운영 벨라루스 국적자에게 16년이 선고되는 등 랬섬웨어 핵심 인물에 대한 형이 이어지고 있다</li>
+            </ul>
+            <p>출처: <a href="https://www.securityweek.com/ukrainian-conti-ransomware-developer-sentenced-to-4-years-in-us-prison/" target="_blank">SecurityWeek - Ukrainian Conti Ransomware Developer Sentenced to 4 Years in US Prison</a></p>
+
+            <h2>15. 9월 Windows Server 누적 업데이트, 원격 데스크톱 서비스(RDS) 장애 유발</h2>
+            <p>Windows 관리자들이 2026년 9월 누적 업데이트 설치 후 Windows Server 2019·2022·2025에서 원격 데스크톱 서비스(RDS)가 실패한다고 보고하고 있다. 사용자 연결이 막히고 일부 환경에서는 기능 복구에 강제 재부팅(hard reset)이 필요했다.</p>
+            <ul>
+                <li><strong>증상:</strong> 설치 후 몇 시간은 정상 동작하다가 연결이 실패하기 시작 — 기존 원격 데스크톱 세션이 정상적으로 끊기거나 로그오프되지 않고, 새 연결 시도는 연결 과정에서 멈쳤다가 실패한다. 재부팅으로도 해결되지 않는 사례가 있었다</li>
+                <li><strong>영향 KB:</strong> Server 2019(KB5122876), Server 2022(KB5122882), Server 2025(KB5122871) — 모든 Windows Server 버전에서 유사 보고가 나왔다</li>
+                <li><strong>원인 추정(미확인):</strong> 한 관리자는 사용자 로그아웃 시점부터 RDP 서비스가 응답하지 않으며, 디버깅 결과 RDPSERVERBASE!WDLIB_Close에서 멈춰 RDP와 로컬 세션 관리자(LSM) 사이 데드락으로 보인다고 보고 — Microsoft는 이 원인을 확인하지 않았다</li>
+                <li><strong>대응 딜레마:</strong> 9월 업데이트를 롤백하면 원격 데스크톱 기능이 복구되지만 이번 패치 데이의 보안 수정도 함께 사라진다. Microsoft는 보고를 인지하고 조사 중이며 지침이 마련되는 대로 공유하겠다고 밝혔다</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/microsoft/september-windows-server-updates-break-remote-desktop-services/" target="_blank">BleepingComputer - September Windows Server updates break Remote Desktop Services</a></p>
 
             <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
         </div>
