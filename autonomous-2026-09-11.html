@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - KITTI: '실험실을 떠나 실제 도로로' — 2.5만 인용 자율주행 벤치마크의 원조 (CVPR 2012)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - KITTI: '실험실을 떠나 실제 도로로' — 2.5만 인용 자율주행 벤치마크의 원조 (CVPR 2012)</h1>
+            <p class="date">2026-09-11</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>논문:</strong> Are we ready for Autonomous Driving? The KITTI Vision Benchmark Suite (CVPR 2012) — 후속 "Vision meets Robotics: The KITTI Dataset" (IJRR 2013)와 함께 공개된 자율주행 벤치마크</li>
+                    <li><strong>저자:</strong> Andreas Geiger, Philip Lenz, Raquel Urtasun (CVPR 2012) / Andreas Geiger, Philip Lenz, Christoph Stiller, Raquel Urtasun (IJRR 2013)</li>
+                    <li><strong>소속:</strong> Karlsruhe Institute of Technology (KIT) + Toyota Technological Institute at Chicago (TTIC) 공동 프로젝트 — 수집 지역은 독일 카를스루에(Karlsruhe)</li>
+                    <li><strong>분야:</strong> 컴퓨터 비전 / 자율주행 — 스테레오, 옵티컬 플로우, 비주얼 오도메트리, 3D 객체 검출, 추적, 도로·시맨틱 분할</li>
+                    <li><strong>게시일:</strong> CVPR 2012 (2012-06) / IJRR 2013 — Andreas Geiger가 KIT 박사과정 시절 시작한 프로젝트</li>
+                    <li><strong>인용:</strong> OpenAlex 기준 CVPR 2012 논문 <strong>약 14,822회</strong> + IJRR 2013 논문 <strong>약 10,029회</strong> → 합계 <strong>약 2.5만 회</strong> (2026-09-11 확인). 자율주행 인식 분야 최다 인용 데이터셋 중 하나</li>
+                    <li><strong>라이선스:</strong> CC BY-NC-SA 3.0 (비상업적 이용 + 동일조건 변경허락, 출처 표시)</li>
+                    <li><strong>원문·데이터:</strong> <a href="https://www.cvlibs.net/datasets/kitti/" target="_blank">https://www.cvlibs.net/datasets/kitti/</a></li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>KITTI는 <strong>"벤치마크는 실험실이 아니라 실제 도로에 있어야 한다"</strong>는 문제의식에서 출발한 논문이다. 저자들은 2012년 당시 스테레오·플로우 표준이던 Middlebury 같은 실내 벤치마크에서 상위권을 차지한 알고리즘이 <strong>실제 도로로 나오면 평균 이하 성능</strong>으로 떨어진다는 점을 지적하며, 자율주행에 맞는 실주행 데이터·벤치마크·평가 서버를 직접 만들었다. 그것이 이후 10년 넘게 3D 인식 연구의 사실상 표준이 된 KITTI다.</p>
+            <ul>
+                <li><strong>공유 플랫폼 'Annieway':</strong> 폭스바겐 파사트 B6를 개조해 <strong>페달(가속·브레이크)과 스티어링 휠에 액추에이터를 단 자율주행 실험차</strong>로 만들고, 8코어 i7 + RAID 스토리지 + Ubuntu + 실시간 데이터베이스로 데이터를 기록했다.</li>
+                <li><strong>센서 구성:</strong> 고정밀 관성항법장치(GPS/IMU) <strong>OXTS RT 3003</strong>, 3D 레이저 스캐너 <strong>Velodyne HDL-64E</strong>(초당 10회전, 회전당 약 10만 포인트, 64개 빔), 그레이스케일 카메라 2대 + 컬러 카메라 2대(각 1.4MP, Point Grey Flea 2), 4~8mm 가변 렌즈 4개. 이미지는 <strong>1382×512</strong>로 크롭해 사용한다.</li>
+                <li><strong>규모와 다양성:</strong> 약 <strong>6시간</strong>의 주행 시나리오를 <strong>10Hz</strong>로 동기화해 기록. 수집 환경은 중규모 도시 카를스루에 도심, 교외 도로, 고속도로까지 포함하며 이미지 한 장에 최대 차량 15대·보행자 30명이 등장한다.</li>
+                <li><strong>객체 검출 벤치마크 규모:</strong> 공식 3D 객체 검출 벤치마크는 <strong>학습 7,481장 + 테스트 7,518장</strong> 이미지와 대응 포인트 클라우드, 총 <strong>80,256개</strong> 라벨 객체로 구성된다. 평가는 3D 박스 겹침(IoU) 기준으로 자동차 70%, 보행자·자전거 50%를 요구한다.</li>
+                <li><strong>벤치마크 '제품군':</strong> 단일 태스크가 아니라 스테레오(2012/2015), 옵티컬 플로우(2012/2015), 신 플로우, 깊이 완성·깊이 예측, 비주얼 오도메트리, 2D/3D 객체 검출, BEV, 멀티객체 추적(MOT)·MOTS, 도로 검출, 픽셀/인스턴스 시맨틱 분할까지 <strong>동일 센서 데이터에서 파생한 하위 벤치마크 모음</strong>을 제공한다.</li>
+                <li><strong>재현 가능한 평가 서버:</strong> 모든 방법이 동일한 파라미터 세트를 쓰도록 강제하고, precision-recall 곡선과 average precision으로 순위를 매기는 <strong>리더보드 방식</strong>을 정착시켰다. 개발 키트(MATLAB/C++)를 함께 배포해 데이터 포맷과 평가 코드를 표준화했다.</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>2.5만 인용, 자율주행 데이터셋의 '정전(canon)'이 됐다:</strong> CVPR 2012·IJRR 2013 두 논문 합계 약 2.5만 회 인용. SECOND, PointPillars, PV-RCNN, CenterPoint 등 3D 검출 계보의 거의 모든 논문이 <strong>KITTI 수치를 먼저 보고</strong>하며, 오도메트리·스테레오·플로우에서도 10년 넘게 기준선으로 남아 있다.</li>
+                <li><strong>'실험실 편향(lab bias)'을 깬 벤치마크 철학:</strong> Middlebury류 실내 벤치마크가 실제 도로에서 무너진다는 문제의식을 실데이터·실지표로 해결했다. 이후 어떤 자율주행 데이터셋도 '실제 주행에서 수집했는가'를 피할 수 없게 만든 원조다.</li>
+                <li><strong>데이터셋 계보의 출발점:</strong> 본 블로그가 다룬 계보가 모두 이 위에 서 있다 — <strong>KITTI → nuScenes(2026-08-24 포스팅) → Waymo Open Dataset → 현재</strong>. 라이다 3D 검출의 표준 엔코더 <strong>PointPillars(2026-09-05)</strong>와 <strong>CenterPoint(2026-09-10)</strong> 역시 KITTI 벤치마크 수치로 검증됐다.</li>
+                <li><strong>파생 데이터셋 생태계:</strong> SemanticKITTI(시맨틱 장면 완성), <strong>KITTI-360</strong>(360° 확장), KITTI Depth Completion 등 여러 후속 데이터셋이 KITTI를 확장·재가공하며 생태계를 형성했다.</li>
+                <li><strong>오픈 데이터 + 툴킷:</strong> 원시(raw) 데이터까지 전부 공개하고 CC BY-NC-SA 3.0으로 연구·교육 활용을 열었다. 공식 개발 키트와 제출 제한(월 최대 3회)까지 둔 엄격한 리더보드 운영이 재현성과 공정 비교를 가능케 했다.</li>
+                <li><strong>실무·교육 가치:</strong> 3D 검출·추적·오도메트리·스테레오를 처음 배울 때 가장 먼저 접하는 데이터로, ROS 변환(kitti2bag)·시각화 뷰어·튜토리얼 등 커뮤니티 도구가 풍부해 입문 장벽이 낮다. 한국에서도 다수 자율주행 연구실의 표준 실습 데이터셋이다.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>KITTI가 남긴 가장 큰 교훈은 <strong>"좋은 데이터셋은 알고리즘보다 오래 산다"</strong>는 것이다. 이 논문은 새로운 신경망이나 기법을 제안하지 않았다. 대신 자율주행이라는 응용에 맞는 <strong>'문제의 정의'</strong> — 어떤 센서로, 어디를 달리며, 어떤 태스크를, 어떤 지표로 평가할 것인가 — 를 세웠고, 그 정의가 10년 이상 후속 연구의 좌표계가 됐다. 14년이 지난 지금도 최신 논문들이 'KITTI에서 얼마인가'를 묻는 이유는, 벤치마크가 곧 분야의 언어이기 때문이다. 자율주행을 공부한다면 모델 하나를 더 돌려보기 전에, KITTI가 정의한 태스크 지형도부터 이해하는 것이 순서다. 한 줄 요약: 실험실을 떠나 실제 도로에 벤치마크를 세운 순간, 자율주행 인식 분야가 시작됐다.</p>
+
+            <p>함께 읽기: <a href="https://arxiv.org/abs/1812.05784" target="_blank">PointPillars (2026-09-05 포스팅)</a> · <a href="https://arxiv.org/abs/1903.11027" target="_blank">nuScenes 데이터셋 (2026-08-24 포스팅)</a> · <a href="https://arxiv.org/abs/2006.11275" target="_blank">CenterPoint (2026-09-10 포스팅)</a></p>
+
+            <p>원문: <a href="https://www.cvlibs.net/datasets/kitti/" target="_blank">https://www.cvlibs.net/datasets/kitti/</a> (CVPR 2012 · IJRR 2013, Andreas Geiger et al.)</p>
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
