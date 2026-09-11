@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[클래식] Rowhammer — 메모리를 '건드리지 않고' 옆 줄의 비트를 뒤집다: DRAM 교란 오류의 발견 (2014)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔨 [클래식] Rowhammer — 메모리를 '건드리지 않고' 옆 줄의 비트를 뒤집다: DRAM 교란 오류의 발견 (2014)</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-09-11 · 카테고리: Research (전통 보안 논문 · 하드웨어 보안)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Flipping Bits in Memory Without Accessing Them: An Experimental Study of DRAM Disturbance Errors<br>
+                <strong>저자:</strong> Yoongu Kim, Ross Daly, Jeremie Kim, Chris Fallin, Ji Hye Lee, Donghyuk Lee, Chris Wilkerson, Konrad Lai, Onur Mutlu (카네기멜런대 CMU · Intel Labs)<br>
+                <strong>발표:</strong> <strong>ISCA 2014</strong> — 41st International Symposium on Computer Architecture (2014년 6월)<br>
+                <strong>분야:</strong> 하드웨어 보안 · DRAM 신뢰성 — 교란 오류(disturbance error, 일명 'rowhammer'), 메모리 격리(memory isolation) 위반<br>
+                <strong>인용:</strong> 미확인 (Semantic Scholar API 일시 제한) — 다만 하드웨어 보안 분야를 사실상 개척한 ISCA 최고 영향력 논문 중 하나로, 이후 Rowhammer.js·RAMBleed·TRRespass 등 수백 편의 후속 연구와 JEDEC(DDR4/DDR5 TRR) 표준 대응을 촉발했다.
+            </div>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 연구 배경 — 보안의 최후 대전제, '메모리 격리'에 도전하다</h2>
+            <p>모든 현대 보안 모델의 밑바닥에는 <strong>메모리 격리(memory isolation)</strong>라는 약속이 깔려 있다. 논문 초록의 표현을 빌리면 — <em>"한 메모리 주소에 대한 접근은 다른 주소에 저장된 데이터에 의도치 않은 부작용을 일으켜서는 안 된다."</em> 커널과 사용자 공간, 프로세스와 프로세스, 샌드박스와 호스트를 나누는 모든 권한 분리는 이 약속 위에 세워져 있다.</p>
+            <p>그런데 DRAM 공정이 미세화되면서 셀이 점점 작아지고 촘촘해졌고, <strong>셀들이 서로 전기적으로 간섭(coupling)하는 것을 막기가 점점 어려워졌다.</strong> 이 논문은 바로 그 지점을 파고든다 — <strong>데이터를 쓰지도 않고, 심지어 '접근'조차 하지 않은 이웃 주소의 비트가 뒤집힐 수 있다</strong>는 것을 실험적으로 증명한다.</p>
+
+            <h2><i class="fa-solid fa-gears"></i> 핵심 내용 — '한 줄을 두드리면 옆 줄이 무너진다'</h2>
+            <ul>
+                <li><strong>근본 원인 — 워드라인의 반복 토글:</strong> DRAM은 한 행(row)을 열고 닫을 때마다 그 행의 <strong>워드라인(wordline)</strong> 신호를 켰다 껐다 한다. 같은 행을 짧은 시간에 반복해서 활성화하면(즉 많이 '두드리면') 인접 행의 전하 누출(charge leakage)이 가속되고, 결국 이웃 행의 셀이 노이즈 마진을 넘어 <strong>데이터가 뒤집힌다.</strong> 저자들은 이를 <strong>교란 오류(disturbance error)</strong>로 정의했다.</li>
+                <li><strong>'읽기'만으로 비트가 뒤집힌다:</strong> 핵심은 <strong>쓰기가 아니라 읽기</strong>다. 논문의 Code 1a는 한 주소를 반복해서 읽는 악성 프로그램인데, 데이터를 전혀 쓰지 않는데도 메모리 내용이 손상된다. 다시 말해 <strong>공격자는 피해자 데이터에 '접근하지 않고' 훼손</strong>할 수 있다 — 메모리 격리를 정면으로 깨는 결과다.</li>
+                <li><strong>정량적 실증 — 얼마나 쉽게 무너지는가:</strong> 오류를 유발하는 데 <strong>고작 13.9만 회(139K) 접근</strong>이면 충분했고, 최악의 경우 <strong>셀 1,700개당 1개꼴로 교란에 취약(disturbable)</strong>했다. DRAM을 두드리는 데 필요한 시간은 수 밀리초 수준으로, 공격자가 아니라도 흔한 프로그램이 우연히 유발할 수 있는 규모다.</li>
+                <li><strong>규모 — 129개 중 110개:</strong> <strong>3대 주요 DRAM 제조사의 129개 모듈을 테스트했고 그중 110개(약 85%)에서 교란 오류를 재현</strong>했다. 인텔 Sandy Bridge·Ivy Bridge·Haswell과 AMD Piledriver 시스템, 2GB DDR3 모듈을 FPGA 기반 테스트 플랫폼으로 특성화했다. 즉 특정 결함 모듈이 아니라 <strong>당시 상용 DRAM 전반의 구조적 문제</strong>였다.</li>
+                <li><strong>제안 해법 — PARA:</strong> 저자들은 방어책도 함께 내놓았다. <strong>PARA(probabilistic adjacent row activation)</strong>는 어떤 행이 열리고 닫힐 때마다 인접 행을 <em>아주 낮은 확률 p</em>로 리프레시하는 방식이다. 행을 많이 두드릴수록 이웃 행이 함께 리프레시될 확률이 누적·상승해 교란 효과를 상쇄한다. 값비싼 하드웨어 구조 없이 구현 가능하며, 최악의 벤치마크에서도 <strong>명령 처리량 저하가 0.745%</strong>에 그쳤다.</li>
+            </ul>
+            <blockquote>"Memory isolation is a key property of a reliable and secure computing system — an access to one memory address should not have unintended side effects on data stored in other addresses. ... activating the same row in DRAM corrupts data in nearby rows." — 논문 초록</blockquote>
+
+            <h2><i class="fa-solid fa-arrow-trend-up"></i> 영향과 의의 — 소프트웨어 권한 분리는 하드웨어가 무너지면 무의미하다</h2>
+            <ul>
+                <li><strong>'Rowhammer'라는 연구 분야의 탄생:</strong> 이 한 편의 논문이 하드웨어 보안의 독립 분야를 열었다. 이후 수년간 <strong>Rowhammer.js</strong>(2015, Daniel Gruss et al.)는 <strong>원격 JavaScript만으로 브라우저에서 교란을 유발</strong>해 "소프트웨어 완화만으로는 막을 수 없다"는 것을 보였고, <strong>RAMBleed</strong>(IEEE S&amp;P 2020)는 비트 플립을 넘어 <strong>메모리를 '읽는' 공격</strong>까지 확장했다.</li>
+                <li><strong>실전 익스플로잇으로의 전환 (2015):</strong> Google Project Zero의 Mark Seaborn·Thomas Dullien은 Rowhammer로 <strong>페이지 테이블 엔트리(PTE)의 비트를 뒤집어 리눅스 커널 권한 상승</strong>에 성공했고(자기 페이지 테이블에 쓰기 권한을 얻어 물리 메모리 전체를 읽고 씀), 별도로 Native Client 샌드박스를 탈출했다. RoE(Read-Only) 프로그램이 커널을 장악하는 결과는 '메모리 격리 = 보안' 등식의 붕괴를 상징한다.</li>
+                <li><strong>하드웨어·표준으로의 파급:</strong> 이 논문 이후 <strong>DDR4·DDR5의 Target Row Refresh(TRR)</strong>, ECC 메모리, 그리고 LPDDR 계열의 완화 기법이 표준·상용 칩에 들어갔다. 2012년부터 인텔이 "row hammer" 관련 특허를 출원해 왔다는 사실도 논문이 밝히는데, 산업계가 이미 이 현상의 파급력을 감지하고 있었다는 뜻이다.</li>
+                <li><strong>교훈 — 계층을 넘나드는 보안:</strong> Rowhammer는 취약점 '하나'가 아니라 <strong>추상화 계층의 가정 자체가 깨질 수 있음</strong>을 보여준 사례다. 유저/커널 분리, VM 격리, 샌드박스는 모두 DRAM의 비트가 조용히 유지된다는 하드웨어 전제 위에 서 있다. 메모리 격리는 더 이상 순수한 소프트웨어 문제가 아니며, 하드웨어와 소프트웨어의 공동 설계(co-design) 없이는 보장될 수 없다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>원문(ISCA 2014, DOI): <a href="https://doi.org/10.1109/ISCA.2014.6853210" target="_blank" rel="noopener">doi.org/10.1109/ISCA.2014.6853210</a></li>
+                <li>논문 PDF(CMU): <a href="https://users.ece.cmu.edu/~yoonguk/papers/kim-isca14.pdf" target="_blank" rel="noopener">users.ece.cmu.edu/~yoonguk/papers/kim-isca14.pdf</a></li>
+                <li>실전 익스플로잇(Google Project Zero, 2015): <a href="https://googleprojectzero.blogspot.com/2015/03/exploiting-dram-rowhammer-bug-to-gain.html" target="_blank" rel="noopener">Exploiting the DRAM rowhammer bug to gain kernel privileges</a></li>
+                <li>후속 연구 Rowhammer.js(2015): <a href="https://arxiv.org/abs/1507.06955" target="_blank" rel="noopener">arxiv.org/abs/1507.06955</a></li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
