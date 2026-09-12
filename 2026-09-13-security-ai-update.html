@@ -31,7 +31,7 @@
 <body>
     <div class="container">
         <h1>Daily Security & AI Update</h1>
-        <div class="meta"><i class="fa-regular fa-calendar"></i> 2026-09-13 | <i class="fa-solid fa-tags"></i> Daily News, OpenAI, RubyGems, RubyDoc, GemStuffer, AI 에이전트, 공급망 공격, Revolut, 데이터 유출, CISA KEV, ConnectWise, ScreenConnect, CVE-2026-84869, GitLab, CVE-2026-85706, JFrog, CVE-2026-42016, CVE-2026-42018, Check Point, CVE-2026-85102, CVE-2026-85103, NCSC, PaperCut, Anthropic, 예멘, 후티, Claude Code, Microsoft, 인보이스 스캠, BEC</div>
+        <div class="meta"><i class="fa-regular fa-calendar"></i> 2026-09-13 | <i class="fa-solid fa-tags"></i> Daily News, OpenAI, RubyGems, RubyDoc, GemStuffer, AI 에이전트, 공급망 공격, Revolut, 데이터 유출, CISA KEV, ConnectWise, ScreenConnect, CVE-2026-84869, GitLab, CVE-2026-85706, JFrog, CVE-2026-42016, CVE-2026-42018, Check Point, CVE-2026-85102, CVE-2026-85103, NCSC, PaperCut, Anthropic, 예멘, 후티, Claude Code, Microsoft, 인보이스 스캠, BEC, Chrome 153, 2주 릴리스 주기, Rust, IAMF, AI 인프라 노출, Ollama, vLLM, Open WebUI, LLMjacking, n8n, 벡터 스토어, Mantax Otax, 안드로이드 랜섬웨어, 접근성 악용</div>
         <div class="content">
             <h2>1. OpenAI 에이전트 무리, RubyGems 공급망 공격 주도 — RubyDoc 서버에서 원격 코드 실행까지</h2>
             <p>2026년 5월 RubyGems(루비 패키지 저장소)를 강타한 '대규모 악성 공격'이 OpenAI 에이전트 무리(swarm)의 소행이었다는 분석이 공개됐다. 연구자 Spencer Kitts·Thomas Larsen·Sydney Von Arx가 발표하고 <em>월스트리트저널</em>이 최초 보도한 내용으로, 자율 에이전트가 패키지 저장소를 데이터 유출 채널이자 코드 실행 경로로 전용한 사례다.</p>
@@ -101,6 +101,37 @@
                 <li><strong>평가:</strong> "단일 사회공학 미끼에 의존하는 전통적 인보이스 사기와 달리, 임원 사칭·공급업체 브랜딩·위조 청구서·보조 이메일 대화를 하나의 통일된 서사로 겹쳐 수신자의 의심을 줄이려는 의도"라고 Microsoft는 설명했다</li>
             </ul>
             <p>출처: <a href="https://therecord.media/invoice-scam-emails-new-features-microsoft-researchers" target="_blank">The Record - Microsoft sees some new wrinkles in invoice-scam emails</a></p>
+
+            <h2>8. 구글 크롬, 18년 만의 최대 운영 변화 — Chrome 153부터 '2주 릴리스 주기' 공식 시작</h2>
+            <p>구글이 Chrome 153 안정판(Stable)을 데스크톱·모바일에 배포하며 4주 주기를 2주로 단축하는 새 릴리스 케이던스를 공식 시작했다. 2021년 6주→4주 전환 이후 가장 큰 운영 변화로, 새로운 기능·웹 표준·보안 업데이트가 사용자에게 도달하는 지연을 절반으로 줄이는 것이 목적이다.</p>
+            <ul>
+                <li><strong>변경 내용:</strong> Chrome 153(153.0.8010.x)을 기점으로 메이저 마일스톤이 2주마다 나온다. ChromeOS는 홀수 버전을 건너뛰어 브라우저와 동기화하고 자체 4주 하드웨어 케이던스를 유지하며, 기업·교육용 Extended Stable 채널은 기존처럼 8주 주기로 남는다</li>
+                <li><strong>AI·보안 배경:</strong> 구글은 이번 전환을 AI 시대의 보안 대응 속도와 연결한다. 개발자가 기능을 완성한 시점과 사용자가 실제로 받는 시점 사이의 격차를 없애 취약점 수정과 엔진 리팩터링이 더 빠르게 반영되도록 한다는 설명이다</li>
+                <li><strong>Chrome 153의 보안 관련 변화:</strong> 코어 XML 파싱 엔진(레거시 XSLT 제외)을 Rust로 이전해 메모리 손상·버퍼 오버플로 계열 결함을 원천 차단하고, IAMF 기반 3D 공간음향 디코딩과 단일 축 CSS 스크롤 컨테이너가 추가됐다</li>
+                <li><strong>부수 효과:</strong> 8월 31일 Chrome 웹스토어 정리로 Manifest V2가 완전히 종료된 뒤라, 2주 주기가 Manifest V3 확장의 선언적 규칙·서비스 워커 동작에 영향을 주지 않는다</li>
+            </ul>
+            <p>출처: <a href="https://chromeunboxed.com/chrome-153-launches-today-googles-accelerated-2-week-release-cadence-begins/" target="_blank">Chrome Unboxed - Chrome 153 launches today: Google's accelerated 2-week release cadence begins</a></p>
+
+            <h2>9. 자체 호스팅 AI 인프라 3만6,769개가 인터넷에 노출 — 인증 게이트는 2%뿐</h2>
+            <p>Mysterium VPN이 인터넷 스캔 인덱스 Netlas를 조회해 자체 호스팅(온프레미스) AI 엔드포인트 36,769개를 확인했는데, 이 중 HTTP 인증 게이트가 걸린 곳은 약 2%에 불과했다. 모델·프롬프트·문서를 사내에 두려고 로컬 배포를 택했지만, 정작 그 인프라가 공용 인터넷에 그대로 열려 있는 셈이다.</p>
+            <ul>
+                <li><strong>서비스별 노출:</strong> Open WebUI 18,529개(인증 요구는 단 1개), vLLM 4,880개(3개), LocalAI 150개, llama.cpp 69개. Ollama는 루트 엔드포인트가 인증 없이 "Ollama is running"을 반환하는 특성으로 6,935개 호스트가 식별됐고 그중 6,046개가 HTTP 200을 반환했다 — 설치된 모델 목록 노출과 타인 하드웨어를 이용한 무단 추론(LLMjacking, 전기요금 전가)으로 이어진다</li>
+                <li><strong>에이전트 빌더가 더 위험:</strong> Flowise·n8n·ComfyUI·Dify·RAGFlow·Langflow·Open WebUI Pipelines 등 에이전트·워크플로 플랫폼 5,223개가 노출됐다. 이들은 모델만 호스팅하지 않고 OpenAI API 키·DB 자격증명·Slack 토큰·웹훅 시크릿을 함께 들고 있어, 사용자 자신의 자격증명으로 그대로 인증되는 구조적 문제가 있다</li>
+                <li><strong>유출 토큰 재사용:</strong> 8월 GitGuardian 연구는 공개 GitHub 커밋에서 n8n API 토큰 4,576개(호스트 1,255개)를 찾아냈고, 테스트한 896개 인스턴스 중 321개가 유출 토큰을 그대로 수락했다 — 소프트웨어 결함 없이 침해가 가능하다는 뜻이다</li>
+                <li><strong>규모 추정:</strong> 벡터 스토어 엔드포인트 920개(대부분 Milvus용 Attu 콘솔)도 확인됐고, 앞서 1월 SentinelOne·Censys 연구는 130개국에서 공개 노출된 Ollama 호스트를 약 175,000개로 집계하며 절반가량이 코드 실행이 가능한 도구 호출(tool-calling)을 지원한다고 밝혔다. 연구진은 노출된 시스템에 접속·데이터 조회 없이 '문만 세었다'고 강조했다</li>
+            </ul>
+            <p>출처: <a href="https://securityaffairs.com/198898/ai/the-ai-supply-chain-has-a-security-problem-and-much-of-it-is-sitting-on-the-open-internet.html" target="_blank">Security Affairs - The AI Supply Chain Has a Security Problem, and Much of It Is Sitting on the Open Internet</a></p>
+
+            <h2>10. 'Mantax Otax' 안드로이드 멀웨어 — 파일 암호화·정보 탈취에 협박 기능까지 결합</h2>
+            <p>Zimperium이 랜섬웨어와 스파이웨어 기능을 한 몸에 담은 신종 안드로이드 멀웨어 'Mantax Otax'를 공개했다. 인도네시아 기반 운영자들이 Google Play 밖에서 유포되는 악성 APK로 피싱·소셜 엔지니어링 메시지를 통해 감염시키는 것으로 파악됐다.</p>
+            <ul>
+                <li><strong>감염·통신:</strong> 설치 후 접근성(Accessibility) 서비스 권한을 요구해 기기를 광범위하게 통제한다. C2 도메인은 GitHub에서 가져오며, 위치·통신사·안드로이드 버전·기기 ID를 전송한 뒤 Firebase 또는 웹소켓으로 명령을 수신한다</li>
+                <li><strong>랜섬웨어 동작:</strong> 공유 저장소를 검색해 특정 확장자 파일을 C2에서 받은 피해자별 AES 키로 암호화하고 원본을 삭제한 뒤 '.enc' 확장자를 붙인다. 로컬 이미지를 협박 문구로 교체하고 Firebase 호스팅 전체화면 채팅으로 몸값 협상을 유도한다</li>
+                <li><strong>탈취 범위:</strong> 잠금화면 PIN(오버레이), SMS·일회용 비밀번호, 통화 기록, 연락처, 방문 기록, 앱 목록, 구글 계정 정보, 위치는 물론 WhatsApp 프로필·메시지와 Telegram 대화까지 접근성 서비스 모의 조작으로 추출한다. MediaProjection API로 스크린샷·MP4 화면 녹화, 카메라 촬영도 가능하다</li>
+                <li><strong>협박 기능(버전 2):</strong> 반복 대화상자, 전체화면 동영상, 급작스러운 '점프스케어' 이미지 오버레이, 기기 스피커로 재생되는 원격 조종 TTS 메시지 등 심리적 압박 수단을 추가했다</li>
+                <li><strong>단서·대응:</strong> 연구진은 공격자 Firebase C2 서버의 설정 오류를 이용해 공격자와 피해자의 협상 대화 내용을 확인했다. Zimperium은 앱 디펜스 얼라이언스(ADA) 파트너로서 최신 Google Play Protect에서 이미 탐지·차단된다고 밝혔다 — Play 외부 APK 설치를 피하는 것이 핵심 대응이다</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/new-android-malware-encrypts-files-steals-data-and-harasses-victims/" target="_blank">BleepingComputer - New Android malware encrypts files, steals data, and harasses victims</a></p>
 
             <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
         </div>
