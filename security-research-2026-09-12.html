@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[최신] SpecGuard — 추론 중 '공짜'로 백도어를 찾아낸다: speculative decoding의 수용률을 탐지 신호로 (2026)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛡️ [최신] SpecGuard — 추론 중 '공짜'로 백도어를 찾아낸다: speculative decoding의 수용률을 탐지 신호로 (2026)</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-09-12 · 카테고리: Research (최신 보안 논문 · LLM 백도어 탐지)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> SpecGuard: Inference-Time Backdoor Detection For Free<br>
+                <strong>저자:</strong> Rui Wen, Ahmed Salem, Andrew Paverd, Mark Russinovich, Zheng Li (Microsoft — AI Red Team / Research)<br>
+                <strong>발표:</strong> arXiv:2609.11799v1 (cs.CR, cs.CL) — <strong>2026년 9월 10일</strong> 제출<br>
+                <strong>분야:</strong> LLM 보안 · 백도어(트로이) 탐지 · 효율적 추론(speculative decoding)<br>
+                <strong>인용:</strong> Semantic Scholar 기준 <strong>0회</strong> (2026-09-10 공개된 신규 논문) — 다만 저자진에 Mark Russinovich(Microsoft Azure CTO·Sysinternals 저자)와 Ahmed Salem(Microsoft AI Red Team, 모델 탈취·프롬프트 유출 연구로 유명)이 포함돼 실무 파급력이 큰 팀의 연구다.
+            </div>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 연구 배경 — 백도어 모델은 '배포 전 감사'만으로는 못 막는다</h2>
+            <p>LLM은 이제 직접 학습하기보다 <strong>제3자의 파인튜닝 결과물을 내려받아 쓰는 경우가 일반적</strong>이다. 문제는 이 과정에서 <strong>백도어(트로이)</strong>가 함께 딸려올 수 있다는 점이다. 백도어 모델은 평범한 입력에서는 정상적으로 동작하다가, 공격자가 정한 <strong>비밀 트리거</strong>가 들어오는 순간에만 공격자가 원하는 출력으로 바뀐다.</p>
+            <p>배포 전에 모델을 감사(audit)할 수는 있지만, 실무에서는 모델이 <strong>자주 갱신·교체</strong>된다. 그래서 런타임 모니터링이 여전히 중요하다. 그런데 여기에 구조적 딜레마가 있다. LLM 서빙은 <strong>지연(latency)에 극도로 민감</strong>하다. 기존의 추론 시점 탐지기는 두 갈래로 나뉘는데, 둘 다 대가가 있다.</p>
+            <ul>
+                <li><strong>트리거 형태를 가정하는 방식:</strong> 특정 패턴을 전제로 탐지하지만, 은밀한(stealthy) 공격 앞에서는 그 가정이 깨진다.</li>
+                <li><strong>추가 연산을 요구하는 방식:</strong> 입력 교란(perturbation)을 가하거나 <strong>생성을 한 번 더 돌리는</strong> 식으로, 탐지 자체가 서빙 비용이 된다.</li>
+            </ul>
+            <p>이 논문의 질문은 명확하다. <strong>"탐지를 위해 추가 연산을 하지 않고도, 이미 돌고 있는 추론 과정에서 백도어 신호를 읽어낼 수 없을까?"</strong></p>
+
+            <h2><i class="fa-solid fa-gears"></i> 핵심 아이디어 — 검증(verification) 과정이 이미 신호를 담고 있다</h2>
+            <ul>
+                <li><strong>Speculative decoding 복습:</strong> 요즘 LLM 서빙은 속도를 위해 <strong>작은 draft 모델이 토큰을 여러 개 제안(propose)</strong>하고, <strong>큰 target 모델이 이를 검증(verify)</strong>하는 방식을 쓴다. target이 draft의 제안을 받아들이면 한 번의 forward pass로 여러 토큰이 확정돼 빨라진다. 핵심 지표가 <strong>draft 토큰 수용률(acceptance rate)</strong>이다.</li>
+                <li><strong>관찰 — 백도어가 켜지면 수용률이 흔들린다:</strong> 트리거가 발동하면 <strong>target 모델의 출력 분포가 공격자가 유도한 방향으로 이동</strong>한다. 반면 깨끗한(백도어 없는) draft 모델은 그 이동을 예측하지 못한다. 그 결과 <strong>draft가 제안한 토큰이 target에게 거부되는 비율, 즉 수용률이 달라진다.</strong> 저자들은 이 변화를 탐지 신호로 정식화했다.</li>
+                <li><strong>'공짜'인 이유:</strong> speculative decoding은 <strong>어차피 서빙을 빠르게 하려고 이미 돌리는 연산</strong>이다. 수용률은 그 과정에서 자연히 나오는 부산물이므로, SpecGuard는 <strong>모델 연산을 단 1회도 추가하지 않고</strong> 동작한다. 입력에 노이즈를 넣거나 두 번째 생성 패스를 돌리던 기존 런타임 탐지기의 비용 문제를 없앤다.</li>
+                <li><strong>'For Free'의 대칭성 — 억제하려면 백도어가 약해져야 한다:</strong> 논문은 이 신호가 <strong>언제 나타나는지(formalize)</strong>를 정리한다. 그리고 신호를 억제하려는 공격자는 <strong>동시에 백도어 자체를 약화시켜야 하는</strong> 조건을 보인다. 즉 탐지를 회피하는 비용이 공격 성공률로 되돌아오는 <strong>긴장(trade-off)</strong>이 구조적으로 생긴다 — 탐지기의 오탐을 줄이면서도 회피를 어렵게 만드는 지점이다.</li>
+            </ul>
+            <blockquote>"Speculative decoding therefore doubles as a free, always-on signal for detecting backdoored LLM behavior." — 논문 초록</blockquote>
+
+            <h2><i class="fa-solid fa-flask"></i> 실험 — 은밀한 백도어까지, 입력 필터가 눈먼 곳에서도</h2>
+            <ul>
+                <li><strong>다양한 백도어 유형·모델 패밀리에서 탐지:</strong> 저자들은 여러 종류의 백도어 트리거와 모델 계열에 걸쳐 SpecGuard가 <strong>발동된(triggered) 동작을 안정적으로 탐지</strong>함을 보였다.</li>
+                <li><strong>은밀한 케이스 — 입력 기반 필터가 놓치는 영역:</strong> 특히 초록은 <strong>입력 수준 필터(input-level filters)가 아예 감지하지 못하는 stealthy 케이스</strong>에서도 SpecGuard가 탐지에 성공한다고 강조한다. 트리거의 '형태'를 가정하지 않고 <strong>모델 내부 동작의 변화</strong>를 보기 때문이다.</li>
+                <li><strong>비용 비교:</strong> 기존 런타임 탐지기들이 요구하는 추가 생성 패스(extra generation) 비용 없이, 이미 돌고 있는 speculative decoding 위에서 <strong>상시 모니터링(always-on)</strong>이 가능하다는 것이 실험의 핵심 메시지다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-arrow-trend-up"></i> 의의와 한계 — '서빙 인프라의 부산물'을 보안 신호로 재활용</h2>
+            <ul>
+                <li><strong>최적화 기법을 방어 자산으로 전환:</strong> 이 연구의 미덕은 <strong>성능 최적화를 위해 도입된 인프라(speculative decoding)를 탐지 센서로 재해석</strong>한 데 있다. 방어자는 배포 비용을 늘리지 않아도 되고, 반대로 서빙 스택을 최적화할수록 탐지 신호도 함께 강해지는 구도가 된다.</li>
+                <li><strong>가정 의존에서 행동 의존으로:</strong> "트리거가 어떤 모양일 것"이라는 가정에 기대던 탐지를, <strong>"모델이 트리거에 반응해 달라졌을 때 draft와 target 사이의 합의가 깨진다"</strong>는 관찰 가능한 행동 신호로 옮겼다. 이는 공격자가 트리거를 은밀하게 다듬어도 지워지지 않는 성질에 가깝다.</li>
+                <li><strong>한계 — 신호는 조건부다:</strong> 논문 스스로 <strong>신호가 나타나는 조건을 정식화</strong>했다는 점은 곧 <strong>그 조건 밖에서는 신호가 약할 수 있음</strong>을 뜻한다. 또한 draft 모델의 품질(깨끗함·정합성)에 의존하는 구조이므로, draft가 target과 매우 유사하거나 백도어 영역을 그대로 학습한 경우 신호가 흐려질 수 있다. 공격자가 백도어를 약화시키는 대가를 감수하는 선택지도 이론적으로 남는다.</li>
+                <li><strong>실무적 함의:</strong> 모델 허브에서 파인튜닝 모델을 내려받아 서빙하는 팀, 특히 speculative decoding을 이미 쓰는 팀이라면 <strong>수용률 지표를 보안 대시보드에 올리는 것</strong>이 거의 무비용인 1차 방어선이 된다. '백도어 감사는 배포 전에만'이라는 관행에 대한 반례다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>원문(arXiv:2609.11799, 2026-09-10 제출): <a href="https://arxiv.org/abs/2609.11799" target="_blank" rel="noopener">arxiv.org/abs/2609.11799</a></li>
+                <li>PDF 전문: <a href="https://arxiv.org/pdf/2609.11799" target="_blank" rel="noopener">arxiv.org/pdf/2609.11799</a></li>
+                <li>DOI(DataCite): <a href="https://doi.org/10.48550/arXiv.2609.11799" target="_blank" rel="noopener">doi.org/10.48550/arXiv.2609.11799</a></li>
+                <li>Semantic Scholar 레코드(인용 0회 확인): <a href="https://api.semanticscholar.org/graph/v1/paper/arXiv:2609.11799" target="_blank" rel="noopener">api.semanticscholar.org · arXiv:2609.11799</a></li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
