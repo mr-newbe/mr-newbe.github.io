@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - VoxelNet (Apple, CVPR 2018): 라이다를 '복셀'로 — 4,700회 인용된 end-to-end 3D 검출의 원점</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - VoxelNet (Apple, CVPR 2018): 라이다를 '복셀'로 — 4,700회 인용된 end-to-end 3D 검출의 원점</h1>
+            <p class="date">2026-09-13</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>유형:</strong> 논문 (CVPR 2018) — 라이다 포인트 클라우드 3D 객체 검출의 패러다임을 바꾼 원형 논문 + 커뮤니티 재현 생태계</li>
+                    <li><strong>제목:</strong> "VoxelNet: End-to-End Learning for Point Cloud Based 3D Object Detection"</li>
+                    <li><strong>저자 / 소속:</strong> Yin Zhou, Oncel Tuzel — <strong>Apple Inc.</strong> (총 2인 공저, Apple이 공개한 초기 라이다 인식 연구)</li>
+                    <li><strong>게재지:</strong> <strong>CVPR 2018</strong> (2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition, 2018-06 — Crossref 확인)</li>
+                    <li><strong>게시일:</strong> arXiv 최초 투고 2017-11-17 · 분야 <strong>cs.CV</strong> (Computer Vision and Pattern Recognition)</li>
+                    <li><strong>인용:</strong> OpenAlex 기준 <strong>4,716회</strong> (2026-09-13 확인. Semantic Scholar는 API 429 제한으로 미확인)</li>
+                    <li><strong>대표 성능:</strong> KITTI 검증셋 3D 검출 Car AP <strong>81.97 / 65.46 / 62.85</strong> (easy/moderate/hard) — 수작업 특징 기반 HC-baseline(71.73 / 59.75 / 55.69)을 큰 폭으로 상회. KITTI 테스트셋 Car 3D <strong>77.47 / 65.11 / 57.73</strong>, BEV 89.35 / 79.26 / 77.39</li>
+                    <li><strong>추론 속도:</strong> <strong>225ms</strong> / 프레임 (TitanX GPU + 1.7GHz CPU 기준) — 복셀 특징 계산 5ms, 특징학습망 20ms, 3D 컨볼루션 미들 레이어 170ms, RPN 30ms</li>
+                    <li><strong>재현 생태계:</strong> 공식 코드는 비공개(Apple 내부)지만 커뮤니티 구현이 다수 — traveller59/second.pytorch <strong>1,777⭐</strong>, qianguih/voxelnet <strong>672⭐</strong>, tsinghua-rll/VoxelNet-tensorflow <strong>466⭐</strong>, skyhehe123/VoxelNet-pytorch <strong>345⭐</strong>. 이후 OpenPCDet에 VoxelNet 계열이 정식 편입됐다.</li>
+                    <li><strong>원문:</strong> <a href="https://arxiv.org/abs/1711.06396" target="_blank">https://arxiv.org/abs/1711.06396</a></li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>2017년 당시 라이다 기반 3D 객체 검출의 표준은 <strong>수작업 특징(hand-crafted feature)</strong>이었다. 3D 점 구름을 조감도(BEV)나 정면도(FV)로 투영한 뒤, 그 2D 이미지 위에서 사람이 설계한 특징을 뽑아 검출기(RPN)에 넣는 구조였다. 문제는 명확했다. 라이다 포인트는 3차원 공간에 흩뿌려져 있고 <strong>대부분의 공간이 비어 있으며(복셀의 90% 이상)</strong>, 2D 투영 과정에서 높이·형상 정보가 잘려나간다는 점이다. VoxelNet은 이 병목을 <strong>"특징을 사람이 만들지 말고, 점 구름을 그대로 학습하자"</strong>는 한 문장으로 뒤집었다.</p>
+            <ul>
+                <li><strong>발상의 전환 — 복셀화:</strong> 점 구름을 일정 간격의 3D 격자(복셀)로 나눈다. 논문 설정은 가로·세로·높이 <strong>0.4 × 0.2 × 0.2m</strong>, 인식 범위 <strong>Z [-3, 1] × Y [-40, 40] × X [0, 70.4]m</strong> → 격자 크기 <strong>10 × 400 × 352</strong>. 즉 라이다 데이터를 "점 목록"이 아니라 <strong>3차원 부피(volumetric) 표현</strong>으로 바꿔 놓는다.</li>
+                <li><strong>VFE (Voxel Feature Encoding) 층 — 논문의 핵심 기여:</strong> 각 복셀 안의 점들을 하나의 특징 벡터로 인코딩한다. 단순 평균이 아니라, 점별 특징과 <strong>복셀 내 지역 집계 특징(locally aggregated feature)</strong>을 결합해 점 사이의 상호작용(inter-point interaction)을 학습한다. 복셀당 최대 <strong>35개 점</strong>을 무작위 샘플링해 VFE-1(7→32) → VFE-2(32→128)로 쌓고, 최종적으로 <strong>128 × 10 × 400 × 352</strong>의 희소 텐서를 만든다.</li>
+                <li><strong>3단 구조를 하나의 네트워크로:</strong> ① 특징학습망(스택 VFE) → ② <strong>3D 컨볼루션 미들 레이어 3개</strong>(Conv3D(128,64,3,…) 등)로 지역 복셀 특징을 확장 → ③ <strong>RPN</strong>이 확률 맵(score map)과 회귀 맵(regression map)을 출력해 3D 바운딩 박스를 직접 뽑는다. 3D 박스는 중심 (x,y,z), 크기 (l,w,h), Z축 요 회전(θ)까지 7개 파라미터로 회귀한다.</li>
+                <li><strong>희소 텐서가 구현의 열쇠:</strong> 복셀 대부분이 비어 있다는 점을 역이용해 비어 있지 않은 복셀만 희소 텐서로 표현했다. 메모리와 역전파 비용을 크게 줄인 이 설계가 "3D 컨볼루션을 실제로 학습 가능하게 만든" 실용적 돌파구였다.</li>
+                <li><strong>수치가 말해주는 임팩트:</strong> KITTI <strong>3D 검출</strong>에서 Car AP가 수작업 특징 기반 HC-baseline 대비 easy 71.73→<strong>81.97</strong>, moderate 59.75→<strong>65.46</strong>, hard 55.69→<strong>62.85</strong>. 카메라+라이다를 함께 쓰는 기존 SOTA(MV, BV+FV+RGB)와 비교해도 easy +10.68%p, moderate +2.78%p, hard +6.29%p 앞섰다. <strong>라이다만으로 멀티모달 방법을 이겼다</strong>는 점이 결정적이었다.</li>
+                <li><strong>보행자·자전거까지:</strong> 논문은 "자동차만 잘 잡는 검출기"라는 비판을 넘어, 라이다 단독으로 보행자 3D AP 57.86 / 53.42 / 48.87, 자전거 67.17 / 47.65 / 45.11(easy/moderate/hard)을 보고했다. 형상이 제각각인 객체에서도 학습된 복셀 특징이 통한다는 증거였다.</li>
+                <li><strong>정직한 한계 — 속도:</strong> 프레임당 <strong>225ms</strong>로 실시간(10Hz 이상)에는 못 미쳤고, 연산의 76%(170ms)가 3D 컨볼루션 미들 레이어에 몰려 있었다. 이 병목이 이후 <strong>희소 컨볼루션(SECOND)</strong> 과 <strong>Pillar 인코딩(PointPillars)</strong> 연구를 촉발한 직접적 원인이 됐다.</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>OpenAlex 기준 4,716회 인용(2026-09-13):</strong> 라이다 3D 객체 검출 분야에서 가장 많이 인용된 논문군에 속한다. 인용 수만 봐도 "3D 검출을 공부할 때 반드시 거쳐 가는 원점"이라는 지위가 확인된다.</li>
+                <li><strong>패러다임 자체를 교체했다:</strong> "수작업 특징 → 학습된 특징", "2D 투영 → 3차원 복셀", "모듈 분리 → 단일 단계 end-to-end". 오늘날 라이다 인식 파이프라인(복셀/기둥 인코딩 → 백본 → 검출 헤드)의 기본 골격이 이 논문에서 나왔다.</li>
+                <li><strong>계보가 이 블로그의 최근 포스팅과 그대로 이어진다:</strong> VoxelNet의 희소 텐서 아이디어는 <strong>SECOND</strong>(traveller59/second.pytorch, 1,777⭐ — VoxelNet의 PyTorch 구현에서 출발)로, 다시 <strong>Pillar 인코딩</strong>으로 단순화되어 <strong>PointPillars(2026-09-05 포스팅)</strong>가 됐다. 검출 도구 통합은 <strong>OpenPCDet(2026-09-01 포스팅)</strong>이 맡았고, <strong>CenterPoint(2026-09-10 포스팅)</strong>의 백본도 바로 이 복셀 계열이다. 즉 9월에 다룬 라이다 검출 글들의 <strong>공통 조상</strong>이 이 논문이다.</li>
+                <li><strong>벤치마크와 함께 읽으면 이해가 빠르다:</strong> 검증 무대가 <strong>KITTI(2026-09-11 포스팅)</strong>다. "복셀 검출기의 3D AP가 몇 %인가"라는 질문이 왜 어려운지, easy/moderate/hard 난이도가 무엇을 뜻하는지는 KITTI 글과 함께 보면 정확히 연결된다.</li>
+                <li><strong>애플의 자율주행 연구사에서도 상징적:</strong> 2017년 애플이 공개한 라이다 인식 논문으로, 이후 BEV·점유 격자(occupancy) 계열 연구가 걸어온 길의 출발점에 서 있다.</li>
+                <li><strong>실무·교육 가치:</strong> 공식 코드는 없지만 VoxelNet 계열 구현이 TensorFlow·PyTorch로 다수 공개돼 있고(합계 3,000⭐ 이상), OpenPCDet에서 바로 실습할 수 있다. "복셀화 → VFE → 3D conv → RPN"이라는 파이프라인은 지금도 3D 검출 입문자가 가장 먼저 구현해보는 구조다.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>VoxelNet이 남긴 교훈은 "표현(representation)을 바꾸면 성능이 바뀐다"는 것이다. 센서도, 데이터셋도, 손실함수도 그대로 둔 채 점 구름을 <strong>복셀이라는 학습 가능한 표현</strong>으로 바꿨더니 KITTI 3D 검출 성능이 한 단계 뛰었다. 동시에 이 논문은 스스로의 약점도 정확히 드러냈다. 225ms의 추론 시간, 3D 컨볼루션에 몰린 연산 — 이후 5년의 라이다 검출 연구는 사실상 이 두 가지를 해결하는 과정이었다. 희소 컨볼루션(SECOND), 기둥 인코딩(PointPillars), 통합 툴박스(OpenPCDet), 키포인트 검출(CenterPoint)이 모두 같은 뿌리에서 나왔고, 나아가 오늘날의 BEV 인식과 점유 예측까지 "3차원 공간을 격자로 표현해 학습한다"는 아이디어를 공유한다. 지금 라이다 3D 검출을 처음 공부한다면, 최신 논문부터 읽는 것보다 VoxelNet 한 편을 먼저 읽는 편이 왜 이런 구조가 표준이 됐는지 훨씬 빠르게 이해된다. 한 줄 요약: <strong>"점 구름을 그대로, 끝까지 학습하자" — 라이다 인식의 문법을 정한 논문이 VoxelNet이다.</strong></p>
+
+            <p>함께 읽기: <a href="autonomous-2026-09-05.html">PointPillars (2026-09-05 포스팅)</a> · <a href="autonomous-2026-09-01.html">OpenPCDet (2026-09-01 포스팅)</a> · <a href="autonomous-2026-09-10.html">CenterPoint (2026-09-10 포스팅)</a> · <a href="autonomous-2026-09-11.html">KITTI (2026-09-11 포스팅)</a></p>
+
+            <p>원문: <a href="https://arxiv.org/abs/1711.06396" target="_blank">https://arxiv.org/abs/1711.06396</a> (CVPR 2018 · Yin Zhou, Oncel Tuzel, Apple · arXiv:1711.06396)</p>
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
