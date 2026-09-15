@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-09-16</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-09-16 | <i class="fa-solid fa-tags"></i> Daily News, Malware, Nation-State Threat, Vulnerability, Patch, Cloud Security
+        </div>
+
+        <div class="content">
+            <h2>1. 브라질 뱅킹 멀웨어 'KREMLIN' — Chrome·Edge 확장으로 자격증명·세션 토큰 탈취</h2>
+            <p>Elastic Security Labs가 브라질 은행을 사칭하는 신종 뱅킹 멀웨어 생태계 'KREMLIN'을 공개했다. 위협 행위자는 'REF9334'로 추적되며 최소 2025년 5월부터 활동해 왔다.</p>
+            <ul>
+                <li><strong>감염 경로:</strong> 은행·인보이스·회사 문서로 위장한 JavaScript 파일을 사용자가 직접 실행 → 다단계 로더 → C++ 설치 프로그램 → Chrome/Edge 악성 확장 설치의 3단계 체인.</li>
+                <li><strong>C2 은닉:</strong> 이더리움 스마트 컨트랙트를 데드드롭 리졸버(dead drop resolver)로 악용해 C2 주소와 페이로드 호스팅 위치를 동적으로 갱신 — 인프라 차단이 사실상 불가능.</li>
+                <li><strong>방어 우회:</strong> SentinelOne의 정상 바이너리(SentinelMemoryScanner.exe)로 DLL 사이드로딩을 수행하고, 'SentinelAgentCore.dll'을 사칭. VM/샌드박스 탐지 시 실행을 중단하며 CPU 2개·RAM 3GB 이하 환경을 회피.</li>
+                <li><strong>확장 신뢰 파괴:</strong> Secure Preferences를 조작하고 필요한 HMAC과 App-Bound 암호화 해시를 재생성해 Chromium 무결성 검사를 통과 — 브라우저 확장 신뢰 모델 자체가 우회됐다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/kremlin-banking-malware-hijacks-chrome.html" target="_blank">The Hacker News - KREMLIN Banking Malware Hijacks Chrome and Edge to Steal Credentials and Session Tokens</a></p>
+
+            <h2>2. 이란 정보기관, 텔레그램 제어 멀웨어로 반체제 인사·기자 감시 (미·영·네덜란드 공동 권고)</h2>
+            <p>미국·영국·네덜란드 사이버 당국이 이란 정보기관이 반체제 인사, 기자, 활동가를 감시하는 데 사용하는 Windows 멀웨어를 공동 권고로 공개했다. 현재까지 Windows에서만 동작한다.</p>
+            <ul>
+                <li><strong>C2 채널:</strong> 감염 PC마다 개별 텔레그램 봇을 부여해 피해자별 활동을 격리 — 합법 서비스(api.telegram.org)를 C2로 악용해 탐지가 어렵다.</li>
+                <li><strong>기능:</strong> 실행 프로그램 목록화, 화면 캡처, 마이크 녹음, 브라우저의 텔레그램·왓츠앱 데이터 및 저장된 비밀번호·이메일 탈취, 추가 멀웨어 다운로드, 파일 삭제. 일부 버전은 컴퓨터 전체 삭제도 가능.</li>
+                <li><strong>은닉·지속성:</strong> 레지스트리 Run 키(SMQDService, winappx)로 재부팅 후에도 실행, Defender 예외 폴더 등록, 유출 데이터는 텔레그램 봇과 Vultr·Storj 등 클라우드 스토리지를 통해 외부 전송.</li>
+                <li><strong>탐지 지표:</strong> 경로 'C:\Windows \SysWOW64'(공백 포함 폴더), 뮤텍스 ytyjyujyu·noi672pp434awkc12f, vultrobjects.com·storjshare.io·backblazeb2.com·iproyal.com·lightningproxies.net 로의 비정상 연결.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/iranian-hackers-use-telegram-controlled.html" target="_blank">The Hacker News - Iranian Hackers Use Telegram-Controlled Malware to Spy on Dissidents and Journalists</a></p>
+
+            <h2>3. 중국 연계 해커, Chrome·Windows 제로데이 체인으로 NGO 공격 — 'GRIMWEDGE' 백도어 투입</h2>
+            <p>Volexity는 중국 위협 클러스터 UTA0560이 Chrome·Windows의 최신 패치 취약점을 결합한 스피어피싱 체인으로 2026년 9월 1일 다수 NGO를 공격해 JavaScript 백도어 'GRIMWEDGE'를 유포했다고 밝혔다.</p>
+            <ul>
+                <li><strong>패치 갭 악용:</strong> 두 Chrome 취약점의 수정이 오픈소스 Chromium 코드베이스에는 반영됐지만 안정 버전 Chrome 릴리스에는 포함되지 않아, 사실상 제로데이로 작동하는 이례적 상황이 발생.</li>
+                <li><strong>제2 행위자 동시 활동:</strong> APT31(JungleBamboo)도 같은 익스플로잇 체인을 사용해 로더 SUPERSTOMP → 자격증명 탈취 크롬 확장 'LONGTALE'(GemStone)을 배포. Google Gemini 확장(ID: ckiknalbeplpcpofpnabcnhjcegckfei)으로 위장.</li>
+                <li><strong>LONGTALE 기능:</strong> 키로깅·폼 입력 수집, 쿠키·세션 탈취, 키워드 기반 화면 캡처, 약 30초 간격으로 키스트로크·쿠키·스토리지·방문 기록을 C2로 대량 유출.</li>
+                <li><strong>시사점:</strong> 같은 익스플로잇 체인을 여러 중국계 행위자가 거의 동시에 사용한 점은 익스플로잇이 재판매·유통됐거나 개발자가 Chromium 소스 변경을 역분석해 공급했을 가능성을 시사.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/china-linked-hackers-exploit-chrome.html" target="_blank">The Hacker News - China-Linked Hackers Exploit Chrome-Windows Zero-Day Chain to Deploy GRIMWEDGE</a></p>
+
+            <h2>4. 'BambooToken' 멀웨어, MQTT 프로토콜로 Windows·Linux 동시 장악 — 3년간 미탐지</h2>
+            <p>Lumen Black Lotus Labs가 MQTT(Message Queueing Telemetry Transport)를 C2 통신 채널로 쓰는 다중 플랫폼 멀웨어 'BambooToken'을 공개했다. 최소 2023년 2월부터 활동했고, 2026년 7월까지 공격이 확인됐다.</p>
+            <ul>
+                <li><strong>표적:</strong> 아시아·남미 조직. VirusTotal에 업로드된 대부분의 샘플이 중국 IP 대역에서 제출돼 중국 및 인접국 사용자를 겨냥한 데이터 수집 캠페인으로 평가된다.</li>
+                <li><strong>침투 기법:</strong> Tendyron의 PKI USB 토큰 소프트웨어 'OnKey'(전 세계 1억 9천만 개 토큰 보급 주장)를 DLL 사이드로딩에 악용 — 코드 서명 인증서나 빌드 환경이 탈취된 것은 아니며, 사이드로딩에 취약한 정상 바이너리를 사용한 것으로 추정.</li>
+                <li><strong>C2 특성:</strong> 경량 발행-구독 프로토콜인 MQTT를 사용해 탐지 회피. 2023년 Mustang Panda의 MQsTTang 이후 MQTT를 악용한 사례는 소수에 불과해 희소성이 높다.</li>
+                <li><strong>대응:</strong> 고보안 환경의 금융·정부용 인증 소프트웨어가 공격자의 '정상 바이너리'로 전락할 수 있음을 보여주므로, 애플리케이션 허용 목록과 비표준 포트(1883/8883) MQTT 트래픽 모니터링이 필요하다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/bambootoken-malware-uses-mqtt-to.html" target="_blank">The Hacker News - BambooToken Malware Uses MQTT to Control Windows and Linux Systems</a></p>
+
+            <h2>5. Cisco Secure Email Gateway 치명적 결함 CVE-2026-76461 (CVSS 9.8) — 실제 악용 중, CISA KEV 등록</h2>
+            <p>Cisco가 Secure Email Gateway용 AsyncOS 소프트웨어의 치명적 취약점이 실제 공격에 악용되고 있다고 경고했다. CVSS 9.8로, 이메일 파싱 로직의 불충분한 입력 검증이 원인이다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> 악성 SQL 구문이 포함된 조작된 이메일을 발송하는 것만으로 인증 없이 원격에서 기반 OS의 root 권한으로 임의 명령 실행이 가능하다.</li>
+                <li><strong>공식 대응 기한:</strong> CISA가 KEV(알려진 악용 취약점) 카탈로그에 등록하고 연방 민간 행정기관(FCEB)에 2026년 9월 17일까지 패치 적용을 요구 — 이번 주가 마감이다.</li>
+                <li><strong>부가 정황:</strong> Arctic Wolf는 2026년 8월 말 인터넷 노출 Fortinet VPN 어플라이언스를 겨냥한 대규모 자격증명 공격을 두 차례 파도로 탐지했다고 밝혀, 경계 장비 전반에 대한 스캔·무차별 대입이 동시다발적으로 진행 중이다.</li>
+                <li><strong>대응:</strong> 최신 AsyncOS로 즉시 업그레이드하고, 메일 게이트웨이의 아웃바운드 연결을 신뢰 IP로 제한하며, 알려진 악성 IP에서의 연결·다운로드 로그를 점검할 것.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/cisco-secure-email-gateway-flaw.html" target="_blank">The Hacker News - Cisco Secure Email Gateway Flaw Exploited in the Wild, Enables Root Command Execution</a></p>
+
+            <h2>6. [클라우드] GKE 'Fragnesia'(CVE-2026-46300) 컨테이너 탈출 + 노출된 Vite 개발 서버 대량 자격증명 탈취</h2>
+            <p>관리형 클라우드 인프라와 개발 환경이 동시에 표적이 됐다. Google Kubernetes Engine(GKE)은 컨테이너 격리를 깨고 호스트 root를 획득하는 두 건의 결함을 조용히 공개했고, F5 Labs는 노출된 Vite 개발 서버를 스캔해 AWS·Azure 자격증명을 빼가는 캠페인을 공개했다.</p>
+            <ul>
+                <li><strong>Fragnesia:</strong> CVE-2026-46300 — 컨테이너 탈출 후 기반 호스트에서 root를 획득. 실제 운영 중인 GKE 표준(Ubuntu 노드 풀) 구성에 영향.</li>
+                <li><strong>containerd 결함:</strong> GHSA-p7v4-vr35-mj6f(CRI 체크포인트-복원 경로)로, 아직 CVE 번호가 부여되지 않았으나 역시 실제 컨테이너 격리를 깬다.</li>
+                <li><strong>Vite 대량 스캔:</strong> CVE-2026-39364(CVSS 8.2) — 인증 없이 쿼리 파라미터(?raw, ?import 등)를 조작해 server.fs.deny로 차단된 .env, *.crt 등의 파일을 HTTP 200으로 반환받아 유출. 2026년 8월 관측.</li>
+                <li><strong>피해 규모:</strong> 인터넷에 노출된 Vite 개발 서버에서 AWS·Azure 자격증명, 설정 파일, 인프라 상태(state) 파일까지 탈취 — 개발 서버가 프로덕션 클라우드 권한의 통로가 됐다. 개발 서버 외부 노출 중단과 자격증명 회전이 시급하다.</li>
+            </ul>
+            <p>출처: <a href="https://shattered.io/gke-fragnesia-cve-2026-46300/" target="_blank">Shattered - GKE Fragnesia Bug (CVE-2026-46300) Grants Root</a> / <a href="https://thehackernews.com/2026/09/mass-scanning-campaign-exploits-vite.html" target="_blank">The Hacker News - Mass-Scanning Campaign Exploits Vite Flaw to Extract Cloud Credentials From Exposed Dev Servers</a></p>
+
+            <h2>7. [패치] 공유 호스팅 권한상승 2건 악용 중 · Apple 200+ 취약점 패치 · Homebrew 7.0.0 내장 취약점 스캐너</h2>
+            <p>호스팅 인프라의 로컬 권한상승 결함이 실제 악용 단계에 들어갔고, 데스크톱 진영에서는 대규모 패치와 도구 차원의 방어가 나왔다.</p>
+            <ul>
+                <li><strong>LiteSpeed Web Server Enterprise:</strong> 6.3.7 미만 버전에 저권한 웹사이트 사용자가 공유 호스팅 서버에서 root 권한을 얻을 수 있는 치명적 결함. CloudLinux의 CageFS 계정 격리까지 우회 가능 — cPanel이 9월 14일 권고를 발행했고, LiteSpeed는 9월 11일 6.3.7을 릴리스했다.</li>
+                <li><strong>Acronis cPanel/WHM/Plesk 백업 플러그인:</strong> CVE-2026-87886(CVSS 7.8) 리눅스 로컬 권한상승 결함이 실제 악용 중. 백업 애드온은 호스팅 제어판에 연결돼 사이트·파일·DB·메일함·호스팅 계정을 통째로 다루므로 피해 반경이 크다.</li>
+                <li><strong>Apple:</strong> iOS 27·macOS Golden Gate 27 등 최신 릴리스에서 역대 최다인 200개 이상의 취약점을 패치. 커널 메모리 손상, 권한 상승, 시스템 종료, 정보 유출 결함이 포함됐다.</li>
+                <li><strong>Homebrew 7.0.0:</strong> 'brew vulns' 명령으로 설치된 패키지·formula·Brewfile을 OSV.dev 기반 자문 데이터베이스와 대조하는 내장 취약점 스캐너를 탑재. 기본적으로 사용자 홈 디렉터리 접근을 차단하고, 네트워크 의존성 다운로드와 오프라인 설치를 분리했으며 네이티브 GUI BrewUI가 정식 릴리스됐다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/litespeed-enterprise-flaw-could-let-one.html" target="_blank">The Hacker News - LiteSpeed Enterprise Flaw Could Let One Hosting Account Gain Root Access on a Shared Server</a> / <a href="https://www.bleepingcomputer.com/news/security/acronis-warns-of-actively-exploited-flaw-in-its-cpanel-backup-plugin/" target="_blank">BleepingComputer - Acronis warns of actively exploited flaw in its cPanel backup plugin</a> / <a href="https://www.securityweek.com/apple-patches-200-vulnerabilities-with-new-ios-27-macos-golden-gate-27-releases/" target="_blank">SecurityWeek - Apple Patches 200 Vulnerabilities With New iOS 27, macOS Golden Gate 27 Releases</a> / <a href="https://www.scmagazine.com/news/homebrew-7-0-0-released-with-built-in-vulnerability-scanner-and-improved-security" target="_blank">SC Media - Homebrew 7.0.0 released with built-in vulnerability scanner and improved security</a></p>
+
+            <h2>8. [트렌드] AI 보조 리서처가 버그바운티를 뒤흔든다 — Vercel 100만 달러 샌드박스 챌린지에 2주간 1,285건</h2>
+            <p>Vercel이 Firecracker 기반 마이크로VM 샌드박스(신뢰할 수 없는 AI 에이전트 코드 격리용)를 탈출하는 2주짜리 버그바운티 챌린지를 HackerOne 해커(블랙박스)와 Trail of Bits 엔지니어(화이트박스)에게 걸었고, 결과가 공개됐다.</p>
+            <ul>
+                <li><strong>규모:</strong> 2주간 1,285건 접수 — AI 보조 도구를 쓴 리서처들의 속도와 물량을 실증. 검증 결과 Critical 1건, High 7건, Medium 15건, Low 49건, Informative 19건, 약 32만 5천 달러 지급 약정(트리아지는 10월 1일까지 진행).</li>
+                <li><strong>중요한 사실:</strong> 실제 고객 데이터에 접근한 사례는 없었다. 즉 AI 에이전트 격리 계층은 버텼지만 대량 리포트가 트리아지 파이프라인을 마비시켜 Vercel이 자동 트리아지를 도입해야 했다.</li>
+                <li><strong>공격자 속도:</strong> Sysdig는 한 인간 공격자가 취약한 Marimo 노트북의 RCE를 이용해 8초 만에 SSH 배스천 호스트까지 도달한 사례를 공개 — AI로 취약점 발견~악용 창이 줄어드는 동시에 숙련 인간 공격자의 속도도 여전히 위협적이다.</li>
+                <li><strong>시사점:</strong> '리포트 폭주'가 새로운 운영 리스크다. 취약점 관리 프로세스에 자동 분류와 중복 제거가 없으면, AI가 만든 물량이 사람의 판단을 마비시킨다.</li>
+            </ul>
+            <p>출처: <a href="https://www.securityweek.com/1-million-sandbox-challenge-uncovers-linux-kernel-flaws/" target="_blank">SecurityWeek - $1 Million Sandbox Challenge Uncovers Linux Kernel Flaws</a> / <a href="https://thehackernews.com/2026/09/human-attacker-exploits-marimo-rce.html" target="_blank">The Hacker News - Human Attacker Exploits Marimo RCE, Reaches SSH Bastion in Eight Seconds</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
