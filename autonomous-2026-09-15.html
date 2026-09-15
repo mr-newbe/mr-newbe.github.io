@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - Waymo Open Dataset (CVPR 2020): '실주행 기록을 연구 커뮤니티에' — 3,200회 인용, nuScenes의 15배 영역을 덮은 공개 데이터셋 표준 (⭐3.4k)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 8px 10px; text-align: left; }
+        th { background-color: var(--secondary-color); }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - Waymo Open Dataset (CVPR 2020): '실주행 기록을 연구 커뮤니티에' — 3,200회 인용, nuScenes의 15배 영역을 덮은 공개 데이터셋 표준 (⭐3.4k)</h1>
+            <p class="date">2026-09-15</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>유형:</strong> 논문 (CVPR 2020) + 공식 데이터셋·devkit — 자율주행 <strong>3D 인식·추적·행동예측의 '업계 규모' 벤치마크</strong>. 한 회사의 실주행 플릿 기록을 비상업 연구용으로 개방한 사례로, 지금은 <strong>Perception / Motion / End-to-End 3종</strong>으로 확장됐다</li>
+                    <li><strong>제목:</strong> "Scalability in Perception for Autonomous Driving: Waymo Open Dataset"</li>
+                    <li><strong>저자 / 소속:</strong> Pei Sun, Henrik Kretzschmar, Xerxes Dotiwalla, Aurelien Chouard, Vijaysai Patnaik, … Yin Zhou, Yuning Chai, … Hang Zhao, … Jonathon Shlens, Zhifeng Chen, <strong>Dragomir Anguelov</strong> (총 <strong>25인</strong>) — <strong>Waymo LLC</strong></li>
+                    <li><strong>게재지:</strong> <strong>CVPR 2020</strong> (arXiv 최초 투고 2019-12-10, 최종 개정 2020-05-12 · 분야 <strong>cs.CV</strong> · cs.LG · stat.ML)</li>
+                    <li><strong>인용:</strong> OpenAlex 기준 <strong>3,233회</strong> (2026-09-15 확인) — 데이터셋 논문으로서는 이례적인 인용 규모로, 3D 검출·추적·예측 논문들이 거의 예외 없이 이 데이터셋을 기준선으로 보고한다</li>
+                    <li><strong>공식 저장소:</strong> <a href="https://github.com/waymo-research/waymo-open-dataset" target="_blank">waymo-research/waymo-open-dataset</a> — <strong>⭐3,409</strong> / fork 699 / Python / 최근 푸시 <strong>2026-01-08</strong> / 토픽 <code>autonomous-driving</code> · <code>dataset</code>. 최근 릴리스 v1.6.1 (2023-12, devkit)</li>
+                    <li><strong>라이선스:</strong> <strong>비상업 연구용</strong> (Waymo Open Dataset License Agreement) — OSI 표준 라이선스가 아니라 GitHub에는 <code>NOASSERTION</code>(커스텀)으로 표기된다. 데이터 접근은 <strong>Google 계정 로그인</strong> 필요</li>
+                    <li><strong>규모 ①(최초 공개판, 2019/2020):</strong> <strong>1,150 씬 × 20초</strong>(10Hz), <strong>LiDAR 5대 + 카메라 5대</strong>, 주석 라이다 프레임 <strong>230K</strong>, 3D 박스 <strong>약 1,200만</strong> · 2D 박스 <strong>약 990만</strong>, 라이다 객체 트랙 <strong>113K</strong>, 총 6.4시간, 방문 면적 <strong>76 km²</strong></li>
+                    <li><strong>규모 ②(현재, 2026-09 확인):</strong> <strong>Perception</strong> 2,030 세그먼트 = <strong>39만 프레임</strong>(2024-03 업데이트, v1.4.3/v2.0.1, 3D 시맨틱 세그멘테이션 라벨은 1,150 세그먼트·<strong>23 클래스</strong>) · <strong>Motion</strong> <strong>103,354 세그먼트</strong>(2,000만 프레임 이상, 574시간, 객체 1,080만, 2025-10 업데이트) · <strong>End-to-End</strong> 5,000 세그먼트(360° 카메라 + 경로 지시)</li>
+                    <li><strong>벤치마크:</strong> WOD 챌린지 4종 — Interaction Prediction / <strong>Sim Agents</strong> / Scenario Generation / <strong>Vision-based E2E Driving</strong>. 2025년 대회는 5월 22일 종료됐고 <strong>리더보드는 계속 열려</strong> 있다</li>
+                    <li><strong>원문:</strong> <a href="https://arxiv.org/abs/1912.04838" target="_blank">https://arxiv.org/abs/1912.04838</a></li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>자율주행 연구의 병목은 오랫동안 <strong>데이터</strong>였다. 알고리즘은 논문으로 공유되지만, 실제 도로에서 수집한 센서 데이터와 라벨은 각 회사의 자산이었다. Waymo Open Dataset은 이 벽을 정면으로 겨냥한 논문이다. 논문의 제목부터가 "인식의 <strong>확장성(Scalability)</strong>"이며, 기여의 절반은 모델이 아니라 <strong>공개한 데이터의 물량과 다양성</strong>이다. 실제로 이 데이터셋은 이후 6년간 3D 검출·추적·예측 논문의 공용 실험대가 됐다.</p>
+            <ul>
+                <li><strong>Geographic diversity가 이 논문의 핵심 주장:</strong> 저자들은 단순 프레임 수가 아니라 <strong>지리적 커버리지</strong>를 새 지표로 정의하고, 기존 최대 카메라+라이다 데이터셋보다 <strong>15.2배 넓은 영역</strong>을 담았다고 주장한다. 도시별로 분포가 다른 지역(도심·교외)을 모두 담아 <strong>도메인 갭·도메인 적응 연구</strong>를 가능하게 만든 것이 요점이다.</li>
+                <li><strong>센서 구성(논문 기준):</strong> 미드레인지 <strong>360° LiDAR</strong>를 포함해 <strong>LiDAR 5대</strong>와 <strong>고해상도 카메라 5대</strong>를 플릿에 장착했다. 라이다는 <strong>첫 두 번의 리턴</strong>을 제공하고, 데이터 범위는 <strong>75m</strong>로 제한된다. 카메라 이미지는 <strong>1920×1280</strong>, 수평 화각 ±25.2°, <strong>롤링 셔터</strong> 보정을 반영한 투영 라이브러리를 함께 제공한다. 프레임당 평균 포인트 수는 <strong>약 177K</strong>다.</li>
+                <li><strong>2D·3D를 동시에, 그리고 트랙 ID까지:</strong> 라이다에는 조밀한 <strong>3D 박스</strong>, 카메라에는 <strong>2D 박스</strong>를 독립적으로 주석하고, 모든 박스에 <strong>프레임 간 일관된 식별자(track ID)</strong>를 붙였다. 덕분에 하나의 데이터셋으로 <strong>2D/3D 검출과 추적</strong>을 모두 평가할 수 있고, 3D 박스에서 2D amodal 박스를 끌어내는 도구까지 제공해 <strong>센서 퓨전</strong> 연구를 지원한다.</li>
+                <li><strong>주석 품질을 프로세스로 증명:</strong> 생산 수준 라벨링 도구와 숙련 주석자를 투입하고 <strong>여러 단계의 검증</strong>을 거쳤다고 명시한다. 라벨은 난이도(LEVEL_1/LEVEL_2)를 나눠, KITTI와 비교 가능한 난이도 체계도 갖췄다.</li>
+                <li><strong>규모 비교표(논문 Table 1):</strong> 데이터셋 선택의 근거가 한눈에 드러난다.</li>
+            </ul>
+            <table>
+                <tr><th></th><th>KITTI</th><th>nuScenes</th><th>Argoverse</th><th>Waymo (2019)</th></tr>
+                <tr><td>씬 수</td><td>22</td><td>1,000</td><td>113</td><td><strong>1,150</strong></td></tr>
+                <tr><td>주석 라이다 프레임</td><td>15K</td><td>40K</td><td>22K</td><td><strong>230K</strong></td></tr>
+                <tr><td>수집 시간(h)</td><td>1.5</td><td>5.5</td><td>1</td><td><strong>6.4</strong></td></tr>
+                <tr><td>3D 박스</td><td>80K</td><td>1.4M</td><td>993K</td><td><strong>12M</strong></td></tr>
+                <tr><td>2D 박스</td><td>80K</td><td>–</td><td>–</td><td><strong>9.9M</strong></td></tr>
+                <tr><td>LiDAR 수 / 카메라 수</td><td>1 / 4</td><td>1 / 6</td><td>2 / 9</td><td><strong>5 / 5</strong></td></tr>
+                <tr><td>프레임당 평균 포인트</td><td>120K</td><td>34K</td><td>107K</td><td><strong>177K</strong></td></tr>
+                <tr><td>지도(map) 제공</td><td>아니오</td><td>예</td><td>예</td><td>아니오</td></tr>
+                <tr><td>주행 면적(km²)</td><td>–</td><td>5</td><td>1.6</td><td><strong>76</strong></td></tr>
+            </table>
+            <ul>
+                <li><strong>분할과 재현성:</strong> 학습 <strong>798</strong> / 검증 <strong>202</strong> / 테스트 <strong>150</strong> 씬으로 고정 분할을 제공하고, <strong>2D·3D 검출 및 추적 베이스라인</strong>을 함께 공개했다. 또한 <strong>데이터 크기를 늘리면 3D 검출 성능이 어떻게 변하는지</strong>, 그리고 <strong>지역이 바뀌면 성능이 얼마나 떨어지는지(일반화)</strong>를 직접 실험해 보고한다. "스케일이 곧 성능"이라는 명제를 자기 데이터로 검증한 셈이다.</li>
+                <li><strong>정직한 한계:</strong> 당시 공개판은 <strong>지도(map) 정보를 포함하지 않았고</strong>, 라이다 라벨은 차량 기준 <strong>75m 반경</strong>으로 제한된다. 또한 카메라 박스는 이미지 평면 기준이라 3D와의 정합에는 제공된 투영 도구가 필요하다. 라벨은 <strong>SUV·트럭 등 세부 차종 구분 없이</strong> 차량/보행자/자전거 중심 3클래스 체계로 시작했다.</li>
+                <li><strong>지금은 3종 데이터셋으로 진화:</strong> ① <strong>Perception</strong>(2,030 세그먼트 · 39만 프레임 · 23클래스 시맨틱 세그멘테이션 · 14키포인트 라벨), ② <strong>Motion</strong>(103,354 세그먼트 · 2,000만 프레임 · 차량/보행자/자전거 3D 박스 1,080만 객체 — 비보호 좌회전·합류·차선변경·교차로 같은 <strong>상호작용 장면을 골라 채굴</strong>), ③ <strong>End-to-End Driving</strong>(360° 카메라 5,000 세그먼트 + 경로 지시). 2025년 10월에는 Motion의 <code>sdc_paths</code>(자차 계획 경로)가 공개됐다.</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>인용 3,200회·리더보드 표준:</strong> 데이터셋 논문이 3,000회 이상 인용되는 경우는 드물다. 이는 이 데이터셋이 단순한 부가 실험이 아니라, <strong>3D 인식 논문의 주 평가 무대</strong>가 됐다는 뜻이다.</li>
+                <li><strong>'산업 규모 데이터'를 공개하는 첫 시도 중 하나:</strong> Waymo는 로보택시 플릿을 실제로 운영하는 회사다. 그 플릿이 수집한 데이터를 <strong>비상업 연구용</strong>으로 개방한 것은, 상업적 경쟁과 연구 생태계 사이의 현실적인 타협점을 보여준 사례다. 완전한 오픈 라이선스는 아니지만(로그인 + 연구 전용), 학계가 접근할 수 있는 실주행 데이터의 기준선을 크게 끌어올렸다.</li>
+                <li><strong>평가 도구까지 함께 공개:</strong> devkit·metrics 코드·Colab 튜토리얼·라벨링 스펙을 모두 공개해 <strong>지표의 표준화</strong>를 이뤘다. "각자 다른 코드로 계산한 mAP를 비교하는" 혼란을 없앤 것이 이 생태계의 실질적 기여다.</li>
+                <li><strong>이 블로그의 흐름과 이어진다:</strong> <a href="autonomous-2026-09-11.html">KITTI(2026-09-11)</a>가 "공개 데이터로 연구를 가능하게 한 원조"라면, <a href="autonomous-2026-08-24.html">nuScenes(2026-08-24)</a>는 3D 인식 표준을 세웠고, Waymo Open Dataset은 <strong>그 표준을 15배 넓은 영역과 12배 많은 라벨로 다시 정의</strong>했다. <a href="autonomous-2026-09-10.html">CenterPoint(2026-09-10)</a>가 nuScenes·Waymo SOTA를 세운 검출기이고, <a href="autonomous-2026-09-08.html">ChauffeurNet(2026-09-08)</a>은 같은 Waymo의 실차 주행 정책 연구다.</li>
+                <li><strong>지금도 활발히 갱신되는 살아있는 벤치마크:</strong> Perception(2024-03), Motion(2025-10)까지 지속 업데이트되고, <strong>Sim Agents</strong>(닫힌 루프 시뮬레이션 에이전트)와 <strong>Vision-based E2E Driving</strong>(2024 신설) 같은 새 트랙이 계속 추가된다. <a href="autonomous-2026-09-12.html">LMDrive(2026-09-12)</a>·<a href="autonomous-2026-08-31.html">DiffusionDrive(2026-08-31)</a> 같은 end-to-end 주행 연구의 평가 축이 바로 이 E2E 트랙이다.</li>
+                <li><strong>실무·교육 가치:</strong> devkit이 Python으로 제공되고 <strong>Colab 튜토리얼</strong>만 열면 데이터 포맷을 바로 익힐 수 있다. 3D 검출·추적·행동예측·시뮬레이션 에이전트까지 <strong>한 데이터셋 위에서 전 스택을 실험</strong>할 수 있는 몇 안 되는 공개 자원이다. 단, 데이터 접근에 Google 로그인과 비상업 라이선스 동의가 필요하고, 저장소 이슈가 460여 건 쌓여 있어 <strong>개별 문의보다는 공개된 스펙·튜토리얼을 먼저 읽는 편</strong>이 빠르다.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>Waymo Open Dataset의 교훈은 <strong>"데이터의 스케일과 다양성이 곧 인식 성능의 상한"</strong>이라는 것이다. 논문은 성능 수치를 자랑하기보다, <strong>씬 1,150개·라벨 1,200만 개·76 km²</strong>라는 물량과 <strong>15.2배의 지리적 다양성</strong>을 먼저 내세운다. 그리고 실제로 그 데이터가 있어서 3D 검출기들이 서로 비교될 수 있었고, 지역이 바뀌면 성능이 무너진다는 <strong>일반화 문제</strong>가 공통 의제가 됐다. 즉 이 논문의 진짜 유산은 특정 모델이 아니라 <strong>비교 가능한 실험대</strong>다.</p>
+            <p>동시에 비상업 라이선스라는 선택은 산업 데이터 공개의 경계를 그대로 보여준다. 데이터는 열려 있지만 <strong>상업적 활용은 닫혀 있고</strong>, 저장소의 릴리스(v1.6.1, 2023-12)와 데이터 갱신 주기가 어긋나듯 devkit과 데이터는 서로 다른 속도로 움직인다. 그럼에도 <a href="autonomous-2026-09-11.html">KITTI</a>의 22개 씬에서 시작한 공개 데이터 문화가 오늘날 <strong>수십만 프레임·수천만 라벨</strong> 규모로 커졌다는 사실은 분명한 진전이다. 자율주행을 공부한다면, 최신 모델 구조를 좇기 전에 이 데이터셋의 <strong>씬·라벨·평가 지표가 어떤 가정 위에 서 있는지</strong>를 한 번 정리해 두는 것이 오래 남는다. 한 줄 요약: <strong>"알고리즘보다 먼저 데이터를 공개하라 — 3,200회 인용된 그 선택이 3D 인식 연구의 공용 실험대를 만들었다."</strong></p>
+
+            <p>함께 읽기: <a href="autonomous-2026-09-11.html">KITTI (2026-09-11)</a> · <a href="autonomous-2026-08-24.html">nuScenes (2026-08-24)</a> · <a href="autonomous-2026-09-10.html">CenterPoint (2026-09-10)</a> · <a href="autonomous-2026-09-08.html">ChauffeurNet (2026-09-08)</a> · <a href="autonomous-2026-09-02.html">VectorNet (2026-09-02)</a></p>
+
+            <p>원문: <a href="https://arxiv.org/abs/1912.04838" target="_blank">https://arxiv.org/abs/1912.04838</a> (CVPR 2020 · Pei Sun 외 25인, Waymo LLC · 데이터 <a href="https://waymo.com/open/" target="_blank">waymo.com/open</a> · 코드 <a href="https://github.com/waymo-research/waymo-open-dataset" target="_blank">github.com/waymo-research/waymo-open-dataset</a>)</p>
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
