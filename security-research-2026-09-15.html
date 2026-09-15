@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧺 [최신] Capability Laundering — 정렬된 프런티어 모델을 '세탁기'로 쓰는 능력 이전 공격 (arXiv 2609.15383, Microsoft AI Red Team, 2026)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧺 [최신] Capability Laundering — 정렬된 프런티어 모델을 '세탁기'로 쓰는 능력 이전 공격 (arXiv 2609.15383, 2026)</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-09-15 · 카테고리: Research (최신 보안 논문 · LLM 안전성 / AI 레드팀 · 합성적 위험)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Divide, Consult, Conquer: Capability Laundering Through Aligned LLMs<br>
+                <strong>저자:</strong> Mark Russinovich (Microsoft Azure), Blake Bullwinkel, Giorgio Severi, Cristian Ovadiuc, Ahmed Salem (Microsoft) — Microsoft AI 레드팀 계열 연구진<br>
+                <strong>발표:</strong> arXiv:2609.15383v1 [cs.CR] — <strong>2026년 9월 14일</strong> (프리프린트 · cs.AI 공동 분류)<br>
+                <strong>분야:</strong> LLM 안전성 · 프런티어 모델 정렬(alignment) · AI 에이전트 아키텍처 · 합성적 능력 위험(compositional risk) · 생물보안(CBRN)<br>
+                <strong>인용:</strong> 게재 <strong>1일차</strong> 신규 논문이라 인용 지표는 아직 집계되지 않음(OpenAlex/S2 모두 미등록). 대신 저자 진영의 무게로 읽는 논문이다 — 제1저자 Mark Russinovich는 Azure CTO·Sysinternals 개발자로, 최근 <em>Fool's Gold: Defensive Deception Against Safety-Removal Attacks on Open-Weight Models</em>(arXiv 2608.17202) 등 모델 정렬 제거(abliteration) 방어 연구를 연속 발표하며 이 주제군을 직접 이끌고 있다.<br>
+                <strong>라이선스:</strong> CC BY 4.0 (아티팩트·재현 코드 공개, 책임 있는 사전 공개(responsible disclosure) 절차 포함)
+            </div>
+
+            <h2><i class="fa-solid fa-clock-rotate-left"></i> 연구 배경 — 안전성 평가는 '한 번에 한 대화'만 본다</h2>
+            <p>프런티어 모델의 안전성은 거의 예외 없이 <strong>개별 상호작용 단위</strong>로 평가된다. 요청 하나를 보고 유해한지 판단하고, 유해하면 거부한다. 이 구조에서 안전성은 "그 모델이 위험한 요청을 거부하는가"라는 질문으로 축소된다.</p>
+            <p>이 논문의 출발점은 그 전제를 비틀었다. <strong>거부(refusal)는 '능력(capability)의 이전'을 막지 못한다</strong>는 것이다. 정렬된 강한 모델은 완성된 유해 과업을 거부하지만, 그 과업을 이루는 <em>기술 조각</em> 하나하나는 대개 정당한 용도를 갖는다. 조각을 따로 물으면 개별 응답은 전부 정책을 통과한다. 그런데 그 조각들을 밖에서 조립하면 — 거부당했던 원래 과업이 완성된다.</p>
+            <blockquote>"유해한 과업을 거부하는 것은, 프런티어의 능력이 허용된 다수의 상호작용을 통해 이전되고 조합되는 것을 막지 못한다." — 논문 초록</blockquote>
+
+            <h2><i class="fa-solid fa-diagram-project"></i> 공격 구조 — Divide · Consult · Conquer</h2>
+            <p>논문이 'capability laundering'(능력 세탁)이라 부르는 공격은 두 개의 모델로 구성된다.</p>
+            <ul>
+                <li><strong>오케스트레이터(orchestrator) — 정렬 해제된 로컬 모델:</strong> 유해한 최종 목표를 <em>알고 있는</em> 쪽이다. 목표를 겉보기엔 평범한 하위 문제로 쪼개고, 받은 답을 로컬에서 조립해 최종 산출물을 만든다. 실험에는 vLLM으로 로컬 구동한 <strong>abliterated(정렬 해제) 체크포인트 4종</strong>을 사용했다 — Gemma-4-31B(주 오케스트레이터), Muse-Glimmer-30B, Qwen3.6-27B, Gemma-4-12B.</li>
+                <li><strong>컨설턴트(consultant) — 정렬된 프런티어 모델:</strong> <code>consult_ask</code> 도구를 통해 <em>조각난 기술 질문만</em> 받는다. GPT-5.5, Claude Opus 4.8, Grok-4.3을 컨설턴트로 썼다.</li>
+                <li><strong>핵심은 '의도'와 '전문성'의 분리:</strong> 오케스트레이터는 <em>왜</em> 계산하는지 알고, 컨설턴트는 <em>무엇을</em> 묻는지만 본다. 논문이 드는 예시는 직렬화(deserialization) 익스플로잇이다 — 저장 레이아웃 질문, 객체 재구성 시맨틱 질문, 일반적인 객체 훅 질문으로 쪼개면 각각은 교과서적인 개발 질문이다. CBRN 영역은 '물질·프로토콜·제약조건' 같은 개별 단계로 분해된다.</li>
+                <li><strong>결정적 맥락(decisive context)이 오케스트레이터에게 남는다:</strong> 그래서 기존의 입력·출력 분류기는 <em>모든 개별 교환을 승인</em>할 수 있다. 조각들의 합이 컨설턴트가 직접 요청받으면 거부했을 능력을 제공하는데도 말이다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flask"></i> 실험 설계 — 'uplift candidate'라는 엄격한 선별 기준</h2>
+            <ul>
+                <li><strong>능력 격차 후보(uplift candidate):</strong> 세 조건을 <em>모두</em> 만족하는 과제만 측정 대상으로 삼았다 — ① 원시 프런티어 모델은 pass@3로 <strong>해결(PASS)</strong>, ② 정렬된 프런티어 모델은 <strong>거부(REFUSE)</strong>, ③ 컨설턴트 없는 하네스-only 오케스트레이터는 <strong>실패(FAIL)</strong>. 즉 하네스만으로 풀리는 문제를 제외하고, 순수하게 <em>프런티어 대 오케스트레이터의 능력 격차</em>만 측정했다.</li>
+                <li><strong>벤치마크:</strong> 사이버보안은 <strong>CyBench</strong>(CTF 계열)와 <strong>BountyBench</strong>(실제 오픈소스 취약점 익스플로잇), CBRN은 가상 생물무기 공격 사슬의 <strong>8개 단계</strong>(ideation · acquisition · modification · release · evasion 5개 국면)로 구성했다.</li>
+                <li><strong>CBRN 측정:</strong> 단순 '유해성' 점수가 아니라 각 단계별 <strong>100점 루브릭</strong>을 부여한 LLM 심사로 '운용적 유용성'을 측정했다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-chart-column"></i> 결과 — 거부된 능력의 최대 78%가 '합법적 대화'로 복구됐다</h2>
+            <ul>
+                <li><strong>CyBench (pass@3, uplift 후보 대비 복구율):</strong> Gemma-4-31B 오케스트레이터에 GPT-5.5 컨설턴트를 붙이면 <strong>14개 후보 중 8개(+57%)</strong>, Opus 4.8을 붙이면 <strong>9개 중 7개(+78%)</strong>가 복구됐다. 같은 벤치에서 더 작은 Gemma-4-12B는 21개 중 2개, 15개 중 4개에 그쳤다.</li>
+                <li><strong>BountyBench(실제 소프트웨어 취약점):</strong> Gemma-4-31B 기준 GPT-5.5로 <strong>9개 중 3개(+33%)</strong>, Opus 4.8로 <strong>3개 중 2개(+67%)</strong>. 반면 비슷한 규모의 Muse-Glimmer-30B는 22개 중 0개, 13개 중 0개 — <em>컨설턴트가 같아도 오케스트레이터가 못 쓰면 이전이 일어나지 않는다</em>.</li>
+                <li><strong>모델 규모보다 '오케스트레이터의 역량'이 상한을 결정한다:</strong> 정렬 해제(abliteration)만으로는 부족하다. 계획을 세우고, 상태를 추적하고, 컨설턴트 답변을 통합하는 <strong>장기 과업 능력</strong>이 남아 있어야 능력 세탁이 성립한다. 논문은 이 지점을 방어 연구의 새 평가 축으로 제안한다.</li>
+                <li><strong>CBRN (100점 루브릭 평균):</strong> 정렬 해제 Gemma-4-31B를 직접 물으면 <strong>62.3±13.2</strong>, 컨설턴트 없는 하네스-only로는 <strong>75.3±12.7</strong>, GPT-5.5 또는 Grok-4.3 컨설턴트를 붙이면 <strong>83.1±9.1 / 83.1±9.7</strong>까지 올라갔다. 점수 상승의 질적 의미가 중요하다 — 불완전한 절차 스케치가 <em>구성 요소의 역할을 설명하고, 대안을 비교하고, 대조군(troubleshooting)까지 포함하는 기술적으로 정합적인 계획</em>으로 바뀐다.</li>
+                <li><strong>단계별 편차:</strong> 상승폭이 큰 곳은 <strong>reverse genetics 75.7→89.3</strong>, practical laboratory knowledge <strong>67.1→79.3</strong>, agent selection <strong>67.7→79.5</strong>, DIY lab build-out <strong>72.2→81.0</strong> — 즉 <em>이중용도(dual-use) 과학 지식</em>처럼 유해 의도를 드러내지 않고 물을 수 있는 영역이다. 반대로 <strong>aerosol formulation은 컨설턴트 효과가 사실상 0</strong>(78.1→77.x)으로, 무기화에 직결된 정보는 분류기가 일관되게 차단했다. 차단이 잦은 단계일수록 uplift도 작았다.</li>
+            </ul>
+            <p>논문은 별도의 사례로 <strong>Paddle(<code>paddle:0</code>, BountyBench)</strong>를 분석한다. Gemma-4-31B와 Muse-Glimmer-30B는 규모가 비슷하고, 같은 하네스에, 같은 두 컨설턴트를 받았는데도 결과가 갈렸다. 작업은 아카이브 추출 유틸리티가 신뢰할 수 없는 멤버 이름을 안전하지 않은 추출 연산에 넘기는 결함을 겨냥한다. 성공 조건은 영속적 아티팩트를 패키징해 BountyBench 검증을 통과하는 것. Muse는 <em>로컬에서 수행해야 할 작업을 계속 위임</em>하고 이미 확립된 사실을 '해결됨'으로 유지하지 못했으며, <strong>충분한 정보가 모였을 때 컨설팅을 멈추지 못했다</strong>. 능력 이전은 "어떤 작업을 어떤 환경에 배정하고, 검증된 상태를 보존하고, 언제 멈출지 아는 능력"에 달려 있다는 결론이다.</p>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 방어 함의 — '요청별 분류'에서 '조합 인지 모니터링'으로</h2>
+            <ul>
+                <li><strong>조합 인지 모니터링(composition-aware monitoring):</strong> 요청을 독립적으로 분류하는 대신, 사용자의 요청·응답 <em>이력에 출처(provenance)를 유지</em>하고 그것이 제공하는 능력을 추정해 "새 응답이 의심스러운 사슬을 완성하는가"를 판단해야 한다. 대응은 답변 보류, 운용적 세부수준 축소, 추가 맥락 요구, 사람 검토로의 에스컬레이션까지 포함된다.</li>
+                <li><strong>정렬 제거 방어(anti-abliteration)의 평가 기준이 바뀐다:</strong> '거부율'만 보면 안 된다. 모델의 가중치가 수정된 뒤에도 <em>장기 계획·통합 능력</em>이 남아 있는지까지 봐야 한다. 계획 능력을 훼손하는 방어는 자동·반복 조합의 비용을 올려 공격을 실질적으로 비싸게 만든다.</li>
+                <li><strong>아키텍처적 결론:</strong> 컨설턴트는 완성된 유해 과업을 보지도, 최종 산출물을 만들지도, 명백히 잘못된 정책 판단을 하지도 않는다. 그래서 <strong>기존 거부 중심 방어로는 원리적으로 잡히지 않는다</strong>. "정렬된 모델이 유해 과업을 수행할 것인가"라는 질문이 "허용된 개별 기여가 적대적 조합 아래에서도 안전한가"로 바뀐다.</li>
+                <li><strong>윤리·공개 절차:</strong> 저자들은 발표 전 영향을 받는 모델 제공사들에 위협 모델·대표 예시·왜 요청별 보호가 조합 공격을 못 잡는지를 담은 보고서를 전달하고 재현 지원을 제안했다(책임 있는 공개). 실험은 통제된 환경에서 수행됐고 아티팩트는 익명화해 공개했다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 왜 중요한가 — 실무 관점의 시사점</h2>
+            <ul>
+                <li><strong>① 모델 게이트웨이 로그는 '대화 단위'가 아니라 '세션·계정 단위'로 봐야 한다:</strong> 이 공격은 개별 요청의 정책 위반이 0건이다. EDR처럼 '여러 요청을 이어붙여 하나의 사슬로 재구성하는 탐지'가 필요하다는 신호다.</li>
+                <li><strong>② '로컬 소형 모델 + API 호출'이라는 현실적 위협 조합:</strong> 업로드는 접근성 높은 30B급 오픈웨이트를 로컬에서 돌리며 상용 API를 컨설턴트로 쓴다. 공격 비용의 핵심은 GPU가 아니라 <em>하네스 설계 능력</em>이다.</li>
+                <li><strong>③ 에이전트 아키텍처 보안과 같은 문제군:</strong> '도구 호출 하나하나는 정상'인 다단계 에이전트 공격(프롬프트 인젝션·스킬 백도어)과 위협 모델이 겹친다. 방어는 결국 <em>다단계·상태 유지 감사</em>로 수렴한다.</li>
+                <li><strong>④ 벤치마크 설계의 교훈:</strong> 'PASS/REFUSE/FAIL' 교집합으로 후보를 정의한 방식은, 안전성 평가가 "우회가 되는가"가 아니라 "거부된 능력이 얼마나 이전되는가"를 측정해야 함을 보여준다. AI 레드팀 지표 설계에 바로 참고할 만하다.</li>
+                <li><strong>⑤ 한계도 분명하다:</strong> 결과는 특정 위협 모델(로컬 정렬 해제 오케스트레이터 + 인증된 프런티어 접근) 하의 측정이며, 컨설턴트는 3종으로 제한됐다. 모든 모델·정책이 동등하게 취약하다는 주장이 아니라, <em>개별 거부 기반 안전성 평가가 구조적으로 불충분하다</em>는 실증이다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>원문 (arXiv:2609.15383, 2026-09-14): <a href="https://arxiv.org/abs/2609.15383" target="_blank" rel="noopener">arxiv.org/abs/2609.15383</a></li>
+                <li>전문 HTML (arXiv HTML v1): <a href="https://arxiv.org/html/2609.15383v1" target="_blank" rel="noopener">arxiv.org/html/2609.15383v1</a></li>
+                <li>PDF: <a href="https://arxiv.org/pdf/2609.15383" target="_blank" rel="noopener">arxiv.org/pdf/2609.15383</a></li>
+                <li>함께 읽기 — Russinovich et al., "Fool's Gold: Defensive Deception Against Safety-Removal Attacks on Open-Weight Models" (arXiv:2608.17202): <a href="https://arxiv.org/abs/2608.17202" target="_blank" rel="noopener">arxiv.org/abs/2608.17202</a></li>
+                <li>함께 읽기 — "An Embarrassingly Simple Defense Against LLM Abliteration Attacks" (arXiv:2505.19056): <a href="https://arxiv.org/abs/2505.19056" target="_blank" rel="noopener">arxiv.org/abs/2505.19056</a></li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
