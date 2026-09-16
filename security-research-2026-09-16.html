@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔓 [클래식] How to Break MD5 — '15분~1시간'이면 충돌을 찾는다: 세계 표준 해시를 무너뜨린 모듈러 차분 공격 (Wang &amp; Yu, EUROCRYPT 2005)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔓 [클래식] How to Break MD5 — '15분~1시간'이면 충돌을 찾는다: 세계 표준 해시를 무너뜨린 모듈러 차분 공격 (Wang &amp; Yu, EUROCRYPT 2005)</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-09-16 · 카테고리: Research (고전 보안 논문 · 암호해독/암호분석 · 해시 함수)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> How to Break MD5 and Other Hash Functions<br>
+                <strong>저자:</strong> Xiaoyun Wang (Shandong University · Tsinghua University), Hongbo Yu (Shandong University)<br>
+                <strong>발표:</strong> EUROCRYPT 2005 (Aarhus, Denmark), Springer LNCS Vol. 3494, pp. 19–35 — <strong>2005년</strong><br>
+                <strong>DOI:</strong> 10.1007/11426639_2<br>
+                <strong>분야:</strong> 암호분석 · 해시 함수 · 충돌 저항성 · 차분 공격(differential cryptanalysis)<br>
+                <strong>인용:</strong> OpenAlex 기준 <strong>1,458회</strong> — 2005년 단일 학회 논문으로는 이례적으로 높은 수치다. 직전 고지인 동일 저자진의 <em>Collisions for Hash Functions MD4, MD5, HAVAL-128 and RIPEMD</em> (IACR ePrint 2004/199, 2004-08-16 등록)도 별도로 <strong>458회</strong> 인용됐다.<br>
+                <strong>성격:</strong> "해시 함수가 깨진다"를 이론에서 실측으로 끌어내린 논문. 단순 이론 개선이 아니라 <em>실제로 15분~1시간 안에 충돌 쌍을 계산</em>해 보였고, 이후 15년간 인증서·코드 서명·공급망 신뢰 모델을 강제로 재편시켰다.
+            </div>
+
+            <h2><i class="fa-solid fa-clock-rotate-left"></i> 연구 배경 — 1992년산 설계와 '12년의 안심'</h2>
+            <p>MD5는 1992년 Ronald Rivest가 자신의 MD4를 개선해 내놓은 128비트 해시 함수다. 이후 인터넷의 기본값이 됐다 — 파일 무결성 확인, 패스워드 저장(당시 관행), 소프트웨어 배포 체크섬, X.509 인증서 서명, 각종 프로토콜의 HMAC. "MD5는 안전하다"는 문장은 2000년대 초반까지 사실상 상식이었다.</p>
+            <p>학계의 최선의 결과도 그 상식을 뒤집지 못했다. 논문이 직접 밝히듯 2004년까지 MD5에 대해 알려진 가장 강한 결과는 <strong>semi free-start collision</strong>(초기값을 공격자가 정한 비표준 값으로 바꿔야 성립하는 충돌)에 그쳤다. 실전에서 의미 있는 <em>임의 초기값에 대한 충돌</em>은 아니었고, 그래서 "MD5는 깨졌다"는 말은 학술적 경고에 머물러 있었다.</p>
+            <p>전환점은 2004년 8월이었다. Xiaoyun Wang 연구진이 <em>Collisions for Hash Functions MD4, MD5, HAVAL-128 and RIPEMD</em>를 IACR ePrint에 올리고 CRYPTO 2004 럼프 세션에서 결과를 공개하자, MD4·MD5·HAVAL-128·RIPEMD에 대한 실제 충돌이 잇따라 확인됐다. 이듬해 EUROCRYPT 2005의 이 논문이 <strong>공격의 전체 구조와 일반화</strong>를 담아 정식으로 제출됐다.</p>
+
+            <h2><i class="fa-solid fa-gears"></i> 핵심 아이디어 — XOR이 아니라 '정수 뺄셈'으로 차이를 재다</h2>
+            <p>이 논문이 기존 차분 공격과 갈라지는 지점은 <strong>차이(difference)의 정의</strong>다. 고전 차분 분석(Biham–Shamir, DES 계열)은 두 상태의 차이를 <em>XOR</em>로 측정한다. Wang과 Yu는 MD5의 핵심 연산이 <strong>32비트 모듈러 덧셈(⊞)</strong>이라는 사실에 주목하고, 차이를 <em>정수 뺄셈</em>으로 정의하는 <strong>모듈러 차분(modular differential)</strong>을 도입했다.</p>
+            <blockquote>"We used this attack to find collisions of MD5 in about 15 minutes up to an hour computation time. The attack is a differential attack, which unlike most differential attacks, does not use the exclusive-or as a measure of difference, but instead uses modular integer subtraction as the measure. We call this kind of differential a modular differential." — 논문 초록</blockquote>
+            <ul>
+                <li><strong>왜 이 정의가 유리한가:</strong> 덧셈은 캐리(carry)를 전파한다. XOR 기반 차분은 캐리 때문에 확률이 급격히 떨어지는 경로를 만들어내지만, 모듈러 차분은 <em>덧셈의 실제 동작</em>과 일치하므로 확률이 큰 차분 경로를 설계할 수 있다. MD5의 압축 함수 구조(4라운드 × 16스텝, 비선형 함수 F/G/H/I)에 맞춰 저확률 경로를 찾아내는 것이 이 논문의 첫 절반이다.</li>
+                <li><strong>메시지 수정(message modification):</strong> 단순히 확률이 높은 경로만으로는 부족하다. 논문은 충돌 경로 상의 중간 상태를 <em>원하는 값으로 강제로 맞춰 넣는</em> 기법을 개발했다. 차분 경로의 확률적 흐름을 유지한 채 초기 스텝의 조건을 미리 만족시켜, 남은 확률만 무차별 탐색하면 되도록 탐색 공간을 잘라낸다. 이 결합이 2^64 수준의 생일 공격(birthday attack)을 <strong>약 2^39 MD5 연산</strong> 수준으로 끌어내렸다.</li>
+                <li><strong>결과는 '충돌 쌍'의 실물:</strong> MD5 전체 4라운드를 통과한 서로 다른 두 메시지가 <em>동일한 128비트 해시</em>를 갖는다. 논문은 MD5에서 <strong>15분~1시간</strong>의 계산으로 이를 찾았다고 보고한다.</li>
+                <li><strong>일반화:</strong> 같은 프레임워크로 <strong>MD4는 1초 미만</strong>에 충돌이 찾아졌고, RIPEMD와 HAVAL에도 그대로 적용됐다. 즉 "MD5 한 개의 사고"가 아니라 <em>Merkle–Damgård 계열 해시 전반의 설계 취약성</em>을 드러낸 결과였다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-bug"></i> 무엇이 실제로 무너지는가 — 충돌 저항성의 붕괴</h2>
+            <ul>
+                <li><strong>충돌 저항성(collision resistance):</strong> 해시의 세 가지 성질(역상 저항성·제2역상 저항성·충돌 저항성) 중 가장 약한 고리가 2^64(생일 한계)다. MD5는 그 한계조차 지키지 못하게 됐다. 128비트 설계의 두 번째 역상 저항성(2^128)은 남지만, 서로 다른 입력에 같은 해시가 나오는 순간 <em>"해시가 같다 = 파일이 같다"</em>는 검증 논리는 성립하지 않는다.</li>
+                <li><strong>고전적 위험 — 길이 확장(length extension):</strong> Merkle–Damgård 구조 자체의 결함으로, MD5(그리고 SHA-1/SHA-2 계열)는 <code>H(secret ‖ message)</code> 형태의 순진한 인증에 취약하다. 충돌 공격과는 다른 축이지만, 실제로 2012년 Flickr API 서명·2016년 SHA-1 기반 각종 토큰에서 활용됐다.</li>
+                <li><strong>공급망 신뢰:</strong> 배포 파일의 MD5 체크섬만 비교하는 검증 절차는, 원본과 <em>같은 MD5를 갖는 악성 파일</em>을 만들어 통과시킬 수 있다는 뜻이다. 무결성 검증이 "해시 비교"라고 믿는 순간 공격자는 해시값 충돌로 그 신뢰를 통째로 우회한다.</li>
+                <li><strong>서명 체계로의 전이:</strong> 해시가 무너지면 그 해시 위에 세워진 <em>전자서명</em>이 무너진다. CA가 MD5로 서명한 인증서, MD5 해시로 서명하는 코드 서명 설계가 모두 위험해진다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-crosshairs"></i> 3단계 확산 — 2004년 경고가 2012년 실제 악성코드로</h2>
+            <p>이 논문의 파급은 논문 안에서 끝나지 않았다. 4단계로 확산됐다.</p>
+            <ul>
+                <li><strong>① 2007년: chosen-prefix collision — "아무 두 메시지"로 확장.</strong> Stevens·Lenstra·de Weger의 <em>Chosen-Prefix Collisions for MD5</em>(EUROCRYPT 2007)는 <em>서로 다른 두 개의 접두사</em>를 먼저 정하고, 뒤에 붙일 블록만 조작해 충돌을 만드는 방법을 보였다(약 2^39 수준). 충돌 공격이 "의미 없는 두 블록"에서 "원하는 내용을 가진 두 문서"로 바뀐 순간이다.</li>
+                <li><strong>② 2008년 12월: 로그 CA 인증서 — HTTPS 신뢰 모델의 실증적 붕괴.</strong> Sotirov·Stevens·Appelbaum·Lenstra 등은 25C3에서 <em>MD5 Considered Harmful Today</em>를 발표하고, 실제로 중간 CA가 서명한 인증서를 chosen-prefix 충돌로 위조해 <strong>브라우저가 정상 루트 CA로 체인된다고 믿는 로그 CA 인증서</strong>를 만들어냈다(200여 대 PlayStation 3를 동원한 연산 클러스터). CA 한 곳의 MD5 서명 관행이 <em>인터넷 전체의 신뢰 루트</em>를 오염시킬 수 있음을 시연한 사건이다.</li>
+                <li><strong>③ 2012년: Flame — 무기화된 MD5 충돌.</strong> 이란·중동 지역을 겨냥한 정교한 사이버 무기 <strong>Flame</strong>은 위조한 Microsoft 인증서로 서명된 악성 컴포넌트를 유포했다. 사용된 기법이 바로 MD5 <em>chosen-prefix collision</em>이다. 미 국무부·정부기관을 겨냥한 스피어피싱으로 확산된 이 사건은, "해시 취약점은 이론"이라는 통념을 완전히 끝냈다. Microsoft는 KB2718704로 해당 위조 인증서를 신뢰 목록에서 제거하는 긴급 조치를 취했다.</li>
+                <li><strong>④ 2017년 이후: SHA-1까지.</strong> MD5가 무너지자 "남은 수명은 SHA-1"이라던 통념도 곧 깨졌다. SHAttered(Stevens 등, 2017)는 <strong>SHA-1 전체 충돌을 2^63.1 연산</strong>으로 계산했고, 2020년 <em>SHA-1 is a Shambles</em>(Leurent·Peyrin)는 chosen-prefix 충돌까지 실증했다. Wang–Yu가 MD5에 쓴 방법론은 SHA-1 공격의 출발점이었다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 이 논문이 남긴 제도적 유산 — SHA-3와 '해시 교체의 시대'</h2>
+            <ul>
+                <li><strong>MD5·SHA-1의 퇴출:</strong> 2008년 로그 CA 이후 CA/Browser Forum과 브라우저 벤더는 인증서 서명에 MD5 사용을 폐기했고, 이후 SHA-1도 같은 경로를 걸었다. 2014년 이후 브라우저는 SHA-1 인증서를 거부하기 시작했고, Git은 MD5 기반 개발을 접고 충돌 저항성에 강한 설계로 이동했다.</li>
+                <li><strong>NIST 해시 경쟁과 SHA-3:</strong> MD5·SHA-1의 연쇄 붕괴는 SHA-2 계열 하나에 의존하는 위험을 드러냈다. NIST는 2007년부터 공개 경쟁(SHA-3 competition)을 시작해 2012년 Keccak을 SHA-3로 선정했다. 해시 구조 자체를 Merkle–Damgård에서 스펀지 구조로 바꾸는 계기였다.</li>
+                <li><strong>연구 방법론의 유산:</strong> '저확률 경로 탐색 + 메시지 수정'이라는 이 논문의 조합은 이후 ARX 기반 해시·스트림 암호(SHA-3 후보군, BLAKE 계열, SipHash 등) 분석의 표준 도구가 됐다. 자동화 차분 탐색(SAT/SMT 기반) 연구의 출발점이기도 하다.</li>
+                <li><strong>한국 관점:</strong> 국내 인증·결제·공공 시스템에서도 MD5/SHA-1 체크섬과 해시 기반 무결성 검증이 오래 남아 있었다. 이 논문은 "해시는 무료 검증 도구"라는 관행에 <em>교체 주기와 알고리즘 수명 관리</em>라는 개념을 심었다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 오늘날의 실무 시사점 — 2026년에도 유효한 체크리스트</h2>
+            <ul>
+                <li><strong>① 무결성·인증에 MD5를 쓰지 않는다:</strong> 체크섬·서명·HMAC·패스워드 해싱 어디에도 MD5는 부적합하다. 패스워드는 애초에 범용 해시가 아니라 Argon2/bcrypt/scrypt 같은 <em>느린 KDF</em>를 써야 한다.</li>
+                <li><strong>② 남아 있는 MD5를 '인벤토리'한다:</strong> 임베디드 펌웨어 업데이트 검증, 레거시 서명 도구, 사내 스크립트의 <code>md5sum</code> 비교, 오래된 라이브러리 호출을 찾아 목록화하고 교체 우선순위를 매긴다. "해시값이 같으니 OK"라는 코드가 곧 신뢰 경계다.</li>
+                <li><strong>③ 해시 교체는 서명 체계 전체의 교체다:</strong> 해시 알고리즘 하나를 바꾸면 인증서·코드 서명·매니페스트·SBOM·타임스탬프까지 함께 움직인다. 서명 알고리즘 agility(교체 가능성)를 설계 단계에 넣어야 하는 이유다.</li>
+                <li><strong>④ 아카이브 해시는 '식별자'와 '보증'을 구분한다:</strong> 과거 데이터 보존용 MD5는 식별자로 남을 수 있지만, 그것으로 검증을 주장하면 안 된다. 저장소는 SHA-256/SHA-512(가능하면 BLAKE3) 기반 해시를 병기한다.</li>
+                <li><strong>⑤ 공급망 검증 계층을 다층화한다:</strong> 해시 비교 + 전자서명 + 투명성 로그(Sigstore/Rekor·TUF 계열), 그리고 산출물 재현 빌드까지. 해시 충돌은 단일 계층 방어를 우회하지만, 서로 다른 알고리즘·서로 다른 신뢰 앵커를 함께 요구하면 공격 비용이 급격히 오른다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>원문 (EUROCRYPT 2005, LNCS 3494, pp. 19–35 · DOI): <a href="https://doi.org/10.1007/11426639_2" target="_blank" rel="noopener">doi.org/10.1007/11426639_2</a></li>
+                <li>IACR ePrint 2004/199 (Wang·Feng·Lai·Yu, CRYPTO 2004 럼프 세션 발표본): <a href="https://eprint.iacr.org/2004/199" target="_blank" rel="noopener">eprint.iacr.org/2004/199</a></li>
+                <li>MD5 Considered Harmful Today — Creating a Rogue CA Certificate (25C3, 2008): <a href="https://www.mathstat.dal.ca/~selinger/md5collision/" target="_blank" rel="noopener">mathstat.dal.ca/~selinger/md5collision</a></li>
+                <li>Chosen-Prefix Collisions for MD5 (Stevens·Lenstra·de Weger, EUROCRYPT 2007): <a href="https://www.win.tue.nl/hashclash/ChosenPrefixCollisions/" target="_blank" rel="noopener">win.tue.nl/hashclash/ChosenPrefixCollisions</a></li>
+                <li>SHAttered — The first collision for full SHA-1 (2017): <a href="https://shattered.io/" target="_blank" rel="noopener">shattered.io</a></li>
+                <li>NIST SHA-3 표준(Keccak, FIPS 202): <a href="https://csrc.nist.gov/pubs/fips/202/final" target="_blank" rel="noopener">csrc.nist.gov/pubs/fips/202/final</a></li>
+                <li>함께 보기 — 이 사이트의 차분 분석 고전: "Differential Cryptanalysis of DES-like Cryptosystems" (2026-09-04): <a href="security-research-2026-09-04.html">security-research-2026-09-04.html</a></li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
