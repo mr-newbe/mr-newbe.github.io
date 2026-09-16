@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-09-17</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-09-17 | <i class="fa-solid fa-tags"></i> Daily News, Vulnerability, Exploit, Patch, AI Security, Malware
+        </div>
+
+        <div class="content">
+            <h2>1. Issabel PBX 프레임워크 CVE-2026-89026 (CVSS 9.8) — 모든 설치본에 동일한 하드코딩 JWT 키, 실제 익스플로잇 확인</h2>
+            <p>오픈소스 통합 커뮤니케이션(PBX) 소프트웨어인 Issabel Framework의 치명적 취약점이 실제 공격에 악용되고 있다. VulnCheck가 경고를 발표했고, Shadowserver Foundation은 2026년 9월 9일부터 익스플로잇 시도를 관측했다.</p>
+            <ul>
+                <li><strong>취약점:</strong> CVE-2026-89026 (CVSS v3.1 9.8 / CVSS v4.0 9.3). <code>pbxapi/index.php</code>에 HS256 JWT 서명 키가 하드코딩되어 있고 <em>모든 설치본에서 동일</em> — 인증 없이 유효한 베어러 토큰을 위조할 수 있다.</li>
+                <li><strong>공격 경로:</strong> 위조 토큰으로 <code>/pbxapi/manager/originate</code> 엔드포인트를 <code>System</code> 애플리케이션 파라미터와 함께 호출 → Asterisk가 원격 코드를 Asterisk 사용자 권한으로 실행. 인증 불필요 원격 OS 명령 실행(RCE).</li>
+                <li><strong>패치:</strong> 2026년 8월 1일 수정 배포. 노출된 하드코딩 키(<code>da893kasdfam43k29akdkfaFFlsdfhj23rasdf</code>)를 <code>/etc/issabel.conf</code>에 저장된 키로 대체하는 방식. 미적용 시스템은 즉시 업데이트 필요.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/attackers-exploit-issabel-framework.html" target="_blank">The Hacker News - Attackers Exploit Issabel Framework Flaw Enabling Unauthenticated OS Command Execution</a></p>
+
+            <h2>2. 브라우저 확장 하나로 5개 AI 어시스턴트 장악 — Chrome·Comet·Edge·Opera Neon·Claude in Chrome</h2>
+            <p>Forever Security 연구진은 평범한 확장 프로그램 하나로 Chromium 기반 제품 5종의 내장 AI 어시스턴트를 제어할 수 있음을 시연했다. 아직 실제 공격 사례는 아니지만, AI 에이전트의 신뢰 모델 자체를 찌르는 구조적 결함이다.</p>
+            <ul>
+                <li><strong>공격 대상:</strong> Chrome의 Gemini Live, Perplexity Comet, Microsoft Edge, Opera Neon, Claude in Chrome 확장.</li>
+                <li><strong>핵심 아이디어:</strong> AI는 "몸"(브라우저 안에서 화면을 보고, 파일을 열고, 카메라를 켜고, 행동하는 부분)과 "뇌"(서버에서 지시를 내리는 부분)로 나뉜다. 몸은 오직 하나의 신뢰된 웹페이지(예: <code>gemini.google.com</code>)의 명령만 받는다. 연구진은 <em>그 신뢰된 페이지를 탈취</em>해 몸에게 직접 명령을 보냈다.</li>
+                <li><strong>영향:</strong> Comet·Edge·Opera Neon·Claude in Chrome에서는 AI 에이전트가 공격자를 대신해 행동하도록 조종 가능. Chrome·Comet에서는 사용자 PC 파일 읽기, Chrome에서는 카메라·마이크까지 켤 수 있다.</li>
+                <li><strong>조건:</strong> 확장이 이미 설치되어 실행 중이어야 하며, 필요한 권한은 웹페이지 변경 등 흔한 권한 2개뿐이었다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/one-extension-could-hijack-ai.html" target="_blank">The Hacker News - One Extension Could Hijack AI Assistants Across Chrome, Comet, Edge, Opera Neon and Claude</a></p>
+
+            <h2>3. AI 코딩 어시스턴트 세션 하이재킹 → Shai-Hulud 웜이 내부 저장소 약 100개로 확산 (Mandiant)</h2>
+            <p>Mandiant의 9월 보고서에 따르면, 공격자가 SaaS 기업의 <em>활성 AI 코딩 어시스턴트 세션</em>을 탈취해 약 100개 내부 코드 저장소로 자가 전파 웜 Shai-Hulud를 퍼뜨렸다. AI 추천을 신뢰하는 개발 워크플로가 공격 벡터로 전환된 사례다.</p>
+            <ul>
+                <li><strong>초기 침투:</strong> 공격자가 오염시킨 소프트웨어를 AI 어시스턴트가 개발자에게 <em>추천</em> → 추천이 수락됨. 이후 탈취한 세션을 이용해 악성 PyPI 패키지로 인포스틸러 설치.</li>
+                <li><strong>확산:</strong> GitHub OAuth 토큰까지 탈취한 뒤 자가 전파 웜 Shai-Hulud를 내부 저장소 약 100개에 배포. 회사 공식 네임스페이스 패키지까지 오염시켜, 다른 직원이 오염 버전을 당겨 2차 감염 발생.</li>
+                <li><strong>유출 범위:</strong> 저장소 시크릿과 제품 소스 코드.</li>
+                <li><strong>시사점:</strong> Mandiant는 2026년 3월 보고서에서 이미 공격자들이 생성형 AI를 "작업 가속"에서 "멀웨어 및 실제 공격 활용"으로 전환했다고 밝힌 바 있다. Shai-Hulud 계열 공격은 개발 도구·자격증명을 계속 노리고 있다(8월 Keyv 연계 npm 웜이 수백 개 패키지 오염).</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/attacker-hijacks-ai-coding-assistant.html" target="_blank">The Hacker News - Attacker Hijacks AI Coding Assistant Session, Spreads Shai-Hulud Across About 100 Repositories</a></p>
+
+            <h2>4. WSO2 API Manager JWT 인증 우회 CVE-2026-5430 (CVSS 10.0) — 관리자 권한 토큰으로 실제 공격 시도</h2>
+            <p>watchTowr는 WSO2 API Manager의 치명적 취약점에 대한 실제 익스플로잇 시도를 확인했다고 밝혔다. 허니팟 네트워크에 <em>관리자 권한이 박힌</em> JWT 토큰이 2026년 9월 13일 도착했다.</p>
+            <ul>
+                <li><strong>취약점:</strong> CVE-2026-5430 (CVSS 9.8/10.0). 지원하지 않는 알고리즘으로 서명된 토큰을 검증 없이 승인하는 암호 서명 검증 결함 → JWT 인증 우회 → 계정 탈취.</li>
+                <li><strong>영향 범위:</strong> API Manager 4.1.0 ~ 4.6.0 및 API Control Plane 관련 버전.</li>
+                <li><strong>제보:</strong> Hacktron Team이 발견·신고. 2026년 5월 WSO2가 권고문 발표, 커뮤니티용 PR과 구독 고객용 업데이트 레벨로 수정본 배포.</li>
+                <li><strong>리스크:</strong> 인증 우회만으로 관리자 계정까지 도달 가능해 API 게이트웨이 전면 장악으로 이어질 수 있다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/active-exploitation-attempts-target.html" target="_blank">The Hacker News - Active Exploitation Attempts Target WSO2 API Manager JWT Bypass With Forged Admin Tokens</a></p>
+
+            <h2>5. Google Pixel 셀룰러 모뎀 CVE-2026-58704 (CVSS 8.0) — 제한적 표적 익스플로잇 + 9월 패치 110건</h2>
+            <p>Google은 Pixel 셀룰러 모뎀의 고위험 취약점이 실제로 악용되고 있다고 공개했다. 공격 규모·주체에 대한 추가 정보는 공개하지 않았다.</p>
+            <ul>
+                <li><strong>취약점:</strong> CVE-2026-58704 (CVSS 8.0), 코드 논리 오류로 인한 권한 우회. NVD 설명에 따르면 "사용자 상호작용 없이, 근접(proximal/adjacent) 환경에서 권한 상승 가능".</li>
+                <li><strong>Google 입장:</strong> "제한적이고 표적화된 익스플로잇이 진행 중일 수 있다"는 징후를 확인.</li>
+                <li><strong>9월 패치 규모:</strong> 총 110건 보안 결함 수정 — 권한 상승 88건, 정보 유출 10건, 원격 코드 실행 9건, 서비스 거부 2건. 커널 고위험 권한 상승 CVE-2026-56914·CVE-2026-58773과 BigOcean·부트로더·IMS·TEE 등 46건의 치명적 결함 포함.</li>
+                <li><strong>중요도:</strong> CISA는 9월 16일 CVE-2026-58704를 KEV(실제 악용 확인 취약점) 목록에 등재했다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/google-patches-pixel-modem-flaw-amid.html" target="_blank">The Hacker News - Google Patches Pixel Modem Flaw Amid Signs of Limited Targeted Exploitation</a></p>
+
+            <h2>6. 웹 애플리케이션 RCE·자격증명 탈취 2건 — WooCommerce 웹셸, Vite 대량 스캔</h2>
+            <p>WordPress 플러그인과 개발 서버를 노린 대규모 자동화 공격이 동시에 관측됐다. 두 사례 모두 "인터넷에 실수로 노출된 합법적 서비스"가 표적이라는 공통점이 있다.</p>
+            <ul>
+                <li><strong>WooCommerce Wholesale Lead Capture (CVE-2026-27540, CVSS 9.8):</strong> 6,000개 이상 설치된 유료 플러그인. AJAX 액션 <code>wwlc_file_upload_handler</code>의 파일 형식 검증 누락으로 인증 없이 PHP 백도어 업로드 → RCE. 2.0.3.1 이하 전 버전 영향. Wordfence는 2026년 6월 이후 <em>10만 건 이상</em>의 익스플로잇 시도 차단(최근 24시간 99건). 공격자들은 위조된 <code>file_settings</code> 파라미터와 <code>shell.php</code>를 전송해 호스트 정보를 보고하고 추가 악성 파일을 쓰는 웹셸을 심었다.</li>
+                <li><strong>Vite 개발 서버 (CVE-2026-39364, CVSS 8.2):</strong> F5 Labs가 2026년 8월 관측한 대량 스캔 캠페인. <code>server.fs.deny</code>로 막아야 할 <code>.env</code>, <code>*.crt</code> 같은 파일을 <code>?raw</code>, <code>?import&amp;raw</code>, <code>?import&amp;url&amp;inline</code> 쿼리 파라미터로 HTTP 200 응답으로 읽어낸다. 표적은 AWS·Azure 클라우드 자격증명, 설정 파일, 인프라 state 파일. 기본값은 localhost 바인딩이지만 <code>--host</code> 플래그·<code>server.host</code> 설정·도커 포트 매핑 오류 시 그대로 노출된다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/attackers-exploit-woocommerce-wholesale.html" target="_blank">The Hacker News - Attackers Exploit WooCommerce Wholesale Lead Capture Flaw to Plant PHP Web Shells</a> · <a href="https://thehackernews.com/2026/09/mass-scanning-campaign-exploits-vite.html" target="_blank">The Hacker News - Mass-Scanning Campaign Exploits Vite Flaw to Extract Cloud Credentials</a></p>
+
+            <h2>7. 로컬 권한 상승 패치 소식 — Acronis cPanel 백업 플러그인, Parallels Desktop 'ParaShells'</h2>
+            <p>두 제품 모두 "이미 로컬 접근 권한을 가진 공격자"를 전제로 하지만, 최종적으로 root 권한을 획득하는 경로라는 점에서 위험하다. 둘 다 제조사가 실제 악용 또는 수정 불가 환경 문제를 인정했다.</p>
+            <ul>
+                <li><strong>Acronis Backup plugin for cPanel &amp; WHM (CVE-2026-87886, CVSS 7.8):</strong> 안전하지 않은 파일 권한으로 인한 로컬 권한 상승. Acronis는 "제한적이고 표적화된 공격에서 실제 익스플로잇이 탐지됐다"고 공지하며 1.9.3 HF3에서 수정. 저권한 사용자가 Linux에서 권한을 상승시켜 임의 코드를 실행할 수 있다. CISA KEV에도 9월 16일 등재.</li>
+                <li><strong>Parallels Desktop for Mac 'ParaShells' (CVE-2026-90894, JFrog 자체 7.8):</strong> root로 실행되는 백그라운드 서비스 <code>prl_disp_service</code>가 사용하는 소켓이 world-writable이었고, 로그인 콜 <code>PrlSrv_LoginLocal</code>이 커널이 보고한 접속 프로세스 자격증명만 확인했다. 관리자 계정이 아니어도, Parallels 코드 서명 없이도 통과 → 일반 로컬 계정이 root 코드 실행. 네트워크로는 불가능하지만 <em>수정판이 Parallels Desktop 27이며 Intel Mac은 설치할 수 없다</em>는 것이 최대 문제다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/acronis-cpanel-backup-plugin.html" target="_blank">The Hacker News - Acronis cPanel Backup Plugin Vulnerability Exploited in Targeted Attacks</a> · <a href="https://thehackernews.com/2026/09/parallels-desktop-flaw-lets-non-admin.html" target="_blank">The Hacker News - Parallels Desktop Flaw Lets Non-Admin Mac Users Gain Root, but Intel Macs Can't Install Fix</a></p>
+
+            <h2>8. 트렌드 — AI가 줄인 "취약점→익스플로잇" 간격, 그리고 그보다 빠른 인간 공격자</h2>
+            <p>이번 주 데이터는 공격 속도의 기준선이 어디로 이동했는지 보여준다. 자동화된 피싱 키트, AI 보조 익스플로잇, 그리고 이를 능가하는 숙련 인간 운영자가 동시에 등장했다.</p>
+            <ul>
+                <li><strong>N0va 피싱킷 (미국·EU 기업 표적):</strong> 신뢰할 만한 서비스를 사칭하고 <em>정상 인증 플로우를 악용</em>해 멀웨어 흔적 없이 유효 계정을 탈취. 단일 침해 신원 하나가 민감 데이터·업무 시스템·클라우드로 이어지는 진입점이 된다.</li>
+                <li><strong>Marimo CVE-2026-39987 (CVSS 9.3) 8초 탈취:</strong> Sysdig가 관측한 사례에서 공격자는 Marimo 노트북 취약점(공개 수 시간 내 실익스플로잇)에서 SSH 배스천 호스트로 <em>8초 만에</em> 피벗했다. AI 에이전트 없이 손으로 작성·디버깅한 커스텀 Python 툴킷만 사용했고, 같은 CVE에 대해 프로파일링된 모든 에이전트형 위협 행위자(ATA)가 빠진 함정을 오히려 회피했다. "8초는 AI 보조 공격에서나 기대할 속도"라는 평가.</li>
+                <li><strong>UTA0560 / GRIMWEDGE (중국 연계, NGO 표적):</strong> 2026년 9월 1일 비정부기관 대상 스피어피싱. 미국 대학 웹사이트의 반사형 XSS를 악용해 악성 인프라로 리다이렉트한 뒤, Chrome 제로데이 2건(CVE-2026-85046 V8 샌드박스 내 임의 읽기/쓰기 → CVE-2026-87491 브라우저 샌드박스 탈출)과 Windows ALPC 결함 1건(CVE-2026-85880 코드 주입)을 연쇄 사용해 JavaScript 백도어 GRIMWEDGE를 설치. 호스트 정찰·파일/프로세스 관리·명령 실행·추가 페이로드 전달 기능을 갖췄다. 이미 패치된 취약점을 조합한 공격이라는 점이 핵심.</li>
+                <li><strong>러시아 기업 대상 3개 클러스터:</strong> Kaspersky가 NightEagle(APT-Q-95), Hacking Cat, Toy Ghouls를 추적. 백도어·랜섬웨어·와이퍼를 병행 사용하며 NightEagle은 새로운 지속성·횡적 이동 기법을 도입.</li>
+                <li><strong>방어 관점:</strong> "위협 인텔리전스만으로는 익스플로잇 격차를 닫지 못한다"는 지적이 나온다. 유출 자격증명이 범죄 시장에 올라오거나 취약점 권고문이 나온 순간, 대부분의 보안팀이 알림을 트리아지하기 전에 실제 표적에 무기화된다. AI 보조 익스플로잇이 노출→침해 경로를 단축하고 있다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/n0va-phishkit-targets-us-and-eu.html" target="_blank">The Hacker News - N0va Phishkit Targets US and EU Businesses</a> · <a href="https://thehackernews.com/2026/09/human-attacker-exploits-marimo-rce.html" target="_blank">The Hacker News - Human Attacker Exploits Marimo RCE, Reaches SSH Bastion in Eight Seconds</a> · <a href="https://thehackernews.com/2026/09/china-linked-hackers-exploit-chrome.html" target="_blank">The Hacker News - China-Linked Hackers Exploit Chrome-Windows Zero-Day Chain to Deploy GRIMWEDGE</a> · <a href="https://thehackernews.com/2026/09/three-threat-groups-target-russian.html" target="_blank">The Hacker News - Three Threat Groups Target Russian Enterprises</a> · <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA KEV Catalog (2026.09.16)</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
