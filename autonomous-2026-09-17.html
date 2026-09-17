@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - Udacity Self-Driving Car (2016): '수백 명의 학생이 만든 2톤의 오픈소스 자율주행차' — PR 대신 '챌린지'로 안전을 검증한 교육·데이터 생태계의 원형 (⭐6.3k · 🍴2.1k)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - Udacity Self-Driving Car (2016): '수백 명의 학생이 만든 2톤의 오픈소스 자율주행차' — PR 대신 '챌린지'로 안전을 검증한 교육·데이터 생태계의 원형 (⭐6.3k · 🍴2.1k)</h1>
+            <p class="date">2026-09-17</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>유형:</strong> GitHub 프로젝트 — 오픈소스 자율주행차 + 공개 주행 데이터셋 + 교육용 챌린지 플랫폼 (2016년 시작 · 2021-11 이후 아카이브된 읽기 전용 저장소)</li>
+                    <li><strong>저장소 / 소유자:</strong> <strong>udacity/self-driving-car</strong> (Udacity) · 기본 브랜치 <code>master</code> · 홈페이지 udacity.com/self-driving-car</li>
+                    <li><strong>규모:</strong> ⭐ <strong>6,313</strong> · 🍴 <strong>2,102</strong> (fork/star ≈ <strong>33%</strong>) · 저장소 크기 약 239MB</li>
+                    <li><strong>언어 / 라이선스:</strong> Jupyter Notebook · Python · C++ 혼합 / <strong>데이터셋은 MIT, 그 외 모든 코드는 GPLv3</strong> — LICENSE.md에 "Datasets are released under MIT, everything else is GPLv3"로 명시된 <strong>이원 라이선스</strong></li>
+                    <li><strong>생성 / 최근 커밋:</strong> 2016-10-02 생성 · 마지막 커밋 <strong>2021-11-25</strong>(README 정리) → 이후 <strong>아카이브(archived=true)</strong>, README 상단에 "This repository is deprecated" 안내</li>
+                    <li><strong>저장소 구성:</strong> <code>steering-models</code>(조향 예측 모델·실차용 ROS 노드), <code>datasets</code>(CH2/CH3/CHX ROSBAG), <code>annotations</code>(주석 데이터), <code>image-localization</code>, <code>vehicle-detection</code>, <code>acc</code>(순응형 크루즈 컨트롤), <code>challenges</code></li>
+                    <li><strong>핵심 인물:</strong> <strong>Sebastian Thrun</strong> — Google 자율주행차 프로젝트 창립자이자 Udacity 회장으로, 이 프로젝트를 직접 이끌었다(README 표현) · 핵심 기여자 @ericrgon / @macjshiggins / @olivercameron</li>
+                    <li><strong>원문:</strong> <a href="https://github.com/udacity/self-driving-car" target="_blank">https://github.com/udacity/self-driving-car</a></li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>2016년 10월, 온라인 교육 기업 <strong>Udacity</strong>가 던진 문장은 단순했다. <strong>"우리는 오픈소스 자율주행차를 만든다. 그리고 당신의 도움이 필요하다."</strong> 그들은 자사 자율주행차 엔지니어 과정(Nanodegree <strong>nd013</strong>)과 <strong>실제 차량 한 대</strong>를 하나로 묶었다. 코드는 <strong>"전 세계 수백 명의 학생이 작성"</strong>하는 구조였고, 공동창업자 겸 회장 <strong>Sebastian Thrun</strong>(Google 자율주행차 프로젝트 창립자)이 직접 팀을 구성했다. 10년 뒤인 지금 이 저장소는 <strong>아카이브된 역사 문서</strong>지만, 그 안에 담긴 <strong>챌린지 기반 안전 검증 방식</strong>과 <strong>공개 주행 데이터셋</strong>은 오늘날 자율주행 연구·교육의 표준 관행으로 남았다.</p>
+            <ul>
+                <li><strong>PR을 받지 않는 오픈소스 — '챌린지'라는 안전 게이트:</strong> 저장소는 기여 방식을 명확히 못 박았다. <em>"2톤 차량이 방정식에 들어오는 순간, pull request만으로는 부족하다(safety our absolute top priority)."</em> 그래서 만든 것이 <strong>Udacity Challenges</strong>다. 상금을 걸고 알고리즘을 경쟁시켜 <strong>차에 올리기 전에 벤치마크로 안전성을 검증</strong>한 뒤, 검증된 코드만 실차에 반영했다. 오늘날 AV 안전 케이스(safety case)·SOTIF 논의의 초기 실천 사례다.</li>
+                <li><strong>Challenge #2 — 조향각 예측:</strong> <code>steering-models</code>에 결선 팀들의 접근법(<code>community-models</code>), S3에 공개된 결선 모델과 평가 스크립트(<code>evaluation</code> — <strong>autumn · komanda · chauffeur</strong>), 그리고 <strong>실차에 실제로 올린 ROS 노드</strong>(<code>steering-node</code>)가 함께 있다. 이 모델들은 실차 주행이 아니라 <strong>기록된 데이터를 재생</strong>해 평가하도록 설계됐고, 코드에는 "research purposes only, 실차 운행에 사용 금지"가 명시돼 있다.</li>
+                <li><strong>Challenge #3 — 이미지 기반 위치추정:</strong> <code>image-localization</code>에 결선 팀들의 <code>community-code</code>와 재현 절차가 공개됐다. GPS/IMU만으로는 부족한 도심 구간에서 <strong>카메라 한 장으로 차량 위치를 추정</strong>하는 문제로, CH3 데이터셋(이중 GPS/IMU + Velodyne HDL-32E LiDAR) 위에서 진행됐다.</li>
+                <li><strong>축소 과제(acc):</strong> <code>acc</code>는 순응형 크루즈 컨트롤 마이크로 챌린지로, <code>cruise.py</code>의 <code>control()</code> 함수 하나를 구현하면 되는 입문용 과제다. PID 제어 참고자료와 openpilot의 구현까지 링크해 두어 <strong>제어 입문 → 실차 스택</strong>으로 이어지는 학습 경로를 만들었다.</li>
+                <li><strong>데이터 자산 ① — CH2(Challenge 2, 2016-11-18, ROSBAG):</strong> <code>Ch2_002</code>는 압축 <strong>4.4GB</strong>(MD5 <code>f3178f88d9b970ed19be01d700b52a9f</code>)로, 세그먼트별 특성까지 문서화했다 — <strong>HMB_1 221초</strong>(직사광·조명 급변), <strong>HMB_2 791초</strong>(2차선·강한 그림자·통행 신호), <strong>HMB_4 99초</strong>, <strong>HMB_5 212초</strong>. 학습 난이도를 미리 알 수 있게 설계된 메타데이터였다.</li>
+                <li><strong>데이터 자산 ② — CH3/CHX:</strong> <code>CH3_001</code>(14.4GB, El Camino 북행 <strong>2,766초</strong>, <code>/fix</code> 토픽에 IMU 기반 향상 측위), <code>CH03_002</code>(<strong>13,219초 ≈ 3시간 40분</strong>, 60.1GB, <strong>Velodyne HDL-32E</strong> + GPS/IMU 2종 동시 기록), <code>CHX_001</code>(1.4GB — "Udacity 사무실 주변 한 바퀴", <strong>George Hotz에게 받은 새 HDL-32E LiDAR</strong> 탑재). 이전 런은 VLP-16을 썼다는 이력까지 남아 있어 <strong>센서 진화 과정</strong>을 추적할 수 있다.</li>
+                <li><strong>레거시 릴리스와 무결성 검증:</strong> 초기 주행 데이터는 AcademicTorrents(사용자 5125)로 재배포되며 <strong>2016-09-29(12분 40초·25GB) · 10-03(58분 53초·124GB) · 10-10(3시간 20분·21GB) · 10-20(3시간 30분·30GB)</strong> 각각 <strong>MD5 해시</strong>가 공개돼 있다. 토렌트로 대용량 주행 데이터를 배포하되 무결성을 검증 가능하게 만든 방식이다.</li>
+                <li><strong>데이터 자산 ③ — CrowdAI 주석 데이터셋:</strong> Mountain View 일대 주간 주행을 Point Grey 카메라 <strong>1920×1200 · 2Hz</strong>로 기록해 <strong>9,423 프레임에 65,000개 이상의 라벨</strong>(Car / Truck / Pedestrian)을 붙였고, 라벨링은 <strong>머신러닝 + 사람(CrowdAI)</strong> 조합으로 수행했다(1.5GB). 다만 README는 <em>"교육 목적이며 완전하거나 포괄적이지 않다"</em>고 스스로 한계를 명시한다.</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>규모 자체가 상징적이다 — ⭐6,313 · 🍴2,102:</strong> fork/star 비율이 <strong>약 33%</strong>로 일반 오픈소스보다 훨씬 높다. 이는 "직접 쓰고 고치는" 교육·실습 목적의 포크가 많다는 뜻이다. 아카이브된 지 5년 가까이 지났는데도 6천 개 이상의 스타를 유지하고 있다.</li>
+                <li><strong>이름값과 교육 파이프라인:</strong> Sebastian Thrun(Google 자율주행차 창립자, Udacity 공동창업자)이 이끌고 <strong>수백 명의 학생</strong>이 코드를 작성한, <strong>대규모 오픈소스 자율주행 프로젝트의 원형</strong>이다. nd013 과정은 2016–2018년 자율주행 인력 양성의 대표 통로였고, 오늘날 많은 연구자·엔지니어가 이 과정을 거쳤다.</li>
+                <li><strong>안전 우선 기여 설계:</strong> "PR 대신 챌린지"라는 결정은 자율주행 오픈소스에서 <strong>검증 게이트를 먼저 만든</strong> 드문 사례다. 알고리즘 경쟁 → 오프라인 벤치마크 → 실차 반영의 순서를 2016년에 이미 제도화했다.</li>
+                <li><strong>데이터 유산 — 코드보다 오래 산 결과물:</strong> CH2 주행 데이터셋은 <strong>조향각 예측(behavior cloning) 교육의 사실상 표준 데이터</strong>로 남았고, 결선 모델(autumn·komanda·chauffeur)이 저장소에 보존돼 비교 기준(baseline)을 제공한다. ROSBAG 판독기는 <code>rwightman/udacity-driving-reader</code>로 CSV/TensorFlow 변환까지 지원한다.</li>
+                <li><strong>생태계 파급:</strong> 같은 팀이 만든 Unity 시뮬레이터 <strong>udacity/self-driving-car-sim</strong>(⭐3,983 · MIT · 아카이브), Nanodegree 프로젝트를 정리한 <strong>ndrplz/self-driving-car</strong>(⭐2,922), CarND 시리즈(Advanced Lane Lines ⭐501 등)가 파생됐다. 저장소 하나가 <strong>시뮬레이터 + 데이터 + 교육 과제</strong>의 3종 세트를 낳은 셈이다.</li>
+                <li><strong>지금도 쓸 수 있는 실습 자산:</strong> LiDAR(HDL-32E)·GPS·IMU가 시간 동기화된 <strong>ROS bag</strong>은 SLAM·위치추정·3D 검출 파이프라인을 검증하는 값싼 테스트베드다. 특히 CH3은 <strong>측위 정확도를 정량 비교</strong>하기 좋은 조건(이중 GPS/IMU + LiDAR)을 갖췄다.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>이 저장소의 결말은 시사적이다. <strong>코드는 2021년에 멈췄지만 데이터는 멈추지 않았다.</strong> 학습 프레임워크와 ROS 스택은 구버전이 됐어도, 2016년에 기록된 3시간 반짜리 LiDAR·IMU·GPS 동기화 로그와 6만 5천 개의 주석 라벨은 지금도 벤치마크로 재사용된다. 즉 <strong>"데이터가 코드보다 오래 살아남는다"</strong>는 자율주행 연구의 속성을 이 프로젝트가 그대로 보여준다. 연구실에서 데이터셋을 설계할 때 <strong>메타데이터(조도·구간 특성·MD5 해시)를 코드만큼 성실히 남겨야 하는 이유</strong>도 여기에 있다.</p>
+            <p>실무적으로는 <strong>라이선스가 이원 구조</strong>라는 점이 중요하다. 데이터셋은 <strong>MIT</strong>라 재사용·재배포가 자유롭지만, 차량·제어 코드는 <strong>GPLv3</strong>이므로 파생 저작물을 배포할 때 라이선스 전파 조건이 따라온다. 또 10년 전 ROS1 스택과 토렌트 배포 데이터를 다루는 만큼, <strong>격리 환경에서 해시 검증 후 사용</strong>하는 것이 안전하다 — 교육용 저장소라도 의존성 취약점과 무결성 검증은 별개 문제다. 마지막으로 "교육용이며 완전하지 않다"고 스스로 밝힌 이 데이터셋의 문서화 태도는, 오늘날 데이터 윤리·한계 명시(limitations section) 관행의 좋은 선례다. KOREATECH 자율주행 연구 관점에서는 <strong>CH2를 behavior cloning 베이스라인 재현에, CH3을 위치추정·SLAM 검증에</strong> 가볍게 얹어 비교 실험을 시작하기 좋은 출발점이다.</p>
+            <p>원문: <a href="https://github.com/udacity/self-driving-car" target="_blank">https://github.com/udacity/self-driving-car</a></p>
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
