@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-09-19</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security & AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-09-19 | <i class="fa-solid fa-tags"></i> Daily News, Supply Chain, APT, Vulnerability, Patch, AI Security
+        </div>
+
+        <div class="content">
+
+            <h2>1. [사건] 파키스탄 APT36, 'Operation RapidRust' — 비공개 GitHub 저장소를 C2로 쓰는 러스트 백도어</h2>
+            <p>파키스탄 정렬 위협 그룹 Transparent Tribe(APT36, Earth Karkaddan)가 인도·아프가니스탄 정부 및 국방 기관을 겨냥한 신규 캠페인을 전개했다. Zscaler ThreatLabz가 'Operation RapidRust'로 명명한 이번 활동에는 이전에 문서화되지 않은 4종의 도구가 동원됐다.</p>
+            <ul>
+                <li><strong>핵심 도구:</strong> 러스트 백도어 <code>RUSTYSHADE</code>, 측면 이동 유틸 <code>RUSTYMOVE</code>, Windows용 파일 탈취기 <code>PSNATCH</code>, Linux용 <code>BASHNATCH</code>.</li>
+                <li><strong>C2 기법:</strong> 공격자가 통제하는 <strong>비공개 GitHub 저장소</strong>에 <code>command.txt</code> · <code>results.txt</code> · <code>heartbeat.txt</code> · <code>screenshot.png</code> · <code>webcam_photo.jpg</code> 파일을 읽고 써서 GitHub REST API로 양방향 명령을 주고받는다. 정상 트래픽으로 위장되기 쉬운 구조다.</li>
+                <li><strong>감염 경로:</strong> 인도 주요 언론사를 사칭한 타이포스쿼팅 도메인(<code>theprints[.]org</code>, <code>indiatodays[.]org</code>)이 악성 PowerShell 스크립트와 페이로드를 배포. <code>RUSTYMOVE</code>는 USB 이동식 매체를 상시 감시해 <code>DriverInstaller.zip</code>과 LNK 파일을 루트에 복사하는 전파 기능을 가진다.</li>
+                <li><strong>규모·패턴:</strong> 주요 활동은 2026년 8월 20일~9월 1일에 집중됐고, C2 명령은 UTC 기준 오전 4시~11시, 평일(weekday)에만 발행돼 운영자가 근무시간대에 맞춰 활동하는 정황이 확인됐다.</li>
+                <li><strong>시사점:</strong> 합법 클라우드 서비스(GitHub)를 C2 인프라로 악용하는 추세가 지속되고 있다. 비공개 저장소 생성·API 호출 패턴, 사칭 도메인 조회를 탐지 룰에 포함해야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/transparent-tribe-deploys-new-rust.html" target="_blank">The Hacker News - Transparent Tribe Deploys New Rust Backdoor Using Private GitHub Repositories for C2</a></p>
+
+            <h2>2. [사건] npm 공급망 2연타 — WeaselBiscuit 스틸러 13개 패키지 & LLM이 작성한 PhantomRaven</h2>
+            <p>개발자 생태계를 노린 npm 공급망 공격 두 건이 같은 날 공개됐다. 하나는 북한 정렬 코드와 기능이 겹치는 신종 스틸러, 다른 하나는 LLM으로 작성된 것으로 평가되는 정보 탈취기다.</p>
+            <ul>
+                <li><strong>WeaselBiscuit:</strong> OpenSourceMalware가 <code>@biz44/id10-client</code>·<code>id12-client</code>·<code>id44-client</code>·<code>id79-client</code>·<code>id95-client</code>·<code>id99-client</code>·<code>engin1</code>·<code>process-lhpm</code>·<code>process-tailwind</code> 등 <strong>13개 npm 패키지</strong>에서 발견. DPRK 'Contagious Interview' 캠페인의 BeaverTail·OtterCookie와 기능이 겹친다.</li>
+                <li><strong>동작:</strong> npm import 시 <code>loader.js</code>가 Npoint 데드드롭에서 본체를 내려받아 <strong>메모리에서 직접 실행</strong>. Windows·macOS·Linux의 <strong>Chrome 확장프로그램 저장소</strong>(Local Extension Settings LevelDB)를 통째로 업로드하고, Windows에서는 클립보드·키스트로크까지 수집한다. C2는 <code>103.170.217[.]184:8787</code>.</li>
+                <li><strong>PhantomRaven:</strong> CrowdStrike 분석에 따르면 <strong>"LLM으로 작성됐을 가능성이 높다"</strong>는 평가(장황한 주석, 플레이스홀더 코드, 토큰 통계 패턴 근거). npm에 100개 이상의 악성 패키지를 슬롭스쿼팅·타이포스쿼팅으로 업로드하고, 원격 동적 의존성(RDD)을 불러와 스캐너를 우회했다.</li>
+                <li><strong>표적 정보:</strong> 이메일 주소, CI/CD 환경 정보(깃허브 Actions·GitLab CI·Jenkins·CircleCI 환경변수), Git/npm 설정의 사용자명, 시스템 핑거프린트를 수집해 외부 서버로 전송. 운영자는 자신을 버그바운티 헌터라 주장하며 9개 기업에서 바운티를 수령한 이력이 있다.</li>
+                <li><strong>시사점:</strong> "Bash가 아니라 npm import만으로 감염"된다는 점이 핵심. lockfile 검토만으로는 부족하고, 설치 시점 런타임 모니터링과 원격 의존성(RDD) 차단이 필요하다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/weaselbiscuit-stealer-spreads-via-13.html" target="_blank">The Hacker News - WeaselBiscuit Stealer Spreads via 13 npm Packages to Harvest Chrome Extension Storage</a> · <a href="https://thehackernews.com/2026/09/claimed-bug-bounty-hunter-likely-used.html" target="_blank">The Hacker News - Claimed Bug Bounty Hunter Likely Used LLM to Build PhantomRaven npm Stealer</a></p>
+
+            <h2>3. [사건] 중국 연계 RatHat 안드로이드 악성코드 — AI로 기기를 스스로 탐색하고 ADB로 샌드박스 탈출</h2>
+            <p>Zimperium이 중국 기반 위협 행위자가 운영하는 것으로 평가되는 신종 안드로이드 악성코드 <strong>RatHat</strong>을 공개했다. AI 기반 시스템으로 감염 기기를 스스로 탐색·제어하며, 삭제 후에도 셸 접근을 유지한다.</p>
+            <ul>
+                <li><strong>유포:</strong> 표적형 스미싱(문자 피싱)과 멀버타이징 → 사설 다운로드 포털로 유도해 APK를 설치시키는 다단계 파이프라인.</li>
+                <li><strong>샌드박스 탈출:</strong> 접근성 서비스 권한을 남용해 개발자 옵션을 열고 <strong>무선 디버깅을 활성화한 뒤 6자리 ADB 페어링 코드를 추출</strong>, 스스로 ADB 페어링을 완료한다. 이후 셸 권한으로 동작하는 네이티브 데몬(Go Agent + FRP 리버스 프록시)을 설치한다.</li>
+                <li><strong>탐지 회피 4종:</strong> 컨테이너 변조(ZIP 암호화 플래그/가짜 디렉터리), 매니페스트 폭탄(AndroidManifest.xml의 <code>0x9999</code> 미문서화 청크), DEX 바이트코드 포이즈닝(잘못된 <code>element_width</code>), StringCrypto 이중 문자열 암호화.</li>
+                <li><strong>기능:</strong> 특정 앱 위 오버레이로 자격증명 탈취, MediaProjection API 화면 녹화, SMS 가로채기, 키로깅, 설치 화면 조작.</li>
+                <li><strong>시사점:</strong> "무선 디버깅 + ADB 셀프 페어링"은 MDM/EMM 정책으로 무선 디버깅을 강제 차단해야 하는 이유를 보여주는 최신 사례다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/rathat-android-malware-abuses-adb-to.html" target="_blank">The Hacker News - RatHat Android Malware Abuses ADB to Retain Shell Access After Uninstall</a></p>
+
+            <h2>4. [취약점] Microsoft Azure AI Foundry CVSS 10.0 — 인증 없이 권한 상승 (CVE-2026-85889)</h2>
+            <p>Microsoft가 최고 심각도 결함을 포함한 클라우드 취약점 다수를 패치했다. Azure AI Foundry의 결함은 <strong>CVSS 10.0</strong>으로, 인증되지 않은 공격자가 네트워크를 통해 권한을 상승시킬 수 있다.</p>
+            <ul>
+                <li><strong>CVE-2026-85889 (10.0):</strong> Azure AI Foundry의 핵심 기능에 인증이 누락된 결함. 엔터프라이즈 생성형 AI 앱·에이전트를 구축·배포·관리하는 플랫폼이 대상. Rémy Marot(@R_Marot)이 발견·신고. 야생 악용 정황은 없으며, Microsoft는 클라우드 특성상 이미 완전 완화되어 <strong>고객 조치가 불필요</strong>하다고 밝혔다.</li>
+                <li><strong>동반 패치:</strong> CVE-2026-85885 (9.9, Microsoft 365 Copilot 명령 주입) · CVE-2026-85878 (9.9, Azure Database for PostgreSQL 부적절한 인가) · CVE-2026-87701 (9.6, Azure Cosmos DB).</li>
+                <li><strong>Windows 아웃오브밴드:</strong> CVE-2026-62721 (7.8, UMPS 접근제어 — SYSTEM 권한 상승), CVE-2026-85921 (8.2, Secure Kernel Mode double free — VTL1 권한). Windows 11 26H1용 KB5129194(28000.2956)로 배포.</li>
+                <li><strong>배경:</strong> 지난주 Microsoft는 사상 최대 규모인 974개 취약점을 패치했고, 그중 Windows ALPC·Update Stack 결함 2건은 실제 악용 중이다. ALPC 결함은 Chrome 결함 2건과 연쇄돼 <strong>BlueMoon 익스플로잇 킷</strong>으로 다수 첩보 그룹에 무기화됐다.</li>
+                <li><strong>시사점:</strong> AI 플랫폼의 "핵심 기능 인증 누락"이 10.0으로 산정되는 패턴이 반복되고 있다 — AI 서비스 배포 시 인증 경계를 최우선 점검 대상으로 삼아야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/microsoft-patches-cvss-100-azure-ai.html" target="_blank">The Hacker News - Microsoft Patches CVSS 10.0 Azure AI Foundry Flaw Enabling Unauthorized Privilege Escalation</a></p>
+
+            <h2>5. [취약점] Check Point 관리 서버 CVSS 9.8 — 무인증 원격 root 코드 실행 (CVE-2026-91843)</h2>
+            <p>Check Point의 Security Management Server(방화벽 정책·관리자 접근을 통제하는 핵심 시스템)와 Log Server에서 로그인 자격증명 없이 네트워크로 root 코드를 실행할 수 있는 치명적 결함이 확인됐다.</p>
+            <ul>
+                <li><strong>결함:</strong> 인증 이전 단계의 로그인 프로세스에서 발생하는 <strong>스택 오버플로</strong>. Censys에 따르면 매우 긴 사용자명(username)을 담은 로그인 요청으로 트리거된다. CVSS 9.8.</li>
+                <li><strong>노출 경로:</strong> Check Point는 취약 경로가 SmartConsole 접속을 허용하는 호스트를 지정하는 <strong>Trusted Clients 설정</strong>을 통해서만 동작한다고 밝혔다.</li>
+                <li><strong>영향 버전:</strong> R82.10(Jumbo Hotfix Take 44 이하), R82(Take 126 이하), R81.20(Take 166 이하), R81.10(Take 190 이하), 그리고 R81·R80.40·R80.30·R80.20·R80.10·R80(모두 EOS). CVE 레코드에 없는 R82.20도 취약하다고 확인됐다.</li>
+                <li><strong>대응:</strong> LivePatch 업데이트 채널로 수정 제공(어드바이저리 <code>sk1000155</code>). 자동 업데이트가 켜진 고객은 이미 보호되며, 그 외에는 즉시 적용이 권고된다. 9월 16일 기준 공개 PoC·야생 악용 정황은 없고 CISA도 악용 "없음"으로 평가했다.</li>
+                <li><strong>시사점:</strong> 방화벽 관리 평면 자체가 단일 실패점이다. Trusted Clients 최소화 + 관리 서버의 인터넷 비노출을 재점검할 시점이다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/critical-check-point-management-server.html" target="_blank">The Hacker News - Critical Check Point Management Flaw Lets Unauthenticated Attackers Run Code as Root</a></p>
+
+            <h2>6. [취약점] Plugin4Shell — AI 코딩 에이전트 4종의 플러그인 무결성 검증 결함, 2종은 미패치</h2>
+            <p>Air Security는 AI 코딩 에이전트 4종에서 플러그인 저장소를 통제하는 공격자가 <strong>"특정 리뷰 버전으로 잠긴" 플러그인을 악성 코드로 바꿔치기</strong>할 수 있는 결함을 공개했다. Anthropic은 Claude Code <strong>2.1.179</strong>에서, OpenAI는 Codex <strong>0.146.0</strong>에서 패치했지만 GitHub Copilot은 수정 계획이 없고, Google은 Gemini CLI에 대해 패치하지 않는다고 밝혔다(서비스 종료 예정).</p>
+            <ul>
+                <li><strong>근본 원인:</strong> 마켓플레이스가 플러그인을 커밋 해시로 고정해도, 에이전트는 해당 스냅샷을 <em>받아오지만</em> 실제 코드가 그 해시와 일치하는지 <strong>검증하지 않는다</strong>. 커밋 해시처럼 보이는 이름의 <strong>브랜치</strong>를 만들 수 있는 코드 호스트(Bitbucket, 사내 Git 서버 등)에서 저장소 소유자가 그 이름을 다른 코드로 돌려놓으면, 에이전트는 "잠긴 버전"이라고 보고하면서 다른 코드를 설치한다.</li>
+                <li><strong>영향:</strong> 플러그인은 사용자와 동일한 권한으로 실행되므로 바뀐 코드가 파일·저장된 자격증명·로그인 가능한 시스템에 접근할 수 있다. 백그라운드 자동 업데이트가 켜져 있으면 <strong>사용자 조작 없이</strong> 이전에 신뢰하던 플러그인이 교체될 수 있다.</li>
+                <li><strong>제약:</strong> GitHub은 커밋 해시 형태의 브랜치/태그 이름을 금지하기 때문에 GitHub 저장소 기반 설치는 이 트릭에 노출되지 않는다. 다만 Gemini CLI는 <code>FETCH_HEAD</code>라는 이름의 main 브랜치로 우회 가능하며, 해당 에이전트는 패치되지 않는다.</li>
+                <li><strong>시사점:</strong> AI 에이전트 플러그인을 "공급망 자산"으로 취급해야 한다. 플러그인 저장소 호스트 제한, 자동 업데이트 정책 재검토, 해시 검증 여부를 확인할 것.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/plugin4shell-lets-repository-owners.html" target="_blank">The Hacker News - Plugin4Shell Lets Repository Owners Swap Pinned Plugin Code Across Four AI Coding Agents</a> · <a href="https://news.google.com/rss/search?q=security+vulnerability+when:2d&hl=en-US&gl=US&ceid=US:en" target="_blank">Help Net Security (Google News)</a></p>
+
+            <h2>7. [패치] WordPress 7.1.1 Click2Shell + Linux 커널 4건 공개 익스플로잇</h2>
+            <p>즉시 적용이 필요한 패치 두 갈래가 나왔다. 하나는 관리자 클릭 한 번이면 테마가 설치되는 WordPress 코어 결함, 다른 하나는 이미 공개된 Linux 커널 로컬 권한 상승 익스플로잇이다.</p>
+            <ul>
+                <li><strong>WordPress Click2Shell (CVSS 7.1 → 체인 9.6):</strong> 로그인한 관리자가 공격자가 만든 링크를 열면 <strong>Install 버튼을 누르지 않아도</strong> WordPress.org 디렉터리의 실제 테마가 자동 설치된다. WordPress.org는 링크 값을 평범한 테마 이름으로 해석하지만, 관리자 브라우저는 원문 텍스트(문장부호 포함)를 그대로 재사용해 셀렉터에 넣는다 — 즉 두 구성요소가 같은 링크를 다르게 읽는 것이 원인이다.</li>
+                <li><strong>체인 위험:</strong> 설치된 테마는 비활성 상태라 사이트 외형이 바뀌지 않아 티가 나지 않는다. pwn.ai는 별도 결함이 있는 테마(Mobile Repair Zone)와 연쇄해 서버에서 코드 실행까지 시연했다. 수정 버전은 <strong>WordPress 7.1.1</strong>(9월 17일 배포). CVE 식별자는 아직 미부여.</li>
+                <li><strong>Linux 커널 4종 공개 익스플로잇:</strong> 연구자 Asim Manizada가 로컬 사용자를 root로 만드는 4개 결함의 동작하는 익스플로잇을 9월 18일 공개했다. 커널 측은 이미 수주 전 수정 완료했으므로 <strong>최신 커널은 안전</strong>하다.
+                    <ul>
+                        <li><code>DirtyAH6</code> (CVE-2026-80844, IPsec AH6/IPv6) — 비특권 user namespace 필요</li>
+                        <li><code>TUNderflow</code> (CVE-2026-81000, TUN/TAP) — 비특권 user namespace 필요</li>
+                        <li><code>PPPoEject</code> (CVE-2026-68121, PPPoE) — 비특권 user namespace 필요</li>
+                        <li><code>DiagSpill</code> (CVE-2026-74469, SCTP <code>sctp_diag</code>) — <strong>특권·user namespace 불필요</strong>, SCTP 모듈만 있으면 도달 가능(단 비기본 옵션 필요)</li>
+                    </ul>
+                </li>
+                <li><strong>대응:</strong> 4개 결함은 <strong>user namespaces 활성화가 3건의 전제조건</strong>이라는 공통점이 있다. 다중 사용자 서버·공유 호스트에서는 커널 업데이트 우선, 필요 없다면 <code>kernel.unprivileged_userns_clone=0</code> 검토. 야생 악용 정황은 아직 없다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/new-wordpress-click2shell-flaw-forces.html" target="_blank">The Hacker News - New WordPress Click2Shell Flaw Forces Theme Installs, Can Chain to Code Execution</a> · <a href="https://thehackernews.com/2026/09/public-exploits-released-for-four-linux.html" target="_blank">The Hacker News - Public Exploits Released for Four Linux Kernel Flaws That Enable Local Root</a></p>
+
+            <h2>8. [트렌드] 유령 CDN 도메인 — 아무도 모르는 사이 서드파티 스크립트가 남의 손에, 그리고 CISA의 브리핑 중단</h2>
+            <p>서버를 해킹하지 않고도 수천 개 사이트에 코드를 흘려보낼 수 있는 경로와, 취약점 정보 공개 방식의 전환이라는 두 가지 구조적 변화가 관측됐다.</p>
+            <ul>
+                <li><strong>폐기된 CDN 도메인 재등록:</strong> 2025년 7월 누군가 수년 전 정리된 CDN의 도메인을 등록했다. 그 도메인에는 <strong>수천 개 웹사이트·코드 저장소·문서에 하드코딩된 호출자</strong>가 그대로 남아 있었고, 새 소유자는 와일드카드 DNS를 통해 해당 도메인 하위 모든 호스트명을 자신의 인프라로 해석시킬 수 있다. 겉으로는 아무것도 깨지지 않아 아무도 통보받지 못한다.</li>
+                <li><strong>선례:</strong> 2024년 6월 polyfill.io 도메인 소유권이 바뀌며 110,000개 이상 사이트에 조건부 리다이렉트를 내보낸 사건과 같은 구조다.</li>
+                <li><strong>탐지 사각지대:</strong> 정적 분석·의존성 스캔·SCA는 모두 "우리가 빌드·배포한 것"을 본다. 서드파티 스크립트는 방문자 브라우저가 실행하며 지리·UA·리퍼러·시간대에 따라 다른 응답을 줄 수 있어, 데이터센터 IP로 한 번 긁는 크롤러에는 깨끗한 버전이 보인다. Magecart류 공격에는 서버 침해가 아예 필요 없다.</li>
+                <li><strong>CISA의 우선순위 전환:</strong> CISA가 주간 취약점 라운드업(월간 취약점 브리핑 포함)을 중단하고 "우선순위 기반 접근"으로 전환한다. 대량 열거보다 실제 악용·영향 중심으로 정보를 재편한다는 의미이므로, 구독 기반 패치 우선순위 산정 조직은 대체 소스(KEV, 벤더 어드바이저리)를 재점검해야 한다.</li>
+                <li><strong>오늘의 실무 우선순위:</strong> ① 서드파티 <code>&lt;script&gt;</code> 태그 전체 인벤토리 + SRI(Subresource Integrity) 적용 여부 점검 ② 만료·폐기 CDN 도메인 참조 제거 ③ KEV·NVD 직접 구독으로 CISA 브리핑 공백 보완.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/an-abandoned-cdn-domain-was-re.html" target="_blank">The Hacker News - An Abandoned CDN Domain Was Re-Registered. Thousands of Sites Still Call It.</a> · <a href="https://news.google.com/rss/search?q=CISA+vulnerability+bulletin&hl=en-US&gl=US&ceid=US:en" target="_blank">Cybersecurity Dive / CSO Online (Google News) - CISA ends weekly vulnerability roundups</a></p>
+
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
