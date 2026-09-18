@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - RSS (Mobileye, 2017): '누구의 잘못인가'를 수식으로 정의하다 — 885회 인용, 사고 회피를 수학적으로 보증한 안전 모델의 원형</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - RSS (Mobileye, 2017): '누구의 잘못인가'를 수식으로 정의하다 — 885회 인용, 사고 회피를 수학적으로 보증한 안전 모델의 원형</h1>
+            <p class="date">2026-09-18</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>유형:</strong> arXiv 논문 (Mobileye, 2017) — <strong>화이트박스 형식(formal) 안전 모델</strong> 제안 + 그 모델을 만족하는 시스템 설계</li>
+                    <li><strong>제목:</strong> <em>On a Formal Model of Safe and Scalable Self-driving Cars</em></li>
+                    <li><strong>저자:</strong> <strong>Shai Shalev-Shwartz, Shaked Shammah, Amnon Shashua</strong> (Mobileye) — Shalev-Shwartz는 <code>Understanding Machine Learning</code> 교과서와 Pegasos(SVM)로 널리 인용되는 머신러닝 이론가, Shashua는 Mobileye 공동창업자·회장</li>
+                    <li><strong>분야:</strong> <code>cs.RO</code> (primary) · <code>cs.AI</code> · <code>stat.ML</code></li>
+                    <li><strong>게시일:</strong> <strong>2017-08-21</strong> (v1) · 최종 개정 <strong>2018-10-27</strong> (v6)</li>
+                    <li><strong>인용:</strong> <strong>885회</strong> (Semantic Scholar, 2026-09-18 확인 · S2 제목 일치 검증)</li>
+                    <li><strong>핵심 산출물:</strong> <strong>RSS = Responsibility-Sensitive Safety</strong> — "책임 민감 안전" 모델</li>
+                    <li><strong>오픈소스 구현:</strong> <code>intel/ad-rss-lib</code> — ⭐<strong>356</strong> · 🍴141 · <strong>LGPL-2.1</strong> · C++ · 2019-02-13 생성 · 2025-08-07 마지막 커밋 · 현재 <strong>아카이브</strong></li>
+                    <li><strong>원문:</strong> <a href="https://arxiv.org/abs/1708.06374" target="_blank">https://arxiv.org/abs/1708.06374</a></li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>2017년 8월, <strong>Mobileye</strong>의 Shalev-Shwartz·Shammah·Shashua가 던진 질문은 딥러닝 자율주행 붐의 한가운데서 다소 이질적이었다. <strong>"자율주행차가 안전하다는 것을, 우리는 대체 어떻게 '증명'할 것인가?"</strong> 논문의 답은 인식(perception)이나 계획(planning) 성능을 올리는 것이 아니라, <strong>안전을 수식으로 정의하는 것</strong>이었다. 저자들은 자율주행의 위기를 "누가 먼저 차를 내놓는가"가 아니라 <strong>안전 보증(safety assurance)의 표준화</strong>와 <strong>확장성(scalability)</strong> 두 축의 실패로 규정하고, 실패하면 업계가 <em>"자율주행의 겨울(winter of autonomous driving)"</em> — 1980년대 AI 겨울의 반복 — 로 갈 수 있다고 경고했다. 그들이 제안한 모델이 <strong>RSS(Responsibility-Sensitive Safety)</strong> 이며, 오늘날 자율주행 안전 표준화 논의의 출발점으로 남아 있다.</p>
+            <ul>
+                <li><strong>출발점 — '책임'은 도덕이 아니라 계산이다:</strong> RSS는 <em>Duty of Care</em>(주의 의무)를 수학적으로 해석한 모델이다. 차량이 <strong>무엇을 해서는 안 되는가</strong>를 먼저 정하고, 그 경계를 넘지 않으면 <strong>사고가 나더라도 그 차량에 책임이 없다</strong>고 말할 수 있게 만든다. 즉 "안전한 주행"을 <strong>사고 후의 과실 판정 기준</strong>과 같은 언어로 정의한 것이다.</li>
+                <li><strong>상식 5개를 공리로:</strong> 논문은 5개의 "상식(common sense)" 규칙을 그대로 형식화한다 — ① 뒤에서 박지 마라(<em>Do not hit someone from behind</em>) ② 무모하게 끼어들지 마라(<em>Do not cut-in recklessly</em>) ③ 우선권은 주어지는 것이지 빼앗는 것이 아니다(<em>Right-of-way is given, not taken</em>) ④ 가시성이 제한된 영역을 조심하라(<em>Be careful of areas with limited visibility</em>) ⑤ 다른 사고를 내지 않고 피할 수 있다면 반드시 피하라(<em>If you can avoid an accident without causing another one, you must do it</em>).</li>
+                <li><strong>핵심 수식 — 안전 종방향 거리:</strong> 가장 단순한 단일 차선 시나리오에서, 앞차 <code>c_f</code> 뒤를 따르는 <code>c_r</code>의 최소 안전거리 <code>d_min</code>을 반응시간 <code>ρ</code>, 최대 가속 <code>a_max,accel</code>, 최소 제동 <code>a_min,brake</code>, 최대 제동 <code>a_max,brake</code>의 함수로 유도한다:<br>
+                <code>d_min = [ v_r·ρ + ½·a_max,accel·ρ² + (v_r + ρ·a_max,accel)² / (2·a_min,brake) − v_f² / (2·a_max,brake) ]₊</code><br>
+                (<code>[x]₊ = max{x, 0}</code>) — 항목별로 '반응하는 동안 달린 거리 + 반응 중 가속한 거리 + 감속해 멈출 때까지의 추가 거리 − 앞차가 제동으로 벌어주는 거리'를 뜻한다. 이 값보다 멀리 있으면, 앞차가 최대로 급제동해도 뒤차는 <strong>물리적으로 추돌하지 않는다</strong>.</li>
+                <li><strong>Dangerous Situation → Proper Response:</strong> RSS의 두 핵심 정의는 <strong>'위험한 상황'(상대가 자기 행동만으로는 사고를 피할 수 없는 상태)</strong> 과 <strong>'적절한 대응'(일정 시간 안에 가속·제동 범위 내에서 그 상황을 벗어나는 행동)</strong> 이다. 차량은 위험한 상황을 <em>만들지 않아야</em> 하고, 만들어졌다면 <em>적절한 대응</em>을 해야 한다. 경계를 벗어나지 않는 한 <strong>그 외의 주행 전략은 자유</strong>다 — RSS는 계획기를 대체하는 것이 아니라 <strong>덮어쓰는 안전 봉투(safety envelope)</strong> 다.</li>
+                <li><strong>왜 '형식'이어야 했나 — 유도적 검증:</strong> 블랙박스 신경망의 안전성은 사실상 <strong>수십억 마일</strong>을 돌려보는 것 외에 확인할 수 없다. RSS는 안전을 <strong>매 시점마다 국소적으로 검사 가능한 술어</strong>로 만들어, 시간·상대 차량 수에 대해 지수적으로 폭발하지 않고 <strong>귀납적으로(inductive)</strong> 증명되도록 설계됐다. 이것이 "화이트박스·해석 가능"을 강조한 이유다.</li>
+                <li><strong>확장성(scalability)이 절반의 논지:</strong> 논문은 Part I(형식 모델)에 이어 Part II에서 <strong>수백만 대 양산에 맞는 시스템 설계</strong>를 다룬다 — 센싱 상태(sensing state)와 그 <strong>의미(semantics)</strong>, 센서 커버리지·캘리브레이션·맵, 그리고 형식 모델을 실차에서 실시간 검증하는 구조까지. "안전하지만 비싼 해법은 확장되지 않고, 확장되지 않는 안전은 결국 사라진다"는 것이 논문의 논리다.</li>
+                <li><strong>한계도 논문이 직접 밝힌다 — 파라미터 민감도:</strong> RSS의 보증은 <code>ρ · a_max,accel · a_min,brake · a_max,brake</code> 값에 대한 <strong>가정</strong> 위에 서 있다. 뒤차는 "앞차가 <code>a_max,brake</code>보다 강하게 제동하지 않는다"고 가정하는데, 앞차가 그보다 강하게 제동하면 <strong>귀납적 증명이 깨진다</strong>. 반대로 <code>a_max,brake</code>를 매우 크게 잡으면 <strong>극단적으로 소극적인 주행</strong>이 된다(극한의 <code>a_max,brake = ∞</code>는 안전거리를 사실상 무한으로 만든다). 즉 RSS는 <strong>'안전 대 처리량'의 트레이드오프를 파라미터로 노출시킨 모델</strong>이다.</li>
+                <li><strong>표준화를 명시적 목표로:</strong> 초록에서 저자들은 "모든 자율주행차가 만족해야 할 <strong>최소 요구사항</strong>은 무엇이고, 그것을 어떻게 검증할 것인가"를 논문의 두 축 중 하나로 못 박는다. RSS가 학술 아이디어에 머물지 않고 <strong>규격·표준 문서로 이어질 것을 전제로 쓰인 논문</strong>이라는 뜻이다.</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>885회 인용 — 안전 담론의 기준점:</strong> 2017년 논문이 9년 뒤에도 885회 인용을 유지한다는 것은, 후속 연구들이 RSS를 <strong>비교 대상(baseline)이자 출발 정의</strong>로 계속 소환한다는 뜻이다. 인식·예측 논문이 SOTA 경쟁으로 대체되는 것과 달리, <strong>안전 모델은 정의를 내리는 논문이 오래 산다</strong>.</li>
+                <li><strong>표준으로 제도화:</strong> RSS는 이후 <strong>IEEE Std 2846-2022</strong>(자동주행 안전 모델의 가정에 관한 표준) 계열 작업의 기반이 됐고, Mobileye는 ISO·학계와의 표준화 트랙을 별도로 밀었다. 논문이 초록에서 내걸었던 "안전 보증의 표준화"라는 목표가 실제 규격 문서로 이어진 드문 사례다.</li>
+                <li><strong>산업이 코드로 받았다:</strong> Intel이 <code>intel/ad-rss-lib</code>를 <strong>LGPL-2.1</strong>로 공개해 RSS 수식을 실제 C++ 라이브러리로 구현했다. ⭐356·🍴141은 "안전 모델을 코드로 쓰는" 수요가 연구실 밖에 존재했다는 증거이며, 저장소가 2025년에 아카이브됐다는 사실 자체가 <strong>모델이 산업 표준/내부 구현으로 흡수된 후의 정상적인 종결</strong>로 읽힌다.</li>
+                <li><strong>블랙박스 시대의 반대편 극:</strong> 이 논문이 유명한 진짜 이유는 성능이 아니라 <strong>방법론적 반대편</strong>에 있기 때문이다. 같은 2017년에 end-to-end 딥러닝 주행이 각광받던 시기에, "안전은 학습으로 얻는 것이 아니라 <strong>정의하고 검증하는 것</strong>"이라고 주장한 소수의 목소리였고, 오늘날 <strong>SOTIF·안전 케이스(safety case)·규제 대응</strong> 논의의 어휘를 사실상 이 논문이 공급했다.</li>
+                <li><strong>활용 가치 — 무엇에 쓰는가:</strong> ① <strong>계획기 위의 안전 필터</strong>: 기존 planner/ML 정책이 낸 궤적을 RSS 경계로 검사해 위반 시 대응 궤적으로 대체. ② <strong>시나리오 기반 검증의 판정 기준</strong>: 시뮬레이션 시나리오에서 "누가 책임 있는 사고인가"를 기계적으로 라벨링. ③ <strong>규제·인증 대화의 공용어</strong>: 형식 모델이 없으면 "충분히 테스트했다" 이상의 문장을 만들 수 없다. ④ <strong>음성 검증(negative verification)</strong>: 잘 주행하는지가 아니라 <strong>하면 안 되는 일을 하지 않는지</strong>를 상시 감시 — 이 블로그에서 다룬 시뮬레이터 기반 검증(<a href="autonomous-2026-09-09.html">CARLA, 2026-09-09</a>)이 '경험으로 검증'이라면, RSS는 '정의로 검증'이라는 축을 담당한다. 두 축은 대체가 아니라 상호 보완이다.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>RSS의 메시지는 9년이 지난 지금 오히려 더 선명하다. <strong>딥러닝이 잘하는 것(인식·예측)과 시스템이 보증해야 하는 것(안전)은 다른 문제</strong>이며, 후자는 평균 성능이 아니라 <strong>최악의 경우에 대한 정의</strong>로만 답할 수 있다. 논문이 제시한 <code>d_min</code> 부등식 하나에 담긴 발상 — "안전거리를 지켰다면 추돌은 물리적으로 불가능하다" — 은 오늘날 어떤 안전 프레임워크도 피해갈 수 없는 형식이다. 동시에 RSS는 <strong>스스로의 한계를 파라미터로 노출</strong>한다. 보증은 사람이 정한 가정(<code>a_max,brake</code>) 위에서만 성립하며, 그 가정이 현실과 어긋나면 증명은 조용히 깨진다. 결국 자율주행의 안전은 <strong>모델 하나를 채택하는 일이 아니라, 가정을 명시하고 감시하고 갱신하는 운영 체계</strong>를 만드는 일이다. 그 체계의 문법을 2017년에 미리 써 둔 논문이, 885회 인용으로 여전히 인용되는 이유다.</p>
+            <p>원문: <a href="https://arxiv.org/abs/1708.06374" target="_blank">https://arxiv.org/abs/1708.06374</a></p>
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
