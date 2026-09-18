@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌫️ [클래식] Fuzzing — '랜덤 쓰레기 입력'이 UNIX 유틸리티의 25~33%를 죽였다: 1988년 전화선 잡음에서 태어난 퍼징의 원형 (Miller·Fredriksen·So, CACM 1990)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+<style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌫️ [클래식] Fuzzing — '랜덤 쓰레기 입력'이 UNIX 유틸리티의 25~33%를 죽였다: 1988년 전화선 잡음에서 태어난 퍼징의 원형 (Miller·Fredriksen·So, CACM 1990)</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-09-18 · 카테고리: Research (고전 보안 논문 · 소프트웨어 신뢰성 · 퍼징/취약점 자동 발견)</div>
+        </header>
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> An Empirical Study of the Reliability of UNIX Utilities<br>
+                <strong>저자:</strong> Barton P. Miller, Lars Fredriksen, Bryan So (University of Wisconsin–Madison)<br>
+                <strong>발표:</strong> Communications of the ACM, Vol. 33, No. 12 (1990년 12월), pp. 32–44 — 초판은 위스콘신대 컴퓨터과학과 기술보고서(1989). <strong>1990년</strong><br>
+                <strong>DOI:</strong> 10.1145/96267.96279<br>
+                <strong>분야:</strong> 소프트웨어 신뢰성 · 랜덤 테스팅 · 취약점 자동 발견 — <em>퍼징(fuzzing)이라는 기법과 이름이 태어난 논문</em><br>
+                <strong>인용:</strong> OpenAlex 기준 <strong>1,279회</strong> (CACM 1990). 후속편 <em>Fuzz Revisited</em>(1995, TR #1268)도 별도로 <strong>250회</strong> 인용됐다.<br>
+                <strong>수상:</strong> <strong>2022 Jean-Claude Laprie Award in Dependable Computing</strong> (IFIP WG 10.4) — 30년 뒤 신뢰성·보안 분야의 초석으로 공인됐다.<br>
+                <strong>성격:</strong> 이론 논문이 아니라 <em>실측 보고서</em>다. "도구를 만들고, 실제 시스템을 돌려 보고, 크래시의 원인을 코드 레벨에서 분류해 전부 공개한다"는 형식 자체가 이후 30년 보안 연구 방법론의 템플릿이 됐다.
+            </div>
+
+            <h2><i class="fa-solid fa-clock-rotate-left"></i> 연구 배경 — 폭풍우 치던 밤의 전화선 잡음</h2>
+            <p>1988년 가을, 위스콘신 매디슨. 저자 중 한 명이 1200bps 다이얼업 모뎀으로 연구실의 UNIX에 접속해 있었다. 그날 밤 중서부를 폭풍우가 지나가면서 전화선에 잡음이 끼었고, 명령행에 엉뚱한 문자가 섞여 들어갔다. 잡음 자체는 놀라운 일이 아니었다 — 오류정정 모뎀이 나오기 직전의 시절이니 흔한 일이었다.</p>
+            <p>놀라운 것은 그 잡음이 <strong>프로그램을 죽이고 있었다</strong>는 점이었다. 그것도 <code>ls</code>·<code>grep</code>류의, 모두가 매일 쓰는 기본 유틸리티들이 core dump를 뱉었다. 저자들은 여기서 "이건 경험담이고, 체계적으로 조사해야 하는 문제"라고 판단한다.</p>
+            <blockquote>"It started on a dark and stormy night. ... This line noise was not surprising; but we were surprised that these spurious characters were causing programs to crash."</blockquote>
+            <p>마침 그 학기 그는 위스콘신대 대학원 과목 <em>Advanced Operating Systems</em>(CS736)를 가르치고 있었고, 그날의 경험을 수업 프로젝트 목록에 "테스트 프로젝트"로 추가했다. 프로젝트 설명을 쓰다가 이름이 필요해졌다 — "랜덤하고 구조 없는 데이터"라는 느낌을 주는 단어로 <strong>fuzz</strong>를 선택했다. 퍼징(fuzzing)이라는 용어는 그렇게 수업 자료의 한 줄에서 태어났다.</p>
+            <p>그 학기 3개 팀이 이 프로젝트를 시도했고, 그중 2개 팀은 크래시를 하나도 찾지 못했다. 성공한 팀은 <strong>Lars Fredriksen과 Bryan So</strong> — "더 실력 있는 프로그래머이자 더 꼼꼼한 실험자"였던 두 학생이었다.</p>
+
+            <h2><i class="fa-solid fa-gears"></i> 방법 — 모델 없이, 오라클은 '크래시 아니면 통과'</h2>
+            <p>이 논문이 당시 테스팅 연구와 갈라진 지점은 <strong>단순함</strong>이다. 연구진은 4단계로 진행했다.</p>
+            <ul>
+                <li><strong>① 도구 제작:</strong> 랜덤 문자를 뱉는 제너레이터와, 대화형 유틸리티를 위한 테스터를 직접 만들었다. 입력은 <em>모델도 명세도 없는</em> 구조 없는 랜덤 ASCII 문자 스트림(비출력 문자 포함) — 순수 블랙박스다.</li>
+                <li><strong>② 대량 투입:</strong> 약 <strong>90여 개의 유틸리티</strong>를 <strong>7개 UNIX 버전</strong>에서 랜덤 입력으로 두들겼다.</li>
+                <li><strong>③ 식별:</strong> 어떤 문자열(또는 문자열의 <em>유형</em>)이 프로그램을 죽이는지 추려냈다.</li>
+                <li><strong>④ 원인 분석:</strong> 크래시를 코드 레벨에서 원인별로 분류하고, 각 유형마다 예시 코드·영향·수정안을 함께 제시했다.</li>
+            </ul>
+            <p>판정(oracle)은 의도적으로 극단적으로 단순하다. 프로그램의 종료 상태를 세 가지로만 본다 — (1) <strong>크래시</strong>(core dump), (2) <strong>행</strong>(hang, 무한 루프), (3) 정상 종료. 주목할 점은 <em>출력의 정확성은 채점하지 않는다</em>는 것이다. 말도 안 되는 답을 뱉어도 종료만 잘 하면 '통과'다.</p>
+            <p>이 완화된 오라클이야말로 퍼징이 확산된 핵심 이유다. 정답을 알아야 채점할 수 있는 일반 테스팅과 달리, "안 죽으면 통과"는 <strong>정답 없이도</strong> 자동화가 되고, 서로 다른 프로그램·OS·벤더를 같은 잣대로 비교할 수 있게 해준다.</p>
+            <p>테스트 대상 시스템도 여러 계열을 일부러 섞었다 — 4.2/4.3BSD 계열(위스콘신 로컬 버전 포함), SunOS 3.2/4.0, System V 기반 SCO Xenix, IBM AIX 1.1, HP Bobcat 9000/320·330(68020, 4.3BSD+NFS), DEC VAXstation 3200/CVAX(4.3BSD) 등. 하드웨어 아키텍처가 다르면 같은 버그도 한쪽에서는 조용히 넘어가고 다른 쪽에서는 크래시한다는 사실이 여기서 확인된다.</p>
+
+            <h2><i class="fa-solid fa-chart-simple"></i> 핵심 결과 — 숫자로 본 1990 → 1995 → 2020</h2>
+            <p>논문의 요약은 한 문장으로 충분히 충격적이다.</p>
+            <blockquote>"In our recent experiments, we have been able to crash 25-33% of the utility programs on any version of UNIX that was tested."</blockquote>
+            <ul>
+                <li><strong>1990:</strong> 7개 UNIX 버전, 약 90개 유틸리티에서 <strong>각 시스템마다 25~33%</strong>가 크래시 또는 행. 전체로는 테스트한 프로그램의 <strong>24% 이상</strong>이 실패했다.</li>
+                <li><strong>1995 (Fuzz Revisited):</strong> 범위를 9개 UNIX 버전(상용 7개 + GNU 유틸리티 + Linux)으로 넓히고 X-Window 애플리케이션·네트워크 서비스까지 확장. 결과는 <strong>기본 유틸리티는 최악의 경우 40% 이상</strong>, <strong>X-Window 애플리케이션은 25% 이상</strong>이 크래시/행. 반면 <strong>네트워크 서비스와 X 서버는 단 하나도 죽이지 못했다</strong>.</li>
+                <li><strong>1995 부수 실험:</strong> 메모리 할당 실패를 시뮬레이션해 <em>반환값 검사</em>를 유도하자 <strong>테스트 대상의 거의 절반</strong>이 크래시했다 — "malloc 실패를 확인하지 않는 코드"가 얼마나 흔한지에 대한 실측이다.</li>
+                <li><strong>1990 vs 1995:</strong> 비교 가능한 모든 시스템이 <em>눈에 띄게 개선</em>됐다. 다만 여전히 무시할 수 없는 실패율이 남았다. 그리고 GNU/Linux 유틸리티가 상용 시스템들보다 <strong>뚜렷하게 나았다</strong>.</li>
+                <li><strong>2020 (The Relevance of Classic Fuzz Testing, IEEE TSE 2022):</strong> 같은 클래식 퍼즈 도구를 30년 뒤 Linux·FreeBSD·macOS에 다시 돌렸다. <strong>Linux 74개 중 9개, FreeBSD 78개 중 15개, macOS 76개 중 12개</strong>가 여전히 크래시/행. 합계 24개 유틸리티 실패 — 저자들 표현대로 <strong>1995·2000·2006년 조사보다 오히려 높은 실패율</strong>이다.</li>
+            </ul>
+            <p>가장 뼈아픈 관찰은 이것이다. 상용 제품 테스트를 통과한 <strong>IBM AIX 1.1도 다른 버전만큼 취약</strong>했다. "상용 제품이니, 오래됐으니, 잘 테스트됐으니 안전하다"는 가정은 데이터 앞에서 무너진다.</p>
+
+            <h2><i class="fa-solid fa-bug"></i> 크래시 원인 9가지 — 1990년에 이미 정리된 '고전적 실수' 목록</h2>
+            <p>논문의 절반은 발견이 아니라 <em>분류</em>에 쓰였다. 연구진이 크래시 원인을 묶은 범주는 오늘날 코드 감사 체크리스트와 놀랄 만큼 겹친다.</p>
+            <ul>
+                <li><strong>① 포인터/배열 오류 (pointer/array errors):</strong> 널 포인터 역참조, 경계 초과 — 전체에서 가장 큰 비중. VAX는 널 참조를 (잘못) 용인하고 Sun 4는 죽는 식으로, 같은 버그가 아키텍처에 따라 드러나기도 숨기도 했다.</li>
+                <li><strong>② 반환값 미검사 (not checking return codes):</strong> 메모리 할당·시스템 콜 실패를 확인하지 않아 곧바로 역참조로 이어진다. 1995년 부수 실험에서 이것만으로 절반이 죽었다.</li>
+                <li><strong>③ 입력 함수 사용 오류 (input functions):</strong> <code>gets</code>/<code>scanf</code> 계열의 경계 없는 입력 처리.</li>
+                <li><strong>④ 서브프로세스 (sub-processes)</strong> · <strong>⑤ 상호작용 효과 (interaction effects):</strong> 파이프·자식 프로세스·환경변수 조합에서 발생하는 결함.</li>
+                <li><strong>⑥ 잘못된 에러 핸들러 (bad error handler)</strong> · <strong>⑦ 부호 있는 문자 (signed characters):</strong> 8비트 문자를 signed로 다뤄 음수 인덱스가 되는 고전적 함정.</li>
+                <li><strong>⑧ 경쟁 조건 (race conditions)</strong> · <strong>⑨ 미판정 (undetermined).</strong></li>
+            </ul>
+            <p>중요한 디테일 하나: 거의 모든 크래시가 <em>자동 테스트</em>로 발견됐다. 사람이 눈으로 찾은 게 아니라, 랜덤 입력을 대량으로 부어 넣어 기계가 찾아낸 것이다.</p>
+
+            <h2><i class="fa-solid fa-star"></i> 왜 유명한가 — 30년 뒤 표준이 된 '돌 던져 보기'</h2>
+            <p>1990년 당시 이 접근은 환영받지 못했다. 형식 모델도, 방법론도, 학술적 세련됨도 없다는 이유로 테스팅·소프트웨어공학 커뮤니티의 <strong>강한 반발</strong>을 샀다. Miller의 답은 한 줄이었다.</p>
+            <blockquote>"We're just trying to find bugs." — 우리는 그냥 버그를 찾으려는 것뿐이다.</blockquote>
+            <p>그리고 그 조잡한 접근이 보안의 주류가 됐다. 계보는 이렇게 이어진다.</p>
+            <ul>
+                <li><strong>1990/1995/2000/2006:</strong> 클래식 퍼즈 계보 — UNIX 유틸리티 → X-Window → Windows NT → macOS로 확장.</li>
+                <li><strong>2013:</strong> AFL(American Fuzzy Lop, lcamtuf) — 실행 커버리지를 피드백으로 쓰는 <em>커버리지 기반 퍼징</em>이 대중화되며 발견 효율이 폭발적으로 올라간다.</li>
+                <li><strong>2015:</strong> libFuzzer가 LLVM에 통합 — 개발자가 빌드에 퍼저를 붙이는 것이 일상이 된다.</li>
+                <li><strong>2016~:</strong> Google OSS-Fuzz가 상시 대규모 퍼징 인프라를 오픈소스 전체에 제공하고, 수천 건 단위의 버그를 지속적으로 발굴한다. 커널에는 syzkaller 같은 전용 퍼저가 붙는다.</li>
+                <li><strong>2022:</strong> 원 논문이 Jean-Claude Laprie Award를 수상하며 "신뢰성 공학의 초석"으로 공식 인정받는다.</li>
+            </ul>
+            <p>핵심은 <strong>"신뢰성이 보안의 토대"</strong>라는 명제다. 크래시는 대개 메모리 손상의 관찰 가능한 증상이고, 메모리 손상은 대개 익스플로잇 가능성이다. 그래서 "크래시를 자동으로 찾는 도구"는 곧 "취약점을 자동으로 찾는 도구"가 됐다. 오늘날 대형 프로젝트의 CVE 상당수가 퍼징에서 나오는 것은 이 논문의 방법론이 산업 표준이 된 결과다.</p>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 2026년의 실무 시사점 — 30년 전 체크리스트는 아직 유효하다</h2>
+            <ul>
+                <li><strong>① 크래시·행은 그 자체로 보안 신호로 취급하라:</strong> "입력이 이상하면 죽는 건 어쩔 수 없다"는 태도가 정확히 1990년에 25~33%를 만든 원인이다. 크래시 리포트를 보안 백로그로 승격시켜야 한다.</li>
+                <li><strong>② 판정 기준을 단순하게 유지하라:</strong> 정답을 모르는 대상(파서·디코더·프로토콜 구현)에는 "죽으면 실패"라는 오라클이 가장 강력하고 가장 자동화하기 쉽다. 완벽한 테스트보다 <em>돌아가는</em> 테스트가 먼저다.</li>
+                <li><strong>③ 입력 처리 경계를 최우선으로 퍼징하라:</strong> 파일 포맷 파서, 이미지·압축 디코더, 직렬화·역직렬화기, 명령행 도구 — 1990년의 유틸리티에 해당하는 자리가 오늘은 이들이다.</li>
+                <li><strong>④ "오래됐고 잘 테스트됐다"는 가정을 버려라:</strong> AIX 1.1의 교훈과 2020년의 실패율 상승이 같은 말을 한다. 레거시일수록 크래시 원인 9범주(특히 반환값 미검사·signed char·경쟁 조건)를 기계적으로 점검해야 한다.</li>
+                <li><strong>⑤ 도구·결과·수정안을 공개하라:</strong> 이 논문의 영향력은 방법론만이 아니라 <em>도구 소스, 원시 테스트 결과, 버그 리포트와 픽스를 모두 공개</em>한 데서 왔다. 오늘날 퍼징 크래시 코퍼스·아티팩트 공개가 표준이 된 이유다. 재현성은 신뢰의 전제 조건이다.</li>
+                <li><strong>⑥ 퍼징의 한계도 분명히 하라:</strong> 크래시하지 않는 결함 — 인가 로직 오류, 인증 우회, 비즈니스 로직 결함 — 은 클래식 퍼징으로 잡히지 않는다. 퍼징은 다른 기법을 대체하는 게 아니라 <em>가장 싸게 붙일 수 있는 한 겹</em>이다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>원문 (CACM 33(12), 1990, pp. 32–44 · DOI): <a href="https://doi.org/10.1145/96267.96279" target="_blank" rel="noopener">doi.org/10.1145/96267.96279</a></li>
+                <li>1990 원문 PDF (전문): <a href="https://www.paradyn.org/papers/fuzz.pdf" target="_blank" rel="noopener">paradyn.org/papers/fuzz.pdf</a></li>
+                <li>저자 공식 프로젝트 페이지 — 퍼즈 논문·도구·데이터셋 전체 아카이브 (Barton Miller, UW–Madison): <a href="https://pages.cs.wisc.edu/~bart/fuzz/" target="_blank" rel="noopener">pages.cs.wisc.edu/~bart/fuzz/</a></li>
+                <li>Fuzz Revisited — 1995 후속 연구 (TR #1268): <a href="https://www.paradyn.org/papers/fuzz-revisited.pdf" target="_blank" rel="noopener">paradyn.org/papers/fuzz-revisited.pdf</a></li>
+                <li>The Relevance of Classic Fuzz Testing: Have We Solved This One? (Miller·Zhang·Heymann, IEEE TSE 48(6), 2022): <a href="https://arxiv.org/abs/2008.06537" target="_blank" rel="noopener">arxiv.org/abs/2008.06537</a></li>
+                <li>2022 Jean-Claude Laprie Award 수상 발표 (IFIP WG 10.4): <a href="https://www.dependability.org/wg10.4/news-051422.html" target="_blank" rel="noopener">dependability.org/wg10.4/news-051422.html</a></li>
+                <li>함께 보기 — 이 사이트의 버퍼 오버플로 고전: "Smashing The Stack For Fun And Profit" (1996): <a href="security-research-2026-08-30-4.html">security-research-2026-08-30-4.html</a></li>
+                <li>함께 보기 — 이 사이트의 ROP 고전: "The Geometry of Innocent Flesh on the Bone" (2007): <a href="security-research-2026-09-09.html">security-research-2026-09-09.html</a></li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
