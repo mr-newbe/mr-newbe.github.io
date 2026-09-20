@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛡️ [클래식] On the Security of Public Key Protocols — '사칭·변조하는 능동적 공격자'를 정면으로 다룬 최초의 형식 모델: Dolev–Yao 모델의 탄생 (1983)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛡️ [클래식] On the Security of Public Key Protocols — '사칭·변조하는 능동적 공격자'를 정면으로 다룬 최초의 형식 모델: Dolev–Yao 모델의 탄생 (1983)</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-09-21 · 카테고리: Research (클래식 보안 논문 · 암호 프로토콜 형식 검증 / 상징적 보안 모델 · 1983)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> On the Security of Public Key Protocols<br>
+                <strong>저자:</strong> <strong>Danny Dolev</strong> (당시 스탠퍼드대 컴퓨터과학과 → 히브리대학교 수학·컴퓨터과학 연구소), <strong>Andrew C. Yao</strong> (스탠퍼드대 컴퓨터과학과) — *Yao는 'Yao의 최소 최대 정리'·'밀리언 달러 문제'로 유명한 이론 컴퓨터과학자<br>
+                <strong>발표:</strong> <strong>IEEE Transactions on Information Theory, Vol. IT-29, No. 2, 1983년 3월, pp. 198–208</strong> (DOI: 10.1109/TIT.1983.1056650)<br>
+                <strong>발표 이력:</strong> 원고 접수 1981년 7월 15일 · 수정 1982년 8월 8일 · 예비판은 <strong>제22회 IEEE FOCS(Foundations of Computer Science)</strong>, 내슈빌, 1981년 10월 28–30일에서 부분 발표<br>
+                <strong>분야:</strong> 암호 프로토콜 형식 검증 · 상징적(symbolic) 보안 모델 · 능동적 공격자 위협 모델 · 프로토콜 안전성 결정 문제(decidability)<br>
+                <strong>인용:</strong> <strong>OpenAlex 기준 5,842회</strong> (IEEE ToIT 1983 정식판). FOCS 1981 예비판은 별도로 474회 — 즉 이 논문 하나가 '프로토콜 보안'이라는 학문 분야를 사실상 열었다.<br>
+                <strong>지원:</strong> ARPA(MDA-903-80-C-102) 및 미국 NSF(MCS-77-05313-A01)
+            </div>
+
+            <h2><i class="fa-solid fa-clock-rotate-left"></i> 연구 배경 — "공개키는 도청은 막지만, 사칭은 막지 못한다"</h2>
+            <p>1980년대 초, 공개키 암호는 <strong>수동적 도청자(passive eavesdropper)</strong>에게는 결정적인 무기로 여겨졌다. 회선을 도청해 암호문을 얻어도 개인키 없이는 복호화할 수 없으니 안전하다는 것이다.</p>
+            <p>논문은 이 안도감을 첫 문단에서 정면으로 부순다. 문제는 <strong>능동적 사보퇴르(active saboteur)</strong>다. 이 공격자는 도청만 하지 않는다 — <em>다른 사용자를 사칭하고(impersonate), 전송 중인 메시지를 가로채고 바꿔치기하며, 자기 키로 재암호화해 다시 흘려보낸다.</em> 논문이 던진 질문은 이랬다. <strong>"공개키가 완벽하다고 가정해도, 프로토콜 자체가 잘못 설계되면 안전하지 않다. 그렇다면 프로토콜 안전성을 어떻게 '정확히' 논할 수 있는가?"</strong></p>
+            <p>논문은 이 질문에 답하기 위해 <strong>여러 개의 수학적 모델을 세우고, 그 안에서 안전성을 판정하는 알고리즘과 특성화(characterization)를 제시</strong>했다. 그것이 오늘날 <strong>Dolev–Yao 모델</strong>로 불리는 상징적 프로토콜 분석의 출발점이다.</p>
+
+            <h2><i class="fa-solid fa-bug"></i> 논문이 든 첫 예시 — '이름을 암호문 밖에 두면' 프로토콜이 깨진다</h2>
+            <p>논문은 메시지를 <strong>세 개의 필드</strong>로 정의한다: <em>발신자 이름, 텍스트(암호문), 수신자 이름.</em> 그리고 도입부에 지금은 교과서가 된 프로토콜을 하나 제시한다. A가 B에게 평문 M을 보내는 방식이다.</p>
+            <blockquote>
+                a) A → B : (A, E_B(M), B)<br>
+                b) B → A : (B, E_A(M), A)
+            </blockquote>
+            <p>얼핏 완벽해 보인다. M은 B의 키로, 다시 A의 키로 감싸져 있다. 그런데 논문은 "이 프로토콜은 <strong>놀랍게도(surprisingly)</strong> 깨진다"며 네 단계 공격을 제시한다.</p>
+            <ul>
+                <li><strong>① 가로채기:</strong> 사보퇴르 Z가 1단계에서 A→B 메시지 <code>(A, E_B(M), B)</code>를 가로챈다. <code>E_B(M)</code> 부분을 확보한다.</li>
+                <li><strong>② 사칭:</strong> Z가 <em>자신이 발신자라고 주장하며</em> B에게 <code>(Z, E_B(M), B)</code>를 보낸다. B의 공개키로 암호화돼 있으니 B는 의심 없이 받아들인다.</li>
+                <li><strong>③ 되돌아오는 답장:</strong> B는 프로토콜대로 응답한다 — <code>(B, E_Z(M), Z)</code>. 즉 <em>방금 받은 평문 M을 Z의 공개키로 암호화해 Z에게 보내준다.</em></li>
+                <li><strong>④ 복호화:</strong> Z는 자신의 개인키로 <code>E_Z(M)</code>을 열어 <strong>평문 M을 그대로 얻는다.</strong></li>
+            </ul>
+            <p>근본 원인은 <strong>수신자 이름이 암호문 안에 들어 있지 않다</strong>는 점이다. B는 자기가 받은 <code>E_B(M)</code>이 <em>A가 보낸 것인지 Z가 보낸 것인지 구분할 수 없다.</em> 이는 훗날 "이름은 반드시 암호문 안에 함께 서명·암호화해야 한다(name-stamp)"는 원칙으로 자리 잡는다 — 그리고 논문은 바로 그 원칙을 <strong>형식 모델로 증명</strong>하러 간다.</p>
+
+            <h2><i class="fa-solid fa-diagram-project"></i> 두 가지 모델 — Cascade Protocols와 Name-Stamp Protocols</h2>
+            <p>논문은 먼저 '완벽한 공개키 시스템(perfect public key system)'이라는 명시적 가정을 깐다. 이 가정 목록 자체가 훗날 모든 상징적 모델의 표준이 된다.</p>
+            <ul>
+                <li><strong>가정 a)</strong> 사용되는 일방향 함수는 깨지지 않는다(unbreakable).</li>
+                <li><strong>가정 b)</strong> 공개 디렉터리(public directory)는 안전하고 변조될 수 없다.</li>
+                <li><strong>가정 c)</strong> 모든 사용자가 모든 사용자의 공개 암호화 함수 E_X에 접근할 수 있다.</li>
+                <li><strong>가정 d)</strong> 복호화 함수 D_X는 사용자 X만 알고 있다.</li>
+            </ul>
+            <p>이 위에서 논문은 두 부류의 프로토콜을 정의한다.</p>
+            <ul>
+                <li><strong>① Cascade Protocols(연쇄 프로토콜):</strong> 사용자가 <em>암호화·복호화 연산자를 조합</em>해 메시지를 만든다. 여러 겹을 겹칠 수 있다. 기본 성질은 <code>E_X D_X = D_X E_X = 1</code>(항등함수) — 즉 암호화 후 자기 키로 복호화하면 원문으로 돌아온다.</li>
+                <li><strong>② Name-Stamp Protocols(이름 도장 프로토콜):</strong> 사용자가 <em>이름을 평문과 함께 암호화해 붙이고(append), 지우고(delete), 검사(check)</em>할 수 있다. 암호 계층이 여러 겹 들어갈 수 있다 — 위 도입 예시의 '교정판'이 이 부류다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-bullseye"></i> 핵심 결과 — 안전성은 '증명'할 수 있고, 때로는 '자동 판정'할 수 있다</h2>
+            <p>논문의 가장 큰 공헌은 개념 정리만이 아니라 <strong>구체적인 알고리즘과 정리</strong>다. 논문 자체 요약이 밝히는 결과는 이렇다.</p>
+            <ul>
+                <li><strong>연쇄 프로토콜의 안전성 특성화:</strong> 사보퇴르가 메시지를 변조·사칭해 평문에 도달할 수 있는지를 <em>사보퇴르 지식의 닫힘(closure) C(·)</em> 으로 형식화하고, 연쇄 프로토콜이 안전할 필요충분조건을 제시한다. 예컨대 안전한 프로토콜은 메시지 흐름이 <strong>균형(balanced)</strong> 조건을 만족해야 한다 — 그래야 사보퇴르가 암호 연산자를 조합해 원문을 벗겨낼 수 없다.</li>
+                <li><strong>이름 도장 프로토콜 판정 알고리즘(§III):</strong> 주어진 이름 도장 프로토콜이 안전한지 <strong>다항시간에 결정하는 알고리즘</strong>을 제시한다. 안전성은 더 이상 '전문가의 직관'이 아니라 계산 가능한 문제가 되었다.</li>
+                <li><strong>일반 문제의 결정 불가능성 vs 특수 클래스의 다항시간:</strong> 논문이 다루는 확장 단어 문제(extended word problem)는 type-0 언어 멤버십 문제를 부분 사례로 포함하므로 <strong>일반적으로는 결정 불가능(undecidable)</strong>하다는 것이 알려져 있었다. 논문은 이 지점에서 물러서지 않고, <strong>특정 조건을 만족하는 입력 클래스에서는 다항시간에 풀린다</strong>는 것을 보였다 — 취소 규칙(cancellation rule, <code>a₁a₂ → λ</code>)이 있는 확장 단어 문제를 <strong>약 O(n⁷)</strong> 에 푸는 알고리즘(Theorem 4)이 그 핵심이다.</li>
+                <li><strong>'조급한 사보퇴르(impatient saboteur)' 확장(§IV):</strong> 지금까지는 사보퇴르가 다른 사용자의 대화 개시를 기다려야 했지만, 논문은 <em>사보퇴르가 먼저 대화를 시작할 수 있는</em> 더 강한 모델로 결과를 확장한다. 정상 사용자 사이의 전송 형태를 제약해(예: 상대 이름을 확인하지 못하면 전송이 진행되지 않음) 안전성을 재특성화한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 공격자 모델 — "공격자가 메시지를 나른다(the attacker carries the message)"</h2>
+            <p>이 논문이 후대에 <strong>Dolev–Yao 모델</strong>이라는 이름으로 각인된 이유는, 공격자 능력을 <em>과감할 만큼 강력하게</em> 그리고 <em>수학적으로 다룰 수 있게</em> 정의했기 때문이다.</p>
+            <ul>
+                <li><strong>네트워크 전권 통제:</strong> 공격자는 메시지를 <em>도청(overhear)·가로채기(intercept)·삭제·재전송·합성(synthesize)</em>할 수 있고, 사실상 네트워크 그 자체다. 문헌의 표현대로 "공격자가 메시지를 나른다."</li>
+                <li><strong>정당한 참여자로서의 사칭:</strong> 공격자는 자기 키 쌍을 갖고 있으며 <em>스스로 세션을 개시</em>하고 어느 사용자와도 대화를 시도할 수 있다. 모든 공개키를 안다.</li>
+                <li><strong>지식의 재사용·위조:</strong> 이미 흘러간 메시지를 저장했다가, 자기가 아는 키로 암호화·복호화하며 <em>후속 메시지를 위조</em>할 수 있다.</li>
+                <li><strong>단, 암호는 완벽한 블랙박스:</strong> 암호문 <code>E_x(M)</code>은 M에 대해 <em>아무 정보도 노출하지 않는다.</em> 공격자는 암호문의 비트 표현을 조작하거나 키를 추측할 수 없다 — 암호는 이상적 연산자로 취급된다.</li>
+            </ul>
+            <p>즉 '무엇을 할 수 있는가'는 최대한 강하게, '암호 자체를 깨는 것'은 가정으로 배제한 것이다. 이 비대칭이 <strong>메시지 흐름의 논리(logic of message flow)</strong> 만을 다루는 상징적 분석을 가능하게 만들었다.</p>
+
+            <h2><i class="fa-solid fa-link"></i> 왜 지금도 인용되는가 — 5,842회가 향하는 곳</h2>
+            <ul>
+                <li><strong>프로토콜 검증 도구의 공통 뿌리:</strong> ProVerif, Tamarin, AVISPA, Scyther, CPSA 같은 자동 검증 도구는 모두 Dolev–Yao식 상징적 공격자를 전제로 동작한다. TLS 1.3, SSH, WPA, 시그널 프로토콜, 5G 인증 절차의 상징적 검증이 이 모델 위에서 이뤄졌다.</li>
+                <li><strong>'깨졌다'를 보이는 데 특히 강력:</strong> 상징적 모델은 프로토콜이 안전함을 증명하는 데는 한계가 있어도, <em>깨졌음을 보이는 데는</em> 탁월하다 — 공격 트레이스(반례)를 구체적으로 뽑아낸다. Needham–Schroeder 공개키 프로토콜의 재전송 공격(Lowe, 1995)은 이 틀 위에서 발견된 대표 사례다.</li>
+                <li><strong>상징적 모델의 '계산적 건전성'이라는 후속 학문을 낳았다:</strong> 대수적 상징 모델은 실제 비트 수준 암호보다 단순하다. 그래서 "상징적 안전 ⇒ 계산적 안전"을 증명하는 <em>computational soundness</em> 연구가 이어졌다 — Abadi–Rogaway(2000)를 시작으로 Micciancio–Warinschi, Backes–Pfitzmann–Waidner 등이 그 계보다.</li>
+                <li><strong>한계도 잘 알려져 있다:</strong> 패딩 오라클(Bleichenbacher)·타이밍·전력 분석처럼 <em>암호 구현의 비트 수준 결함</em>에 의존하는 공격은 Dolev–Yao 대수로 표현되지 않는다. 재밌는 대조다 — 2026-09-11에 다룬 Rowhammer, 2026-08-31의 Kocher 타이밍 공격은 정확히 이 모델의 사각지대에서 나온 공격들이다.</li>
+                <li><strong>교육적 가치:</strong> "이름을 암호문 안에 넣어라", "상대와 세션을 묶어라(채널 바인딩)" 같은 오늘날의 프로토콜 설계 원칙은 대부분 이 논문의 형식화와 그 반례들에서 나왔다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>정식판 (IEEE ToIT 1983, DOI): <a href="https://doi.org/10.1109/TIT.1983.1056650" target="_blank" rel="noopener">doi.org/10.1109/TIT.1983.1056650</a></li>
+                <li>저자 제공 PDF 전문 (Danny Dolev, 히브리대학교): <a href="http://www.cs.huji.ac.il/~dolev/pubs/dolev-yao-ieee-01056650.pdf" target="_blank" rel="noopener">cs.huji.ac.il/~dolev/pubs/dolev-yao-ieee-01056650.pdf</a></li>
+                <li>FOCS 1981 예비판 (DOI): <a href="https://doi.org/10.1109/SFCS.1981.32" target="_blank" rel="noopener">doi.org/10.1109/SFCS.1981.32</a></li>
+                <li>함께 읽기 — Dolev–Yao 모델 개요: <a href="https://en.wikipedia.org/wiki/Dolev%E2%80%93Yao_model" target="_blank" rel="noopener">Wikipedia: Dolev–Yao model</a></li>
+                <li>함께 읽기 — 이전 게시물: 2026-09-11 Rowhammer (DRAM 교란) · 2026-08-31 Kocher Timing Attacks (사이드채널의 시작) · 2026-09-14 Security Problems in the TCP/IP Protocol Suite (Bellovin, 1989)</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
