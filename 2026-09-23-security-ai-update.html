@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security & AI Update - 2026-09-23</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        code { background: #0b1220; padding: 1px 5px; border-radius: 4px; color: #7dd3fc; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-09-23 | <i class="fa-solid fa-tags"></i> Daily News, Active Exploitation, Cloud Security, Supply Chain, Vulnerability, AI Security, Patch
+        </div>
+        <div class="content">
+
+            <h2>1. VeloCloud Orchestrator 무인증 취약점 CVSS 10.0 — 즉시 익스플로잇 중 (CVE-2026-93952)</h2>
+            <p>아리스타(Arista)가 9월 22일, 온프레미스 <strong>VeloCloud Orchestrator(VCO)</strong>의 신규 결함이 실제 공격에 악용되고 있다고 공지했다. VCO는 SD-WAN Edge 장비를 중앙에서 관리하는 서버로, 침해되면 관리 대상 Edge와 그 뒤의 기업 네트워크까지 통째로 노출된다.</p>
+            <ul>
+                <li><strong>등급·조건:</strong> Arista 자체 산정 <strong>CVSS 3.1 = 10.0</strong>. 로그인 없이 원격에서 내부 기능에 접근해 VCO 호스트에 영향을 줄 수 있다. 단, <strong>Edge를 인증서로 인증하도록 구성한 오케스트레이터</strong>만 노출된다.</li>
+                <li><strong>수정 버전:</strong> 9월 22일 기준 5.2 트레인(<code>5.2.3.16</code> 이상)과 6.4 트레인(<code>6.4.2.8</code> 이상)에 수정본이 나왔으나, <strong>6.1·7.0 트레인은 수정본이 아직 없다</strong>. 5.2.3.15 이하·6.4.2.7 이하·6.1.3.7 이하·7.0.0.2 이하가 영향 범위이며, 호스티드/데디케이티드 버전은 이미 패치됨.</li>
+                <li><strong>침해 지표(IoC):</strong> 파일 <code>/usr/local/sbin/.vcnode.js</code>, <code>/usr/local/sbin/vc-sysmond</code>(MD5 <code>dc78e206eaeadec59fc5801fe4556bd0</code>), 유닛 <code>/etc/systemd/system/vc-sysmon.service</code>, nginx 로그의 <code>x-vc-opt</code> 헤더, IP <code>142.93.149[.]77</code>·<code>104.248.126[.]159</code>.</li>
+                <li><strong>대응:</strong> 업그레이드 전까지 VCO 웹 UI를 신뢰된 관리망으로 제한하고, 위 지표가 보이면 상태를 보존한 채 Arista TAC에 연락. 침해 의심 시 웹·백엔드·시스템·DB 로그와 파일시스템 타임스탬프를 보존한 뒤 <strong>자격증명 로테이션 → 관리자 활동 검토 → Edge 상태 점검 → 신뢰 소스에서 재배포</strong> 순으로 대응한다.</li>
+                <li><strong>시사점:</strong> 7월에도 다른 VCO 결함(<code>CVE-2026-16812</code>)이 익스플로잇됐다. SD-WAN 관리 평면은 <strong>한 번 뚫리면 수백 지점이 동시에 넘어가는 단일 실패점</strong>이라, 인터넷 노출 관리 인터페이스를 전제로 한 패치 우선순위가 필요하다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/new-cvss-100-velocloud-orchestrator.html" target="_blank">The Hacker News - New CVSS 10.0 VeloCloud Orchestrator Flaw Actively Exploited in Certificate-Based Setups</a></p>
+
+            <h2>2. Zyxel 스위치 996대가 이미 침해됐다 — KEV 마감 9/24, Veeam은 SYSTEM 권한 탈취</h2>
+            <p>CISA가 9월 21일 Zyxel GS1900 시리즈의 <strong>CVE-2026-7273</strong>(CVSS 8.8)을 KEV에 추가했다. 이어 GreyNoise는 <strong>중국어권 공격자가 8월 17일부터 996대의 Zyxel 스위치</strong>를 실제로 침해해 데이터를 유출했다고 밝혔다. 같은 날 Arctic Wolf는 Veeam 제품의 로컬 권한 상승 결함도 실제 악용 중이라고 경고했다.</p>
+            <ul>
+                <li><strong>Zyxel CVE-2026-7273:</strong> CGI 프로그램의 스택 기반 버퍼 오버플로로, <strong>LAN 기반 무인증 공격자</strong>가 OS 명령을 실행할 수 있다. 피해 규모는 <strong>48개국 996대</strong>(이탈리아·미국·대만·프랑스·<strong>한국 포함</strong>)이며, 공격자는 TFTP를 악용해 커스텀 수집 스크립트를 내려받아 실행한 뒤 <strong>설정 파일·해시된 root 자격증명·네트워크 정보</strong>를 빼갔다. 익스플로잇은 상용 난독화기로 무겁게 난독화된 파이썬 스크립트였다.</li>
+                <li><strong>수정 펌웨어:</strong> <code>2.90(ABTQ.2)C0</code> 이상(모델별 상이, GS1900-48HPv2 등은 2.90(ABTQ.1)C0 이하가 영향). 연방 민간 집행부(FCEB) 기관의 <strong>패치 마감일은 2026년 9월 24일</strong>.</li>
+                <li><strong>Veeam Agent for Windows CVE-2026-32996</strong>(CVSS 7.3): Endpoint Backup 서비스가 로컬 gRPC 명명 파이프(<code>\\.\pipe\Veeam\VAW\ServiceConnectionPipe</code>)에서 <strong>요청자에 바인딩되지 않은 클라이언트 제어 세션 UID</strong>를 신뢰하는 문제다. 상승된 세션 UID가 표준 사용자도 읽을 수 있는 <code>C:\ProgramData\Veeam\Endpoint\Svc.VeeamEndpointBackup.log</code>에 기록되기 때문에, 로컬 공격자가 유효 UID를 주워 <strong>SYSTEM 권한으로 명령을 실행</strong>할 수 있다(공개 GitHub PoC는 <code>whoami</code> 실행으로 시연).</li>
+                <li><strong>대응:</strong> Zyxel은 펌웨어 즉시 적용 + 스위치 관리 인터페이스의 노출 차단·root 자격증명 회전. Veeam은 수정 버전 적용과 함께 엔드포인트의 로컬 관리자 권한을 가진 계정을 재점검한다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/zyxel-and-veeam-flaws-under-active.html" target="_blank">The Hacker News - Zyxel and Veeam Flaws Under Active Exploitation With Command and SYSTEM Access</a></p>
+
+            <h2>3. npm 'indexed-btree' — 설치 훅 대신 런타임 코드에 로더를 숨긴 공급망 공격</h2>
+            <p>Checkmarx가 정상 패키지 <code>sorted-btree</code>를 사칭한 악성 npm 패키지 <strong>indexed-btree</strong>를 분석했다. 주목할 점은 공격 방식의 전환이다. 최근 npm 생태계의 설치 훅(<code>postinstall</code>) 통제가 강화되자, 공격자들은 <strong>설치 스크립트를 버리고 라이브러리 런타임 코드에 직접 악성 로직을 삽입</strong>하는 쪽으로 이동했다.</p>
+            <ul>
+                <li><strong>감염 경로:</strong> 로더가 <code>BTree.prototype.set()</code> 메서드 안에 숨어 있다가 <code>sharedLoad.min.js</code>를 호출한다. 해당 JS 페이로드에 난독화된 1단계 악성코드가 들어 있다.</li>
+                <li><strong>회피·C2 기법:</strong> 호스트를 핑거프린팅한 뒤 <strong>하드코딩된 Slack 채널과 Telegram 봇</strong>으로 정보를 비콘한다. 2단계는 <strong>EtherHiding</strong> 기법으로 Sepolia 테스트넷에 배포된 스마트 컨트랙트에서 암호화된 블롭을 가져와 병합해 구성한다.</li>
+                <li><strong>흔적 삭제:</strong> 최종 단계에서 악성 아티팩트를 지우고 패키지 코드에서 트리거를 제거해 사후 분석을 어렵게 만든다. Checkmarx는 동일 캠페인에 다수의 npm 패키지가 연루돼 있었고 모두 npm에서 제거됐다고 밝혔다.</li>
+                <li><strong>시사점:</strong> 설치 훅·라이프사이클 스크립트 중심의 공급망 탐지는 이미 우회되고 있다. <strong>런타임 코드 무결성(빌드 시점 대비 배포본 diff, 의존성 행위 모니터링)</strong>까지 탐지 범위를 넓혀야 한다. 최근 연속된 npm 사고(TanStack, WeaselBiscuit 등)와 같은 흐름이다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/malicious-npm-package-indexed-btree-hid.html" target="_blank">The Hacker News - Malicious npm Package indexed-btree Hid Its Loader in Runtime Code Before Removal</a></p>
+
+            <h2>4. SideCopy, 인도 정부·국방에서 학계로 표적 확대 — mshta 기반 ReverseRAT</h2>
+            <p>파키스탄 연계 APT <strong>SideCopy(TAG-140)</strong>가 인도 학술 기관을 겨냥한 스피어피싱 캠페인으로 표적 범위를 넓혔다고 Trellix가 보고했다. 최소 2019년부터 활동해 온 조직으로 Transparent Tribe와 겹치는 것으로 평가된다.</p>
+            <ul>
+                <li><strong>초기 침투:</strong> 무기화된 ZIP → 확장자를 <code>.docx</code>로 위장하고 PDF 아이콘을 씌운 LNK 파일(<code>commskll.docx.lnk</code>). LNK는 <code>docsportal[.]in</code>에서 난독화된 HTA를 받아 <strong><code>mshta.exe</code></strong>로 실행하고, 이어서 DLL을 반사적(reflective) 로드한다.</li>
+                <li><strong>2단계 구성:</strong> DLL은 <code>appT.bat</code>(Windows 레지스트리 Run 키로 사용자 상호작용 없이 <code>startT.hta</code>를 실행)·<code>startT.hta</code>·최종 <strong>ReverseRAT</strong> 3개 컴포넌트의 드로퍼 역할을 한다. 초기 단계 파일은 스스로 삭제하는 안티포렌식 루틴이 들어 있다.</li>
+                <li><strong>탐지 포인트:</strong> <code>mshta.exe</code>가 외부 도메인에서 HTA를 받아 실행하는 행위, 문서 확장자를 가장한 LNK, ZIP 내부의 스크립트 체인. 정부·국방 중심이던 캠페인이 학계로 번진 만큼 <strong>대학 연구망·교수진 메일함도 동일 룰로 보호</strong>해야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/sidecopy-broadens-india-targeting-to.html" target="_blank">The Hacker News - SideCopy Broadens India Targeting to Academia With ReverseRAT Spear-Phishing</a></p>
+
+            <h2>5. [취약점] Linux ARM64 KVM 게스트가 호스트 메모리를 읽고 쓴다 — CVE-2026-89775</h2>
+            <p>ARM64 프로세서용 Linux 커널 KVM 가상화 코드에서 게스트 VM이 호스트 커널 메모리에 접근할 수 있는 결함이 공개됐다. 중첩 가상화(nested virtualization)가 켜진 호스트에서 <strong>해제된 호스트 메모리 조각이 게스트에 노출</strong>되며, 게스트 탈출 후 호스트에서 코드를 실행하는 데까지 쓸 수 있다고 발견자가 밝혔다.</p>
+            <ul>
+                <li><strong>수정 버전:</strong> 업스트림 메인라인은 <code>6.18.51</code>, <code>7.2.5</code>, <code>7.3-rc1</code>에서 수정됐다. 배포판별 상태는 분기된다.</li>
+                <li><strong>배포판별 상태(9/22 기준):</strong> Red Hat Enterprise Linux <strong>10 커널 취약</strong>(6~9는 미영향), Ubuntu <strong>26.04 및 그 AWS·Azure·GCP 커널 취약</strong>(24.04 LTS 일반 커널은 미영향이지만 HWE 커널 6.17·7.0은 취약), Amazon Linux AL2023의 <code>kernel6.18</code> 패키지는 <strong>수정 대기 중</strong>, Debian bookworm·trixie는 코드 미존재로 미영향(sid는 7.2에서 수정).</li>
+                <li><strong>공격 경로 제약:</strong> ARM64에서 중첩 가상화는 기본값이 꺼져 있고, Armv8.4 하드웨어의 <code>FEAT_NV2</code> 기능이 필요하다. 즉 일반 ARM64 KVM 호스트는 이 경로에 노출되지 않는다 — 다만 표준 클라우드 ARM 인스턴스 전반이 안전하다는 의미는 아니다.</li>
+                <li><strong>맥락:</strong> 발견자가 올해 공개한 <strong>네 번째 KVM 게스트→호스트 탈출</strong>이다. x86 쪽은 7월 Januscape, 8월 Zapscape, ARM64는 6월 ITScape. 가상화 격리를 전제로 한 멀티테넌시 설계는 다시 검증이 필요하다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/new-linux-kernel-flaw-gives-arm64-kvm.html" target="_blank">The Hacker News - New Linux Kernel Flaw Gives ARM64 KVM Guests Read-Write Access to Host Memory</a></p>
+
+            <h2>6. [취약점] SharePoint CVE-2026-65660 — '스푸핑 6.5'로 분류됐지만 실제는 인증된 RCE</h2>
+            <p>마이크로소프트가 악용 가능성 낮음·무결성 영향 없음으로 분류한 SharePoint 결함이 실제로는 <strong>인증된 원격 코드 실행</strong>이었다는 전체 기술 상세가 베트텔 사이버 시큐리티의 Dinh Ho Anh Khoa 연구원에 의해 공개됐다. 트리아지 단계에서 '중간 등급 스푸핑'으로 넘어간 사이트는 재평가가 필요하다.</p>
+            <ul>
+                <li><strong>등급 불일치:</strong> CISA NVD는 CVSS <strong>8.8</strong>로 점수화했고, 마이크로소프트 권고는 스푸핑으로 표기하지만 같은 회사가 별도로 게시한 CVE 레코드(9/11 갱신)는 제목부터 <strong>원격 코드 실행</strong>이다. 두 레코드 모두 약점 유형은 <strong>CWE-94(코드 인젝션)</strong>로 적혀 있다.</li>
+                <li><strong>취약점 원리:</strong> SharePoint가 서버측 컨트롤을 <code>SafeControls</code> 목록으로 검사하는 방식의 빈틈을 찌른다. <code>ToolPane</code>이 웹파트 마크업을 처리할 때 Register 지시문을 재구성하면서 <strong>따옴표 안의 따옴표를 이스케이프하지 않아</strong>, 공격자가 지시문을 추가 주입해 <strong>타입 검사가 끝난 뒤 컨트롤 로드 전에 임의의 .NET 클래스를 등록</strong>할 수 있다.</li>
+                <li><strong>영향·패치:</strong> SharePoint Server 2016·2019·Subscription Edition이 영향받으며(<strong>2013도 영향, 단 2023년 4월 지원 종료</strong>), <strong>8월 11일 보안 업데이트</strong>에 수정본이 포함돼 취약 기능이 기본 비활성화된다. 사전 인증 경로는 6월 9일 패치로 이미 차단됐다.</li>
+                <li><strong>현재 상태:</strong> 야생 익스플로잇 보고 없음, KEV 미등록. 다만 <strong>전체 익스플로잇 마크업이 공개</strong>된 상태이므로 노출된 SharePoint 중 미패치 서버는 즉시 8월 누적 업데이트를 적용해야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/sharepoint-flaw-initially-listed-as.html" target="_blank">The Hacker News - SharePoint Flaw Initially Listed as Spoofing by Microsoft Enables Authenticated RCE</a></p>
+
+            <h2>7. [패치] WordPress Comment2Shell 상세 공개 — 7.1.1/7.0.5/6.9.8, KEV 마감은 9/24·9/25</h2>
+            <p>익명 방문자가 남긴 댓글로 서버 코드 실행까지 이어지는 WordPress 코어 결함 <strong>Comment2Shell(CVE-2026-93485)</strong>의 전체 공격 체인이 9월 21일 공개됐다. WordPress는 9월 17일 <strong>7.1.1</strong>에서 이 결함을 수정하며 즉시 업데이트를 권고했다.</p>
+            <ul>
+                <li><strong>Comment2Shell 동작:</strong> WordPress는 댓글을 <strong>저장할 때</strong> 위험한 HTML을 검사하고, <strong>렌더링할 때</strong> 다시 포맷한다. 결함은 그 두 단계 사이의 간극에 있었다. 허용된 속성 안에 <strong>줄바꿈을 삽입</strong>하는 트릭으로 익명 댓글에 스크립트를 심고, 로그인한 관리자가 그 페이지를 열면 서버에서 코드가 실행된다. Patchstack 산정 CVSS <strong>7.1</strong>, 야생 익스플로잇 및 KEV 등록은 없음.</li>
+                <li><strong>영향·수정:</strong> 영향 범위는 4.7~7.1. 지점별 수정본은 <strong>7.1 → 7.1.1</strong>, <strong>7.0 → 7.0.5</strong>, <strong>6.9 → 6.9.8</strong>이며 4.7까지 소급한 수정본(최대 4.7.36)이 제공된다. 7.1.1은 총 11건의 보안 문제를 함께 수정했고, 그중 무계정 공격자가 접근 가능한 것은 이 댓글 결함뿐이었다.</li>
+                <li><strong>임시 완화:</strong> 즉시 업데이트가 어렵다면 게시물 또는 사이트 전체의 <strong>댓글을 닫고</strong>, WAF나 보안 플러그인으로 조작된 댓글을 차단한다. 별도 워크어라운드는 공개되지 않았다 — 코어 업데이트가 정답이다.</li>
+                <li><strong>같은 날 NVD 고위험:</strong> Web to Print Online Designer WordPress 플러그인 <strong>CVE-2026-82187(9.8)</strong>은 파일 타입·확장자를 검증하지 않고 업로드 보호 토큰을 요청하는 누구에게나 발급해 <strong>무인증 임의 파일 업로드(PHP) → 코드 실행</strong>으로 이어진다(2.15.0 미만). 함께 OrdaSoft Joomla Gallery 클러스터(9.4·9.3)와 NivoCart 예측 가능한 비밀번호 재설정 토큰(9.2)이 올라왔다. 9월 20~23일 NVD 신규는 <strong>495건</strong>이며 그 상단은 이렇게 무인증 파일 업로드·코드 인젝션에 몰려 있다.</li>
+                <li><strong>KEV 마감 일정:</strong> <strong>9월 24일 — Zyxel GS1900(CVE-2026-7273)</strong>, 9월 25일 — JFrog Artifactory(CVE-2026-42016·42018). 지난주 9월 21일 마감이었던 Linux 커널 3건은 기한이 지났으므로 사후 점검이 필요하다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/wordpress-comment2shell-flaw-can-turn.html" target="_blank">The Hacker News - WordPress Comment2Shell Flaw Can Turn Anonymous Comment XSS Into RCE via Admin Session</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-82187" target="_blank">NVD - CVE-2026-82187</a></p>
+
+            <h2>8. [트렌드] AI 어시스턴트는 최적의 백도어다 — Meta Muse 0-day PoC</h2>
+            <p>보안 연구자 패트릭 워들(Patrick Wardle)이 9월 21일 공개한 PoC는 '권한이 많은 AI 어시스턴트'가 어떻게 공격자의 백도어로 바뀌는지 보여준다. Mac에 이미 실행 중인 악성코드는 <strong>문서화되지 않은 환경설정 한 줄만 바꿔서</strong> 사용자의 받아쓰기(dictation) 입력을 메타가 아니라 공격자에게 흘려보낼 수 있었다.</p>
+            <ul>
+                <li><strong>트릭:</strong> Mac 버전 Muse의 환경설정에 있는 <strong><code>endo_voyager_dictation_endpoint</code></strong> 값이 받아쓰기 전송 대상을 결정한다. <strong>로그인한 사용자 권한으로 실행되는 아무 프로그램이나 추가 권한 없이</strong> 이 값을 공격자 주소로 바꿀 수 있고, 이후 사용자가 마이크를 눌러 프롬프트를 말하면 <strong>오디오와 텍스트가 공격자에게 전달</strong>된다.</li>
+                <li><strong>공격자가 얻는 것 3가지:</strong> ① 받아쓰기 내용 열람 ② Muse가 신뢰하고 수행하는 <strong>추가 지시문 주입</strong> ③ Muse 계정 로그인 토큰 탈취. 토큰으로 계정 채팅 기록을 읽고 어시스턴트를 직접 조종할 수 있으며, 계정이 여러 기기에 로그인돼 있으면 <strong>Mac뿐 아니라 iPhone의 Muse까지 명령</strong>을 내릴 수 있다(워들은 자기 iPhone에 정확한 위치 보고, 주변 블루투스 스캔, 스마트홈 명령 목록 나열을 시켰다).</li>
+                <li><strong>왜 위험한가:</strong> macOS는 앱 간 파일·마이크·카메라·저장된 로그인 정보 접근을 막지만, Muse가 <strong>파일·메일·메시지·캘린더·쇼핑·스마트홈 전반에 걸쳐 접근 권한을 부여받기 때문에</strong> 그 통로를 조용히 조종하면 모든 권한을 그대로 넘겨받는다. 보안 소프트웨어도 명령이 서명된 정상 앱(Muse)에서 오는 것으로 보아 눈치채기 어렵다. 워들은 Muse 설치를 권하지 않으며 "최고의 백도어로 만드는 건 사소한 일"이라고 표현했다.</li>
+                <li><strong>완화:</strong> 메타가 수정을 확인할 때까지 Muse 종료·삭제, Muse가 보유한 앱·권한 최소화, 침해 의심 시 Muse 계정과 연결 계정의 비밀번호 변경, <strong>Muse 음성 입력 회피</strong>(정확히 이 경로를 닫는다). 단독으로 Mac을 뚫지는 못하며 원격 공격자는 ClickFix(터미널 명령 붙여넣기 유도)로 결합한다 — 붙여넣기 요구는 계속 거부해야 한다.</li>
+                <li><strong>시사점:</strong> 에이전트형 AI가 넓은 권한을 받는 구조 자체가 새 공격면이다. <strong>NPC식 '정상 앱'으로 위장한 데이터 유출 경로</strong>는 기존 EDR·프록시 룰로는 잡히지 않는다. 어시스턴트별 아웃바운드 목적지 허용목록과 음성·자동화 경로의 명시적 통제가 필요하다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/one-hidden-meta-muse-setting-could-let.html" target="_blank">The Hacker News - One Hidden Meta Muse Setting Could Let Attackers Turn the AI Assistant Into a Backdoor</a></p>
+
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
