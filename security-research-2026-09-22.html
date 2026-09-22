@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🪙 [최신] The Anatomy of Address Poisoning on Ethereum — 주소 독살 피싱의 '자금·서명·세탁' 해부: 피해 4,209건 $166M, 세탁액의 67.7%가 Tornado Cash로 (arXiv 2609.23405, 2026)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🪙 [최신] The Anatomy of Address Poisoning on Ethereum — 주소 독살 피싱의 '자금·서명·세탁' 해부: 피해 4,209건 $166M, 세탁액의 67.7%가 Tornado Cash로 (arXiv 2609.23405, 2026)</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-09-22 · 카테고리: Research (최신 보안 논문 · 블록체인 범죄 측정 / 주소 독살 피싱 · 자금세탁 추적 · 2026)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> The Anatomy of Address Poisoning on Ethereum: Funding Mechanisms, Scam Signatures, and Laundering via Tornado Cash<br>
+                <strong>저자:</strong> <strong>Son Hoang Dau</strong>, Thanh Nguyen, Phuong Duy Huynh, Hong Yen Tran(CSIRO), Nicholas Huppert, Jeff Nijsse, Huong Ha, Xun Yi — 대부분 <strong>RMIT University</strong> 소속<br>
+                <strong>출처:</strong> arXiv:2609.23405v1 [cs.CR] — <strong>2026년 9월 20일</strong> 투고<br>
+                <strong>라이선스:</strong> CC BY 4.0 (논문이 데이터 아티팩트 공개 절차도 함께 명시 — §A Open Science)<br>
+                <strong>인용:</strong> 미확인 (게재 2일 차 신규 프리프린트 — Semantic Scholar 429 / OpenAlex 색인 전. 대신 논문 자체의 데이터 규모로 영향력을 가늠할 수 있다: APT 표본 <strong>5,600만 건 이상</strong>)<br>
+                <strong>분야:</strong> 블록체인 범죄 측정 · 피싱 자금 흐름 추적 · 주소 클러스터링 · 믹서(Tornado Cash) 분석 · 자금세탁 네트워크
+            </div>
+
+            <h2><i class="fa-solid fa-crosshairs"></i> 공격 원리 — '내가 보내려던 주소'인 척하는 가짜 주소</h2>
+            <p>주소 독살 전송(Address-Poisoning Transfer, 이하 <strong>APT</strong>)은 블록체인에서 가장 단순하면서도 가장 효과적인 피싱이다. 공격자는 피해자가 <em>과거에 거래한 적 있는 진짜 주소</em>와 <strong>앞 4자리·뒤 5~6자리가 똑같은</strong> 주소를 만들어, 그 가짜 주소에서 피해자에게 <strong>0 ETH 또는 극소량의 토큰을 전송</strong>한다.</p>
+            <blockquote>
+                "지갑의 거래 내역(address book)에는 이제 가짜 주소가 남는다. 피해자는 나중에 '최근 거래 상대' 목록에서 익숙한 앞뒤 문자를 보고 그 가짜 주소로 송금한다."
+            </blockquote>
+            <p>사람은 42자리 16진수 주소 전체를 검증하지 않는다. 앞뒤 몇 글자만 보고 판단한다 — 그 인지적 습관이 그대로 공격면이 된다. 논문이 든 대표 사례는 <strong>2024년 5월</strong>의 대형 사고로, 한 고래가 <strong>1,155 WBTC(약 7,000만 달러)</strong>를 앞 4자리·뒤 5자리가 동일한 피싱 주소로 오송금했다. 또 다른 사고에서는 <strong>2,000 ETH(약 440만 달러)</strong>가 유사 주소로 빠져나갔다.</p>
+
+            <h2><i class="fa-solid fa-magnifying-glass-chart"></i> 먼저 데이터부터 — 2022년 11월~2025년 5월, 5,600만 건 규모 코퍼스</h2>
+            <p>이 논문의 가장 큰 무기는 표본의 크기다. 저자들은 2022년 11월부터 2025년 5월까지의 이더리움 데이터를 수집해 APT를 <strong>11개 하위 유형</strong>으로 분류했다.</p>
+            <ul>
+                <li><strong>코인 APT:</strong> 3,855,694건 (ETH 전송 기반, 사실상 '0 ETH' 형태)</li>
+                <li><strong>정품 토큰 APT:</strong> 14,799,949건 (CoinGecko 상위 100개 ERC-20 실제 토큰 사용)</li>
+                <li><strong>가짜 토큰 APT:</strong> 37,708,070건 — 상위 100개 토큰을 흉내 낸 <strong>55,064개의 위조 토큰</strong>을 발행해 이용. 이게 압도적 다수다.</li>
+                <li><strong>피해 데이터셋:</strong> 실제 피해 이체 <strong>4,209건</strong>, 총액 <strong>약 $166.31M(1억 6,631만 달러)</strong></li>
+            </ul>
+            <p>유형별 행태도 정량화되어 있다. 가짜 토큰 APT의 <strong>99.7%는 '역방향(backward)'</strong>이고 사실상 전부 '수동적(passive)'이다. 반면 코인 APT는 81.9%가 0값, 80.3%가 역방향, 83.5%가 수동적이다. 즉 <em>공격은 '가짜 토큰을 뿌려 지갑 기록을 오염시키는' 쪽으로 진화했고</em>, 공격자 입장에서는 이게 가장 값싼 방법이라는 뜻이다.</p>
+
+            <h2><i class="fa-solid fa-sitemap"></i> 조직 구조 — '마스터'와 '배급자'로 이뤄진 공급망</h2>
+            <p>논문은 0 ETH 전송을 뿌리는 주소 뒤에 <strong>돈을 대주는 계층</strong>이 있음을 밝히고, 이를 세 종류의 <strong>마스터(master)</strong>로 정의한다.</p>
+            <ul>
+                <li><strong>코인 펀더(coin funder):</strong> 피싱 주소에 ETH(가스비·소액)를 대준다.</li>
+                <li><strong>토큰 펀더(token funder):</strong> 위조·정품 토큰을 대준다.</li>
+                <li><strong>코디네이터(coordinator):</strong> 컨트랙트를 통해 APT를 <em>한꺼번에</em> 집행한다(단일 컨트랙트 호출로 여러 피싱 주소에 동시 전송).</li>
+            </ul>
+            <p>그 위에 <strong>배급자(distributor)</strong> 계층이 있다. 0x38401e2a…는 <strong>65개 마스터</strong>에게, 0x0c7c3643…는 <strong>1inch를 반복 사용해 55개 마스터</strong>에게 자금을 공급했다. 전체적으로 7,508개 마스터 주소를 지원하는 배급자 네트워크가 확인됐고, <strong>마스터이면서 동시에 배급자인 주소가 4,428개</strong> — 즉 단일 공격자가 아니라 <em>역할이 분리·중첩된 산업형 조직</em>이다.</p>
+            <ul>
+                <li><strong>마스터 3,535개 주소가 코인 APT 3,806,347건에 자금을 댔다</strong> — 소수 주소가 대부분의 물량을 지배한다.</li>
+                <li><strong>세탁 펀더 944개</strong>가 피해금 $1,000 이상을 받은 <strong>성공한 피싱 주소 1,525개</strong>에 자금을 공급했다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-fingerprint"></i> 다섯 가지 '사기 서명(scam signatures)' — 행동이 곧 지문</h2>
+            <p>논문의 방법론적 핵심은 <em>자산 전송 그래프에 의존하던 기존 주소 클러스터링을 보완하는</em> <strong>운영 서명(operational signature)</strong> 다섯 갈래다. 공격자는 같은 툴킷을 반복 사용하기 때문에, 행동 패턴 자체가 식별자 역할을 한다.</p>
+            <ul>
+                <li><strong>① 가스 서명:</strong> 동일 마스터가 집행한 트랜잭션은 Max Priority Fee 설정이 일관된다(예: 3 Gwei 반복, 컨트랙트 생성은 6 Gwei).</li>
+                <li><strong>② 컨트랙트 서명:</strong> 컨트랙트 생성·호출 방식의 반복 패턴.</li>
+                <li><strong>③ 공공 서비스 서명:</strong> 어떤 거래소·스왑 서비스를 자금 조달 경로로 쓰는지.</li>
+                <li><strong>④ 값 패턴 서명(APT-value-pattern):</strong> APT 금액이 <code>[10⁻⁶, 10⁻⁵)</code> 구간에 일관되게 몰린다.</li>
+                <li><strong>⑤ 자금 잔여 서명(funding-residual):</strong> 마스터가 <em>정확히 필요한 만큼만</em> 보내 남는 잔여값(residual)이 0에 수렴하는 특성.</li>
+            </ul>
+            <p>서명의 실효성은 <strong>일관성 점수(consistency score)</strong> 로 검증됐다. 코인 APT 3,806,347건에 자금을 댄 마스터 3,535개의 ⑤번 서명을 측정한 결과, <strong>34.3%가 완벽한 일관성(1.0)</strong>, IS|SH 기준 <strong>91.3%|81.8%가 0.8 이상</strong>, 평균은 <strong>0.9|0.87</strong>이었다. 예컨대 0xdbdcef43…는 <strong>31,741건</strong>에 자금을 대면서 99%가 잔여값 0 ETH로 균일했다.</p>
+
+            <h2><i class="fa-solid fa-shower"></i> Tornado Cash — '자금 조달'과 '세탁'의 이중 통로</h2>
+            <p>논문은 APT 조직이 믹서를 <strong>양방향으로</strong> 쓴다는 점을 처음으로 체계적으로 보인다. 15홉(hops) 깊이의 자금세탁 추적 알고리즘 <strong>DLF(DynamicLaunderingFlow)</strong> 를 돌려 피해금이 최종적으로 흘러 들어간 공공 서비스를 계산했다.</p>
+            <table>
+                <tr><th>서비스</th><th>금액($M)</th><th>비중(%)</th></tr>
+                <tr><td><strong>Tornado Cash</strong></td><td><strong>38.09</strong></td><td><strong>67.735</strong></td></tr>
+                <tr><td>Avalanche</td><td>4.83</td><td>8.595</td></tr>
+                <tr><td>SWFT Swap</td><td>3.39</td><td>6.026</td></tr>
+                <tr><td>FixedFloat</td><td>3.38</td><td>6.016</td></tr>
+                <tr><td>eXch</td><td>2.33</td><td>4.139</td></tr>
+                <tr><td>기타</td><td>4.21</td><td>7.488</td></tr>
+                <tr><td><strong>합계</strong></td><td><strong>56.23</strong></td><td>100.00</td></tr>
+            </table>
+            <p>즉 <strong>추적된 APT 세탁액 $56.23M 중 $38.09M(67.7%)가 Tornado Cash로 들어갔다.</strong> ETH 풀 중 <strong>TC-100(100 ETH 풀)이 관측된 TC 유입의 약 91.62%</strong>를 흡수했고, TC 전체 트랜잭션의 약 98%가 ETH 풀에서 발생했다(11/2022~05/2025 기간 TC 풀 예치 36,435건·인출 35,076건).</p>
+            <ul>
+                <li><strong>오염된(tainted) 예치자 85개</strong>가 확인됐다 — 그중 7개는 피싱 주소, 4개는 마스터, 9개는 배급자, 14개는 배급자 펀더, 4개는 세탁 펀더 역할을 겸했다.</li>
+                <li><strong>오염된 인출자 138개</strong> — 피싱 3, 마스터 16, 배급자 32, 배급자 펀더 87, 세탁 펀더 27. 이 그룹은 <strong>476건으로 20,030.3 ETH를 예치</strong>하고 <strong>233건으로 1,967.3 ETH를 인출</strong>했다.</li>
+                <li><strong>역방향 추적의 성과:</strong> 사기 서명만으로 TC 예치자·인출자를 마스터와 연결하는 휴리스틱 4종(H1~H4)을 제시 — 자산 그래프가 끊기는 믹서 구간을 <em>행동 서명으로 건너뛰는</em> 방식이다.</li>
+            </ul>
+            <p>자금 조달 쪽도 구체적이다. APT 마스터에 자금을 댄 공공 서비스 주소 <strong>88개</strong>가 확인됐고, <strong>FixedFloat 345개 마스터, ChangeNOW 132개, WhiteBIT 39개, Kraken 39개</strong> 순이었다. 저자들은 여기서 규제 공백을 짚는다 — <strong>Kraken·WhiteBIT는 신원인증(KYC)을 요구하지만, FixedFloat·ChangeNOW는 비수탁(non-custodial) 방식으로 KYC가 면제</strong>된다. 실제 관측된 최대 공급 경로가 KYC 없는 서비스에 몰려 있다는 점은 정책적으로 의미가 크다.</p>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 한계와 이중용도 위험</h2>
+            <ul>
+                <li><strong>기간 한계:</strong> 데이터는 2022년 11월~2025년 5월로 한정된다. 경계 시점 트랜잭션은 데이터 부족으로 예외 처리가 필요하다고 저자들도 인정한다.</li>
+                <li><strong>이중용도(dual-use) 위험:</strong> 사기 서명과 세탁 패턴을 공개하면 공격자가 탐지를 회피하도록 행동을 바꿀 수 있다. 논문은 이를 명시적으로 언급하고, 방어적 대응·탐지 모델 개발을 위한 <em>불가피한 공개</em>라고 정당화한다(§B 윤리 고려).</li>
+                <li><strong>실무 시사점:</strong> ① 거래소·믹서의 <em>자금 공급 경로</em>가 탐지의 새 지렛대다(자산 그래프가 아니라 운영 서명), ② 가스비 설정·잔여값 같은 '부수적' 특성이 클러스터링 단서가 되므로 지갑·체인 분석 도구는 이 축을 수집해야 한다, ③ KYC 공백 서비스가 자금 조달 1순위라는 측정 결과는 규제 논의의 근거 자료가 된다.</li>
+                <li><strong>생성형 AI 사용 공시:</strong> 저자들은 구현에 GitHub Copilot·Cursor·Codex를 코딩 보조로 사용했고 생성 코드 전량을 수동 검토·실행·검증했다고 밝혔다(§C).</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>원문 (arXiv:2609.23405, cs.CR, 2026-09-20): <a href="https://arxiv.org/abs/2609.23405" target="_blank" rel="noopener">arxiv.org/abs/2609.23405</a></li>
+                <li>PDF: <a href="https://arxiv.org/pdf/2609.23405" target="_blank" rel="noopener">arxiv.org/pdf/2609.23405</a></li>
+                <li>전문 HTML (표·부록 포함 — 본 포스트의 수치는 여기서 추출): <a href="https://arxiv.org/html/2609.23405v1" target="_blank" rel="noopener">arxiv.org/html/2609.23405v1</a></li>
+                <li>함께 읽기 — 선행 연구: Ye et al. (WWW'24) 0값 APT 탐지 · Guan &amp; Li (CCS'24) 주소 독살 스캠 · Chen et al. (NDSS'25) · Tsuchiya et al. (USENIX'25)</li>
+                <li>함께 읽기 — 이전 게시물: 2026-09-10 Are Unreachable Nodes Truly Safe? (모네로 P2P 이클립스 공격) · 2026-09-19 The More It Says, the More You Pay (LLM API 청구 토큰 부풀리기) · 2026-09-16 How to Break MD5 (무결성 검증의 뿌리)</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
