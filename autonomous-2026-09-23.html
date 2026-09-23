@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - Trajectron++ (Stanford ASL, ECCV 2020): '궤적을 동역학으로 적분하라' — 인용 1,431회, 예측과 플래닝을 잇는 다중 에이전트 궤적 예측의 사실상 표준 (⭐834 · ETH/UCY·nuScenes)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - Trajectron++ (Stanford ASL, ECCV 2020): '궤적을 동역학으로 적분하라' — 인용 1,431회, 예측과 플래닝을 잇는 다중 에이전트 궤적 예측의 사실상 표준 (⭐834 · ETH/UCY·nuScenes)</h1>
+            <p class="date">2026-09-23</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>유형:</strong> <strong>ECCV 2020</strong> 논문 + 공식 오픈소스 코드(MIT) — 예측(prediction)을 로봇 플래닝과 <em>결합 가능한 모듈</em>로 만든 대표작</li>
+                    <li><strong>논문:</strong> <em>Trajectron++: Dynamically-Feasible Trajectory Forecasting With Heterogeneous Data</em> — arXiv:<strong>2001.03093</strong> (v1 2020-01-09 → v5 2021-01-13) · ECCV 2020 학회판 DOI <code>10.1007/978-3-030-58523-5_40</code></li>
+                    <li><strong>저자(4인):</strong> Tim Salzmann<sup>＊</sup>, Boris Ivanovic<sup>＊</sup>, Punarjay Chakravarty, Marco Pavone (＊공동 제1저자) — arXiv v5 논문 1페이지 소속 표기: <strong>Stanford University Autonomous Systems Lab</strong> + <strong>Ford Greenfield Labs</strong></li>
+                    <li><strong>분야:</strong> <code>cs.RO</code>(<code>cs.LG</code>) — 논문 키워드: <em>Trajectory Forecasting · Spatiotemporal Graph Modeling · Human-Robot Interaction · Autonomous Driving</em></li>
+                    <li><strong>저장소:</strong> <code>StanfordASL/Trajectron-plus-plus</code> — ⭐<strong>834</strong> · 🍴<strong>220</strong> · <strong>MIT</strong> · Python · 생성 2020-01-08 · 마지막 푸시 <strong>2023-08-17</strong> · 약 140MB(143,468KB)</li>
+                    <li><strong>인용:</strong> <strong>Semantic Scholar 기준 1,431회</strong> (ECCV 2020 학회판 · 그중 영향력 있는 인용 <strong>194회</strong>) · arXiv 프리프린트판은 별도 집계(149회)</li>
+                    <li><strong>원문:</strong> <a href="https://arxiv.org/abs/2001.03093" target="_blank">https://arxiv.org/abs/2001.03093</a> · <strong>코드:</strong> <a href="https://github.com/StanfordASL/Trajectron-plus-plus" target="_blank">https://github.com/StanfordASL/Trajectron-plus-plus</a></li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>이 블로그는 그동안 <strong>인식</strong>(<a href="autonomous-2026-08-17.html">BEVFormer</a>·CenterPoint·VoxelNet·PointPillars), <strong>주행 정책</strong>(<a href="autonomous-2026-08-12.html">UniAD</a>·<a href="autonomous-2026-08-18.html">VAD</a>·CIL), <strong>데이터셋</strong>(<a href="autonomous-2026-08-24.html">nuScenes</a>·<a href="autonomous-2026-09-15.html">Waymo Open</a>·KITTI), <strong>시뮬레이터</strong>(<a href="autonomous-2026-09-09.html">CARLA</a>·SUMO·AirSim), <strong>언어 기반 주행</strong>(<a href="autonomous-2026-09-22.html">DriveLM</a>·<a href="autonomous-2026-09-12.html">LMDrive</a>)를 다뤘다. 그런데 <em>인식</em>과 <em>플래닝</em> 사이에는 이름 없는 한 칸이 남아 있다 — <strong>예측(prediction)</strong>, 즉 "저 차와 저 보행자는 앞으로 어디로 갈 것인가". 이 축에서 지금까지 등장한 글은 벡터 표현을 다룬 <a href="autonomous-2026-09-02.html">VectorNet(2026-09-02)</a> 하나뿐이고, <strong>Trajectron++</strong>은 그 축의 원형이다.</p>
+            <ul>
+                <li><strong>출발점은 '세 가지 결핍' 진단:</strong> 논문은 기존 예측 연구를 Table 1에서 14개 방법으로 정리하며 세 가지를 지적한다 — ① 대부분 <strong>동역학 제약을 강제하지 않고</strong>(위치를 직접 회귀), ② <strong>환경 정보(맵)를 쓰지 않으며</strong>, ③ <strong>자차(로봇)의 미래 계획에 조건화된 예측</strong>을 만들 수 없다. Trajectron++는 이 세 가지를 동시에 겨냥한다.</li>
+                <li><strong>골격 = 그래프 구조 순환모델 + CVAE:</strong> <strong>노드가 에이전트</strong>, <strong>엣지가 상호 영향</strong>이다(ℓ2 거리를 '영향을 주는가'의 근사 프록시로 사용, 엣지마다 의미 클래스별 반경). 각 노드는 ① 과거 히스토리 인코딩, ② 이웃 영향의 합산 표현(additive attention)을 결합해 하나의 노드 표현 <code>e<sub>x</sub></code>로 압축된다 — <em>에이전트 수가 변해도 구조가 고정</em>되는 것이 그래프를 쓰는 이유다.</li>
+                <li><strong>에이전트마다 다른 동역학:</strong> 보행자는 단일 적분기(single integrator) 모델, 차량은 <em>cascaded</em> 동역학(차량의 비선형 모델)으로 취급한다. 논문이 지적하는 대로 차량은 운동학적으로 크게 다르므로, 원 논문 Trajectron(ICCV 2019)이 다루던 단순 차량 모델을 확장한 것이 Trajectron++의 차별점이다.</li>
+                <li><strong>멀티모달리티를 '이산 잠재변수'로 명시:</strong> CVAE의 잠재변수 <code>z ∈ Z</code>, <strong>|<code>Z</code>| = 25</strong>개의 <em>고수준 행동 모드</em>가 미래의 갈래를 담당한다. 덕분에 출력이 하나만 있는 게 아니라 ① 결정론적 <em>Most Likely</em>, ② 가장 확률 높은 잠재 모드의 궤적, ③ 다수 샘플, ④ 전체 확률분포의 네 가지 방식으로 동시에 뽑힌다.</li>
+                <li><strong>논문 제목의 'Dynamically-Feasible'이 진짜 기여:</strong> 위치를 직접 뱉는 대신 <strong>GMM 형태의 속도·가속도 분포</strong>를 출력하고, 이를 <em>동역학 적분</em>으로 이어 붙여 궤적을 만든다. 논문 표현 그대로 <em>"its trajectory samples are dynamically feasible"</em>를 <strong>보장</strong>한다 — 즉 물리적으로 불가능한 급회전 궤적이 후보에서 원천 배제된다.</li>
+                <li><strong>이종 데이터와 '플래닝 결합':</strong> HD 시맨틱 맵(각 에이전트 기준으로 회전 정렬된 로컬 맵, nuScenes는 11개 주석 레이어)을 인코딩하고, <strong>ego의 미래 motion plan을 조건으로 넣어 예측을 만들 수 있다.</strong> "플래닝이 바뀌면 예측도 바뀐다"는 상호작용을 모델 안에 넣은 것이 로보틱스 진영에서 이 모델이 오래 쓰인 이유다.</li>
+                <li><strong>실험 ① ETH/UCY(보행자, 공식 벤치마크):</strong> 5개 장면 leave-one-out, <strong>8 timestep(3.2s) 관측 → 12 timestep(4.8s) 예측</strong>. 20개 샘플 중 최선(best-of-20) 평균 <strong>ADE/FDE = 0.19m / 0.41m</strong>로, 같은 표에서 최고 베이스라인 MATF(0.48/0.90)와 원 Trajectron(0.47/0.92)을 크게 앞섰다 — 논문 표기로 <strong>평균 오차 55~60% 감소</strong>(서론에서는 "최대 60%"라고 요약한다).</li>
+                <li><strong>실험 ② nuScenes(차량+보행자, 이종 클래스 동시 예측):</strong> 3s 지평으로만 학습했는데도 1~4s 전 구간 FDE를 보고한다. 차량 3s FDE는 <strong>1.25m</strong>(동역학 적분+맵 적용 시 <strong>1.14m</strong>)로 항속도 유지 베이스라인 1.70m, S-LSTM 1.61m, CSP 1.50m, CAR-Net 1.35m를 앞섰다(다른 방법들은 탐지·추적 오차 22~24cm를 빼서 공정 비교). 4s에서도 급격한 성능 저하가 없다는 점을 <em>'학습 설정 밖으로의 일반화'</em>로 해석한다.</li>
+                <li><strong>Ablation이 깔끔하다(원문 수치):</strong> 맵 인코딩을 넣으면 장애물 충돌 예측 빈도가 <strong>4.6% → 1.0%</strong>(장애물에 붙어 다니는 보행자만 보면 <strong>21.5% → 4.9%</strong>), ego 미래 계획을 조건으로 주면 4s FDE <strong>2.09m → 1.50m</strong>, 도로 경계 위반 <strong>7.6% → 4.2%</strong>로 줄어든다. "맵과 자차 계획이 정확도만이 아니라 <em>안전 위반률</em>을 직접 낮춘다"는 서술이 숫자로 뒷받침된다.</li>
+                <li><strong>코드 구성이 논문 재현을 염두에 둔 구조:</strong> 설정 파일 이름 자체가 ablation 축을 담고 있다 — 보행자용 <code>vel</code>·<code>attention_radius_3</code>, nuScenes용 <code>int_ee</code>(동역학 적분)·<code>int_ee_me</code>(+맵 인코딩)·<code>robot</code>(자차 미래 조건화)·<code>vel_ee</code>. 논문판 그대로 재현하려면 <code>eccv2020</code> 브랜치를 쓰라고 README가 명시하고, <code>master</code>는 이후 업데이트로 달라졌음을 경고한다.</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>인용 1,431회(Semantic Scholar) · 영향력 있는 인용 194회.</strong> 궤적 예측 분야에서 가장 많이 인용된 <em>공개 코드</em> 계보 중 하나이며, 예측 관련 논문의 비교표에 지금도 단골로 등장한다.</li>
+                <li><strong>'기본 베이스라인'이라는 실질적 지위:</strong> MIT 라이선스 + ETH/UCY 데이터 전처리와 학습된 설정이 저장소에 포함되어 있어, 새 방법을 만들면 가장 먼저 붙여 보는 상대가 된다. 예측 연구에서 "재현 비용이 낮은 강한 기준"은 그 자체가 성과다.</li>
+                <li><strong>개념을 남긴 논문:</strong> "예측은 <em>동적 실현가능</em>해야 하고, <em>자차 계획에 조건화</em>되어야 한다"는 요구를 모델 설계로 구현했다. <a href="autonomous-2026-09-18.html">RSS(2026-09-18)</a>가 <em>'누구의 잘못인가'</em>를 수식으로 정의한 안전 명세라면, Trajectron++는 그 명세가 요구하는 <em>'상대는 어디로 갈 것인가'</em>를 확률분포로 공급하는 짝이다.</li>
+                <li><strong>동시대 경쟁축과의 구분:</strong> Waymo의 <strong>MultiPath++</strong>(ICRA 2022, OpenAlex 311회 인용)나 <strong>Wayformer</strong>, HiVT(CVPR 2022, OpenAlex 453회)는 <em>Argoverse·Waymo 예측 챌린지 순위</em>를 겨냥해 발전했고, Trajectron++는 <em>로봇 플래닝·제어와의 결합</em>을 전면에 둔 노선이다. 같은 문제를 두 문화(챌린지 중심 vs 로보틱스 중심)가 다르게 푼 셈이다.</li>
+                <li><strong>후속 코드베이스로 이어짐:</strong> 저장소 README 첫 줄이 직접 안내하는 <code>NVlabs/adaptive-prediction</code>(Apache-2.0 · ⭐78 · 생성 2022-09 · 마지막 푸시 2023-09)이 개정판 코드베이스다. 논문(2020) → 개정 코드(2022) → 유지보수 종료(2023)라는, 연구 코드의 전형적 수명주기를 보여준다.</li>
+                <li><strong>한계도 분명하다(2026년 관점):</strong> ① 마지막 커밋이 2023-08로 <em>사실상 아카이브 상태</em>, ② nuScenes는 3s 지평으로만 학습, ③ 입력이 검출·추적 결과를 전제로 해서 <em>원시 센서(이미지·라이다)와 결합되지 않는다</em>. <a href="autonomous-2026-08-12.html">UniAD(2026-08-12)</a>처럼 인식·예측·플래닝을 한 신경망으로 접는 흐름에서는 이 '모듈 경계'가 오히려 병목으로 지목된다.</li>
+                <li><strong>그럼에도 남는 활용 가치:</strong> 예측을 별도 모듈로 두면 <strong>동역학 제약과 안전 명세를 명시적으로 강제</strong>할 수 있고(논문의 충돌·경계 위반 지표처럼) 검증도 쉽다. 안전 인증이 필요한 시스템에서 "설명 가능한 예측기"가 필요한 이유가 여기에 있다.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>예측은 인식과 플래닝 사이의 <strong>병목</strong>이다. 인식은 "지금 무엇이 있는가"를, 플래닝은 "어디로 갈 것인가"를 정하는데, 그 사이의 <em>"상대는 어디로 갈 것인가"</em>를 확률분포로 만들지 않으면 어떤 안전 보증도 성립하지 않는다. Trajectron++의 두 설계 선택 — <strong>동역학 적분으로 실현가능성 보장</strong>, <strong>자차 미래 계획에 조건화</strong> — 은 오늘날 예측 벤치마크가 minADE 몇 cm만이 아니라 <em>충돌률·경계 위반·실현가능성</em>을 함께 보는 이유를 설명한다. 정확도 지표만 앞세우면 물리적으로 불가능한 궤적도 1등이 될 수 있기 때문이다.</p>
+            <p>2026년의 흐름은 반대 방향처럼 보인다 — <a href="autonomous-2026-08-12.html">UniAD</a>·<a href="autonomous-2026-08-18.html">VAD</a>·TransFuser처럼 인식·예측·플래닝을 하나의 네트워크로 접고, <a href="autonomous-2026-09-12.html">LMDrive</a>·<a href="autonomous-2026-09-22.html">DriveLM</a>처럼 언어로 통합한다. 그러나 Trajectron++의 교훈은 흡수되는 방식으로 살아남는다: <strong>"예측을 잘한다"는 것은 점을 잘 찍는 일이 아니라, 그 점이 물리적으로 가능하고 자차의 결정을 반영한다는 것을 보장하는 일</strong>이다. 6년 전 논문이 예측의 <em>평가지표</em>까지 바꿔놓은 이유가 여기에 있다.</p>
+            <p>원문: <a href="https://arxiv.org/abs/2001.03093" target="_blank">https://arxiv.org/abs/2001.03093</a> · 코드: <a href="https://github.com/StanfordASL/Trajectron-plus-plus" target="_blank">https://github.com/StanfordASL/Trajectron-plus-plus</a></p>
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
