@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🥪 [최신] No Place to Hide — '보호된 주문 흐름'도 샌드위치를 막지 못했다: 3년·6개 체인 측정 2,800만 건, 순이익 $346M (arXiv 2609.28115, 2026)</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🥪 [최신] No Place to Hide — '보호된 주문 흐름'도 샌드위치를 막지 못했다: 3년·6개 체인 측정 2,800만 건, 순이익 $346M (arXiv 2609.28115, 2026)</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-09-24 · 카테고리: Research (최신 보안 논문 · 블록체인 MEV/프런트러닝 측정 · 주문 흐름 경매(OFA)·리오그 · 2026)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> No Place to Hide: An Analysis on Protected Order Flow Sandwich Attacks<br>
+                <strong>저자:</strong> <strong>Lioba Heimbach</strong>(Category Labs), Ozan Solmaz(ETH Zurich), Burak Öz(<strong>Flashbots</strong>), Christof Ferreira Torres(INESC-ID &amp; Instituto Superior Técnico, University of Lisbon)<br>
+                <strong>출처:</strong> arXiv:2609.28115v1 [cs.CR] — <strong>2026년 9월 23일</strong> 투고<br>
+                <strong>분야:</strong> 블록체인 MEV 측정 · 프런트러닝/샌드위치 공격 · 프라이빗 RPC·주문 흐름 경매(OFA) 신뢰 가정 · 리오그(reorg) 노출 · 다중 체인 데이터 분석<br>
+                <strong>인용:</strong> 미확인 (게재 2일 차 신규 프리프린트 — Semantic Scholar·OpenAlex 색인 전). 영향력은 대신 <strong>표본 규모</strong>로 가늠한다: 3년 · 6개 체인 · <strong>2,800만 건</strong> 샌드위치, 공격자 <strong>8,654개 봇</strong><br>
+                <strong>원문 공개:</strong> arXiv HTML 전문(표·부록 포함) 공개 — 본 포스트의 모든 수치는 여기서 추출
+            </div>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 한 줄 요약 — "프라이빗 RPC를 쓰면 안전하다"는 가정의 붕괴</h2>
+            <p>퍼블릭 멤풀은 이더리움에서 오랫동안 <em>다크 포레스트(dark forest)</em>라고 불렸다. 그래서 사용자들은 <strong>프라이빗 RPC·주문 흐름 경매(Order-Flow Auction, OFA)</strong> 처럼 트랜잭션을 비공개 경로로 보내는 방식을 '프런트러닝 방어'로 받아들였다. 이 논문이 던지는 질문은 단순하다.</p>
+            <blockquote>
+                "그 방어는 <em>실제로</em> 작동하는가? 그리고 그 대가로 우리는 누구를 신뢰하게 되는가?"
+            </blockquote>
+            <p>답은 냉정하다. 저자들은 <strong>프런트러닝 보호를 우회한 샌드위치 공격을 2,800만 건 이상</strong> 찾아냈고, 그 순이익만 <strong>약 $346M</strong>에 이른다. 즉 프라이빗 경로는 공격자를 <em>없애지 않고</em>, 공격면을 <strong>인프라 내부(빌더·밀봉경매 운영자·검증자·RPC)</strong> 로 옮겼다.</p>
+
+            <h2><i class="fa-solid fa-layer-group"></i> 배경 — '프런트러닝 보호'는 각각 다른 신뢰를 요구한다</h2>
+            <p>논문은 6개 체인의 보호 메커니즘을 "누가 트랜잭션을 보는가 / 누가 순서를 정하는가" 기준으로 정리한다(논문 Table 1).</p>
+            <table>
+                <tr><th>메커니즘</th><th>멤풀</th><th>체인</th><th>신뢰해야 하는 주체</th></tr>
+                <tr><td>프라이빗 RPC</td><td>비공개</td><td>Ethereum</td><td><strong>빌더(builders)</strong></td></tr>
+                <tr><td>주문 흐름 경매(OFA)</td><td>비공개</td><td>Ethereum</td><td><strong>OFA 운영자 + 서처(searchers)</strong></td></tr>
+                <tr><td>프라이빗 RPC</td><td>비공개</td><td>Arbitrum, Base</td><td><strong>시퀀서(sequencer)</strong></td></tr>
+                <tr><td>프라이빗 RPC(로컬)</td><td>비공개</td><td>Monad, Solana</td><td>검증자/리더</td></tr>
+                <tr><td>FCFS(선착순 정렬)</td><td><strong>공개</strong></td><td>Tron</td><td>순서 규칙 자체</td></tr>
+            </table>
+            <p>핵심 통찰은 "보호 = 안전"이 아니라 <strong>보호 = 신뢰 대상의 이동</strong>이라는 점이다. 이더리움의 OFA는 서처에게 트랜잭션 정보를 공개하고 손해 나는 입찰(프런트러닝·샌드위치)을 거부하는 방식으로 사용자를 지킨다. 문제는 <em>어디까지 공개되는지</em>, 그리고 <em>거부가 실제로 지켜지는지</em>다.</p>
+
+            <h2><i class="fa-solid fa-magnifying-glass-chart"></i> 방법 — '타이트하지 않은' 샌드위치까지 잡는 탐지 휴리스틱</h2>
+            <p>기존 연구는 보통 샌드위치를 <em>타이트(tight)</em> 하게 정의했다 — 프런트런·피해자·백런 트랜잭션이 바로 연달아 붙어 있는 형태. 하지만 정보가 제한된 상태에서 공격하는 프라이빗 경로 샌드위치는 그렇게 깔끔하지 않다. 그래서 이 논문은 두 축을 새로 정의한다.</p>
+            <ul>
+                <li><strong>wide sandwich:</strong> 앞뒤 다리(front leg·back leg) 사이에 무관한 트랜잭션이 끼어 있거나, 다리가 <strong>서로 다른 블록</strong>에 떨어진 샌드위치까지 공격으로 인정한다 — "블라인드로 다리를 놓는" 프라이빗 공격의 실제 형태다.</li>
+                <li><strong>봇 필터링:</strong> 같은 지갑·같은 방향의 정상 거래(차익거래·시장조성)를 샌드위치로 오인하지 않도록 공격자 봇의 행태(성공률·수수료 지급·타이밍)로 걸러낸다.</li>
+            </ul>
+            <p>데이터 수집도 까다롭다. 이더리움은 <strong>프라이빗 트랜잭션과 OFA 라우팅 라벨</strong>을 외부 데이터셋과 교차 검증하고, 리오그는 <strong>Xatu</strong>의 체인 리오그 이벤트(중복 제거 후 <strong>63,842건의 서로 다른 전환</strong>, 그중 최종적으로 비정규(un-canonical)로 남은 <strong>14,398개 고유 블록</strong>)를 추적한다. 논문은 OFA 라벨을 "노출의 양성 증거"로만 취급하고, 라벨이 없다고 라우팅되지 않았다고 단정하지 않는다 — 보수적 설계다.</p>
+
+            <h2><i class="fa-solid fa-table-list"></i> 결과 — 6개 체인, 2,800만 건, 순이익 $346M</h2>
+            <p>3년치 측정 결과는 체인마다 성격이 극단적으로 갈린다(논문 Table 3).</p>
+            <table>
+                <tr><th>체인</th><th>공격 건수</th><th>공격자 수</th><th>수익 발생 비율</th><th>총수익(Gross)</th><th>순이익(Net)</th></tr>
+                <tr><td><strong>Solana</strong></td><td><strong>28,042,725</strong></td><td><strong>8,631 봇</strong></td><td>88.0%</td><td>$383,433,932</td><td><strong>$345,185,014</strong></td></tr>
+                <tr><td>Tron</td><td>38,567</td><td>12</td><td>95.4%</td><td>$901,069</td><td>$642,542</td></tr>
+                <tr><td>Ethereum</td><td>30,607</td><td><strong>7</strong></td><td>91.9%</td><td>$622,358</td><td>$254,566</td></tr>
+                <tr><td>Ethereum (리오그 경유)</td><td>+2,576</td><td>93</td><td>98.9%</td><td>$279,848</td><td>$171,777</td></tr>
+                <tr><td>Base</td><td>1,889</td><td>4</td><td>97.2%</td><td>$3,031</td><td>$2,416</td></tr>
+                <tr><td>Arbitrum / Monad</td><td>0</td><td>0</td><td>—</td><td>—</td><td>—</td></tr>
+            </table>
+            <ul>
+                <li><strong>Solana가 규모의 대부분을 차지한다</strong> — 2,800만 건 중 28.04M, 하루 평균 <strong>25,586건</strong>. 2023년 말 시작해 Jito가 임시 퍼블릭 멤풀을 닫기 직전 <strong>하루 125,169건</strong>까지 치솟았다.</li>
+                <li><strong>Ethereum은 '소수 정예'다</strong> — 3년간 30,607건을 <strong>단 7개 봇</strong>이 수행했다. 바이트코드 유사성과 배포 이력 분석 결과 <strong>이 7개 봇은 사실상 한 주체</strong>의 것으로 보인다.</li>
+                <li><strong>Arbitrum과 Monad는 0건</strong> — 보호 모델(시퀀서/검증자 위임)이 이 측정 기간에는 버텼다는 뜻이다.</li>
+                <li>공통 특징: 퍼블릭 멤풀 샌드위치와 달리 <strong>타이트한 경우가 드물고</strong>, 피해자 바로 옆에 붙지 않는다 — 정보가 제한된 상태에서 "블라인드로" 다리를 놓기 때문이다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-diagram-project"></i> 체인별 노출 경로 — 어디서 새는가</h2>
+            <p>논문의 진짜 기여는 "몇 건 당했다"가 아니라 <strong>각 체인에서 정보가 유출되는 경로를 특정</strong>한 데 있다.</p>
+            <ul>
+                <li><strong>Ethereum — 빌더는 범인이 아니고, OFA·리오그가 구멍이다.</strong> 먼저 블록 빌더를 의심해 "샌드위치 점유율 ÷ 블록 점유율"을 계산했지만, Titan·BuilderNet·Quasar 등 어느 빌더도 유의하게 과대표되지 않았다(비율 ~0.4–1.35, 대체로 1.0 부근). 대신 <strong>OFA가 서처에게 공개하는 정보만으로 샌드위치가 가능해지는 조건</strong>을 규명했고, 두 번째 채널로 <strong>리오그</strong>를 지목한다 — 프라이빗 트랜잭션 <strong>2,875건</strong>이 리오그로 노출되어 <strong>추가 2,576건</strong>의 샌드위치를 가능케 했다.</li>
+                <li><strong>Tron — 선착순(FCFS)은 지연 경주를 못 막는다.</strong> FCFS는 "나중 트랜잭션이 먼저 것을 추월할 수 없다"는 규칙이지만, 공격자는 노드가 노출하는 <code>gettransactionlistfrompending</code> 엔드포인트를 여러 노드에 걸쳐 폴링해 피해자 스왑을 <em>거의 실시간</em>으로 학습하고, 프런트 다리를 블록 생산자에게 <strong>지연(latency) 경주</strong>로 먼저 밀어 넣는다. 생산자 부정은 배제됐다 — 규칙 자체의 약점이다.</li>
+                <li><strong>Base — RPC 버그 + 예측 가능한 사용자 행동.</strong> 두 갈래가 확인됐다. 한 봇의 활동은 <strong>대기 중 트랜잭션을 유출한 문서화된 RPC 수준 사고</strong>와 시점이 일치했고(그 봇은 샌드위치의 56%가 타이트, 성공률 <strong>99%</strong>로 최고), 다른 봇들은 <strong>멤풀 가시성 없이도</strong> 지나치게 예측 가능한 피해자 행동만으로 샌드위치를 성립시켰다(<code>0xc9c...41b</code> 750건, <code>0xfcf...a26</code> 698건).</li>
+                <li><strong>Solana — 검증자 노출에서 애플리케이션 노출로 이동.</strong> 초기에는 <strong>특정 검증자 집단</strong>이 샌드위치를 불균형하게 많이 담당했다(검증자 수준 노출의 증거). 2025년 이후 이 신호는 약해지고, <strong>피해자 집중이 특정 애플리케이션으로 쏠리며</strong> 지배적 노출원이 앱 계층으로 바뀐다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-clock-rotate-left"></i> Solana의 '시대 구분' — 생태계 개입이 공격을 바꾼다</h2>
+            <p>Solana 분석은 개별 봇이 아니라 <strong>생태계 이벤트별 시대로 구분</strong>된다(논문 Table 10). 이 표가 이 논문의 백미다 — 방어 조치가 실제로 공격량을 꺾지만, 공격자는 <em>형태를 바꿔</em> 살아남는다.</p>
+            <ul>
+                <li><strong>Jito 멤풀 시대(2023-07~):</strong> 리레이어가 트랜잭션을 최대 200ms 보관하며 서처에게 스트림을 노출 → 서브셋에 사실상 퍼블릭 멤풀이 생겼다. 시대당 <strong>230만 건</strong>. 닫힌 뒤(2024-03) 일시적으로 <strong>260만 건</strong>으로 오히려 늘었다.</li>
+                <li><strong>SFDP delist(2024-06):</strong> <strong>1,110만 건</strong> — 검증자 재편 국면이 최대 노출 구간이었다.</li>
+                <li><strong>Marinade MIP.9(2025-02):</strong> 670만 건, 이후 2025년 하루 26,127건 → <strong>2025-10 마지막 검증자 delist 물결</strong> 후 하루 20,663건으로 감소.</li>
+                <li>방향 전환: 타이트 샌드위치가 줄고 <strong>크로스 슬롯(cross-slot)</strong> 공격으로 이동 — 즉 <em>탐지가 어려운 형태로 진화</em>한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 방어적 시사점과 한계</h2>
+            <ul>
+                <li><strong>"프라이빗 = 안전"은 틀렸다.</strong> 프런트러닝 보호는 공격을 제거하지 않고 <strong>인프라 내부로 흡수</strong>한다. 사용자는 이제 빌더·OFA 운영자·시퀀서·검증자를 신뢰해야 하며, 그중 하나만 새도 샌드위치가 성립한다.</li>
+                <li><strong>단일 실패점은 '정보 공개 범위'다.</strong> 이더리움 OFA의 서처 노출 정보, Tron의 pending 조회 엔드포인트, Base의 RPC 유출 사고 — 모두 <em>정보가 한 단계 더 보이는 순간</em>이 사고의 시작이었다. 엔드투엔드 방어(예: 암호화된 멤풀·봉인 입찰)의 필요성이 여기서 나온다.</li>
+                <li><strong>집중도가 곧 위험이다.</strong> 이더리움은 7개 봇 = 1개 주체, Tron은 12봇, Base는 4봇. 소수 주체가 시장을 장악하면 가격·수수료 구조까지 그들이 정한다.</li>
+                <li><strong>측정 한계:</strong> 리오그 이벤트는 관측자(Xatu 노드) 시점이라 네트워크 전체 수치는 이보다 클 수 있고, OFA 라벨은 "양성 증거"로만 쓰여 <strong>하한 추정</strong>이다. Tron의 지연 경주 가설도 데이터로 직접 입증되진 않았다(정황 증거).</li>
+                <li><strong>윤리:</strong> 논문은 리오그·OFA 같은 <em>설계 결함</em>을 공개하지만 개별 봇의 신원을 특정하진 않고, 수수료·성공률 같은 집계 지표로만 제시한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>원문 (arXiv:2609.28115, cs.CR, 2026-09-23): <a href="https://arxiv.org/abs/2609.28115" target="_blank" rel="noopener">arxiv.org/abs/2609.28115</a></li>
+                <li>PDF: <a href="https://arxiv.org/pdf/2609.28115" target="_blank" rel="noopener">arxiv.org/pdf/2609.28115</a></li>
+                <li>전문 HTML (Table 1·3·10·20 및 부록 포함 — 본 포스트의 수치는 여기서 추출): <a href="https://arxiv.org/html/2609.28115v1" target="_blank" rel="noopener">arxiv.org/html/2609.28115v1</a></li>
+                <li>함께 읽기 — 선행 연구: Heimbach &amp; Torres, "Ethical MEV Extraction"/MEV 악용 연구 계열 · <em>The Dark Forest</em> 문제의식(퍼블릭 멤풀 프런트러닝)</li>
+                <li>함께 읽기 — 이전 게시물: 2026-09-22 The Anatomy of Address Poisoning on Ethereum (온체인 자금 흐름 추적) · 2026-09-10 Are Unreachable Nodes Truly Safe? (P2P 이클립스) · 2026-09-13 Don't Trust the Super-App (인프라 신뢰 경계)</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
