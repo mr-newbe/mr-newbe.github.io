@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-09-26</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        code { background: #0b1220; padding: 1px 5px; border-radius: 4px; color: #7dd3fc; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-09-26 | <i class="fa-solid fa-tags"></i> Daily News, Cryptocurrency Theft, Supply Chain, Cloud Security, Zero-Day, CVE, KEV Patch, Threat Intelligence
+        </div>
+        <div class="content">
+
+            <h2>1. Bitget, 북한 연계 조직에 3억 5,160만 달러 탈취당했다 — 핫·웜 월렛 백엔드 침해</h2>
+            <p>암호화폐 거래소 Bitget이 2026년 9월 24일 18:31 UTC, 자사 핫 월렛에서 비인가 이체를 탐지했다고 공개했다. 피해 규모는 <strong>3억 5,160만 달러</strong>이며, 회사는 "북한 연계 위협 행위자로 의심된다"고 밝혔다. 콜드 월렛과 대부분의 플랫폼 자산은 영향받지 않았고 고객 계정 잔액도 정확하다고 강조했다.</p>
+            <ul>
+                <li><strong>규모:</strong> 단일 사고로는 2026년 최대급이다. 참고로 같은 계열 조직(TraderTraitor)은 Bybit에서 15억 달러, KelpDAO의 LayerZero 브리지에서 2억 9,200만 달러를 탈취한 이력이 있다.</li>
+                <li><strong>공격 방식:</strong> 회사 표현대로 "백엔드 침해(backend compromise)"로, 스마트 컨트랙트 결함이나 프런트엔드 피싱이 아니라 <em>거래소 내부 서명·송금 인프라</em>가 뚫린 유형이다. 핫 월렛에 한해 이체가 성사됐다는 점이 이를 뒷받침한다.</li>
+                <li><strong>시사점:</strong> 거래소 사고의 무게중심이 온체인 취약점에서 키 관리·승인 파이프라인(오프체인)으로 완전히 옮겨갔다. 월렛 권한 분리, 이체 임계값, 서명자 다중화, 이상 이체 실시간 차단이 핵심 통제가 된다.</li>
+                <li><strong>대응:</strong> 사용자 관점에서는 자산을 거래소에 두는 것 자체가 신용 리스크다. 거래소 측은 사법·추적 파트너와 자금 동결을 진행 중이며, 온체인 추적 태그가 붙은 주소로의 입금 차단이 권고된다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/bitget-says-suspected-north-korean.html" target="_blank">The Hacker News - Bitget Says Suspected North Korean Hackers Stole $351.6M After Backend Compromise</a></p>
+
+            <h2>2. 침해된 GitHub Actions가 다시 살아나 Mini Shai-Hulud 악성코드를 재실행 — CI/CD 신뢰 체인의 재감염</h2>
+            <p>2026년 5월 Mini Shai-Hulud 캠페인으로 침해됐던 <code>actions-cool</code> 조직의 GitHub Actions 2종(<code>actions-cool/issues-helper</code>, <code>actions-cool/maintain-one-comment</code>)이 <strong>두 번째로 비활성화</strong>됐다. 저장소가 지난주 다시 접근 가능해지자 악성코드가 즉시 재실행됐다.</p>
+            <ul>
+                <li><strong>메커니즘:</strong> 공격자는 CI/CD 파이프라인에서 실행되는 워크플로에서 자격증명(토큰·시크릿)을 수집해 공격자 서버로 유출했다. 유출 도메인 <code>t.m-kosche[.]com</code>이 npm <code>@antv</code> 생태계 패키지와 겹치면서, Socket은 이를 "별개의 npm 사고가 아니라 동일한 Mini Shai-Hulud 활동 클러스터"라고 지목했다.</li>
+                <li><strong>왜 다시 살아났나:</strong> 저장소를 비활성화해도 <em>침해된 커밋·태그는 그대로 남는다</em>. 접근이 복원되는 순간 워크플로가 다시 트리거되고, 버전 태그(<code>@v2.2.1</code>)를 참조하던 모든 소비 저장소가 같은 악성코드를 재배포받는다. "차단은 복구가 아니다"를 보여주는 사례다.</li>
+                <li><strong>확산 규모:</strong> 같은 주에 AI 코딩 어시스턴트 세션을 탈취해 약 <strong>100개 저장소</strong>로 Shai-Hulud를 확산시킨 사건도 보고됐다. AI 에이전트가 대량의 저장소 쓰기 권한을 들고 있는 환경이 증폭기 역할을 한다.</li>
+                <li><strong>권고 조치(제공된 그대로):</strong> ① <code>actions-cool/issues-helper@v2.2.1</code> 참조를 전부 찾아 <strong>2026-05-18 이전의 알려진 클린 SHA로 고정(pin)</strong>, ② 노출된 모든 시크릿 <strong>회전</strong>, ③ 워크플로 실행 이력을 검토해 "오랜 Set up job 실패 후 갑자기 성공한 실행"을 확인, ④ <strong>2026-09-16 이후의 예상치 못한 커밋</strong> 감사.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/compromised-github-actions-came-back.html" target="_blank">The Hacker News - Compromised GitHub Actions Came Back Online and Resumed Executing Mini Shai-Hulud Malware</a></p>
+
+            <h2>3. Cloudflare Containers 결함 — 한 고객 컨테이너가 다른 고객의 잔여 디스크 데이터를 읽었다</h2>
+            <p>Cloudflare Containers의 결함으로 유료 고객이 같은 서버에서 <em>다른 고객 컨테이너가 남기고 간 데이터</em>를 읽을 수 있었다. Cloudflare와 연구진 모두 이를 확인했고, 회사는 서비스 전반에 수정을 적용했으며 고객이 할 일은 없다고 밝혔다.</p>
+            <ul>
+                <li><strong>원인:</strong> 각 컨테이너의 디스크는 Linux <em>thin provisioning</em>으로 만들어져 64KB 블록 단위로 할당된다. 컨테이너가 삭제되면 블록은 <strong>고객 계정 간 공유 풀</strong>로 반환되는데, 이 풀이 다음 컨테이너에 넘기기 전에 블록을 <strong>닦지 않도록(wiping skip)</strong> 설정돼 있었다. 기본값은 닦는 것이었다.</li>
+                <li><strong>공격 절차:</strong> 새 컨테이너가 재사용된 블록에 4KB만 쓰면 나머지 60KB에는 이전 컨테이너의 바이트가 그대로 남는다. 연구진은 미사용 공간에 4KB를 쓰고 블록 전체를 raw 디스크 수준에서 되읽어 잔여 데이터를 획득했다.</li>
+                <li><strong>재현율:</strong> 운영 환경 테스트에서 <strong>24회 중 18회</strong> 잔여 데이터를 찾았고, Cloudflare가 고른 서버의 <strong>22대 중 20대</strong> 기계에서 재현됐다. 데이터는 살아 있는 워크로드가 아니라 이미 반납된 디스크 공간에서 나왔고, 공격자가 대상 고객을 지정할 수는 없었다.</li>
+                <li><strong>AI 관점:</strong> 영향을 받은 범위에 <code>Cloudflare Sandboxes</code>가 포함된다. 이는 신뢰할 수 없는 코드(특히 <strong>AI 에이전트가 생성한 코드</strong>)를 실행하는 안전한 장소로 판매되는 제품이다. "에이전트 코드 실행용 샌드박스"의 격리 주장이 스토리지 계층에서 깨진 사례로, 샌드박스 보안은 커널·네트워크뿐 아니라 <em>디스크 수명주기</em>까지 포함해야 함을 보여준다.</li>
+                <li><strong>타임라인:</strong> 9월 4일 Accomplish의 Oren Yomtov가 Cloudflare 버그바운티로 신고 → 전 서비스 수정 완료.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/cloudflare-fixes-flaw-that-let-one.html" target="_blank">The Hacker News - Cloudflare Fixes Flaw That Let One Container Read Another Customer's Leftover Disk Data</a></p>
+
+            <h2>4. Kiteworks(구 Accellion), "임박한" 제로데이 공격 경고 — 주말 전 예방적 서버 셧다운 권고</h2>
+            <p>대용량 파일·민감 데이터 전송 도구를 만드는 Kiteworks가 고객에게 <strong>시스템을 종료(shutdown)하라</strong>고 권고했다. 법집행기관으로부터 "위협 행위자가 일부 Kiteworks 시스템을 노릴 수 있다"는 <strong>신뢰할 만한 첩보</strong>를 받았다는 것이 이유다. 독일 매체 Heise가 사내 이메일을 근거로 최초 보도했다.</p>
+            <ul>
+                <li><strong>공식 입장:</strong> CISO Frank Balonis는 "Kiteworks 시스템 침해는 인지하지 못하고 있으며, 이 권고는 확인된 침해 대응이 아니라 <em>예방적(preventative)</em> 조치"라고 밝혔다. 즉 <strong>아직 알려지지 않은 취약점(제로데이)</strong>의 익스플로잇 가능성을 우려한 것이다. 이메일에는 "이번 주말, 가능하면 그 전에" 시스템을 종료하라는 요청이 담겼다.</li>
+                <li><strong>불확실성:</strong> 어떤 법집행기관이 첩보를 제공했는지, 배후 조직이 누구인지는 공개되지 않았다. FBI는 논평을 거부했고 CISA 대변인도 공식 언급을 하지 않았다.</li>
+                <li><strong>버전:</strong> 회사는 최신 릴리스 <strong>9.5.1</strong>에서 알려진 취약점을 모두 수정했다며 이 버전 사용을 권장했다. 동시에 "현재 Kiteworks가 모르는 취약점의 악용"을 우려한다고 인정했다.</li>
+                <li><strong>맥락:</strong> Kiteworks는 구 Accellion이며, 2021년 FTA 제품 제로데이 연쇄 공격(Clop 랜섬웨어, 수십 개 대기업·정부기관 피해)으로 이름이 알려진 벤더다. 관리형 파일 전송(MFT) 제품은 "경계 내부에 신뢰받는 위치"를 차지해 공격자에게 특히 매력적이다.</li>
+                <li><strong>고객 수:</strong> 헬스케어·기술·교육·자동차·정부 등 수천 개 고객을 보유하고 있다고 사이트에 명시돼 있다.</li>
+            </ul>
+            <p>출처: <a href="https://techcrunch.com/2026/09/25/kiteworks-urges-customers-to-shut-down-their-servers-amid-imminent-threat-of-cyberattack/" target="_blank">TechCrunch - Kiteworks urges customers to shut down their servers amid 'imminent' threat of cyberattack</a> · <a href="https://news.google.com/rss/search?q=Kiteworks+shut+down+servers+imminent+cyberattack" target="_blank">Google News (Heise/SC Media/Sophos 보도)</a></p>
+
+            <h2>5. PamStealer 신종 변종 — 페이로드 키를 서버에 종속시킨 '라이브 C2 복호화' + 다층 지속성</h2>
+            <p>Jamf Threat Labs는 macOS 정보 탈취 악성코드 PamStealer의 새 버전이 <strong>서버 측 복호화 체인</strong>을 도입해, C2 서버의 협조 없이는 메인 페이로드를 복구할 수 없게 만들었다고 밝혔다. JXA 드로퍼 구조는 유지했지만 루어와 전달 방식이 바뀌었다.</p>
+            <ul>
+                <li><strong>기술적 변화:</strong> 연구자 Thijs Xhaflaire에 따르면 "이전 변종은 페이로드 키 자료를 JXA 소스에 <em>직접</em> 넣었지만, 이제는 전용 복호화 유틸리티를 내려받아 <strong>서버와 키 교환을 완료한 뒤</strong>에야 페이로드가 풀린다. 따라서 서버의 협조 없이는 두 번째 단계를 복호화할 수 없다."</li>
+                <li><strong>실행 체인:</strong> 악성 DMG가 컴파일된 AppleScript를 담고 있고, 파일을 열면 Apple의 Script Editor가 뜨면서 JXA 드로퍼 실행을 유도한다. Wavel 변종에서는 JXA가 순수 <em>운반자(carrier)</em> 역할만 한다 — base64 문자열을 디코딩해 <code>/bin/zsh -s</code>로 파이프하고 JXA 프로세스는 즉시 종료, zsh가 백그라운드에서 계속된다.</li>
+                <li><strong>다음 단계 동작:</strong> <code>wavel.apple03cloudstore[.]com</code>에서 <code>pkgunpack</code> 복호화 유틸리티를 받아 <strong>X25519 키 교환</strong> 수행 → 페이로드 번들 복호화·스테이징 → 악성코드 흔적을 숨기기 위해 <strong>macOS 알림 억제</strong>.</li>
+                <li><strong>방어 관점의 시사점:</strong> 정적 분석으로 페이로드를 복구하는 것이 사실상 막혔고, 운영 제어권 일부가 서버 운영자에게 넘어갔다. 탐지의 무게중심은 파일 해시·문자열 IOC에서 <em>행위</em>로 이동해야 한다 — Script Editor(AppleScript/JXA) 실행, DMG 마운트 후 즉시 스크립트 파이프 실행, 서명 없는 유틸리티 다운로드 후 키 교환 패턴을 잡아야 한다.</li>
+                <li><strong>루어·전달:</strong> 변종마다 다른 이름(Maccy, Scoppr, Nancy, Wavel 등)을 쓰며 루어와 전달 방식을 계속 갈아끼우고 있다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/pamstealer-macos-malware-adds-live-c2.html" target="_blank">The Hacker News - PamStealer macOS Malware Adds Live C2 Payload Decryption and Multi-Layer Persistence</a></p>
+
+            <h2>6. [취약점] Roundcube 사전 인증 SQL 인젝션(CVE-2026-48842), 실제 익스플로잇 확인 — 패치는 5월에 나왔다</h2>
+            <p>캐나다 사이버보안센터(Canadian Centre for Cyber Security)가 이미 패치된 Roundcube Webmail 취약점 <strong>CVE-2026-48842 (CVSS 8.1)</strong>가 실제로 악용되고 있다고 경고했다. 오픈소스 보고를 근거로 한 업데이트다.</p>
+            <ul>
+                <li><strong>취약점:</strong> <code>virtuser_query</code> 플러그인의 <strong>사전 인증 SQL 인젝션</strong>. 영향을 받는 버전은 Roundcube Webmail 1.6.x(1.6.16 미만)와 1.7.x(1.7.1 미만)다.</li>
+                <li><strong>근본 원인:</strong> <code>preg_replace()</code>의 백슬래시 이스케이프를 우회할 수 있어, 인증 없이 임의 SQL 문을 주입할 수 있다. SentinelOne은 "무인증 공격자가 virtuser_query 플러그인을 통해 Roundcube 데이터베이스 백엔드에 SQL을 주입해 <strong>메일 계정 자격증명과 저장된 메시지가 노출</strong>될 수 있다"고 설명했다.</li>
+                <li><strong>패치 시점:</strong> 수정본은 <strong>2026년 5월</strong> 1.6.16과 1.7.1로 이미 공개됐다. 즉 이 사건의 핵심은 "새로운 취약점"이 아니라 <strong>4개월 넘게 남아 있는 미적용 인스턴스</strong>다.</li>
+                <li><strong>악용 후 행위:</strong> 공격자는 이 결함으로 <strong>웹셸 또는 VShell</strong>이라는 포스트 익스플로잇 도구를 배포한 것으로 보고된다.</li>
+                <li><strong>반복되는 표적:</strong> 같은 제품에서 2026년 2월에도 <code>CVE-2025-49113</code>, <code>CVE-2025-68461</code> 2건이 CISA KEV에 '실제 악용'으로 등재된 바 있다. Roundcube는 전 세계 웹호스팅에 널리 깔린 <strong>웹메일 표적의 상수</strong>로 자리 잡았다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/roundcube-pre-auth-sql-injection-flaw.html" target="_blank">The Hacker News - Roundcube Pre-Auth SQL Injection Flaw Actively Exploited in the Wild</a></p>
+
+            <h2>7. [취약점] NVD 신규 고위험 — LightLLM 추론 서버 RCE(9.8)와 Reachy Mini 로봇 무인증 설치(8.8), AI 인프라 결함이 또 같은 자리에서</h2>
+            <p>NVD 2.0(2026-09-23~26 게시분, 표본 200건/총 1,750건)를 CVSS 기준으로 정렬하면 상위권이 <strong>AI·에이전트 인프라</strong>에 집중된다. 09-25 글에서 다룬 Apache Tomcat·ManageEngine 클러스터는 이번 창에도 그대로 남아 있고, 그 아래에 새 결함들이 올라왔다.</p>
+            <ul>
+                <li><strong>LightLLM CVE-2026-96560 (CVSS 9.8):</strong> 1.2.0 이하에서 KV-transfer 워커에 RCE가 있다. <code>--pd_trans_mode nccl</code>로 기동하면 <strong>무인증 RPyC 제어 채널</strong>이 열리고, 공격자가 공급한 데이터를 역직렬화한다. LLM 서빙 계층이 그대로 원격 코드 실행 지점이 된다.</li>
+                <li><strong>Reachy Mini daemon CVE-2026-96455 (CVSS 8.8):</strong> 로봇 관리용 HTTP API의 앱 설치 엔드포인트 <code>POST /apps/install</code>에 <strong>인증이 전혀 없다</strong>(핸들러의 유일한 의존성이 <code>Depends(get_...</code> 수준). 물리 로봇에 임의 앱을 설치할 수 있다.</li>
+                <li><strong>SunEditor CVE-2026-59167 (CVSS 10.0):</strong> 의존성 없는 순수 JS WYSIWYG 에디터 2.47.11 미만. <code>src/lib/core.js</code>의 새니타이저가 namespaced·커스텀 HTML 요소를 일관되게 거부하지 못해 XSS로 이어진다. 수백 개 사이트에 임베드되는 라이브러리라 파급이 넓다.</li>
+                <li><strong>Fast FAC1203R 라우터 CVE-2026-96257 (CVSS 10.0):</strong> 펌웨어 2.0.4의 Device Discovery Service에서 <code>copy_msg_element</code> 함수의 스택 기반 버퍼 오버플로. 네트워크에서 도달 가능한 임베디드 장비 결함이다.</li>
+                <li><strong>Foxit PDF 리더/에디터 로컬 권한 상승 4종(모두 CVSS 8.8):</strong> <code>CVE-2026-91798</code>(업데이트 데몬 권한 설정), <code>CVE-2026-91800</code>(macOS 설치 프로그램 검증 부족), <code>CVE-2026-91803</code>(사용자 쓰기 가능 디렉터리에서 DLL 안전하지 않게 로드), <code>CVE-2026-91813</code>(다운로드~고권한 압축 해제 사이 업데이트 패키지 교체). 한 제품에서 LPE 4건이 동시에 나온 점이 눈에 띈다.</li>
+                <li><strong>반복 패턴:</strong> LightLLM·Reachy Mini는 전형적인 <code>0.0.0.0</code> 바인드 + 인증 없음 + 신뢰할 수 없는 입력 역직렬화 조합이다. LLM·에이전트·로봇 프레임워크가 <strong>같은 세 가지 결함(기본 바인드, 무인증 엔드포인트, 샌드박스 없는 코드 실행)</strong>에 계속 걸린다는 점이 이번 창에서도 그대로 확인된다.</li>
+            </ul>
+            <p>출처: <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?pubStartDate=2026-09-23T00:00:00.000&amp;pubEndDate=2026-09-26T00:00:00.000&amp;resultsPerPage=200" target="_blank">NVD API 2.0 - CVSS 상위권 (2026-09-23~26)</a></p>
+
+            <h2>8. [취약점] TDengine CVE-2026-42542 — 패킷 한 개로 산업용 시계열 DB가 죽는다 (3.4.1.6에서 수정)</h2>
+            <p>Ridge Security 연구팀이 산업 텔레메트리·에너지·유틸리티·커넥티드카·IoT에 널리 쓰이는 오픈소스 분산 시계열 데이터베이스 <strong>TDengine</strong>의 사전 인증 취약점 <code>CVE-2026-42542</code>를 공개했다. 자격증명·세션·사용자 상호작용 없이 <strong>조작된 네트워크 패킷 한 개로</strong> 데이터베이스 서버를 다운시킬 수 있다. CVSS는 <strong>7.5(High)</strong>.</p>
+            <ul>
+                <li><strong>기술적 원인:</strong> TDengine의 커스텀 바이너리 RPC 프로토콜(TCP 포트 <strong>6030</strong>)에서 길이 필드를 처리할 때 발생하는 <em>정수 언더플로</em>. 공격자가 제어한 값이 매우 큰 부호 없는 값으로 변환돼 <code>memcpy()</code>에 전달되면서 세그멘테이션 폴트로 프로세스가 죽는다.</li>
+                <li><strong>영향 범위:</strong> TDengine 3.4.0.0 ~ 3.4.1.5가 영향받고, <strong>3.4.1.6에서 수정</strong>됐다. 확인된 영향은 서비스 거부(DoS)이며, 반복 전송으로 <strong>크래시-재시작 루프</strong>에 빠뜨릴 수 있다.</li>
+                <li><strong>왜 위험한가:</strong> 운전 중(in-flight) 쓰기 손실과 데이터 공백이 발생할 수 있다. 노출 조직의 공통 조건은 ① 데이터가 운영상 핵심적이고 ② 점검·패치 창이 거의 없다는 것이다.</li>
+                <li><strong>특히 취약한 배치:</strong> TDengine이 <strong>플랫 OT·디바이스 네트워크의 평평한(flat) 구간</strong>에 놓여 "내부"가 곧 "다수 호스트에서 도달 가능"을 의미하는 환경. 통합업체가 넣었거나 벤더 어플라이언스에 번들돼 운영팀이 <em>존재 자체를 모르는</em> 경우도 많다.</li>
+                <li><strong>실무 대응:</strong> 가동 중이면 3.4.1.6 즉시 적용이 최선. 불가하면 6030 포트를 신뢰 호스트로 제한하고, 기본/익명 자격증명을 제거하며, 침해 지표로 크래시-재시작 로그 패턴을 모니터링한다.</li>
+            </ul>
+            <p>출처: <a href="https://industrialcyber.co/news/ridge-security-warns-of-high-severity-tdengine-vulnerability-that-can-disrupt-industrial-telemetry-and-monitoring/" target="_blank">Industrial Cyber - Ridge Security warns of high-severity TDengine vulnerability</a> · <a href="https://news.google.com/rss/search?q=TDengine+vulnerability+industrial+telemetry" target="_blank">Google News (Security Boulevard - Ridge Security Discovers CVE-2026-42542)</a></p>
+
+            <h2>9. [패치] 이번 주 KEV 마감 — 오늘·내일이 시한이다: WSO2·Adobe(9/27), MikroTik·SharePoint·WordPress(9/28)</h2>
+            <p>CISA KEV 카탈로그(총 1,726건)의 최신 추가분을 기준으로, 이번 주말과 다음 주 초에 <strong>연방기관 패치 시한이 몰려 있다</strong>. KEV 등재는 곧 "실제 익스플로잇이 확인됐다"는 뜻이므로, 연방기관이 아니어도 같은 순서로 대응하는 것이 합리적이다.</p>
+            <ul>
+                <li><strong>9/27 마감 — WSO2 CVE-2026-5430 (CVSS 9.8):</strong> WSO2 API Control Plane·API Manager·Traffic Manager·Universal Gateway의 <strong>경로 탐색</strong> 결함. 무제한 파일 업로드로 이어져 최종적으로 <strong>원격 코드 실행</strong>까지 가능하다. 오늘·내일 중 가장 급한 항목이다.</li>
+                <li><strong>9/27 마감 — Adobe Commerce/Magento CVE-2026-71362:</strong> 부적절한 인가 결함. 사용자 상호작용 없이 민감 자원에 대한 <strong>권한 상승</strong>이 가능하다. 이커머스 결제·고객 데이터가 직결된다.</li>
+                <li><strong>9/28 마감 — MikroTik RouterOS CVE-2026-67279:</strong> "행위 워크플로의 부적절한 적용" 결함. <strong>무인증 클라이언트가 세션 채널을 열고 exec 요청을 전송</strong>할 수 있으며, 다른 결함과 체이닝될 수 있다. 라우터가 경계 장비라 파급이 크다.</li>
+                <li><strong>9/28 마감 — Microsoft SharePoint CVE-2026-65660:</strong> 코드 인젝션으로, 인가된 공격자가 네트워크를 통해 코드를 실행할 수 있다. 09-23 글에서 "스푸핑 6.5로 분류됐지만 실제는 인증된 RCE"로 다룬 그 결함이 이제 KEV에 정식 등재됐다.</li>
+                <li><strong>9/28 마감 — WordPress Core CVE-2026-87902:</strong> 원격 파일 포함(RFI). 무인증 공격자가 <strong>활성 테마 디렉터리 밖의 읽기 가능한 로컬 <code>.php</code> 파일</strong>을 페이지 템플릿 해석에 포함시킬 수 있다. 09-23(7.1.2 수정) → 09-24(공개 직후 익스플로잇)에 이어 이제 KEV 마감까지 지정됐다.</li>
+                <li><strong>방금 지난 마감(참고):</strong> 9/25 마감이던 Arista VeloCloud Orchestrator(CVE-2026-93952)·F5 BIG-IP APM(CVE-2026-94127)·Check Point 2건(CVE-2026-93616 / 85102)은 이미 시한이 지났다. 미적용 조직은 지금이라도 즉시 적용해야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA Known Exploited Vulnerabilities Catalog</a> · <a href="https://thehackernews.com/2026/09/wso2-and-adobe-commerce-flaws-exploited.html" target="_blank">The Hacker News - WSO2 and Adobe Commerce Flaws Exploited in Attacks, Added to CISA KEV</a></p>
+
+            <h2>10. [트렌드] CISA가 CVE 프로그램을 전면 개편한다 — '취약점 폭증'이 관리 모델 자체를 무너뜨리는 중</h2>
+            <p>취약점 건수가 폭발적으로 늘어나면서 CISA가 CVE 식별·우선순위 체계를 <strong>근본적으로 재설계</strong>하는 방안을 추진 중이다. 동시에 CISA는 <em>"미래 취약점 프로그램에 경직된 규칙을 적용하는 것에 반대한다"</em>는 입장을 내놨고, <strong>위험 기반 보안 업데이트 우선순위 지정에 관한 구속력 있는 운영 지침(Binding Operational Directive)</strong>도 발표했다.</p>
+            <ul>
+                <li><strong>왜 지금인가:</strong> 최근 몇 년간의 결함 급증은 AI 기반 취약점 발견 자동화가 본격화된 것과 맞물린다. 09-21 글에서 다룬 "AI가 1년 만에 소프트웨어 결함 발견을 2배로 만들었다"는 관측이 이제 <em>관리 체계의 용량 한계</em>로 나타나고 있다.</li>
+                <li><strong>오늘 글의 실증:</strong> 이 글의 NVD 3일 창만 봐도 <code>totalResults=1750</code>, CVSS 8.8 이상만 수십 건, 단일 제품(ManageEngine, Apache Tomcat, Foxit)에서 4~6건씩 클러스터로 쏟아진다. "모든 CVE를 처리한다"는 모델은 이미 유지 불가능하다.</li>
+                <li><strong>CISA의 방향:</strong> CVE 번호를 <em>전부</em> 같은 무게로 다루는 대신, 악용 가능성·노출도·운영 영향 기준으로 우선순위를 매기는 쪽으로 이동한다. KEV가 그 축의 대표 사례이며, 이번 주에도 WSO2·Adobe·MikroTik 등이 그 기준으로 선별됐다.</li>
+                <li><strong>실무 함의:</strong> 조직의 패치 정책도 "CVSS 점수 컷오프"에서 <strong>"실제 익스플로잇 여부(KEV) + 우리 자산 도달 가능성"</strong>으로 옮겨야 한다. 오늘 기준으로는 9/27 WSO2(9.8, RCE)·Adobe, 9/28 MikroTik·SharePoint·WordPress가 그 우선순위의 정답에 가깝다.</li>
+                <li><strong>공급망 관점 보강:</strong> 같은 주 THN 정리에서는 "800건 이상 패치", "자기 재작성(self-rewriting) 에이전트", "내부자 SIM 스왑" 등이 함께 다뤄졌다. 수량 폭증 + AI 자동화 + 신원 기반 공격이 하나의 흐름으로 묶이고 있다.</li>
+            </ul>
+            <p>출처: <a href="https://news.google.com/rss/search?q=CISA+CVE+overhaul+vulnerability+volume" target="_blank">Google News - CISA plans CVE overhaul as vulnerability volume explodes (MSSP Alert) · CISA Releases Binding Operational Directive on Prioritizing Security Updates Based on Risk (Inside Government Contracts)</a> · <a href="https://thehackernews.com/2026/09/threatsday-ai-search-poisoning-ai.html" target="_blank">The Hacker News - ThreatsDay: AI Search Poisoning, AI Coding Tool Leaking Repos, One-Click Code Execution and 13 More Stories</a></p>
+
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
