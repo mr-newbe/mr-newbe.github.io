@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - esmini (2019–, 스웨덴 'Simulation Scenarios' 프로젝트 발): '테스트 시나리오를 표준 XML로 실행하라' — ASAM OpenSCENARIO XML 1.0–1.3 플레이어, Euro NCAP·UN ALKS 규제 시나리오가 전제하는 공개 검증 계층 (⭐945 · MPL-2.0 · 6주 6회 릴리스)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - esmini (2019–, 스웨덴 'Simulation Scenarios' 프로젝트 발): '테스트 시나리오를 표준 XML로 실행하라' — ASAM OpenSCENARIO XML 1.0–1.3 플레이어, Euro NCAP·UN ALKS 규제 시나리오가 전제하는 공개 검증 계층 (⭐945 · MPL-2.0 · 6주 6회 릴리스)</h1>
+            <p class="date">2026-09-25</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>유형:</strong> GitHub 오픈소스 프로젝트 — <strong>ASAM OpenSCENARIO XML 표준을 실제로 '재생'하는 공개 시나리오 플레이어</strong>. 특정 논문의 구현체가 아니라 <strong>표준의 공개 실행 계층(reference player)</strong>에 가까운 위치를 차지한다</li>
+                    <li><strong>저장소:</strong> <code>esmini/esmini</code> (Environment Simulator Minimalistic) — ⭐<strong>945</strong> · 🍴<strong>264</strong> · 워처 29 · 열린 이슈 <strong>224</strong> · <strong>C++</strong> · 저장소 크기 약 <strong>17MB</strong> · 기본 브랜치 <code>master</code></li>
+                    <li><strong>라이선스:</strong> <strong>MPL-2.0</strong> (Mozilla Public License 2.0, <code>GET /license</code> 확인) — 파일 단위 copyleft. 상용 제품에 링크·배포할 수 있으나 <em>esmini 소스 파일을 수정하면 그 파일은 소스 공개 의무</em>가 생긴다</li>
+                    <li><strong>생성/최근 활동:</strong> 2019-05-03 생성 · 마지막 푸시 <strong>2026-09-22</strong> · 최신 릴리스 <strong>v3.8.2</strong>(2026-09-22, build 6400) · 아카이브 아님 · <strong>6주에 6개 릴리스</strong>(v3.7.0 08-14 → v3.7.1 08-20 → v3.7.2 08-27 → v3.8.0 09-04 → v3.8.1 09-08 → v3.8.2 09-22)</li>
+                    <li><strong>구현 표준:</strong> <strong>OpenSCENARIO XML v1.0–v1.3</strong>(OpenSCENARIO DSL 지원 계획은 없음) · <strong>OpenDRIVE</strong>(정적 도로망) · <strong>ASAM OSI v3.5.0</strong>(시뮬레이션 GroundTruth 출력)</li>
+                    <li><strong>구성:</strong> 라이브러리 2개 — <code>esminiRMLib</code>(RoadManager: OpenDRIVE 도로망 질의) + <code>esminiLib</code>(ScenarioEngine: OpenSCENARIO 재생·뷰어·API, RoadManager 내장). 앱: <code>esmini</code> / <code>esmini-dyn</code> / <code>odrplot</code> / <code>odrviewer</code> / <code>replayer</code> / <code>osireceiver</code></li>
+                    <li><strong>연동:</strong> Python 바인딩 · <strong>Unity 플러그인</strong>(Win/Linux/Mac) · C#·MATLAB/Simulink를 염두에 둔 평평한 C API — 바이너리는 Windows/Linux/Mac, 설계 목표에는 Android 포함</li>
+                    <li><strong>기원:</strong> 2018년 스웨덴 협력 연구 프로젝트 <strong>"Simulation Scenarios"</strong>에서 시작 · 주 개발자 <code>eknabevcc</code>(누적 2,995 커밋, 다음 기여자 187 커밋 — 사실상 유지보수자 1인 체제)</li>
+                    <li><strong>토픽:</strong> <code>opendrive</code> · <code>openscenario</code> · <code>simulationscenarios</code> · <code>trafficscenarios</code></li>
+                    <li><strong>원문:</strong> <a href="https://github.com/esmini/esmini" target="_blank">https://github.com/esmini/esmini</a></li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>이 블로그는 시뮬레이터 축을 이미 두 번 다뤘다 — 도시 전체 교통을 1초 단위로 돌리는 <a href="autonomous-2026-09-19.html">Eclipse SUMO(09-19)</a>와 센서·렌더링을 갖춘 <a href="autonomous-2026-09-09.html">CARLA(09-09)</a>다. 그런데 그 둘 사이에 빠진 계층이 하나 있다. <strong>"무엇을 테스트할 것인가"를 기계가 읽는 형식으로 선언하는 계층</strong>이다. 자율주행 검증은 실제 도로에서 안전-크리티컬 엣지 케이스를 반복 재현할 수 없으므로, 시나리오를 문서(XML)로 선언하고 시뮬레이터가 그것을 <em>동일하게</em> 재생할 수 있어야 한다. ASAM OpenSCENARIO XML이 그 선언 형식이고, <strong>esmini는 그 파일을 실행하는 공개 플레이어다.</strong></p>
+            <ul>
+                <li><strong>문제 — 표준은 있는데 실행기가 없었다:</strong> OpenSCENARIO XML은 "도로망 위에서 일어나는 동적 사건(차량 기동·날씨·행동 트리거)"을 기술하는 ASAM 표준이고, OpenDRIVE는 그 아래의 정적 도로망을 기술한다. 표준 문서와 XSD가 있어도 <em>그 XML을 시간 축에서 실제로 재생해 차량을 움직여 주는 도구</em>가 없으면 검증은 시작되지 않는다. esmini는 2018년 스웨덴 연구 프로젝트에서 <strong>"새 표준을 익히고 도구 통합·이식성을 검증한다"</strong>는 목적으로 시작돼 2019년 5월 공개됐다.</li>
+                <li><strong>2층 구조 = ASAM 표준의 2층 구조:</strong> <code>esminiRMLib</code>은 OpenDRIVE 도로망 인터페이스(도로 폭, 차로 ID, 후행·선행 관계 조회)를, <code>esminiLib</code>은 그 위에서 OpenSCENARIO XML을 재생하는 ScenarioEngine을 제공한다. 즉 <strong>정적 지도(OpenDRIVE)와 동적 시나리오(OpenSCENARIO)의 분리를 코드 구조로 그대로 옮긴 형태</strong>다.</li>
+                <li><strong>OSI GroundTruth — 인지 알고리즘과 만나는 접점:</strong> esmini는 시뮬레이션 중 객체 상태를 <strong>ASAM OSI(Open Simulation Interface) GroundTruth(v3.5.0)</strong> 구조로 모아 ① OSI trace 파일 저장 ② <strong>UDP 전송</strong> ③ API 직접 조회 — 세 경로로 내보낸다. 앞차 위치·속도·도로 폭 같은 정답 데이터를 실시간 스트림으로 받을 수 있다는 뜻이고, 이것이 센서 모델·인지 모듈과 붙이는 co-simulation의 표준 접점이 된다(문서에 "GroundTruth의 일부 필드만 채워진다"고 명시돼 있다).</li>
+                <li><strong>"Minimalistic"은 겸손이 아니라 설계:</strong> 자체 3D 뷰어는 OpenSceneGraph 기반이고 목표는 사실적 렌더링이 아니라 <strong>이식성과 도구 통합</strong>이다. <code>ScenarioEngineDLL</code> 하나를 링크하면 커스텀 앱에 붙고(이름과 달리 Linux·Mac에서도 동작), Unity에는 플러그인으로 들어가며, Python 바인딩과 "Hello World" 튜토리얼이 공식 문서에 있다. 재생·분석 도구도 저장소 안에 함께 들어 있다 — <code>esmini</code>(본체), <code>esmini-dyn</code>(최소 예제), <code>odrplot</code>(도로망을 Python으로 플롯), <code>odrviewer</code>(더미 교통과 도로망 시각화), <code>replayer</code>(이전 실행 재생), <code>osireceiver</code>(UDP로 OSI 수신).</li>
+                <li><strong>규모보다 중요한 숫자 = 커버리지 80%:</strong> 저장소 루트의 <code>osc_coverage.txt</code>가 표준 요소별 지원 여부를 공개한다. 집계하면 <strong>278개 항목 중 Yes 222 · No 54 · Partly 2</strong>. 미지원(<code>No</code>)으로 명시된 대표 항목은 <em>Stochastic 파라미터 분포, TrafficSignals, EntitySelection, TrafficSourceAction/TrafficSinkAction/TrafficDefinition(교통 흐름 생성), TimeOfDayCondition, TrafficSignalCondition</em> 등이다. README도 <strong>"기능 커버리지는 제한적이며 필요와 기여에 따라 느리지만 꾸준히 늘어난다"</strong>고 밝힌다 — <em>표준의 모든 것을 구현한 도구가 아니라, 필요한 것부터 채워온 실전 도구</em>라는 뜻이다.</li>
+                <li><strong>유지보수 리듬:</strong> 6주 동안 6번 릴리스(v3.7.0 → v3.8.2), 릴리스마다 빌드 번호가 붙는다(3.8.2 = build 6400). 커밋 메시지 수준도 실무적이다 — <em>"Prepare release 3.8.2"</em>, <em>"Retrieve XML with resolved parameters and attributes"</em>, <em>"OSI optimizations"</em>, <em>"Add docs how to visualize .osi in Lichtblick"</em>. 2019년에 시작한 프로젝트가 <strong>7년째 같은 리듬으로 돌아가고 있다.</strong></li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>인용수가 아니라 '누가 이걸 전제로 규제 시나리오를 배포하는가'로 유명해진 프로젝트:</strong> esmini는 학술 논문이 아니라 표준 구현체여서 인용 지표가 의미를 갖지 않는다(OpenAlex에서 "esmini" 검색은 무관한 타 언어 논문만 반환해 인용 집계 자체가 불가능함을 확인). 대신 증거가 <strong>규제 문서에 대응하는 오픈 저장소 쌍</strong>으로 나타난다:
+                    <ul>
+                        <li><strong>Euro NCAP 안전평가 시나리오 — Vector의 <a href="https://github.com/vectorgrp/OSC-NCAP-scenarios" target="_blank">OSC-NCAP-scenarios</a>(⭐77)</strong>: "Euro NCAP 테스트 프로토콜 기반 시나리오를 ASAM 표준으로 구현해 기여했다"고 명시</li>
+                        <li><strong>UN ALKS 규정 — <a href="https://github.com/arauschert/OSC-ALKS-scenarios" target="_blank">OSC-ALKS-scenarios</a>(⭐125)</strong>: README에 <em>"BMW가 ALKS 규정의 테스트 시나리오를 OpenSCENARIO와 OpenDRIVE로 구현하는 작업을 맡아, 표준 준수 시뮬레이터에서 실행 가능한 XML 묶음을 만들었다"</em>고 적혀 있다</li>
+                        <li><strong><a href="https://github.com/openmsl" target="_blank">OpenMSL</a>(오픈소스 모델·시뮬레이션 라이브러리)</strong>는 <strong>GitHub Action 안에서 esmini와의 co-simulation을 돌려</strong> 센서 모델을 테스트한다 — CI에서 자동 검증되는 표준 실행기라는 뜻</li>
+                    </ul>
+                </li>
+                <li><strong>생태계가 esmini를 중심으로 저작 도구를 만든다:</strong> <a href="https://github.com/pyoscx/scenariogeneration" target="_blank">scenariogeneration</a>(⭐384, MPL-2.0)은 Python으로 OpenDRIVE·OpenSCENARIO를 <em>파라미터 스윕까지 자동 생성</em>해 esmini로 실행하는 상류 계층이고, <a href="https://github.com/johschmitz/blender-driving-scenario-creator" target="_blank">blender-driving-scenario-creator</a>(⭐326)는 Blender에서 시나리오를 저작한다. <a href="https://github.com/brifsttar/OpenDRIVE" target="_blank">brifsttar의 Unreal Engine OpenDRIVE 플러그인</a>(⭐227)은 <strong>esmini의 RoadManager를 기반으로 제작</strong>됐다 — 라이브러리가 라이브러리를 낳은 구조다.</li>
+                <li><strong>활용 가치:</strong> ① <strong>시나리오 기반 V&amp;V(검증·확인) 파이프라인</strong>: OpenSCENARIO XML 한 파일이면 어떤 CI 러너에서도 같은 시나리오를 같은 결과로 재현 — 규제 대응 회귀 테스트의 기반이 된다. ② <strong>인지·센서 모델 co-simulation</strong>: OSI GroundTruth를 UDP로 받아 자체 센서 모델·검출기와 결합. ③ <strong>교통 도구와의 결합</strong>: 같은 OpenDRIVE 도로망을 <a href="autonomous-2026-09-19.html">SUMO(09-19)</a>의 netconvert가 임포트하므로 "도로망은 공유하고 시나리오 실행은 esmini" 같은 역할 분담이 가능하다. ④ <strong>OpenDRIVE 질의 라이브러리로 단독 사용</strong>: esminiRMLib만 떼어 지도·측위 검증 도구에 넣을 수 있다(Unreal 플러그인이 그 사례). ⑤ <strong>재생·디버깅</strong>: <code>replayer</code>로 실패 시나리오를 그대로 되돌려 원인 분석.</li>
+                <li><strong>한계도 분명하다:</strong> ① <strong>XML 전용</strong> — 차세대 표준인 OpenSCENARIO DSL은 지원 계획이 없다고 README가 못 박는다. ② <strong>커버리지 80%</strong> — 교통 흐름 생성(TrafficSource/Sink), 신호등 연동, 시간대·신호 조건 트리거 등이 미지원이라 대규모 교통 시나리오는 <a href="autonomous-2026-09-19.html">SUMO(09-19)</a> 쪽 몫이다. ③ 열린 이슈 <strong>224건</strong>이 그 미지원 항목과 직결돼 있다. ④ <strong>사실적 센서 렌더링은 하지 않는다</strong> — OpenSceneGraph 기반 'Minimalistic' 뷰어이며 카메라·라이다 합성은 CARLA/UE 계열의 영역이다(esmini README도 <a href="autonomous-2026-09-09.html">Carla</a>를 "확인해 볼 만한 시뮬레이터"로 병기한다). ⑤ <strong>MPL-2.0은 파일 단위 copyleft</strong> — 상용 통합은 자유롭지만 esmini 파일을 수정하면 그 파일의 소스 공개 의무가 생긴다.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>esmini가 보여주는 것은 "시뮬레이터를 하나 더 만들었다"가 아니라 <strong>검증의 병목이 알고리즘이 아니라 형식이라는 사실</strong>이다. 인지 모델·계획 모델이 아무리 좋아져도, 그 모델이 규제를 통과하는지는 결국 <em>같은 시나리오를 몇 번이나 동일하게 재생할 수 있는가</em>로 판정된다. 그래서 Euro NCAP 테스트 프로토콜과 UN ALKS 규정이 XML 묶음으로 공개되고, 그 XML을 실행하는 도구가 인프라가 된다. esmini는 인용수가 아니라 <strong>4,000줄 규모의 표준 준수 여부 표(<code>osc_coverage.txt</code>)와 7년간 끊기지 않은 릴리스 리듬</strong>으로 그 자리를 지키고 있다. 이 블로그에서 반복 확인한 계보와 정확히 같은 결론이다 — <a href="autonomous-2026-09-22.html">MapTR(09-22)</a>은 HD맵을 벡터로 바꿔 온라인화했고, <a href="autonomous-2026-09-18.html">RSS(09-18)</a>는 "누구의 잘못인가"를 수식으로 정의했으며, esmini는 테스트 시나리오를 표준 XML로 바꿔 <em>재현 가능한 검증</em>으로 만들었다. 셋 모두 <strong>모델을 키우는 대신 문제의 형식을 고정해 이겼다.</strong></p>
+            <p>실무 관점의 시사점은 역할 분담이다. 도로망은 OpenDRIVE로 한 번 정의하고, 교통 흐름은 <a href="autonomous-2026-09-19.html">SUMO(09-19)</a>가, 사실적 센서는 <a href="autonomous-2026-09-09.html">CARLA(09-09)</a>가, <strong>규제 시나리오의 재현과 판정은 esmini가</strong> 맡는 구조가 이미 산업 표준으로 굳어졌다. 자율주행을 "학습시키는" 쪽에 관심이 쏠릴 때일수록, <strong>그 모델이 안전하다고 증명되는 경로</strong>를 먼저 확보하는 편이 낫다 — esmini는 그 경로에서 가장 값싸게 시작할 수 있는 입구다. 다만 XML 전용이라는 노선과 80% 커버리지는 분명한 제약이므로, 교통 밀집·신호 연동이 필요한 검증은 도구를 하나 더 얹는 설계를 전제로 삼아야 한다.</p>
+            <p>원문: <a href="https://github.com/esmini/esmini" target="_blank">https://github.com/esmini/esmini</a></p>
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
