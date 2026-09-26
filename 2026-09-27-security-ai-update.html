@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-09-27</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        code { background: #0b1220; padding: 1px 5px; border-radius: 4px; color: #7dd3fc; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-09-27 | <i class="fa-solid fa-tags"></i> Daily News, Malware, BYOVD, Zero-Day, CVE, KEV Patch, AI Infrastructure, Threat Intelligence
+        </div>
+        <div class="content">
+
+            <h2>1. Lunex 스틸러 — AMD 취약 커널 드라이버로 보안 모니터링을 '눈멀게' 하고 브라우저 자격증명을 훔친다</h2>
+            <p>우크라이나 정상 기업 사이트를 침해해 가짜 Cloudflare 검증(ClickFix)으로 유포되던 'Psychedelic Stealer'가 실은 <strong>Lunex</strong>라는 이름의 구독형 악성코드 서비스(MaaS) 플랫폼의 일부라는 사실이 Ontinue 분석으로 드러났다. 공격 체인은 4단계이며, 스틸러 투입 <em>이전에</em> 합법적이지만 취약한 커널 드라이버로 보안 제품을 무력화하는 단계가 들어간다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> <code>LunexLoader</code>가 CMSTPLUA COM 객체로 UAC를 우회하고 → AMD Radeon Software의 취약 커널 드라이버 <code>PDFWKRNL.sys</code>(<strong>CVE-2023-20598</strong>)를 이용한 <strong>BYOVD</strong>(bring your own vulnerable driver)로 권한 상승 → 보안 프로세스를 '종료'하지 않고 PDB 기반 커널 콜백을 0으로 덮어 <em>살아 있지만 보이지 않게</em> 만든 뒤 → 정보 탈취 페이로드를 내려받는다.</li>
+                <li><strong>핵심 우회:</strong> 연구팀의 검증 테스트에서 <strong>HVCI와 현재 Microsoft 취약 드라이버 차단 목록(Vulnerable Driver Blocklist) 어느 것도 이 <code>PDFWKRNL.sys</code> 변종의 로드를 막지 못했다.</strong> 드라이버 해시는 2026년 3월부터 LOLDrivers 프로젝트에 등재돼 있었는데도 그렇다.</li>
+                <li><strong>수익 모델:</strong> 기능이 자격증명 탈취를 넘어 <em>브랜드 사칭·피싱 페이지 생성</em>까지 확장돼 있다. 스틸러가 '구독 상품'이 되는 흐름이 계속 확인된다.</li>
+                <li><strong>시사점:</strong> EDR 무력화의 표준이 '프로세스 죽이기'(요란함)에서 '커널 콜백 제로화'(조용함)로 이동했다. EDR 프로세스가 살아 있다는 사실은 더 이상 정상 동작의 증거가 아니다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/lunex-stealer-abuses-amd-driver-to.html" target="_blank">The Hacker News - Lunex Stealer Abuses AMD Driver to Disable Security Monitoring and Steal Browser Credentials</a></p>
+
+            <h2>2. Oracle PeopleSoft 결함(CVE-2026-35273) 대량 재확산 — WAF를 우회해 웹셸을 심는다</h2>
+            <p>Google이 Oracle PeopleSoft의 알려진 결함 <strong>CVE-2026-35273</strong>(CVSS <strong>9.8</strong>, 무인증 RCE)에 대한 <em>재차 대량 익스플로잇</em>을 경고했다. ShinyHunters 연계 조직(추적명 <strong>UNC6240</strong>)의 캠페인으로, 교육·정부·기술 등 여러 산업이 표적이 됐다.</p>
+            <ul>
+                <li><strong>WAF 우회 기법:</strong> 요청 경로를 <code>/PSEMHUB/</code> 대신 <code>/%50SEMHUB/</code>로 보낸다. 대부분의 WAF·리버스 프록시 규칙이 <em>URL 디코딩 전</em>의 리터럴 경로와 매칭되는 반면, PeopleSoft 애플리케이션 서버는 디코딩 후 취약 서블릿으로 라우팅한다는 비대칭을 노린다.</li>
+                <li><strong>침해 후 행위:</strong> JSP 웹셸 배치 → MeshCentral 에이전트 등 원격 접속 도구로 지속성 확보 → SSH 횡적 이동 → 알려진 사용자명/비밀번호 조합으로 내부의 다른 PeopleSoft 서버에 접속(루트 또는 <code>NT Authority\SYSTEM</code>으로 실행된 명령도 확인) → HR·급여·학생 기록 테이블에 대한 대량 쿼리·내보내기.</li>
+                <li><strong>위협 모델:</strong> UNC6240은 데이터 탈취 후 유출 사이트에서 공개를 위협하는 <em>데이터 탈취 갈취형</em> 패턴이 확립돼 있다. 초기 공격 당시 Mandiant는 100개 이상 조직에 통보를 진행했다.</li>
+                <li><strong>대응:</strong> 패치 적용 + <strong>모든 퍼센트 인코딩 변형을 차단</strong>하도록 WAF 룰 수정, <code>PSEMHUB.war</code> 디렉터리 내 JSP 웹셸 점검, 애플리케이션 서비스 계정이 읽을 수 있는 자격증명 전면 교체.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/attackers-bypass-wafs-to-exploit-oracle.html" target="_blank">The Hacker News - Attackers Bypass WAFs to Exploit Oracle PeopleSoft Flaw and Deploy Web Shells</a></p>
+
+            <h2>3. SharePoint RCE·MikroTik RouterOS 결함, CISA KEV 등재 — '실제 익스플로잇' 확인</h2>
+            <p>CISA가 금요일(9/25) 실제 익스플로잇 증거를 근거로 Microsoft SharePoint와 MikroTik RouterOS 결함 2건을 KEV 카탈로그에 추가했다. 지난주 이 게시물에서 '패치 시한'으로만 언급했던 항목들이 이제 <em>익스플로잇 상세와 함께</em> 확정됐다.</p>
+            <ul>
+                <li><strong>CVE-2026-65660</strong> (CVSS <strong>8.8</strong>, SharePoint 코드 인젝션): Microsoft는 최초에 '스푸핑' 취약점으로 분류했다가 이후 <em>네트워크를 통한 코드 실행</em>으로 권고를 정정했다. 이미 별도 항목으로 다룬 바 있는데, 실제 익스플로잇이 관측되면서 등급이 사실상 격상된 셈이다.</li>
+                <li><strong>CVE-2026-67279</strong> (MikroTik RouterOS): 무인증 클라이언트가 세션 채널을 열고 exec 요청을 보낼 수 있다. Polish CERT가 공개한 익스플로잇 체인 <strong>MikroTrick</strong>의 일부로, RouterOS 로그인 프로세스의 인자 주입 결함 <strong>CVE-2026-86060</strong>과 연계해 사용된다.</li>
+                <li><strong>체인 결과:</strong> \"두 취약점을 결합하면 관리 콘솔에 대한 완전한 무인증 접근이 가능하다\" — CVE-2026-67279가 세션 채널을 열고, CVE-2026-86060이 공격자 제어 정책 마스크로 로그인을 공급한다. 비밀번호나 SSH 키가 필요 없다.</li>
+                <li><strong>시사점:</strong> 라우터(엣지 장비)와 협업 서버가 각각 '무인증 관리자 장악'과 '네트워크 코드 실행'으로 같은 주에 KEV에 오른 것은, 경계 장비가 여전히 가장 수익성 높은 진입점이라는 뜻이다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/sharepoint-rce-and-mikrotik-routeros.html" target="_blank">The Hacker News - SharePoint RCE and MikroTik RouterOS Flaws Actively Exploited in the Wild</a></p>
+
+            <h2>4. Elementor CSRF 결함(CVSS 8.8) — 관리자가 링크를 한 번 클릭하면 사이트가 넘어간다</h2>
+            <p>1,000만 개 이상 WordPress 사이트에서 활성화된 Elementor Website Builder 플러그인에 <strong>CVSS 8.8</strong>의 CSRF 결함이 발견됐다. 아직 CVE 번호는 부여되지 않았다. Patchstack이 공개했고, 취약점은 <strong>4.3.0과 4.3.1 두 버전</strong>에만 영향을 준다(WordPress.org 통계상 이 두 버전만 200만 개 이상 사이트에 설치됨).</p>
+            <ul>
+                <li><strong>근본 원인:</strong> Editor Events 모듈이 요청 URI에 <code>elementor/v1/events/</code> 문자열이 <em>어디에든</em> 나타나면 쿠키 인증 REST API 요청에 대한 CSRF 보호를 건너뛴다. 검증 없이 신뢰할 수 없는 경로 조각 하나로 우회되는 전형적인 '부분 문자열 매칭' 설계 실수다.</li>
+                <li><strong>공격 방식:</strong> 로그인한 관리자가 조작된 링크를 열면 그 계정이 <em>허용된 모든 REST API 동작</em>을 대신 수행한다. 기본 설치 상태라면 <code>/wp-json/wp/v2/users</code>에 <code>_method=POST&amp;roles[]=administrator</code>를 붙여 공격자용 관리자 계정이 하나 더 생성된다.</li>
+                <li><strong>영향:</strong> 4.3.0 이전 버전들은 해당 URI 패턴을 REST 라우트로 등록하지 않아 영향받지 않는다. 즉 <em>신기능 도입이 만든 회귀</em>다.</li>
+                <li><strong>대응:</strong> 4.3.2 이상으로 즉시 업데이트. 업데이트 전이라면 관리자 세션 상태에서 신뢰할 수 없는 링크를 열지 않는 것만으로도 실질적 위험을 줄일 수 있다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/elementor-csrf-flaw-lets-attackers-take.html" target="_blank">The Hacker News - Elementor CSRF Flaw Lets Attackers Take Over Sites After Admin Clicks Crafted Link</a></p>
+
+            <h2>5. [취약점] HFS2 무인증 RCE·파일 접근 10.0 두 건과 GitLab RCE 9.9 두 건 — 이번 주 NVD 최상단</h2>
+            <p>NVD 9/24~9/27 게시창(총 1,524건, 표본 200건)의 최상단은 <strong>10.0 두 건이 모두 HFS2</strong>에서 나왔다. 파일 공유 서버 소프트웨어가 인증 없이 완전 장악되는 유형이다.</p>
+            <ul>
+                <li><strong>CVE-2026-97359</strong> (CVSS <strong>10.0</strong>, HFS2 ≤ 2.4.0): 멀티파트 업로드 핸들러의 템플릿 인젝션. 파일명에 악성 템플릿 문법을 넣는 것만으로 <em>무인증 원격 코드 실행</em>이 된다.</li>
+                <li><strong>CVE-2026-97360</strong> (CVSS <strong>10.0</strong>, HFS2 ≤ 2.4.0): 무인증 임의 파일 접근. 서비스 계정이 접근 가능한 <em>모든 경로</em>에서 읽기·쓰기·추가·삭제가 가능하다. RCE와 결합하면 사실상 서버 양도다.</li>
+                <li><strong>CVE-2026-89078 / CVE-2026-93577</strong> (각 CVSS <strong>9.9</strong>, GitLab CE/EE): 19.2.7, 19.3.3, 19.4.1 이전 버전 대상. <em>인증된 사용자</em>가 조건에 따라 임의 코드를 실행할 수 있다. 자기 호스팅 GitLab을 쓰는 조직은 이번 주 마이너 릴리스로 반드시 올려야 한다.</li>
+                <li><strong>CVE-2026-19072</strong> (CVSS <strong>9.9</strong>, Velociraptor): hunt 객체에 내부 필드 <code>compiled_collector_args</code>로 저장되는 컴파일된 VQL을 외부에서 주입할 수 있다. <em>포렌식·EDR 도구 자체</em>가 공격 표면이 된 사례다.</li>
+                <li><strong>시사점:</strong> 이번 주 상위권은 전부 '내부 도구·셀프호스팅 인프라'에 몰렸다. 파일 서버(HFS2), 코드 호스팅(GitLab), 엔드포인트 수집(Velociraptor) — 외부 SaaS가 아니라고 안전한 것이 아니라, 오히려 관리 주체가 직접 패치 책임을 지는 자산들이다.</li>
+            </ul>
+            <p>출처: <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?pubStartDate=2026-09-24T00:00:00.000&amp;pubEndDate=2026-09-27T00:00:00.000" target="_blank">NVD - CVE API 2.0 (게시창 2026-09-24 ~ 2026-09-27, CVSS 상위)</a></p>
+
+            <h2>6. [취약점] AI·에이전트 인프라 결함 3건 — mcp-remote SSRF(9.1), Cloudflare Zero Trust 서명 검증(9.3)</h2>
+            <p>이번 주 NVD 표본에서 AI·에이전트 스택 관련 결함이 눈에 띄게 늘었다. 지난주 이 게시물에서 짚은 'AI 인프라 결함이 또 같은 자리에서 반복된다'는 패턴이 이어지고 있다.</p>
+            <ul>
+                <li><strong>CVE-2026-51994</strong> (CVSS <strong>9.1</strong>, <code>mcp-remote</code> 0.1.32~0.1.38): 원격 MCP 서버의 <code>WWW-Authenticate</code> 헤더에서 추출한 <code>resource_metadata</code> URL을 그대로 신뢰해 <strong>SSRF</strong>가 성립한다. <em>에이전트가 붙는 MCP 연결 계층</em>이 곧 공격 경로가 된다는 점이 핵심이다 — 악성·침해된 MCP 서버 하나로 에이전트를 내부망 스캐너로 바꿀 수 있다.</li>
+                <li><strong>CVE-2026-91187</strong> (CVSS <strong>9.3</strong>, dashbit <code>nimble_zta</code>): 암호학적 서명 검증 결함. 무인증 원격 공격자가 <em>임의의 Cloudflare 서비스 토큰으로 인증</em>할 수 있다. Cloudflare Zero Trust를 사용하는 애플리케이션이 영향을 받는다 — 제로트러스트 게이트웨이의 신뢰 근간이 검증 로직 한 곳에서 무너지는 유형이다.</li>
+                <li><strong>CVE-2026-90481</strong> (CVSS <strong>9.2</strong>, PortSwigger Burp Suite DAST 2026.8 이전): 대체 경로·채널을 통한 인증 우회. <em>보안 도구가 보안 결함을 갖는</em> 셀프호스팅 자산 문제가 여기서도 반복된다.</li>
+                <li><strong>실무 판단:</strong> 에이전트·MCP 계층은 아직 설계 검증이 얕다. 외부 MCP 서버는 화이트리스트로 고정하고, 그 서버가 반환하는 메타데이터 URL을 신뢰 경계 밖으로 취급하며, 서비스 토큰은 용도별로 분리·단기 회전하는 것이 현재로서는 가장 실효적인 통제다.</li>
+            </ul>
+            <p>출처: <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?pubStartDate=2026-09-24T00:00:00.000&amp;pubEndDate=2026-09-27T00:00:00.000" target="_blank">NVD - CVE API 2.0 (AI·에이전트 인프라 항목)</a></p>
+
+            <h2>7. [패치] 오늘이 KEV 마감일이다 — WSO2·Adobe Commerce(9/27), 내일 MikroTik·SharePoint·WordPress(9/28)</h2>
+            <p>CISA KEV 마감일을 오늘(2026-09-27) 기준으로 정리했다. 어제 게시물에서 '주말을 넘기지 말라'고 짚었던 2건의 시한이 <strong>오늘</strong>이다.</p>
+            <ul>
+                <li><strong>오늘 마감 (2026-09-27)</strong> — <strong>CVE-2026-5430</strong> (WSO2 API Control Plane·API Manager·Traffic Manager·Universal Gateway): 경로 순회로 제한 없는 파일 업로드가 가능해지고 RCE로 이어진다. <strong>CVE-2026-71362</strong> (Adobe Commerce·Magento): 잘못된 인가 검증으로 <em>사용자 상호작용 없이</em> 민감 리소스에 대한 권한 상승이 가능하다.</li>
+                <li><strong>내일 마감 (2026-09-28)</strong> — <strong>CVE-2026-67279</strong> (MikroTik RouterOS, 위 3번 항목), <strong>CVE-2026-65660</strong> (Microsoft SharePoint, 위 3번 항목), <strong>CVE-2026-87902</strong> (WordPress Core): 무인증 공격자가 활성 테마 디렉터리 밖의 로컬 <code>.php</code> 파일을 페이지 템플릿 해석에 포함시킬 수 있는 원격 파일 포함 결함.</li>
+                <li><strong>주의:</strong> 이번 주 상위 5건은 모두 <em>실제 익스플로잇이 확인된</em> 항목이다. '패치 가능하지만 아직 안 한' 상태가 곧 침해 가능 상태다.</li>
+                <li><strong>우선순위 판단:</strong> 인터넷에 노출된 WSO2 게이트웨이와 Adobe Commerce가 가장 급하다(오늘 마감 + 무인증/무상호작용). MikroTik 라우터는 물리적으로 접근 가능한 엣지 장비이므로 원격 관리 포트를 먼저 닫고 펌웨어를 올린다.</li>
+            </ul>
+            <p>출처: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA - Known Exploited Vulnerabilities Catalog</a> · <a href="https://thehackernews.com/2026/09/wso2-and-adobe-commerce-flaws-exploited.html" target="_blank">The Hacker News - WSO2 and Adobe Commerce Flaws Exploited in Attacks, Added to CISA KEV</a></p>
+
+            <h2>8. [트렌드] 커널 드라이버가 EDR 무력화의 표준 부품이 됐다 — BYOVD와 스틸러의 MaaS 구독화</h2>
+            <p>오늘 1번 항목의 AMD <code>PDFWKRNL.sys</code> 사례는 이번 주 표본에서 두 번째 BYOVD 확인 건이다. 개별 악성코드의 기법이 아니라 <em>재사용 가능한 부품</em>으로 굳어지고 있다는 신호라 따로 정리한다.</p>
+            <ul>
+                <li><strong>기법의 위치 변화:</strong> BYOVD는 원래 랜섬웨어의 최종 단계(백신 죽이기)에서 쓰였다. Lunex에서는 <em>스틸러 투입 전처리</em>로 내려왔다. 즉 커널 드라이버 악용이 '고급 기법'에서 '기본 절차'로 이동했다.</li>
+                <li><strong>방어 도구의 한계:</strong> HVCI와 Microsoft 취약 드라이버 차단 목록이 이 변종을 막지 못했다는 검증 결과가 나왔다. 드라이버 해시가 LOLDrivers에 등재된 지 6개월이 지났는데도 실효 차단이 안 된다는 것은, 목록 기반 방어가 해시 변종·서명 위조 속도를 따라가지 못한다는 뜻이다.</li>
+                <li><strong>조용함이 목표:</strong> 프로세스를 종료하면 이벤트가 남지만, PDB 기반으로 커널 콜백을 0으로 덮으면 보안 제품이 <em>살아 있는 채로 아무것도 못 본다</em>. 텔레메트리 공백 자체를 탐지 신호로 삼아야 하는 이유다.</li>
+                <li><strong>수익 구조:</strong> Lunex는 자격증명 탈취 + 브랜드 사칭·피싱 페이지 생성까지 묶어 구독형으로 판다. ClickFix 유포망(지난주 게시물에서 1만 7천 개 URL·3천 개 활성으로 집계된 그 인프라)과 결합하면 '악성코드 + 유포 + 피싱 페이지'가 한 사업자가 제공하는 패키지가 된다.</li>
+                <li><strong>실무 시사점:</strong> (1) EDR 프로세스 생존 여부를 신뢰 지표로 쓰지 말고 커널 드라이버 로드 이벤트를 별도 수집한다. (2) 원격 서명·프로세스 보호(Credential Guard, LSA 보호)를 켠다. (3) 스틸러는 자격증명 탈취가 목적이므로 <em>침해 후</em> 비밀번호·세션 토큰 회전 절차를 미리 문서화한다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/lunex-stealer-abuses-amd-driver-to.html" target="_blank">The Hacker News - Lunex Stealer Abuses AMD Driver to Disable Security Monitoring and Steal Browser Credentials</a> · <a href="https://thehackernews.com/2026/09/17000-urls-reveal-how-clickfix-turns.html" target="_blank">The Hacker News - 17,000 URLs Reveal How ClickFix Turns Trusted Websites Into Malware Traps</a></p>
+
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
