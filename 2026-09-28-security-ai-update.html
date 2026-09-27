@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-09-28</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        code { background: #0b1220; padding: 1px 5px; border-radius: 4px; color: #7dd3fc; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-09-28 | <i class="fa-solid fa-tags"></i> Daily News, Zero-Day, Data Breach, Identity Security, Critical Infrastructure, KEV Patch
+        </div>
+        <div class="content">
+
+            <h2>1. Citrix NetScaler 제로데이 2건(CVSS v4 9.5) — 실제 익스플로잇 확인, KEV 등재·9/30 마감</h2>
+            <p>Citrix가 2026년 9월 27일, <strong>NetScaler ADC·NetScaler Gateway의 무인증 원격 코드 실행 취약점 2건이 실제 공격에 악용됐다</strong>고 확인하고 긴급 패치를 배포했다. 같은 공지에 다른 결함 6건의 수정도 함께 포함됐다. 두 결함 중 하나는 <em>기본 설정을 포함한 해당 버전의 모든 배포</em>에 영향을 준다.</p>
+            <ul>
+                <li><strong>CVE-2026-88771</strong> (CVSS v4 <strong>9.5</strong>): 입력 검증 결함. <strong>무인증 공격자가 임의 명령을 실행</strong>할 수 있다. 별도 기능 활성화가 필요 없어 모든 ADC·Gateway 배포가 대상이다.</li>
+                <li><strong>CVE-2026-88772</strong> (CVSS v4 <strong>9.5</strong>): 메모리 버퍼 경계 처리 결함으로 RCE 또는 서비스 거부(DoS)에 이른다. <strong>DTLS가 켜진 어플라이언스</strong>가 대상이며, DTLS는 VPN 가상 서버에서 기본 활성화이므로 명시적으로 끄지 않은 NetScaler Gateway는 영향을 받는다.</li>
+                <li><strong>공개 경위:</strong> 보안업체 watchTowr가 하루 전 "패치되지 않은 NetScaler RCE 2건이 익스플로잇됐다"고 밝힌 뒤, 관리자들이 어플라이언스를 내리는 상황까지 벌어졌다. Citrix가 공개한 두 결함이 watchTowr의 설명과 일치한다.</li>
+                <li><strong>대응 공백:</strong> Citrix는 공지에서 <strong>우회(workaround)를 제시하지 않았고 침해 지표(IoC)도 내놓지 않았다.</strong> 익스플로잇 관측 시점·규모·주체도 밝히지 않았다. 즉 공격자가 먼저 쓴 뒤에 패치가 나온 전형적 제로데이다.</li>
+                <li><strong>패치:</strong> NetScaler ADC·Gateway <code>14.1-73.37</code> 이상 릴리스로 즉시 업그레이드(13.1 계열도 동일 결함 영향 — 제조사 권고 버전 확인 필요). 참고로 8월의 인증 우회 <code>CVE-2026-19490</code>을 고친 빌드(<code>14.1-73.32</code>, <code>13.1-63.21</code>)는 여전히 이번 취약 범위 안에 있다.</li>
+                <li><strong>시사점:</strong> ADC·Gateway는 기업망의 <em>가장자리</em>에서 VPN·원격접속·로드밸런싱·인증을 모두 처리한다. 여기가 뚫리면 내부망 전체가 노출되므로, 이번 주 최우선 패치 대상이다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/warning-two-unpatched-citrix-netscaler.html" target="_blank">The Hacker News - Warning: Two Unpatched Citrix NetScaler RCE Zero-Days Under Active Exploitation</a> · <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA - Known Exploited Vulnerabilities Catalog</a></p>
+
+            <h2>2. 펜타곤 인사시스템(DMDC) 유출 — 9개월간 탐지되지 않았고, 최대 400만 명 규모 가능성</h2>
+            <p>미 국방부 인사관리 시스템 침해로 <strong>현역·예비역 군인의 주민등록번호(SSN)와 암호화되지 않은 개인정보</strong>가 노출됐다. CNN은 이 사안이 국가안보·방첩 차원의 우려를 낳고 있다고 보도했고, Military Times는 국방부가 해당 인원에게 유출 통지서를 발송했다고 전했다.</p>
+            <ul>
+                <li><strong>경위:</strong> 국방부 인사데이터센터(<strong>DMDC</strong>)의 취약한 서버에 "비인가 사용자"가 접근한 시점은 <strong>지난해 10월</strong>이었지만, 국방부가 이를 <em>탐지하고 조치한 것은 9개월 뒤인 7월</em>이었다.</li>
+                <li><strong>규모:</strong> 정확한 범위는 아직 불명확하다. 사안에 정통한 2명은 Military Times에 <strong>약 400만 명의 국방부 인원이 영향받았을 수 있다</strong>고 말했다.</li>
+                <li><strong>대응:</strong> 국방부는 영향 인원에게 민간업체 IDX를 통한 <strong>1년 신용 모니터링·신원 복구 서비스</strong>를 제공한다고 통지했다. 통지문에는 "정보가 악용됐다는 징후는 없다"고 적혀 있다.</li>
+                <li><strong>민감한 성격:</strong> DMDC는 국방부의 신원 확인·인증·인가를 담당하는 <em>중앙 신원 소스</em>다. 단순 개인정보를 넘어 인사·보직·자격 데이터가 얽혀 있어, 방첩 관점에서 사회공학·표적 접근의 재료가 된다.</li>
+                <li><strong>시사점:</strong> 타임라인 자체가 핵심이다. 9개월간 탐지되지 않은 접근은 "취약점을 고쳤다"보다 "그 기간 무엇을 읽고 내보냈는지 모른다"는 문제를 남긴다. 대규모 인사 시스템은 암호화·접근로그·이상행위 탐지를 데이터 저장 단계에서부터 설계해야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://www.cnn.com/2026/09/25/politics/pentagon-data-personnel-breach" target="_blank">CNN - Pentagon data breach of military personnel raises national security concerns</a> · <a href="https://www.militarytimes.com/news/pentagon-congress/2026/09/24/military-personnel-data-exposed-in-breach-agency-warns/" target="_blank">Military Times - Military personnel data exposed in breach, agency warns</a></p>
+
+            <h2>3. ShinyHunters, FBI 침해 주장 — PeopleSoft 제로데이로 2~3TB 탈취, 직원 정신의료 기록까지</h2>
+            <p>갈취 조직 <strong>ShinyHunters</strong>가 Oracle PeopleSoft 제로데이를 이용해 FBI 시스템에 침입했다고 주장했고, Reuters는 9월 25일 <strong>FBI 직원의 정신과·의료 기록이 탈취됐다는 정황</strong>을 단독 보도했다. 앞서 NYT·404 Media·CBS·THN이 "FBI 요원 및 지원자 다수"의 데이터를 가졌다는 주장을 전한 바 있다.</p>
+            <ul>
+                <li><strong>주장된 경로:</strong> PeopleSoft의 신규 제로데이(원격 코드 실행)로 월요일 밤 FBI 시스템에 접근 → <strong>FBI가 관리하는 AWS GovCloud 인프라로 횡적 이동</strong> → <code>2TB~3TB</code> 데이터 탈취.</li>
+                <li><strong>주장된 피해 서비스:</strong> FBI의 <em>Criminal Justice(CJ)·HR·Medlink</em> 등 내부 서비스. 신원·인사·의료 데이터가 한 침해에서 동시에 걸린 형태다.</li>
+                <li><strong>동기:</strong> ShinyHunters는 2026년 5월 FBI 등이 공동 발표한 PSA(이 그룹의 Canvas LMS 표적 활동을 고발하고 몸값 지불을 말린 내용)에 대한 <em>반격</em>이라고 주장하며, 해당 PSA를 "중대한 허위 주장"이라고 반박했다.</li>
+                <li><strong>확장:</strong> 같은 제로데이를 Fortune 500 기업에도 쓰고 있다고 주장했다. FBI는 침해 주장을 조사 중이다(BBC 보도).</li>
+                <li><strong>주의(중복 표기):</strong> 9월 27일 게시물에서 PeopleSoft 결함 <code>CVE-2026-35273</code>의 WAF 우회 대량 익스플로잇을 이미 다뤘다. 이 항목의 <em>새 정보</em>는 "누가·무엇을 훔쳤는가" — 즉 FBI 침해의 구체 내용과 Reuters의 정신의료 기록 보도다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/shinyhunters-claims-fbi-breach-says-it.html" target="_blank">The Hacker News - ShinyHunters Claims FBI Breach, Says It Stole Data on Agents and Job Applicants</a> · <a href="https://www.bleepingcomputer.com/news/security/shinyhunters-claims-fbi-hack-data-theft-in-peoplesoft-zero-day-breach/" target="_blank">BleepingComputer - ShinyHunters claims FBI hack, data theft in PeopleSoft zero-day breach</a></p>
+
+            <h2>4. 스페인 철도 Renfe·Adif 침해 — 고객 이름·이메일 유출, 열차 운행은 정상</h2>
+            <p>스페인 국영 철도 운영사 <strong>Renfe</strong>와 철도 인프라 운영사 <strong>Adif</strong>에서 사이버 침해가 확인됐다. 공격자는 Renfe 시스템과 상호연결된 <em>Adif 서버</em>를 먼저 장악한 것으로 조사됐다. 고객 이름과 이메일 주소가 유출된 것으로 보이며, 결제정보·주민번호(DNI)는 접근되지 않았다고 회사 측이 밝혔다.</p>
+            <ul>
+                <li><strong>유출 범위:</strong> 예비 조사 결과 공격자가 확보한 정보는 <em>이름·이메일 중심의 제한적 고객정보</em>. 은행·결제 정보, DNI 등 민감 데이터는 접근되지 않았다.</li>
+                <li><strong>운영 영향:</strong> <strong>열차 운행에는 영향이 없다.</strong> Adif는 목요일 늦은 시각 시스템에서 이상 활동을 탐지하고 확산 차단에 들어갔으며, 침해된 웹사이트는 보안이 확보된 상태로 복구됐다.</li>
+                <li><strong>사전 징후:</strong> Renfe는 이번 사건 이전에 <em>수 주간 지속적인 공격 시도</em>가 있었지만 기존 보안 통제로 모두 차단했다고 설명했다. 이번 건의 공격자 주체는 아직 특정되지 않았다.</li>
+                <li><strong>대응:</strong> 외부 사이버보안 전문업체 지원을 받아 추가 보호 조치를 적용 중이며, 정보가 공개·유포됐다는 확증은 아직 없다.</li>
+                <li><strong>시사점:</strong> "상호연결된 별개 조직"이 곧 공격 경로다. 인프라 운영사와 서비스 운영사가 시스템으로 연결돼 있으면 <em>보안 수준은 둘 중 약한 쪽</em>으로 수렴한다. 공급망 경계를 계약·기술 양쪽에서 다시 그어야 하는 이유다.</li>
+            </ul>
+            <p>출처: <a href="https://inspain.news/renfe-customer-data-adif-cyberattack/" target="_blank">InSpain.news - Renfe customers' names and emails exposed in Adif cyberattack</a> · <a href="https://ftnnews.com/travel-news/technology/renfe-cyberattack-customer-data-2026/" target="_blank">FTN news - Renfe Cyberattack Exposes Customer Data, Trains Unaffected</a></p>
+
+            <h2>5. [취약점] 워드프레스·WooCommerce 플러그인 권한상승 클러스터 — 9.8 한 건 포함 5건 동시</h2>
+            <p>이번 NVD 표본(2026-09-25~09-28, 1,102건 중 CVSS 상위)에서 <strong>워드프레스/WooCommerce 플러그인의 권한상승·인가 우회·RCE 결함이 한꺼번에 5건</strong> 올라왔다. 코어가 아니라 <em>플러그인 계층</em>에서 반복되는 유형이다.</p>
+            <ul>
+                <li><strong>CVE-2026-14281</strong> (CVSS <strong>9.8</strong>, Advanced Country Code – Notifications and OTP for WooCommerce <code>≤ 4.8.6</code>): 권한 검사 누락으로 <strong>권한 상승</strong>. 이번 표본에서 워드프레스 계열 최고 점수다.</li>
+                <li><strong>CVE-2026-89055</strong> (CVSS <strong>9.1</strong>, Customer Reviews for WooCommerce <code>≤ 5.120.0</code>): 사용자 인가 확인을 제대로 하지 않아 <strong>인가 우회</strong>가 성립한다.</li>
+                <li><strong>CVE-2026-93399</strong> (CVSS <strong>9.1</strong>, Bookly <code>≤ 28.2</code>): <code>bookly_get_form_id</code>, <code>bookly_render_complete</code>, <code>bookly_add_to_calendar</code>, <code>bookly_rollback_order</code> 경로를 통한 <strong>IDOR</strong>(부적절한 직접 객체 참조).</li>
+                <li><strong>CVE-2026-19804</strong> (CVSS <strong>8.8</strong>, s2Member <code>≤ 260814</code>): <strong>원격 코드 실행</strong>. <strong>CVE-2026-89426</strong> (CVSS <strong>8.8</strong>, Knit Pay <code>≤ 9.6.1.0</code>): <code>maybe_update_user_role()</code> 함수가 입력을 그대로 신뢰해 <strong>권한 상승</strong>.</li>
+                <li><strong>공통 원인:</strong> 다섯 건 모두 <em>암호 문제가 아니라 인가(권한) 검사 누락</em>이다. "로그인했는가"는 확인하지만 "이 사용자가 이 동작을 해도 되는가"를 확인하지 않는 패턴이 반복된다.</li>
+                <li><strong>실무 대응:</strong> 플러그인 인벤토리를 최신 상태로 유지하고, 위 플러그인은 즉시 상위 버전으로 갱신한다. 워드프레스 코어만 최신이면 안전하다는 가정을 버리고, <strong>비활성 플러그인까지 포함한 전체 목록</strong>을 주기적으로 대조한다.</li>
+            </ul>
+            <p>출처: <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?pubStartDate=2026-09-25T00:00:00.000&amp;pubEndDate=2026-09-28T00:00:00.000" target="_blank">NVD - CVE API 2.0 (게시창 2026-09-25 ~ 2026-09-28, CVSS 상위)</a></p>
+
+            <h2>6. [취약점] Lemonldap::NG SSO 결함 2건(각 9.1) — OAuth2 클라이언트 시크릿을 검증하지 않는다</h2>
+            <p>Perl 기반 오픈소스 SSO·아이덴티티 게이트웨이 <strong>Lemonldap::NG</strong>에서 무인증 인증 우회 결함 2건이 각각 <strong>CVSS 9.1</strong>로 공개됐다.</p>
+            <ul>
+                <li><strong>CVE-2026-92288</strong> (9.1, 2.20.0~2.21.6 미만 / 2.22.0~2.23.4 미만): 무인증 <strong>OAuth2 토큰 인트로스펙션</strong> 결함. <code>checkEndPointAuthenticationCredentials</code>가 <em>퍼블릭 클라이언트의 client secret을 검증하지 않아</em> 누구나 인트로스펙션 엔드포인트를 호출할 수 있다.</li>
+                <li><strong>CVE-2026-92289</strong> (9.1, 동일 버전 범위): "PKCE or secret" 모드에서 <em>퍼블릭 Relying Party에 대한 PKCE 우회</em>. 같은 함수가 client secret을 확인하지 않는 것이 원인이다.</li>
+                <li><strong>수정 버전:</strong> <code>2.21.6</code> 및 <code>2.23.4</code>. 두 결함이 <em>같은 검증 함수 한 곳</em>에서 발생했다는 점이 핵심이다.</li>
+                <li><strong>함께 볼 항목:</strong> 같은 표본에 <strong>CVE-2026-92609</strong>(CVSS <strong>9.8</strong>) — HTTP 관리 인터페이스 인증에서 <em>성공적인 인증을 거쳐도 세션 식별자가 재사용되는 세션 고정(session fixation)</em>. 원격 공격자가 인증된 관리 세션을 탈취할 수 있다.</li>
+                <li><strong>시사점:</strong> SSO·IdP는 <em>모든 서비스의 신뢰가 모이는 한 점</em>이다. 검증 함수 하나의 누락이 전체 조직의 인증 경계를 무력화하므로, 아이덴티티 계층의 결함은 CVSS 점수와 무관하게 최우선으로 처리해야 한다. OIDC/OAuth2 구현은 시크릿 검증·PKCE 강제·세션 재발급을 배포 전 체크리스트로 검증한다.</li>
+            </ul>
+            <p>출처: <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?pubStartDate=2026-09-25T00:00:00.000&amp;pubEndDate=2026-09-28T00:00:00.000" target="_blank">NVD - CVE API 2.0 (Lemonldap::NG · 관리 인터페이스 세션 고정 항목)</a></p>
+
+            <h2>7. [패치] 오늘이 KEV 마감일이다 — MikroTik·SharePoint·WordPress 3건, Citrix는 9/30</h2>
+            <p>CISA KEV 마감일을 오늘(2026-09-28) 기준으로 정리했다. 9월 27일 게시물에서 "내일 마감"으로 표시했던 3건의 시한이 <strong>오늘</strong>이다.</p>
+            <ul>
+                <li><strong>오늘 마감 (2026-09-28)</strong> — <strong>CVE-2026-67279</strong> (MikroTik RouterOS): 무인증 클라이언트가 세션 채널을 열고 exec 요청을 보낼 수 있으며 다른 결함과 연쇄 가능. <strong>CVE-2026-65660</strong> (Microsoft SharePoint): 코드 주입 — 최초 '스푸핑'으로 분류됐다가 실제로는 네트워크 경유 코드 실행으로 재분류됐다. <strong>CVE-2026-87902</strong> (WordPress Core): 무인증 공격자가 활성 테마 디렉터리 밖의 로컬 <code>.php</code> 파일을 페이지 템플릿 해석에 포함시키는 원격 파일 포함 결함.</li>
+                <li><strong>다음 마감 (2026-09-30)</strong> — <strong>CVE-2026-88771</strong>·<strong>CVE-2026-88772</strong> (Citrix NetScaler, 위 1번 항목). 오늘 공개된 신규 항목이므로 <em>이번 주 가장 급한 미래 시한</em>이다.</li>
+                <li><strong>시한 압박의 구조:</strong> 최근 마감일이 '게시일 + 3일'로 반복된다. 9/25 등재 항목의 마감이 9/28, 9/27 등재 항목의 마감이 9/30 — 패치 창이 주말을 넘기는 주 단위가 아니라 <strong>2~3일 단위</strong>로 좁아졌다.</li>
+                <li><strong>우선순위 판단:</strong> (1) 인터넷에 노출된 Citrix NetScaler를 먼저 14.1-73.37 이상으로 올린다(무인증·기본 설정 취약·실제 익스플로잇 3중 조건). (2) MikroTik 라우터는 원격 관리 포트를 우선 차단하고 펌웨어를 갱신한다. (3) SharePoint는 노출 범위를 확인하고 누적 업데이트를 적용한다. (4) WordPress 코어를 즉시 최신으로 올린다.</li>
+            </ul>
+            <p>출처: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA - Known Exploited Vulnerabilities Catalog</a> · <a href="https://thehackernews.com/2026/09/sharepoint-rce-and-mikrotik-routeros.html" target="_blank">The Hacker News - SharePoint RCE and MikroTik RouterOS Flaws Actively Exploited in the Wild</a></p>
+
+            <h2>8. [트렌드] 공격자들이 실제로 깨는 것은 '인증'이 아니라 '인가'다 — 오늘 사건들이 수렴하는 한 점</h2>
+            <p>오늘 정리한 사건·결함을 겹쳐 보면 공통점이 하나 나온다. 표적이 특정 산업이나 특정 제품이 아니라 <strong>자격증명과 신원을 다루는 계층</strong>에 몰려 있다는 점, 그리고 그 침해의 실제 원인이 <em>암호가 아니라 권한 검사</em>라는 점이다.</p>
+            <ul>
+                <li><strong>표적의 수렴(오늘 기준):</strong> Citrix NetScaler(VPN·인증 엣지), Lemonldap::NG(SSO·OIDC), Oracle PeopleSoft·DMDC(HR·신원 데이터), Renfe·Adif(고객 자격증명), 워드프레스 플러그인(사이트 권한). 산업은 제각각인데 자산 유형은 전부 "누구인지 확인하고 권한을 부여하는 시스템"이다.</li>
+                <li><strong>원인의 수렴 — 인가 누락:</strong> Lemonldap는 client secret 미검증, 워드프레스 5건은 인가 검사·권한 확인 누락, 세션 고정 결함은 인증 후 세션 재발급 누락이다. <em>로그인 여부</em>는 확인하면서 <em>이 주체가 이 행위를 해도 되는가</em>를 확인하지 않는 같은 실수가 반복된다.</li>
+                <li><strong>문제를 키우는 두 가지:</strong> (1) 탐지 지연 — 펜타곤 DMDC 사례는 접근 시작(작년 10월)과 탐지(올해 7월) 사이가 <strong>9개월</strong>이었다. 침해 당일이 아니라 <em>분기 단위</em>로 알게 된다는 뜻이다. (2) 상호연결 — Renfe·Adif처럼 조직 경계를 넘는 시스템 연결은 보안 수준을 <em>약한 쪽</em>으로 수렴시킨다.</li>
+                <li><strong>운영 시사점(실무 우선순위):</strong> (1) 인증·신원 자산(Citrix, SSO/IdP, HR 시스템, 관리 인터페이스)을 별도 인벤토리로 분리해 KEV 마감일 기준으로 패치한다. (2) SSO/OIDC 구현은 시크릿 검증·PKCE 강제·세션 재발급을 배포 체크리스트로 검증한다. (3) 인가 결정 지점에 로그를 남기고, <em>정상 자격증명으로 평소와 다른 리소스를 읽는 패턴</em>을 탐지 규칙으로 올린다 — 이번 사건들에서 공격자들은 대부분 유효한 자격증명을 들고 있었다. (4) 신원 데이터는 저장 단계에서 암호화하고, 노출 시 자격증명·세션 토큰 회전 절차를 미리 문서화한다.</li>
+                <li><strong>한 줄 정리:</strong> 암호를 깨는 공격은 드물다. 이번 주 사건들은 모두 <em>검증되지 않은 신뢰</em>를 통해 들어왔다 — 검증되지 않은 시크릿, 검증되지 않은 권한, 검증되지 않은 세션, 그리고 9개월간 검증되지 않은 서버 접근.</li>
+            </ul>
+            <p>출처: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA - Known Exploited Vulnerabilities Catalog</a> · <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?pubStartDate=2026-09-25T00:00:00.000&amp;pubEndDate=2026-09-28T00:00:00.000" target="_blank">NVD - CVE API 2.0</a> · <a href="https://www.cnn.com/2026/09/25/politics/pentagon-data-personnel-breach" target="_blank">CNN - Pentagon data breach</a></p>
+
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
