@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🪤 [최신] OllamaDrama — 인증 없는 Ollama API를 84일간 노출한 하니팟이 본 것: 29만 건 상호작용·2,793개 IP, 모델 경로탐색·SSRF·채굴·프롬프트 인젝션 (arXiv 2609.29757, 2026)</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🪤 [최신] OllamaDrama — 인증 없는 Ollama API를 84일간 노출한 하니팟이 본 것</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-09-27 · 카테고리: Research (최신 보안 논문 · LLM 인프라 노출 · 하니팟 측정 · arXiv cs.CR)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> OllamaDrama: Designing and Deploying a Honeypot to Measure Attacks on Exposed LLM Infrastructure<br>
+                <strong>저자:</strong> <strong>Karina Elzer, Niklas Netterstrøm Johansen, Emmanouil Vasilomanolakis</strong><br>
+                <strong>소속:</strong> Technical University of Denmark (DTU)<br>
+                <strong>출처:</strong> arXiv:2609.29757 [cs.CR] — 2026년 9월 24일 제출 (프리프린트, 24페이지·7개 그림)<br>
+                <strong>분야:</strong> LLM 인프라 보안 · 사이버 기만(cyber deception) · 하니팟 측정 · AI 공급망 · 자기호스팅(self-hosted) 서비스 노출<br>
+                <strong>인용:</strong> <strong>미확인 (게시 3일차 신규 프리프린트)</strong> — Semantic Scholar는 첫 호출부터 429(레이트리밋)로 응답했고, OpenAlex에는 아직 인용 0회로만 잡힌다(동일 제목의 arXiv 레코드 + Zenodo 데이터셋/분석코드 2건이 함께 색인됨)<br>
+                <strong>데이터·코드:</strong> Zenodo 공개 (DOI 10.5281/zenodo.22918901 / 22918902) — 원시 텔레메트리와 분석 코드를 함께 공개한 재현 가능 연구<br>
+                <strong>원문:</strong> <a href="https://arxiv.org/abs/2609.29757" target="_blank" rel="noopener">arxiv.org/abs/2609.29757</a> · HTML 전문: <a href="https://arxiv.org/html/2609.29757" target="_blank" rel="noopener">arxiv.org/html/2609.29757</a>
+            </div>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 한 줄 요약 — "Ollama를 인터넷에 그냥 열어두면 무엇이 오는가를, 84일간 실제로 세어봤다"</h2>
+            <p>요즘 기업·개인은 비용과 프라이버시 때문에 <strong>로컬 LLM(Ollama 등)</strong>을 직접 띄운다. 문제는 이 API가 <em>설계상 인증이 없다</em>는 점이다. 저자들은 백엔드 LLM 없이 Ollama API만 흉내 내는 <strong>저·중상호작용 하니팟 'Ollure'</strong>를 만들어 클라우드와 대학망에 <strong>4개 인스턴스</strong>를 84일간 세워두고(2026-06-29 ~ 09-20), 실제로 무엇이 두드리는지 측정했다.</p>
+            <blockquote>
+                84일 동안 <strong>290,887건</strong>의 상호작용이 <strong>2,793개 고유 IP</strong>에서 들어왔고, 그중에는 정찰을 넘어선 <em>실제 익스플로잇 시도</em>가 포함돼 있었다 — 경로 탐색, SSRF, RCE·채굴 페이로드, 그리고 LLM 계층을 노린 프롬프트 인젝션과 에이전트 도구 남용까지.
+            </blockquote>
+            <p>이 논문의 가치는 "노출된 LLM이 위험하다"는 상식의 확인이 아니다. <strong>어떤 계층(엔드포인트)이 몇 번 두드려지고, 공격자가 무엇을 시도하며, 어디서 멈추는지</strong>를 숫자로 남긴 데 있다 — 방어자가 로그에서 무엇을 봐야 하는지에 대한 실측 기준선이다.</p>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 왜 이 지점이 중요한가</h2>
+            <ul>
+                <li><strong>노출 규모가 이미 크다:</strong> 논문은 배경에서 <strong>Shodan 기준 약 2만 개의 Ollama 인스턴스가 공개 노출</strong>되어 있고, 선행 연구(Xu et al.)가 <strong>362일 관측에서 누적 152,137개 Ollama 엔드포인트</strong>를 확인했다고 인용한다. 즉 이 연구의 실험 대상은 예외적 표본이 아니라 평범한 현실이다.</li>
+                <li><strong>비용이 곧 공격면:</strong> Ollama API는 무인증이므로, 모델을 마음대로 <code>pull</code>해 추론에 쓰거나(<em>클라우드 자원 도용</em>) 대량 요청으로 DoS를 유발할 수 있다. 클라우드 호스팅이면 <strong>청구서</strong>, 로컬이면 <strong>서비스 저하</strong>로 직결된다.</li>
+                <li><strong>LLM 계층은 기존 IDS의 사각지대:</strong> 앞선 논문이 "AI 보안 = AI로 하는 공격 / AI를 향한 공격 / AI를 악용한 공격" 3분면으로 나뉜다고 정리하듯, 여기서 관측된 것은 <em>AI를 향한 공격</em>이며 동시에 <em>AI를 악용한 공격</em>이다. 인프라 포트 스캔이 아니라 <strong>모델 설정·프롬프트·도구 호출</strong>을 통해 들어온다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flask"></i> 실험 설계 — Ollure 하니팟</h2>
+            <ul>
+                <li><strong>설계:</strong> 실제 모델을 올리지 않고 <strong>Ollama API를 그대로 에뮬레이션</strong>하는 하니팟(LLM 백엔드 없음). 응답은 미리 만든 템플릿이지만, <strong>세션 컨텍스트</strong>(모델 목록·실행 중 모델·최근 호출 시각·IP·User-Agent)를 유지해 여러 요청이 이어지면 <em>그럴듯하게</em> 반응하도록 만들었다 — 봇 스캔이 아니라 사람이/에이전트가 이어가는 대화를 잡아내기 위한 장치다.</li>
+                <li><strong>구분:</strong> LIH(저상호작용)와 MIH(중상호작용) 두 수준을 함께 배치해, 상호작용 깊이에 따라 공격자 행동이 달라지는지 비교했다.</li>
+                <li><strong>배포:</strong> 클라우드(DigitalOcean, 프랑크푸르트) 2대 + 대학망 2대 = <strong>4개 인스턴스</strong>, <strong>84일 연속 운영(2026-06-29 ~ 09-20)</strong>.</li>
+                <li><strong>윤리:</strong> 실제 취약점을 가진 시스템이 아니라 <em>모조 서비스</em>이며, 촉발(elicitation) 없이 들어온 트래픽만 관측·기록했다. 원시 데이터와 분석 코드까지 공개했다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-chart-column"></i> 결과 ① — 누가, 얼마나 두드렸나</h2>
+            <table>
+                <tr><th>인스턴스</th><th>상호작용</th><th>고유 IP</th></tr>
+                <tr><td>클라우드 LIH (DigitalOcean, Frankfurt)</td><td>156,169</td><td>1,411</td></tr>
+                <tr><td>클라우드 MIH</td><td>67,119</td><td>1,423</td></tr>
+                <tr><td>대학망 LIH</td><td>47,134</td><td>717</td></tr>
+                <tr><td>대학망 MIH</td><td>20,465</td><td>866</td></tr>
+                <tr><td><strong>합계</strong></td><td><strong>290,887</strong></td><td><strong>2,793</strong></td></tr>
+            </table>
+            <ul>
+                <li><strong>압도적 다수가 '정보 조회':</strong> 전체 상호작용의 <strong>79.36%</strong>가 모델·서비스 정보를 알려주는 엔드포인트(<code>/api/tags</code>, <code>/api/ps</code>, <code>/api/show</code>, <code>/v1/models</code>, 루트 <code>/</code>, <code>/api/version</code>)에 집중됐다. 즉 관측된 트래픽의 대부분은 <em>정찰</em>이다.</li>
+                <li><strong>추론은 <code>/api/generate</code> 독주:</strong> 추론 엔드포인트 3종 합계 <strong>56,063건</strong> 중 <strong>94.53%</strong>가 <code>/api/generate</code>였다. 즉 공격자는 "채팅"보다 <em>스크립트로 원문 완성</em>을 돌리는 쪽을 선호한다.</li>
+                <li><strong>상호작용 깊이와 볼륨은 다르다:</strong> LIH와 MIH가 끌어들인 고유 IP 수는 비슷했지만(1,799 vs 1,859), <em>총량</em>은 LIH가 압도적으로 높았고 최대 요청 수는 LIH 63,690 vs MIH 16,233이었다 — 소수 아웃라이어 IP가 한 인스턴스에 몰아치는 형태다.</li>
+                <li><strong>유일하게 조용했던 엔드포인트:</strong> 노출된 인터페이스 중 <code>/api/copy</code>만 트래픽이 0이었다. 나머지는 전부 실제로 호출됐다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-server"></i> 결과 ② — 인프라 계층 공격: "정찰처럼 보이지만 정찰이 아니다"</h2>
+            <p>가장 흔한 트래픽(읽기 전용 메타데이터 조회)은 흔히 "그냥 스캐너"로 치부된다. 논문은 이 해석을 명시적으로 거부한다 — <strong>공격자는 익스플로잇에 앞서 인증 여부와 접근 가능성을 확인하려고 능동적으로 두드린다</strong>는 것이다. 실제로 관측된 것:</p>
+            <ul>
+                <li><strong>경로 탐색(path traversal):</strong> <code>/api/push</code> 엔드포인트에서 <strong>CVE-2024-39722</strong>를 악용 시도. 모델 이름 자리에 파일시스템 경로를 넣어 서버 파일 열거·시스템 정찰·정보 유출을 노렸다 — 예: <code>../../../../..//root/.aws/credentials</code>. <em>AWS 자격증명 파일이 정확히 조준점이라는 점이 상징적이다.</em></li>
+                <li><strong>SSRF + OAST:</strong> 외부 URL로의 콜백 시도가 다수 관측됐고, 도메인 패턴(<code>http://[random].oast.[TLD]/rogue/[random]</code>)은 ProjectDiscovery <strong>interactsh</strong> 기반 <em>Out-of-Band Application Security Testing</em>의 흔적이다. 내부 URL을 노린 표적형 SSRF는 <strong>CVE-2026-85180</strong>으로 특정됐다(민감정보 노출).</li>
+                <li><strong>RCE와 코인 채굴:</strong> 모델 설정·파라미터·도구 남용을 통해 임의 코드 실행을 시도한 페이로드가 있었고, 그중에는 <strong>채굴 페이로드와 마이닝 풀과의 외부 통신(명령제어)</strong>이 포함됐다. 즉 노출된 LLM 호스트는 곧바로 <em>GPU·CPU 채굴 봇의 표적</em>이 된다.</li>
+                <li><strong>지속성 확보 시도:</strong> 악성 RCE 페이로드를 <strong>AI 모델 파일 안에 심고</strong>, 스푸핑된 모델을 만들어 장기 거점을 유지하려는 시도가 관측됐다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-brain"></i> 결과 ③ — LLM 계층 공격: 모델·프롬프트·에이전트를 노린다</h2>
+            <ul>
+                <li><strong>모델 관리 남용:</strong> 표준 모델뿐 아니라 <em>검열 제거(abliterated)</em> 모델, <em>클라우드 모델</em>을 <code>/api/pull</code>·<code>/api/generate</code>로 요구했다(표준 모델 pull 729건 / 클라우드 모델 generate 9,329건 등). 공격자는 "무엇이 설치돼 있는지"보다 <strong>"무엇을 설치시킬 수 있는지"</strong>에 관심이 있다.</li>
+                <li><strong>AI 공급망 위협:</strong> 외부 URL로 <em>출처 불명 모델 다운로드</em>를 유도하는 요청이 있었다. 검증되지 않은 — 잠재적으로 백도어가 심긴 — 모델을 당겨오게 만드는 경로로, 논문은 이를 명시적 <strong>AI 공급망 위협 벡터</strong>로 분류한다.</li>
+                <li><strong>프롬프트 계층:</strong> 프롬프트 인젝션, 정보 추출(대화 이력·시스템 프롬프트·파일 내용 수집), <strong>에이전트 지향 도구 사용(agentic tool abuse)</strong> 시도가 기록됐다.</li>
+                <li><strong>자원 고갈:</strong> 컨텍스트 오버플로, 입력 토큰 플러딩, 무한 생성(infinite generation) 등으로 가용성을 떨어뜨리고 비용을 끌어올리는 DoS 계열 시도도 함께 관측됐다.</li>
+                <li><strong>관측되지 않은 벡터도 명시:</strong> 논문은 자신이 <em>못 본</em> 것(Unobserved Vectors)까지 절로 두어, "84일 관측에 없었다"가 "일어나지 않는다"가 아님을 분명히 한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 시사점 — 방어자가 지금 바꿔야 하는 것</h2>
+            <ul>
+                <li><strong>인증 없는 기본 바인딩이 곧 사고:</strong> Ollama류 서버가 <code>0.0.0.0</code>에 바인딩된 채 공인 IP로 노출되면, 첫날부터 스캐너가 도착해 <em>며칠 안에</em> 모델 남용·채굴·경로 탐색 시도가 붙는다. "내부용이라 괜찮다"는 가정은 이 데이터 앞에서 성립하지 않는다.</li>
+                <li><strong>로그를 볼 때 <code>/api/tags</code>·<code>/api/show</code>를 무시하지 말 것:</strong> 전체의 약 80%가 정보 조회다. 공격 체인의 1단계가 바로 그 지점이므로, 이 호출의 <em>출처 IP·User-Agent·빈도</em>가 탐지 신호다.</li>
+                <li><strong>경로 탐색·SSRF는 패치 버전으로 막는다:</strong> CVE-2024-39722(<code>/api/push</code> 경로 탐색)와 CVE-2026-85180(SSRF)류는 버전 업그레이드로 차단 가능한 <em>기존 취약점</em>이다. 노출 자체를 줄이는 것(방화벽·리버스 프록시 + 인증)과 병행해야 한다.</li>
+                <li><strong>모델 레지스트리를 화이트리스트로:</strong> 외부 URL에서 임의 모델을 받아오는 경로는 그대로 <em>공급망 진입점</em>이다. 사내 레지스트리·서명 검증 없이는 pull을 허용하지 말 것.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-book-open"></i> 함께 읽기 — 같은 날 공개된 자매 측정 논문</h2>
+            <ul>
+                <li><strong>A Data-Driven Analysis of Infostealer Malware Victims</strong> (arXiv:2609.30070, 동일 2026-09-24 제출) — 불법 유통되는 <em>인포스틸러 로그</em>를 프라이버시 보존 파이프라인으로 정제해 재현 가능한 연구 데이터셋으로 바꾸고, 감염 피해자의 실제 구성을 분석한다. <em>OllamaDrama가 서버 측 노출을 세는 논문이라면, 이쪽은 탈취된 자격증명·세션의 최종 소비 지점을 세는 논문</em>이다 — 두 편을 나란히 읽으면 "노출 → 탈취 → 유통"의 양 끝이 채워진다.</li>
+                <li><strong>Hard Stop: Kernel-Level Preemption and Containment for Rogue Agentic Execution</strong> (arXiv:2609.29808, cs.CR·cs.AI·cs.OS) — 통제되지 않은 자율 에이전트가 샌드박스를 벗어나 다단 침해로 확장되는 사고를 다루며, <strong>마이크로초 단위 POSIX 선점(preemption)</strong> 기반 커널 수준 봉쇄를 제안한다. 앞선 09-26 게시물(에이전트가 자기 추적을 지우는 문제)과 같은 계보 — <em>에이전트를 '격리'하는 층</em>의 연구다.</li>
+                <li><strong>계보:</strong> 하니팟 기반 실측(사이버 기만)과 AI 보안을 교차시킨 연구로, 노출된 자기호스팅 LLM 서비스라는 <em>새로운 종류의 표면</em>에 기존 측정 방법론을 그대로 적용한 사례다. 배경 인용(Shodan 약 2만 인스턴스, Xu et al. 누적 152,137 엔드포인트)이 이 주제의 규모를 대신 말해준다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-circle-info"></i> 한계와 주의</h2>
+            <ul>
+                <li><strong>신규 프리프린트(2026-09-24):</strong> 동료평가 전이며 인용이 아직 없다. 수치(볼륨·비율)는 4개 인스턴스·84일이라는 특정 조건의 관측값이므로, 다른 네트워크·지역·기간에서는 분포가 달라질 수 있다.</li>
+                <li><strong>하니팟은 표본이다:</strong> 관측된 IP 2,793개가 전체 공격자를 대표하지 않는다. 스캐너·연구 목적 트래픽(Shodan·Censys 등 인터넷 전역 연구 스캐너)이 다수 섞여 있어, <em>"79.36%가 악성"</em>이 아니라 <em>"79.36%가 정보 조회 엔드포인트를 향했다"</em>로 읽어야 한다.</li>
+                <li><strong>백엔드 LLM이 없으므로:</strong> 실제 모델이 있었다면 성립했을 취약점(모델 자체의 탈옥·데이터 유출 등)은 관측 범위 밖이다. 저자들도 이 점을 한계로 명시한다.</li>
+                <li><strong>재현성은 양호:</strong> 원시 데이터와 분석 코드를 Zenodo로 공개해, 위 수치는 원문·데이터셋으로 직접 검증 가능하다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>원문 (arXiv:2609.29757, 2026-09-24): <a href="https://arxiv.org/abs/2609.29757" target="_blank" rel="noopener">arxiv.org/abs/2609.29757</a> · HTML 전문: <a href="https://arxiv.org/html/2609.29757" target="_blank" rel="noopener">arxiv.org/html/2609.29757</a></li>
+                <li>데이터·분석 코드 (Zenodo): <a href="https://doi.org/10.5281/zenodo.22918901" target="_blank" rel="noopener">doi.org/10.5281/zenodo.22918901</a></li>
+                <li>자매 논문 — 인포스틸러 피해자 분석 (arXiv:2609.30070): <a href="https://arxiv.org/abs/2609.30070" target="_blank" rel="noopener">arxiv.org/abs/2609.30070</a></li>
+                <li>자매 논문 — 에이전트 실행 봉쇄 (arXiv:2609.29808): <a href="https://arxiv.org/abs/2609.29808" target="_blank" rel="noopener">arxiv.org/abs/2609.29808</a></li>
+                <li>arXiv cs.CR 최신 목록: <a href="https://arxiv.org/list/cs.CR/recent" target="_blank" rel="noopener">arxiv.org/list/cs.CR/recent</a></li>
+                <li>함께 읽기 — 이전 게시물: 2026-09-26 <em>LLM Agents Can Easily Tamper With Their Own Traces</em>(에이전트 추적 삭제) · 2026-09-24 <em>The Anatomy of Address Poisoning on Ethereum</em> · 2026-09-25 <em>Computer Viruses: Theory and Experiments</em>(클래식) · 2026-09-23 <em>Lest We Remember: Cold Boot Attacks</em>(클래식)</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
