@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - OpenCOOD / OPV2V (ICRA 2022, UCLA Mobility Lab): '내 차가 못 보는 것을 옆 차가 본다' — V2X 협력 인지를 비교 가능하게 만든 오픈 벤치마크 (⭐833 · 인용 719회 · 학술 전용 라이선스)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - OpenCOOD / OPV2V (ICRA 2022, UCLA Mobility Lab): '내 차가 못 보는 것을 옆 차가 본다' — V2X 협력 인지를 비교 가능하게 만든 오픈 벤치마크 (⭐833 · 인용 719회 · 학술 전용 라이선스)</h1>
+            <p class="date">2026-09-27</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>유형:</strong> 오픈소스 프레임워크 + 벤치마크 데이터셋 — <strong>V2X 협력 인지(cooperative perception)</strong>. 한 차의 센서로는 가려진 사각지대를 <strong>차량 간(V2V) 통신으로 공유해</strong> 검출 성능을 끌어올리는 문제를, 시뮬레이션 데이터셋과 16개 모델 벤치마크로 처음 '비교 가능한 형태'로 만든 프로젝트</li>
+                    <li><strong>소유자/이름:</strong> <code>DerrickXuNu/OpenCOOD</code> (UCLA Mobility Lab · Jiaqi Ma 그룹) — 논문 제1저자 Runsheng Xu가 유지보수하는 공식 구현</li>
+                    <li><strong>스타/규모:</strong> ⭐<strong>833</strong> · 🍴<strong>133</strong> · 👀12 · 열린 이슈 37 · 저장소 35.6MB · 언어 <strong>Python</strong>(PyTorch) · 토픽: autonomous-driving, collaborative-perception, multi-agent-perception, simulations</li>
+                    <li><strong>생성/최근 활동:</strong> 생성 <strong>2022-02-07</strong> · 마지막 푸시 <strong>2024-08-17</strong> (약 2년 전) · 릴리스·태그 <strong>0개</strong>. 즉 '살아 있는 서비스'가 아니라 <strong>연구용으로 완결된 기준 구현체</strong>다</li>
+                    <li><strong>라이선스 (주의):</strong> GitHub은 <code>NOASSERTION</code>으로 감지한다. README 배지는 MIT로 보이지만 실제 <code>LICENSE</code> 파일은 <strong>UCLA Mobility Lab의 Academic Software License</strong> — <em>"학술·비영리 연구자에 한해"</em> 사용·수정·2차적 저작물 작성만 허용한다. <strong>상업적 사용은 별도 허가 대상</strong>이라는 점이 배지에는 드러나지 않는다</li>
+                    <li><strong>대응 논문:</strong> OPV2V: <em>An Open Benchmark Dataset and Fusion Pipeline for Perception with Vehicle-to-Vehicle Communication</em> — arXiv:2109.07644 (2021-09-16 제출 / 2022-06-20 갱신, arXiv comment "Accepted by ICRA2022"), <strong>ICRA 2022</strong>. 저자: Runsheng Xu · Hao Xiang · Xin Xia · Xu Han · Jinlong Li · Jiaqi Ma (전원 UCLA)</li>
+                    <li><strong>데이터셋 규모(OPV2V):</strong> 장면 <strong>70개+</strong> · 프레임 <strong>11,464</strong> · 주석된 3D 차량 박스 <strong>232,913개</strong> · 수집 환경은 <strong>CARLA 8개 타운 + 로스앤젤레스 Culver City의 디지털 트윈 타운</strong> · 함께 공개한 벤치마크는 총 <strong>16개 모델</strong></li>
+                    <li><strong>인용:</strong> Semantic Scholar <strong>719회</strong>(영향력 있는 인용 182회) · OpenAlex(ICRA DOI 기준) 539회 — 컨퍼런스 버전이 학술 인덱스에 따라 크게 다르게 잡히므로 두 수치를 함께 표기한다</li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>OPV2V가 던진 질문은 단순하다. <strong>"내 차가 트럭에 가려 못 보는 것을, 바로 옆 차가 보고 있다면 성능은 얼마나 올라가는가?"</strong> 이 질문을 답하려면 (1) 모두가 같은 조건에서 실험할 데이터, (2) 융합 시점을 통제한 비교 벤치마크, (3) 재현 가능한 코드가 필요했다. OpenCOOD는 이 세 가지를 한 저장소에 묶어 공개했고, 그래서 <strong>'협력 인지'라는 연구 축이 등장한 직후에 곧바로 표준 실험대로 자리 잡았다.</strong></p>
+            <ul>
+                <li><strong>융합 시점을 변수로 만든 벤치마크:</strong> 초기(early)·중간(intermediate)·후기(late) 융합을 같은 백본에서 나란히 비교하고, 정확도와 함께 <strong>통신 대역폭(Mbit)을 필수 지표로</strong> 표에 넣었다. 27Mbps·LiDAR 10Hz를 가정하면 실시간성을 지키기 위해선 <strong>2.7Mbit 이하</strong>로 압축해야 한다는 실무 기준까지 명시했다</li>
+                <li><strong>융합은 공짜가 아니라는 정량 증거:</strong> PointPillar 백본에서 후기 융합은 대역폭 <strong>0.024Mbit</strong>로 끝나지만 정확도가 낮고, 중간 융합(Attentive Fusion)은 <strong>126.8Mbit</strong>를 쓰면서 Default Towns AP@0.7를 0.781 → <strong>0.815</strong>로 올린다. 압축을 걸면 대역폭은 1.98Mbit로 줄고 정확도 손실은 거의 없다 — <strong>'보내는 양'과 '보는 양'의 교환비를 처음 숫자로 보여준 표</strong>다</li>
+                <li><strong>16개 모델·4개 백본을 한 코드베이스에:</strong> 백본은 PointPillar·PIXOR·VoxelNet·SECOND, 모델은 Naive Late / Cooper·F-Cooper·V2VNet·CoAlign·FPV-RCNN·CoBEVT·V2X-ViT·Where2Comm 등을 동일한 데이터 API와 YAML 설정으로 실행한다. 새 방법을 만들면 <strong>같은 표에 바로 끼워 넣을 수 있다</strong></li>
+                <li><strong>데이터 API가 붙은 데이터셋:</strong> OPV2V(ICRA 2022)와 V2XSet(ECCV 2022)을 바로 내려받아 학습·평가할 수 있고, DAIR-V2X·V2V4Real 등 실차 데이터셋은 <strong>미지원(체크리스트상 빈칸)</strong>으로 남아 있다. 센서도 LiDAR만 지원하고 카메라·레이더 API는 미완성이다</li>
+                <li><strong>log replay 도구 (2022-12-04):</strong> 오프라인 데이터셋의 이벤트를 100% 재생하면서 센서·정답을 임의로 추가·변경할 수 있게 했다. 원본 데이터셋이 상정하지 않은 과제(예: 센서 고장, 다른 배치)를 실험할 수 있는 통로를 열어준 셈이다</li>
+                <li><strong>실무 친화적 디테일:</strong> spconv 1.2.1과 2.x를 모두 지원하고 다중 GPU 학습(2022-12-28)도 붙였다. 반면 AP 계산에서 전역 정렬(global sort)을 쓰면 안 된다는 주의까지 README에 적어, <strong>논문 간 비교가 어긋나는 흔한 함정</strong>을 미리 차단했다</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>'협력 인지' 분야의 공용 실험대:</strong> 데이터·벤치마크·코드를 한 번에 공개한 첫 대규모 V2V 프로젝트였고, 이후 나온 대표 연구들이 <strong>이 저장소의 데이터 API와 설정 체계를 그대로 쓰거나 확장</strong>했다. <a href="autonomous-2026-08-16.html">DH-VLM(08-16)</a>이 '협력'을 <em>계획(planner)</em> 쪽에서 다뤘다면, OpenCOOD는 <em>인지(perception)</em> 쪽 협력의 원점이다 — 두 축이 같은 블로그에서 짝을 이룬다</li>
+                <li><strong>후속작이 곧 인용 그래프:</strong> 저장소가 스스로 나열한 계보가 곧 이 분야의 지도다 — V2X-ViT(ECCV 2022, OpenAlex 기준 <strong>543회</strong> 인용), CoBEVT(CoRL 2022), Where2Comm(NeurIPS 2022), CoAlign·MPDA(ICRA 2023), V2V4Real(CVPR 2023 Highlight), V2X-ViTv2(TPAMI 2024). <strong>논문 한 편의 인용(719회)보다, 이 저장소에서 파생된 논문들의 합이 이 프로젝트의 실제 영향력</strong>이다</li>
+                <li><strong>시뮬레이션 생태계의 결합점:</strong> OPV2V는 <a href="autonomous-2026-09-09.html">CARLA(09-09)</a>와 <a href="autonomous-2026-09-19.html">SUMO(09-19)</a>를 묶은 co-simulation으로 만들어졌다. 즉 이 저장소는 '시뮬레이터'(09-09·09-19·<a href="autonomous-2026-09-25.html">esmini(09-25)</a>)와 '인지 모델'(<a href="autonomous-2026-09-01.html">OpenPCDet(09-01)</a>·<a href="autonomous-2026-09-05.html">PointPillars(09-05)</a>·<a href="autonomous-2026-09-13.html">VoxelNet(09-13)</a>) 사이를 잇는 <strong>가교</strong>다</li>
+                <li><strong>지금도 유효한 교재:</strong> 데이터 로더·융합 헤드·압축·가짜 위치 오차까지 단계별로 구성된 학습 코드라, <strong>'통신이 있는 로보틱스'를 처음 다루는 팀에게 가장 짧은 입구</strong>다. 특히 대역폭을 함께 보고하는 습관은 V2X 제품 기획에서 그대로 재사용된다</li>
+                <li><strong>주의할 한계도 명확:</strong> (1) 전부 <em>시뮬레이션</em> 데이터라 실차 도메인 갭이 남고, (2) 실차 데이터셋(DAIR-V2X·V2V4Real)은 미지원, (3) 2024-08 이후 업데이트가 없으며, (4) 라이선스가 <strong>학술·비영리 전용</strong>이라 상업적 활용은 불가하다</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>자율주행 인지의 지난 10년은 '센서를 더 붙이고 모델을 키우는' 경쟁이었지만, OPV2V가 던진 카드는 방향이 달랐다. <strong>차에 실을 센서를 늘리는 대신, 이미 도로 위에 있는 다른 차의 시점을 빌리자</strong>는 것. 그 대가는 명확하다 — 통신 지연, 위치 오차, 압축 손실, 그리고 무엇보다 '누구의 데이터를 얼마나 믿을 것인가'라는 신뢰 문제다. OpenCOOD는 이 대가를 <strong>벤치마크 표의 열(대역폭)로 못 박아</strong> 이후 연구가 '정확도만 올리는 논문'으로 흐르지 않게 하는 기준선을 세웠다.</p>
+            <p>실무 관점의 시사점은 두 가지다. 첫째, 협력 인지는 <strong>인지 문제가 아니라 시스템 문제</strong>다. <a href="autonomous-2026-09-25.html">esmini(09-25)</a>가 시나리오를 표준 XML로 고정하고 <a href="autonomous-2026-09-23.html">Trajectron++(09-23)</a>가 타 에이전트의 미래를 확률로 다루듯, V2X는 '남의 시점을 어떻게 신뢰할지'를 검증 대상으로 만든다. 둘째, 데이터셋 공개가 곧 분야 형성이다. <a href="autonomous-2026-09-15.html">Waymo Open Dataset(09-15)</a>과 <a href="autonomous-2026-08-24.html">nuScenes(08-24)</a>가 3D 인지의 표준 좌표계를 세웠다면, OPV2V는 <strong>다중 에이전트 협력의 표준 좌표계</strong>를 세웠다. 결론은 이렇다 — <strong>V2X나 협력 인지를 검토하는 팀이라면, 코드 833스타짜리 이 저장소와 데이터 11,464프레임이 오늘날 그 분야의 '0번 문제'를 정의한 문서다.</strong> 다만 라이선스가 학술 전용이므로 상업 적용 시에는 반드시 별도 확인이 필요하다.</p>
+            <p>원문: <a href="https://github.com/DerrickXuNu/OpenCOOD" target="_blank">https://github.com/DerrickXuNu/OpenCOOD</a> · 논문: <a href="https://arxiv.org/abs/2109.07644" target="_blank">https://arxiv.org/abs/2109.07644</a> · 데이터: <a href="https://mobility-lab.seas.ucla.edu/opv2v/" target="_blank">https://mobility-lab.seas.ucla.edu/opv2v/</a></p>
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
