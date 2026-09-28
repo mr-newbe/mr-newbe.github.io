@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏛️ [클래식] The Protection of Information in Computer Systems — 최소 권한·완전 중재·개방 설계, 50년째 모든 보안 설계가 인용하는 8가지 원칙 (Saltzer–Schroeder, Proceedings of the IEEE 1975)</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏛️ [클래식] The Protection of Information in Computer Systems — '최소 권한·완전 중재·개방 설계'를 세운 컴퓨터 보안의 헌법</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-09-28 · 카테고리: Research (전통 보안 논문 · 운영체제/시스템 보안 · 접근제어 아키텍처 · 고전 1975)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> The Protection of Information in Computer Systems<br>
+                <strong>저자:</strong> <strong>Jerome H. Saltzer</strong> · <strong>Michael D. Schroeder</strong> (MIT, Project MAC) — Saltzer는 Multics 커널 설계자 중 한 사람.<br>
+                <strong>출처:</strong> <em>Proceedings of the IEEE</em>, Vol. 63, No. 9, pp. 1278–1308 (1975년 9월) · 초청 논문(invited paper) · DOI: 10.1109/PROC.1975.9939<br>
+                <strong>분야:</strong> 정보 보호(protection)와 인증(authentication) · 접근제어 아키텍처 · 능력(capability) vs 접근제어목록(ACL) · 보호 도메인 · 설계 원칙(design principles)<br>
+                <strong>인용:</strong> <strong>OpenAlex 기준 1,897회</strong> · <strong>Crossref 기준 1,390회</strong> (2026-09-28 확인) — Semantic Scholar는 이번 조회에서 API 제한으로 확인 불가. 반세기가 지난 지금도 학술 논문보다 <em>업계 규정·설계 문서</em>에서 더 자주 인용되는 '교과서적 원전'.<br>
+                <strong>원문:</strong> 저자 공식 배포(MIT) 전문 공개 — <a href="https://web.mit.edu/Saltzer/www/publications/protection/" target="_blank" rel="noopener">web.mit.edu/Saltzer/www/publications/protection/</a>
+            </div>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 한 줄 요약 — '보안은 기능이 아니라 구조다'를 처음 증명한 논문</h2>
+            <p>오늘날 모든 보안 교과서 1장에 나오는 <strong>최소 권한(least privilege)</strong>, <strong>완전 중재(complete mediation)</strong>, <strong>실패 안전 기본값(fail-safe defaults)</strong>, <strong>개방 설계(open design)</strong>라는 말은 전부 이 논문 1975년 판에서 나왔다. 이 논문은 "무엇을 막을까"라는 기능 목록이 아니라, <em>정보를 다루는 컴퓨터 구조가 어떤 원칙 위에 서 있어야 하는가</em>를 처음 체계화했다. 50년 뒤 클라우드 IAM·제로 트러스트·샌드박스·마이크로커널이 인용하는 원칙의 뿌리가 여기 있다.</p>
+            <blockquote>
+                "이 논문은 컴퓨터에 저장된 정보를 무단 사용·변조로부터 지키는 메커니즘을 다룬다. 특히 하드웨어든 소프트웨어든 <strong>정보 보호를 가능하게 하는 구조적 장치</strong>에 집중한다." — 초록
+            </blockquote>
+
+            <h2><i class="fa-solid fa-clock-rotate-left"></i> 배경 — 1975년, '보안'은 아직 학문이 아니었다</h2>
+            <ul>
+                <li><strong>문제의식:</strong> 당시 상용 시스템 대부분은 보안이 사실상 없었다. 논문은 1975년의 IBM System/370용 <em>Disk Operating System</em>을 "보호 기능이 전혀 없는(unprotected) 시스템"의 예로 명시적으로 든다. 실수 방지 기능은 많지만, 결정적 공격자를 막는 장치는 없다는 것.</li>
+                <li><strong>IBM S/360(1964)의 한계:</strong> 당시 유일한 보호 장치는 '특권 상태 비트(privileged state bit)'와 '보호 키(protection key)'뿐이었다. 반면 Burroughs는 1961년에 이미 디스크립터 기반 시스템을 팔고 있었고, 1960년대 초 시분할 연구 시스템에는 경계 레지스터(base-and-bound)가 있었다 — 그러나 이들은 대부분 <em>사고 방지</em>용이었지 사용자 간 완전 격리가 아니었다.</li>
+                <li><strong>Multics의 경험:</strong> MIT·Honeywell의 Multics(1969, Honeywell 645)는 <strong>디스크립터 기반 접근제어목록(ACL)을 계층적 권한 관리와 함께 하드웨어+소프트웨어로 구현</strong>한 최초의 완전한 시스템이었다. Saltzer·Schroeder는 그 설계 경험을 일반 이론으로 끌어올렸다 — 이 논문은 곧 "Multics가 배운 것을 모두에게 정리해 준 문서"다.</li>
+                <li><strong>동시대 실험들:</strong> UC Berkeley의 CAL(1969, CDC 6400, 소프트웨어 해석 능력 시스템), BCC-500, 그리고 건설 중이던 Cambridge의 CAP·CMU의 HYDRA가 당시 보호 아키텍처 연구의 최전선이었다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-layer-group"></i> 핵심 1 — '보안(security)'을 세 단어로 분해하다</h2>
+            <p>이 논문의 첫 기여는 용어 정리다. 사람들이 '보안'이라 뭉뚱그리던 것을 세 층으로 갈랐고, 이 구분이 지금도 그대로 쓰인다.</p>
+            <ul>
+                <li><strong>보안(security) — 가장 넓은 개념:</strong> 정보의 모든 무단 사용을 막는 것. "부정적 요구사항(negative requirement)"이라 증명이 근본적으로 어렵다 — <em>모든</em> 위협을 예상했다는 것을 보여야 하기 때문이다.</li>
+                <li><strong>인증(authentication):</strong> 요청을 보낸 사람(=보호 시스템 외부의 주체)의 신원을 검증하는 것. 예: 패스워드 요구.</li>
+                <li><strong>보호(protection):</strong> <em>실행 중인 프로그램</em>이 저장된 정보에 접근하는 것을 통제하는 것. 예: 파일에 '허가된 사용자 목록'을 붙이는 것.</li>
+            </ul>
+            <p>저자들은 "보호와 인증만 보면 정보 보안의 좁은 시야가 된다, 좁은 시야는 위험하다"고 못 박는다. 도청(전화선 암호화)·전자파 차폐·물리적 출입통제·하드웨어 무결성 인증 같은 나머지 축까지 함께 봐야 한다는 것 — 이는 오늘날 <em>심층 방어(defense in depth)</em>의 원형이다.</p>
+
+            <h2><i class="fa-solid fa-stairs"></i> 핵심 2 — 보호 기능의 4단계</h2>
+            <p>논문은 보호 방식을 '표현·강제할 수 있는 접근제어의 종류'에 따라 단계로 나눈다. 아래로 갈수록 강력하다.</p>
+            <table>
+                <tr><th>단계</th><th>성격</th><th>1975년 당시 예</th></tr>
+                <tr><td><strong>1. 무보호(unprotected)</strong></td><td>결정적 사용자를 막을 장치가 전혀 없음 (실수 방지 기능만 존재)</td><td>IBM System/370의 DOS</td></tr>
+                <tr><td><strong>2. 전부 아니면 전무(all-or-nothing)</strong></td><td>사용자 간 <em>격리</em>는 되지만 공유는 '전면 공개'뿐. 세밀한 통제 불가</td><td>1세대 상용 시분할 시스템</td></tr>
+                <tr><td><strong>3. 통제된 공유(controlled sharing)</strong></td><td>누가 무엇에 접근 가능한지 <em>선별적으로</em> 지정 (ACL / 능력)</td><td>Multics, CAL</td></tr>
+                <tr><td><strong>4. 정보에 '끈 달기'</strong></td><td>정보가 <em>한 번 넘어간 뒤에도</em> 사용을 계속 통제 (예: 분류 라벨)</td><td>연구 단계 (Lampson의 '구금' 개념)</td></tr>
+            </table>
+
+            <h2><i class="fa-solid fa-list-check"></i> 핵심 3 — 지금도 외워지는 8가지 설계 원칙</h2>
+            <p>논문의 가장 유명한 대목. "완벽한 시스템은 아무도 만들 수 없으니, 결함의 개수와 심각성을 줄이는 원칙에 기대자"는 전제 위에서 8가지를 제시한다.</p>
+            <table>
+                <tr><th>원칙</th><th>영문</th><th>한 줄 정의</th></tr>
+                <tr><td>① 메커니즘의 경제성</td><td>Economy of mechanism</td><td>설계를 가능한 한 단순하고 작게 유지하라 (작아야 검증된다)</td></tr>
+                <tr><td>② 실패 안전 기본값</td><td>Fail-safe defaults</td><td>허가가 기본값(default deny). '막는 조건'이 아니라 '허용 조건'을 나열하라</td></tr>
+                <tr><td>③ 완전 중재</td><td>Complete mediation</td><td><em>모든</em> 접근을 <em>매번</em> 검사하라 (캐시된 권한 확인 결과를 의심하라)</td></tr>
+                <tr><td>④ 개방 설계</td><td>Open design</td><td>설계는 비밀이 아니어야 한다 — 보안은 키(패스워드)에 의존하고 메커니즘은 공개 검토된다</td></tr>
+                <tr><td>⑤ 권한의 분리</td><td>Separation of privilege</td><td>두 개의 키가 필요한 자물쇠가 더 강하다 (다중 조건 접근)</td></tr>
+                <tr><td>⑥ 최소 권한</td><td>Least privilege</td><td>모든 프로그램·사용자는 작업에 필요한 <em>최소한</em>의 권한만 가진다</td></tr>
+                <tr><td>⑦ 최소 공통 메커니즘</td><td>Least common mechanism</td><td>여러 사용자가 공유하는 메커니즘을 최소화하라 (공유 변수 = 잠재적 정보 경로)</td></tr>
+                <tr><td>⑧ 심리적 수용성</td><td>Psychological acceptability</td><td>사용자 인터페이스가 쉬워야 사용자가 규칙을 <em>실제로</em> 지킨다</td></tr>
+            </table>
+            <ul>
+                <li><strong>출처가 명시된 원칙들:</strong> ②는 E. Glaser(1965), ⑤는 R. Needham(1973)이 처음 제안했다고 논문은 밝힌다 — 보안 원칙은 개인의 통찰이 쌓여 만들어진다는 증거.</li>
+                <li><strong>물리 보안에서 빌려온 두 원칙(단, 컴퓨터에서는 불완전):</strong> <em>작업 계수(work factor)</em> — "우회 비용 대비 공격자의 자원을 비교하라"(논문의 예: 알파벳 4글자 패스워드는 26⁴ = 456,976가지로, 단말 입력이라면 실현 가능한 공격); <em>침해 기록(compromise recording)</em> — 완전 차단 대신 "침해당했다는 사실을 신뢰성 있게 기록"하는 것도 전략이 될 수 있다.</li>
+                <li><strong>오늘날 대응:</strong> ⑥ 최소 권한은 클라우드 IAM의 최소 권한 정책, ②는 방화벽의 기본 deny-all, ③ 완전 중재는 TOCTOU(time-of-check-to-time-of-use) 취약점의 교과서적 근거가 됐다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-key"></i> 핵심 4 — 능력(capability) vs 접근제어목록(ACL)</h2>
+            <p>제2부의 기술적 핵심은 두 접근제어 모델을 디스크립터 기반 아키텍처 위에서 비교한 것이다. 이 비교는 오늘도 POSIX 파일 퍼미션과 OAuth 토큰, 커널 파일 디스크립터로 살아 있다.</p>
+            <ul>
+                <li><strong>능력(capability):</strong> "위조 불가능한 티켓(unforgeable ticket)" — 제시 자체가 권한의 증명이다. Dennis & Van Horn이 개념을 제안했고, MIT PDP-1에서 부분 구현된 것이 시초. <em>장점:</em> 효율·단순·유연 (접근 검사가 티켓 제시만으로 끝난다). <em>난점:</em> 전파 통제·회수(revocation)가 어렵다 — 남에게 넘긴 티켓을 거두기 힘들다.</li>
+                <li><strong>접근제어목록(ACL):</strong> 객쳋에 "허가된 주체의 목록"을 붙인다. Multics가 대표 구현. <em>장점:</em> 객체 단위 회수·감사가 자연스럽다. <em>난점:</em> 주체 식별(인증)과 전역 이름 공간이 필요하다.</li>
+                <li><strong>핵심 통찰:</strong> 두 모델은 <em>동등한 표현력</em>을 가지며, 둘 중 하나로 다른 하나를 구현할 수 있다. 실무 선택은 "무엇을 더 자주 검사·회수해야 하는가"에 달려 있다 — 이 논리의 현대판이 "세션 토큰 vs 서버 측 세션" 논쟁이다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-user-secret"></i> 핵심 5 — 참조 모니터의 원형, 그리고 '구금(confinement)'</h2>
+            <ul>
+                <li><strong>단일 중재 지점:</strong> 논문은 <em>모든</em> 접근이 반드시 통과해야 하는 하드웨어 장치(디스크립터 레지스터 + 특권 상태 비트로만 바뀌는 '슈퍼바이저' 프로그램)를 다룬다. 오늘날 <strong>참조 모니터(reference monitor)</strong>·보안 커널로 불리는 단일 중재 지점 개념의 구조적 원형이다.</li>
+                <li><strong>도메인과 트로이 목마:</strong> "빌려온(borrowed) 프로그램"이 내 데이터를 읽고 몰래 흘리는 문제를 정면으로 다룬다 — 신뢰 경계 안에서 도는 코드는 그 자체로 공격자일 수 있다는 오늘날 <em>서드파티 코드·공급망 신뢰</em> 문제의 원형.</li>
+                <li><strong>구금(confinement):</strong> Lampson이 제안한 개념으로, 대여 프로그램이 데이터에는 접근하되 그 데이터를 <em>다른 도메인으로 내보낼 수 없게</em> 묶는 것. 응용 프로그램을 열되 정보 유출은 막는다는 이 아이디어는 샌드박스·권한 최소화 컨테이너·브라우저 격리의 사상적 출발점이다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 2026년의 실무 시사점 — 50년 전 원칙은 규정이 됐다</h2>
+            <ul>
+                <li><strong>②·⑥은 이제 컴플라이언스 언어다.</strong> "기본 거부(default deny)"와 "최소 권한"은 클라우드 IAM 정책·제로 트러스트·Kubernetes RBAC·NIST 800-207의 명시적 요건이다. 이 원칙들을 처음 문장으로 쓴 문서가 이 논문이다.</li>
+                <li><strong>③ 완전 중재 = TOCTOU 방지.</strong> "한 번 통과한 검사를 기억해 재사용하지 말 것"은 심볼릭 링크·파일 경쟁 조건·커널 권한 상승 취약점의 뿌리 원칙이다. 시스템 콜마다 검사하라(seccomp, LSM)는 설계가 여기서 나온다.</li>
+                <li><strong>④ 개방 설계 = 케르크호프스의 원리.</strong> "메커니즘은 공개, 키만 비밀"은 암호 알고리즘 공개·오픈소스 보안 이론의 근거이며, 시큐리티 스루 오브스큐리티(security through obscurity)를 학술적으로 기각하는 논거다.</li>
+                <li><strong>⑦ 최소 공통 메커니즘 = 격리의 원칙.</strong> 공유 변수·공유 커널이 곧 정보 경로라는 경고는, 단일 커널 공유의 위험을 줄이려는 <em>마이크로커널·유니커널·프로세스 격리·웹 브라우저 사이트 격리(site isolation)</em>의 이론적 뿌리다.</li>
+                <li><strong>새 술은 아니어도 새 병은 아니다:</strong> 에이전트·LLM 도구 호출의 '권한 최소화'와 '도구 실행 전 중재' 같은 2026년 논의도, 결국 이 논문의 ⑥·③을 새 런타임에 적용하는 것에 가깝다. <em>(이 논문 자체는 AI와 무관한 순수 시스템 보안 고전이다.)</em></li>
+            </ul>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 한계와 주의</h2>
+            <ul>
+                <li><strong>대상은 운영체제 수준의 강제 접근제어다.</strong> 응용 계층의 취약점(웹·입력 검증), 암호 알고리즘 안전성, 사람을 속이는 사회공학은 이 논문의 범위 밖이다.</li>
+                <li><strong>'완벽한 보호는 없다'가 전제다.</strong> 저자들은 침투 실험들이 거의 모든 범용 시스템에서 무단 접근을 성공시켰음을 인용하며, 원칙이 <em>결함을 줄이는</em> 도구일 뿐 증명이 아니라고 분명히 한다.</li>
+                <li><strong>시대적 제약:</strong> 1975년의 하드웨어(디스크립터 아키텍처, 특권 비트)를 전제로 논한다. 오늘날의 다중코어·가상화·SGX/TEE 같은 하드웨어 보안 기반은 이후 세대의 발전이다.</li>
+                <li><strong>인용 지표:</strong> Semantic Scholar는 이번 조회에서 API 제한으로 확인 불가. OpenAlex 1,897회 / Crossref 1,390회로 출처에 따라 차이가 있다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>원문 (출판본, <em>Proceedings of the IEEE</em> 63(9):1278–1308, 1975): <a href="https://doi.org/10.1109/PROC.1975.9939" target="_blank" rel="noopener">doi.org/10.1109/PROC.1975.9939</a></li>
+                <li>저자 공식 배포 전문 (MIT, Saltzer 홈페이지): <a href="https://web.mit.edu/Saltzer/www/publications/protection/" target="_blank" rel="noopener">web.mit.edu/Saltzer/www/publications/protection/</a></li>
+                <li>배경·개념 설명: <a href="https://en.wikipedia.org/wiki/Principle_of_least_privilege" target="_blank" rel="noopener">Wikipedia — Principle of least privilege</a> · <a href="https://en.wikipedia.org/wiki/Reference_monitor" target="_blank" rel="noopener">Reference monitor</a> · <a href="https://en.wikipedia.org/wiki/Capability-based_security" target="_blank" rel="noopener">Capability-based security</a></li>
+                <li>인용 수: OpenAlex (1,897회, DOI 10.1109/PROC.1975.9939) · Crossref (1,390회), 2026-09-28 조회</li>
+                <li>함께 읽기 — 이전 게시물: 2026-09-21 <em>On the Security of Public Key Protocols</em>(1983, Dolev–Yao 형식 모델) · 2026-09-23 <em>Lest We Remember: Cold Boot Attacks</em>(2008, 하드웨어 잔류) · 2026-09-11 <em>Rowhammer</em>(2014, 하드웨어 교란 오류)</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
