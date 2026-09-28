@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-09-29</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        code { background: #0b1220; padding: 1px 5px; border-radius: 4px; color: #7dd3fc; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-09-29 | <i class="fa-solid fa-tags"></i> Daily News, Supply Chain, Cloud Identity, Mobile Malware, Vulnerability, Patch, AI Security
+        </div>
+        <div class="content">
+
+            <h2>1. Microsoft, NeedyMantis 공개 — DAEMON Tools 공급망 공격과 연결된 장기 침투 악성코드</h2>
+            <p>Microsoft가 <strong>NeedyMantis</strong>라는 신종 악성코드 계열을 분석해 공개했다. 이미 침해된 네트워크에 <em>장기간 접근을 유지</em>하는 것이 목적으로, 통신사·대학·의료 비영리단체·정부간기구·정부 계약업체에서 소규모 표적 침해가 확인됐다. 활동 시점은 최소 2025년 10월까지 거슬러 올라간다.</p>
+            <ul>
+                <li><strong>발견 경로:</strong> Microsoft는 2026년 4월 8일 이후 배포된 <strong>DAEMON Tools Lite 12.5.1 서명 설치본</strong>에 악성코드가 들어간 공급망 공격(개발사가 5월 5일 정상본으로 교체)을 추적하던 Kaspersky 조사 단서에서 NeedyMantis를 역추적했다.</li>
+                <li><strong>위장 파일명:</strong> 정상 소프트웨어 DLL을 사칭한다 — <code>WinSparkle.dll</code>(Poedit 업데이터), curl, Vim, TightVNC, 그리고 NVIDIA·Intel·Broadcom·Microsoft Office DLL 이름. 상세 분석 표본은 Poedit의 업데이트 구성요소를 교체한 케이스였다.</li>
+                <li><strong>통신·지속성:</strong> HTTPS로 초기 체크인한 뒤 <strong>WebSocket</strong>으로 전환해 모듈을 동적으로 로드·언로드하고 데이터를 주고받는다. 2025년 10월 버전에는 Windows 서비스를 이용한 지속성 모듈이 있었다.</li>
+                <li><strong>행위자:</strong> Microsoft는 이 활동을 <strong>Storm-3069</strong>로 명명하고 중국 발원으로 평가했다. 국가 배후로 단정하지는 않았고, <em>여러 그룹이 같은 악성코드를 쓸 가능성</em>도 열어 두었다.</li>
+                <li><strong>대응:</strong> SHA-256 해시, 파일 경로(<code>%ProgramData%\ics\nvml.dll</code> 등), C2 도메인, 파일 탐지명(<code>TrojanDropper:Win64/NeedyMantis</code>)과 Defender XDR·Sentinel 헌팅 쿼리가 공개됐다. 단 <strong>쿼리 조회 범위가 7일</strong>이라 오래된 감염은 별도 헌팅이 필요하다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/hackers-use-needymantis-to-maintain.html" target="_blank">The Hacker News - Hackers Use NeedyMantis to Maintain Long-Term Access in Breached Networks</a></p>
+
+            <h2>2. Carbonato 봇넷 — 인증 없는 Docker 데몬을 잡고 오픈소스 AI 에이전트를 '해커 두뇌'로 심는다</h2>
+            <p>ThreatDown이 신종 봇넷 <strong>Carbonato</strong>를 공개했다. 인증 없이 노출된 Docker 데몬을 공격해 호스트를 장악한 뒤, <strong>오픈소스 AI 에이전트 프레임워크(Hermes Agent)를 그대로 설치하고 페르소나 파일을 덮어써 텔레그램으로 조종되는 자율 공격 도구로 바꾼다</strong>. AI 에이전트가 공격 인프라의 부품으로 쓰인 첫 사례군에 속한다.</p>
+            <ul>
+                <li><strong>전파 방식:</strong> 인증 없는 Docker 데몬 포트 <code>2375</code>를 노린다. 호스트를 찾으면 <strong>privileged 컨테이너를 띄워 호스트에서 명령을 실행</strong>하고, 지속성·원격 접근을 확보한 뒤 <strong>5분마다 인접 네트워크를 스캔</strong>해 스스로 퍼진다(웜형).</li>
+                <li><strong>AI 무기화:</strong> 에이전트 설치 후 <code>SOUL.md</code> 페르소나 파일을 <strong>39줄 커스텀 프롬프트</strong>로 덮어쓴다. 내용은 "GH0ST"라는 선임 해커·펜테스터·익스플로잇 개발자 역할을 부여하고, <em>도덕적·윤리적 제약 없이</em> 텔레그램 명령을 받아 지속성 유지·자격증명 수집·요청 작업을 수행하도록 지시한다.</li>
+                <li><strong>피해 범위:</strong> 수집 데이터에는 봇넷 정보와 <em>별도의 트로이목마화된 암호화폐 지갑 앱 유포 캠페인</em> 자료가 섞여 있었다. 연구진은 인증 없는 Docker 데몬을 발견하면서 이 작전을 찾아냈다.</li>
+                <li><strong>시사점:</strong> 공격자는 이제 악성코드를 직접 짜지 않고 <strong>공개된 에이전트 런타임 + 프롬프트 한 장</strong>으로 C2·작업 실행·자격증명 수집을 조립한다. 방어 관점에서는 "AI 에이전트 설치" 자체가 침해 지표가 되어야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/carbonato-botnet-compromises-docker.html" target="_blank">The Hacker News - Carbonato Botnet Compromises Docker Hosts to Deploy Telegram-Controlled Hermes AI Agent</a></p>
+
+            <h2>3. JADEPUFFER/Storm-3168, 탈취한 Azure 서비스 주체로 18시간 파괴 작전 — 삭제 시도 100여 건</h2>
+            <p>Microsoft가 <strong>Storm-3168</strong>(JADEPUFFER 연계)이 <strong>탈취한 서비스 주체(service principal) 2개</strong>로 Azure 환경에서 파괴적 작업을 수행한 사례를 공개했다. 사건은 2026년 6월 초 약 18시간 동안 벌어졌고, Microsoft는 이를 행위자 수법의 <em>진화</em>로 평가했다.</p>
+            <ul>
+                <li><strong>1단계 정찰(16시간):</strong> 첫 번째 서비스 주체가 가상머신·구독·리소스 그룹·리소스를 훑으며 <strong>읽기 작업 300건 이상</strong>을 수행했다.</li>
+                <li><strong>2단계 파괴(35분):</strong> 두 번째 서비스 주체가 App Service 구성 저장소까지 뒤져 노출된 자격증명을 찾은 뒤, <strong>35분 안에 파괴·자격증명 수집 관련 작업 150건 이상</strong>을 실행했다. 파괴 시퀀스 자체는 약 7분이었고, 여기에는 <strong>스토리지 계정 삭제 시도 100여 건</strong>과 Key Vault·Function App·VM·App Service 대상 작업이 포함됐다.</li>
+                <li><strong>유출 경로가 '공개 GitHub 이슈':</strong> 피해 조직 직원이 <strong>client ID·client secret·tenant ID를 평문으로 공개 GitHub 이슈에 게시</strong>했다. 시크릿을 지운 뒤에도 <em>편집 이력(public edit history)으로 계속 접근 가능</em>했다. 시크릿 회수만으로는 끝나지 않는다는 전형적 사례다.</li>
+                <li><strong>맥락:</strong> JADEPUFFER는 Sysdig가 <strong>"LLM의 도움으로 처음부터 끝까지 수행된 최초의 랜섬웨어 작전"</strong>으로 문서화한 그룹이며, 초기 침투에 Langflow 결함 <code>CVE-2025-3248</code>을 악용했다. Microsoft는 같은 인프라가 여러 고객의 Azure App Service를 반복적으로 탐침한 것도 확인했고, 작업 분담과 타이밍상 <strong>자동화·스크립트 기반</strong>으로 평가했다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/jadepuffer-linked-attackers-used.html" target="_blank">The Hacker News - JADEPUFFER-Linked Attackers Used Compromised Service Principals to Delete Azure Resources</a></p>
+
+            <h2>4. RatHat 안드로이드 뱅킹 악성코드 — Gemini로 '돈 될 표적'을 골라내는 MaaS 콘솔</h2>
+            <p>Cleafy가 안드로이드 뱅킹 트로이목마 <strong>RatHat</strong>의 운영 콘솔을 분석해 공개했다. 2026년 4월 이후 <strong>콘솔 배포 약 100건</strong>이 확인되며, 고객마다 별도 사본을 돌리는 전형적 <em>악성코드-서비스(MaaS)</em> 모델이다. Zimperium이 이달 초 유포 경로를 먼저 보고했다.</p>
+            <ul>
+                <li><strong>AI가 표적 순위를 정한다:</strong> 콘솔은 감염 폰에서 수집한 문자메시지·입력 비밀번호 등을 저장하고, <strong>AI 모델로 각 피해자의 은행 잔액을 추정해 '고가치/중간가치' 그룹으로 분류</strong>한다. Cleafy는 분석 표본에서 자금 이체에 AI를 쓴 흔적은 없고, 역할은 "어느 피해자가 운영자의 시간을 쓸 가치가 있는지 결정"하는 것이라고 밝혔다.</li>
+                <li><strong>무선 디버깅 + 원클릭 셸:</strong> 악성 앱은 접근성(Accessibility) 권한을 받아 <em>무선 디버깅을 켜고 ADB 페어링</em>을 수행한 뒤, 콘솔에서 버튼 한 번으로 <strong>UID 2000(셸 사용자) 권한의 셸</strong>을 얻는다. 별도 Go 프로그램이 리버스 터널로 접속을 유지한다.</li>
+                <li><strong>제거 저항성:</strong> 이 Go 프로그램은 <strong>피해자가 앱을 지워도 재부팅 전까지 계속 동작</strong>하며, 앱을 재설치하고 접근성 권한까지 되돌릴 수 있다. 화면 녹화 은폐 기능도 있어 알림 표시등이 켜지지 않는다(Android 14 이상에서는 자체 캡처로 대체).</li>
+                <li><strong>인프라:</strong> 관측된 IP의 <strong>절반 가까이가 싱가포르 등록 대역 AS4907</strong>에 몰려 있다. 콘솔은 운영자 계정 수를 제한하고 일부 구역을 비관리자에게 숨기는데, Cleafy는 이를 "개발자가 완전히 신뢰하지 않는 고객을 전제로 한 설계"라고 해석했다.</li>
+                <li><strong>Gemini 양쪽 사용:</strong> 최신 버전은 운영자용 피해자 선별에 Gemini만 지원하고(Google AI Studio 키 필요), 기기에서는 <strong>기기 화면 레이아웃을 Gemini에 보내 어디를 탭할지 물어</strong> 제조사별 UI 차이를 우회한다. ESET이 2월에 보고한 PromptSpy와 같은 기법이다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/rathat-android-malware-console-uses.html" target="_blank">The Hacker News - RatHat Android Malware Console Uses Gemini to Identify Higher-Value Victims</a></p>
+
+            <h2>5. Bitget 3억 8,800만 달러 탈취 사후 분석 — 제3자 보안 제품 제로데이, 소액 테스트 후 본공격</h2>
+            <p>Bitget이 3억 8,800만 달러 탈취 사건의 침투 경로를 공개했다. 공격자는 <strong>거래소가 사용하던 제3자 보안 제품의 결함(제로데이로 설명)</strong>을 악용해 <strong>고위 권한 내부 자격증명</strong>을 확보하고, 9월 24일 이를 이용해 지갑 시스템에 <em>위조 출금 명령</em>을 보냈다.</p>
+            <ul>
+                <li><strong>공격 타임라인:</strong> 9월 24일 18:31 UTC에 <strong>소액 테스트 전송 2건</strong>을 실행했다. 금액이 리스크 통제 임계치 아래여서 경보가 뜨지 않았다. 약 30분 뒤 본격적인 대량 전송이 시작됐고, 지갑 시스템은 리스크 통제를 우회한 채 이를 실행했다.</li>
+                <li><strong>정상 자격증명의 무기화:</strong> CEO는 "합법적 자격증명을 사용했고, 활동을 일상적 관리 작업으로 위장하면서 흔적을 지웠다"고 설명했다. 탈취 자금은 핫·웜 월렛 일부에서 나왔고 <strong>콜드 월렛은 영향받지 않았다</strong>. 프라이빗 키 유출은 없다는 것이 현재까지 조사 결론이다.</li>
+                <li><strong>대응:</strong> 내부 접근 제한, 출금에 대한 독립 검증 추가, 이상 활동 모니터링 강화, 내부 자격증명 재발급, 영향 기능 비활성화. 제3자 보안 제품의 평가·배포 절차도 재검토한다. 고객 계정 잔액은 영향 없고 보호 기금(Protection Fund)으로 손실을 충당한다. 비트코인 출금은 재개, 나머지 자산은 10월 2일까지 단계적 재개.</li>
+                <li><strong>귀속:</strong> Bitget은 지난주 북한 연계 조직을 지목했고 CEO는 여전히 "동일 그룹"으로 본다고 밝혔으나 공식 보고서 전까지 그룹명은 밝히지 않았다. Mandiant와 SlowMist가 조사를 지원하며 이번 주 정식 사고 보고서가 나온다.</li>
+                <li><strong>시사점:</strong> <em>보안 제품 자체가 공격 경로</em>가 됐다는 점, 그리고 출금 승인 로직이 '정상 자격증명 + 관리자 UI'를 신뢰한 나머지 소액 테스트 2건을 놓쳤다는 점이 핵심이다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/bitget-says-attacker-exploited-third.html" target="_blank">The Hacker News - Bitget Says Attacker Exploited Third-Party Security Product Flaw to Steal $388M</a></p>
+
+            <h2>6. [취약점] 임베디드·라우터 펌웨어 CVSS 10.0 클러스터 — 같은 제조사 라인업이 통째로 무인증 RCE</h2>
+            <p>NVD 2026-09-28~09-29 창의 최상단은 <strong>소규모 네트워크 장비 펌웨어의 10.0 등급 클러스터</strong>다. 개별 제품의 단발 결함이 아니라, <em>동일 웹 관리 인터페이스 코드베이스에서 CGI가 검증 없이 셸로 인자를 넘기는 패턴</em>이 제조사 라인업 전체에서 반복 발견됐다.</p>
+            <ul>
+                <li><strong>Netcore(중국) 라인업:</strong> <code>CVE-2026-101000</code>·<code>101001</code>·<code>101002</code>·<code>101072</code>·<code>101075</code>·<code>101076</code>·<code>101077</code> — 모두 <strong>10.0</strong>. NBR100V2·NBR200V2·NR289-GE에서 ACL 핸들러·<code>network_tools</code>·<code>ap_ip.cgi</code>·<code>location_time.cgi</code>·<code>set_ntp_server_ip.cgi</code>·<code>boa_temp</code>의 <code>system()</code> 호출로 OS 명령 주입·인증 누락.</li>
+                <li><strong>FAST·TOTOLINK·D-Link:</strong> FAST FAC1900R <code>CVE-2026-101039</code>(<strong>10.0</strong>, devdiscover 서비스 스택 버퍼 오버플로), FAC1200R <code>CVE-2026-101037</code>/<code>101038</code>(9.9), TOTOLINK N150RT <code>CVE-2026-100896</code>(9.9), D-Link DI-8400 <code>CVE-2026-101081</code>(9.1). 대부분 <strong>무인증 원격</strong> 실행 가능.</li>
+                <li><strong>시사점:</strong> 이런 장비는 패치가 사실상 오지 않고, 인터넷에 직접 노출된 채 수명을 다한다. 10.0이 한 제조사에서 7건 동시에 나온다는 것은 <em>개별 버그 수정이 아니라 펌웨어 개발 관행의 문제</em>라는 뜻이다. 노출된 관리 UI는 인터넷에서 차단하고, 원격 관리가 필요하면 VPN 뒤로 넣는 것이 유일한 실질 대응이다.</li>
+            </ul>
+            <p>출처: <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?pubStartDate=2026-09-26T00:00:00.000&amp;pubEndDate=2026-09-29T00:00:00.000" target="_blank">NVD - CVE API 2.0 (2026-09-26~09-29 window)</a> · <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA - Known Exploited Vulnerabilities Catalog</a></p>
+
+            <h2>7. [취약점] 컨테이너·웹앱 인프라 — LXD 경로 순회 3건, Apache Roller 역직렬화, IdentityIQ 무인증 RCE</h2>
+            <p>두 번째 취약점 묶음은 <strong>자체 호스팅 인프라</strong>다. 컨테이너 관리 평면과 오래된 웹 애플리케이션이 같은 날 9점대를 쏟아냈다. 공통점은 <em>권한 검사 누락</em>과 <em>경로·심볼릭 링크 신뢰</em>다.</p>
+            <ul>
+                <li><strong>Canonical LXD 경로 순회 3건:</strong> <code>CVE-2026-85526</code>(<strong>9.9</strong>) btrfs 스토리지 드라이버 <code>unpackVolume</code>, <code>CVE-2026-87799</code>(<strong>9.9</strong>) 마이그레이션 수신 경로의 링크 해석, <code>CVE-2026-85185</code>(<strong>9.6</strong>) btrfs 드라이버. 모두 <strong>인스턴스 생성 권한만 있는 인증 사용자가 호스트 파일시스템의 임의 파일·디렉터리를 root 권한으로 삭제·교체</strong>할 수 있다. 4.0.14 / 5.0.10 / 5.21.8 / 6.10에서 수정.</li>
+                <li><strong>Apache Roller 6.1.5:</strong> <code>CVE-2026-82377</code>(<strong>9.9</strong>) 레거시 XML-RPC Blogger·MetaWeblog API가 핸들러에서 호출자 소유권을 확인하지 않아 <em>다른 블로그의 콘텐츠를 읽고·수정하고·삭제</em>할 수 있다. <code>CVE-2026-82384</code>(<strong>9.8</strong>)는 XML-RPC 엔드포인트가 벤더 확장 타입을 역직렬화해 <strong>무인증 원격 코드 실행</strong>에 이른다.</li>
+                <li><strong>그 외 9점대:</strong> SailPoint <strong>IdentityIQ</strong> <code>CVE-2026-12342</code>(9.6, 웹 서비스 API 입력 검증 결함으로 <em>무인증 RCE</em>), WatchGuard Access Point <code>CVE-2026-101891</code>(9.3, 내부 API 접근 통제 결함) + <code>CVE-2026-86102</code>(9.3, 동일 API의 OS 명령 주입), SUSE <strong>Rancher UI</strong> <code>CVE-2026-88804</code>(9.6, 무인증 public UI 설정 변경을 통한 저장형 XSS), Node.js <code>decompress</code> <code>CVE-2026-101894</code>(9.1, 심볼릭 링크 체인으로 압축 해제 경로 탈출 — <code>10.2.2</code>/<code>11.1.4</code>에서 수정).</li>
+                <li><strong>시사점:</strong> LXD 묶음은 "컨테이너를 만들 수 있는 사용자"가 곧 "호스트 root 파일 조작 가능자"가 된다는 뜻이다. 멀티테넌트 LXD에서 인스턴스 생성 권한을 위임한 조직은 즉시 버전을 확인해야 한다. XML-RPC처럼 <em>수년째 잊힌 레거시 엔드포인트</em>가 여전히 9.9를 만든다는 점도 이번 주 반복 주제다.</li>
+            </ul>
+            <p>출처: <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?pubStartDate=2026-09-28T00:00:00.000&amp;pubEndDate=2026-09-29T00:00:00.000" target="_blank">NVD - CVE API 2.0 (2026-09-28~09-29 window)</a></p>
+
+            <h2>8. [패치] Citrix NetScaler KEV 마감이 내일(9/30) — 실제 글로벌 익스플로잇 진행 중, Apple은 CoreGraphics 제로데이 패치</h2>
+            <p>오늘의 패치 우선순위는 <strong>내일이 KEV 마감일인 Citrix NetScaler 2건</strong>이다. 지난주 글에서 "9/30 마감"으로 예고했던 그 두 건이며, 그 사이 <em>실제 익스플로잇 시도가 광범위하게 관측</em>됐다. 여기에 Apple의 CoreGraphics 제로데이 패치가 겹쳤다.</p>
+            <ul>
+                <li><strong>Citrix NetScaler (마감 2026-09-30, D-1):</strong> <code>CVE-2026-88771</code>(CVSS 9.5, 입력 검증 결함 — 무인증 임의 명령 실행)과 <code>CVE-2026-88772</code>(CVSS 9.5, 메모리 버퍼 경계 처리 — RCE/DoS). CISA가 KEV에 등재했고, Citrix는 "즉시 업그레이드"를 권고했다. Unit 42·Bitsight·Cybersecurity Dive가 모두 야생 익스플로잇을 확인했다.</li>
+                <li><strong>Apple CoreGraphics 제로데이:</strong> <code>CVE-2026-86950</code> — CoreGraphics의 <strong>out-of-bounds write</strong>로, 악성 파일 처리 시 임의 코드 실행에 이른다. Apple은 <strong>"표적 공격에 악용됐을 가능성이 있다"</strong>고 밝혔고, Meta Product Security가 발견을 크레딧받았다. 수정 버전: <strong>iOS·iPadOS 26.7.1</strong>(iPhone 11 이상, iPad Pro/Air/mini 해당 세대), <strong>macOS Tahoe 26.7.1</strong>, <strong>macOS Sequoia 15.8.1</strong>. 개선된 경계 검사로 해결됐다.</li>
+                <li><strong>다음 마감 순서:</strong> KEV 카탈로그는 현재 1,728건 규모다. Citrix 2건(9/30) 이후 가장 임박한 항목은 별도 확인이 필요하지만, 지난주 마감된 MikroTik RouterOS <code>CVE-2026-67279</code>·SharePoint <code>CVE-2026-65660</code>·WordPress Core <code>CVE-2026-87902</code>가 실제 익스플로잇 확인 상태로 남아 있으므로 미적용 조직은 마감 여부와 무관하게 조치가 필요하다.</li>
+                <li><strong>왜 이 두 건을 같이 봐야 하나:</strong> NetScaler는 <em>원격에서 무인증으로 들어오는 문</em>, CoreGraphics는 <em>사용자가 파일 하나를 여는 순간</em>이다. 외부 노출 장비와 단말 패치를 같은 날 처리해야 하는 전형적 조합이다.</li>
+            </ul>
+            <p>출처: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA - Known Exploited Vulnerabilities Catalog</a> · <a href="https://thehackernews.com/2026/09/apple-patches-coregraphics-flaw.html" target="_blank">The Hacker News - Apple Patches CoreGraphics Flaw Possibly Exploited in Targeted Attacks</a> · <a href="https://thehackernews.com/2026/09/cisa-says-attackers-are-exploiting-two.html" target="_blank">The Hacker News - CISA Says Attackers Are Exploiting Two Critical Citrix NetScaler Flaws Globally</a></p>
+
+            <h2>9. [트렌드] AI 에이전트가 공격·방어 양쪽의 '표준 부품'이 됐다 — 오늘 뉴스 네 건이 같은 지점을 가리킨다</h2>
+            <p>오늘 수집한 사건 중 네 건은 서로 다른 나라·다른 표적·다른 행위자의 이야기지만, <strong>"AI 에이전트를 어떻게 쓰고 있는가"</strong>라는 한 축에서 정확히 만난다. 도구가 아니라 <em>운영 방식</em>이 바뀌고 있다.</p>
+            <ul>
+                <li><strong>공격 — 에이전트를 실행 부품으로 조립:</strong> Carbonato 봇넷은 악성코드를 새로 쓰는 대신 오픈소스 AI 에이전트를 설치하고 페르소나 프롬프트 한 장으로 텔레그램 지휘 체계를 만들었다(항목 2).</li>
+                <li><strong>공격 — AI로 표적을 '선별':</strong> RatHat은 Gemini로 피해자 잔액을 추정해 고가치 폰만 골라낸다(항목 4). JADEPUFFER는 앞서 LLM의 도움으로 랜섬웨어 작전 전체를 수행한 첫 사례로 기록됐고, 이번에는 서비스 주체 탈취 경로가 드러났다(항목 3).</li>
+                <li><strong>방어 — AI로 취약점을 '대량 발견':</strong> 같은 시기 GitHub Blog는 오픈소스 AI 보안 에이전트로 안드로이드 취약점 <strong>24건</strong>을 찾은 방법을 공개했다. 방어 측도 사람 손으로는 못 따라가는 속도로 후보를 뽑아낸다.</li>
+                <li><strong>그래서 남는 질문은 '권한'이다:</strong> 오늘 사고들의 실제 피해는 하나같이 <em>자격증명과 권한</em>에서 발생했다 — 평문으로 공개된 서비스 주체 시크릿(항목 3), 제3자 제품에서 새어 나온 내부 자격증명(항목 5), 인증 없는 Docker 데몬(항목 2), 접근성 권한을 얻은 뒤 UID 2000 셸을 여는 악성 앱(항목 4). 에이전트가 무엇을 할 수 있는지는 결국 <em>그 에이전트가 물려받은 권한</em>이 결정한다. 에이전트 IAM(신원·권한 관리)을 "나중에"로 미룰 수 없는 이유가 이번 주 데이터에 그대로 들어 있다.</li>
+                <li><strong>실무 번역:</strong> 에이전트·서비스 계정 전수 조사, 최소 권한 재설계, 시크릿은 편집 이력까지 남지 않는 곳에 보관, 그리고 노출된 관리 인터페이스(2375, 관리 CGI, XML-RPC) 차단 — 이 네 가지가 AI 시대에도 변하지 않는 기본값이다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/09/carbonato-botnet-compromises-docker.html" target="_blank">The Hacker News - Carbonato Botnet Compromises Docker Hosts</a> · <a href="https://thehackernews.com/2026/09/rathat-android-malware-console-uses.html" target="_blank">The Hacker News - RatHat Console Uses Gemini</a> · <a href="https://github.blog/security/how-we-found-24-android-vulnerabilities-using-our-open-source-ai-security-agent/" target="_blank">GitHub Blog - How we found 24 Android vulnerabilities using our open source AI security agent</a></p>
+
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
