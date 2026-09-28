@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - Robust Physical-World Attacks (CVPR 2018, Michigan·Washington·Berkeley): '정지 표지판에 흑백 스티커 두 장이면 인식이 무너진다' — 실험실 100%·주행 영상 84.8% 오분류, 인용 2,266회로 '물리 세계 적대적 공격' 분야를 연 원형</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - Robust Physical-World Attacks (CVPR 2018, Michigan·Washington·Berkeley): '정지 표지판에 흑백 스티커 두 장이면 인식이 무너진다' — 실험실 100%·주행 영상 84.8% 오분류, 인용 2,266회로 '물리 세계 적대적 공격' 분야를 연 원형</h1>
+            <p class="date">2026-09-28</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>유형:</strong> 컴퓨터 비전 × 보안 교차 논문 — <strong>물리 세계(physical-world) 적대적 공격</strong>. 자율주행·ADAS가 의존하는 표지판 인식을 <strong>흑백 스티커만으로</strong> 조작해 신경망을 의도한 클래스로 오분류시킨, 이 계보의 <strong>원형(origin) 논문</strong></li>
+                    <li><strong>제목:</strong> <em>Robust Physical-World Attacks on Deep Learning Visual Classification</em> (arXiv v5 제목은 <em>Robust Physical-World Attacks on Deep Learning Models</em> — 게재본과 프리프린트 제목이 다르다)</li>
+                    <li><strong>저자/소속:</strong> Kevin Eykholt · Ivan Evtimov · Earlence Fernandes · Bo Li · Amir Rahmati · Chaowei Xiao · Atul Prakash · Tadayoshi Kohno · Dawn Song — University of Michigan · University of Washington · UC Berkeley · UIUC · Stony Brook (Eykholt·Evtimov 공동 제1저자)</li>
+                    <li><strong>분야/게재지:</strong> cs.CR(보안) · cs.LG · cs.CV / <strong>CVPR 2018</strong> (최초 제출 2017-07-27, v5 2018-04-10, arXiv comment "Accepted to CVPR 2018")</li>
+                    <li><strong>핵심 기여:</strong> 공격 알고리즘 <strong>RP² (Robust Physical Perturbations)</strong> + 물리 공격의 재현을 위한 <strong>2단계 평가 방법론(실험실 정지 + 차량 주행)</strong> 제안</li>
+                    <li><strong>실험 대상:</strong> 직접 학습시킨 표지판 분류기 2종 — <strong>LISA-CNN</strong>(미국 LISA 데이터셋, 테스트 정확도 <strong>91%</strong>) · <strong>GTSRB-CNN</strong>(독일 GTSRB, <strong>95.7%</strong>) + 일반화 확인용 Inception-v3</li>
+                    <li><strong>인용:</strong> Semantic Scholar <strong>2,266회</strong> (영향력 있는 인용 149회 · CVPR 2018 게재본 기준) — 프리프린트 집계(602회 수준)와 크게 다르므로 게재본 DOI 기준 수치를 인용한다</li>
+                    <li><strong>원문:</strong> arXiv <a href="https://arxiv.org/abs/1707.08945" target="_blank">1707.08945</a> · CVPR 2018 open access <a href="https://openaccess.thecvf.com/content_cvpr_2018/html/Eykholt_Robust_Physical-World_Attacks_CVPR_2018_paper.html" target="_blank">게재본 PDF</a> · DOI 10.1109/CVPR.2018.00175</li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>기존 적대적 예제는 픽셀 단위로 미세 조정된 <em>디지털</em> 이미지에 최적화돼 있어, 실제 카메라로 표지판을 찍는 순간 거리·각도·조명·해상도 변화 때문에 효과가 사라진다. 이 논문은 <strong>거리 d와 각도 g를 명시적인 공격 변수로</strong> 끌어올려, 그 변화에도 살아남는 섭동을 인쇄 가능한 스티커 형태로 찾아낸다 — 그리고 그것을 실제 도로에서 검증한다.</p>
+            <ul>
+                <li><strong>문제 정의 — "디지털 공격은 물리 세계에서 죽는다":</strong> 표지판은 차량이 다가오며 계속 <em>다른 거리·각도</em>로 보인다. 즉 공격은 하나의 시점이 아니라 <strong>시점 집합 전체(D × G)</strong>에서 성공해야 한다</li>
+                <li><strong>RP² (Robust Physical Perturbations):</strong> ① 섭동을 표지판 <strong>표면에만</strong> 붙도록 제약하는 <em>마스크</em>, ② 실험 데이터로부터 <strong>물리 역학(거리·각도 변환)을 모델링</strong>해 합성 변환을 생성, ③ 여러 시점에서의 <strong>기대 오분류 확률을 최대화</strong>하도록 최적화. 결과는 흑백 스티커로 인쇄·부착 가능하다</li>
+                <li><strong>"낙서처럼 보이게" — Camouflage 제약:</strong> 섭동을 표지판에 흔한 <em>graffiti(낙서)·추상화</em> 형태로 제약한다. 사람은 낙서를 예상하고 무시하므로, 공격이 눈에 띄어 즉시 제거되는 것을 막는 <strong>사회공학적 설계</strong>다</li>
+                <li><strong>2단계 평가 방법론(논문의 기여 중 하나):</strong> ① 실험실 <em>정지(stationary)</em> 테스트 — 15개 거리/각도 구성에서 캡처, ② <strong>drive-by(주행) 테스트</strong> — 약 250ft 거리에서 차량이 접근하며 촬영한 영상에서 k=10 프레임을 뽑아 투표. 기준선(교란 없는 표지판)은 <strong>모든 조건에서 100% 정분류</strong>였다</li>
+                <li><strong>정지 표지판 → '제한속도 45':</strong> 표지판 전체를 덮는 <em>object-constrained poster</em> 공격이 <strong>정지·주행 테스트 모두 100%</strong> 목표 오분류를 달성했고, 목표 클래스 평균 신뢰도는 <strong>80.51%</strong></li>
+                <li><strong>실제 표지판에 스티커만:</strong> 진짜 정지 표지판에 graffiti 스티커 → 정지 조건 <strong>66.67%</strong>, camouflage-art 스티커 → 정지 <strong>100%</strong> · 주행 영상 <strong>84.8%</strong> 목표 오분류</li>
+                <li><strong>두 번째 분류기(GTSRB-CNN):</strong> 정지 표지판을 '제한속도 80'으로 — 정지 <strong>80%</strong>, 주행 <strong>87.5%</strong>. 우회전 경고 표지판에는 정규화 계수를 키워 섭동을 최소화한 미묘한 공격으로 <strong>73.33%</strong> 목표 오분류(실패한 4개 구성도 'Yield'·'Added Lane' 등 다른 클래스로 오분류 — 경고 표지판끼리 생김새가 비슷해 작은 섭동으로도 충분히 혼란스럽다)</li>
+                <li><strong>표지판 밖으로 일반화:</strong> 전자레인지에 <strong>스티커 1장</strong>만 붙여 Inception-v3가 '휴대폰(phone)'으로 분류하게 만든다 — 이 취약성이 도로 표지판에 국한된 특수 사례가 아님을 보인다</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>인용 2,266회 · CVPR 2018:</strong> 자율주행 보안·강건성을 다루는 거의 모든 논문과 서베이가 <em>물리 세계 적대적 공격의 출발점</em>으로 이 논문을 인용한다. 저자진도 보안·ML 양쪽의 대표 연구자들이 모인 팀이다(Michigan · Washington · Berkeley · UIUC · Stony Brook)</li>
+                <li><strong>분야를 연 원형:</strong> 이후 적대적 패치·텍스처 공격, 객체검출기 대상 물리 공격(<a href="https://arxiv.org/abs/1807.07769" target="_blank">Physical Adversarial Examples for Object Detectors</a>), LiDAR 스푸핑, 그리고 <strong>자율주행 강건성 벤치마크</strong> 계보(예: <a href="https://arxiv.org/abs/2303.11040" target="_blank">3D 검출기 손상 벤치마크, CVPR 2023</a> — 안개·눈·센서 노이즈 등 27종 손상 조건)가 모두 이 문제 설정 위에 서 있다. RP²의 <strong>기대값 기반 시점 불변 최적화</strong>는 오늘날 적대적 패치 연구의 표준 도구가 됐다</li>
+                <li><strong>이 블로그의 인식 스택 글들과 정확히 맞물린다:</strong> <a href="autonomous-2026-08-27.html">LSS</a>·<a href="autonomous-2026-08-17.html">BEVFormer</a>(카메라 → BEV), <a href="autonomous-2026-09-05.html">PointPillars</a>(LiDAR 검출), <a href="autonomous-2026-09-11.html">KITTI</a>·<a href="autonomous-2026-08-24.html">nuScenes</a>(평가 데이터)는 모두 <em>입력을 측정값으로 신뢰</em>하는 구조다. 이 논문은 그 신뢰가 <strong>물리적으로 조작 가능한 표면</strong>이라는 사실을 2018년에 실물로 보여줬다</li>
+                <li><strong>활용 가치:</strong> ① 자율주행 <strong>위협 모델 정리</strong>(공격면 = 표지판·차선·센서·통신), ② 규제·인증 테스트에 적대적/손상 시나리오 포함, ③ 방어 연구(적대적 학습, 입력 이상탐지, 앙상블, 센서 융합), ④ VLM·언어 기반 주행으로 확장될수록 '입력 신뢰' 문제는 더 커진다</li>
+                <li><strong>한계(정직하게):</strong> 공격 대상은 <em>표지판 분류기</em>이지 완전한 주행 스택이 아니고, 2018년 기술 기준의 소규모 CNN을 썼으며, 이후 방어 기법도 함께 발전했다. 그럼에도 "왜 강건성 평가가 자율주행의 필수 항목인가"를 처음으로 실물 도로에서 증명한 문서라는 위상은 변하지 않는다</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>자율주행의 인식 성능은 <strong>픽셀 통계를 학습한 함수</strong>이고, 그 입력은 우리가 사는 물리 세계에서 온다. 이 논문이 던진 질문은 단순하지만 무겁다 — <em>"센서가 보는 것을 우리가 통제할 수 있다면, 그 위에 쌓은 판단은 무엇을 신뢰하는가?"</em> 정지 표지판에 붙은 흑백 스티커 두 장이 100% 오분류를 만들 수 있다면, 안전 논의의 중심에는 평균 정확도가 아니라 <strong>최악의 경우(입력이 조작된 경우)</strong>가 놓여야 한다.</p>
+            <p>오늘날 이 계보는 표지판을 넘어 적대적 패치, LiDAR 스푸핑, 프롬프트 주입(LLM 기반 주행)까지 확장됐다. 그래서 이 논문은 '옛 보안 논문'이 아니라, <strong>자율주행 인식 스택을 하나의 공격면(attack surface)으로 보는 관점의 시작점</strong>으로 읽는 것이 맞다. 인식 논문을 읽을 때 "이 모델이 어떤 물리 조건에서 무너지는가"를 함께 묻는 습관 — 그것이 2026년의 자율주행 연구·검증에서 이 논문이 남긴 가장 실용적인 유산이다.</p>
+            <p>원문: <a href="https://arxiv.org/abs/1707.08945" target="_blank">https://arxiv.org/abs/1707.08945</a> · 게재: CVPR 2018 (DOI 10.1109/CVPR.2018.00175) · 후속: <a href="https://arxiv.org/abs/1807.07769" target="_blank">Physical Adversarial Examples for Object Detectors</a> · 강건성 벤치마크: <a href="https://arxiv.org/abs/2303.11040" target="_blank">Benchmarking Robustness of 3D Object Detection to Common Corruptions</a></p>
+                        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
