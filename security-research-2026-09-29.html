@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🕶️ [최신] GAZEleak: 외부 카메라만으로 XR 헤드셋 패스코드를 추론 — '이 입력은 관찰 불가'라는 가정의 붕괴 (arXiv 2609.35040, WPES 2026)</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🕶️ [최신] GAZEleak: 외부 카메라만으로 XR 패스코드를 추론 — '이 입력은 밖에서 안 보인다'는 가정의 붕괴</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-09-29 · 카테고리: Research (최신 보안 논문 · 사이드채널 / XR 프라이버시 · 물리적 관찰자 위협 모델 · arXiv 2026)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> GAZEleak: Passcode Inference Against Eye-tracking XR Devices Through External Observation<br>
+                <strong>저자:</strong> <strong>Hwanjo Heo</strong> · <strong>Junhee Lee</strong> · <strong>Jinwoo Kim</strong> (한국 연구진)<br>
+                <strong>출처:</strong> arXiv:2609.35040v1 [cs.CR] — 2026년 9월 28일 제출 · <em>To appear in WPES '26</em> (25th Workshop on Privacy in the Electronic Society), ACM CCS 2026, 2026년 11월 15–19일, 네덜란드 헤이그 · DOI: 10.1145/3847192.3847361<br>
+                <strong>분야:</strong> 사이드채널 분석 · XR/VR 프라이버시 · 생체역학 누출(eye–head motor coupling) · 로컬 물리적 관찰자(local physical observer) 위협 모델 · 패스코드/키스트로크 추론<br>
+                <strong>인용:</strong> 제출 <em>다음 날</em>이라 OpenAlex·Semantic Scholar 모두 아직 미등록(인용 0). 대신 게재지 — 국제 프라이버시 워크숍 <strong>WPES '26 (ACM CCS 2026 동반 워크숍)</strong> 채택 — 로 연구의 위치를 가늠한다.<br>
+                <strong>원문:</strong> <a href="https://arxiv.org/abs/2609.35040" target="_blank" rel="noopener">arxiv.org/abs/2609.35040</a> · 전문(HTML): <a href="https://arxiv.org/html/2609.35040v1" target="_blank" rel="noopener">arxiv.org/html/2609.35040v1</a>
+            </div>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 한 줄 요약 — '몸 밖으로 새는 신호'</h2>
+            <p>Apple Vision Pro 같은 혼합현실 헤드셋은 터치스크린을 <strong>시선-as-pointer</strong> 상호작용으로 대체한다 — 보고(시선), 확정(에어 핀치). 디스플레이가 헤드셋 안에 있고 시선추적기가 서드파티 앱으로부터 벽으로 막혀 있기 때문에, 이런 입력은 주변인에게 <em>관찰 불가능</em>하다고 널리 가정돼 왔다(휴대폰·노트북을 괴롭히는 어깨너머 훔쳐보기에 대한 '내장 방어'). <strong>GAZEleak은 그 가정을 깬다.</strong> 기기에 소프트웨어를 한 줄도 설치하지 않고, <em>방 건너편에서 찍은 영상</em>만으로 — 시선 이동에 딸려 움직이는 아주 작은 고개 회전을 복원해 — 6자리 기기 패스코드를 추론한다.</p>
+            <blockquote>
+                "혼합현실 헤드셋은 터치스크린을 시선-as-pointer 상호작용으로 대체한다 … 디스플레이가 헤드셋 안에 있고 시선추적기가 서드파티 소프트웨어로부터 차단돼 있어, 이런 입력은 주변인에게 관찰 불가능하다고 널리 가정돼 왔다 — 휴대폰·노트북을 괴롭히는 어깨너머 훔쳐보기에 대한 내장 방어다. 우리는 GAZEleak을 제시한다." — 초록
+            </blockquote>
+
+            <h2><i class="fa-solid fa-glasses"></i> 배경 — XR은 '시선으로 가리키고, 에어핀치로 확정'한다</h2>
+            <ul>
+                <li><strong>입력 패러다임:</strong> Vision Pro는 커서를 <em>시선</em>으로 옮기고, 확정은 손가락 에어 핀치로 한다. 시스템 숫자 패스코드는 3×4 그리드이며, Apple Vision Pro는 <strong>10회 실패 시 잠금</strong>된다 — 즉 공격자는 사실상 '상위 10개 추측' 안에서 정답을 찾아야 한다.</li>
+                <li><strong>왜 '안전'으로 여겨졌나:</strong> 시선추적 스트림·온디바이스 시선 좌표는 앱에 노출되지 않는다. 디스플레이도 머리 안쪽에 있다. 그래서 어깨너머 관찰(shoulder-surfing)은 XR의 <em>해결된</em> 문제로 취급돼 왔다.</li>
+                <li><strong>AI 글래스로 확산 중:</strong> Meta Ray-Ban 스마트글래스는 카메라·오디오만 있고 시선추적은 없다. 그러나 Meta Orion 프로토타입과 연구용 Aria Gen 2는 <strong>안쪽을 향한 시선 카메라</strong>를 탑재 — 주류 AI 글래스가 시선추적으로 수렴하는 신호다. 이는 곧 GAZEleak류 공격면의 확대를 뜻한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-user-secret"></i> 핵심 1 — 위협 모델: 소프트웨어 0줄, '방 건너편의 카메라' 하나</h2>
+            <ul>
+                <li><strong>공격자는 철저히 외부인이다.</strong> 기기에 소프트웨어를 설치·변조하지 않는다. OS API를 질의하지 않는다. 안쪽 마이크로디스플레이, 시선추적 스트림, 온디바이스 시선 좌표 어디에도 접근하지 않는다. 그저 <em>착용자를 방 건너편에서 촬영</em>할 뿐이다.</li>
+                <li><strong>필요한 장비는 평범하다:</strong> 서브도(sub-degree) 수준의 고개 자세 변화를 분해할 수 있는 <strong>1080p 일반 카메라면 충분</strong> — 스마트폰이나 감시 카메라 수준. 특수 촬영 장비가 필요 없다.</li>
+                <li><strong>소프트웨어 패치로 막을 수 없다:</strong> 누출되는 신호가 '취약점'이 아니라 <em>생체역학</em>이기 때문이다. 이 논문의 비교표에서 GAZEleak은 '외부 관찰 가능·SW 미설치·SW 패치 내성' 세 항목을 모두 만족하는 유일한 시선-입력 공격이다.</li>
+                <li>대상은 Vision Pro로 대표되지만, 논문은 <em>시선추적을 갖춘 기기 계열 전반</em> — Meta Quest Pro, HTC Vive Pro Eye, 그리고 안쪽 시선 카메라를 탑재하는 차세대 AI 글래스 — 로 일반화된다고 본다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-eye"></i> 핵심 2 — 왜 새는가: 눈과 고개는 '한 몸'으로 움직인다</h2>
+            <ul>
+                <li><strong>Eye–head motor coupling:</strong> 운동신경과학의 오랜 발견(Sidenmark &amp; Gellersen)은 시선 이동과 고개 이동이 독립 제어가 아니라 <em>하나의 협응 운동 프로그램</em>으로 구동된다는 것이다.</li>
+                <li><strong>누출 경로:</strong> 시선이 표적으로 이동할 때 고개가 <em>표적 의존적으로</em> 아주 작게 재정향(reorientation)한다. 이 미세 회전이 서브도 수준의 자세 변화로 투영되고, 외부 카메라가 이를 복원한다 — 시선 자체를 직접 본 것이 아니라, 시선이 <em>고개를 끌어당긴 흔적</em>을 본 것이다.</li>
+                <li><strong>불수의적이다:</strong> Corneil 등(2004)은 고정된 영장류에서 시각 표적 등장이 <strong>약 55ms 안에</strong> 목근육의 측방향 활성을 유발함을 EMG로 관찰했다. 즉 \"고개를 안 움직이면 되지\"로 참을 수 있는 종류의 신호가 아니다.</li>
+                <li><strong>인증 순간에 특히 두드러짐:</strong> 사용자가 패스코드를 입력하거나 가상 키보드로 비밀번호를 칠 때는 각 문자를 의도적으로 입력하며 <strong>고개를 표적 키 쪽으로 향하는 경향</strong>이 강해진다 — 공격자에게 가장 유리한 구간이 바로 '인증' 순간이다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-diagram-project"></i> 핵심 3 — 공격 파이프라인 (측정 기반, 학습 모델 불필요)</h2>
+            <p>GAZEleak은 무거운 신경망에 의존하지 않고 <strong>측정 기반의 sparse optical flow 추론 파이프라인</strong>으로 동작한다. 핵심 착상은 패스코드를 개별 키가 아니라 <em>연속된 키 전이(transition)의 시퀀스</em>로 모델링하는 것이다.</p>
+            <ul>
+                <li><strong>① Transition-based 패스코드 모델:</strong> 패스코드를 '어떤 키에서 어떤 키로 이동했는가'의 전이 목록으로 표현한다.</li>
+                <li><strong>② Transition 세그멘테이션:</strong> 외부 영상에서 고개 움직임의 구간을 잘라낸다.</li>
+                <li><strong>③ Transition 모션 기술자(descriptor):</strong> 각 구간을 <strong>8개 모션 채널</strong>(변환 이동·회전·스케일 변화·중앙점 플로우·플로우 분산 등)로 요약한다.</li>
+                <li><strong>④ 라벨 스코어링 &amp; ⑤ 위치 풀링(position pooling):</strong> 각 전이 후보에 점수를 매기고 위치별로 풀링해, <strong>10⁶개(6자리) 전체 후보를 랭킹</strong>한다.</li>
+                <li>논문은 파이프라인의 설계 선택을 검증하기 위해 '기술자+리드아웃 스택 전체를 고정된 학습 모델로 교체'하는<strong> ablation(§6.6)</strong>도 수행한다 — 즉 범용 시각 모델이 왜 이 미세 신호를 못 잡는지도 정량화한다(§7.2).</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-chart-column"></i> 핵심 4 — 평가 결과 (숫자로 본 타당성)</h2>
+            <ul>
+                <li><strong>데이터:</strong> 공격 가설을 <em>인지한</em> 저자 피험자 3명, 정면(front-view) 카메라, 패스코드당 5회 반복 촬영, 피험자당 테스트 패스코드 6개 = 총 18개 코드.</li>
+                <li><strong>교차인물(cross-person) 프로토콜:</strong> 라벨 없는 피해자 데이터로 — 18개 중 <strong>10개(56%)를 상위 10개 추측 안에</strong> 복원. 동일인물(within-person)은 9/18(50%).</li>
+                <li><strong>가장 노출된 피험자(Subject 1):</strong> 모든 테스트 패스코드가 상위 10 안에 들어왔고, <strong>중앙 랭크 1(동일인물) / 3(교차인물)</strong> — 사실상 첫 추측 수준.</li>
+                <li><strong>Subject 2:</strong> top-10 정확도 0.50(동일)/0.67(교차), 중앙 랭크 9/6.</li>
+                <li><strong>가장 노출이 적은 Subject 3:</strong> top-10 복원 0개, 전이 정확도 0.30/0.27, 중앙 랭크 9,528/12,786. 그래도 <em>무정보(균일) 기준선</em> — 10/10⁶, 중앙 랭크 500,000 — 대비 <strong>약 40배 개선</strong>이다.</li>
+                <li><strong>캡처 품질:</strong> 1080p 일반 카메라로 충분. 특수 장비 불필요.</li>
+                <li><strong>저자들의 표현:</strong> \"통제된 조건에서 신호의 가용성(signal availability)을 확립한 것이지, 인구 수준의 공격 성공률 추정치는 아니다.\"</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-table"></i> 핵심 5 — 선행 XR 키로깅 연구와의 결정적 차이</h2>
+            <table>
+                <tr><th>공격</th><th>이용 신호</th><th>입력 양식</th><th>외부 관찰</th><th>SW 미설치</th><th>SW 패치 내성</th></tr>
+                <tr><td>GAZEploit (CCS 2024)</td><td>아바타 눈 애니메이션</td><td>gaze-as-pointer</td><td>✗</td><td>✓</td><td>✗</td></tr>
+                <tr><td>TyPose (USENIX Sec 2023)</td><td>고개 움직임(IMU 텔레메트리)</td><td>컨트롤러/손</td><td>✗</td><td>✗</td><td>✗</td></tr>
+                <tr><td>Hidden Reality (USENIX Sec 2023)</td><td>손 제스처 영상</td><td>컨트롤러/손</td><td>✓</td><td>✓</td><td>✓</td></tr>
+                <tr><td><strong>GAZEleak (ours)</strong></td><td><strong>고개 움직임(영상)</strong></td><td><strong>gaze-as-pointer</strong></td><td><strong>✓</strong></td><td><strong>✓</strong></td><td><strong>✓</strong></td></tr>
+            </table>
+            <ul>
+                <li><strong>GAZEploit과의 결정적 차이:</strong> GAZEploit(CCS 2024)은 피해자가 <em>Persona 아바타를 영상통화로 '공유' 중일 때만</em> 눈 애니메이션에서 입력을 복원한다. GAZEleak은 아바타 방송 여부·OS 버전과 무관하게 <strong>외부 카메라에 보이는 '모든 착용자'</strong>를 대상으로 하며, 소프트웨어가 노출한 표현이 아니라 <em>생체역학적 누출</em>을 이용한다.</li>
+                <li><strong>TyPose(USENIX Sec 2023)와의 차이:</strong> TyPose는 기기가 보고하는 IMU 텔레메트리(=암호화된 백그라운드 앱 필요)에서 가상 키보드 입력을 추론했다. GAZEleak은 그 신호를 <em>외부 영상</em>에서 잡아내므로 앱 설치가 필요 없다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 핵심 6 — 방어는 왜 어려운가, 그리고 완화책</h2>
+            <ul>
+                <li><strong>근본 난제:</strong> 누출 신호가 기기 <em>바깥</em> 카메라가 보는 착용자의 물리적 움직임이므로, <strong>벤더가 gaze 상호작용 자체를 재설계하지 않고는 완전히 억제할 수 없다.</strong> OS 패치로 지울 수 있는 종류의 결함이 아니다.</li>
+                <li><strong>완화 ① — UI 각도 압축:</strong> 민감 UI 요소를 작은 각도 영역에 모으면 시선 이동이 대부분 눈 회전만으로 끝나 고개 재정향을 덜 유발한다. 단, 시선추적 오류율·입력 시간과의 트레이드오프가 있어 '프라이버시 이득 vs 사용성'을 정량화해야 한다.</li>
+                <li><strong>완화 ② — 키패드 레이아웃 무작위화:</strong> 민감 입력 시 레이아웃을 섞으면 <em>고정된 고개 방향이 일관되게 같은 숫자 전이로 매핑되지 않는다</em>. 공공장소 사용·최근 실패·외부카메라 경고 같은 위험 트리거에서만 셔플링하는 방식도 제안된다.</li>
+                <li><strong>저자들의 결론:</strong> 견고한 완화는 여전히 <strong>미해결 문제(open problem)</strong>이며, 향후 연구의 동기다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 한계와 주의</h2>
+            <ul>
+                <li><strong>피험자가 저자 3인(공격 가설 인지):</strong> 통제된 조건에서의 '신호 가용성'을 보인 <em>초기 타당성(feasibility) 연구</em>다. 인구 수준의 공격 성공률 추정이 아니며, 인지된 피험자라는 점이 행동을 바꿨을 수 있다(§7.3 '프롬프트 상담(consultation)' 교란 논의).</li>
+                <li><strong>성능이 피험자 의존적:</strong> 노출이 큰 피험자는 전 코드가 top-10였지만, 가장 적게 노출된 피험자는 단 하나도 top-10에 들지 못했다.</li>
+                <li><strong>규모 한계:</strong> 정면 단일 시점, 소규모. 더 큰·다양한 피험자 집단, 다중 동기화 시점, 실제 야외 캡처 환경으로의 확대가 필요하다.</li>
+                <li><strong>인용 지표:</strong> 제출 다음 날로 아직 0 (OpenAlex count 0 / Semantic Scholar 미등록). 신선도가 곧 한계다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-briefcase"></i> 2026년 실무 시사점</h2>
+            <ul>
+                <li><strong>시선=포인터는 '가장 안전한 입력'이 아니라 '물리적으로 관찰 가능한 입력'이 될 수 있다.</strong> XR/AI글래스 도입 조직은 공공·공유 공간에서의 헤드셋 패스코드 입력을 민감 정보 입력 행위로 분류하고, 물리적 노출 통제(화면 가림과 동급)를 요구해야 한다.</li>
+                <li><strong>위협 모델의 이동:</strong> 화면 너머로 새는 신호(shoulder-surfing) → <em>몸 밖으로 새는 신호(biomechanical side channel)</em>. 웨어러블이 시선추적을 채택할수록 공격면이 넓어진다.</li>
+                <li><strong>AR/VR 키로깅의 계보:</strong> TyPose(IMU 텔레메트리, 2023) → GAZEploit(Persona 아바타, 2024) → <strong>GAZEleak(외부 영상, 2026)</strong>. 신호원이 '기기 내부'에서 '기기 바깥 카메라'로 멀어지는 추세는 곧 <em>막을 지점이 줄어드는</em> 추세다.</li>
+                <li><strong>제품 요구사항으로의 전환:</strong> 키패드 무작위화·민감 UI 각도 압축을 옵션이 아니라 기본값으로, 그리고 모든 민감 입력을 '외부 관찰 가능성'을 전제로 설계할 것을 시사한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>논문 (arXiv abstract): <a href="https://arxiv.org/abs/2609.35040" target="_blank" rel="noopener">arXiv:2609.35040 — GAZEleak</a></li>
+                <li>전문 (arXiv HTML): <a href="https://arxiv.org/html/2609.35040v1" target="_blank" rel="noopener">arxiv.org/html/2609.35040v1</a></li>
+                <li>게재지 (WPES '26, ACM CCS 2026): DOI <a href="https://doi.org/10.1145/3847192.3847361" target="_blank" rel="noopener">10.1145/3847192.3847361</a></li>
+                <li>인용 수: OpenAlex 0회 / Semantic Scholar 미등록 (2026-09-29 조회, 제출 다음 날)</li>
+                <li>함께 읽기 — 사이드채널/물리 계층 계보: 2026-09-23 <em>Lest We Remember: Cold Boot Attacks</em>(2008, DRAM 잔류) · 2026-09-11 <em>Rowhammer</em>(2014, DRAM 교란) · 2026-09-21 <em>On the Security of Public Key Protocols</em>(1983, Dolev–Yao 위협 모델)</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
