@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - OpenCalib / SensorsCalibration (PJLab-ADG, 2021–): '센서가 어긋나면 그 위의 모든 지능이 밀린다' — 수동·자동·공장·온라인 캘리브레이션을 한 저장소에 모은 최초의 통합 툴박스 (⭐3,229 · Apache-2.0 · 인용 97회)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - OpenCalib / SensorsCalibration (PJLab-ADG, 2021–): '센서가 어긋나면 그 위의 모든 지능이 밀린다' — 수동·자동·공장·온라인 캘리브레이션을 한 저장소에 모은 최초의 통합 툴박스 (⭐3,229 · Apache-2.0 · 인용 97회)</h1>
+            <p class="date">2026-09-29</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>유형:</strong> 자율주행 <strong>센서 캘리브레이션 툴박스 + 논문</strong> — 이 블로그가 다루지 않았던 <em>마지막 기초 계층</em>. 카메라·라이다·IMU·레이다의 <strong>내부(intrinsic)·외부(extrinsic) 파라미터</strong>를 수동/자동/공장/온라인 4개 경로로 맞추는 오픈소스 모음</li>
+                    <li><strong>저장소:</strong> <a href="https://github.com/PJLab-ADG/SensorsCalibration" target="_blank">PJLab-ADG/SensorsCalibration</a> (도구 이름 <strong>OpenCalib</strong>) — ⭐<strong>3,229</strong> · 🍴705 · watcher 48 · 열린 이슈 145</li>
+                    <li><strong>소속/저자:</strong> Autonomous Driving Group, <strong>Shanghai AI Laboratory</strong>(상하이 AI 연구소) — Guohang Yan · Zhuochun Liu · Chengjie Wang · Chunlei Shi · Pengjin Wei · Xinyu Cai · Tao Ma 외 (총 13인, Yikang Li 지도)</li>
+                    <li><strong>라이선스/언어:</strong> <strong>Apache-2.0</strong>(LICENSE 파일 확인 — 상업적 사용 가능) · C++ · 저장소 468MB(예제 데이터 포함) · 태그 v0.1 / v0.2</li>
+                    <li><strong>활동:</strong> 생성 2021-12-09 · <strong>최근 커밋 2024-06-17</strong>("modify the pcl version in lidar2camera") → 2024년 중반 이후 <em>정적</em>. GitHub Release는 없고 태그만 존재</li>
+                    <li><strong>논문:</strong> <em>OpenCalib: A Multi-sensor Calibration Toolbox for Autonomous Driving</em> — arXiv <a href="https://arxiv.org/abs/2205.14087" target="_blank">2205.14087</a> (2022-05-27, v2 05-30, 16페이지·31개 그림, cs.RO·cs.CV) · 게재: <strong>Software Impacts</strong> 2022 (DOI 10.1016/j.simpa.2022.100393)</li>
+                    <li><strong>인용:</strong> Semantic Scholar <strong>97회</strong>(영향력 있는 인용 5회) · Crossref 게재본 집계 <strong>74회</strong> — 두 수치를 함께 표기한다</li>
+                    <li><strong>후속 논문(같은 저장소에 코드 포함):</strong> <a href="https://arxiv.org/abs/2301.07279" target="_blank">SensorX2car</a>(2023 — 센서↔차체 좌표계 정렬) · <a href="https://arxiv.org/abs/2305.16840" target="_blank">서라운드 카메라 자동 캘리브레이션</a>(2023)</li>
+                    <li><strong>실행:</strong> Docker 이미지 <code>scllovewkf/opencalib:v1</code> 하나로 바로 실행 (의존성: OpenCV 2.4 · Eigen 3 · PCL 1.9 · Pangolin)</li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>자율주행 스택에서 캘리브레이션은 <strong>가장 화려하지 않지만 가장 먼저 오는 단계</strong>다. 카메라 내부 파라미터가 틀리면 왜곡이 남고, 라이다↔카메라 외부 파라미터가 0.5도만 어긋나도 점군이 이미지에서 밀려 <em>깊이 추정·박스 위치·BEV 격자</em>가 전부 어긋난다. 논문의 표현대로 캘리브레이션은 <em>"모든 자율 시스템과 그 센서들의 기반 블록(foundation block)"</em>이며, 센서 융합을 하기 위한 전제 조건이다. OpenCalib은 이 전제를 <strong>한 저장소에서 4개 시나리오로 전부</strong> 제공한 최초의 통합 툴박스다.</p>
+            <ul>
+                <li><strong>① 수동(Manual) 도구 — 도로 현장에서 타깃 없이:</strong> 라이다 점군을 이미지에 투영해 두고 키보드로 6자유도(x·y·z 회전 / x·y·z 이동)를 조정하는 GUI를 제공한다. 지원: <strong>lidar2camera · lidar2lidar · lidar2imu · radar2camera · radar2lidar</strong>. 논문은 "특징이 뚜렷한 도로 장면(나무·표지판)일수록 결과가 좋다"고 한계까지 명시한다</li>
+                <li><strong>② 자동(Automatic) 도구 — 타깃 없는(target-less) 정렬:</strong> lidar2camera / lidar2lidar / lidar2imu / surround-camera는 <strong>수동·자동 두 방식</strong>을 모두 제공하지만, 레이다 계열(radar2camera·radar2lidar)은 <strong>수동만</strong> 제공한다 — 툴박스의 커버리지가 균일하지 않다는 점이 README 표에 그대로 드러난다</li>
+                <li><strong>③ 공장(Factory) 캘리브레이션 — 차량 생산 라인의 마지막 공정:</strong> 사륜 정렬 후 캘리브레이션 보드로 센서 간 자세를 계산한다. 보드 <strong>6종</strong>(체커보드 · 원형 · 수직 · AprilTag · ArUco · <em>round-hole</em>)을 지원하고, 라운드홀 보드는 <strong>카메라와 라이다를 동시에</strong> 잡는 패턴이다. 인식 프로그램에서 <strong>OpenCV 의존성을 제거</strong>해 다양한 환경에서 인식률을 높였다</li>
+                <li><strong>결합 목적함수(논문의 실제 수식):</strong> 보드 기반 정련에서는 체커보드 코너 재투영 오차 J<sub>board</sub>와 라이다 홀 중심 재투영 오차 J<sub>lidar</sub>를 <strong>α=1, β=60</strong>으로 가중 합산한다 — 체커보드 코너 수가 홀 수보다 훨씬 많아, <em>라이다-이미지 정렬 쪽 가중치를 60배</em>로 키워 두 손실함수의 균형을 맞춘다</li>
+                <li><strong>④ 온라인(Online) 캘리브레이션 — 주행 중 자동:</strong> 손에 보드를 들고 다니는 오프라인 방식 대신, 시스템 시작 시점이나 주행 중에 맞춘다. 제공 조합: <strong>camera2imu · lidar2imu · radar2carcenter</strong> (예: 라이다2IMU 도구는 기본 10초 구간부터 최대 60초까지 사용)</li>
+                <li><strong>SensorX2car — '센서 → 차체 좌표계'라는 별도 문제:</strong> 기존 연구는 <em>센서끼리(sensor-to-sensor)</em> 정렬에 집중했지만, 실제 차량은 <strong>센서와 차량 좌표계 자체가 어긋나</strong> 있다. 센서별 고유 단서(영상 특징 · 3D 라이다 점군 · GNSS/INS가 푼 pose · 레이다 속도)로 <strong>주행 중 수 분 내</strong> 회전을 맞추며, 카메라·라이다·GNSS/INS·밀리파 레이다 4종을 지원한다 — 논문은 이를 "최초의 오픈소스 센서→차체 캘리브레이션 툴박스"라고 주장한다</li>
+                <li><strong>카메라 내부 파라미터 &amp; 왜곡의 '정량' 평가:</strong> 렌즈마다 왜곡 정도가 달라 정성적 눈검사로는 부족하다는 문제의식에서, Tang의 <em>calibration harp</em> 방식(JOSA A 2012)을 자동화한 왜곡 측정 프로그램을 포함한다 — 보정 전/후 샘플 점을 비교해 숫자로 평가한다</li>
+                <li><strong>벤치마크와 정직한 버전 표기:</strong> 캘리브레이션 성능을 정량 평가하려고 <strong>CARLA 기반 합성 데이터셋</strong>(정답 자세를 알 수 있음)을 도입했고, 논문은 공개 코드가 <strong>v0.1 버전</strong>이며 "앞으로 더 많은 SOTA 캘리브레이션 알고리즘을 추가하겠다"고 밝혔다</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>⭐3,229 — 이 블로그가 다룬 저장소 중 최상위권이면서 카테고리는 완전히 비어 있었다:</strong> 지금까지 49편의 자율주행 글에서 인지·예측·계획·시뮬레이터·데이터셋은 반복해 다뤘지만 캘리브레이션은 한 번도 없다(본문 검색 'calib' 0건). 즉 <strong>스택의 가장 아래층이 비어 있었다</strong>는 뜻이고, 그 자리의 사실상 표준이 이 저장소다</li>
+                <li><strong>업계 실무의 '기본 툴박스'로 쓰인다:</strong> 자체 캘리브레이션 파이프라인을 만들 때 참조 구현으로 쓰이고, Docker 이미지(`scllovewkf/opencalib:v1`)로 배포돼 재현 장벽이 낮다. 수동 GUI·자동 알고리즘·공장 라인 도구·온라인 도구를 한 곳에 모은 프로젝트는 지금도 드물다</li>
+                <li><strong>모든 인지·융합 모델의 '입력'을 만든다:</strong> <a href="autonomous-2026-08-17.html">BEVFormer</a>·<a href="autonomous-2026-09-26.html">DETR3D</a>·<a href="autonomous-2026-09-13.html">VoxelNet</a>·<a href="autonomous-2026-09-10.html">CenterPoint</a>는 카메라·라이다 외부 파라미터를 <em>주어진 상수</em>로 받는다. 그 상수가 틀리면 모델 성능이 아니라 <strong>측정 자체</strong>가 틀린 것이고, 정확도 하락 원인을 모델 탓으로 오진하게 된다. 데이터셋 논문(<a href="autonomous-2026-08-24.html">nuScenes</a>·<a href="autonomous-2026-09-11.html">KITTI</a>·<a href="autonomous-2026-09-15.html">Waymo Open Dataset</a>)이 늘 캘리브레이션 품질을 함께 보고하는 이유다</li>
+                <li><strong>라벨이 '학술 전용'이 아닌 Apache-2.0:</strong> 자율주행 연구 저장소는 학술 전용 라이선스가 흔하다(예: <a href="autonomous-2026-09-27.html">OpenCOOD/OPV2V</a>는 UCLA Academic Software License). OpenCalib의 코드는 <strong>Apache-2.0</strong>이라 상업적 활용·사내 파이프라인 이식이 가능하다</li>
+                <li><strong>시뮬레이터·협력주행 글과 이어진다:</strong> 벤치마크를 <a href="autonomous-2026-09-09.html">CARLA</a> 합성 데이터로 만들었다는 점, 그리고 V2X 쪽에서 <em>차량 간</em> 좌표계 정렬이 필요하다는 문제는 <a href="autonomous-2026-09-27.html">OpenCOOD/OPV2V</a>의 협력 인지와 정확히 같은 뿌리를 공유한다</li>
+                <li><strong>한계(정직하게):</strong> ① 2024-06-17 이후 <strong>커밋 정지</strong> — '활발한 유지보수'라고 쓰면 틀린다. 연구용 <em>완결형 레퍼런스</em>로 읽어야 한다 ② 레이다 계열은 수동 보정만 제공 ③ OpenCV 2.4·PCL 1.9 등 빌드 의존성이 오래돼 최신 환경에서는 Docker가 사실상 필수 ④ 문서가 영문·중문 혼재 ⑤ 릴리스 대신 태그(v0.1/v0.2)만 관리</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>인식 모델의 정확도는 논문 표에서 0.1 mAP 단위로 경쟁하지만, 그 숫자가 성립하는 조건은 <strong>"센서가 올바른 좌표계에 있다"</strong>는 조용한 가정이다. OpenCalib은 그 가정을 코드·보드 패턴·목적함수·온라인 알고리즘으로 분해해 공개했다 — 자율주행 스택을 <em>위에서 아래로</em> 읽을 때 가장 먼저 만나야 하는 문서인데, 정작 논문 인용은 97회(Crossref 74회)로 인지 모델들에 비해 매우 작다. 기여도와 인용 수가 어긋나는 대표적 영역이다.</p>
+            <p>실무적으로 주는 교훈은 세 가지다. 첫째, <strong>새 데이터셋·센서 조합을 받으면 먼저 캘리브레이션을 의심하라</strong> — 성능이 안 나올 때 모델을 바꾸기 전에 확인할 항목이 외부 파라미터다. 둘째, <strong>온라인 캘리브레이션은 선택이 아니라 요구사항이 되어간다</strong> — 진동·온도·충격으로 자세는 주행 중 변하며, SensorX2car가 겨냥하는 '센서-차체 어긋남'은 정비·교체 후 매번 생기는 현실 문제다. 셋째, 이 분야의 남은 과제는 <strong>정량 평가</strong>다. 정답 자세를 아는 합성 데이터(CARLA)와 왜곡 정량 측정 같은 장치가 있어야 캘리브레이션 알고리즘끼리 비교가 가능해진다.</p>
+            <p>이 블로그의 자율주행 시리즈가 인지 → 예측 → 계획 → 시뮬레이션 → 데이터셋 → 안전(RSS) → 보안(적대적 공격) → 시나리오 표준(OpenSCENARIO) 순으로 넓혀온 끝에, 오늘은 <strong>가장 아래층인 센서 정렬</strong>을 채웠다. 위층의 논문을 읽을 때마다 "이 결과의 전제가 되는 캘리브레이션은 누가, 어떻게 보장했는가"를 한 줄 덧붙이는 습관 — 그것이 이 글의 실용적 결론이다.</p>
+            <p>원문: <a href="https://github.com/PJLab-ADG/SensorsCalibration" target="_blank">https://github.com/PJLab-ADG/SensorsCalibration</a> · 논문: <a href="https://arxiv.org/abs/2205.14087" target="_blank">arXiv:2205.14087</a> (Software Impacts 2022, DOI 10.1016/j.simpa.2022.100393) · 차체 정렬: <a href="https://arxiv.org/abs/2301.07279" target="_blank">SensorX2car (arXiv:2301.07279)</a> · 서라운드 카메라: <a href="https://arxiv.org/abs/2305.16840" target="_blank">arXiv:2305.16840</a></p>
+                        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
