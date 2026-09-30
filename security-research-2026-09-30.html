@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 [클래식] New Directions in Cryptography — '키를 미리 나눠 갖는다'는 전제를 깬 공개키 암호의 탄생 (Diffie–Hellman, 1976)</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 [클래식] New Directions in Cryptography — '키를 미리 나눠 갖는다'는 전제를 깬 공개키 암호의 탄생</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-09-30 · 카테고리: Research (클래식 보안 논문 · 공개키 암호 / 키 교환 · 이산로그 문제 · IEEE Trans. Inf. Theory, 1976)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> New Directions in Cryptography<br>
+                <strong>저자:</strong> <strong>Whitfield Diffie</strong> · <strong>Martin E. Hellman</strong> (Stanford University)<br>
+                <strong>출처:</strong> <em>IEEE Transactions on Information Theory</em>, Vol. 22, No. 6, pp. 644–654, 1976년 11월 · DOI: <a href="https://doi.org/10.1109/TIT.1976.1055638" target="_blank" rel="noopener">10.1109/TIT.1976.1055638</a><br>
+                <strong>분야:</strong> 공개키(비대칭) 암호 · 키 분배/키 교환 · 이산로그 문제 · 일방향 함수와 트랩도어 · 디지털 서명<br>
+                <strong>인용:</strong> <strong>OpenAlex 기준 14,617회</strong> (2026-09-30 조회). 조회 시점 Semantic Scholar는 API 제한(429)으로 수치 미확인.<br>
+                <strong>원문:</strong> <a href="https://ieeexplore.ieee.org/document/1055638" target="_blank" rel="noopener">IEEE Xplore — document/1055638</a> · <a href="https://openalex.org/W2156186849" target="_blank" rel="noopener">OpenAlex W2156186849</a>
+            </div>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 한 줄 요약 — '대칭키의 저주'를 푼 한 편의 논문</h2>
+            <p>비밀 통신을 하려면 송신자와 수신자가 <strong>같은 키</strong>를 미리 나눠 가져야 하고, 그 키를 나누려면 <em>이미 안전한 채널</em>이 있어야 한다 — 이것이 수천 년간 암호의 근본 역설이었다. 1976년 Diffie와 Hellman은 이 전제를 뒤집었다. <strong>두 사람이 공개된(도청 가능한) 채널에서 대화만으로 비밀 키를 합의할 수 있음</strong>을 보이고, 나아가 아예 <em>공개해도 되는 키</em>로 암호화하고 <em>개인 키</em>로 복호화하는 '공개키 암호'라는 새 개념을 세웠다. 현대 인터넷 보안(TLS/HTTPS, SSH, VPN)의 뿌리가 이 논문 한 편이다.</p>
+            <blockquote>
+                "우리는 오늘 암호학의 혁명 직전에 서 있다." — 초록 첫 문장. 이 논문은 그 예고를 몇 쪽 만에 실제로 증명했다.
+            </blockquote>
+
+            <h2><i class="fa-solid fa-lock"></i> 배경 — 왜 '키 분배'가 4,000년 묵은 문제였나</h2>
+            <ul>
+                <li><strong>대칭키의 구조적 한계:</strong> 고전 암호는 모두 송신자와 수신자가 <em>동일한 비밀 키</em>를 공유하는 대칭 방식이다. 문제는 그 키를 어떻게 안전하게 전달하느냐다.</li>
+                <li><strong>닭과 달걀:</strong> 키를 안전하게 보내려면 안전한 채널이 필요하고, 그 채널을 만들려면 또 다른 키가 필요하다. 결국 <strong>물리적 대면·신뢰할 수 있는 운반자(외교 행낭)·직접 배달</strong>에 의존해야 했다.</li>
+                <li><strong>규모의 폭발:</strong> n명이 서로 1:1로 안전하게 통신하려면 필요한 키의 수가 <code>n(n−1)/2</code>개다. 1,000명이면 약 50만 개, 100만 명 규모 조직이면 키가 조 단위로 폭증한다 — 통신망이 커질수록 '키 관리'가 불가능해진다.</li>
+                <li><strong>당시의 통념:</strong> 안전한 통신은 "안전한 키 사전 공유" 없이는 불가능하다는 것이 거의 공리로 받아들여졌다. 이 논문은 그 공리를 정면으로 반박한 첫 실질적 성과다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-key"></i> 핵심 1 — 공개키 암호: '자물쇠는 공개, 열쇠는 비밀'</h2>
+            <ul>
+                <li><strong>발상의 전환:</strong> 암호화 키와 복호화 키를 <em>분리</em>한다. 암호화 키(공개키)는 공개 전화번호부처럼 누구나 볼 수 있게 게시하고, 복호화 키(개인키)만 각자 비밀로 보관한다.</li>
+                <li><strong>동작:</strong> 나에게 메시지를 보내려는 사람은 디렉터리에 실린 <em>내 공개키로 암호화</em>하면 되고, 그것을 풀 수 있는 사람은 <em>내 개인키를 가진 나뿐</em>이다. 키를 사전에 나눠 가질 필요가 없다.</li>
+                <li><strong>필요한 수학 도구 — 일방향 함수:</strong> 한 방향(계산)은 쉽지만 역방향(역산)은 사실상 불가능한 함수를 <em>일방향 함수(one-way function)</em>라 한다. 공개키 시스템의 보안은 이런 함수의 비대칭성에 기댄다.</li>
+                <li><strong>트랩도어 일방향 함수:</strong> 역산이 불가능한 일반 일방향 함수와 달리, <em>비밀 정보(트랩도어)를 알면</em> 역산이 쉬워지는 함수. 논문은 공개키 <em>암호화</em> 시스템은 트랩도어 일방향 함수가 있어야 성립한다고 규정하고, 그 존재를 열린 문제로 남겨두었다(→ 핵심 4).</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-people-arrows"></i> 핵심 2 — Diffie–Hellman 키 교환: 도청자 앞에서 비밀을 '만들어내다'</h2>
+            <p>논문의 가장 구체적인 성과는 <strong>공개키 분배 시스템(public key distribution system)</strong>, 즉 오늘의 Diffie–Hellman 키 교환이다. 두 사람이 비밀을 한 번도 주고받지 않고, 공개적으로 주고받은 값만으로 <em>양쪽만 아는 공유 비밀</em>을 계산한다.</p>
+            <ul>
+                <li><strong>보안의 뿌리 — 이산로그 문제:</strong> 유한체 GF(p)에서 <code>g^x mod p</code>는 쉽게 계산되지만, <em>그 결과에서 x를 역산</em>하는 것(이산로그)은 p가 충분히 크면 사실상 불가능하다. 이것이 안전성의 근거다.</li>
+                <li><strong>절차:</strong> 소수 <code>p</code>와 생성원 <code>g</code>를 공개한다. Alice는 비밀 x를, Bob은 비밀 y를 골라 각각 <code>A = g^x mod p</code>, <code>B = g^y mod p</code>를 공개 채널로 주고받는다. Alice는 <code>B^x</code>, Bob은 <code>A^y</code>를 계산하면 — 지수법칙에 의해 — 둘 다 <strong>같은 값 <code>g^(xy) mod p</code></strong>을 얻게 된다. 도청자는 g, p, A, B는 알아도 x·y를 모르므로 그 값을 계산할 수 없다.</li>
+                <li><strong>작은 수로 보는 동작:</strong> p=23, g=5, Alice의 x=6, Bob의 y=15라 하자. Alice는 A=5⁶ mod 23 = <strong>8</strong>, Bob은 B=5¹⁵ mod 23 = <strong>19</strong>를 교환한다. Alice는 19⁶ mod 23 = <strong>2</strong>, Bob은 8¹⁵ mod 23 = <strong>2</strong> — 공유 비밀이 '2'로 일치한다.</li>
+                <li><strong>실전 파라미터:</strong> 실제로는 p를 2,048비트 이상으로 키우거나, 더 효율적인 타원곡선 Diffie–Hellman(ECDH, 256비트 곡선)을 쓴다. 오늘날 TLS 협상의 핵심 키 합의가 이 계보다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-signature"></i> 핵심 3 — '디지털 서명'이라는 개념의 탄생</h2>
+            <ul>
+                <li><strong>새로운 인증 요구:</strong> 논문은 기밀성(남이 못 봄)과 별개로, 메시지가 <em>특정인에게서 왔고 변조되지 않았음</em>을 증명하는 문제 — 사실상 종이 서명의 전자적 등가물 — 을 제기했다.</li>
+                <li><strong>비대칭성의 재활용:</strong> 개인키로 '서명'하고 공개키로 '검증'하면, 누구나 진위를 확인하면서도 서명 위조는 불가능해진다(부인 방지). 암호화·복호화 방향을 뒤집은 같은 수학이 인증 문제에도 쓰인다는 착상이다.</li>
+                <li><strong>영향:</strong> 이 아이디어가 코드 서명·전자 계약·인증서(PKI)·전자투표 등으로 확장되며, '신뢰할 제3자 없이도 검증 가능한 신뢰'라는 현대 보안의 축을 열었다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-puzzle-piece"></i> 핵심 4 — 남겨진 숙제, 그리고 RSA (1978)</h2>
+            <ul>
+                <li><strong>논문이 완성하지 못한 것:</strong> 이 논문은 <em>키 교환</em>을 해결했지만, 실제 <em>공개키 암호화 시스템</em>을 만드는 데 필요한 '트랩도어 일방향 함수'는 제시하지 못하고 열린 문제로 남겼다.</li>
+                <li><strong>1년 뒤의 답:</strong> 1978년 Rivest·Shamir·Adleman이 정수 인수분해의 어려움에 기댄 <strong>RSA</strong>로 이 트랩도어 일방향 함수를 제공하면서 공개키 암호는 암호화까지 완성된다.</li>
+                <li><strong>계보:</strong> DH(키 교환) → RSA(공개키 암호화 + 서명) → DSA/ECDSA(서명 표준) → 오늘의 TLS·SSH·PGP. 논문이 남긴 '열린 문제'가 곧 현대 암호학의 다음 30년을 이끌었다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-earth-americas"></i> 핵심 5 — 왜 '혁명'이었나 (영향과 숫자)</h2>
+            <ul>
+                <li><strong>인용 지표:</strong> OpenAlex 기준 <strong>14,617회</strong> 인용(1976년 논문). 암호학·보안 분야에서 가장 많이 인용된 논문 중 하나다.</li>
+                <li><strong>표준으로의 정착:</strong> Diffie–Hellman/DHE/ECDHE는 TLS(HTTPS)·IPsec·SSH의 표준 키 합의로 자리 잡았고, 그 위에 공개키 기반 구조(PKI)·X.509 인증서가 세워졌다.</li>
+                <li><strong>'암호 전쟁(Crypto Wars)'의 점화:</strong> 정부가 통제할 수 없는 강한 암호가 민간에 공개되자 미국은 암호를 무기로 분류해 수출을 규제했다. 이 논문은 그 논쟁의 출발점이었다.</li>
+                <li><strong>공로:</strong> Diffie와 Hellman은 공개키 암호에 대한 공로로 <strong>2015년 ACM A.M. 튜링상</strong>을 받았다(랄프 머클의 독립적 기여는 1996년 칸넬라키스상으로 함께 인정됨).</li>
+                <li><strong>은폐된 선행 연구:</strong> 영국 GCHQ의 Ellis(개념)·Cocks(1973, RSA 등가)·Williamson(1974, DH 등가)이 앞서 같은 발견을 했으나, 1997년이 되어서야 기밀 해제되었다 — 공개적으로는 이 논문이 공개키 암호의 출발점이다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 한계와 주의</h2>
+            <ul>
+                <li><strong>인증 없는 키 교환은 중간자 공격(MITM)에 취약하다:</strong> 기본 DH만으로는 상대방이 진짜인지 증명하지 못한다. 실전에서는 인증서·서명으로 상대를 인증해 이 구멍을 막는다 — 그래서 DH는 '단독'이 아니라 PKI와 결합해 쓰인다.</li>
+                <li><strong>영원한 문제가 아니다:</strong> 이산로그는 양자컴퓨터의 쇼어 알고리즘으로 다항시간에 풀린다. 그래서 오늘날에는 양자내성암호(PQC)로의 이행이 진행 중이다.</li>
+                <li><strong>파라미터가 전부다:</strong> 잘못된 소수·생성원, 작은 부분군(subgroup) 공격, 취약한 난수 등 구현 실수 하나가 전체를 무너뜨린다. '수학은 안전해도 구현은 그렇지 않다'의 원형이 바로 DH다.</li>
+                <li><strong>시대 배경:</strong> 논문은 '충분히 큰 p에서 이산로그가 어렵다'는 당시의 믿음 위에 서 있다. 그 가정 자체가 이후 수십 년간 집중적으로 검증된 대상이었다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-briefcase"></i> 2026년 실무 시사점</h2>
+            <ul>
+                <li><strong>'비밀을 옮기지 않고 비밀을 만든다'는 발상은 여전히 모든 보안의 뼈대다.</strong> TLS 핸드셰이크의 ECDHE, SSH, 시그널의 X3DH 같은 프로토콜을 이해하려면 결국 이 1976년의 교환으로 돌아간다.</li>
+                <li><strong>키 분배·수명 관리가 곧 공격면이다.</strong> 공개키는 공개해도 안전하다는 성질 덕에 키 관리가 '채널 보호'에서 '개인키 보호·인증서 수명·폐기'로 이동했다 — 오늘의 비밀 관리·HSM·KMS 논의가 그 연장선이다.</li>
+                <li><strong>PQC 이행을 '키 교환' 관점에서 계획하라.</strong> 양자 위협에 가장 먼저 노출되는 것이 바로 이산로그 기반 키 합의(DH/ECDH)다. 하이브리드 키 교환(X25519+ML-KEM 등)으로의 전환은 인증서 교체보다 먼저 검토할 항목이다.</li>
+                <li><strong>암호 계보 읽기:</strong> 공개키의 '형식 위협 모델'은 2026-09-21 <em>On the Security of Public Key Protocols</em>(Dolev–Yao, 1983), 그 공격 실증은 2026-09-16 <em>How to Break MD5</em>·2026-09-04 <em>Differential Cryptanalysis of DES</em>로 이어진다. 알고리즘의 '약속'과 '깨짐'을 함께 읽어야 감이 생긴다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>논문 (DOI): <a href="https://doi.org/10.1109/TIT.1976.1055638" target="_blank" rel="noopener">10.1109/TIT.1976.1055638 — New Directions in Cryptography</a></li>
+                <li>IEEE Xplore: <a href="https://ieeexplore.ieee.org/document/1055638" target="_blank" rel="noopener">ieeexplore.ieee.org/document/1055638</a></li>
+                <li>인용 수: OpenAlex W2156186849 기준 14,617회 (2026-09-30 조회)</li>
+                <li>배경 · 용어: Wikipedia — <a href="https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange" target="_blank" rel="noopener">Diffie–Hellman key exchange</a> · <a href="https://en.wikipedia.org/wiki/Public-key_cryptography" target="_blank" rel="noopener">Public-key cryptography</a></li>
+                <li>함께 읽기 — 공개키·암호분석 계보: 2026-09-21 <em>On the Security of Public Key Protocols</em>(Dolev–Yao, 1983, 형식 위협 모델) · 2026-09-16 <em>How to Break MD5</em>(Wang–Yu, 2005, 해시 충돌) · 2026-09-04 <em>Differential Cryptanalysis of DES</em>(1990) · 2026-09-02 <em>Reflections on Trusting Trust</em>(Thompson, 1984)</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
