@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - HiVT (CVPR 2022, City University of Hong Kong): '주변을 먼저, 세상은 나중에' — 인용 526회, Argoverse 리더보드 1위를 662K 파라미터·39ms로 달성한 계층적 벡터 트랜스포머 (⭐752 · Apache-2.0 · 후속 QCNet ⭐800)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - HiVT (CVPR 2022, City University of Hong Kong): '주변을 먼저, 세상은 나중에' — 인용 526회, Argoverse 리더보드 1위를 662K 파라미터·39ms로 달성한 계층적 벡터 트랜스포머 (⭐752 · Apache-2.0 · 후속 QCNet ⭐800)</h1>
+            <p class="date">2026-09-30</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>유형:</strong> <strong>모션 예측(motion forecasting)</strong> 논문 — 주변 차량·보행자의 <strong>3초 뒤 미래 궤적</strong>을 예측하는 자율주행 스택의 <em>예측 계층</em>. 인식이 만든 궤적과 플래닝이 소비하는 확률 분포 사이의 '빠진 연결고리'를 실시간으로 만든 작업</li>
+                    <li><strong>제목:</strong> <em>HiVT: Hierarchical Vector Transformer for Multi-Agent Motion Prediction</em></li>
+                    <li><strong>저자/소속:</strong> Zikang Zhou · Luyao Ye · Jianping Wang · Kui Wu · Kejie Lu — <strong>City University of Hong Kong (홍콩시립대)</strong></li>
+                    <li><strong>분야/게재지:</strong> 컴퓨터 비전 / <strong>CVPR 2022</strong> (pp. 8823–8833) · DOI 10.1109/CVPR52688.2022.00862 — <strong>arXiv 프리프린트가 없다</strong>(공개 원문은 CVPR 게재본뿐). 블로그의 다른 논문 글처럼 arXiv 링크를 달 수 없는 사례</li>
+                    <li><strong>핵심 기여:</strong> ① 문제를 <strong>국소(local) 문맥 추출 + 전역(global) 상호작용 모델링</strong>의 2단계로 분해, ② <strong>이동 불변(translation-invariant)</strong> 장면 표현과 <strong>회전 불변(rotation-invariant)</strong> 공간 학습 모듈 — 대칭성을 설계에 넣어 정확도·데이터 효율·파라미터 효율·속도를 한꺼번에 개선</li>
+                    <li><strong>데이터셋:</strong> <strong>Argoverse Motion Forecasting</strong> — 실주행 시나리오 <strong>323,557개</strong>(학습 205,942 / 검증 39,472 / 테스트 78,143), 10Hz 5초 시퀀스. <strong>2초를 관측하고 3초 미래를 예측</strong>, 에이전트당 최대 6개 궤적 제출</li>
+                    <li><strong>인용:</strong> Semantic Scholar <strong>526회</strong>(영향력 있는 인용 101회 · CVPR 게재본 DOI 기준) · OpenAlex 457회 — 연도별 집계가 2024년 109회 → 2025년 175회 → 2026년 96회(9월까지)로 <em>지금도 늘고 있다</em></li>
+                    <li><strong>공식 구현:</strong> <a href="https://github.com/ZikangZhou/HiVT" target="_blank">ZikangZhou/HiVT</a> ⭐752 · Apache-2.0 · 2022-03-10 생성 · 최근 푸시 2023-10-01(릴리스 없음) — 연구가 완결된 저장소로 읽는 것이 정확하다</li>
+                    <li><strong>원문:</strong> CVPR 2022 open access <a href="https://openaccess.thecvf.com/content/CVPR2022/html/Zhou_HiVT_Hierarchical_Vector_Transformer_for_Multi-Agent_Motion_Prediction_CVPR_2022_paper.html" target="_blank">게재본 페이지</a> · <a href="https://openaccess.thecvf.com/content/CVPR2022/papers/Zhou_HiVT_Hierarchical_Vector_Transformer_for_Multi-Agent_Motion_Prediction_CVPR_2022_paper.pdf" target="_blank">PDF</a> · 코드 <a href="https://github.com/ZikangZhou/HiVT" target="_blank">github.com/ZikangZhou/HiVT</a></li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>자율주행에서 <em>예측</em>은 인식과 플래닝 사이에 놓인 확률적 다리다. 옆 차선 차량이 3초 뒤 어디에 있을지 모르면, 어떤 경로도 안전하다고 말할 수 없다. 2020년 무렵 <strong>벡터화(vectorized) 표현</strong>이 이 분야를 장악했다 — 차량 궤적과 HD맵 차선을 폴리라인(벡터)으로 바꿔 그래프/트랜스포머로 상호작용을 학습하는 방식(<a href="autonomous-2026-09-02.html">VectorNet</a> 계보)이다. 그런데 이 계보에는 두 가지 빚이 있었다: <strong>문제의 대칭성을 무시</strong>하고, <strong>계산 비용이 커서</strong> 실시간 다중 에이전트 예측이 어렵다는 것. HiVT는 이 두 문제를 <em>구조 설계</em>로 푼다.</p>
+            <ul>
+                <li><strong>계층적 분해 — "주변을 먼저, 세상은 나중에":</strong> 에이전트 하나하나가 장면의 <em>모든</em> 다른 에이전트와 상호작용하면 비용이 폭발한다. HiVT는 ① 각 에이전트의 <strong>주변 r미터(기본 50m) 안의 이웃만</strong> 보는 <em>국소 인코더</em>로 문맥을 추출하고, ② 그 국소 표현들끼리 <strong>전역 상호작용</strong>을 모델링한다. 논문은 "전역 모듈을 추가하는 비용은 무시할 수준인데 성능 향상은 크다"고 보고한다(<em>r</em>=50m에서 0.74/1.17 → 0.69/1.04)</li>
+                <li><strong>이동 불변(translation-invariant) 장면 표현:</strong> 모든 좌표를 <strong>마지막 관측 시점의 에이전트 위치 기준 상대좌표</strong>로 바꾼다. 도시 전체에서 장면이 평행이동해도 같은 예측이 나오고, 모델이 절대 위치를 암기할 필요가 사라진다</li>
+                <li><strong>회전 불변(rotation-invariant) 공간 학습:</strong> 각 에이전트의 <strong>진행 방향(heading)을 기준으로 국소 좌표계</strong>를 잡아 학습한다. 덕분에 학습 때 보지 못한 회전 각도에서도 예측이 무너지지 않는다 — Fig. 2(b)에서 회전 0°→180°로 돌려도 HiVT의 minADE는 거의 평평한 반면, 회전 불변 설계가 없는 대조 모델은 크게 악화된다</li>
+                <li><strong>데이터 효율:</strong> 같은 이유로 <strong>학습 데이터가 적어도</strong> 비불변 대조 모델과 동등한 성능에 도달한다(Fig. 2(a), 학습 데이터 0~100% 곡선)</li>
+                <li><strong>단일 forward pass로 모든 에이전트 예측:</strong> 대칭적 설계 덕분에 장면 내 모든 에이전트를 <em>한 번의 순전파</em>로 예측한다(다중 순전파 불필요). 배치 크기 1·<em>r</em>=50m에서 <strong>HiVT-128 평균 약 20ms</strong> — <em>r</em>=50m, 배치 32에서 69ms(모델 크기에 따라 64차원 모델은 39~53ms)</li>
+                <li><strong>Argoverse 테스트 리더보드 결과(2021-11-16 수집, Table 4):</strong> minADE / minFDE / MR(2m miss rate) 기준 — <strong>HiVT-64 0.8067 / 1.2433 / 0.1396 (662K 파라미터)</strong>, <strong>HiVT-128 0.7735 / 1.1693 / 0.1267 (2,529K)</strong>. 비교: LaneGCN 0.8679/1.3640/0.1634(3,701K) · Scene Transformer 0.8026/1.2321/0.1255(<strong>15,296K</strong>) · DenseTNT 0.8817/1.2815/0.1258(1,103K) · MultiModalTransformer 0.8372/1.2905/0.1429(6,328K) · mmTransformer 0.8436/1.3383/0.1540(2,607K)</li>
+                <li><strong>파라미터 효율:</strong> HiVT-64는 Scene Transformer·MultiModalTransformer보다 파라미터를 각각 <strong>95.7%·89.5% 적게</strong> 쓰고도 minADE·minFDE에서 앞선다. HiVT-128은 그 둘보다 83.5%·60.0% 적은 파라미터로 리더보드의 <em>모든</em> 모델을 minADE·minFDE에서 앞선다 — <strong>2021-11-16 시점 minADE 기준 리더보드 1위</strong>를 기록했다</li>
+                <li><strong>속도 비교(Table 5, RTX 2080 Ti, 배치 32, 검증셋):</strong> LaneGCN 173ms · DenseTNT(goal set pred.) 531ms(100ms 최적화판은 2,644ms) · HiVT-64(국소만, <em>r</em>=50) 52ms · <strong>HiVT-64(국소+전역, <em>r</em>=50) 53ms — 0.69/1.04/0.10</strong> · HiVT-128(<em>r</em>=50) 69ms — 0.66/0.96/0.09. <em>r</em>를 20m로 줄이면 39ms까지 내려가고, 80m로 키우면 느려지기만 하고 성능은 오르지 않는다</li>
+                <li><strong>어블레이션(Table 1–3):</strong> 국소 상호작용 모듈·시간 학습 모듈·차선 정보를 하나씩 제거하면 모두 성능이 하락한다(특히 <em>시간 학습</em>의 영향이 가장 크다 — 과거 관측이 예측의 핵심). 표현/대칭성 비교(Table 3)는 극적이다: 점 집합 + 회전 불변 없음 <strong>1.09/1.89/0.26</strong> → 벡터 집합 + 회전 불변 없음 <strong>0.73/1.13/0.12</strong> → 벡터 집합 + 회전 불변 <strong>0.69/1.04/0.10</strong></li>
+                <li><strong>정성 결과 하나:</strong> Argoverse에는 <em>신호등 상태 정보가 없다</em>. 그런데도 모델은 교차로에서 차량의 <strong>급가속</strong>을 예측해냈다 — 다른 에이전트들의 움직임 패턴만으로 '신호가 바뀌었다'를 간접 추론한 셈이다</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>인용 526회(S2) · ⭐752 · CVPR 2022:</strong> Argoverse 1.1 예측 벤치마크에서 사실상 표준 베이스라인이 됐다. 리뷰·서베이·후속 논문이 <em>비교 기준</em>으로 HiVT를 빠뜨리지 않는다</li>
+                <li><strong>계보의 분기점 — 후속 <a href="https://github.com/ZikangZhou/QCNet" target="_blank">QCNet (CVPR 2023)</a> ⭐800:</strong> 같은 저자(Zikang Zhou)가 질의 중심(query-centric) 설계로 이어가며 Argoverse 2까지 확장했다. HiVT는 그 계보의 <em>출발점</em>이고, 국소-전역 분해와 불변성 설계는 이후 예측 모델들이 그대로 물려받은 문법이 됐다</li>
+                <li><strong>\"정확도만\"이 아니라 \"실시간\"을 문제로 만든 논문:</strong> 양산 스택에서 예측 모듈은 10Hz 루프 안에서 돌아야 한다. HiVT는 662K 파라미터·39ms(배치 1 기준 20ms대)로 <em>연구 벤치마크 1위</em>와 <em>실시간 제약</em>을 동시에 만족시킨 사례로 자주 인용된다</li>
+                <li><strong>이 블로그의 계보와 맞물린다:</strong> 입력 쪽은 <a href="autonomous-2026-09-26.html">DETR3D</a>·<a href="autonomous-2026-08-17.html">BEVFormer</a>·<a href="autonomous-2026-09-10.html">CenterPoint</a>(인식·추적)가 궤적을 만들고, 소비 쪽은 <a href="autonomous-2026-08-12.html">UniAD</a>(플래닝 지향 end-to-end)·<a href="autonomous-2026-09-23.html">Trajectron++</a>(예측↔플래닝 연결)가 받아 쓴다. HiVT는 그 <em>가운데 칸</em>을 채운다 — <a href="autonomous-2026-09-02.html">VectorNet</a>이 연 벡터화 예측을 대칭성·속도 문제로 밀어붙인 다음 단계</li>
+                <li><strong>안전과 직결:</strong> MR(2m miss rate)은 결국 \"다른 차를 놓쳤는가\"의 비율이다. <a href="autonomous-2026-09-18.html">RSS(Mobileye)</a> 같은 안전 모델이 전제하는 '다른 차의 미래'는 이런 예측기에서 나온다 — 예측 오차는 곧 안전 위반 여유의 잠식이다</li>
+                <li><strong>활용 가치:</strong> ① 자율주행 예측 모듈의 재현 가능한 베이스라인(공식 코드 Apache-2.0), ② Argoverse·Argoverse 2 챌린지 출제 기준 이해, ③ 시뮬레이터(<a href="autonomous-2026-09-25.html">esmini</a>·CARLA·SUMO)에 타 에이전트 행동 모델로 이식, ④ 로보틱스·군집 일반의 다중 에이전트 궤적 예측(같은 국소-전역 분해가 그대로 통한다)</li>
+                <li><strong>한계(정직하게):</strong> 설정이 좁다 — Argoverse 1.1의 2초 관측/3초 예측, 정적 HD맵 의존, 그리고 <em>에이전트당 6개</em> 다중 가설까지만 다룬다. 공식 저장소도 2023-10 이후 업데이트가 없다. '지금 최고'가 아니라 <strong>\"실시간 계층적 예측의 기준점\"</strong>으로 읽어야 맞다</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>자율주행의 어려움은 <strong>내가 통제할 수 없는 것과 함께 움직여야 한다</strong>는 데 있다. 인식 논문들이 '내가 무엇을 보는가'를 다룬다면, 예측은 '남이 무엇을 할 것인가'를 확률로 붙잡는 작업이다. HiVT의 메시지는 기술적으로 단순하고 강하다 — <em>문제의 대칭성을 무시한 모델은 데이터를 더 써서 때워야 하고, 그 대가는 파라미터와 지연으로 돌아온다.</em> 같은 성능을 95% 적은 파라미터로, 더 빠르게 낸다는 것은 곧 <strong>양산 제약 안에서 쓸 수 있는 정확도</strong>를 뜻한다.</p>
+            <p>2026년의 관점에서 이 논문은 '옛 예측 모델'이 아니라 <strong>AV 스택의 중간 계층을 정의한 문서</strong>로 읽는 것이 맞다. 인식이 아무리 좋아도 예측이 틀리면 플래너는 잘못된 세상 위에서 계획을 세우고, end-to-end 모델로 통합되는 흐름에서도 예측은 여전히 내부의 명시적 병목으로 남는다. 그래서 \"이 모델이 3초 뒤의 세상을 얼마나 정직하게 말하는가\"를 묻는 습관 — 그리고 그 답을 <em>속도와 파라미터까지 함께 적어서</em> 확인하는 태도가, HiVT가 남긴 가장 실용적인 유산이다.</p>
+            <p>원문: <a href="https://openaccess.thecvf.com/content/CVPR2022/html/Zhou_HiVT_Hierarchical_Vector_Transformer_for_Multi-Agent_Motion_Prediction_CVPR_2022_paper.html" target="_blank">CVPR 2022 게재본 (open access)</a> · DOI 10.1109/CVPR52688.2022.00862 · 코드: <a href="https://github.com/ZikangZhou/HiVT" target="_blank">https://github.com/ZikangZhou/HiVT</a> · 후속: <a href="https://github.com/ZikangZhou/QCNet" target="_blank">QCNet (CVPR 2023)</a></p>
+                        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
