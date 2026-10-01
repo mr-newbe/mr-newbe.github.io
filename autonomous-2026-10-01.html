@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - MPCC (ETH Zurich IfA, 2015): '경계선을 따라 최대한 빠르게' — 인용 598회, 1:43 RC카를 3 m/s(환산 약 465 km/h)·50 Hz 임베디드 제어로 마찰 한계까지 몰아붙인 컨투어링 MPC의 원형 (⭐1,875 · Apache-2.0 · F1TENTH·AMZ Driverless 계보의 공통 조상)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - MPCC (ETH Zurich IfA, 2015): '경계선을 따라 최대한 빠르게' — 인용 598회, 1:43 RC카를 3 m/s(환산 약 465 km/h)·50 Hz 임베디드 제어로 마찰 한계까지 몰아붙인 컨투어링 MPC의 원형 (⭐1,875 · Apache-2.0 · F1TENTH·AMZ Driverless 계보의 공통 조상)</h1>
+            <p class="date">2026-10-01</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>유형:</strong> 자율주행 스택의 <strong>제어(control) 계층</strong> 참조 구현 — 플래닝이 넘겨준 경로를 <strong>차량의 마찰 한계까지</strong> 추종하는 레이싱 컨트롤러. 인식·예측·플래닝을 다룬 이 블로그의 앞선 글들 뒤에 놓이는 '마지막 칸'이다</li>
+                    <li><strong>프로젝트:</strong> <em>MPCC — Model Predictive Contouring Controller for Autonomous Racing</em> (<a href="https://github.com/alexliniger/MPCC" target="_blank">alexliniger/MPCC</a>)</li>
+                    <li><strong>개발:</strong> <strong>ETH Zurich 자동제어연구소(IfA, Automatic Control Laboratory)</strong> — Alexander Liniger · Alexander Domahidi · Manfred Morari. C++와 MATLAB 두 구현이 함께 들어 있다</li>
+                    <li><strong>논문:</strong> <em>Optimization-based autonomous racing of 1:43 scale RC cars</em> — Optimal Control Applications and Methods <strong>36(5), 2015, pp.628–647</strong> · arXiv <a href="https://arxiv.org/abs/1711.07300" target="_blank">1711.07300</a>(2017-11-20 제출) · DOI 10.1002/oca.2123</li>
+                    <li><strong>인용:</strong> Semantic Scholar <strong>598회</strong>(영향력 있는 인용 56회) · OpenAlex 549회 — 제어·로보틱스 계열에서 10년 넘게 인용되는 '레이싱 제어의 기준 논문'</li>
+                    <li><strong>GitHub 지표:</strong> ⭐<strong>1,875</strong> · 🍴423 · 열린 이슈 9 · C++(＋MATLAB) · <strong>Apache-2.0</strong>(LICENSE 파일 확인) · <strong>2018-10-01 생성 — 오늘로 정확히 8년</strong> · 기본 브랜치 master의 <strong>마지막 커밋 2021-11-11</strong> · 릴리스·태그 <strong>0개</strong> · 약 16MB</li>
+                    <li><strong>C++ 구현의 추가 기능:</strong> README에 명시된 대로 <strong>AMZ Driverless</strong>(ETH Formula Student 팀) 스택에서 온 기능이 더해져 있다 — <a href="https://arxiv.org/abs/1905.05150" target="_blank">arXiv 1905.05150</a></li>
+                    <li><strong>원문/코드:</strong> <a href="https://github.com/alexliniger/MPCC" target="_blank">https://github.com/alexliniger/MPCC</a></li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>트랙을 도는 문제에는 서로 충돌하는 두 요구가 있다 — <em>경로를 벗어나지 않을 것</em>과 <em>최대한 빠를 것</em>. 고전적 2단 구조(경로 플래너 + 트래킹 NMPC)는 플래너의 예측 지평이 짧고 지평 전체의 속도를 상수로 고정하기 때문에, S자·시케인처럼 곡률이 연속으로 바뀌는 구간에서 <strong>최적 라인을 놓치고 브레이크를 더 밟는다</strong>. MPCC는 이 두 계층을 <strong>하나의 비선형 최적화 문제</strong>로 합친다.</p>
+            <ul>
+                <li><strong>진행도 θ를 상태로 증강:</strong> 경로를 따라 얼마나 진행했는지를 나타내는 상태 θ를 차량 동역학에 덧붙인다. '주어진 경로를 따라가라'는 추종 문제를 <strong>'경로 위 진행을 최대화하라'</strong>는 최적화 문제로 바꾸는 것이 출발점이다</li>
+                <li><strong>lag error + contouring error — 이름의 유래:</strong> θ와 실제 차량 상태를 묶는 <em>lag error(e<sup>l</sup>, 경로 진행 추정의 뒤처짐)</em>와 경로에 대한 <em>횡방향 contouring error</em>를 모두 비용에 벌점으로 넣고, 진행 속도 자체는 <strong>최대화</strong>한다. 즉 '경로에 붙어 있으면서(등고선을 따라가면서) 가장 빨리' 가는 것을 수식 하나로 표현한다</li>
+                <li><strong>비선형 차량 모델:</strong> bicycle model + <strong>magic formula 타이어 모델</strong>을 써서 슬립 포화·드리프트까지 표현한다. 논문은 횡방향 속도 0.5–3.5 m/s 구간의 정상 상태(equilibrium) 라이브러리를 미리 계산해 두는데, <strong>95개 후보 중 26개가 드리프트 정상 상태</strong>다 — 실제로 옆으로 미끄러지는 영역을 제어 대상으로 삼는다</li>
+                <li><strong>실시간화의 핵심:</strong> 매 샘플링마다 비선형 문제를 선형화·이산화해 <strong>시변 QP(time-varying QP)</strong>로 근사하고, 구조 활용 내부점 솔버 <strong>FORCES</strong>(코드 생성)로 푼다. 트랙 밖으로 나가지 않는다는 제약은 경계에 정렬된 <strong>두 개의 선형 반공간</strong>으로 근사한다</li>
+                <li><strong>장애물 회피:</strong> 상위의 <em>코리도 플래너(corridor planner)</em>가 1차원 동적계획법으로 회피 경로를 찾고, 그 경로를 트랙 제약 자체에 반영해 회피를 '제약 수정' 문제로 만든다. README에 따르면 이 부분은 <strong>MATLAB 구현에만</strong> 있다</li>
+                <li><strong>실험 규모:</strong> <strong>1:43 스케일 Kyosho dnano RC 레이싱카</strong> · 중앙선 길이 <strong>18.43 m</strong> 커스텀 트랙 · 100 fps 적외선 카메라(정확도 4 mm 이하) + EKF 상태추정 · 제어기는 스마트폰급 ARM(Exynos 4412/5410, Ubuntu)에서 동작 · 계산된 입력은 Bluetooth로 차량에 전송</li>
+                <li><strong>랩타임 결과:</strong> 같은 트랙에서 2단 구조 <strong>HRHC(플래너+NMPC) 9.5–9.8초</strong> vs <strong>MPCC 8.9–9.2초</strong>. 시케인에서 HRHC는 속도를 <strong>0.5 m/s까지</strong> 떨어뜨리고 더 먼 거리를 도는 반면, MPCC는 시케인 전 구간에서 <strong>1 m/s 이상</strong>을 유지하며 최소 곡률에 가까운 라인을 그린다</li>
+                <li><strong>계산 시간(Table II·III, ms):</strong> MPCC의 QP는 평균 <strong>15.03</strong>(표준편차 1.61, 최대 21.16), 장애물 포함 시 14.43/1.40/21.46 — 경로 플래너가 필요한 HRHC의 QP는 5.10 ms다. 대신 <strong>20 ms 샘플링을 놓친 비율은 HRHC 0.07%(3랩 중 1회) vs MPCC 4.4%(3랩 중 60회)</strong>로, 두 방식 모두 <strong>50 Hz 소프트 실시간</strong>을 입증했다</li>
+                <li><strong>속도 감각:</strong> 직선에서 <strong>3 m/s 이상</strong>. 1:43 스케일을 실차 크기로 환산하면 약 <strong>465 km/h</strong>에 해당한다 — '선형 영역'에서 노는 시스템이 아니라 마찰 한계에서 동작하는 제어 문제라는 뜻이다</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>인용 598회 + ⭐1,875 / 포크 423:</strong> 2015년 논문, 2018년 공개된 코드가 10년 넘게 '레이싱 제어의 기준 구현' 자리를 지키고 있다. 포크가 423개라는 사실 자체가 교육·대회에서의 재사용 규모를 보여준다</li>
+                <li><strong>F1TENTH · Formula Student 계보의 조상:</strong> ETH의 <strong>AMZ Driverless</strong> 논문(<a href="https://arxiv.org/abs/1905.05150" target="_blank">arXiv 1905.05150</a>, 2019 — Formula Student Germany 2017·FSI 2018·FSG 2018 <strong>종합 1위</strong>, OpenAlex 인용 162회)이 이 C++ 구현을 확장했고, 그 코드가 이후 대회 스택으로 퍼졌다 — <a href="https://github.com/ForzaETH/race_stack" target="_blank">ForzaETH/race_stack</a>(174⭐, 2026-09-30 푸시 = <em>지금도 살아있는</em> 최신 스택) · <a href="https://github.com/CL2-UWaterloo/f1tenth_ws" target="_blank">CL2-UWaterloo/f1tenth_ws</a>(508⭐, MIT) · <a href="https://github.com/urosolia/RacingLMPC" target="_blank">urosolia/RacingLMPC</a>(322⭐) · <a href="https://github.com/AMZ-Driverless/fssim" target="_blank">AMZ-Driverless/fssim</a>(275⭐, MIT) · <a href="https://github.com/f1tenth/f1tenth_gym" target="_blank">f1tenth/f1tenth_gym</a>(251⭐, MIT, 2026-09-04 푸시) · <a href="https://github.com/learn-to-race/l2r" target="_blank">learn-to-race/l2r</a>(177⭐)</li>
+                <li><strong>후속 연구의 출발점이자 읽기 목록:</strong> README가 저자들의 후속 논문을 정리해 둔다 — 확률적 트랙 제약을 쓰는 randomized MPC(ECC 2016)·stochastic MPC와 disturbance feedback(ACC 2017)·GP로 모델 오차를 학습하는 cautious NMPC(ECC 2018)·그리고 <strong>학습 기반 MPC</strong>(RA-L 2019, 실차 AMZ 차량에서 GP 사전이 수렴한 뒤 <strong>랩타임 10% 단축</strong>). 'MPC가 학습과 만나면 무엇이 되는가'의 실증 계보다</li>
+                <li><strong>이 블로그의 계보와 맞물린다:</strong> <a href="autonomous-2026-08-25.html">PythonRobotics</a>(Stanley·MPC 등 제어 계층 입문 코드집)와 <a href="autonomous-2026-08-31.html">모션 플래닝·제어 서베이</a>가 개념을 깔고, <a href="autonomous-2026-09-30.html">HiVT</a>(예측)·<a href="autonomous-2026-08-12.html">UniAD</a>(플래닝 지향 end-to-end)가 만든 궤적을 MPCC가 <em>차량이 실제로 낼 수 있는 조향·구동 입력</em>으로 바꾼다. <a href="autonomous-2026-09-18.html">RSS</a>(안전 보증)와는 정반대 극단이다 — 여유를 남기는 대신 마찰 한계까지 쓴다</li>
+                <li><strong>활용 가치:</strong> ① F1TENTH·Formula Student 팀의 실차 베이스라인(Apache-2.0, C++/MATLAB 동시 제공), ② 실시간 MPC 구현 교재 — hpipm·Yalmip·CVX·QuadProg 인터페이스까지 README에 정리, ③ 시뮬레이터 위 레이싱 벤치마크(<a href="autonomous-2026-09-09.html">CARLA</a>·<a href="autonomous-2026-09-19.html">SUMO</a>·<a href="autonomous-2026-09-07.html">HighwayEnv</a>·<a href="autonomous-2026-09-25.html">esmini</a>), ④ 로보틱스 일반의 경로 추종·한계 주행 제어</li>
+                <li><strong>한계(정직하게):</strong> 기본 브랜치 마지막 커밋이 2021-11이고 릴리스·태그가 0개 — <em>관리되는 제품이 아니라 완결된 참조 구현</em>으로 읽어야 한다. 실험은 18.43 m 트랙·RC 스케일이고, 드리프트 구간에서는 MPCC가 4.4%의 데드라인 초과를 보였으며, 장애물 회피는 MATLAB 구현에만 있다</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>인식이 좋고 예측이 정확하고 플래너가 최적이어도, 그 결과가 <strong>20 ms 안에 차량이 실제로 낼 수 있는 조향·구동 입력</strong>으로 바뀌지 않으면 자율주행은 일어나지 않는다. MPCC의 메시지는 두 가지다. 하나는 <em>계층을 합치면 더 빠르다</em> — 경로 플래너와 추종 제어기를 분리해 두면 플래너의 시야가 전체 성능을 제한한다. 다른 하나는 <em>그 대가는 계산 시간이며, ms 단위 QP 솔버로 지불한다</em>는 것. '느린 트랙에서 최적 라인'과 '한계에서 미끄러지는 차량'을 동시에 다루는 문제를, 딥러닝 이전의 도구로 실차 속도로 해결한 사례다.</p>
+            <p>2026년의 관점에서 이 저장소는 낡은 코드가 아니라 <strong>실시간 제약 아래에서 최적성을 밀어붙이는 방법의 원형</strong>이다. end-to-end 학습이 스택을 삼키는 흐름에서도 차량 한계와 안전 제약을 명시적으로 다루는 MPC 계보는 사라지지 않고 오히려 학습과 결합하고 있다(learning-based MPC, GP 모델, RL 트랙 플래너). 그래서 이 글의 실용적 유산은 코드가 아니라 <em>질문 습관</em>이다 — 어떤 컨트롤러를 보더라도 "몇 ms에 풀리는가, 트랙을 몇 초에 도는가, 데드라인을 몇 % 놓치는가"를 함께 적어 확인하는 태도.</p>
+            <p>원문: 논문 <a href="https://arxiv.org/abs/1711.07300" target="_blank">arXiv 1711.07300</a> · DOI 10.1002/oca.2123 · 코드 <a href="https://github.com/alexliniger/MPCC" target="_blank">https://github.com/alexliniger/MPCC</a> · 확장 계보 <a href="https://arxiv.org/abs/1905.05150" target="_blank">AMZ Driverless (arXiv 1905.05150)</a></p>
+                        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
