@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🕵️ [클래식] Insertion, Evasion, and Denial of Service — '패킷을 다 본다'는 착각: 상용 IDS 4종을 전부 무력화한 침입 탐지 회피의 고전 (Ptacek &amp; Newsham, 1998)</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🕵️ [클래식] Insertion, Evasion, and Denial of Service — '패킷을 다 본다'는 착각: 상용 IDS 4종을 전부 무력화한 침입 탐지 회피의 고전</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-02 · 카테고리: Research (클래식 보안 논문 · 침입 탐지 회피 / 네트워크 보안 · Secure Networks, Inc., 1998)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Insertion, Evasion, and Denial of Service: Eluding Network Intrusion Detection<br>
+                <strong>저자:</strong> <strong>Thomas H. Ptacek</strong> · <strong>Timothy N. Newsham</strong> (Secure Networks, Inc.)<br>
+                <strong>출처:</strong> Secure Networks, Inc. 기술 보고서, <strong>1998년 1월</strong> · 전체 HTML 원문: <a href="https://insecure.org/stf/secnet_ids/secnet_ids.html" target="_blank" rel="noopener">insecure.org/stf/secnet_ids/secnet_ids.html</a><br>
+                <strong>분야:</strong> 네트워크 침입 탐지(IDS) · 수동 프로토콜 분석(passive protocol analysis) · IP 단편화/TCP 재조립 · 삽입(insertion)·회피(evasion)·서비스 거부(DoS) · 모호성(ambiguity)<br>
+                <strong>인용:</strong> <strong>OpenAlex 기준 655회</strong> (2026-10-02 조회, <a href="https://openalex.org/W1490025813" target="_blank" rel="noopener">W1490025813</a>). Semantic Scholar는 API 제한(429)으로 수치 미확인.<br>
+                <strong>원문:</strong> <a href="https://insecure.org/stf/secnet_ids/secnet_ids.html" target="_blank" rel="noopener">HTML 원문 (insecure.org)</a> · <a href="https://inst.eecs.berkeley.edu/~cs161/fa08/papers/IDSpaper.pdf" target="_blank" rel="noopener">PDF (UC Berkeley CS161)</a> · <a href="https://www.icir.org/vern/Ptacek-Newsham-Evasion-98.pdf" target="_blank" rel="noopener">PDF (ICIR)</a>
+            </div>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 한 줄 요약 — "보이는 것"과 "실제로 일어난 일"은 다르다</h2>
+            <p>1998년, 스니퍼로 패킷을 엿보며 공격을 탐지하던 <strong>모든 상용 네트워크 IDS가 근본적으로 속을 수밖에 없다</strong>는 사실을 정면으로 증명한 논문이다. 저자들은 "IDS가 보는 바이트 스트림"과 "목적지 호스트가 실제로 조립·처리하는 바이트 스트림"이 다르게 만들 수 있음을 보이고, 이를 악용하는 <strong>삽입(insertion)·회피(evasion)·서비스 거부(DoS)</strong> 세 가지 공격 부류를 정리했다. 그리고 시장 점유율 최상위 상용 IDS 4종을 직접 시험해 <strong>네 제품 모두 각 공격에 취약함</strong>을 실증했다. 오늘날 모든 IDS/IPS가 '스트림 재조립(normalization)'과 '타깃 기반(target-based)' 분석을 갖추게 만든 출발점이다.</p>
+            <blockquote>
+                "현재 존재하는 모든 네트워크 IDS는 <strong>수동 프로토콜 분석(passive protocol analysis)</strong>이라는 근본적으로 결함 있는 수집 방식에 의존한다." — 논문 초록. 그리고 논문은 이 한 문장을 4개 상용 제품으로 실증했다.
+            </blockquote>
+
+            <h2><i class="fa-solid fa-clock-rotate-left"></i> 배경 — '서명 기반 IDS'의 황금기와 그 안의 균열</h2>
+            <ul>
+                <li><strong>당시 IDS의 작동 방식:</strong> 1990년대 말 상용 네트워크 IDS는 <em>프로미스큐어스 모드</em> 스니퍼로 선로를 지나가는 모든 패킷을 복사해, TCP 스트림을 재조립한 뒤 "GET /cgi-bin/phf?" 같은 <strong>공격 서명(signature)</strong> 문자열을 찾아내는 방식이었다.</li>
+                <li><strong>수동적(passive)이라 안전하다는 믿음:</strong> 스니퍼는 네트워크에 아무 흔적도 남기지 않으니 탐지하기 어렵고, 성능 저하도 없다는 것이 장점으로 광고됐다.</li>
+                <li><strong>논문이 세운 2가지 근본 문제:</strong> ① <strong>선로 위 정보만으로는 부족하다</strong> — 패킷만 봐서는 목적지 호스트가 그 패킷을 실제로 받아들였는지 알 수 없다. ② 수동적이라는 점 때문에 시스템이 <strong>'fail-open'</strong>이다 — IDS 하나가 뚫리거나 죽어도 네트워크 자체는 계속 돌아간다는 성질이 곧 "IDS가 눈을 감아도 아무도 모른다"는 뜻이 된다.</li>
+                <li><strong>핵심 통찰:</strong> IDS는 목적지 OS의 TCP/IP 스택을 <em>그대로 시뮬레이션</em>해야 하는데, 세상의 스택은 제각각이다. 이 틈이 곧 공격면이 된다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-arrow-down-long"></i> 핵심 1 — 삽입(Insertion): IDS가 받아들이고 종단은 버리는 패킷</h2>
+            <p>IDS가 <strong>종단 호스트는 거부할 패킷을 유효하다고 받아들이면</strong>, 공격자는 그 패킷을 IDS에만 "끼워 넣어" 재조립 결과를 조작할 수 있다. IDS는 자기 스트림에 없던 글자를 더 보게 된다.</p>
+            <ul>
+                <li><strong>문자열 뒤집기:</strong> 공격자가 <code>GET /cgi-bin/phf?</code>를 보내면 IDS는 <code>phf</code>를 찾아 공격으로 판정한다. 그런데 종단은 버릴 패킷에 <code>leasedontdetectt</code>·<code>is</code>·<code>orme</code>를 실어 보내면, IDS가 재조립한 문자열은 <code>GET /cgi-bin/pleasedontdetectthisforme?</code>가 되어 서명이 사라진다.</li>
+                <li><strong>그림 4의 예:</strong> 공격자의 <code>ATTACK</code> 스트림 중 종단이 거부할 <code>X</code> 하나를 IDS만 받아들이면 — 종단은 <strong><code>ATTACK</code></strong>을, IDS는 <strong><code>ATXTACK</code></strong>을 본다. 같은 세션, 다른 세계.</li>
+                <li><strong>일반 조건:</strong> 삽입은 "IDS가 어떤 패킷을 종단보다 <em>관대하게</em> 처리할 때" 언제든 성립한다. 그래서 "IDS를 최대한 엄격하게 만들면 되지 않나?"라는 발상은 — 곧바로 다음 문제를 낳는다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-arrow-up-long"></i> 핵심 2 — 회피(Evasion): 종단은 받아들이고 IDS는 버리는 패킷</h2>
+            <p>이번엔 반대다. <strong>종단이 받아들이는 패킷을 IDS가 (너무 엄격한 탓에) 거부하면</strong>, 그 안에 담긴 정보가 IDS의 시야에서 통째로 사라진다. 논문은 회피를 "가장 악용하기 쉽고, IDS 정확성에 가장 치명적"이라고 평한다.</p>
+            <ul>
+                <li><strong>서명 지우기:</strong> <code>GET /cgi-bin/phf?</code>의 일부 글자를 IDS가 버릴 패킷에 실으면, IDS가 보는 요청은 <code>GET /gin/f</code>처럼 의미 없는 문자열이 된다. 공격은 그대로 성립하는데 시그니처는 아예 보이지 않는다.</li>
+                <li><strong>그림 5의 예:</strong> 종단이 받아들이는 <code>A</code>를 IDS가 놓치면 — 종단은 <strong><code>ATTACK</code></strong>을, IDS는 <strong><code>ATTCK</code></strong>을 본다.</li>
+                <li><strong>왜 치명적인가:</strong> "전체 세션이 IDS를 회피하는 패킷만으로 구성"될 수 있고, 그러면 가장 노골적인 공격이 아무리 정교한 분석 엔진의 코앞에서도 그냥 지나간다.</li>
+            </ul>
+            <blockquote>
+                삽입과 회피는 <strong>대칭</strong>이다 — IDS를 관대하게 만들면 삽입에, 엄격하게 만들면 회피에 뚫린다. 이 딜레마를 푸는 유일한 방법은 "종단이 실제로 무엇을 받아들이는지"를 <em>아는 것</em>이며, 이것이 논문이 목적지 <strong>OS·토폴로지 정보</strong>를 요구한 이유다.
+            </blockquote>
+
+            <h2><i class="fa-solid fa-layer-group"></i> 핵심 3 — 재조립의 늪: IP 단편화 · TCP 세그먼트 · TCB 동기화</h2>
+            <p>서명 매칭 이전에, IDS는 흩어진 패킷을 <strong>원래 순서대로 재조립(reassembly)</strong>해야 한다. 여기가 삽입·회피가 가장 잘 먹히는 지점이다.</p>
+            <ul>
+                <li><strong>IP 단편화(fragmentation):</strong> 패킷을 여러 조각으로 쪼개 보내면 IDS는 <em>오프셋</em>을 보고 원래 패킷을 복원해야 한다. 조각이 서로 <strong>겹치도록(overlapping)</strong> 보내면, 겹친 부분을 어떻게 처리하느냐에 따라 재조립 결과가 달라진다. 논문은 이것이 목적지 OS마다 다르다는 점을 지적한다.</li>
+                <li><strong>TCP 시퀀스 번호:</strong> TCP 스트림은 시퀀스 번호로 순서를 맞춘다. 공격자는 종단이 거부할 패킷으로 <em>수백 개의 시퀀스 번호를 소비</em>하거나, 이전 데이터를 <strong>겹쳐 덮어쓰거나(overlapping segments)</strong>, 스트림을 <strong>탈동기화(desynchronization)</strong>시켜 IDS가 재조립을 완전히 포기하게 만들 수 있다.</li>
+                <li><strong>TCB 3단계 공격면:</strong> IDS는 연결마다 TCP 제어 블록(TCB)을 유지한다. 논문은 공격 지점을 <strong>① TCB 생성 → ② 스트림 재조립 → ③ TCB 해제</strong>로 나눠, 각 단계가 어떻게 뒤틀리는지 체계화했다.</li>
+                <li><strong>PAWS·옵션·RST:</strong> 목적지가 <code>PAWS</code>(오래된 타임스탬프 패킷을 조용히 폐기)를 구현했거나, 특정 TCP 옵션을 거부하거나, RST의 시퀀스 번호를 검사하지 않는 구현이면 — 그 차이 전부가 삽입·회피의 구멍이 된다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-circle-question"></i> 핵심 4 — 모호성(Ambiguity): 정답은 '목적지 OS'가 쥐고 있다</h2>
+            <p>논문의 가장 개념적인 기여는 <strong>"중요한 결론을 선로 정보만으로 내릴 수 없는 상태"</strong>를 모호성으로 정의하고, 그 목록을 제시한 것이다. 모호성은 IDS가 <em>토폴로지/설정/OS·버전</em>이라는 2차 정보를 가질 때만 풀린다.</p>
+            <table>
+                <tr><th>필요한 정보</th><th>모호성 (요지)</th></tr>
+                <tr><td>네트워크 토폴로지</td><td>IP TTL이 목적지까지 가기엔 너무 작을 수 있음 (IDS까지만 도달하는 패킷)</td></tr>
+                <tr><td>네트워크 토폴로지</td><td>패킷이 하위 링크에선 단편화되어야 할 만큼 클 수 있음 (DF 비트)</td></tr>
+                <tr><td>목적지 설정</td><td>목적지가 소스 라우팅 패킷을 폐기하도록 설정됐을 수 있음</td></tr>
+                <tr><td>목적지 OS</td><td>부분 수신된 단편을 OS별로 다른 타임아웃으로 버릴 수 있음</td></tr>
+                <tr><td>목적지 OS</td><td>겹치는 단편을 OS마다 다르게 재조립함</td></tr>
+                <tr><td>목적지 OS</td><td>특정 TCP 옵션을 받지 않거나, PAWS로 구식 타임스탬프를 조용히 폐기</td></tr>
+                <tr><td>목적지 OS</td><td>충돌하는 TCP 세그먼트를 OS마다 다르게 해결</td></tr>
+                <tr><td>목적지 OS</td><td>RST 메시지의 시퀀스 번호를 검사하지 않는 호스트가 있음</td></tr>
+            </table>
+            <p>저자들은 4.4BSD 커널(FreeBSD 2.2) 소스에서 <strong>패킷을 폐기하는 모든 지점</strong>을 뽑아, IDS와 이 지점들이 어긋나는 곳을 잠재적 삽입·회피 구멍으로 삼는 방법론을 썼다. "IDS는 자기가 감시하는 모든 호스트의 동작을 시뮬레이션해야 한다"는 부담이 여기서 나온다.</p>
+
+            <h2><i class="fa-solid fa-bomb"></i> 핵심 5 — 세 번째 축: 자원 고갈과 '반응형' IDS의 역습</h2>
+            <ul>
+                <li><strong>자원 고갈(Resource Exhaustion):</strong> IDS는 종단과 달리 <em>모두의</em> 패킷을 처리하므로 구조적으로 더 취약하다. 공격자는 ① <strong>CPU</strong>(가장 작은 IP 단편을 대량으로 보내 O(n) 단편 리스트 조회를 최악 조건으로 몰아넣기) ② <strong>메모리</strong>(가짜 연결 폭주로 TCB·재조립 큐 고갈) ③ <strong>디스크</strong>(무의미한 이벤트 로그로 저장공간 소진) ④ <strong>대역폭</strong>(IDS에만 향하는 트래픽으로 인터페이스 포화) 중 하나로 IDS를 눈멀게 만든다.</li>
+                <li><strong>반응형 IDS의 역습:</strong> 많은 상용 IDS는 "공격 탐지 → 라우터 필터로 해당 IP 차단(shunning)" 기능을 자랑했다. 그러나 IP 출처는 위조 가능하다. 공격자가 <em>중요 사이트(예: DNS 서버)에서 온 것처럼</em> 공격 패킷을 위조하면, IDS가 그 사이트로 가는 정상 트래픽을 스스로 차단해 버린다 — 보안 장비가 서비스 거부의 도구로 전락한다.</li>
+                <li><strong>논문의 권고:</strong> IDS를 인터넷 경계에서 "스푸핑 방지(spoof protection) 필터" 뒤에 두고, 위조가 쉬운 공격(ping flood, UDP 공격 등)에는 <strong>자동 반응하지 말 것</strong>. 그리고 "IPS가 성공적인 공격을 기록하는 순간, 그 이후의 공격은 IPS의 시야 밖에서 일어나고 있다고 가정하라"고 경고한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flask"></i> 실증 — 상용 IDS 4종, 전부 무력화되다</h2>
+            <p>논문은 스크립트화된 테스트 스위트(<code>baseline-1/2</code>, <code>frag-1~7</code>, <code>tcp-1~9</code>, <code>tcbc-1~3</code>, <code>tcbt-1/2</code>, <code>insert-1~3</code>, <code>evade-1</code>)를 만들어, 시장 점유율 최상위 4개 제품을 시험했다. 결과는 명확했다 — <strong>어떤 제품도 모든 공격을 막지 못했고, 모두 완전히 우회 가능</strong>했다.</p>
+            <table>
+                <tr><th>제품 (시험 버전)</th><th>드러난 치명적 결함</th></tr>
+                <tr><td><strong>ISS RealSecure</strong><br>(1.0.97.224, WinNT)</td><td>IP 단편화 재조립을 <em>전혀</em> 못 함(모든 패킷을 단편화하면 완전 우회). TCP 체크섬·ACK 비트 미검증. 중복 세그먼트·RST·SYN 처리 미흡으로 탈동기화 가능.</td></tr>
+                <tr><td><strong>WheelGroup NetRanger</strong><br>(1.2.2)</td><td>단편화 미처리(단편화만으로 우회). 다른 데이터의 중복 시퀀스 세그먼트로 우회됨. SYN 패킷 내 데이터를 탐지하지 못함. TCP 체크섬 미검증.</td></tr>
+                <tr><td><strong>AbirNet SessionWall-3</strong><br>(v1.2.0.26, WinNT)</td><td>단편화 미처리. 가짜 SYN 주입으로 탈동기화. SYN 패킷 내 데이터 미탐지. 겹치는 TCP 세그먼트를 4.4BSD와 <em>다르게</em> 재조립 → 회피 취약.</td></tr>
+                <tr><td><strong>NFR</strong><br>(beta-2)</td><td>단편화된 UDP 패킷 재조립은 가능했지만, <strong>단편화된 TCP 스트림에서는 서명 매칭 실패</strong>. 모든 삽입 공격에 취약(IP/TCP 체크섬 미검증, SYN 비트 없이 데이터 수용).</td></tr>
+            </table>
+            <p>저자들은 "제품별 통과/실패 개수는 품질 순위가 아니다"라고 선을 긋지만, 핵심 결론은 흔들리지 않는다 — <strong>"네트워크 IDS는 근본적으로 재설계되기 전까지 완전히 신뢰할 수 없다."</strong></p>
+
+            <h2><i class="fa-solid fa-earth-americas"></i> 왜 유명한가 — IDS 설계를 바꾼 한 편</h2>
+            <ul>
+                <li><strong>동시대의 독립 발견:</strong> 각주에 밝혔듯, LBNL의 <strong>Vern Paxson</strong>도 비슷한 시기(USENIX Security 1998, <em>"Bro: A System for Detecting Network Intruders in Real-Time"</em>)에 같은 부류의 공격을 발표했다. 이 문제는 한 사람의 발견이 아니라 <em>패러다임의 균열</em>이었다.</li>
+                <li><strong>도구로 구현:</strong> 이후 Dug Song의 <strong>fragroute</strong>(2000)가 이 논문의 삽입·회피 기법들을 실제 도구로 구현하면서, "IDS 회피"가 재현 가능한 공격 기법으로 자리 잡았다.</li>
+                <li><strong>방어의 전환점:</strong> Mark Handley·Christian Kreibich·Vern Paxson의 <em>"Network Intrusion Detection: Evasion, Traffic Normalization, and End-to-End Protocol Semantics"</em>(USENIX Security 2001)가 <strong>트래픽 정규화(normalization)</strong>를 제안하며 대응했고, Paxson의 <strong>능동 매핑(active mapping)</strong>은 "목적지 OS를 조회해 모호성을 해소한다"는 이 논문의 처방을 그대로 구현했다.</li>
+                <li><strong>오늘의 표준이 된 유산:</strong> Snort의 스트림 재조립(<code>stream4</code>/<code>stream5</code>), <strong>타깃 기반(target-based) IDS</strong>, Suricata·Zeek의 정규화 계층은 모두 "IDS가 본 스트림"과 "호스트가 본 스트림"을 일치시키려는 이 논문의 문제의식 위에 서 있다.</li>
+                <li><strong>인용:</strong> OpenAlex 기준 655회. 절대 수치는 크지 않지만, 네트워크 보안 실무·IDS/IPS 설계 문헌에서 반복 인용되는 '고전 중의 고전'이다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 한계와 주의</h2>
+            <ul>
+                <li><strong>시대적 조건:</strong> 1998년의 10/100Mbps 스위치드 이더넷과 단일 노드 스니퍼를 전제로 한다. 이후 하드웨어 가속·전용 ASIC·대용량 스트림 처리가 등장하며 <em>자원 고갈</em> 축의 난이도는 크게 달라졌다.</li>
+                <li><strong>목적지 특정 문제:</strong> 논문 스스로 "일부 모호성은 명확한 해법이 없다"고 인정한다. 토폴로지·OS 정보를 완벽히 안다는 전제 자체가 실전에서는 비용이 든다 — 정규화는 편익과 성능·유연성의 트레이드오프다.</li>
+                <li><strong>TLS 시대의 도래:</strong> 논문은 암호화 트래픽 분석 비용을 미래 문제로 언급했는데, 오늘날 트래픽 대부분이 암호화되면서 "재조립 후 서명 매칭"이라는 전제 자체가 흔들렸다. 대신 <em>메타데이터·행위 분석</em>으로 무게중심이 이동했다.</li>
+                <li><strong>'fail-open'은 여전히 유효한 경고:</strong> IPS가 뚫리면 그 사실조차 탐지되지 않을 수 있다는 통찰은, 오늘의 EDR/XDR·제로트러스트 논의에도 그대로 적용된다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-briefcase"></i> 2026년 실무 시사점</h2>
+            <ul>
+                <li><strong>"IDS가 본 것"과 "호스트가 처리한 것"은 다를 수 있다는 전제를 유지하라.</strong> 경계 장비의 탐지 결과는 <em>정규화된(normalized)</em> 스트림 위에서만 신뢰할 수 있다. 재조립·정규화 옵션이 꺼진 센서는 이 논문이 28년 전에 뚫은 그대로 뚫린다.</li>
+                <li><strong>경계 장비의 '자동 차단'은 위조 가능성을 전제로 설계하라.</strong> 위조가 쉬운 신호에 대한 자동 반응은 이 논문이 지적한 '반응형 IDS의 역습'을 재현한다. 스푸핑 방지(BCP38/uRPF) 필터와 반응 예외 목록을 먼저 점검하라.</li>
+                <li><strong>모호성은 여전히 공격면이다.</strong> 파서 차이(parser differential)로 인한 WAF/프록시 우회, HTTP 요청 스머글링, IP 단편화 회피는 이 논문의 현대적 후예다. "우리 스택과 상대 스택이 같은 바이트를 같은 의미로 읽는가"를 검증하는 것이 곧 방어다.</li>
+                <li><strong>탐지 실패는 성능 한계에서도 온다.</strong> 가짜 TCB 폭주로 센서 메모리를 고갈시키는 공격은 여전히 유효하다. 센서의 상태 테이블 상한·드롭률·오버플로를 <em>모니터링 지표</em>로 삼아라 — "조용한 센서"가 곧 안전은 아니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>논문 원문 (HTML): <a href="https://insecure.org/stf/secnet_ids/secnet_ids.html" target="_blank" rel="noopener">Insertion, Evasion, and Denial of Service: Eluding Network Intrusion Detection — insecure.org</a></li>
+                <li>논문 PDF: <a href="https://inst.eecs.berkeley.edu/~cs161/fa08/papers/IDSpaper.pdf" target="_blank" rel="noopener">UC Berkeley CS161</a> · <a href="https://www.icir.org/vern/Ptacek-Newsham-Evasion-98.pdf" target="_blank" rel="noopener">ICIR</a></li>
+                <li>인용 수: OpenAlex <a href="https://openalex.org/W1490025813" target="_blank" rel="noopener">W1490025813</a> 기준 655회 (2026-10-02 조회)</li>
+                <li>배경 · 용어: Wikipedia — <a href="https://en.wikipedia.org/wiki/Intrusion_detection_system" target="_blank" rel="noopener">Intrusion detection system</a> · <a href="https://en.wikipedia.org/wiki/IP_fragmentation" target="_blank" rel="noopener">IP fragmentation</a></li>
+                <li>함께 읽기 — 네트워크·IDS 계보: 2026-09-14 <em>Security Problems in the TCP/IP Protocol Suite</em>(1989, 인터넷 신뢰 가정의 붕괴) · 2026-09-18 <em>Fuzzing</em>(1990, 무작위 입력의 힘) · 2026-08-30 <em>Smashing The Stack For Fun And Profit</em>(1996, 버퍼 오버플로우)</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
