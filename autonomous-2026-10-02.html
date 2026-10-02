@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - BDD100K (CVPR 2020, UC Berkeley · Berkeley DeepDrive): '낮에 배운 모델은 밤에 무너진다' — 인용 3,215회, 10만 영상·1억 프레임·1,000시간으로 '데이터 다양성'을 일반화의 조건으로 못 박은 최대 규모 오픈 주행 데이터셋 (⭐575 · BSD-3-Clause)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - BDD100K (CVPR 2020, UC Berkeley · Berkeley DeepDrive): '낮에 배운 모델은 밤에 무너진다' — 인용 3,215회, 10만 영상·1억 프레임·1,000시간으로 '데이터 다양성'을 일반화의 조건으로 못 박은 최대 규모 오픈 주행 데이터셋 (⭐575 · BSD-3-Clause)</h1>
+            <p class="date">2026-10-02</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>유형:</strong> 자율주행 스택의 <strong>데이터·벤치마크 계층</strong>. 이 블로그가 다룬 <a href="autonomous-2026-09-11.html">KITTI</a>(기하 벤치마크의 원조)·<a href="autonomous-2026-08-24.html">nuScenes</a>(센서 스위트)·<a href="autonomous-2026-09-15.html">Waymo Open Dataset</a>(규모)·<a href="autonomous-2026-09-27.html">OPV2V</a>(V2X) 계보에서 <strong>'다양성과 이질적 태스크'</strong> 축을 맡는 데이터셋이다</li>
+                    <li><strong>논문:</strong> <em>BDD100K: A Diverse Driving Dataset for Heterogeneous Multitask Learning</em> — CVPR 2020 (Oral). arXiv <a href="https://arxiv.org/abs/1805.04687" target="_blank">1805.04687</a>(2018-05-12 제출, 2020-04-08 개정) · DOI 10.1109/CVPR42600.2020.00271</li>
+                    <li><strong>저자/소속:</strong> Fisher Yu · Haofeng Chen · Xin Wang · Wenqi Xian · Yingying Chen · Fangchen Liu · Vashisht Madhavan · Trevor Darrell — <strong>UC Berkeley / Berkeley DeepDrive (BDD)</strong></li>
+                    <li><strong>규모:</strong> 10만 영상 × 40초 = <strong>1,000시간 이상</strong>의 주행 · <strong>1억 프레임 이상</strong> · GPS/IMU 궤적 포함 · 뉴욕·샌프란시스코 베이 에어리어에서 5만 회 이상 주행으로 수집 · <strong>10개 태스크</strong></li>
+                    <li><strong>인용:</strong> Semantic Scholar <strong>3,215회</strong>(영향력 있는 인용 346회) · OpenAlex 2,486회 — nuScenes·Waymo Open과 함께 <strong>가장 많이 인용된 주행 데이터셋</strong>군에 속한다</li>
+                    <li><strong>GitHub 지표:</strong> ⭐<strong>575</strong> · 🍴79 · 열린 이슈 46 · <strong>BSD-3-Clause</strong> · 2020-09-09 생성 · 2024-03-09 푸시 · Python (전신 <a href="https://github.com/ucbdrive/bdd100k" target="_blank">ucbdrive/bdd100k</a> ⭐588에서 이 저장소로 이전)</li>
+                    <li><strong>원문:</strong> 논문 <a href="https://arxiv.org/abs/1805.04687" target="_blank">arXiv 1805.04687</a> · 게재본 <a href="https://openaccess.thecvf.com/content_CVPR_2020/html/Yu_BDD100K_A_Diverse_Driving_Dataset_for_Heterogeneous_Multitask_Learning_CVPR_2020_paper.html" target="_blank">CVPR 2020 Open Access</a> · 데이터/툴킷 <a href="https://github.com/bdd100k/bdd100k" target="_blank">bdd100k/bdd100k</a></li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>자율주행 데이터셋의 병목은 '양'이 아니라 <strong>다양성</strong>과 <strong>태스크 간 이질성</strong>이다. KITTI는 맑은 독일·미국 도로, Cityscapes는 독일 도시, nuScenes는 두 도시의 센서 스위트 — 대부분 특정 지역·날씨·시간대에 갇혀 있어, 그 위에서 학습한 모델은 <em>새 조건에서 무너진다</em>. BDD100K는 크라우드소싱으로 모은 <strong>10만 개 40초 영상</strong>에 날씨·시간대·장면 태그를 달고, 하나의 데이터로 <strong>10개의 이질적 태스크</strong>를 평가하는 최초의 대규모 벤치마크를 만들었다. "데이터 다양성이 곧 일반화"라는 명제를 벤치마크 위에서 정량화한 것이 이 논문의 몫이다.</p>
+            <ul>
+                <li><strong>10개 태스크를 한 데이터에:</strong> 장면 태깅 · 차선 검출 · 주행가능영역 분할 · 객체 검출 · 의미 분할 · 인스턴스 분할 · 다중객체 검출 추적(MOT) · 다중객체 분할 추적(MOTS) · 도메인 적응 · 모방 학습. 픽셀 수준부터 시간축·궤적 수준까지 <em>서로 다른 출력 구조</em>를 한 데이터셋에 모은 것이 핵심</li>
+                <li><strong>규모(구체 수치):</strong> 영상 10만 개(각 40초, 고해상도) · 총 1,000시간+ · 1억 프레임+ · GPS/IMU 궤적. 검출은 10만 기준 프레임에 10개 클래스의 바운딩 박스(학습 7만 장), 의미 분할은 1만 장·40클래스, 인스턴스 분할 7천 장, MOT는 2,000영상·약 40만 프레임(5fps·영상당 약 200프레임), 차선 마킹 10만 장(KITTI-ROAD 7만 장 대비)</li>
+                <li><strong>long-tail 분포:</strong> 차량 인스턴스는 수만~수십만 개인 반면 트레일러·기차는 <em>수십 개</em>에 불과하다. 인스턴스의 <strong>약 절반이 가림(occluded)</strong>, 약 <strong>7%가 잘림(truncated)</strong> — 실제 도로의 꼬리 분포를 그대로 담았다</li>
+                <li><strong>다양성을 '측정 가능'하게:</strong> 6개 날씨 조건과 주·야간 영상을 균형 있게 수집했다. 그래서 "학습한 도메인을 바꾸면 성능이 얼마나 떨어지는가"를 실험으로 물을 수 있다</li>
+                <li><strong>도메인 격차 실험(Table 4):</strong> Faster-RCNN/ResNet-50을 도메인당 3만 장으로 학습해 같은 클래스의 AP를 비교했다. 논문의 결론 그대로 — <em>"도시-비도시 격차도 유의하지만, 주간-야간 격차가 훨씬 크다."</em> 같은 모델·같은 객체인데 낮에 학습한 것이 밤에 급락한다</li>
+                <li><strong>Cityscapes 교차 실험:</strong> 독일 Cityscapes로 학습한 모델은 미국의 교통표지판을 인식하지 못했다(Fig 9). 기존 데이터셋의 <em>도메인</em>에서조차 새 데이터가 상호 보완적임을 보여준다</li>
+                <li><strong>이종 멀티태스크가 이득이라는 증거:</strong> 주행가능영역＋차선처럼 출력 구조가 비슷한 '<em>동종</em>' 태스크를 묶으면 이득이 미미했지만, 검출＋인스턴스 분할을 함께 학습하면 AP가 <strong>21.8 → 24.5</strong>(Table 6), 검출＋MOT를 함께 학습하면 AP가 <strong>28.1 → 30.7</strong>(Table 7)로 올랐다. 논문은 이를 "이질적 태스크일수록 결합 학습이 유효하다"는 근거로 쓴다</li>
+                <li><strong>주석 툴링도 기여:</strong> 초기 제목(arXiv v1)은 "A Diverse Driving Video Database with <em>Scalable Annotation Tooling</em>"이었다 — 대규모 크라우드 주석을 가능케 한 도구 자체가 연구 산출물의 일부였다</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>인용 3,215회(S2) / 2,486회(OpenAlex):</strong> KITTI·nuScenes·Waymo와 어깨를 나란히 하는 최다 인용 주행 데이터셋. 특히 "데이터셋 편향·도메인 시프트"를 <em>측정 대상</em>으로 끌어올린 초기 대표작이라는 점이 인용의 성격을 만든다</li>
+                <li><strong>CVPR 2020 Oral + 완전 공개:</strong> ⭐575 툴킷(BSD-3-Clause)과 함께 데이터·주석·평가 코드와 문서를 공개하고 2024년까지 유지했다. '데이터만 배포'가 아니라 <strong>재현 가능한 파이프라인</strong>을 준 것이 채택률을 끌어올렸다</li>
+                <li><strong>10개 태스크 통합 벤치마크:</strong> 검출·분할·추적·차선·주행가능영역·모방 학습을 한 데이터에서 평가하게 해, 여러 논문이 같은 데이터로 비교되는 '공통 무대'를 만들었다 — 멀티태스크·연합 학습 연구의 표준 출발점</li>
+                <li><strong>견고성 연구의 토양:</strong> 이 데이터가 없으면 "안개·비·야간에서 인식이 무너진다"는 결과를 같은 조건에서 비교하기 어렵다. <a href="autonomous-2026-09-28.html">Robust Physical-World Attacks</a>(09-28)가 "입력을 조작하면 무너진다"를 보였다면, BDD100K는 "날씨·시간대만 바뀌어도 무너진다"를 보인다 — 둘 다 인식 스택의 <em>신뢰 가정</em>을 문제 삼는다</li>
+                <li><strong>이 블로그 계보와 맞물린다:</strong> <a href="autonomous-2026-08-27.html">Lift, Splat, Shoot</a>(08-27)·<a href="autonomous-2026-08-17.html">BEVFormer</a>(08-17)·<a href="autonomous-2026-09-10.html">CenterPoint</a>(09-10) 같은 인식 모델의 학습·평가 데이터이고, <a href="autonomous-2026-09-11.html">KITTI</a>(09-11)·<a href="autonomous-2026-08-24.html">nuScenes</a>(08-24)·<a href="autonomous-2026-09-15.html">Waymo Open</a>(09-15)와 함께 '데이터셋 3·4강'을 이룬다. 차선 마킹 벤치마크는 <a href="autonomous-2026-09-24.html">차선 검출(09-24)</a> 계보와, 궤적·행동 과제는 <a href="autonomous-2026-08-12.html">UniAD</a>(08-12)의 모방 학습 축과도 연결된다</li>
+                <li><strong>활용 가치:</strong> ① 도메인 일반화·견고성 벤치마크의 표준 데이터, ② 이질적 멀티태스크·연합 학습 연구, ③ 롱테일·가림(occlusion) 검출 연구, ④ GPS/IMU 기반 모방 학습·궤적 예측, ⑤ 데이터 편향을 측정하려는 모든 데이터 큐레이션 연구</li>
+                <li><strong>한계(정직하게):</strong> 대부분 미국(뉴욕·베이 에어리어) 데이터라 <em>지역</em> 다양성은 제한적이고, 영상 라벨은 크라우드소싱 특성상 노이즈가 있다. 또 2018~2020년 데이터라 최근의 대규모 멀티모달·파운데이션 모델 학습 규모와는 층위가 다르다 — '지도의 완성'이 아니라 '문제 제기의 원형'으로 읽어야 한다</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>BDD100K가 남긴 것은 "데이터를 더 모아라"가 아니라 "<strong>다양성을 설계하라</strong>"이다. 같은 모델·같은 클래스인데 학습한 날씨·시간대·지역이 바뀌면 성능이 무너진다는 사실을, 논문은 벤치마크 위에서 정량적으로 보여줬다. 2018~2020년의 이 관찰은 이후 '도메인 일반화·코너케이스·롱테일' 연구의 출발점이 됐고, 오늘날 대규모 주행 데이터와 파운데이션 모델 경쟁의 문제의식과 정확히 이어진다.</p>
+            <p>2026년의 관점에서 BDD100K는 라벨의 '양'이 아니라 <strong>분포</strong>를 사는 투자다. 이 블로그의 다른 데이터셋 글들이 각각 기하(KITTI)·센서(nuScenes)·규모(Waymo)·협력(V2X)을 대표한다면, BDD100K는 <strong>다양성과 이질적 태스크</strong>를 대표한다. 그리고 "학습 분포와 다른 조건에서 모델이 얼마나 버티는가"라는 이 질문은, 어떤 데이터를 어떻게 골라 학습시킬 것인가 — 즉 데이터 큐레이션의 품질 문제와도 같은 뿌리를 공유한다. 인식 모델 하나를 평가할 때 "어떤 조건에서 학습했고, 어떤 조건에서 몇 점이 나오는가"를 함께 적는 습관을 이 데이터셋이 대중화했다.</p>
+            <p>원문: 논문 <a href="https://arxiv.org/abs/1805.04687" target="_blank">arXiv 1805.04687</a> · 게재본 <a href="https://openaccess.thecvf.com/content_CVPR_2020/html/Yu_BDD100K_A_Diverse_Driving_Dataset_for_Heterogeneous_Multitask_Learning_CVPR_2020_paper.html" target="_blank">CVPR 2020 Open Access</a> · 데이터/툴킷 <a href="https://github.com/bdd100k/bdd100k" target="_blank">https://github.com/bdd100k/bdd100k</a></p>
+                        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
