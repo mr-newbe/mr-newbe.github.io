@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - Monodepth2 (ICCV 2019, Niantic · UCL): '라이다 없이 카메라 한 대로 거리를 재다' — 인용 2,585회, KITTI 영상만으로 깊이를 자기지도 학습해 단안 깊이의 기준선이 된 참조 구현 (⭐4,504 · 비상업 라이선스 · 후속 ManyDepth ⭐665)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - Monodepth2 (ICCV 2019, Niantic · UCL): '라이다 없이 카메라 한 대로 거리를 재다' — 인용 2,585회, KITTI 영상만으로 깊이를 자기지도 학습해 단안 깊이의 기준선이 된 참조 구현 (⭐4,504 · 비상업 라이선스 · 후속 ManyDepth ⭐665)</h1>
+            <p class="date">2026-10-03</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>유형:</strong> 자율주행 인지 스택의 <strong>가장 아래 계층</strong> — "카메라 한 대로 거리를 복원한다". 이 블로그가 다룬 <a href="autonomous-2026-08-27.html">LSS</a>(깊이 분포를 감독 신호로 받아 BEV를 만든 원조)·<a href="autonomous-2026-08-17.html">BEVFormer</a>·<a href="autonomous-2026-09-11.html">KITTI</a> 계보에서 <strong>'그 깊이를 어디서 얻는가'</strong> 축을 맡는 참조 구현이다</li>
+                    <li><strong>논문:</strong> <em>Digging Into Self-Supervised Monocular Depth Estimation</em> — ICCV 2019 · arXiv <a href="https://arxiv.org/abs/1806.01260" target="_blank">1806.01260</a>(2018-06-04 제출 → 2019-08-17 v4) · DOI 10.1109/ICCV.2019.00393</li>
+                    <li><strong>저자/소속:</strong> Clément Godard · Oisin Mac Aodha · Michael Firman · Gabriel J. Brostow — <strong>Niantic</strong>(AR 게임 <em>Pokémon GO</em> 개발사) + <strong>UCL</strong>(Brostow 교수)</li>
+                    <li><strong>모델 구성:</strong> ResNet18 인코더 + U-Net 디코더(<strong>11M 파라미터</strong>) + 포즈 추정 네트워크 · 입력/출력 <strong>640×192</strong>(1024×320 변형) · Adam, 20 에포크, 배치 12 · 단일 <strong>Titan Xp에서 스테레오 8h / 단안 12h / 혼합 15h</strong> 학습</li>
+                    <li><strong>핵심 수치:</strong> KITTI Eigen split(개선 정답) — Abs Rel <strong>0.090</strong>(단안) / <strong>0.085</strong>(스테레오) / 0.106(혼합 MS) · RMSE log 0.137 · δ&lt;1.25 <strong>0.914</strong>. 학습은 <strong>39,810 트리플렛</strong>, 검증 4,424 — 모두 <em>지상 진실 깊이 없이</em> 영상만으로</li>
+                    <li><strong>인용:</strong> Semantic Scholar <strong>2,585회</strong>(영향력 있는 인용 782회) · OpenAlex 2,541회 — 연도별 2024년 461 → 2025년 370 → 2026년 185(9월까지)로 <strong>7년이 지나도 인용이 멈추지 않는다</strong></li>
+                    <li><strong>GitHub 지표:</strong> ⭐<strong>4,504</strong> · 🍴987 · 워처 62 · 열린 이슈 32 · 2019-05-02 생성 · <strong>마지막 커밋 2022-01-30</strong> · 태그·릴리스 <strong>0개</strong> · 토픽 = depth-estimation, self-supervision, pytorch · 후속 <a href="https://github.com/nianticlabs/manydepth" target="_blank">nianticlabs/manydepth</a> ⭐665 (CVPR 2021)</li>
+                    <li><strong>⚠️ 라이선스:</strong> GitHub 표기는 <code>NOASSERTION</code>이지만 <code>LICENSE</code> 원문은 Niantic의 <strong>"Monodepth v2 License" — 비상업 전용</strong>("This Software is licensed under the terms of the following Monodepth2 license which allows for <strong>non-commercial use only</strong>"). 상업적 사용은 partnerships@nianticlabs.com 협의 필요 — <em>AI 모델 가중치를 제품에 넣으려는 팀이 가장 먼저 확인해야 하는 줄</em></li>
+                    <li><strong>원문:</strong> 참조 구현 <a href="https://github.com/nianticlabs/monodepth2" target="_blank">github.com/nianticlabs/monodepth2</a> · 논문 <a href="https://arxiv.org/abs/1806.01260" target="_blank">arXiv 1806.01260</a> · 게재본 DOI <a href="https://doi.org/10.1109/ICCV.2019.00393" target="_blank">10.1109/ICCV.2019.00393</a></li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>단안 깊이 추정은 원래 <em>잘 정의되지 않은</em> 문제다. 두 번째 시점(스테레오, 또는 시간축의 다음 프레임)이 없으면 삼각측량이 불가능하기 때문이다. Monodepth2의 답은 "구조를 복잡하게 만들지 말고 <strong>학습 신호를 설계하자</strong>"였다. 스테레오 쌍이나 단안 영상 시퀀스만 주면, 네트워크가 <em>깊이</em>와 <em>에고 모션(포즈)</em>을 동시에 풀면서 스스로 지도를 만든다 — 라이다 지상 진실 없이도 KITTI 벤치마크에서 당시 자기지도 SOTA를 갈아치웠다. 논문이 내세운 장치는 딱 세 가지다.</p>
+            <ul>
+                <li><strong>① 픽셀별 최소 재투영 손실(minimum reprojection loss):</strong> 기존 방법은 여러 소스 프레임의 재투영 오차를 <em>평균</em>냈다. 그러면 대상 픽셀을 가리는(occlusion) 프레임의 오차까지 더해져 경계가 뭉개진다. 소스 중 <strong>가장 잘 맞는 하나만</strong> 쓰면 가림·경계 문제가 크게 줄어든다 — 논문은 "이미지 테두리 아티팩트 감소, 가림 경계 선명도 향상"으로 요약한다</li>
+                <li><strong>② auto-masking(정지 픽셀 자동 마스킹):</strong> 자기지도 단안 학습은 '카메라는 움직이고 장면은 정지해 있다'는 가정 위에 서 있다. 앞차가 나와 같은 속도로 달리거나, 신호 대기로 차가 멈추면 이 가정이 깨져 예측 깊이에 <strong>무한 깊이 '구멍'</strong>이 생긴다. 해법은 프레임 간 외관이 변하지 않는 픽셀을 <strong>이진 마스크(µ∈{0,1})</strong>로 자동 제외하는 것 — 학습 파라미터 추가 없이 순전파에서 계산한다. 카메라가 멈춘 프레임 전체를 무시하는 효과까지 생긴다</li>
+                <li><strong>③ 전해상도 멀티스케일 샘플링:</strong> 저해상도 깊이 맵으로 계산한 사광 오차는 경계에서 모호하다. 저해상도 깊이를 <strong>입력 해상도로 업샘플한 뒤</strong> 재투영·재샘플해 오차를 계산하면("패치 매칭"에 가까운 효과) 각 스케일이 같은 목표 — 고해상도 영상 복원 — 를 향하게 된다</li>
+                <li><strong>효과(ablation):</strong> 640×192 단안 기준선 Abs Rel <strong>0.115</strong> → 세 장치를 모두 켠 <strong>0.090</strong>. auto-masking을 끄면 0.120, ImageNet 사전학습까지 빼면 0.138로 후퇴한다. 해상도별로는 416×128 0.128 → 640×192 0.115 → 1024×320 0.115(학습 9~15시간)</li>
+                <li><strong>비교 우위:</strong> 단안 학습만으로 Zhou(0.176) · GeoNet(0.132) · DDVO(0.126) · EPC++(0.120)를 앞서고, 스테레오 학습에서는 Monodepth 원판(0.109)과 후처리까지 붙인 SuperDepth(0.090)를 추월한다. 완전 지도학습 최강 DORN(0.072)과의 격차도 이 시점에 크게 좁혀졌다</li>
+                <li><strong>학습된 것을 그대로 쓸 수 있다:</strong> <code>python test_simple.py --image_path assets/test_image.jpg --model_name mono+stereo_640x192</code> 한 줄로 이미지 한 장의 깊이가 나오고, <code>--pred_metric_depth</code>를 붙이면 <strong>미터 단위 절대 깊이</strong>까지 나온다(스테레오로 학습한 모델만 가능)</li>
+                <li><strong>일반화:</strong> KITTI로만 학습하고 Make3D 데이터셋에서 평가해도 Abs Rel 0.322로 당시 단안 자기지도 최고 수준(Zhou 0.383 · DDVO 0.387)을 유지했다</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>자기지도 단안 깊이의 사실상 기준선:</strong> ⭐4,504 · 🍴987은 이 분야 오픈 구현 중 최상위권이고, 인용 2,585회는 "이후 논문이 반드시 비교표에 넣는 모델"이라는 뜻이다. 후속작 <a href="https://github.com/nianticlabs/manydepth" target="_blank">ManyDepth</a>(CVPR 2021, ⭐665)는 Monodepth2 위에 비용 볼륨을 얹은 개선판이다</li>
+                <li><strong>센서 BOM을 바꾼다:</strong> 라이다는 차량 한 대당 수천 달러, 카메라는 수십 달러다. 깊이를 라벨 없이 영상에서 얻는 순간 "값싼 센서 + 더 많은 학습"이라는 조합이 성립한다 — <a href="autonomous-2026-08-27.html">LSS</a>가 <em>BEV로 올리기 위해</em> 깊이 분포를 썼다면, Monodepth2는 그 분포를 <em>라벨 없이 만드는</em> 쪽에 있다</li>
+                <li><strong>재현성 공개 수준:</strong> 학습 시간(8/12/15시간), 하드웨어(단일 Titan Xp), 해상도·사전학습 ablation, 평가용 개선 지상 진실(개선 정답 사용 시 오히려 순위가 바뀐다는 지적까지)을 논문과 저장소에 함께 공개했다. 이후 파이프라인들이 코드를 그대로 가져다 쓰는 이유다</li>
+                <li><strong>한계도 그대로 공개(그대로 인용해야 하는 항목):</strong> ① <strong>비상업 라이선스</strong> — 상용 제품에는 쓸 수 없다 ② 저장소는 <strong>2022-01-30 이후 커밋 없음</strong>, 태그·릴리스 0개 — "완결된 연구용 참조 구현"으로 읽어야 한다 ③ 단안 학습 모델은 스케일이 모호해 <em>상대 깊이</em>만 준다(절대 깊이는 스테레오 학습 필요) ④ KITTI 도메인 편향 — 야간·악천후 취약성은 <a href="autonomous-2026-10-02.html">BDD100K</a>가 데이터로 못 박은 그 문제다 ⑤ 학습 가정을 깨는 픽셀(정지 물체·동일 속도 물체)은 auto-masking이 <em>학습에서 제외</em>하므로, 그 영역의 깊이는 여전히 데이터로 메워야 한다</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>Monodepth2가 남긴 것은 정확도 몇 포인트가 아니라 <strong>손실 함수 설계가 데이터 가정 위반을 어떻게 흡수하는가</strong>에 대한 교본이다. 가림은 '평균 대신 최소'로, 정지·동일 속도는 '자동 이진 마스크'로, 저해상도 모호성은 '고해상도에서 재투영'으로 처리했다 — 어느 것도 새 네트워크를 만들지 않았고, 그 아이디어들은 이후 자기지도·3D 재구성 파이프라인에 사실상 표준으로 흡수됐다. 자율주행 관점의 의미는 분명하다. <a href="autonomous-2026-08-17.html">BEV</a>와 플래닝이 요구하는 3D 기하가 <em>라이다 없이, 라벨 없이</em> 카메라 영상에서 복원될 수 있음을 KITTI 리더보드 위에서 증명했고, 동시에 그 성능이 <a href="autonomous-2026-09-24.html">레인 검출</a>·<a href="autonomous-2026-09-28.html">적대적 공격</a>과 같은 층에서 <strong>입력 신뢰</strong>에 기대고 있다는 구조적 약점도 함께 드러낸다. 실제 코드를 가져다 쓸 팀이라면 성능보다 <strong>비상업 라이선스</strong>와 유지보수 중단(2022)을 먼저 확인해야 한다 — 알고리즘은 표준이 됐지만, 이 저장소 자체는 '역사적 기준선'으로 쓰는 것이 정확하다.</p>
+            <p>원문: <a href="https://github.com/nianticlabs/monodepth2" target="_blank">https://github.com/nianticlabs/monodepth2</a></p>
+                        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
