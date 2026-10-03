@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-10-04</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        code { background: #0b1220; padding: 1px 5px; border-radius: 4px; color: #7dd3fc; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-10-04 | <i class="fa-solid fa-tags"></i> Daily News, Cyber Espionage, AI Agent, Ransomware, Zero-Day, Vulnerability, Patch, Threat Intelligence
+        </div>
+        <div class="content">
+
+            <h2>1. MI5, 중국 MSS의 영국 학계 연구비 지원 경보 — '프런트 회사' CGTRI, 학자 100명+ 연루</h2>
+            <p>영국 국내정보기관 <strong>MI5</strong>가 2026년 9월 30일 자 <em>'Security Service Espionage Alert'</em>에서, 중국 <strong>국가안전부(MSS)</strong>가 자금을 대는 연구에 <strong>영국 연계 학자 100명 이상</strong>이 관여했다고 경고했다. 명목상 연구기관인 <strong>CGTRI(중국범용기술연구원, China General Technology Research Institute)</strong>가 MSS의 스파이 활동 역량을 직접 끌어올리는 연구에 자금을 지원한다는 것이다.</p>
+            <ul>
+                <li><strong>프런트 회사 귀속:</strong> MI5는 CGTRI(별칭 CAGT)를 MSS의 <em>프런트 회사</em>로 평가했다. MI5와 영국 대학 감시 단체 UKCT는 CGTRI의 인력이 MSS와 긴밀한 것으로 알려진 <strong>국제관계학원(University of International Relations)</strong>과 겹친다고 지적했다.</li>
+                <li><strong>지원 분야:</strong> 인공지능(AI), 사이버보안, <em>은닉 통신 시스템</em>, 스테가노그래피 등 — 신호정보·사이버·AI 기반 전략 도구를 아우른다.</li>
+                <li><strong>학계의 인지 부족:</strong> 일부 학자는 자신이 참여하는 중국 연구 프로젝트에 CGTRI가 자금을 대는 사실을 <em>모르고 있을 수 있다</em>고 경보는 밝혔다. MI5는 대학에 CGTRI와의 진행·계획 협력을 즉시 검토하고, 중국 기관과의 공동연구 시 자금 출처를 추적하라고 권고했다.</li>
+                <li><strong>법적 경고:</strong> 계속 협력하는 기관·교직원·연구자는 <strong>National Security Act 2023</strong>에 따라 외국 정보기관에 물질적 지원을 제공한 혐의로 기소될 수 있다고 명시했다. 중국 대사관은 이를 "근거 없는 터무니없는 주장"이라고 반박했다.</li>
+                <li><strong>시사점:</strong> 대학이 이제 <em>정보기관의 대리 표적</em>으로 명시된 사례다. 연구 보안(research security)은 연구비 출처 추적과 공동저자·데이터 공유 경로 점검을 기본 절차로 삼아야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/mi5-says-chinas-mss-funded-research.html" target="_blank">The Hacker News - MI5 Says China's MSS Funded Research Involving 100+ U.K.-Linked Academics</a></p>
+
+            <h2>2. Proofpoint TA419, AI 정책 전문가 표적 중국 연계 피싱 — 가짜 OneDrive·MFA 세션 탈취</h2>
+            <p>Proofpoint는 <strong>TA419</strong>로 추적하는 중국 연계 조직이 <em>AI 정책 전문가</em>를 겨냥해 미국 싱크탱크·대학·로펌의 클라우드 계정 탈취를 시도했다고 밝혔다. 미국·중국이 AI 개발, 수출 통제, 반도체 공급망을 둘러싸고 경쟁하는 가운데 AI 정책 인맥을 직접 노린 점이 특징이다.</p>
+            <ul>
+                <li><strong>수법:</strong> 7월부터 백악관 과학기술정책국(OSTP) 전 부국장 <strong>Lynne Parker</strong> 등 실제 인사를 사칭해 'AI 정책 자문위원회 참여' 또는 'AI 수출 통제·공급망 보고서 기고' 이메일을 보냈다. 첫 메일은 비밀번호를 요구하지 않고 <em>대화로 신뢰를 쌓는</em> 방식이었다.</li>
+                <li><strong>2단계:</strong> 회신이 오면 짧은 링크를 보내고, 이 링크가 <strong>OneDrive 문서 공유 페이지를 흉내 낸 가짜 Microsoft 로그인 창</strong>으로 유도한다. 오픈소스 피싱 도구 <strong>Frameless BitB</strong>를 변형해 브라우저 창 안에 가짜 창을 띄운다.</li>
+                <li><strong>MFA 우회:</strong> 사용자가 인증하면 공격자는 <em>MFA 프롬프트와 패스 검사를 통과하는 동안 세션 정보를 캡처</em>해 계정을 장악한다.</li>
+                <li><strong>표적 범위:</strong> TA419는 최소 2025년 4월부터 미국·일본의 싱크탱크, 방위산업체, 대학, 로펌을 겨냥했으며, 실제 기관을 닮은 도메인(Heritage Foundation 등)도 등록했다. Proofpoint는 피해자나 계정 침해 여부는 공개하지 않았다.</li>
+                <li><strong>시사점:</strong> 1번 항목(MI5)과 같은 날짜의 같은 방향 — 중국 정보활동이 <em>학계·정책 인맥</em>을 두 경로(연구비, 피싱)로 동시에 파고든다. 정책·연구 조직은 세션 기반 MFA 탈취(BitB)를 전제로 피싱 저항형 인증으로 전환해야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://cyberscoop.com/china-cyber-espionage-ta419-phishing-us-ai-policy-experts/" target="_blank">CyberScoop - AI policy circles targeted in China-linked phishing operation (Proofpoint)</a></p>
+
+            <h2>3. Warlock, SharePoint 결함 재무장 — 2시간 안에 40개 호스트의 보안 SW를 원격 무력화</h2>
+            <p>중국 연계로 의심되는 <strong>Warlock(별칭 Gold Salem·Longlegs·Storm-2603)</strong>이 다시 Microsoft SharePoint 취약점을 악용하고 있다. Symantec·Carbon Black 위협 사냥팀은 포르투갈어·스페인어권 조직(유럽·아프리카·중남미)의 핵심 인프라·정부·교육 기관을 겨냥한 공격을 관측했다.</p>
+            <ul>
+                <li><strong>규모:</strong> 한 핵심 인프라 사업자 침해에서 공격자는 <em>약 2시간 안에 최소 40개 호스트</em>에 보안 소프트웨어 무력화 도구를 밀어 넣고, <strong>최소 33개 호스트</strong>에 Warlock 랜섬웨어를 배포했다.</li>
+                <li><strong>배포 기법:</strong> 랜섬웨어를 도메인의 <strong>SYSVOL 공유</strong>에 스테이징했다. SYSVOL은 정상 도메인 복제로 모든 머신에 전달되는 위치라 별도 유포 인프라 없이 전파된다.</li>
+                <li><strong>초기 침투·권한 상승:</strong> 온프레미스 SharePoint의 취약점(구·신 버전 결함 모두)을 악용하고, 드롭한 웹셸로 <strong>SharePoint 팜의 ASP.NET 머신 키</strong>를 수집한다. 이를 이용해 <em>합법적으로 서명된 페이로드</em>를 위조해 재침투한다.</li>
+                <li><strong>방어 무력화:</strong> 정상 도구 <strong>Velociraptor</strong>를 C2로 악용하고, <em>BYOVD(취약 드라이버 가져오기)</em> 기법으로 호스트의 보안 소프트웨어를 해제했다.</li>
+                <li><strong>귀속:</strong> Symantec은 Warlock이 <strong>CL-CRI-1040·CamoFei·ChamelGang</strong> 등 과거 클러스터와 겹친다고 밝혔다. 2025년 중반 SharePoint 제로데이 'ToolShell' 익스플로잇으로 부상했다.</li>
+                <li><strong>시사점:</strong> 이 그룹의 특징은 <em>랜섬웨어 이전에 '방어를 먼저 끈다'</em>는 점이다. EDR·백신 무력화(BYOVD)와 SYSVOL·GPO 변경, SharePoint 머신 키 접근을 조기 경보로 삼아야 한다. 미패치 SharePoint는 1년 넘게 유효한 초기 진입 경로로 남아 있다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/warlock-exploits-sharepoint-flaws-to.html" target="_blank">The Hacker News - Warlock Exploits SharePoint Flaws to Disable Security Tools and Deploy Ransomware</a></p>
+
+            <h2>4. ShinyHunters FBI 데이터 유출 후속 — 요르단에서 멤버 검거·FBI 협조, 피해는 지방 공무원까지</h2>
+            <p>Reuters 등에 따르면 ShinyHunters의 FBI 데이터 탈취 사건과 관련된 인물이 <strong>요르단에서 검거돼 FBI에 협조</strong>하고 있다. 같은 그룹이 <em>거의 모든 FBI 요원</em>과 지원자 데이터를 훔쳤다고 주장한 가운데, 노출 범위가 지방 공무원까지 확대된 정황이 나왔다.</p>
+            <ul>
+                <li><strong>유출 내용(샘플 기준):</strong> FBI 요원의 개인 연락처, <em>가족 정보</em>, 사무실·근무 배정, 일부는 담당 전문 분야까지 포함됐다. 한 연구자는 "모든 적국·카르텔·불만자가 자신과 원한 관계인 FBI 인물을 정확히 찾아낼 수 있는 로드맵"이라고 평가했다.</li>
+                <li><strong>수법·동기:</strong> 그룹은 데이터 유출 사이트에 장문을 올렸고, FBI 채용 사이트를 일시적으로 변조(deface)했다. 이후 <em>FBI의 권고문 철회를 강요</em>하려는 이례적 행보를 보였다 — 금전 갈취보다 '에고 싸움' 성격이 짙다는 분석이다.</li>
+                <li><strong>FBI 대응:</strong> FBI는 유출된 데이터의 유형·규모나 ShinyHunters 귀속을 공식 확인하지 않았고, "루트 원인과 PII 영향 여부를 적극적으로 조사 중"이라고 밝혔다. 채용 사이트는 여전히 오프라인이다.</li>
+                <li><strong>이전 게시물과의 연결:</strong> 09-27 게시물에서 <em>PeopleSoft 제로데이를 통한 2~3TB 탈취 주장</em>, 09-30 게시물에서 <em>암스테르담 24세 남성 체포</em>를 다뤘다. 오늘의 델타는 <strong>요르단 검거·수사 협조</strong>와 <em>지방 공무원까지 번진 피해 범위</em>다.</li>
+                <li><strong>시사점:</strong> 공공기관 인사·HR 시스템이 '신원·근무 배정·가족 정보'를 한곳에 모아두는 구조가 <em>대규모 표적 명단</em>으로 전환되는 전형이다. 유출 이후에는 물리적 신변 보호까지 위협 평가에 포함해야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://cyberscoop.com/fbi-data-breach-shinyhunters-agent-safety-risk/" target="_blank">CyberScoop - ShinyHunters trades financial extortion for a reckless war of ego with the FBI</a> · <a href="https://news.google.com/rss/search?q=ShinyHunters+FBI+data+theft+detained+in+Jordan" target="_blank">Reuters (via Google News) - ShinyHunters hacker in FBI data theft detained in Jordan</a></p>
+
+            <h2>5. AI 에이전트가 Zammad 제로데이 2건을 연결해 DIVD를 '초 단위'에 장악</h2>
+            <p>네덜란드 취약점 공개 단체 <strong>DIVD(Dutch Institute for Vulnerability Disclosure)</strong>가 <em>자체 티켓 시스템</em>인 Zammad의 제로데이 2건으로 침해당했다고 공개했다. Merlon Security와 함께 확인한 두 결함(<code>CVE-2026-102489</code>·<code>CVE-2026-102490</code>)을 연결하자, <strong>AI 에이전트가 초 단위로 루트까지 도달</strong>했다.</p>
+            <ul>
+                <li><strong>취약점 체인:</strong> 세션 고정(session fixation)과 부적절한 권한 관리(improper privilege management) 결함. 각각은 단독으로도 심각하지만, 연쇄하면 <em>세션 탈취 → 원격 코드 실행 → regular 계정에서 root 승격</em>이 가능하다. 두 결함은 함께 악용되도록 설계된 형태다.</li>
+                <li><strong>자율성:</strong> DIVD는 "에이전트 기반(agentic) 공격 덕분에 <em>초 단위로</em> 권한 상승이 이뤄졌다"며, AI 에이전트가 <strong>사람의 지시를 기다리지 않고 스스로 다음 단계를 결정·실행</strong>했다고 밝혔다. root 확보 후 다른 서비스로 이동해 데이터를 읽고 일부를 탈취했다.</li>
+                <li><strong>피해 억제:</strong> 네트워크 분할과 DIVD IT·사고대응팀의 신속한 대응이 추가 확산을 막았지만, 중단 전에 일부 피해가 이미 발생했다.</li>
+                <li><strong>대응:</strong> 수정 버전은 <strong>Zammad v7</strong>. 즉시 업데이트가 불가하면 오프라인으로 전환하라고 권고했다. DIVD는 취약 인스턴스 소유자에게 통지 중이며 로그 악용 여부를 점검하는 스크립트도 공개했다. CISA는 두 CVE를 <strong>KEV</strong>에 등재했다(마감 10-05).</li>
+                <li><strong>시사점:</strong> 방어 도구를 만드는 조직조차 자기 헬프데스크 하나로 뚫렸고, 공격의 <em>속도를 인간이 아니라 에이전트가 결정</em>했다. 이는 'AI가 공격을 완주한다'는 논의를 실제 운영 환경의 사고로 만든 사례다.</li>
+            </ul>
+            <p>출처: <a href="https://securityaffairs.com/200126/hacking/ai-agent-chains-zammad-zero-days-to-take-over-divd-systems-in-seconds.html" target="_blank">Security Affairs - AI Agent Chains Zammad Zero-Days To Take Over DIVD Systems in Seconds</a></p>
+
+            <h2>6. [취약점] AI·개발도구·텔레메트리 인프라 — ConvertX 9.9, NASA AIT-Core 9.8, Bouncy Castle MLS 9.2</h2>
+            <p>오늘 NVD 1일 창(10-03~10-04)의 상단은 <em>'도구 체인과 메시지 브로커, 암호 라이브러리'</em>에 집중됐다. (3일 창 상단은 앞선 게시물이 이미 다룬 자체 호스팅·워드프레스 클러스터가 그대로 carry-over되어 있어 신규가 아니다 — 배제했다.)</p>
+            <ul>
+                <li><strong>CVE-2026-105080 (9.9) — ConvertX:</strong> 0.19.0 이전 버전에서 <code>converters/calibre.ts</code>가 <em>레시피 파일을 차단하지 않고</em> Calibre의 <code>ebook-convert</code>로 넘긴다. <code>.recipe</code>/<code>.downloaded_recipe</code> 파일 안의 코드가 실행된다 — 문서 변환기가 곧 코드 실행 지점이 된다.</li>
+                <li><strong>CVE-2026-105105 (9.8) — NASA-AMMOS AIT-Core:</strong> <code>ait-server</code>(텔레메트리·명령 브로커) 3.1.1 이하에서 critical function 인증 누락(CWE-306). 네트워크 접근이 가능한 <em>무인증 원격 공격자가 ZeroMQ</em> 인터페이스로 명령 브로커를 조작할 수 있다.</li>
+                <li><strong>CVE-2026-71885 (9.2) — Bouncy Castle for Java:</strong> 1.86 이전의 MLS(RFC 9420) 구현이 X.509 자격증명을 LeafNode의 <code>signature_key</code>에 바인딩하지 않았다. <code>LeafNode.verify()</code>가 서명을 <code>signature_key</code>에 대해 검증해 <em>다른 키로 서명한 자격증명을 통과</em>시켰다 — 메시징 그룹에서 신원 위장이 가능해진다.</li>
+                <li><strong>시사점:</strong> 세 결함의 공통 형태는 <em>"외부 입력을 검증 없이 신뢰"</em>다 — 변환기가 파일 포맷을, 브로커가 발신자를, 암호 라이브러리가 키-자격증명 결합을. 텔레메트리 브로커와 문서 변환 파이프라인은 노출 지도를 작성할 때 흔히 빠지는 자산이다.</li>
+            </ul>
+            <p>출처: <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?pubStartDate=2026-10-03T00:00:00.000&amp;pubEndDate=2026-10-04T00:00:00.000" target="_blank">NVD API 2.0 - 2026-10-03..2026-10-04 (ConvertX · NASA AIT-Core · Bouncy Castle)</a></p>
+
+            <h2>7. [취약점] WordPress 플러그인 생태계 — VikAppointments·Beaver Builder 9.1, 8.8 네 건</h2>
+            <p>오늘 NVD 1일 창의 또 다른 축은 다시 <strong>WordPress 플러그인</strong>이다(3일 연속 같은 축이지만 매일 <em>다른 플러그인</em>이다 — carry-over 아님). 결함 형태는 여전히 '인가 누락'과 '경계 밖 입력 신뢰'다.</p>
+            <ul>
+                <li><strong>CVE-2026-87115 (9.1) — VikAppointments:</strong> 예약 플러그인 1.2.21 이하. <code>extract</code> 함수의 불충분한 파일 경로 검증으로 <em>임의 파일 삭제</em>가 가능하다.</li>
+                <li><strong>CVE-2026-92084 (9.1) — Beaver Builder:</strong> 페이지 빌더 2.11.0.5 이하에서 <em>임의 숏코드 실행</em>.</li>
+                <li><strong>CVE-2026-97644 (8.8) — Groundhogg:</strong> CRM·마케팅 자동화 4.9 이하. <em>연락처 신원 재바인딩(contact identity rebinding)</em>을 통한 권한 상승.</li>
+                <li><strong>CVE-2026-88783 (8.8) — Kubio AI Page Builder:</strong> 2.9.3 이전. 허용 HTML 요소 확장을 <em>에디터 컨텍스트로 제한하지 않아</em>, 무인증 사용자가 제출한 콘텐츠 필터링에도 확장 집합이 적용된다(저장형 XSS).</li>
+                <li><strong>CVE-2026-18443 (8.8) — Smart Manager(WooCommerce 대량 편집):</strong> 8.97.0 이하 <code>access_privileges</code> 파라미터를 통한 SQL 인젝션.</li>
+                <li><strong>CVE-2026-96451 (8.8) — Ultimate Member · CVE-2026-92536 (8.8) — ProfilePress:</strong> 사용자 제어 키를 통한 인가 우회 → 권한 상승, 그리고 민감 정보 노출.</li>
+                <li><strong>시사점:</strong> 플러그인 하나가 곧 <em>무인증 공격면</em>이다(6번 항목의 '입력 무검증'과 동일 형태). 자동 업데이트·미사용 플러그인 제거·WAF 규칙을 기본 위생으로 유지할 것.</li>
+            </ul>
+            <p>출처: <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?pubStartDate=2026-10-03T00:00:00.000&amp;pubEndDate=2026-10-04T00:00:00.000" target="_blank">NVD API 2.0 - 2026-10-03..2026-10-04 (WordPress 플러그인 클러스터)</a></p>
+
+            <h2>8. [패치] 오늘이 FortiMail KEV 마감일 — Zammad 페어는 내일(10/5), Cisco는 지났다</h2>
+            <p>연방 민간 행정부(FCEB) 기준 <strong>오늘(10/4)이 FortiMail 패치 마감</strong>이다. CISA KEV 최신 목록 기준 임박·도래한 마감을 정리한다.</p>
+            <ul>
+                <li><strong>오늘 마감 — Fortinet FortiMail <code>CVE-2026-104286</code> (9.8):</strong> 경로 순회 + NULL 바이트 미중화로 <em>무인증 임의 파일 쓰기</em>. 실제 익스플로잇이 확인돼 KEV에 등재됐다(10-03 게시물 상세). IoC에 <code>/data/etc/ld.so.preload</code> 추가가 포함 — LD_PRELOAD 기반 은닉·지속성 정황이므로 FIM 대상에 반드시 포함할 것.</li>
+                <li><strong>내일(10/5) 마감 — Zammad <code>CVE-2026-102489</code>·<code>CVE-2026-102490</code>:</strong> 세션 고정 + 부적절한 권한 관리 페어. <em>두 결함은 함께 체인되도록 설계</em>됐으며 오늘 사건(5번 항목) DIVD 침해의 경로다. <strong>Zammad v7로 업데이트</strong>하거나 오프라인으로 전환할 것.</li>
+                <li><strong>지난 마감 — Cisco Catalyst SD-WAN Manager <code>CVE-2026-76504</code> (10-03):</strong> 무인증 admin API 접근. 이미 지났다면 <em>침해 흔적 조사</em>가 남는다(익스플로잇 진행 중이었음).</li>
+                <li><strong>시사점:</strong> 이번 주 패치 우선순위는 명확하다 — ① 오늘 FortiMail(메일 게이트웨이, 실제 익스플로잇), ② 내일 Zammad(v7, 헬프데스크→root 체인). 둘 다 <em>'인터넷에 노출된 애플리케이션'</em>이 공통점이며, 패치 후 자격증명·세션 토큰 로테이션이 따라와야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA Known Exploited Vulnerabilities Catalog</a> · <a href="https://securityaffairs.com/200126/hacking/ai-agent-chains-zammad-zero-days-to-take-over-divd-systems-in-seconds.html" target="_blank">Security Affairs - Zammad zero-days</a></p>
+
+            <h2>9. [트렌드] '인간 속도' 가정의 종말 — AI 에이전트가 공격을 완주하고, 규제가 뒤따른다</h2>
+            <p>오늘 게시물의 항목들이 한 지점으로 수렴한다. 공격의 <em>속도와 자율성</em>을 사람이 아니라 에이전트가 결정하기 시작했고, 그 결과가 금융 시스템 리스크와 법적 책임 문제로 번지고 있다.</p>
+            <ul>
+                <li><strong>초 단위 자율 공격:</strong> 5번 항목의 DIVD 침해는 Zammad 제로데이 2건을 연결해 <em>사람 개입 없이 초 단위로 root</em>까지 도달했다. 방어 측의 '탐지→판단→대응' 루프가 여전히 분 단위라면 속도 자체가 무기다.</li>
+                <li><strong>국가 배후의 AI 결합:</strong> MI5의 CGTRI 경보(1번)와 TA419의 AI 정책 피싱(2번)은 국가 정보활동이 <em>연구비 자금줄과 LLM 친화적 피싱 인프라</em>를 동시에 활용하는 모습을 보여준다.</li>
+                <li><strong>시스템 리스크로의 확장:</strong> 인도 중앙은행(RBI) 총재는 인터뷰에서 <em>"전쟁과 사이버 공격이 다음 금융위기를 촉발할 수 있다"</em>고 경고했다 — 개별 침해가 아니라 <em>거시 리스크</em>로 다뤄야 한다는 신호다.</li>
+                <li><strong>법적 공백:</strong> CyberScoop은 '에이전트형 AI 해킹'이 제기하는 법적 쟁점(자율 에이전트의 행위에 CFAA 등 책임을 어떻게 귀속할 것인가)을 짚었다. 공격이 자율화될수록 <em>귀속과 책임 소재</em>가 흐려진다.</li>
+                <li><strong>데이터 품질로의 회귀:</strong> CISA의 CVE '품질 시대(Quality Era)' 프레임워크는 취약점 데이터의 신뢰성 문제를 정면으로 다룬다 — AI가 발견량을 폭증시키는 상황에서 <em>'무엇을 신뢰할 것인가'</em>가 방어의 전제가 된다.</li>
+                <li><strong>시사점:</strong> 방어 전략의 출발점을 '사람의 대응 속도'에서 '기계의 실행 속도'로 옮겨야 한다. 자동 격리·자격증명 즉시 로테이션·에이전트 행위 로깅을 기본값으로 두고, 동시에 AI 에이전트 행위의 책임 소재를 사전에 문서화할 것.</li>
+            </ul>
+            <p>출처: <a href="https://cyberscoop.com/ai-agent-hacks-legal-liability-cfaa/" target="_blank">CyberScoop - The legal questions raised by agentic AI hacks</a> · <a href="https://news.google.com/rss/search?q=RBI+cyber+attack+next+financial+crisis" target="_blank">Bloomberg (via Google News) - Cyber Attack Could Trigger Next Financial Crisis, RBI Says</a></p>
+
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
