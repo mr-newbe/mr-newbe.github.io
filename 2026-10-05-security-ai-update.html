@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-10-05</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        code { background: #0b1220; padding: 1px 5px; border-radius: 4px; color: #7dd3fc; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-10-05 | <i class="fa-solid fa-tags"></i> Daily News, Data Breach, AI Attack, Identity Security, Vulnerability, Patch, Cyber Espionage
+        </div>
+        <div class="content">
+
+            <h2>1. 한국 금융권 연쇄 개인정보 유출 — 이재명 대통령 '전면 조사' 지시, 공격 서버에서 LLM 기반 자율 침투 도구 흔적</h2>
+            <p>신한은행을 시작으로 KB국민·하나·BNK부산은행, 저축은행과 캐피탈사까지 <strong>금융권 전반으로 개인정보 유출이 연쇄 확산</strong>했다. 이재명 대통령이 10월 4일 전면 조사와 대책 마련을 지시했고, 금융당국은 긴급 회의를 소집했다.</p>
+            <ul>
+                <li><strong>피해 규모:</strong> 신한은행 약 25,000명(10/1), 이어 KB국민·하나·BNK부산은행(10/2), 예가람저축은행 약 40,000명, 현대캐피탈 주택담보대출 중개인 146명까지 확인됐다.</li>
+                <li><strong>유출 항목:</strong> 고객 이름·전화번호·연소득·대출한도, <strong>일부 고객의 주민등록번호</strong>까지 포함됐다.</li>
+                <li><strong>대응:</strong> 금융위원장·금감원장 주재로 은행·증권·보험·카드·저축은행·핀테크 CEO가 참여하는 비상회의가 열렸고, 경찰이 수사에 착수했다. 금융사들은 'AI 공격은 AI로 대응'하는 보안모델 도입을 서두르라는 압박을 받고 있다.</li>
+                <li><strong>공격자:</strong> 해외 소재로 추정되며, 공격에 쓰인 것으로 보이는 서버에서 <strong>중국어로 된 LLM 기반 자율 침투 테스트 도구</strong> 흔적이 발견됐다. 결제에 악용될 정보 유출 정황은 아직 없으나, 유출 정보를 이용한 보이스피싱 등 2차 피해가 경고됐다.</li>
+            </ul>
+            <p>출처: <a href="https://www.koreatimes.co.kr/economy/20261004/lee-orders-thorough-probe-into-ai-powered-cyberattacks-in-banks" target="_blank">The Korea Times - Lee orders thorough probe into data breaches at local banks</a> · <a href="https://www.reuters.com/world/asia-pacific/south-korean-president-orders-probe-into-data-leaks-across-financial-industry-2026-10-04/" target="_blank">Reuters - South Korean president orders probe into data leaks</a></p>
+
+            <h2>2. 덴마크공대(DTU) 신원관리 시스템 침해 — 최대 20만 명, 2003년 이후 데이터 유출</h2>
+            <p>덴마크공과대학(DTU)이 <strong>신원·접근관리(IAM) 시스템 'DTUBasen'</strong>이 표적형 사이버 공격으로 침해당해 대량의 데이터가 유출됐다고 공지했다. 최대 <strong>20만 명</strong>의 현·전직 사용자가 영향을 받을 수 있다.</p>
+            <ul>
+                <li><strong>규모:</strong> DTUBasen에는 현직 사용자 약 40,000명, 이전 사용자 약 160,000명의 정보가 담겨 있었으며, 데이터는 2003년까지 거슬러 올라간다.</li>
+                <li><strong>유출 항목:</strong> 덴마크 주민등록번호(CPR), 이름, 주소, 프로필 사진, 근무 이메일 등. DTU는 정확히 무엇이 얼마나 유출됐는지 확정할 수 없다고 밝혔다.</li>
+                <li><strong>침해 경로:</strong> 공격자가 <strong>DTU 프로필을 먼저 탈취한 뒤 그것으로 신원 시스템에 접근</strong>하는 자격증명 경유 방식이었다.</li>
+                <li><strong>대응:</strong> 10월 2일 공지, 현·전직 학생·교직원에는 e-Boks로 개별 통지하고 연락이 닿지 않는 관계자에는 공개 공지를 발행했다. 재사용 비밀번호 변경과 CPR 신용경보 설정이 권고됐다.</li>
+                <li><strong>참고:</strong> DTU는 덴마크 국방군·방산과 드론 기술을 연구하지만, 현재까지 이번 공격과 방산 연구의 연관성은 확인되지 않았다.</li>
+            </ul>
+            <p>출처: <a href="https://www.dtu.dk/english/newsarchive/2026/10/cyberattack-on-dtu_notification-of-a-personal-data-breach" target="_blank">DTU - Cyberattack on DTU: Notification of a personal data breach</a> · <a href="https://cybernews.com/news/dtu-university-hacked-200000-people-potentially-exposed/" target="_blank">Cybernews - Major Danish university hacked, 200,000 people potentially exposed</a></p>
+
+            <h2>3. Frontline Education 침해 — K-12 교육구 교직원 주민번호(SSN) 노출, 원인은 '제3자 SW 취약점'</h2>
+            <p>미국 K-12 교육기술 업체 <strong>Frontline Education</strong>이 자사 환경에 통합된 <strong>제3자 소프트웨어의 취약점</strong>을 악용당해 교직원 개인정보가 유출됐다고 통지했다.</p>
+            <ul>
+                <li><strong>타임라인:</strong> 2026년 8월 14일 취약점을 악용한 무단 접근을 식별했고, 10월 1일부터 영향을 받은 교육구와 개인에 통지가 시작됐다.</li>
+                <li><strong>유출 항목:</strong> 교직원의 사회보장번호(SSN), 이메일 주소, 실제 주소 등. 피해는 K-12 전역의 교육구 직원에 걸쳐 있다.</li>
+                <li><strong>공격 방식:</strong> 공개 노출된 애플리케이션의 취약점을 통한 초기 침투(MITRE ATT&amp;CK T1190)로, 악용된 제3자 앱과 버전은 공개되지 않았다.</li>
+                <li><strong>시사점:</strong> 교육기술 플랫폼의 <strong>제3자 의존성·공급망 리스크</strong>가 그대로 노출된 사례로, 마이너를 포함한 광범위한 개인정보가 위험에 노출됐다. Frontline은 신용 모니터링·신원보호 서비스를 제공하고 법집행기관과 규제 통지를 완료했다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/frontline-education-data-breach-impacts-school-district-employees/" target="_blank">BleepingComputer - Frontline Education data breach impacts school district employees</a> · <a href="https://www.rescana.com/post/frontline-education-data-breach-2026-third-party-software-vulnerability-exposes-k-12-school-district-employee-data" target="_blank">Rescana - Frontline Education Data Breach 2026</a></p>
+
+            <h2>4. 러시아 Star Blizzard, 표적 확대 — 신종 'RedFlick'으로 미·영 100개 이상 조직 타격</h2>
+            <p>러시아 연방보안국(FSB) 연계 그룹 <strong>Star Blizzard</strong>(일명 SEABORGIUM·Callisto Group·TA446·COLDRIVER)가 우크라이나 중심의 표적형 스피어피싱에서 <strong>대규모 피싱 캠페인으로 전술을 전환</strong>했다는 마이크로소프트 분석이 나왔다.</p>
+            <ul>
+                <li><strong>규모:</strong> 2026년 1월 이후 NGO·싱크탱크·정부 조직을 대상으로 <strong>최소 13개의 대규모 피싱 캠페인</strong>이 관측됐고, 주로 미국·영국에 있는 <strong>100개 이상 조직</strong>이 영향을 받았다.</li>
+                <li><strong>신종 멀웨어 RedFlick:</strong> 예약 작업(scheduled task)을 생성해 그룹의 커스텀 백도어 <strong>CosmicPulse</strong>를 배포하는 전달 기법으로, 탐지를 회피하도록 설계됐다.</li>
+                <li><strong>미끼:</strong> 초대 전용 행사 초대장이 가장 흔하고, 세무 조사·납부 통지·과태료 안내 등도 사용된다. <strong>단 한 번의 사용자 상호작용</strong>만으로 감염이 이뤄지는 것이 특징이다.</li>
+                <li><strong>시사점:</strong> 미끼의 '양(volume)'을 늘려 초기 표적 풀을 확장하는 전략으로, 초기 목표였던 우크라이나는 신규 역량을 시험한 무대였을 가능성이 제기된다.</li>
+            </ul>
+            <p>출처: <a href="https://cyberscoop.com/microsoft-star-blizzard-redflick-phishing-campaigns/" target="_blank">CyberScoop - Russian hackers Star Blizzard expand targeting, change up tactics</a></p>
+
+            <h2>5. [취약점] 신원·인증 인프라 — ZITADEL 3건, '연결'과 '위임'을 다시 검증하지 않는다</h2>
+            <p>오픈소스 아이덴티티 플랫폼 <strong>ZITADEL</strong>에서 계정 연결·등록·인증 경로의 검증 누락이 한꺼번에 나왔다. 세 결함 모두 <strong>'어떤 입력을 신뢰할 것인가'를 잘못 판단한 인가 문제</strong>라는 공통점을 갖는다.</p>
+            <ul>
+                <li><strong>CVE-2026-105207 (9.8):</strong> 사용자 계정과 외부 IdP를 연결할 때 1차 인증 요소나 호출자의 권한을 검증하지 않아 계정 탈취로 이어진다. identify-only Login V2 세션도 포함된다.</li>
+                <li><strong>CVE-2026-105209 (9.6):</strong> 패스키·패스워드리스 등록 코드를 발급할 때 <code>x-zitadel-orgid</code> 헤더의 조직만 확인하고 <strong>실제 대상 조직</strong>은 확인하지 않아 교차 조직 계정 탈취가 가능하다.</li>
+                <li><strong>CVE-2026-105215 (9.1):</strong> 호스팅 로그인 V1 UI의 'external account not found' 등록 엔드포인트가 <strong>클라이언트가 제공한 외부 신원 필드를 검증 없이 신뢰</strong>해 인증 우회·ID 위조로 이어진다.</li>
+                <li><strong>시사점:</strong> IdP 연결(binding)·위임(delegation)·최초 등록은 신원 인프라에서 가장 민감한 경계인데, '들어온 값'을 다시 확인하지 않는 결함이 반복되고 있다. 3.x·4.x 모두 영향 — 패치 버전 적용이 시급하다.</li>
+            </ul>
+            <p>출처: <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-105207" target="_blank">NVD - CVE-2026-105207</a> · <a href="https://thehackerwire.com/cve-2026-105207-zitadel-unauthenticated-idp-binding-leads-to-account-takeover/" target="_blank">TheHackerWire - ZITADEL CVE 분석</a></p>
+
+            <h2>6. [취약점] 검증되지 않은 입력이 '실행 싹크(sink)'로 — AI 에이전트·백업 복제·플러그인</h2>
+            <p>서로 다른 영역이지만 원인이 같은 결함들이 하루에 몰렸다. <strong>사용자 입력이 정제 없이 코드·명령 실행 지점으로 흘러가는</strong> 전형적인 패턴이다.</p>
+            <ul>
+                <li><strong>CVE-2026-105135 (10.0) — InternLM MindSearch 0.1.0:</strong> LLM 기반 검색 에이전트의 Planner Agent에서 <code>ExecutionAction.run</code>(<code>mindsearch/agent/graph.py</code>)의 인자 조작으로 코드가 실행된다. <strong>에이전트 플래너 자체가 공격 표면</strong>이 된 사례다.</li>
+                <li><strong>CVE-2026-105134 (10.0) — AhsayCBS ~10.3.2:</strong> 복제 수신기(Replication Receiver)의 <code>/rps/api/json/UpdateReceivers.do</code>에서 <code>random</code> 인자 조작으로 명령이 실행된다. 백업·복제 계층이 곧 측면 이동 통로가 된다.</li>
+                <li><strong>CVE-2026-103355 (9.3) — Unlimited Elements for Elementor:</strong> WordPress 페이지 빌더 플러그인의 블라인드 SQL 인젝션으로 데이터 유출이 가능하다.</li>
+                <li><strong>시사점:</strong> AI 에이전트의 '계획 실행', 백업의 '복제', 페이지 빌더의 '위젯 입력' — 표면은 달라도 <strong>정제되지 않은 입력이 실행 싹크에 도달하는 한 가지 결함 형태</strong>다. AI 에이전트 도구 호출 경로는 특히 마지막 검증 지점을 반드시 두어야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?pubStartDate=2026-10-04T00:00:00.000&amp;pubEndDate=2026-10-05T00:00:00.000" target="_blank">NVD - 2026-10-04~05 신규 CVE</a> · <a href="https://thehackerwire.com/cve-2026-103355-unlimited-elements-blind-sqli-exposes-wordpress-data/" target="_blank">TheHackerWire - CVE-2026-103355</a></p>
+
+            <h2>7. [패치] 오늘이 Zammad KEV 마감일 — NetScaler 신규 등재(10/7)와 '패치 후 재부팅' 문제</h2>
+            <p>CISA KEV(실제 익스플로잇 확인) 기준으로 <strong>오늘(10/5)이 Zammad 페어의 패치 마감일</strong>이다. 동시에 Citrix NetScaler가 신규 등재되며 다음 마감이 잡혔다.</p>
+            <ul>
+                <li><strong>Zammad (오늘 마감):</strong> <code>CVE-2026-102489</code>(세션 고정)와 <code>CVE-2026-102490</code>(권한 상승)는 <strong>연쇄로 악용되도록 설계된 한 쌍</strong>으로, 로컬 zammad 사용자에서 root로 권한 상승이 가능하다. 미적용 조직은 침해 흔적 헌팅까지 병행해야 한다.</li>
+                <li><strong>Citrix NetScaler (10/7 마감):</strong> <code>CVE-2026-88779</code>가 10/4 KEV에 신규 등재됐다. 이는 9월 초부터 <strong>3주 이상 탐지되지 않은 채</strong> 익스플로잇된 NetScaler 제로데이(CVE-2026-88772/88771) 캠페인의 후속이다.</li>
+                <li><strong>패치 후 부작용:</strong> NetScaler 제로데이 패치 적용 이후 <strong>장비가 계속 재부팅되는</strong> 사례가 보고됐다. 패치 적용 시 가용성 영향을 사전 검증해야 한다.</li>
+                <li><strong>기타:</strong> 마이크로소프트가 신규 보안 결함을 발견한 뒤 Exchange용 신규 'V2' 업데이트를 재배포했다.</li>
+            </ul>
+            <p>출처: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA - Known Exploited Vulnerabilities Catalog</a> · <a href="https://cyberscoop.com/citrix-netscaler-zero-day-attacks-three-weeks-undetected/" target="_blank">CyberScoop - NetScaler zero-day exploited for weeks undetected</a></p>
+
+            <h2>8. [트렌드] 'AI 슬롭'이 버그바운티를 무너뜨린다 — Google, OSS VRP 제품 취약점 접수 동결</h2>
+            <p>Google이 <strong>자사 오픈소스 취약점 보상 프로그램(OSS VRP)의 제품 취약점 접수를 동결</strong>했다. 이유는 AI가 만들어낸 무효 신고의 폭증이다. 접수 중단은 10월 1일자로 효력이 발생했다.</p>
+            <ul>
+                <li><strong>내용:</strong> Google은 10월 1일 공식 X 게시물로 제품 취약점 제출 중단을 알리고 다른 VRP 프로그램을 권고했으며, <strong>2027년 1분기까지 업데이트</strong>를 제공하겠다고 밝혔다. 공급망(supply chain) 신고는 영향받지 않는다.</li>
+                <li><strong>원인:</strong> LLM과 자동화 버그헌팅 스크립트가 신고의 <strong>비용과 노력을 사실상 0으로</strong> 만들면서, 실제로는 유효하지 않거나 익스플로잇 불가능한 '환각' 신고 수천 건이 몰렸다. 엔지니어와 메인테이너가 실제 취약점 수정 대신 무효 신고를 검증하는 데 시간을 빼앗겼다.</li>
+                <li><strong>연쇄:</strong> curl(2026년 1월), Nextcloud(2026년 4월)도 같은 이유로 버그바운티를 접었고, Linux는 거짓 AI 버그 리포트 급증으로 구형 네트워크 드라이버 지원을 종료했다.</li>
+                <li><strong>시사점:</strong> 오늘의 금융권 AI 공격과 정확히 대칭이다 — 공격 측은 LLM으로 공격 비용을 0에 수렴시키고, 방어 측은 LLM이 쏟아낸 노이즈를 걸러내느라 정작 진짜 취약점에 도달하지 못한다. <strong>'입력의 신뢰 경계'와 '신호 대 잡음비'가 2026년 보안의 두 축</strong>임을 보여준다.</li>
+            </ul>
+            <p>출처: <a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/google-suspends-part-of-the-oss-vrp-bug-bounty-program-due-to-an-influx-of-invalid-ai-submissions-product-vulnerability-submissions-ended-october-1" target="_blank">Tom's Hardware - Google freezes open-source bug bounty program amid flood of invalid AI slop submissions</a></p>
+
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
