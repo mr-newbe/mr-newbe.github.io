@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔬 [최신] The Achilles' Heel of Partial Reconfiguration — FPGA 비트스트림 암호화를 '빛'으로 뚫다: ICAP 버스에 광학 부채널로 접촉, 평문 설정 데이터 탈취 (arXiv 2610.01736, DSD 2026)</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔬 [최신] The Achilles' Heel of Partial Reconfiguration — FPGA 비트스트림 암호화를 '빛'으로 뚫다</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-04 · 카테고리: Research (최신 보안 논문 · 하드웨어 보안 · FPGA · 광학 부채널 · DSD 2026)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> The Achilles' Heel of Partial Reconfiguration: Optical Side-Channel Leakage on the 7-Series ICAP<br>
+                <strong>저자:</strong> Antonio Saavedra · Jan Caspar Marx · Lars Renkes · <strong>Jean-Pierre Seifert</strong><br>
+                <strong>출처:</strong> arXiv:2610.01736 [cs.CR] · 2026-10-01 제출 (프리프린트) · DOI: <a href="https://doi.org/10.48550/arXiv.2610.01736" target="_blank" rel="noopener">10.48550/arXiv.2610.01736</a><br>
+                <strong>게재지:</strong> 제29회 Euromicro Conference on Digital System Design (<strong>DSD 2026</strong>) 게재 승인<br>
+                <strong>분야:</strong> 하드웨어 보안 · FPGA 비트스트림 보호 · 광학 부채널(optical side-channel) · Photon Emission Microscopy(EOP/PEM) · 부분 재구성(partial reconfiguration)<br>
+                <strong>인용:</strong> 신규 프리프린트(제출 3일차)로 아직 인용 집계 전 — <strong>OpenAlex 0회</strong>. Semantic Scholar는 조회 시점 API 제한(429)으로 미확인. 대신 <strong>DSD 2026 게재 승인</strong>과 저자(Jean-Pierre Seifert, 하드웨어·임베디드 보안 분야 권위자)로 중요도를 가늠한다.<br>
+                <strong>원문:</strong> <a href="https://arxiv.org/abs/2610.01736" target="_blank" rel="noopener">arXiv:2610.01736</a> · <a href="https://arxiv.org/pdf/2610.01736" target="_blank" rel="noopener">PDF</a>
+            </div>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 한 줄 요약 — '칩을 만지지도 않고, 버스 위의 빛만 읽었다'</h2>
+            <p>FPGA의 <strong>비트스트림 암호화</strong>는 설정 데이터를 훔쳐보지 못하게 막는 최후의 방어선이다. 그런데 이 논문은 <strong>7-시리즈 FPGA에서 비트스트림을 암호화한 뒤 '부분 재구성(partial reconfiguration)'을 하는 바로 그 순간</strong>을 노린다. 공격자는 칩 패키지를 열지 않고 <strong>포톤 방출 현미경(Photon Emission Microscopy, PEM)</strong>과 <strong>전기-광학 프로빙(Electro-Optical Probing, EOP)</strong>으로 <strong>ICAP 인터페이스</strong> — 프로그래머블 로직(PL)과 설정 로직을 잇는 내부 버스 — 를 먼저 <em>찾아내고</em>, 이어서 <strong>접촉 없이</strong> 그 위를 흐르는 <strong>평문 설정 데이터를 그대로 뽑아낸다</strong>. AMD XC7A200T 소자에서 실제로 ICAP 버스를 찾아 데이터 추출에 성공했다. 저자들의 결론은 냉정하다. <strong>부분 재구성과 커스텀 암호 엔진을 쓰는 최신 암호 기법조차, 재구성이 '하드웨어에 굳어 박힌 취약한 설정 인터페이스'를 통해서만 가능하다는 이유로 광학 공격 앞에서는 무너진다.</strong></p>
+            <blockquote>
+                "아무리 앞선 암호 기법을 써도, 재구성은 결국 하드웨어에 박힌 취약한 설정 인터페이스를 거쳐야만 한다." — 이 논문이 지적한 FPGA 보호의 구조적 아킬레스건.
+            </blockquote>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 배경 — 왜 '패치 가능한' 비트스트림 보호가 절실한가</h2>
+            <ul>
+                <li><strong>비트스트림 = FPGA의 설계 그 자체:</strong> FPGA는 전원이 켜질 때마다 <em>비트스트림</em>이라는 설정 데이터를 받아 내부 배선·룩업테이블을 구성한다. 이 데이터를 훔치면 지적재산(HDL 설계)이 그대로 유출되고, 변조하면 하드웨어 백도어를 심을 수 있다.</li>
+                <li><strong>암호화는 있는데… 문제는 '고칠 수 없음':</strong> 주요 FPGA 제조사들은 비트스트림 암호화를 넣어 왔지만, <strong>가장 널리 쓰이는 FPGA 제품군에서 그 보호 기법이 소자에 하드웨어로 굳어 박혀(unpatchable) 있어</strong> 여러 공격이 이를 우회하거나 완전히 깨뜨려 왔다. 그래서 <strong>'나중에 고칠 수 있는(patchable) 암호 기법'</strong>이 절실해졌다.</li>
+                <li><strong>AMD의 대안 = 비대칭키 방식:</strong> 이에 AMD(구 Xilinx)는 7-시리즈 FPGA용 비트스트림 보호로 <strong>비대칭키 암호 방식</strong>을 제안했다. 키 관리가 유연하고 소프트웨어적으로 교체·갱신할 수 있어, 하드와이어된 옛 방식보다 낫다는 구상이다.</li>
+                <li><strong>핵심 아이디어 — PL에서 부분 재구성:</strong> 논문은 이 비대칭키 방식을 <strong>프로그래머블 로직(PL)에서 부분 재구성으로 구현</strong>하는 PoC를 직접 만든다. 즉 FPGA가 자기 자신의 일부를 <em>실행 중에</em> 다시 프로그래밍하는 시나리오다. 이 '재구성하는 순간'이 이 논문이 파고든 빈틈이다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flask"></i> 핵심 1 — PoC 구현: PL에서 돌리는 비대칭키 비트스트림 보호</h2>
+            <ul>
+                <li><strong>무엇을 만들었나:</strong> AMD가 제안한 <strong>비대칭키 암호 기법</strong>을 7-시리즈 FPGA에서 <strong>PL 기반 부분 재구성</strong>으로 구현한 <strong>개념 증명(proof-of-concept)</strong>을 제시했다.</li>
+                <li><strong>무엇을 분석했나:</strong> 이 구현의 <strong>보안적 함의</strong>와 함께 <strong>하드웨어 오버헤드</strong>(면적·로직 자원 소모)를 정량적으로 따졌다. '패치 가능한 보호'라는 장점이 어느 정도의 비용을 요구하는지가 핵심 질문이다.</li>
+                <li><strong>왜 중요한가:</strong> '완벽한 암호'가 아니라 <strong>'현장에서 교체 가능한 암호'</strong>라는 실용적 목표를 향한 구현이다. 하지만 저자들은 곧바로 그 구현을 <em>스스로 공격</em>해, 유연성만으로는 안전이 보장되지 않음을 보인다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-microscope"></i> 핵심 2 — 공격: Photon Emission Microscopy + Electro-Optical Probing</h2>
+            <ul>
+                <li><strong>공격 대상 — ICAP 인터페이스:</strong> ICAP(Internal Configuration Access Port)은 <strong>PL과 내부 설정(configuration) 로직을 잇는 통로</strong>다. 부분 재구성이 일어나려면 설정 데이터가 반드시 이 버스를 지나가는데, <strong>이 지점에서는 데이터가 평문(복호화된 뒤)으로 흐른다</strong>.</li>
+                <li><strong>1단계 — 버스 찾기(PEM):</strong> <strong>포톤 방출 현미경(Photon Emission Microscopy)</strong>으로 소자가 동작할 때 방출하는 극미세한 빛을 관측해, 다이 위에서 <strong>ICAP 버스가 어디에 있는지</strong> 국소화(locate)한다.</li>
+                <li><strong>2단계 — 접촉 없이 추출(EOP):</strong> <strong>전기-광학 프로빙(Electro-Optical Probing)</strong>으로 그 버스 위를 지나는 신호를 <strong>물리적으로 접촉하지 않고</strong> 읽어, <strong>평문 설정 데이터를 그대로 복원</strong>한다. 즉 칩을 프로빙 스테이션에 물리는 것이 아니라, 빛으로 읽는다.</li>
+                <li><strong>실증 대상 — AMD XC7A200T:</strong> 저자들은 <strong>AMD XC7A200T</strong> 소자에서 ICAP 버스를 실제로 찾아냈고, <strong>EOP로 그 데이터를 추출할 수 있음을 보였다</strong>. 실험실 가정이 아니라 <em>실제 소자 실측</em>이라는 점이 이 논문의 무게다.</li>
+                <li><strong>결과:</strong> 동적 재구성(dynamic reconfiguration) 과정에서 <strong>평문 설정 데이터가 유출</strong>된다 — 앞선 PoC가 아무리 좋은 암호를 써도, 데이터는 결국 하드웨어 버스를 평문으로 흐른다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-diagram-project"></i> 핵심 3 — 왜 '부분 재구성'이 아킬레스건인가</h2>
+            <ul>
+                <li><strong>암호가 아니라 '경로'를 노린다:</strong> 공격은 암호 알고리즘을 깨지 않는다. <strong>암호가 풀린 뒤 데이터가 흐르는 물리 버스</strong>를 노린다. 즉 '암호 강도'가 아니라 '구현(implementation)의 물리적 노출' 문제다.</li>
+                <li><strong>하드와이어의 저주:</strong> 재구성은 <strong>하드웨어에 굳어 박힌 설정 인터페이스(ICAP)</strong>를 통해서만 가능하다. 아무리 <em>패치 가능한 암호 엔진</em>을 얹어도, 데이터가 지나가는 통로는 소자에 새겨진 채 바뀌지 않는다.</li>
+                <li><strong>'고칠 수 있는 보호'라는 약속의 반전:</strong> 비대칭키·커스텀 암호 엔진으로 유연성을 얻더라도, <strong>ICAP이라는 물리적 병목이 남아 있는 한</strong> 광학 공격은 유효하다. 유연성과 물리적 안전은 다른 축이다.</li>
+                <li><strong>광학 공격의 위력:</strong> 전기적 프로빙과 달리 <strong>접촉이 필요 없고</strong>, 리버스 엔지니어링 랩 수준의 장비(PEM/EOP)만 있으면 재현 가능하다. FPGA가 지적재산 보호·신뢰 루트(root of trust)의 기반으로 쓰이는 만큼 파급이 크다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 핵심 4 — 시사점: 하드웨어 신뢰의 재검토</h2>
+            <ul>
+                <li><strong>'암호화했으니 안전'은 성립하지 않는다:</strong> 비트스트림을 암호화해도 <strong>복호화된 평문이 지나는 물리 인터페이스</strong>가 노출되면 보호는 무너진다. 위협 모델에 <em>물리적 접근 + 광학 관측</em>을 반드시 포함해야 한다.</li>
+                <li><strong>부분 재구성 사용자를 겨냥:</strong> 재구성을 쓰지 않는 정적 구성보다, <strong>실행 중 재구성(PR)을 쓰는 설계</strong>가 이 공격의 표적이 된다. 데이터센터 가속기·적응형 SoC·국방/우주용 FPGA에 특히 관련된다.</li>
+                <li><strong>설계 대응의 방향:</strong> ICAP 접근 자체의 제한, 재구성 데이터의 상시 암호화 유지, 은닉·위장(masking)된 인터페이스, 물리적 차폐(shield)·광학 노출 최소화 등이 논의 대상이다. 다만 논문은 <em>하드와이어 인터페이스가 근본 제약</em>이라 warn한다.</li>
+                <li><strong>교훈:</strong> '패치 가능한 보호'가 자동으로 '물리적으로 안전한 보호'를 뜻하지 않는다. <strong>보안은 결국 가장 약한 물리 계층에서 결정된다.</strong></li>
+            </ul>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 한계 · 유의점</h2>
+            <ul>
+                <li><strong>신규 프리프린트:</strong> 제출 3일차로 인용 집계 전(OpenAlex 0회)이다. 다만 <strong>DSD 2026 게재 승인</strong>을 받은 동료평가 통과 논문이라는 점이 신뢰도를 높인다.</li>
+                <li><strong>특정 소자·제품군:</strong> 실증은 <strong>AMD 7-시리즈(XC7A200T)</strong>에 한정된다. 다른 세대·제조사(인텔/알테라, 최신 UltraScale 등)로의 일반화는 별도 검증이 필요하다.</li>
+                <li><strong>물리 접근 전제:</strong> PEM/EOP 장비와 다이 접근(패키지 개방 등)이 가능한 <strong>물리적 공격자</strong>를 전제한다. 원격 공격은 아니다 — 공급망·연구소·적대 환경 위협 모델에 해당한다.</li>
+                <li><strong>비용:</strong> 고가의 광학 분석 장비가 필요해 대중적 공격은 아니다. 그러나 <strong>지적재산 탈취·신뢰 루트 훼손</strong>을 노리는 정교한 공격자에게는 충분히 실용적이다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>논문 (arXiv): <a href="https://arxiv.org/abs/2610.01736" target="_blank" rel="noopener">arXiv:2610.01736 — The Achilles' Heel of Partial Reconfiguration: Optical Side-Channel Leakage on the 7-Series ICAP</a></li>
+                <li>PDF: <a href="https://arxiv.org/pdf/2610.01736" target="_blank" rel="noopener">arxiv.org/pdf/2610.01736</a> · DOI: <a href="https://doi.org/10.48550/arXiv.2610.01736" target="_blank" rel="noopener">10.48550/arXiv.2610.01736</a></li>
+                <li>분류: Cryptography and Security (cs.CR) · 2026-10-01 제출 · DSD 2026 게재 승인</li>
+                <li>함께 읽기 — 하드웨어/사이드채널 계보: 2026-09-23 <em>Lest We Remember: Cold Boot Attacks(DRAM 잔존 데이터)</em> · <em>Rowhammer(ISCA 2014)</em> · 2026-09-19 <em>Meltdown: Reading Kernel Memory from User Space</em> · <em>Timing Attacks(1996)</em> · 그리고 최신 부채널 연구 <em>Injected and Leaked(EM 주입, 2026-09-08)</em></li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
