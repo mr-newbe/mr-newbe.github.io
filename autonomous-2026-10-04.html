@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - Learning to Drive in a Day (Wayve, ICRA 2019): '딥 RL 30분 만에 실차가 차선을 배웠다' — 강화학습으로 실차를 운전한 최초의 논문, 인용 816회, 간섭까지 거리 7.35m → 143.2m (후속 MILE ⭐438 · 재현 ⭐114)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - Learning to Drive in a Day (Wayve, ICRA 2019): '딥 RL 30분 만에 실차가 차선을 배웠다' — 강화학습으로 실차를 운전한 최초의 논문, 인용 816회, 간섭까지 거리 7.35m → 143.2m (후속 MILE ⭐438 · 재현 ⭐114)</h1>
+            <p class="date">2026-10-04</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>유형:</strong> 자율주행 '학습 패러다임'의 <strong>빈 칸을 채우는 논문</strong> — 규칙·HD맵 기반 모듈 스택도, 모방학습(IL)도 아닌 <strong>강화학습(RL)으로 실차를 직접 학습</strong>시킨 최초 사례. 이 블로그의 <a href="autonomous-2026-08-22.html">DAVE-2</a>(모방의 원조)·<a href="autonomous-2026-09-08.html">ChauffeurNet</a>(폐루프 모방)·<a href="autonomous-2026-09-07.html">HighwayEnv</a>(RL 실험환경) 사이에서 "RL을 진짜 차에 올린 날"을 맡는다</li>
+                    <li><strong>논문:</strong> <em>Learning to Drive in a Day</em> — ICRA 2019 · arXiv <a href="https://arxiv.org/abs/1807.00412" target="_blank">1807.00412</a>(2018-07-01 제출 → 2018-09-11 v2) · DOI 10.1109/ICRA.2019.8793742</li>
+                    <li><strong>저자/소속:</strong> Alex Kendall · Jeffrey Hawke · David Janz · Przemyslaw Mazur · Daniele Reda · John-Mark Allen · Vinh-Dieu Lam · Alex Bewley · Amar Shah — <strong>전원 Wayve</strong>(Cambridge, UK)</li>
+                    <li><strong>알고리즘:</strong> <strong>DDPG</strong>(Deep Deterministic Policy Gradient, Lillicrap 2016) — 연속 행동·모델프리·actor-critic. 태스크별 개조 없이 상용 알고리즘을 그대로 사용</li>
+                    <li><strong>입력/센서:</strong> 단안 카메라 이미지 1장 + 차량 속도·조향각 <em>뿐</em> — 라이다·GPS·HD맵 없음</li>
+                    <li><strong>차량/컴퓨트:</strong> 개조 르노 <strong>Twizy</strong>(500kg · 최고 80km/h · 항속 100km) + 루프 전방 단안 카메라 + <strong>NVIDIA Drive PX2</strong> 단일 보드에서 <em>모든 학습 온보드 수행</em></li>
+                    <li><strong>인용:</strong> Semantic Scholar <strong>816회</strong>(ICRA DOI, influential 26) · OpenAlex <strong>639회</strong> — 스타트업 논문치고 이례적으로 높은 누적 인용</li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>보상 함수를 단 하나의 문장으로 정의하는 데서 출발한다 — <strong>"안전운전자가 개입하지 않고 주행한 거리."</strong> 차선 중심 오차 같은 손수 만든 목표도, 정답 주행 데이터도, 지도도 없이 이 보상만으로 실차가 차선 유지를 학습한다. 학습 전체가 차량 위에서(on-vehicle) 이뤄지며, 250m 사설도로에서 <strong>11~35개 에피소드, 15~37분</strong> 만에 완료됐다.</p>
+            <ul>
+                <li><strong>주행을 MDP로 정식화:</strong> 상태 = 단안 이미지 + 관측된 속도·조향각, 행동 = 조향각[-1,1] + 속도 설정값(km/h)의 <strong>2차원 연속 공간</strong>, 보상 = 전진 속도 합. 교통규칙 위반 시 에피소드 종료 → 상태 가치 <em>V(s) = "위반 전까지의 평균 주행거리"</em>가 곧 성능 지표가 된다.</li>
+                <li><strong>"손수 만든 보상을 버린" 결정:</strong> 논문은 "차선 중심까지의 거리를 최소화하는 보상은 사람의 직관만큼만 좋아진다"며 명시적으로 기각한다. 대신 값싸고 일반적인 <strong>희박(sparse) 보상</strong>을 택한다 — 확장성의 대가로 학습 신호가 약하다는 트레이드오프를 스스로 밝힌다.</li>
+                <li><strong>탐색과 최적화:</strong> <em>Ornstein-Uhlenbeck</em> 과정 노이즈로 탐색하고(θ=0.6, σ=0.4), <strong>우선순위 경험 재생</strong>(TD 오차에 비례해 샘플링)으로 표본 효율을 높인다. 할인율 0.9, 노이즈 반감기 250, 배치 64, gradient clip 0.005.</li>
+                <li><strong>모델:</strong> 4개 conv(3×3, stride 2, 16채널)를 actor·critic이 <em>공유</em>하고 FC 8차원으로 회귀하는 소형망. 순수 픽셀 입력과, 온라인 학습 VAE(KL+L2)로 압축한 잠재 표현을 비교 실험.</li>
+                <li><strong>온보드 학습 워크플로:</strong> 안전운전자가 조작하는 <em>train / test / undo / done</em> 4-태스크 상태 머신. 에피소드가 끝나면 차량을 차선 중심으로 되돌리는 ~10초 동안 모델을 최적화(250스텝 ≈ 25초)해 유휴 시간을 없앤다. <em>undo</em> 태스크로 "실패가 아닌 중단" 에피소드를 학습에서 제외하는 안전장치도 눈에 띈다.</li>
+                <li><strong>실차 결과(250m, Table I):</strong> 랜덤 정책 7.35m/간섭·간섭 34회 → 제로 정책(직진·정속) 22.7m·11회 → <strong>순수 픽셀 DDPG 35 에피소드·최대 298.8m·37분·간섭까지 143.2m(간섭 1회)</strong> → <strong>VAE 결합 11 에피소드·최대 195.5m·15분·간섭 0회</strong>. 시뮬레이션에서는 순수 픽셀만으로 10 에피소드 내 성공.</li>
+                <li><strong>시뮬레이터 → 실차 전이:</strong> Unreal Engine 4로 절차적으로 도로 텍스처·차선·토폴로지를 바꾸는 자체 시뮬레이터를 만들어 하이퍼파라미터를 튜닝한 뒤 실차에 그대로 이식했다. "연속 행동이 이산보다 부드럽다", "보수적 종료가 더 나은 정책을 만든다" 같은 결론도 여기서 나온다.</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>최초성 그 자체:</strong> 논문은 스스로 "딥 RL을 자율주행에 적용한 첫 사례"이자 "딥 RL 에이전트가 실차를 운전한 최초의 데모"라고 못 박는다. 규칙·맵·직접 감독에 의존하지 않는 주행 프레임워크의 출발점이라는 상징성이 크다.</li>
+                <li><strong>보상 설계의 전환점:</strong> "개입 없이 간 거리"라는 값싸고 일반적인 신호가 학습 목표가 될 수 있음을 실차에서 증명했다. 이후 자율주행 RL·월드모델 연구가 참조하는 레퍼런스.</li>
+                <li><strong>인용 816회(S2) / 639회(OpenAlex):</strong> 2018년 이후 꾸준히 인용되며 RL-주행 계보의 원점으로 남아 있다. (저자 1저자 Alex Kendall은 SegNet·Bayesian 딥러닝으로 이미 유명한 연구자다.)</li>
+                <li><strong>회사의 출발점:</strong> 저자 전원이 <strong>Wayve</strong> — 2017년 Kendall·Amar Shah가 설립한 영국 스타트업. 2019년 Series A 2,000만 달러 → <strong>2024년 5월 SoftBank 주도 Series C 10억 5천만 달러</strong>(당시 영국 AI 기업 사상 최대, NVIDIA 참여·Microsoft 재참여) → 2026년 2월 <strong>Nissan·Uber와 로보택시 협력</strong>까지. 2026년 직원 약 1,000명·누적 조달 25억 달러 규모로 성장했다.</li>
+                <li><strong>재현·후속 생태계:</strong> 공식 코드는 비공개지만 커뮤니티 재현 <em>r7vme/learning-to-drive-in-a-day</em>(⭐114, MIT)가 남아 있다. 후속 라인은 Wayve 자체 저장소로 이어진다 — <em>MILE</em>(⭐438, 모델 기반 모방학습, NeurIPS 2022) · <em>FIERY</em>(⭐612, BEV 미래 인스턴스 예측) · <em>Driving-with-LLMs</em>(⭐580). 즉 "RL → 모방 → 월드모델/LLM"으로 갈라지는 Wayve의 로드맵이 이 한 편에서 시작된다.</li>
+                <li><strong>한계를 숨기지 않는다:</strong> 보상이 매우 희박하고 항법 목표를 조건으로 하지 못하며, 실력이 늘수록 개입이 줄어 <em>학습 신호 자체가 약해지는</em> 구조적 역설을 논문이 직접 지적한다. 안전·윤리 문제도 미해결 과제로 명시한다.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>2018년 이 논문이 던진 질문 — "규칙도 지도도 감독도 없이, 보상 하나로 실차가 운전을 배울 수 있는가" — 에 250m 사설도로와 30분의 학습, 그리고 <strong>간섭까지 143m</strong>라는 숫자로 부분적인 '예'를 내놓았다. 지금 Wayve가 도시별 프로그래밍 없이 500개 이상 도시를 주행하는 회사가 된 배경에는 이 소박한 실험이 있다. 동시에 논문이 스스로 밝힌 <strong>희박 보상의 한계</strong>는 이후 흐름을 갈랐다 — 보상을 사람의 시연으로 대체한 <a href="autonomous-2026-09-08.html">모방학습</a>·MILE, 그리고 환경 자체를 학습하는 월드모델(GAIA)로 분기하며 그 빈칸을 채워 왔다. 오늘의 VLA·LLM 기반 end-to-end 주행조차 결국 "보상을 어디서 얻는가"라는 같은 질문 위에 서 있다. 실차에 RL을 올린 최초의 시도가 남긴 것은 알고리즘이 아니라 <em>문제 설정</em>이었다.</p>
+            <p>원문: <a href="https://arxiv.org/abs/1807.00412" target="_blank">https://arxiv.org/abs/1807.00412</a></p>
+                        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
