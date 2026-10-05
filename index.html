@@ -54,6 +54,59 @@
             flex-wrap: wrap;
         }
 
+        /* 🔍 제목 검색창! */
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 520px;
+            margin: -25px auto 40px auto;
+            padding: 4px 16px;
+            background: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            transition: border-color 0.2s;
+        }
+        .search-box:focus-within {
+            border-color: var(--accent-color);
+        }
+        .search-box i {
+            color: var(--accent-color);
+            font-size: 15px;
+        }
+        #searchInput {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-color);
+            font-size: 15px;
+            padding: 11px 0;
+            font-family: inherit;
+        }
+        #searchInput::placeholder {
+            color: var(--text-color);
+            opacity: 0.45;
+        }
+        #clearSearch {
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            opacity: 0.6;
+            cursor: pointer;
+            font-size: 15px;
+            padding: 4px 6px;
+            display: none;
+        }
+        #clearSearch:hover { opacity: 1; color: var(--accent-color); }
+        #searchCount {
+            text-align: center;
+            margin: -25px 0 30px 0;
+            font-size: 13px;
+            color: var(--accent-color);
+            min-height: 18px;
+        }
+
         .tab-btn {
             background: var(--secondary-color);
             color: var(--text-color);
@@ -89,21 +142,56 @@
         footer { margin-top: 80px; text-align: center; font-size: 0.9rem; color: var(--muted-text); border-top: 1px solid var(--border-color); padding-top: 40px; }
     </style>
     <script>
+        let currentCategory = 'all';
+
         function filterCategory(category) {
-            const items = document.querySelectorAll('.post-item');
+            currentCategory = category;
             const buttons = document.querySelectorAll('.tab-btn');
-            
             buttons.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
+            applyFilters();
+        }
 
+        function applyFilters() {
+            const input = document.getElementById('searchInput');
+            const q = (input ? input.value : '').trim().toLowerCase();
+            const items = document.querySelectorAll('.post-item');
+            const clearBtn = document.getElementById('clearSearch');
+            const cnt = document.getElementById('searchCount');
+            if (clearBtn) clearBtn.style.display = q ? 'block' : 'none';
+            let visible = 0;
             items.forEach(item => {
-                if (category === 'all' || item.getAttribute('data-category') === category) {
+                const catOk = (currentCategory === 'all' ||
+                               item.getAttribute('data-category') === currentCategory);
+                const titleEl = item.querySelector('.post-title');
+                const titleOk = !q || (titleEl &&
+                    titleEl.textContent.toLowerCase().includes(q));
+                if (catOk && titleOk) {
                     item.style.display = 'block';
+                    visible++;
                 } else {
                     item.style.display = 'none';
                 }
             });
+            if (cnt) cnt.textContent = q ? (visible + '개 결과') : '';
         }
+
+        function clearSearch() {
+            const input = document.getElementById('searchInput');
+            if (input) { input.value = ''; input.focus(); }
+            applyFilters();
+        }
+
+        // 실시간 검색 + ESC 초기화!
+        document.addEventListener('DOMContentLoaded', () => {
+            const input = document.getElementById('searchInput');
+            if (input) {
+                input.addEventListener('input', applyFilters);
+                input.addEventListener('keydown', e => {
+                    if (e.key === 'Escape') clearSearch();
+                });
+            }
+        });
     </script>
 </head>
 <body>
@@ -123,6 +211,14 @@
             <a href="https://todo-app-bow.pages.dev" class="tab-btn" target="_blank" rel="noopener">📝 Todo</a>
             <a href="http://archlinux.tailc20473.ts.net:8000" class="tab-btn" target="_blank" rel="noopener">🤖 개발 에이전트</a>
         </nav>
+
+        <!-- 🔍 제목 검색! -->
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" placeholder="제목으로 검색..." autocomplete="off">
+            <button id="clearSearch" onclick="clearSearch()" title="지우기">✕</button>
+        </div>
+        <div id="searchCount"></div>
 
         <main>
             <ul class="post-list">
