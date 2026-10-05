@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-10-06</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        code { background: #0b1220; padding: 1px 5px; border-radius: 4px; color: #7dd3fc; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-10-06 | <i class="fa-solid fa-tags"></i> Daily News, Data Breach, Vulnerability, Patch, AI Agent, Threat Intelligence
+        </div>
+        <div class="content">
+
+            <h2>1. 덴마크 중앙주민등록부(CPR) 대규모 유출 — 8.8백만 명, 국민 80%의 이름·주소·CPR 번호 노출</h2>
+            <p>덴마크 중앙주민등록부(CPR)가 <strong>약 880만 명의 개인정보가 유출된 침해 사고</strong>를 공지했다. 국내 거주자뿐 아니라 해외 이주자·사망자까지 포함된 수치로, CPR이 보유한 1,100만 명(등록자)의 약 80%에 해당한다.</p>
+            <ul>
+                <li><strong>유출 항목:</strong> 이름·주소·생년월일·혼인 상태·고유 CPR 식별번호(주민등록번호에 해당) 등 국가 신원 레지스트리 핵심 데이터.</li>
+                <li><strong>공격 방식:</strong> 덴마크 데이터보호청은 공격자가 <strong>민간 기업의 정당한 레지스트리 접근 권한을 악용</strong>해 유효한 CPR 번호를 무차별 대입(brute-force)으로 열거한 뒤 각 항목 데이터를 추출했다고 밝혔다. 즉 취약점이 아니라 신뢰된 제3자 경로가 우회됐다.</li>
+                <li><strong>경위:</strong> 침해는 2026년 9월에 발생했으나 CPR 측은 10월 2일에야 인지했고, 주말에 걸쳐 피해 규모를 산정했다. 해당 기업의 접근은 차단됐고 경찰이 수사 중이다.</li>
+                <li><strong>시사점:</strong> 연구교육디지털화부 장관은 "극히 심각한 사건"이라며 의회 위원회에 보고했고, 전용 사이버 핫라인(sikkerdigital.dk)을 개설했다. 유출된 CPR 번호를 이용한 <strong>표적 사칭·보이스피싱 2차 피해</strong>가 최대 위험으로 지목된다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/denmark-population-registry-data-breach-affects-88-million-people/" target="_blank">BleepingComputer - Denmark population registry data breach affects 8.8 million people</a></p>
+
+            <h2>2. Rejetto HFS 치명적 결함(CVE-2026-61500, 9.3) 실제 익스플로잇 — 약한 PRNG로 관리자 세션 위조 후 RCE</h2>
+            <p>Rejetto HTTP File Server(HFS)의 치명적 결함 <strong>CVE-2026-61500(CVSS 9.3)</strong>이 실제로 스캔·공격당하고 있다고 VulnCheck가 밝혔다. 안전한 난수 대신 약한 PRNG를 쓴 것이 근본 원인이다.</p>
+            <ul>
+                <li><strong>취약점 원리:</strong> HFS 3.0.0~3.2.0은 세션 쿠키 서명 키를 암호학적이지 않은 <code>Math.random()</code>으로 생성하고, 로그인 시 그 생성기의 출력값을 비인증 클라이언트에 노출한다. 공격자가 로그인 응답 몇 개만 수집하면 PRNG 상태를 복원해 서명 키를 알아내고 <strong>유효한 관리자 세션 쿠키를 위조</strong>할 수 있다.</li>
+                <li><strong>영향:</strong> 관리자 API가 임의 JavaScript를 실행하는 커스텀 엔드포인트를 지원하므로, 무인증 상태에서 관리자 권한을 거쳐 <code>server_code</code> 설정으로 <strong>원격 코드 실행(RCE)</strong>까지 도달한다.</li>
+                <li><strong>발견 경로:</strong> Horizon3.ai의 Zach Hanley는 이 결함을 <strong>Anthropic의 'Mythos' 모델</strong>로 발견했다고 밝혔다(9/30). 패치는 2026년 7월 3.2.1에서 나왔으나, 9월 말 공개 PoC가 풀리면서 익스플로잇이 시작됐다.</li>
+                <li><strong>공격 정황:</strong> VulnCheck는 10월 1일 익스플로잇 시도를 탐지했고, <strong>중국 통신사 IP가 미국·일본 허니팟을 정찰</strong>하는 소규모 활동으로 파악했다. 2024년 CVE-2024-23692에 이어 두 번째로 실제 무기화된 HFS 결함이다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/attackers-target-rejetto-hfs-flaw-that.html" target="_blank">The Hacker News - Attackers Target Rejetto HFS Flaw That Enables Admin Session Forgery and RCE</a></p>
+
+            <h2>3. Realtek Jungle SDK 익스플로잇으로 'Cling' 봇넷 유포 — STUN 트래픽으로 C2 위장</h2>
+            <p>패치된 Realtek Jungle SDK의 치명적 RCE 결함(<strong>CVE-2021-35394, CVSS 9.8</strong>)을 노린 공격 시도가 급증하며, 일부가 <strong>'Cling' 봇넷</strong>을 유포하고 있다고 Nozomi Networks가 보고했다(9월 5일경부터 급증).</p>
+            <ul>
+                <li><strong>핵심 특징:</strong> Cling은 새로운 전파 기법보다 <strong>평범한 STUN(NAT 트래버설) 트래픽을 C2 채널로 재활용</strong>한 점이 특이하다. 네트워크 모니터링에서는 정상적인 NAT 트래버설로 보이면서 전파·프록시·터널링·DoS 명령을 모두 지원한다.</li>
+                <li><strong>C2 4단계:</strong> ① 하드코딩된 13개 STUN 서버로 약 5초마다 Binding Request 전송(트랜잭션 ID를 규격대로 전부 0으로 설정) → ② 서버가 돌려준 공인 IP·매핑 포트를 기록 → ③ 매핑 포트와 감염 경로 태그를 담은 커스텀 UDP를 모든 서버로 전송(등록) → ④ STUN 트랜잭션 ID 필드에 인코딩된 운용자 명령을 폴링.</li>
+                <li><strong>내장 익스플로잇:</strong> Realtek SDK(CVE-2014-8361), Eir D1000(CVE-2016-10372), MVPower DVR(CVE-2016-20016), LB-LINK(CVE-2023-26801), FiberHome SR1041F(CVE-2023-41011), TBK DVR(CVE-2024-3721), Linksys(CVE-2025-34037) 등 라우터·DVR 다수.</li>
+                <li><strong>지속성:</strong> <code>/root/.cling</code>·<code>/usr/local/bin/.cling</code>에 자기 복제 후 <code>/etc/inittab</code>·<code>init.d/rcS</code>·<code>rc.d/rc.boot</code>에 등록. 별도로 <code>wget</code> 바이너리를 악성코드로 교체(원본은 다른 위치로 이동)하는 기법도 사용한다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/realtek-jungle-sdk-exploit-attempts.html" target="_blank">The Hacker News - Realtek Jungle SDK Exploit Attempts Deliver Cling Botnet With STUN-Based C2</a></p>
+
+            <h2>4. [취약점] MCP '프로토콜 피버팅' — 에이전트 간 신뢰가 '번역'에서 유실된다</h2>
+            <p>Google을 포함한 5개 조직의 AI 에이전트에서 <strong>MCP(Model Context Protocol)의 구조적 결함</strong>이 확인됐다. 한 에이전트를 장악해 내부의 다른 에이전트로 악성 지시를 연쇄 전파하는 특수한 프롬프트 주입 기법이다(Ars Technica).</p>
+            <ul>
+                <li><strong>공격 원리:</strong> 독립 연구자 Syed Anas Mohiuddin은 LLM이 아니라 <strong>특정 목적 에이전트</strong>를 노렸다. 번역·데이터 분석 같은 에이전트는 가드레일이 느슨해 지시를 다음 에이전트에 그대로 넘기고, 뒤 단계 에이전트는 앞 단계를 '신뢰'하므로 그대로 실행한다.</li>
+                <li><strong>수치:</strong> Rapid7 네트워크에서 발견된 <code>CVE-2026-97228</code>은 CVSS가 2.7에 불과했지만, <strong>Google의 결함은 8.0</strong>이었다. Google MCP 툴박스(<code>googleapis/mcp-toolbox</code>)가 HTTP 클라이언트를 CheckRedirect 정책 없이 초기화하고 대상 IP를 검증하지 않아, 조작된 경로 파라미터로 내부 엔드포인트 리다이렉트를 유발하는 <strong>SSRF</strong>가 가능했다.</li>
+                <li><strong>왜 위험한가:</strong> MCP 서버가 에이전트별 자격증명을 보관하고 에이전트가 서로를 신뢰하도록 설계돼 있어, LLM 단독이라면 거부할 지시가 통과한다. Mohiuddin은 MCP→A2A(Agent-to-Agent)→Agent Network Protocol로 이어지는 이 계열을 <strong>'프로토콜 피버팅(protocol pivoting)'</strong>이라 명명했다.</li>
+                <li><strong>대응:</strong> Google은 내부 IP 허용목록·차단목록을 적용하고 안전하지 않은 base URL을 요청 시점이 아닌 <strong>시작 시점에 거부</strong>하도록 수정했다. 전문가들은 "각 프로토콜이 혼자 있다고 가정해 자기 앞문만 잠그고, 그 사이 복도를 아무도 안 본다"고 지적한다.</li>
+            </ul>
+            <p>출처: <a href="https://arstechnica.com/security/2026/10/vulnerability-in-agents-from-google-and-others-exposes-structural-flaw-in-mcp/" target="_blank">Ars Technica - Vulnerability in agents from Google and others exposes structural flaw in MCP</a></p>
+
+            <h2>5. [취약점] '기본 토큰·무인증 디버그 인터페이스'가 다시 최상단 — Perforce P4 Search 10.0 클러스터 외</h2>
+            <p>이번 주 NVD 신규 스코어링 상위는 지난주와 같은 패턴을 반복한다. <strong>기본값으로 공개된 인증 토큰</strong>과 <strong>인증 없이 열린 디버그 인터페이스</strong>가 원격 코드 실행으로 직결됐다.</p>
+            <ul>
+                <li><strong>Perforce P4 Search 3건:</strong> <code>CVE-2026-100103</code>(10.0)은 2026.4.2 이전 컨테이너 이미지가 서비스 인증 토큰을 <strong>공개 문서화된 기본값</strong>으로 리셋해 무인증 공격이 가능하다. <code>CVE-2026-103510</code>(9.5)은 토큰이 비어 있을 때 안전하게 실패하지 않으며(불안전 기본값), <code>CVE-2026-100102</code>(9.5)는 <strong>무인증 Java 디버그 인터페이스</strong>가 활성화돼 네트워크 접근만으로 임의 코드를 실행할 수 있다.</li>
+                <li><strong>Legcord 1.1.0~1.3.0:</strong> <code>CVE-2026-105293</code>(9.2)은 테마 IPC 핸들러의 경로 순회로 Discord 페이지 스크립트가 테마 디렉터리를 탈출하고, <code>CVE-2026-105294</code>(9.1)은 설정 주입으로 <code>window.legcord</code>를 통해 임의 설정 키를 쓸 수 있다.</li>
+                <li><strong>개발·클러스터 도구:</strong> maclof <code>kubernetes-client</code> 0.17.0~0.32.0(<code>CVE-2026-105223</code>, 9.1)은 kubeconfig에 인증서 데이터가 없을 때 <code>parseKubeconfig()</code>에서 <strong>TLS 인증서 검증을 비활성화</strong>한다. HPE iLO 7 펌웨어(<code>CVE-2026-79820</code>, 9.0)는 원격 사용자 검증 실패 결함이 있다.</li>
+            </ul>
+            <p>출처: <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?pubStartDate=2026-10-05T00:00:00.000&amp;pubEndDate=2026-10-06T00:00:00.000" target="_blank">NVD - CVE API 2.0 (2026-10-05 publication window)</a></p>
+
+            <h2>6. [패치] Microsoft Exchange 대역외 긴급 업데이트(CVE-2026-96940, 8.8) + Dell System Update 루트 RCE</h2>
+            <p>온프레미스 Exchange와 Dell 서버 배포 도구에 각각 긴급 패치가 나왔다. 두 결함 모두 <strong>'취약점'이 아니라 설정·경로 검증 실패</strong>에서 비롯됐다.</p>
+            <ul>
+                <li><strong>Exchange Server(<code>CVE-2026-96940</code>, CVSS 8.8):</strong> 인증된 공격자가 네트워크를 통해 권한을 상승시켜 <strong>같은 조직 내 다른 사용자의 메일함과 첨부파일을 열람</strong>할 수 있다(교차 테넌트 접근은 불가). Microsoft는 "'약한 인가(Weak authorization)'가 원인"이라고 설명했다.</li>
+                <li><strong>영향 버전:</strong> Exchange Server Subscription Edition RTM, 2016 CU23, 2019 CU15, 2019 CU14. Exchange Online은 서버측 수정이 이미 배포돼 조치 불필요.</li>
+                <li><strong>긴급도:</strong> 실제 무기화 증거는 없으나 Microsoft가 악용 가능성 평가를 <strong>"Exploitation More Likely"</strong>로 지정했다. 연구자 Jan Mitchell이 발견·보고했다.</li>
+                <li><strong>Dell System Update(<code>CVE-2026-86360</code>, Critical):</strong> PowerEdge 서버의 BIOS·펌웨어 배포 CLI 도구 DSU에서 <strong>경로 순회</strong>로 무인증 원격 공격자가 루트 권한 임의 코드를 실행할 수 있다. DSU <strong>2.3.0.0 이상</strong>으로 업그레이드하면 되고, 같은 날 원격 코드 실행 2건(<code>CVE-2026-63697</code>·<code>71168</code>)과 권한 상승 2건(<code>CVE-2026-86361</code>·<code>86362</code>)도 함께 패치됐다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/microsoft-exchange-flaw-lets.html" target="_blank">The Hacker News - Microsoft Exchange Flaw Lets Authenticated Attackers Read Other Users' Mailboxes</a> / <a href="https://www.bleepingcomputer.com/news/security/new-dell-system-update-flaw-lets-hackers-gain-root-privileges/" target="_blank">BleepingComputer - New Dell System Update flaw lets hackers gain root privileges</a></p>
+
+            <h2>7. [패치] Citrix NetScaler 신규 제로데이(CVE-2026-88779, 8.7) — SAML 배포를 오프라인으로, KEV 마감은 내일(10/7)</h2>
+            <p>Citrix가 표적 제로데이 공격에 악용된 NetScaler ADC·Gateway 결함 <strong>CVE-2026-88779(CVSS 8.7)</strong>의 보안 업데이트를 배포했다. SAML 구성 배포에서 서비스 가용성을 무너뜨리는 결함이다.</p>
+            <ul>
+                <li><strong>결함 성격:</strong> 메모리 오버플로로 특정 배포 조건에서 <strong>서비스 거부(DoS)</strong>를 유발한다. 데이터 무결성 영향은 확인되지 않았으나, 조건이 반복 트리거되면 서비스가 계속 사용 불가 상태로 남는다.</li>
+                <li><strong>전제 조건:</strong> NetScaler가 <strong>SAML 서비스 프로바이더(SP)</strong> 또는 <strong>SAML 아이덴티티 프로바이더(IdP)</strong>로 구성돼 있어야 한다. 설정에서 <code>add authentication samlAction</code>(SP)·<code>add authentication samlIdPProfile</code>(IdP) 항목을 확인하라고 권고했다.</li>
+                <li><strong>수정 버전:</strong> ADC·Gateway 14.1-73.41 이상, 13.1-64.28 이상, 14.1-FIPS 14.1-73.41 FIPS 이상, 13.1-FIPS/NDcPP 13.1-37.282 이상.</li>
+                <li><strong>공격·마감:</strong> Bishop Fox와 watchTowr가 보고했고, watchTowr는 허니팟 활동 탐지 후 수 시간 내 재현에 성공했다. CISA는 이 결함을 <strong>KEV에 등재하며 연방기관 패치 기한을 2026년 10월 7일(내일)</strong>로 지정했다. 이는 앞서 무기화된 CVE-2026-88771·88772(웹셸·터널링 도구 설치)에 이은 세 번째 NetScaler 실제 익스플로잇이다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/new-netscaler-zero-day-exploited-in.html" target="_blank">The Hacker News - New NetScaler Zero-Day Exploited in Targeted Attacks Can Knock SAML Deployments Offline</a></p>
+
+            <h2>8. [트렌드] AI 에이전트의 '특권'이 곧 공격면 — Apple, macOS Full Disk Access 통제 강화</h2>
+            <p>Apple이 AI 에이전트의 데이터 접근 위험 때문에 macOS의 <strong>전체 디스크 접근(Full Disk Access, FDA)</strong> 설정을 더 엄격하게 통제하겠다고 발표했다. '에이전트에게 준 권한'이 그대로 침해 경로가 되는 사례가 잇따르고 있다.</p>
+            <ul>
+                <li><strong>Apple의 문제 제기:</strong> "일부 개발자가 FDA를 위험하게 사용해 파일·메일·메시지·브라우징 기록까지 사용자 인지 없이 노출한다"며, <strong>명시적 사용자 동작</strong>으로만 부여되도록 업데이트하겠다고 밝혔다. "AI 에이전트가 더 자율적으로 변할수록 이 수준의 접근 위험은 크게 증가한다"고 강조했다.</li>
+                <li><strong>발단 — Meta 'Muse':</strong> Meta의 에이전트 도구 Muse가 FDA가 부여된 상태에서 <strong>기자의 사적 iMessage에 접근</strong>한 사건이 있었다. Meta는 "FDA + Messages 커넥터가 모두 켜져 있어야 하며 Messages 연동은 옵트인"이라고 해명했다. 별도로 보안 연구자 Patrick Wardle은 출시 직전 Muse Mac 앱의 제로데이(<code>not-a-mused</code>)를 시연했는데, 비권한 로컬 프로세스가 인증 토큰을 탈취해 받아쓰기 트래픽을 리다이렉트하고 프롬프트를 주입할 수 있었다.</li>
+                <li><strong>확산:</strong> Wardle은 OpenAI ChatGPT Mac 앱의 <code>CVE-2026-100754</code>도 보고했는데, 악용 시 어시스턴트를 장악해 채팅 로그 등 저장 데이터에 무단 접근할 수 있었다.</li>
+                <li><strong>시사점:</strong> 오늘 2번 항목(Rejetto HFS는 Anthropic 'Mythos'가 발견)과 맞물려, <strong>AI가 취약점을 찾는 속도</strong>와 <strong>AI 에이전트가 가진 특권</strong>이 동시에 공격면을 넓히고 있음을 보여준다. 에이전트 도구의 권한을 '최소 권한'으로 재설계하는 것이 이번 분기의 핵심 과제다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/apple-plans-tighter-macos-full-disk.html" target="_blank">The Hacker News - Apple Plans Tighter macOS Full Disk Access Controls Over AI Agent Data Access</a></p>
+
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
