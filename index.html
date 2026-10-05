@@ -107,6 +107,47 @@
             min-height: 18px;
         }
 
+        /* 📄 페이지네이션! */
+        .pager {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin: 40px 0 20px 0;
+            flex-wrap: wrap;
+        }
+        .pager button {
+            background: var(--secondary-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+            min-width: 40px;
+        }
+        .pager button:hover:not(:disabled) {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+        .pager button.active {
+            background: var(--accent-color);
+            color: #fff;
+            border-color: var(--accent-color);
+        }
+        .pager button:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+        .pager .page-info {
+            color: var(--text-color);
+            opacity: 0.7;
+            font-size: 13px;
+            padding: 0 8px;
+        }
+
         .tab-btn {
             background: var(--secondary-color);
             color: var(--text-color);
@@ -149,48 +190,104 @@
             const buttons = document.querySelectorAll('.tab-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            applyFilters();
+            applyFilters(true);   // 카테고리 변경 → 1페이지로!
         }
 
-        function applyFilters() {
+        const PER_PAGE = 10;
+        let currentPage = 1;
+        let filteredCount = 0;
+
+        function applyFilters(resetPage) {
+            if (resetPage !== false) currentPage = 1;
             const input = document.getElementById('searchInput');
             const q = (input ? input.value : '').trim().toLowerCase();
-            const items = document.querySelectorAll('.post-item');
+            const items = [...document.querySelectorAll('.post-item')];
             const clearBtn = document.getElementById('clearSearch');
             const cnt = document.getElementById('searchCount');
             if (clearBtn) clearBtn.style.display = q ? 'block' : 'none';
-            let visible = 0;
-            items.forEach(item => {
+
+            // 1. 필터 통과한 항목만 추리기!
+            const matched = items.filter(item => {
                 const catOk = (currentCategory === 'all' ||
                                item.getAttribute('data-category') === currentCategory);
                 const titleEl = item.querySelector('.post-title');
                 const titleOk = !q || (titleEl &&
                     titleEl.textContent.toLowerCase().includes(q));
-                if (catOk && titleOk) {
-                    item.style.display = 'block';
-                    visible++;
-                } else {
-                    item.style.display = 'none';
-                }
+                return catOk && titleOk;
             });
-            if (cnt) cnt.textContent = q ? (visible + '개 결과') : '';
+            filteredCount = matched.length;
+
+            // 2. 총 페이지 수!
+            const totalPages = Math.max(1, Math.ceil(matched.length / PER_PAGE));
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            // 3. 현재 페이지만 표시!
+            const start = (currentPage - 1) * PER_PAGE;
+            const end = start + PER_PAGE;
+            items.forEach(item => { item.style.display = 'none'; });
+            matched.forEach((item, i) => {
+                if (i >= start && i < end) item.style.display = 'block';
+            });
+
+            // 4. 카운트 표시!
+            if (cnt) {
+                const range = matched.length ? (start + 1) + '-' + Math.min(end, matched.length) : '0';
+                cnt.textContent = (q || currentCategory !== 'all')
+                    ? (range + ' / 전체 ' + filteredCount + '개')
+                    : '';
+            }
+
+            // 5. 페이저 렌더!
+            renderPager(totalPages);
+        }
+
+        function renderPager(totalPages) {
+            const pager = document.getElementById('pager');
+            if (!pager) return;
+            if (totalPages <= 1) { pager.innerHTML = ''; return; }
+            let html = '';
+            html += '<button onclick="goPage(' + (currentPage - 1) + ')" ' +
+                    (currentPage === 1 ? 'disabled' : '') + '>◀</button>';
+            // 페이지 번호 (현재 주변 5개!)
+            let s = Math.max(1, currentPage - 2);
+            let e = Math.min(totalPages, s + 4);
+            if (e - s < 4) s = Math.max(1, e - 4);
+            if (s > 1) html += '<button onclick="goPage(1)">1</button>' +
+                               (s > 2 ? '<span class="page-info">…</span>' : '');
+            for (let p = s; p <= e; p++) {
+                html += '<button class="' + (p === currentPage ? 'active' : '') +
+                        '" onclick="goPage(' + p + ')">' + p + '</button>';
+            }
+            if (e < totalPages) html += (e < totalPages - 1 ? '<span class="page-info">…</span>' : '') +
+                                        '<button onclick="goPage(' + totalPages + ')">' + totalPages + '</button>';
+            html += '<button onclick="goPage(' + (currentPage + 1) + ')" ' +
+                    (currentPage === totalPages ? 'disabled' : '') + '>▶</button>';
+            html += '<span class="page-info">' + currentPage + ' / ' + totalPages + '</span>';
+            pager.innerHTML = html;
+        }
+
+        function goPage(p) {
+            currentPage = p;
+            applyFilters(false);   // 페이지 유지!
+            window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
         function clearSearch() {
             const input = document.getElementById('searchInput');
             if (input) { input.value = ''; input.focus(); }
-            applyFilters();
+            applyFilters(true);
         }
 
         // 실시간 검색 + ESC 초기화!
         document.addEventListener('DOMContentLoaded', () => {
             const input = document.getElementById('searchInput');
             if (input) {
-                input.addEventListener('input', applyFilters);
+                input.addEventListener('input', () => applyFilters(true));
                 input.addEventListener('keydown', e => {
                     if (e.key === 'Escape') clearSearch();
                 });
             }
+            applyFilters(true);   // 첫 로드 → 10개만 표시!
         });
     </script>
 </head>
@@ -2007,6 +2104,9 @@
                     <div class="post-excerpt">BYOVD XMRig Worm, AI npm supply chain attack analysis.</div>
                 </li>
             </ul>
+
+            <!-- 📄 페이지네이션! -->
+            <div class="pager" id="pager"></div>
         </main>
 
         <footer>
