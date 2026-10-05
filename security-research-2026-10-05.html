@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 [클래식] A Method for Obtaining Digital Signatures and Public-Key Cryptosystems — '공개해도 안전한 열쇠'를 처음 구현한 RSA의 원논문 (Rivest·Shamir·Adleman, CACM 1978)</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 [클래식] A Method for Obtaining Digital Signatures and Public-Key Cryptosystems — '공개해도 안전한 열쇠'를 처음 구현한 RSA</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-05 · 카테고리: Research (전통 보안 논문 · 공개키 암호 · 디지털 서명 · 암호학)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> A Method for Obtaining Digital Signatures and Public-Key Cryptosystems<br>
+                <strong>저자:</strong> Ronald L. Rivest · Adi Shamir · Leonard M. Adleman (MIT, Laboratory for Computer Science)<br>
+                <strong>출처:</strong> Communications of the ACM, Vol. 21, No. 2, 1978년 2월, pp. 120–126 · DOI: <a href="https://doi.org/10.1145/359340.359342" target="_blank" rel="noopener">10.1145/359340.359342</a><br>
+                <strong>배포 이력:</strong> MIT/LCS/TM-82 기술보고서(1977)로 먼저 유통 — 논문은 1977-04-04 투고, 1977-09-01 수정, 1978-02 CACM 게재<br>
+                <strong>분야:</strong> 공개키 암호(public-key cryptosystem) · 디지털 서명 · 트랩도어 단방향 함수 · 정수론(소인수분해)<br>
+                <strong>인용:</strong> <strong>Semantic Scholar 기준 15,504회</strong>(influential 1,016회) · OpenAlex 13,421회 — 보안·암호 분야 논문 중 최상위권. 저자 3인은 이 업적으로 <strong>2002년 ACM 튜링상</strong>을 받았다.<br>
+                <strong>원문:</strong> <a href="https://people.csail.mit.edu/rivest/Rsapaper.pdf" target="_blank" rel="noopener">MIT CSAIL 공개 PDF</a> · <a href="https://web.archive.org/web/2019/https://people.csail.mit.edu/rivest/Rsapaper.pdf" target="_blank" rel="noopener">Internet Archive 사본</a>
+            </div>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 한 줄 요약 — '자물쇠는 모두에게 나눠주고, 열쇠만 숨긴다'</h2>
+            <p>1976년 Diffie와 Hellman은 <strong>"공개키 암호"라는 개념</strong>을 세상에 던졌지만, 정작 그것을 <em>실제로 만들 방법은 제시하지 못했다</em>(그들은 개념만 있고 실물 구현은 없다고 스스로 밝혔다). 1년 뒤 MIT의 Rivest·Shamir·Adleman이 그 개념을 <strong>처음으로 동작하는 실물로 구현</strong>한 것이 바로 이 논문이다. 아이디어는 이렇게 요약된다 — 메시지를 숫자 <code>M</code>으로 바꾼 뒤, <strong>공개된 지수 <code>e</code>로 거듭제곱하고, 공개된 합성수 <code>n</code>으로 나눈 나머지</strong>를 취하면 암호문이 된다. 복호화는 <strong>비밀 지수 <code>d</code></strong>로 같은 연산을 한 번 더 하면 된다. 안전성은 "공개된 <code>n</code>을 소인수분해하기 어렵다"는 사실에 기대는데, 논문이 제시한 200자리 <code>n</code>에 대해 저자들이 계산한 분해 시간은 <strong>약 3.8×10<sup>9</sup>년</strong>이었다. 이 하나의 방법이 오늘날 <strong>HTTPS·SSH·전자서명·코드 서명</strong>의 밑바탕이 되었다.</p>
+            <blockquote>
+                "보안 체계가 안전하다는 것을 증명할 방법은 없다. 유일하게 가능한 시험은, 누군가 그것을 깨뜨릴 방법을 생각해낼 수 있는지 지켜보는 것이다." — 이 논문 IX장, 그리고 "독자에게 도전한다, 이 방법을 깨뜨려 보라."
+            </blockquote>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 배경 — '키 배포 문제'라는 벽</h2>
+            <ul>
+                <li><strong>모든 고전 암호의 공통 약점:</strong> 논문은 "모든 고전적 암호 기법(당시 NBS의 DES 표준 포함)은 <em>키 배포 문제(key distribution problem)</em>로 고통받는다"고 못 박는다. 비밀 통신을 시작하기 <em>전에</em>, 송신자와 수신자에게 암호·복호 키를 각각 전달하는 또 다른 비밀 거래가 필요하다는 뜻이다.</li>
+                <li><strong>전령(courier)의 한계:</strong> 전통적으로는 사람이 직접 키를 나르는 수밖에 없었지만, "빠르고 값싼 전자 우편(electronic mail) 시스템"을 만들려면 그런 물리적 전달은 불가능하다.</li>
+                <li><strong>Diffie–Hellman의 개념, 남겨진 숙제:</strong> 1976년 Diffie와 Hellman이 "공개키 암호"라는 <em>개념</em>과 "트랩도어 단방향 함수" 아이디어를 제시했지만, <strong>구체적인 예시는 하나도 없었다</strong>. 이 논문이 그 숙제를 푼다.</li>
+                <li><strong>두 가지 요구:</strong> 전자 우편이 종이 우편을 대체하려면 (a) 메시지는 <em>사적(private)</em>이어야 하고, (b) 메시지에 <em>서명(signed)</em>할 수 있어야 한다. 이 논문은 이 둘을 동시에 해결한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-key"></i> 핵심 1 — 공개키 암호체계의 네 가지 성질과 '트랩도어 단방향 함수'</h2>
+            <ul>
+                <li><strong>공개 파일(public file) 개념:</strong> 각 사용자는 자신의 <em>암호화 절차 E</em>를 공개 파일에 올려두고, 대응하는 <em>복호화 절차 D</em>의 세부는 비밀로 유지한다. 이 프로토콜이 성립하려면 네 가지 성질이 필요하다.</li>
+                <li><strong>네 가지 성질:</strong> (a) <code>D(E(M)) = M</code> — 복호화하면 원문이 돌아온다. (b) E와 D는 <em>계산이 쉬워야</em> 한다. (c) <strong>E를 공개해도 D를 계산하는 쉬운 방법이 드러나지 않아야</strong> 한다. (d) <code>E(D(M)) = M</code> — 순서를 뒤집어도 성립해야 하며, 이 성질(d)은 <strong>오직 서명(signature)을 구현하기 위해</strong> 필요하다.</li>
+                <li><strong>정의 — 트랩도어 단방향 함수:</strong> (a)~(c)를 만족하는 함수 E를 "<em>트랩도어 단방향 함수</em>"라 부르고, (d)까지 만족하면 "<em>트랩도어 단방향 치환(permutation)</em>"이라 부른다. 한 방향은 쉽지만 역방향은 (겉보기에) 매우 어렵고, 특정한 비밀 정보("<em>트랩도어</em>")를 알면 역방향도 쉬워진다.</li>
+                <li><strong>왜 새로웠나:</strong> 논문은 "우리의 암호화 함수는 저자들이 아는 유일한 트랩도어 단방향 치환의 후보"라고 적는다 — 즉 당시 <em>유일한 실물 예시</em>였다. 그래서 논문은 다른 예시를 찾아야 할 필요성까지 언급한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-gears"></i> 핵심 2 — 알고리즘: RSA의 실제 수식</h2>
+            <ul>
+                <li><strong>키 생성:</strong> 큰 "임의의" 소수 <code>p</code>, <code>q</code>를 골라 <code>n = p · q</code>를 만든다. <code>(p−1)·(q−1)</code>과 서로소인 큰 임의 정수 <code>d</code>를 고르고, <code>e</code>는 <code>e · d ≡ 1 (mod (p−1)·(q−1))</code>를 만족하는 <code>d</code>의 <strong>곱셈 역원</strong>으로 계산한다. 공개키는 <code>(e, n)</code>, 비밀키는 <code>(d, n)</code>.</li>
+                <li><strong>암호화·복호화:</strong> <code>C ≡ E(M) ≡ M<sup>e</sup> (mod n)</code>이고 <code>D(C) ≡ C<sup>d</sup> (mod n)</code>이다. 흥미로운 대칭성 — <strong>암호화와 복호화가 완전히 같은 연산</strong>이고 지수만 다르다. 암호화는 메시지 크기를 늘리지 않는다(둘 다 0~n−1 범위).</li>
+                <li><strong>왜 동작하나(VI장, 수학):</strong> 오일러·페르마의 항등식 <code>M<sup>φ(n)</sup> ≡ 1 (mod n)</code>가 토대다. 여기서 <code>φ(n) = (p−1)(q−1) = n − (p+q) + 1</code>. <code>e·d ≡ 1 (mod φ(n))</code>이므로 <code>M<sup>e·d</sup> ≡ M<sup>k·φ(n)+1</sup> ≡ M (mod n)</code>이 성립해 E와 D가 서로 역치환이 된다.</li>
+                <li><strong>효율성(VII장):</strong> "<em>반복 제곱과 곱셈(exponentiation by repeated squaring)</em>"으로 <code>M<sup>e</sup> (mod n)</code>를 최대 <code>2·log<sub>2</sub>(e)</code>번의 곱셈과 나눗셈으로 계산한다. 고속 컴퓨터는 <strong>200자리 메시지를 몇 초 안에 암호화</strong>하며, 블록당 암호화 시간은 <code>n</code>의 자릿수의 <em>세제곱</em>보다 빠르게 늘지 않는다.</li>
+                <li><strong>구체적 파라미터:</strong> 100자리 소수 <code>p</code>, <code>q</code>를 권장 → <code>n</code>은 200자리. 소수 정리에 따르면 100자리 소수를 찾으려면 평균 약 <strong>115개</strong>를 검사하면 된다. 소수 판정은 Solovay–Strassen 확률적 알고리즘으로, 100개의 무작위 <code>a</code>에 대해 통과하면 합성수일 확률이 2<sup>−100</sup> 수준이다.</li>
+                <li><strong>논문 속 장난 — VIII장 '작은 예제':</strong> <code>p=47, q=59</code> → <code>n=2773</code>, <code>d=157</code>, <code>φ=2668</code>, <code>e=17</code>. "ITS ALL GREEK TO ME"를 두 글자씩 숫자로 바꾼 뒤 첫 블록 <code>M=920</code>은 <code>920<sup>17</sup> ≡ 948 (mod 2773)</code>로 암호화된다. 전체 암호문은 <code>0948 2342 1084 1444 2663 2390 0778 0774 0219 1655</code>.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-file-signature"></i> 핵심 3 — 디지털 서명: '부인할 수 없음'을 수학으로</h2>
+            <ul>
+                <li><strong>인증과 서명의 차이:</strong> 논문은 "<em>인증(authentication)</em>"은 수신자가 메시지가 송신자에게서 왔다고 <em>스스로</em> 만족하는 것이고, "<em>서명(signature)</em>"은 수신자가 <strong>제3자(판사)에게까지</strong> 그 사실을 입증할 수 있어야 한다고 구분한다.</li>
+                <li><strong>서명이 메시지에 묶여야 하는 이유:</strong> 서명이 <em>서명자 의존적</em>일 뿐 아니라 <em>메시지 의존적</em>이어야 한다. 그렇지 않으면 수신자가 서명을 다른 메시지에 잘라 붙이거나("cutting and pasting") 메시지를 바꿔치기해도 탐지할 수 없다.</li>
+                <li><strong>서명 절차:</strong> Bob이 <code>S = D<sub>B</sub>(M)</code>으로 메시지를 <em>자기 비밀키로 복호화</em>해 서명을 만들고, 이를 Alice의 공개키로 다시 암호화해 <code>E<sub>A</sub>(S)</code>를 보낸다. Alice는 <code>D<sub>A</sub></code>로 S를 얻고, 공개 파일의 <code>E<sub>B</sub></code>로 <code>M = E<sub>B</sub>(S)</code>를 복원한다. Bob은 다른 누구도 <code>D<sub>B</sub></code>를 만들 수 없으므로 <strong>나중에 서명 사실을 부인할 수 없다</strong>.</li>
+                <li><strong>왜 치환(permutation)이 필요한가:</strong> 서명은 <em>암호화되지 않은</em> 메시지에 복호화 함수를 적용하므로, 모든 메시지가 어떤 메시지의 암호문이 되는 "치환" 성질(d)이 반드시 필요하다.</li>
+                <li><strong>당시의 응용 상상:</strong> 논문은 전자 수표(electronic check) 시스템, 서명된 이메일, 심지어 "통화의 모든 단어를 서명해 보내는" 미래까지 그린다 — 오늘날의 전자서명·공인인증·코드 서명이 여기서 출발한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-microscope"></i> 핵심 4 — 보안 근거: '깨는 것 = 인수분해만큼 어렵다'</h2>
+            <ul>
+                <li><strong>공개된 도전:</strong> 논문은 "<em>우리 방법을 깨뜨릴 방법을 찾아보라</em>"고 독자에게 공개적으로 도전하면서, 명백한 공격 경로들이 모두 <strong>적어도 n을 인수분해하는 것만큼 어렵다</strong>는 것을 보인다. 특히 <code>φ(n)</code>을 알아내도, 비밀 지수 <code>d</code>를 알아내도 n을 쉽게 인수분해할 수 있으므로 우회로가 없다.</li>
+                <li><strong>인수분해 자체의 난이도:</strong> "ln n · ln ln n의 제곱근" 규모(당시 저자들이 아는 가장 빠른 Schroeppel 알고리즘)와 Pollard의 <code>O(n<sup>1/4</sup>)</code> 알고리즘을 든다. 인수분해는 300년 넘게 천재 수학자들이 파고든 문제이고, "200자리 수를 합리적 시간에 인수분해하는 알고리즘은 아직 없다."</li>
+                <li><strong>Table 1 — 자릿수별 예상 분해 비용(연산 1회 = 1마이크로초 기준):</strong></li>
+            </ul>
+            <table>
+                <tr><th>n의 자릿수</th><th>필요 연산 수</th><th>예상 시간</th></tr>
+                <tr><td>50</td><td>1.4 × 10<sup>10</sup></td><td>3.9 시간</td></tr>
+                <tr><td>75</td><td>9.0 × 10<sup>12</sup></td><td>104 일</td></tr>
+                <tr><td>100</td><td>2.3 × 10<sup>15</sup></td><td>74 년</td></tr>
+                <tr><td>200</td><td>1.2 × 10<sup>23</sup></td><td><strong>3.8 × 10<sup>9</sup> 년</strong></td></tr>
+                <tr><td>300</td><td>1.5 × 10<sup>29</sup></td><td>4.9 × 10<sup>15</sup> 년</td></tr>
+                <tr><td>500</td><td>1.3 × 10<sup>39</sup></td><td>4.2 × 10<sup>25</sup> 년</td></tr>
+            </table>
+            <ul>
+                <li><strong>권장값:</strong> "n을 약 200자리로 하라" — 80자리는 현재 기술로 중간 수준, 200자리는 미래 발전에 대한 안전 여유를 준다. <strong>키 길이를 골라 보안 수준을 조절할 수 있다는 유연성</strong> 자체가 기존 NBS(DES) 방식에는 없는 특징이었다.</li>
+                <li><strong>정직한 미해결 문제:</strong> 논문은 "우리 방법을 깨는 모든 일반적인 방법이 효율적 인수분해 알고리즘을 낳는다는 것을 증명하지 못했다"고 인정한다. 이는 곧 RSA가 인수분해만큼 어렵다는 <em>증명되지 않은 추측(conjecture)</em>에 기대고 있음을 뜻한다 — 40여 년 뒤 양자 컴퓨터(Shor 알고리즘)가 이 가정을 위협하는 지점이기도 하다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 한계 · 유의점</h2>
+            <ul>
+                <li><strong>안전성은 '추측' 위에:</strong> 인수분해가 어렵다는 가정에 의존하며, 논문 스스로 그 함의를 증명하지 못했음을 밝힌다. 또 "RSA를 깨는 것 = 인수분해"라는 등가성도 이 논문에서는 미증명이었다.</li>
+                <li><strong>당시엔 교과서 RSA(패딩 없음):</strong> 이 원논문의 방식은 결정적(deterministic)·곱셈적 구조라, 훗날 선택 암호문 공격과 작은 지수·공통 모듈러스 문제가 드러났다. 실무 구현은 <strong>OAEP 등 확률적 패딩</strong>과 상수시간 구현으로 이를 보완한다.</li>
+                <li><strong>패러다임 전환:</strong> 2015년 <strong>Logjam</strong>, 2018년 <strong>ROBOT</strong> 같은 공격은 키 교환/서명 구현의 결함을 드러냈고, 2013년 이후 <strong>전방향 안전성(forward secrecy)</strong>을 위해 RSA 키 교환은 ECDHE로 대체되는 흐름이 이어졌다 — RSA는 주로 <em>서명</em>과 <em>신뢰 루트</em> 쪽에 남았다.</li>
+                <li><strong>그래도 사라지지 않는다:</strong> TLS 인증서, 코드 서명, SSH, PGP, 그리고 오늘날의 하드웨어 신뢰 루트까지 — "공개키를 나눠주고도 안전하다"는 이 논문의 기본 발상은 여전히 모든 인터넷 보안의 출발점이다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>논문 (CACM, MIT 공개 PDF): <a href="https://people.csail.mit.edu/rivest/Rsapaper.pdf" target="_blank" rel="noopener">people.csail.mit.edu/rivest/Rsapaper.pdf</a></li>
+                <li>아카이브 사본: <a href="https://web.archive.org/web/2019/https://people.csail.mit.edu/rivest/Rsapaper.pdf" target="_blank" rel="noopener">Internet Archive — Rsapaper.pdf</a> · DOI(등록): <a href="https://doi.org/10.1145/359340.359342" target="_blank" rel="noopener">10.1145/359340.359342</a></li>
+                <li>서지: Communications of the ACM, Vol. 21, No. 2 (1978.02), pp. 120–126 · 최초 유통은 MIT/LCS/TM-82(1977)</li>
+                <li>함께 읽기 — 공개키·암호학 계보: 2026-09-30 <em>New Directions in Cryptography (Diffie–Hellman, 1976)</em> — 이 논문이 구현한 '개념'의 출처 · 2026-09-21 <em>On the Security of Public Key Protocols (Dolev–Yao, 1983)</em> — 공개키 위 공격자 모델 · 2026-09-16 <em>How to Break MD5 (2005)</em> · 2026-09-04 <em>Differential Cryptanalysis of DES-like Cryptosystems (1990)</em> · 2026-08-31 <em>Timing Attacks (Kocher, 1996)</em></li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
