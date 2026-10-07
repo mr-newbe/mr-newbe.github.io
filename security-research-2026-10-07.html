@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ [클래식] Differential Power Analysis — '전력 소비를 엿보면 열쇠가 보인다': 스마트카드가 흘리는 비밀을 통계로 캐낸 부채널 공격의 원논문 (Kocher·Jaffe·Jun, CRYPTO 1999)</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚡ [클래식] Differential Power Analysis — 전력 소비를 엿보면 열쇠가 보인다</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-07 · 카테고리: Research (전통 보안 논문 · 부채널 공격 · 하드웨어 보안 · 암호분석)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Differential Power Analysis<br>
+                <strong>저자:</strong> Paul Kocher · Joshua Jaffe · Benjamin Jun (Cryptography Research, Inc., San Francisco)<br>
+                <strong>출처:</strong> Advances in Cryptology — CRYPTO '99, LNCS Vol. 1666, Springer, pp. 388–397 · DOI: <a href="https://doi.org/10.1007/3-540-48405-1_25" target="_blank" rel="noopener">10.1007/3-540-48405-1_25</a><br>
+                <strong>배포 이력:</strong> 기법은 1998년에 먼저 공개 발표되고, 1999년 8월 CRYPTO '99에서 정식 논문으로 게재 (같은 저자 Kocher의 Timing Attacks(CRYPTO '96) 이후 속편)<br>
+                <strong>분야:</strong> 부채널 공격(side-channel) · 하드웨어 보안 · 스마트카드 · 전력 분석 · 암호분석(DES·3DES·RSA)<br>
+                <strong>인용:</strong> <strong>Semantic Scholar 기준 7,742회</strong>(influential 720회) · OpenAlex 7,407회 — 부채널 공격 문헌의 최다 인용 원논문. 이 논문이 <em>DPA</em>라는 용어 자체를 만들었고, 이후 수천 편의 전력/전자기 분석 연구가 여기서 파생됐다.<br>
+                <strong>원문:</strong> <a href="https://paulkocher.com/doc/DifferentialPowerAnalysis.pdf" target="_blank" rel="noopener">paulkocher.com — DifferentialPowerAnalysis.pdf</a> (PDF 10쪽) · <a href="https://link.springer.com/chapter/10.1007/3-540-48405-1_25" target="_blank" rel="noopener">SpringerLink 챕터</a>
+            </div>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 한 줄 요약 — '자물쇠가 아무리 튼튼해도, 자물쇠가 돌아갈 때 나는 소리를 들으면 열쇠를 알 수 있다'</h2>
+            <p>암호학자들은 흔히 <strong>"비밀은 닫히고 신뢰할 수 있는 계산 환경에서 다뤄진다"</strong>고 가정한다. 하지만 실제 컴퓨터와 마이크로칩은 <em>자기가 처리하는 연산에 대한 정보를 흘린다</em>. 이 논문은 <strong>스마트카드가 암호 연산을 수행하는 동안의 전력 소비를 측정</strong>하면 — 겉으로는 완벽히 감춰진 비밀키를, 그것도 <em>비접촉·비파괴</em>로 — 복원할 수 있음을 보였다. 크게 두 단계다. <strong>SPA(Simple Power Analysis)</strong>는 전력 파형을 <em>눈으로</em> 읽어 "지금 무슨 명령이 도는지"를 알아낸다. <strong>DPA(Differential Power Analysis)</strong>는 한 걸음 더 나아가, 수천 번의 측정에 담긴 <em>아주 작은 데이터 상관 신호</em>를 <strong>통계</strong>로 증폭해 <strong>키 비트를 직접 계산</strong>한다. 노이즈에 묻힌 신호를 통계로 끌어올린다는 이 한 가지 발상이 <em>스마트카드·SIM·은행 IC카드·복사방지 칩</em>을 전면 재설계하게 만들었고, 오늘날 <strong>모든 하드웨어 신뢰 루트(TPM·보안칩) 설계의 기본 위협 모델</strong>이 됐다.</p>
+            <blockquote>
+                "이 공격들은 구현이 쉽고, 기기당 비용이 매우 낮으며, <strong>비침습적(non-invasive)</strong>이라 탐지가 어렵습니다. DPA는 전력 파형에서 상관관계가 있는 구역을 자동으로 찾아내므로, 공격을 자동화할 수 있고 대상 구현에 대한 정보가 거의 필요하지 않습니다. … 우리 연구실에서는 <strong>거의 50개의 서로 다른 제품</strong>에서 전력 분석으로 키를 뽑아냈습니다." — V장·VIII장
+            </blockquote>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 배경 — '닫힌 환경'이라는 착각, 그리고 암호만 뚫으면 안전하다는 착각</h2>
+            <ul>
+                <li><strong>알고리즘은 안전한데 구현이 샌다:</strong> 논문은 "강한 프로토콜의 올바른 구현이 반드시 안전하지는 않다"며, 결함 있는 계산(fault), 비밀키 연산 중의 정보 누출로 실패가 난다고 못 박는다. 미 정부가 <strong>TEMPEST</strong> 프로그램에 막대한 자원을 투입한 이유도 바로 이 <em>물리적 누출</em>이다.</li>
+                <li><strong>기존 공격과의 차이:</strong> 차분 암호분석·선형 암호분석은 알고리즘의 <em>수학적 구조</em>만 분석하면 됐다. 타이밍 공격과 침습적 측정(invasive probing)은 있었지만, DPA는 <strong>알고리즘도 모델도 건드리지 않고, 외부에서 전력만 측정</strong>해 키를 찾는다.</li>
+                <li><strong>왜 전력이 새는가:</strong> 현대 암호 기기는 반도체 논리 게이트(트랜지스터)로 만든다. 트랜지스터 게이트에 전하가 들어오거나 나갈 때 전자가 기판을 흐르며 <strong>전력을 소비하고 전자기파를 방출</strong>한다. 즉 <em>0과 1은 다른 양의 전력을 쓴다</em>(해밍 웨이트와 강하게 상관).</li>
+                <li><strong>측정이 놀랍도록 싸다:</strong> 전원/그라운드 입력에 <strong>작은 저항(예: 50Ω)</strong> 하나를 직렬로 넣고 그 양단 전압차를 저항으로 나누면 전류가 나온다. 잘 갖춘 실험실 장비는 <strong>1GHz 이상, 오차 1% 미만</strong>으로 표본화한다. 그런데 <strong>20MHz 이상으로 표본화해 PC로 넘기는 장비를 400달러 미만</strong>에 살 수 있다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-wave-square"></i> 핵심 1 — SPA: 전력 파형을 '눈으로' 읽는다</h2>
+            <ul>
+                <li><strong>정의:</strong> SPA는 암호 연산 중 수집한 전력 측정값을 <em>직접 해석</em>하는 기법이다. 논문의 예: <strong>1밀리초 연산을 5MHz로 표본화하면 5,000개 점</strong>의 트레이스가 나온다.</li>
+                <li><strong>DES 16라운드가 그대로 보인다:</strong> 논문 Figure 1은 전형적 스마트카드의 DES 연산 SPA 트레이스로, <strong>16개 라운드가 뚜렷이 보인다</strong>. Figure 2는 확대해 <strong>2라운드에서 28비트 키 레지스터 C·D가 1회, 3라운드에서 2회 회전</strong>하는 것까지 보여준다(화살표로 표시).</li>
+                <li><strong>분기(branch)가 비밀을 흘린다:</strong> 전력 파형의 뚜렷한 특징 대부분은 <em>키 비트에 따른 조건 분기</em> 때문에 생긴다. 접근법을 나열하면 — DES 키 스케줄(시프트 아웃 비트 확인용 분기), DES 순열, 문자열/메모리 비교(불일치 시 분기), 모듈러 곱셈기(피연산자·해밍 웨이트와 상관), 멱승기(제곱-곱셈: 지수 비트가 1일 때만 추가 곱셈 → 지수 노출).</li>
+                <li><strong>완화의 어려움:</strong> 비밀 중간값으로 분기하지 않도록 코드를 바꾸면 SPA 특징이 많이 가려지지만, 분기를 본질적으로 쓰는 알고리즘이면 성능 손실이 크다. 또 일부 마이크로프로세서는 <em>마이크로코드</em> 자체가 피연산자 의존 전력을 띄어 상수 실행경로 코드조차 취약하다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-chart-line"></i> 핵심 2 — DPA: 노이즈를 통계로 뚫는다 (이 논문의 진짜 기여)</h2>
+            <ul>
+                <li><strong>데이터 상관 전력은 더 작다:</strong> 명령 순서에 의한 큰 변동 말고도, <em>데이터 값과 상관된</em> 작은 변동이 있다. 이건 측정 오류·노이즈에 묻히기 쉽다. DPA는 <strong>"대상 알고리즘에 맞춘 통계 함수"</strong>로 이 묻힌 신호를 끌어낸다.</li>
+                <li><strong>선택 함수(selection function):</strong> 공격자는 <code>m</code>번의 암호화를 관측하고 <strong>트레이스 T₁…ₘ와 암호문 C₁…ₘ</strong>을 기록한다(<em>평문은 몰라도 된다</em>). DES를 예로, 각 라운드는 8개의 S-box 조회를 한다. 각 S-box는 <strong>6키비트 ⊕ R의 6비트 → 4비트</strong>를 낸다. 선택 함수 <code>D(C, b, Ks)</code>는 "16라운드 시작 시점의 중간값 L의 <code>b</code>번째 비트"를 후보 키블록 <code>Ks</code>(6비트, 0~63)로 예측한다.</li>
+                <li><strong>차분 트레이스 ΔD:</strong> <code>D=1</code>인 암호문들의 트레이스 평균과 <code>D=0</code>인 것들의 평균의 <strong>차</strong>를 표본마다 계산한다. 핵심 정리 — <strong><code>Ks</code>가 틀리면</strong> <code>D</code>가 실제 비트와 약 절반만 맞아 상관이 없어지고, 상관 성분은 <code>1/√m</code>로 줄어 <strong>ΔD는 m→∞에서 평평</strong>해진다. <strong><code>Ks</code>가 맞으면</strong> ΔD가 그 비트의 실제 전력 영향에 수렴해 특정 구역에 <strong>스파이크</strong>가 선다.</li>
+                <li><strong>키 복원으로 연결:</strong> 스파이크가 서는 <code>Ks</code>가 정답이다. 각 S-box마다 4개의 <code>b</code>가 교차 확인을 준다. 8개 <code>Ks</code>를 모두 찾으면 <strong>48비트 라운드 서브키</strong>가 완성되고, 남은 <strong>8비트는 전수조사(2⁸=256)</strong>나 라운드 하나 더 분석으로 채운다. Triple DES는 바깥쪽 DES부터 뚫고, 그 키로 복호한 뒤 다음 DES 키를 공격하면 된다. <em>알려진 평문·알려진 암호문 어느 쪽으로도, 암호화·복호화 키 모두</em> 가능하다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-ruler-combined"></i> 핵심 3 — 실측 수치: 논문이 직접 보여준 정량 결과</h2>
+            <ul>
+                <li><strong>실제 스마트카드에서의 성공:</strong> 논문 Figure 4는 다른 스마트카드의 DES에 대해, <strong>m = 10³(1,000회)</strong> 표본으로 만든 차분 트레이스 3개를 보여준다 — 위쪽은 정답 <code>Ks</code>, 아래 둘은 오답. 정답 트레이스에 신호가 뚜렷하고, 오답은 평평하다.</li>
+                <li><strong>비트 하나의 미세 영향:</strong> Figure 5는 <strong>m = 10⁴(10,000회)</strong>로 만든 차분 트레이스로, 상관 없는 구역은 <strong>한 자릿수 이상(an order of magnitude)</strong> 0에 가깝다 — 노이즈·오류가 거의 남지 않았다는 뜻이다.</li>
+                <li><strong>신호 크기 ~40µA:</strong> DPA 특징의 크기는 <strong>약 40마이크로암페어(µA)</strong>로, 그 지점의 표준편차보다 <em>수 배 작다</em>. 즉 "눈으로도 안 보이는" 신호를 통계로 끌어올린 결과다. (클록 6번째 주기에서 표준편차가 튀는 것과 강한 특징이 겹친다 → 피연산자 값이 명령 전력에 유의미한 영향을 준다는 증거.)</li>
+                <li><strong>자동 템플릿 DPA:</strong> 측정 분산을 보정해 <em>크기 대신 유의성</em>을 쓰는 기법으로, 대부분의 스마트카드에서 <strong>15개 미만의 트레이스</strong>로 DES 키를 찾을 수 있었다. 표본을 크게 줄이는 이 변형이 실전 위협을 키웠다.</li>
+                <li><strong>고차(high-order) DPA:</strong> 한 트레이스 안의 여러 표본을 결합하거나, 가중치를 주거나, 셋 이상 범주로 나누는 선택 함수 — <strong>많은 방어책을 무력화</strong>하고, 평문/암호문 정보가 전혀 없어도 공격할 수 있게 한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-microchip"></i> 핵심 4 — DES만이 아니다: 대칭키·공개키 전반, 그리고 '모르는 알고리즘의 역공학'</h2>
+            <ul>
+                <li><strong>공개키도 뚫린다:</strong> 모듈러 멱승의 경우 지수 비트 후보의 예측 중간값이 실제 계산과 상관되는지로 비트를 검정할 수 있고, <strong>CRT 기반 RSA</strong>는 CRT 환원/재조합 과정에 선택 함수를 정의해 분석할 수 있다.</li>
+                <li><strong>비대칭이 오히려 더 샌다:</strong> 논문은 "비대칭 연산에서 새는 신호가 대칭 알고리즘보다 훨씬 강한 경향"이라고 적는다 — 곱셈이 계산 복잡도가 높기 때문이다. 그래서 SPA·DPA 방어가 공개키에서 특히 까다롭다.</li>
+                <li><strong>거의 모든 알고리즘:</strong> DPA는 "거의 모든 대칭·비대칭 알고리즘 구현을 깰 수 있다". 심지어 <strong>알고리즘·프로토콜 자체를 모를 때</strong>, DPA 데이터로 가설을 검정해 <em>역공학</em>할 수 있었고, (그 과정 자체도 자동화될 가능성이 있다고 본다).</li>
+                <li><strong>전자기 방출로 확장:</strong> 키나 비밀 중간값이 버스를 지나는 기기는 특히 심각하다. 논문은 <strong>"간단한 AM 라디오조차 많은 암호 기기에서 강한 신호를 잡아낸다"</strong>고 적는다. 초전도 양자 이미징 장치 같은 다른 측정 기법도 유망하다고 본다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 방어 — 세 갈래, 그리고 "신호를 0으로 만드는 방법은 없다"</h2>
+            <ul>
+                <li><strong>(1) 신호 크기 줄이기:</strong> 상수 실행경로 코드, 전력을 적게 흘리는 연산 선택, 해밍 웨이트·상태 전이 균형, 물리적 차폐. 그러나 논문은 단호하다 — <strong>"표본이 무한하면 공격자는 여전히 DPA를 한다"</strong>. 공격적 차폐는 현실적으로 공격을 어렵게 만들지만 <em>기기 원가·크기를 크게 늘린다</em>.</li>
+                <li><strong>(2) 노이즈 주입 + 시간 무작위화:</strong> 측정에 노이즈를 더해 필요한 표본을 비현실적으로 늘린다. 타이밍·순서도 무작위화하지만, 논문은 <strong>"많은 기법이 우회·보정될 수 있으니 시간 난독화를 매우 조심하라"</strong>고 경고한다. 취약 제품들이 <em>순진한 데이터 처리</em>로 리뷰를 통과한 사례가 여러 건이었다고 밝힌다.</li>
+                <li><strong>(3) 누출 내성(leak-tolerant) 설계:</strong> 하드웨어에 대한 현실적 가정 위에서 암호체계를 설계한다. <strong>비선형 키 갱신</strong>(예: 160비트 키를 SHA로 해시해 부분정보 파괴), 공개키의 <strong>지수·모듈러스 변형(blinding)</strong>, <strong>키 사용 횟수 제한</strong>. 설계자가 "어느 정도의 누출까지 견딜 것인가"를 명시하고, 누출 저감·마스킹으로 그 목표를 맞추며, 리뷰어가 실제 기기 특성과 가정이 일치하는지 검증한다.</li>
+                <li><strong>핵심 결론:</strong> 유일하게 신뢰할 수 있는 해법은 <em>"하드웨어에 대한 현실적 가정 위에서 암호체계를 설계하는 것"</em>이다. DPA는 <strong>알고리즘·프로토콜·소프트웨어·하드웨어 설계자가 긴밀히 협업해야 함</strong>을 보여준다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 한계 · 유의점 · 오늘날의 의의</h2>
+            <ul>
+                <li><strong>실증의 무게:</strong> 이 논문은 이론이 아니라 <em>실측</em>이다 — 스마트카드에서 DES 키를 실제로 뽑았고, "거의 50개 제품"에서 키를 추출했다고 보고한다. 1998년 당시 스마트카드는 <em>변조 방지(tamper-resistant)</em>를 표방했는데, 이 논문은 그 표방이 물리 계층에서 무너짐을 보였다.</li>
+                <li><strong>방어는 '불가능'이 아니라 '비용' 문제:</strong> DPA 후속 연구(2000년대 이후)는 마스킹·하이딩, 상수시간 구현, 고차 대응으로 발전해 오늘날 스마트카드·HSM·보안칩의 <strong>인증(Common Criteria 등) 시험 항목</strong>이 됐다. 하지만 새 기법은 계속 나온다 — SO-driven, 딥러닝 기반 프로파일링 DPA까지.</li>
+                <li><strong>왜 아직도 중요한가:</strong> 신뢰 실행 환경(TEE)·보안 요소(Secure Element)·TPM·암호 가속기·양자내성암호(PQC) 구현까지, "비밀을 다루는 칩은 물리량을 흘린다"는 이 논문의 명제는 변하지 않았다. 부채널은 지금도 <strong>실리콘에서 키를 빼내는 가장 실용적인 경로</strong>다.</li>
+                <li><strong>논문의 정직함:</strong> 저자들은 공격의 <em>자동화 가능성·저비용·비탐지성</em>을 강조하면서도, 방어 세 갈래가 각각 어디까지 유효한지를 솔직히 구분한다. "차폐도 무한 표본 앞에선 무의미"라는 문장이 그 예다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>논문 원문(PDF, 저자 사이트): <a href="https://paulkocher.com/doc/DifferentialPowerAnalysis.pdf" target="_blank" rel="noopener">paulkocher.com/doc/DifferentialPowerAnalysis.pdf</a></li>
+                <li>서지·DOI: Advances in Cryptology — CRYPTO '99, LNCS 1666, Springer, pp. 388–397 · <a href="https://doi.org/10.1007/3-540-48405-1_25" target="_blank" rel="noopener">10.1007/3-540-48405-1_25</a> · <a href="https://link.springer.com/chapter/10.1007/3-540-48405-1_25" target="_blank" rel="noopener">SpringerLink 챕터</a></li>
+                <li>함께 읽기 — 부채널·암호분석 계보: 2026-08-31 <em>Timing Attacks (Kocher, 1996)</em> — 같은 저자의 직접 전편, 정보 누출 공격의 출발점 · 2026-10-05 <em>RSA 원논문 (1978)</em> — 논문이 DPA로 공격하는 CRT-RSA 구현의 뿌리 · 2026-09-04 <em>Differential Cryptanalysis of DES (1990)</em> — 논문이 참조한 통계적 암호분석 · 2026-09-23 <em>Cold Boot Attacks (2008)</em> · 2026-09-11 <em>Rowhammer (2014)</em> · 2026-09-07 <em>Meltdown (2018)</em> — 하드웨어 부채널·결함 공격 계보</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
