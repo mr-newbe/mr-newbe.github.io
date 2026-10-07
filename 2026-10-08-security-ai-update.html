@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-10-08</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        code { background: #0b1220; padding: 1px 5px; border-radius: 4px; color: #7dd3fc; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-10-08 | <i class="fa-solid fa-tags"></i> Daily News, Domain Hijacking, Supply Chain, Data Breach, Vulnerability, AI Agent
+        </div>
+        <div class="content">
+
+            <h2>1. ccTLD 레지스트리 3곳 장악 — Google·YouTube 도메인에 위조 HTTPS 인증서 12건 발급</h2>
+            <p>공격자들이 국가 최상위도메인(<strong>ccTLD</strong>) 3곳을 장악해 Google 소유 도메인들에 대해 정식 HTTPS 인증서를 발급받았다고 Google이 10월 6일 공개했다. Google 자체 시스템이 뚫린 것은 아니지만, 해당 TLD로 끝나는 모든 도메인이 위험에 노출됐다.</p>
+            <ul>
+                <li><strong>대상 TLD:</strong> 가나(<code>.gh</code>), 시에라리온(<code>.sl</code>), 미국령 사모아(<code>.as</code>). 이 세 TLD로 끝나는 도메인은 공격자가 실제 사이트로 위장해 암호화된 연결을 맺고 전송 데이터를 읽어낼 수 있다.</li>
+                <li><strong>실제 발급 내역:</strong> CT(인증서 투명성) 로그상 9월 22~27일 사이 Google·YouTube 이름으로 최소 <strong>12건의 도메인 검증(DV) 인증서</strong>가 발급됐다. 대상은 <code>google.com.gh</code>, <code>google.sl</code>, <code>google.as</code>, <code>youtube.*</code> 등 7개 도메인이며, <strong>Let&rsquo;s Encrypt 11건 + ZeroSSL 1건</strong>이었다.</li>
+                <li><strong>공격 방식:</strong> CA는 신청자가 도메인 DNS 레코드를 변경하는 등 &lsquo;통제권&rsquo;을 증명하면 인증서를 발급한다. 공격자는 장악한 레지스트리의 <strong>권위(authoritative) DNS 레코드를 조작</strong>해 검증을 통과했고, Google은 &ldquo;CA가 잘못한 정황은 없다&rdquo;고 밝혔다.</li>
+                <li><strong>대응:</strong> Chrome은 <strong>CRLSets</strong>로 Google 도메인 인증서를 차단했고, Google은 발급 CA들과 협력해 12건 전부 폐기시켰다. TLD별로 하루씩(9/22 → 9/25 → 9/27) 나눠 진행됐고 가장 짧은 폐기 간격은 약 1.5일이었다.</li>
+                <li><strong>확대 가능성:</strong> 조사한 이름이 일부에 불과해 실제 건수는 더 많을 수 있다. Google은 CT 데이터상 <strong>동일 공격에 휩쓸린 다른 조직(유명 글로벌 브랜드·서비스)도 있다</strong>고 밝혔으나 이름은 공개하지 않았다.</li>
+                <li><strong>시사점:</strong> 신뢰 사슬의 최상단(&lsquo;도메인 통제 증명&rsquo;)을 CA가 아니라 그 아래 레지스트리가 무너뜨릴 수 있음을 보여준다. 자체 도메인도 CT 로그 모니터링으로 모르는 인증서가 발급됐는지 감시해야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/attackers-hijack-gh-sl-and-as.html" target="_blank">The Hacker News - Attackers Hijack .gh, .sl, and .as Registries to Obtain Certificates for Google Domains</a> / <a href="https://www.bleepingcomputer.com/news/security/hackers-hijack-google-domains-after-breaching-cctld-registries/" target="_blank">BleepingComputer - Hackers hijack Google domains after breaching ccTLD registries</a></p>
+
+            <h2>2. npm 공급망 &lsquo;MALFEX&rsquo; — 악성 패키지 8개, 40,767회 다운로드로 Overlord RAT·스틸러 유포</h2>
+            <p>2023년 8월부터 이어진 npm 공급망 악성코드 캠페인이 공개됐다. CloudSEK와 Checkmarx가 <strong>MALFEX</strong>로 명명한 이 활동은 단일 위협 행위자가 배포한 12개 패키지 중 8개가 악성으로 확인됐다.</p>
+            <ul>
+                <li><strong>감염 경로 3종:</strong> ① Go로 작성된 오픈소스 RAT <strong>Overlord</strong> 로더, ② Discord·브라우저·Telegram·암호화폐 지갑을 노리는 Node.js 스틸러 <strong>movinlike</strong> 설치 체인, ③ 2차 페이로드 다운로더.</li>
+                <li><strong>패키지 목록:</strong> <code>tlxbnhd</code>, <code>tldriver</code>, <code>mxdriver</code>(Overlord RAT 로더) / <code>img-to-native</code>, <code>native-runner</code> / <code>function-flag</code>, <code>function-color</code>, <code>cdn-img-fetch</code> — 이 중 <strong>3개는 아직 npm에 살아 있다</strong>.</li>
+                <li><strong>다운로드 규모:</strong> 총 <strong>40,767회</strong> 중 <code>function-flag</code> 한 개가 <strong>37,419회</strong>로 대부분을 차지한다. 이 패키지는 2024년 7월 첫 배포됐고 최신 버전은 2025년 8월 4일 릴리스됐다.</li>
+                <li><strong>은닉 기법:</strong> <code>function-flag</code>의 <code>postinstall</code> 훅이 ASCII 아트 함수를 호출하는데, <strong>&lsquo;Bloody&rsquo; 폰트 값이 숨겨진 루틴을 트리거</strong>해 브라질 호스팅 서비스(<code>cdnzona.discloud.app</code>)에서 <code>node.exe</code>를 받아 <code>%APPDATA%</code>에 저장하고 창을 숨겨 실행한다. Overlord RAT는 C2 주소를 <strong>Solana 블록체인 트랜잭션</strong>에서 추출한다.</li>
+                <li><strong>연관 캠페인:</strong> Overlord RAT는 2026년 7월 이후 ① WordPress 결함(<code>CVE-2026-63030</code>/<code>60137</code>, 일명 wp2shell) 익스플로잇, ② 가짜 Zoom 설치파일을 쓰는 macOS 캠페인에서도 관측됐다. 후자는 북한 연계 의심 클러스터 <strong>UNK_DeadDrop</strong>과 전술이 겹친다.</li>
+                <li><strong>귀속:</strong> 운영자는 포르투갈어 사용자로 판단된다(커밋 타임존 -0300, 저장소 설명·핸들). CloudSEK는 &ldquo;브라질 표적이라는 근거는 아니고 운영자의 언어권에 대한 단서일 뿐&rdquo;이라고 선을 그었다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/eight-malicious-npm-packages-downloaded.html" target="_blank">The Hacker News - Eight Malicious npm Packages Downloaded 40,767 Times Deliver Overlord RAT and Stealer</a></p>
+
+            <h2>3. FortiBleed, FBI·USSS 경고 — Fortinet 자격증명 86,644건, 랜섬웨어 초기 침투로 재악용</h2>
+            <p>미 FBI와 비밀경호국(USSS)이 <strong>FortiBleed</strong> 자격증명 수집 캠페인이 여전히 활발하다고 경고했다. 인터넷에 노출된 Fortinet FortiGate 방화벽과 SSL VPN 게이트웨이가 표적이며, 실제 관리자들이 <strong>자기 장비에서 잠기는</strong> 피해가 나오고 있다.</p>
+            <ul>
+                <li><strong>침투 방법:</strong> 유출·재사용된 자격증명, 인포스틸러 로그, 크리덴셜 스터핑, 패스워드 스프레이로 접근한 뒤, 탈취한 해시를 <strong>GPU 클러스터(Hashcat + Hashtopolis)로 오프라인 크래킹</strong>한다.</li>
+                <li><strong>규모:</strong> 6월 공개된 이 유출은 <strong>194개국 73,932개 방화벽 URL</strong>의 사용자명·평문 비밀번호를 담고 있었다. SOCRadar 최신 집계로 침해 장비는 <strong>86,644대</strong>다.</li>
+                <li><strong>랜섬웨어와 연결:</strong> FBI는 &ldquo;FortiBleed 공격 체인이 <strong>랜섬웨어 계열의 초기 침투 경로</strong>로 관측됐다&rdquo;고 밝혔다. <strong>INC/Lynx</strong>와 <strong>Payload</strong> 랜섬웨어 계열이 이득을 보고 있다.</li>
+                <li><strong>피해 방식:</strong> 일부 사례에서 공격자는 관리자 계정을 새로 만들고 기존 관리자 계정을 삭제하거나 비밀번호를 바꿔 <strong>피해자의 장비 접근 자체를 차단</strong>한 뒤, 지속성 확보와 측면 이동을 시도한다.</li>
+                <li><strong>대응(FBI 권고):</strong> 단순 패치·비밀번호 재설정으로는 부족하다. 외부 접근 제한, <strong>모든 활성 VPN 세션 종료</strong>, MFA 강제, 비인가 변경·의심 활동 로그 검토가 필요하며, 관리자 비밀번호 저장은 취약한 <strong>레거시 SHA-256 → PBKDF2</strong>로 전환하라고 권고했다.</li>
+                <li><strong>시사점:</strong> &lsquo;패치할 수 없는 것&rsquo;(재사용·유출 자격증명)을 노린다. 자격증명 위생과 세션 무효화가 방화벽 펌웨어 버전보다 중요해진 사례다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/fbi-ongoing-fortibleed-attacks-lock-out-fortigate-vpn-admins/" target="_blank">BleepingComputer - FBI: Ongoing FortiBleed attacks lock out FortiGate VPN admins</a> / <a href="https://thehackernews.com/2026/10/fbi-warns-fortibleed-remains-active.html" target="_blank">The Hacker News - FBI Warns FortiBleed Remains Active After Amassing 86,644 Fortinet Device Credentials</a></p>
+
+            <h2>4. 조지아파워·앨라배마파워 고객 약 40만 계정 유출 — &lsquo;고객 포털&rsquo; 침해</h2>
+            <p>미국 남부 최대 전력회사 <strong>Southern Company</strong> 계열의 <strong>Georgia Power</strong>와 <strong>Alabama Power</strong> 고객 포털이 침해돼 약 <strong>40만 계정</strong>의 정보가 노출됐다.</p>
+            <ul>
+                <li><strong>규모·대상:</strong> SecurityWeek 기준 Georgia Power 약 30만, Alabama Power 약 10만 계정이 영향권에 들었다. 노출 데이터는 고객 포털 계정과 연결된 개인정보로 알려졌다.</li>
+                <li><strong>침해 지점:</strong> 발전·송배전 제어망이 아니라 <strong>고객용 웹 포털</strong>이다. 즉 발전소 제어 시스템(OT)이 아니라 인터넷에 노출된 고객 서비스 계층이 공격면이었다.</li>
+                <li><strong>시점:</strong> 사고는 10월 5일 전후로 보도됐고, 피해자 측은 법률 대응(집단소송 준비) 단계에 들어갔다.</li>
+                <li><strong>시사점:</strong> 에너지·유틸리티에서 OT가 아닌 <strong>IT·고객 포털이 먼저 뚫리는</strong> 패턴이 반복된다. 전력사의 고객 데이터(청구·연락처·계좌)는 사기·피싱의 1차 자료가 되므로 포털 계층의 인증 강화가 필요하다.</li>
+            </ul>
+            <p>출처: <a href="https://www.securityweek.com/georgia-power-alabama-power-data-breach-hits-400000-accounts/" target="_blank">SecurityWeek - Georgia Power, Alabama Power Data Breach Hits 400,000 Accounts</a></p>
+
+            <h2>5. PoeLLM / &lsquo;Canto Incognito&rsquo; — 노출된 AI·LLM 서버 3,400대 이상 감염, 암호화폐 채굴 봇넷화</h2>
+            <p>인터넷에 노출된 인공지능·LLM 인프라를 겨냥해 암호화폐 채굴기를 심고 봇넷을 확장하는 신종 악성코드가 보고됐다. 금전 동기 캠페인은 <strong>Canto Incognito</strong>로 명명됐다.</p>
+            <ul>
+                <li><strong>규모:</strong> <strong>3,400대 이상</strong>의 노출된 AI/LLM 서버가 감염된 것으로 집계됐다.</li>
+                <li><strong>표적:</strong> 추론 서버·에이전트 실행 환경 등 공개된 <strong>LLM 서비스 인프라</strong>. 대규모 GPU 자원을 보유한 특성상 채굴 봇넷에 매력적인 표적이다.</li>
+                <li><strong>설치 페이로드:</strong> 암호화폐 채굴기를 설치하고, 감염 호스트를 봇넷의 일부로 편입시켜 규모를 키운다.</li>
+                <li><strong>시사점:</strong> 오늘 6번 항목(LMCache 무패치 RCE)과 같은 뿌리 — <strong>&lsquo;AI 추론 인프라를 인터넷에 그대로 노출&rsquo;</strong>하는 관행이 곧 채굴·침해의 입구가 된다. 이번 주 AI 인프라 관련 사건은 취약점·악성코드가 동시에 몰렸다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/poellm-malware-infects-3400-servers-to.html" target="_blank">The Hacker News - PoeLLM Malware Infects 3,400+ Servers to Expand Crypto Mining Botnet</a> / <a href="https://www.bleepingcomputer.com/news/security/poellm-malware-infects-exposed-ai-servers-in-cryptomining-attacks/" target="_blank">BleepingComputer - PoeLLM malware infects exposed AI servers in cryptomining attacks</a></p>
+
+            <h2>6. [취약점] AI·LLM 인프라 — LMCache 무패치 치명 결함(9.8)과 IBM Langflow 클러스터</h2>
+            <p>AI 추론 스택이 오늘 취약점 블록의 중심이다. LMCache는 <strong>패치 버전이 아직 없는</strong> 원격 코드 실행 결함이고, IBM Langflow는 한 제품에서 9.8 두 건을 포함해 10건 가까운 결함이 한꺼번에 나왔다.</p>
+            <ul>
+                <li><strong>LMCache <code>CVE-2026-105192</code> (JFrog, 9.8):</strong> vLLM 등 LLM 서버의 캐시를 가속하는 오픈소스. 멀티프로세스(분산) 모드에서 워커들이 <strong>ZeroMQ</strong>로 접속하는 서버가 <strong>무인증</strong>이며, 한 개의 네트워크 메시지로 캐시 프로세스 권한의 명령 실행이 가능하다. 영향 범위 <strong>0.3.9(2025-10) ~ 0.5.5(최신 안정판)</strong> 및 0.5.6 RC·개발 브랜치. <strong>수정 버전 없음.</strong></li>
+                <li><strong>근본 원인:</strong> 인증 없는 소켓에서 받은 데이터를 <strong>pickle로 역직렬화</strong>하는데, 메시지 타입 검사 전에 언피클이 이뤄진다. 공식 컨테이너 이미지에서 이 프로세스는 <strong>root로 실행</strong>된다. 완화책은 멀티프로세스 서버에 라우팅 가능 주소를 주지 않고 localhost/신뢰 클러스터망에 묶어두는 것.</li>
+                <li><strong>관련 LMCache 결함:</strong> <code>CVE-2026-107204</code>(9.8) — 0.5.5 이하 <code>/run_script</code> 엔드포인트로 Python 코드 실행. vLLM의 <code>CVE-2026-105756</code>(6.5, 서비스 거부)은 0.30.0에서 수정됐다. GitHub에는 별도로 6건의 LMCache 보안 이슈가 제기됐다(테넌트 간 캐시 데이터 무인증 접근 등).</li>
+                <li><strong>IBM Langflow OSS 클러스터:</strong> 1.0.0~1.12.2에서 <code>CVE-2026-104334</code>·<code>CVE-2026-93674</code>(각 <strong>9.8</strong>)를 포함해 <code>CVE-2026-104335</code>, <code>88962</code>, <code>93675</code>, <code>97655</code>, <code>97673</code>, <code>97676</code>, <code>97678</code>, <code>97679</code> 등 <strong>8.8점 다수</strong>. 공통 결함 형태는 &lsquo;코드 생성 제어 불량·차단목록 불완전·OS 명령 주입 → <strong>샌드박스 탈출</strong>&rsquo;이다.</li>
+                <li><strong>시사점:</strong> AI/에이전트 프레임워크의 결함은 세 가지 패턴(0.0.0.0 바인딩, 기본·공개 시크릿, 샌드박스 없는 코드 실행)에 계속 수렴한다. 특히 <strong>샌드박스를 &lsquo;차단목록&rsquo;으로 구현하는 방식</strong>이 반복적으로 우회되고 있다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/unpatched-critical-lmcache-flaw-lets.html" target="_blank">The Hacker News - Unpatched Critical LMCache Flaw Lets Unauthenticated Attackers Run Code Remotely</a> / <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-104334" target="_blank">NVD - CVE-2026-104334 (IBM Langflow OSS RCE)</a></p>
+
+            <h2>7. [취약점] 네트워크 경계 어플라이언스 — SonicWall SMA1000 CVSS 10.0, FlexNet lmadmin, Veeam</h2>
+            <p>원격 접속 관문과 관리 인프라에서 무인증·하드코딩 결함이 나왔다. SonicWall은 올해 <strong>세 번째로</strong> 같은 위치(WorkPlace)에서 10.0짜리 SSRF를 고쳤다.</p>
+            <ul>
+                <li><strong>SonicWall SMA1000 <code>CVE-2026-102255</code> (10.0):</strong> 사용자 로그인 포털 <strong>WorkPlace</strong>의 SSRF로, 로그인 없이 어플라이언스 내부 기능에 접근해 비인가 작업을 수행할 수 있다. 수정: SMA1000 모델 <strong>6210·7210·8200v</strong>에서 <strong>12.4.3-03670+ / 12.5.0-03082+</strong> 핫픽스(적용 시 재부팅, 워크어라운드 없음).</li>
+                <li><strong>함께 온 3건:</strong> <code>CVE-2026-102256</code>(7.8, OS 명령 주입→RCE, 관리자 로그인 필요), <code>CVE-2026-102257</code>(7.2, AMC의 Zip Slip), <code>CVE-2026-102258</code>(5.5, AMC 저장형 XSS). SonicWall은 악용 정황은 없다고 밝혔다. 10.0 SSRF는 <strong>Anthropic의 Benoît Sevens</strong>가 제보했다.</li>
+                <li><strong>반복 패턴:</strong> 올해 7월(<code>CVE-2026-15409</code>/<code>15410</code>)과 9월(<code>CVE-2026-83548</code>/<code>83549</code>)에도 동일하게 &lsquo;무인증 SSRF + 로그인 후 명령 실행&rsquo; 한 쌍이 나왔고, 두 번 모두 실제 공격 사례가 확인됐다.</li>
+                <li><strong>FlexNet Publisher lmadmin <code>CVE-2026-19572</code> (9.3):</strong> SOAP 핸들러에 <strong>하드코딩된 인증 우회</strong>가 있어, 무인증 사용자가 관리자 권한을 얻을 수 있다.</li>
+                <li><strong>Veeam Backup &amp; Replication <code>CVE-2025-64393</code> (9.4):</strong> Backup Viewer 권한만 가진 사용자가 <strong>백업 서버에서 SYSTEM으로 코드 실행</strong>이 가능하다. 백업 인프라가 곧 최상위 표적이 되는 흐름과 맞물린다.</li>
+                <li><strong>시사점:</strong> &lsquo;경계를 다시 검증하지 않는다&rsquo;는 결함 형태가 VPN 관문·라이선스 서버·백업 서버에서 동시에 나타났다. 외부에 노출된 관리 UI는 먼저 VPN 뒤로 옮기는 것이 우선순위다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/sonicwall-patches-cvss-100-pre.html" target="_blank">The Hacker News - SonicWall Patches CVSS 10.0 Pre-Authentication SSRF Flaw in SMA1000 Appliances</a> / <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-19572" target="_blank">NVD - CVE-2026-19572 (FlexNet Publisher lmadmin auth bypass)</a> / <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2025-64393" target="_blank">NVD - CVE-2025-64393 (Veeam Backup &amp; Replication)</a></p>
+
+            <h2>8. [취약점] 임베디드·산업·IoT — 태양광 관제 인증 우회(9.2), ThreadX NetX Duo, 라우터·VoIP 클러스터</h2>
+            <p>산업·에너지·임베디드 계층에서도 고위험 결함이 몰렸다. 특히 태양광 관제 플랫폼 결함은 &lsquo;대륙 단위 정전&rsquo; 가능성까지 문구에 등장한다.</p>
+            <ul>
+                <li><strong>Sungrow iSolarCloud <code>CVE-2026-107194</code> (9.2):</strong> 로그인 요청에 <code>"login_type":"5"</code>를 넣어 <strong>인증 우회·계정 탈취</strong>가 가능하다. 영향 설명에는 유럽의 &ldquo;대륙 전체 정전(local blackouts on the whole continent)&rdquo; 가능성이 언급된다 — 분산 태양광 관제의 집중화 리스크.</li>
+                <li><strong>Eclipse ThreadX NetX Duo <code>CVE-2026-103416</code> (9.3):</strong> TLS 1.3 핸드셰이크 메시지 캐시에서 초과 메시지가 세션 제어 블록을 넘겨 써지는 <strong>OOB write</strong> (6.5.1.202602). RTOS 기반 임베디드 통신 스택.</li>
+                <li><strong>TOTOLINK A3002MU <code>CVE-2026-105284</code>·<code>105285</code> (각 10.0):</strong> <code>/bin/boa</code> 인증 확인 로직과 QoS 규칙 핸들러 <code>formIpQoS</code>의 입력 검증 실패.</li>
+                <li><strong>ASUS 라우터 모듈 <code>CVE-2026-19386</code>(9.3)·<code>14911</code>(9.3)·Fanvil x7a VoIP</strong> 등도 포함 — 모두 <strong>&lsquo;인증된 근접 사용자&rsquo; 또는 무인증 입력</strong>을 신뢰하는 형태다.</li>
+                <li><strong>시사점:</strong> 임베디드 결함의 핵심은 &lsquo;CVE 개별 대응이 불가능하다&rsquo;는 점이다. 10.0짜리가 한 제조사에서 동시에 쏟아지는 것은 개발 공정 문제이므로, 관리 UI를 VPN 뒤로 두고 펌웨어 자동 업데이트 체계를 갖추는 것이 현실적 통제다.</li>
+            </ul>
+            <p>출처: <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-107194" target="_blank">NVD - CVE-2026-107194 (Sungrow iSolarCloud auth bypass)</a> / <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-103416" target="_blank">NVD - CVE-2026-103416 (ThreadX NetX Duo OOB write)</a> / <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-105284" target="_blank">NVD - CVE-2026-105284 (TOTOLINK A3002MU)</a></p>
+
+            <h2>9. [패치] Chrome 155 — 취약점 247건 수정 / Atlassian 결함은 공개 2시간 만에 익스플로잇 / Outlook, 11월부터 MSIX 차단</h2>
+            <p>이번 주 패치 우선순위는 브라우저·협업 도구·메일 첨부 세 갈래다. Atlassian 결함은 공개 후 <strong>2시간 만에</strong> 실제 익스플로잇이 관측됐다.</p>
+            <ul>
+                <li><strong>Chrome 155:</strong> 안정판 업데이트로 <strong>247건의 취약점</strong>을 수정했다(SecurityWeek 보도). 데스크톱 안정 채널 릴리스가 배포됐으며, Android에는 Chrome 155(155.0.8059.39)가 구글 플레이로 순차 배포 중이다. 브라우저는 즉시 재시작해 업데이트를 적용하는 것이 좋다.</li>
+                <li><strong>Atlassian Data Center <code>CVE-2026-21589</code> (9.3) 실제 익스플로잇:</strong> 어제(10-07) 게시물이 &lsquo;8개 제품 치명 결함 + 패치&rsquo;로 다룬 바로 그 결함이, <strong>공개 PoC 배포 후 2시간 내에 익스플로잇 시도</strong>로 이어졌다. Bitbucket·Confluence·Jira 계열 Data Center가 대상이므로, 아직 미적용 환경은 즉시 업그레이드하고 웹셸·비인가 파일 접근 흔적을 점검해야 한다.</li>
+                <li><strong>Microsoft Outlook — MSIX 첨부 차단(11월):</strong> 공격에 악용돼 온 <strong>MSIX 패키지 첨부 파일</strong>을 Outlook이 11월부터 차단한다. 사용자에게는 예고 기간이 필요하므로 사내 메일 정책·헬프데스크 공지를 지금 준비해야 한다.</li>
+                <li><strong>포워드 룩:</strong> CISA KEV 최신 등재는 10월 4일 NetScaler(<code>CVE-2026-88779</code>, 마감 10-07로 경과)이며, 이후 신규 등재는 없다. 최근 마감이 지난 항목(Zammad 10/5, FortiMail 10/4, Cisco SD-WAN 10/3, NetScaler 10/7)은 <strong>&lsquo;패치 + 침해 헌팅&rsquo;</strong> 대상이다.</li>
+            </ul>
+            <p>출처: <a href="https://chromereleases.googleblog.com/2026/10/stable-channel-update-for-desktop_086471744.html" target="_blank">Chrome Releases - Stable Channel Update for Desktop (Chrome 155)</a> / <a href="https://thehackernews.com/2026/10/atlassian-data-center-flaw-draws.html" target="_blank">The Hacker News - Atlassian Data Center Flaw Draws Exploitation Attempts Within Two Hours of Public Details</a> / <a href="https://www.bleepingcomputer.com/news/security/microsoft-outlook-to-block-msix-attachments-used-in-attacks/" target="_blank">BleepingComputer - Microsoft Outlook to block MSIX attachments used in attacks</a></p>
+
+            <h2>10. [트렌드] AI가 취약점 &lsquo;사냥의 주체&rsquo;가 되다 — Anthropic Glasswing 12.9만 건, 3계층 접근 개방</h2>
+            <p>AI 기반 취약점 발굴이 규모의 단계로 넘어갔다. Anthropic은 자사 이니셔티브가 <strong>12.9만 건</strong>의 검증된 취약점을 찾아냈다고 밝히면서, 동시에 검증된 방어 팀에 더 강력한 모델 접근을 열었다.</p>
+            <ul>
+                <li><strong>Glasswing 성과:</strong> 2026년 4~7월에 <strong>최소 129,000건</strong>의 검증된 소프트웨어 취약점을 발견했고, 4~10월 오픈소스 스캔으로 <strong>추가 5,500건</strong>을 확인했다. 이 중 <strong>33,000건 이상이 심각·높음 등급</strong>이며, Anthropic은 &ldquo;전체 규모는 최소 5배 이상일 것&rdquo;이라고 추정했다.</li>
+                <li><strong>Cyber Verification Program(CVP) — 3계층:</strong> ① <strong>Defense Access</strong>(사고 대응·악성코드 리버싱·취약점 검증), ② <strong>Red Team Access</strong>(+승인된 펜테스팅·레드팀), ③ <strong>Specialized Access</strong>(최소 안전장치, 소수 검증 조직 한정). Claude Opus 5.5 등 최신 모델을 제공한다.</li>
+                <li><strong>효과 측정:</strong> CyScenarioBench 평가에서 Opus 5.5는 Defense 계층에서 50개 과제 중 46개가 안전장치로 차단됐지만, Red Team 계층에서는 차단 0건에 <strong>34/50 완료</strong>(안전장치 미적용과 동일)였다. 접근 등급 부여 없이는 모든 과제가 첫 프롬프트에서 차단됐다.</li>
+                <li><strong>냉정한 대조:</strong> VulnCheck 분석에 따르면 AI가 찾은 300건 중 실제 익스플로잇된 것은 <strong>2건(0.67%)</strong>뿐이다(<code>CVE-2026-26980</code> Ghost CMS SQLi, <code>CVE-2026-61500</code> Rejetto HFS). 즉 <strong>&lsquo;발견&rsquo;이 &lsquo;악용 가능성&rsquo;을 의미하지는 않는다.</strong></li>
+                <li><strong>역방향 리스크:</strong> Veracode는 <strong>AI 코드 생성 과제의 약 44%가 보안 취약점을 유발</strong>했고, 모델 평균 보안 통과율은 <strong>56%</strong>로 직전 보고서(55%) 대비 정체라고 밝혔다. AI가 결함을 찾는 속도만큼 결함을 만드는 속도도 올라간다는 뜻이다.</li>
+                <li><strong>시사점:</strong> 이번 주 흐름은 &lsquo;AI가 공격 도구이자 방어 도구&rsquo;라는 이분법을 넘어, <strong>발견량 폭증 → 검증·우선순위 병목(취약점 백로그 급증)</strong>으로 이동하고 있음을 보여준다. 노이즈를 걸러낼 위험 기반 우선순위가 앞으로의 핵심 역량이다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/anthropic-expands-claude-access-for.html" target="_blank">The Hacker News - Anthropic Expands Claude Access for Vetted Cyber Teams as Glasswing Finds 129,000 Flaws</a></p>
+
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
