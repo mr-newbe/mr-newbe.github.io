@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 [최신] Black-Box Adversarial Patch Attacks on VLAs via Ancestor VLM Exploitation — '로봇을 뚫으려고 로봇을 살 필요가 없다, 조상 VLM만 있으면 된다': 배포된 VLA 성공률 68.8%→33.2% (arXiv 2610.09708, 2026)</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 [최신] Black-Box Adversarial Patch Attacks on VLAs via Ancestor VLM Exploitation — 로봇을 뚫으려고 로봇을 살 필요가 없다</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-08 · 카테고리: Research (최신 보안 논문 · AI·로보틱스 보안 · 적대적 패치 · VLA/VLM · 공급망 공격면)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Black-Box Adversarial Patch Attacks on VLAs via Ancestor VLM Exploitation<br>
+                <strong>저자:</strong> Xiaoyi Pang·Haoyue Feng·Quanxin Shou·Yikun Miao·Zhengyang Yan·Song Guo (홍콩과기대 HKUST · 베이항대학 Beihang; *공동 1저자)<br>
+                <strong>출처:</strong> arXiv:2610.09708v1 [cs.CR], 2026년 10월 7일 제출 · 라이선스 CC BY 4.0 · <a href="https://arxiv.org/abs/2610.09708" target="_blank" rel="noopener">arxiv.org/abs/2610.09708</a><br>
+                <strong>분야:</strong> AI 보안 · 로보틱스(VLA) 적대적 공격 · 물리적 패치 공격 · 블랙박스 전이 공격 · AI 공급망 보안<br>
+                <strong>인용:</strong> <strong>신규 프리프린트(제출 1일 차) — Semantic Scholar·OpenAlex 미등록(0회)</strong>. 대신 이 논문이 놓인 계보로 위치를 가늠한다 — VLA 강건성 연구(Wang et al.의 UADA/UPA/TMA), 전이 패치 공격 EDPA·UPA-RFAS·VLA-Hijack. 저자진에는 HKUST Song Guo 교수(분산·에지·시스템 보안)가 포함된다.<br>
+                <strong>원문:</strong> <a href="https://arxiv.org/abs/2610.09708" target="_blank" rel="noopener">arXiv abs 페이지</a> · <a href="https://arxiv.org/pdf/2610.09708" target="_blank" rel="noopener">PDF</a> · <a href="https://arxiv.org/html/2610.09708v1" target="_blank" rel="noopener">HTML(본문·표 전체)</a>
+            </div>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 한 줄 요약 — '로봇의 정책(policy)을 훔칠 필요가 없다. 그 로봇이 태어난 원본 VLM만 있으면, 한 장의 스티커로 로봇을 멈출 수 있다'</h2>
+            <p>요즘 잘 나가는 로봇(VLA, Vision-Language-Action)은 백지에서 학습되지 않는다. 대부분 <strong>공개된 사전학습 VLM(예: Prismatic-7B·PaliGemma-3B)을 파인튜닝</strong>해 만든다. 이 논문은 그 평범한 관행이 <em>공유된 공격면</em>이 된다는 것을 보인다. 공격자는 <strong>배포된 로봇 모델은 손대지 않고</strong>, 그 모델의 <em>공개된 조상 VLM</em>에서만 적대적 패치 하나를 최적화한다. 그 패치를 카메라 화면의 아무 위치(화면의 <strong>5%</strong>만 차지)에 붙이면, <strong>같은 조상에서 파생된 여러 VLA의 작업 성공률이 절반 가까이 떨어진다</strong>(OpenVLA 68.8% → <strong>33.2%</strong>). 즉 <em>파인튜닝은 강건성을 함께 물려주지 않는다</em> — 조상의 취약성을 그대로 상속한다. 흥미로운 반전은 <strong>'언제 실패하는가'</strong>까지 정량화했다는 점이다. 조상의 표현을 크게 덮어쓰거나, 흐름정합(flow-matching) 방식의 반복 디코더로 액션을 다듬는 VLA(π0.5)는 거의 공격되지 않는다.</p>
+            <blockquote>
+                "우리는 <strong>오직 조상 VLM만 이용해</strong> 배포된 VLA를 공격하는 최초의 프레임워크를 제안한다. 공개 VLM을 파인튜닝하는 흔한 관행이, 곧 VLA를 위한 <strong>공유된 공급망(supply-chain) 공격면</strong>이 된다." — 초록·결론
+            </blockquote>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 배경 — 'VLA는 백지에서 학습되지 않는다'는 평범한 사실이 공격면이 된다</h2>
+            <ul>
+                <li><strong>기존 VLA 공격의 전제는 비현실적이었다:</strong> 화이트박스 공격은 피해 VLA의 파라미터·액션 공간에 접근해야 하고, 전이(transfer) 공격은 <em>대리(surrogate) VLA</em>가 필요하다. 실제 배포 환경에서 이런 접근은 거의 불가능하다.</li>
+                <li><strong>핵심 통찰:</strong> VLA를 만드는 관행 자체가 <em>공격 지점</em>이다. 공개 VLM을 파인튜닝해 VLA를 만들면, VLA는 조상으로부터 두 가지 능력을 상속한다 — <strong>(1) 시각 지각</strong>(장면을 충실히 서술하는 능력)과 <strong>(2) 명령 조건부 근거화(grounding)</strong>(지시문에 비추어 '무엇이 중요한지', 대상 물체·구별 속성·공간 관계를 짚는 능력).</li>
+                <li><strong>왜 상속이 유지되는가:</strong> 로봇 파인튜닝 데이터는 VLM의 사전학습 코퍼스보다 <em>훨씬 작고 좁다</em>. 그래서 공유 표현(visual-semantic representation)이 파인튜닝 후에도 <em>상당 부분 살아남는다</em>. → 검증 가능한 가설: "조상 VLM에서 이 두 능력을 깨는 패치는, 파생 VLA의 액션 결정도 깬다."</li>
+                <li><strong>물리적 패치가 가장 현실적인 공격 형태:</strong> 카메라 시야에 작은 패치 하나를 붙이는 것만으로 '모델이 무엇을 보는지'를 조작할 수 있다. 산업·가정·UAV 등 <em>물리 환경에 배치되는</em> 로봇에서 이는 곧 안전 문제다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-user-secret"></i> 핵심 1 — 위협 모델: '배포된 VLA는 건드리지 않는다'</h2>
+            <ul>
+                <li><strong>공격자 능력:</strong> 공격자는 VLA가 파인튜닝된 <strong>공개 조상 VLM</strong>과, 그 VLA 과업을 대표하는 <strong>공개 이미지-지시문 데이터셋</strong>만 있으면 된다. <em>피해 VLA 자체에는 질의조차 하지 않는다</em> — 손대지 않으므로 <em>질의 기반 모니터링에 잡히지 않는다</em>.</li>
+                <li><strong>표적:</strong> 로봇 카메라 시야의 임의 위치에 놓인 적대적 패치 하나로, 배치된 VLA가 과업을 실패하게 만드는 것.</li>
+                <li><strong>왜 블랙박스인데도 강력한가:</strong> 피해 모델을 모르지만, <em>그 모델의 절반(조상 표현)을 사실상 알고 있는</em> 셈이기 때문이다. 이 논문의 표현대로 "공개 VLM을 파인튜닝하는 관행이 VLA를 위한 공유 공급망 공격면을 만든다."</li>
+                <li><strong>계보상의 위치:</strong> 기존 전이 공격들(EDPA: 인코더 임베딩 정렬 교란 / UPA-RFAS: 시각-텍스트 정렬 교란 + 어텐션 장악 / VLA-Hijack: 팔 자기위치추정 과정 공략)은 <em>대리 VLA</em>가 필요했다. 이 논문은 그 요구를 <em>조상 VLM</em>으로 낮춘 첫 사례다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-bolt"></i> 핵심 2 — 세 갈래 공격: 상속된 두 능력을 각각, 그리고 함께 깬다</h2>
+            <ul>
+                <li><strong>① 시각 교란(L<sub>VIS</sub>):</strong> 프로젝터를 통과해 만들어진 <em>시각 토큰</em>을 직접 왜곡한다. 특정 토큰이 원래 있어야 할 '깨끗한 토큰'에서 얼마나 멀어졌는지를 <strong>상대항 + 절대항</strong>으로 측정해 벌점을 준다. 요령 — 이미지 레벨이 아니라 <strong>토큰 레벨</strong>에서 어긋남을 최대화하는 것이 훨씬 더 잘 깬다. 이는 시각 의미 자체를 무너뜨린다.</li>
+                <li><strong>② 명령 근거 억제(L<sub>IGS</sub>):</strong> 지시문이 요구하는 특정 개념(예: "빨간 컵")에 대응하는 <em>시각적 근거(evidence)</em>를 제거한다. 상대항(깨끗한 근거 점수 대비 하락)과 절대항(목표 백분위 이하로 눌러버리기, 기본 ρ=10)을 softplus로 결합해, 경계 아래에서도 그래디언트가 살아 있게 해 계속 밀어붙인다. → 모델은 "무엇을 보고 있는지"를 지시문에 연결하지 못한다.</li>
+                <li><strong>③ 공동 공격(L<sub>joint</sub>):</strong> 두 목표를 <strong>2단계 커리큘럼</strong>으로 통합한다. L<sub>VIS</sub>만으로는 명령 채널이 남아 있어 모델이 지시문을 의미적 사전(prior)으로 삼아 장면을 일부 복원하지만, 두 손실을 함께 최적화하면 그 복원 경로까지 막힌다.</li>
+                <li><strong>실험 규모:</strong> 패치는 이미지의 <strong>5%</strong>만 차지하며, 최적화·테스트 모두에서 <strong>무작위 위치</strong>에 놓인다. Adam으로 <strong>3,500 외부 스텝</strong>, 배치 B=4, 각 갱신에서 <strong>8회 EoT(기하 변형: 전단·회전 / 광도 변형: 밝기·대비·가우시안 노이즈)</strong>로 그래디언트를 평균해 물리적 견고성을 준다. 서로 다른 시드로 <strong>패치 5개</strong>를 최적화해 평균을 보고한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-chart-line"></i> 핵심 3 — 실측 결과: '조상 패치'가 정상 패치·기존 전이 공격을 모두 앞선다</h2>
+            <ul>
+                <li><strong>벤치마크:</strong> 시뮬레이션 <strong>LIBERO</strong>(Spatial/Object/Goal/Long 4개 스위트 × 10개 과업 × 50 롤아웃)와 대규모 실세계 데이터셋 <strong>BridgeData V2</strong>(60,096 궤적). 피해 VLA는 <strong>OpenVLA·UniVLA</strong>(조상 = Prismatic-7B), <strong>π0.5</strong>(조상 = PaliGemma-3B).</li>
+                <li><strong>OpenVLA(LIBERO 평균, 낮을수록 강한 공격):</strong> 무공격 <strong>68.75</strong> → 무작위 패치 48.98 · 빈 패치 48.15 → <em>조상 Prismatic-7B에서 최적화한</em> 제안 기법 <strong>Ours-VIS 35.50 / Ours-IGS 41.40 / Ours-Joint 33.20</strong>. 기존 전이 공격(EDPA 46.20, UPA-RFAS 41.50)도 앞선다. <em>어려운 Long 스위트</em>는 49.4 → <strong>13.2</strong>로 무너진다.</li>
+                <li><strong>UniVLA(LIBERO 평균):</strong> 무공격 <strong>93.08</strong> → Ours-Joint <strong>45.95</strong>(조상 패치), Bridge 데이터 패치로도 46.85. 무작위 67.55·빈 패치 74.35를 크게 밑돈다.</li>
+                <li><strong>처음 보는 영역으로의 전이도 강하다:</strong> 패치를 <em>LIBERO</em>에서 최적화해 <em>BridgeData V2</em> 조건에서 시험해도, 그 반대여도 평균이 비슷하게 유지된다 — 즉 공격자는 <em>표적 도메인을 몰라도</em> 공격할 수 있다.</li>
+                <li><strong>교차 구조 전이(Table 2, OpenVLA 기준):</strong> 직접 조상 Prismatic-7B → Joint 33.2 / LLaVA-1.5-7B(Llama-2 백본 공유, 시각 인코더는 CLIP ViT-L/14로 다름) → 43.78 / PaliGemma-3B(언어·시각 백본 모두 다름) → 48.73(≈ 무작위 48.98). <em>언어 백본만 공유하는 것으로는 강한 전이에 충분하지 않다.</em></li>
+            </ul>
+
+            <h2><i class="fa-solid fa-ruler-combined"></i> 핵심 4 — 전이를 결정하는 것: '조상과의 거리', 그리고 정밀 위치추정 과업</h2>
+            <ul>
+                <li><strong>단조적 규칙:</strong> 전이는 <em>대리 모델이 표적 VLA의 계보에서 얼마나 멀어지는가</em>에 따라 감소한다 — 직접 조상(강함) &gt; 부분 중첩 LLaVA(중간) &gt; 무관한 PaliGemma(무작위 수준).</li>
+                <li><strong>과업별 편차:</strong> 효과는 <strong>정밀한 명령 근거화(instruction-grounded localization)가 필요한 과업</strong>에서 최대다. "정확히 어디에 있는 그것을 잡아라"류의 과업이 가장 취약하고, 위치추정 비중이 낮은 과업은 덜 흔들린다.</li>
+                <li><strong>메커니즘 검증:</strong> 같은 프레임의 깨끗한 버전과 패치 버전을 넣고 은닉 상태·표현을 비교했다 — 시각 표현의 교란(유사도 0.48 vs 무작위 0.52)이 실제 액션 선택까지 전파됨을 확인. 각 손실 항은 단독으로도 성공률을 낮추지만, 결합이 더 강하다(상보적, 중복 아님).</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 핵심 5 — 언제 공격이 실패하는가: π0.5가 남긴 두 가지 '면역 조건'</h2>
+            <ul>
+                <li><strong>반전 사례:</strong> π0.5(조상 = PaliGemma-3B)에서는 <em>모든 공격이 무작위 수준으로 붕괴</em>한다. 무공격 96.6 → 무작위 94.6 · 빈 패치 94.4, 제안 기법들은 93.0~93.9에 머문다. 심지어 <strong>화이트박스</strong> 액션 기반 공격 UADA(OpenVLA에서 최적화)조차 87.7(LIBERO)/82.9(Bridge)로 약하다.</li>
+                <li><strong>조건 ① 표현이 크게 재작성됨:</strong> π0.5 학습에서 PaliGemma 3B 파라미터의 <em>상당 부분이 갱신</em>되어, 공유 표현이 조상에서 멀어진다 → 조상 패치가 더 이상 '같은 표현'을 건드리지 못한다.</li>
+                <li><strong>조건 ② 반복적 액션 헤드가 교란을 다듬어냄:</strong> π0.5는 별도의 <em>흐름정합(flow-matching) 전문가</em>가 잡음 낀 액션 궤적을 <em>여러 디노이징 스텝에 걸쳐 반복적으로</em> 다듬어 액션을 낸다 → 시각 입력의 섭동이 액션에 도달하기 전에 평활화된다.</li>
+                <li><strong>실무 규칙으로 요약:</strong> VLA가 <em>조상의 시각-의미 표현을 보존하고 그것을 직접 읽어 액션을 생성</em>하면 위험 최대, <em>표현을 크게 재작성하거나 반복형 액션 헤드가 섭동을 씻어내면</em> 위험 급감. → 개발자가 "내 VLA가 취약한가"를 판단하는 구체적 기준.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 방어·시사점 — '개별 정책'이 아니라 '조상' 단위로 방어하라</h2>
+            <ul>
+                <li><strong>방어를 조상 단위로 조직하라:</strong> 하나의 패치가 <em>같은 조상에서 파생된 여러 VLA</em>로 전이한다. 따라서 조상별 <strong>패치 뱅크 하나</strong>가 다수 VLA를 커버하는 공유 레드팀 자산이 되고, 같은 패치를 <strong>적대적 학습</strong>에도 재사용할 수 있다.</li>
+                <li><strong>질의 기반 탐지는 무용:</strong> 공격자는 피해 모델을 건드리지 않으므로, 탐지는 <em>입력 측</em> 또는 <em>로봇 자체</em>에서 나와야 한다. 논문이 제시하는 단서 — 비전 손실이 '토큰별 드리프트'를 최대화한다는 점에서 <strong>토큰 레벨 드리프트 트립와이어</strong>가 자연스러운 모니터이고, 근거(evidence) 점수 자체를 감시하는 <strong>의미 근거 모니터</strong>도 후보.</li>
+                <li><strong>공급망 관점:</strong> 이는 Log4j·npm 사태와 같은 <em>'공통 하부 의존성'</em> 리스크의 AI판이다. 모두가 같은 공개 VLM을 파인튜닝하면, 그 VLM의 약점이 생태계 전체의 단일 실패점이 된다.</li>
+                <li><strong>로보틱스 안전과의 접점:</strong> 이 공격은 물리 세계의 <em>시각 입력</em>을 조작한다 — 2018년 Eykholt의 물리적 적대 패치(정지 표지판 오분류)가 인식 스택을 겨냥했던 것과 같은 계보다. 차이는 표적이 '분류기'에서 '액션을 내는 정책'으로 옮겨갔다는 점, 그리고 조상 상속이라는 <em>구조적 증폭기</em>가 더해졌다는 점이다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-magnifying-glass"></i> 한계 · 유의점 · 의의</h2>
+            <ul>
+                <li><strong>실험 범위:</strong> 시뮬레이션(LIBERO)과 <em>정지 실세계 이미지</em>에서 검증했다 — <strong>실제 물리 로봇에서는 아직 시험하지 않았다</strong>. 물리 배치에서의 조명·각도·동작에 따른 성공률은 별도 과제다.</li>
+                <li><strong>조상 가정:</strong> 위협 모델은 공격자가 조상 VLM을 <em>안다</em>고 가정한다. 조상이 감춰지면 공격면은 상당히 줄어든다. 또한 전이는 조상-표적의 구조적 거리에 민감해, '아무 패치나 되는' 것은 아니다.</li>
+                <li><strong>왜 중요한가:</strong> VLA는 산업·가정·UAV로 빠르게 확산 중이다. 이 논문은 "파인튜닝으로 만든 강건성"이라는 (때로 암묵적인) 가정을 반증하고, <em>취약한 VLA와 면역인 VLA를 구분하는 규칙</em>을 제시한다. 새 모델을 배포하기 <em>전에</em> 조상 단위로 위협을 평가하라는 실무 메시지다.</li>
+                <li><strong>계보 속의 의미:</strong> LLM 보안이 '프롬프트·도구·공급망'으로 확장된 것처럼, 로봇 파운데이션 모델 보안은 이제 <strong>'조상 VLM'이라는 상속 경계</strong>를 다뤄야 한다. 이후 VLA 강건성 연구가 조상-파생 관계를 위협 모델의 1급 요소로 삼을 가능성이 크다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-book-open"></i> 출처</h2>
+            <ul>
+                <li>논문 원문(arXiv:2610.09708v1, cs.CR, 2026-10-07, CC BY 4.0): <a href="https://arxiv.org/abs/2610.09708" target="_blank" rel="noopener">arxiv.org/abs/2610.09708</a> · <a href="https://arxiv.org/pdf/2610.09708" target="_blank" rel="noopener">PDF</a> · <a href="https://arxiv.org/html/2610.09708v1" target="_blank" rel="noopener">HTML 본문·표</a></li>
+                <li>함께 읽기 — 로보틱스·물리 적대 공격 계보: 2026-09-28 <em>Robust Physical-World Attacks (Eykholt, CVPR 2018)</em> — 물리 세계 적대 패치의 원형(정지 표지판 오분류) · 2026-09-04 <em>Alpamayo 1 (NVIDIA, VLA 주행 모델)</em> · 2026-08-14 <em>BrainWAM (VLA + 월드모델)</em></li>
+                <li>함께 읽기 — AI 보안·공급망: 2026-10-06 <em>Does AI Help Cyber Attackers or Defenders?</em> — AI의 공격·방어 능력을 분리 측정 · 2026-10-03 <em>The Innocent Courier (LLMLeak)</em> — LLM 도구를 통한 측면 유출 · 2026-08-03 <em>SkillJack</em> — 자기진화 에이전트의 지속적 백도어</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
