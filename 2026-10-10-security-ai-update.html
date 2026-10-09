@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-10-10</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        code { background: #0b1220; padding: 1px 5px; border-radius: 4px; color: #7dd3fc; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-10-10 | <i class="fa-solid fa-tags"></i> Daily News, Supply Chain, Vulnerability, Patch, Cybercrime, Threat Intelligence
+        </div>
+        <div class="content">
+
+            <h2>1. GitHub Actions 자격증명 탈취 캠페인 &lsquo;GhostAction&rsquo; — 오픈소스 메인테이너 2명 계정 장악, 저장소 수만 개에 악성 워크플로</h2>
+            <p>오픈소스 유지관리자 계정 두 개가 탈취돼, 자격증명을 훔치는 악성 GitHub Actions 워크플로가 수만 개 저장소에 주입됐다. StepSecurity는 이를 2025년 9월 처음 드러난 대규모 공급망 공격 <strong>GhostAction</strong>의 연장선으로 본다.</p>
+            <ul>
+                <li><strong>확산 규모:</strong> 18,400 스타의 게임 엔진 <code>pyxel</code> 작성자 Takashi Kitao 계정으로 10월 7일 13:20 UTC부터 27개 저장소에 워크플로가 푸시됐고, 8시간 뒤 Uber <code>athenadriver</code> 원작자 Henry Wu(henrywoo) 계정이 21:10~21:26 UTC 16분 만에 318개 저장소에 같은 워크플로를 밀어 넣었다. Socket은 10월 9일 기준 <strong>500개 이상 GitHub 계정</strong>이 10월 7일 이후 수만 개 저장소에 커밋한 것으로 집계했다.</li>
+                <li><strong>공격 방식:</strong> 먼저 유지관리자 자격증명(대개 인포스틸러 로그에서 유출된 개인 액세스 토큰, PAT)을 확보한 뒤, 기본 브랜치에 <code>security-audit.yml</code>(표시명 &ldquo;Security Audit&rdquo;) 또는 <code>github_actions_security.yml</code>이라는 <em>보안 감사로 위장한</em> 워크플로를 심는다. 이 워크플로는 저장소 시크릿과 작업 트리·전체 git 히스토리의 AWS 키, Anthropic·OpenAI·OpenRouter API 키, GitHub/GitLab 토큰 등을 평문 HTTP로 하드코딩된 IP <code>193.32.204[.]199</code>로 유출한다.</li>
+                <li><strong>피해 실적:</strong> 이전 웨이브에서 327명의 GitHub 사용자가 운영하는 817개 저장소가 영향받았고 PyPI·npm·DockerHub 토큰 등 <strong>3,325건의 시크릿</strong>이 유출됐다. GitGuardian은 2026년 8월 31일~9월 30일 사이 373명 사용자/조직의 772개 공개 저장소가 침해됐고, 유출 표적 시크릿이 2,577건(SSH 개인키·Azure·AWS·GCP·Cloudflare·Slack·Discord 봇 토큰 포함)에 달한다고 밝혔다.</li>
+                <li><strong>2차 위험:</strong> henrywoo 네임스페이스의 포크 279개가 각각 악성 워크플로를 품고 있어, Actions가 켜져 있으면 이후 푸시만으로도 자격증명 수집이 재발한다. 유출이 없는 실행에서도 저장소 식별자가 반환되므로, 공격자는 자격증명과 무관하게 &lsquo;실행 가능한 컨텍스트 지도&rsquo;를 확보한다. 사례 중 하나(2026-08-30, <code>kuafuai/DevOpsGPT</code>)에서는 프로젝트 Docker 이미지에 XMRig 채굴기가 삽입됐다.</li>
+                <li><strong>대응:</strong> 2026년 8월 31일 이후 두 워크플로 파일(<code>security-audit.yml</code>, <code>github_actions_security.yml</code>)이 있는지 저장소 전체 브랜치와 포크를 점검하고, 존재하면 침해로 가정해 GitHub 자격증명·모든 시크릿을 교체하고 워크플로를 삭제해야 한다. 현재까지 탈취한 게시 자격증명으로 악성 패키지가 배포된 사례는 확인되지 않았다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/credential-stealing-github-actions.html" target="_blank">The Hacker News - Credential-Stealing GitHub Actions Workflows Planted in Tens of Thousands of Repositories</a></p>
+
+            <h2>2. P7 DarkSword iOS 익스플로잇 킷 — 온디바이스 키체인·암호화폐 지갑 탈취와 양방향 C2 추가</h2>
+            <p>iVerify가 기존 DarkSword iOS 익스플로잇 킷의 새로운 변종 <strong>P7 DarkSword</strong>를 공개했다. &ldquo;P7&rdquo;은 공격자가 수정한 코드에서 쓰는 <code>p7_</code> 변수 접두사에서 따온 이름이다.</p>
+            <ul>
+                <li><strong>변종 특징:</strong> 기기 내 흔적을 줄이고, <em>온디바이스</em> 키체인·암호화폐 지갑 탈취와 공격자 인프라와의 양방향 C2 통신을 새로 추가했다. 기존 변종이 키체인 DB를 복사해 공격자 인프라에서 처리한 것과 달리, 이번 버전은 전화기 안에서 키체인 데이터를 JSON으로 추출한 뒤 유출한다.</li>
+                <li><strong>체인 구조:</strong> 다수의 iOS 취약점을 연쇄해 브라우저 샌드박스를 탈출하고 커널 권한으로 상승시킨 뒤, 페이로드를 SpringBoard 프로세스에 주입한다. 이 임플란트가 공격자 인프라와의 모든 통신을 담당한다.</li>
+                <li><strong>명령 체계:</strong> 15초마다 명령을 폴링하고 하트비트·설치 앱 목록·iCloud 키체인 정보를 보낸다. 응답으로 내려오는 명령에는 <code>execute_command</code>(운영체제 명령 실행), <code>ios_app_data</code>(앱 샌드박스 탐색), <code>wallet_scan</code>&middot;<code>wallet_extract</code>(지갑 앱 탐색·탈취, imToken 등), <code>memo_scan</code>(Apple Notes DB), <code>photo_scan</code>(사진 업로드), <code>sleep</code>/<code>exit</code>가 포함된다.</li>
+                <li><strong>생태계:</strong> Censys는 DarkSword 및 동반 킷 <strong>Coruna</strong> 관련 컴포넌트가 있는 호스트 5곳의 오픈 디렉터리를 확인했다. <code>43.134.165[.]205</code>는 두 킷을 합친 <code>DS-Fusion v1.0</code>을 배포하고, <code>166.88.95[.]90</code>은 C2로 중국 iOS 기기 2대가 3초마다 비콘을 폴링한 기록이 있으며, 운영자 분석 워크스페이스에서는 <strong>피해자 복구 구문 11개, 기기 탈취 디렉터리 179개, 리셀러 75계정 명단</strong>이 복구됐다. 중국어권 공격자의 &lsquo;착취-서비스(EaaS)&rsquo; 형태 운영으로, 금전 동기 공격자 사이로 킷이 확산되는 흐름을 보여준다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/p7-darksword-ios-exploit-kit-adds.html" target="_blank">The Hacker News - P7 DarkSword iOS Exploit Kit Adds Crypto Wallet Data Theft and Remote Commands</a></p>
+
+            <h2>3. AnyDesk 리눅스 사전 인증 RCE(&lsquo;AnyPwn&rsquo;) 완전 익스플로잇 공개 — 연결 승인 전에 루트 권한</h2>
+            <p>연구진이 AnyDesk Linux의 사전 인증 원격 코드 실행 결함에 대한 <strong>완전 동작 익스플로잇(&lsquo;AnyPwn&rsquo;)</strong>을 공개했다. 누구도 연결을 승인하기 전에 원격에서 루트 권한을 얻을 수 있다. PoC 코드는 10월 8일 GitHub에 게시됐다.</p>
+            <ul>
+                <li><strong>결함 본질:</strong> AnyDesk 세션 프로토콜의 힙 버퍼 오버플로다. 할당 끝을 넘겨 인접 힙 객체 필드를 덮어쓰고, ROP 체인으로 임의 명령을 <code>root</code>로 실행한다. V12 보안팀의 Rick de Jager가 코드 리뷰 엔진 V12로 발견했다.</li>
+                <li><strong>조용한 수정:</strong> AnyDesk는 6월 버전 <code>8.0.3</code>에서 수정했지만, 체인지로그에는 &ldquo;크래시를 유발할 수 있는 버그 수정&rdquo;으로만 적혔고 <strong>CVE도 보안 권고문도 없다</strong>. 10월 9일 기준 CVE 미할당, 공식 어드바이저리 미발행. 연구진의 PoC 영상 공개 후 벤더가 8.0.2 빌드를 다운로드 페이지에서 내린 것으로 보인다.</li>
+                <li><strong>익스플로잇 조건:</strong> 직접 TCP 연결(포트 <code>7070</code>)에서만 동작하며 확률적이다 — 힙 레이아웃이 목표 객체를 오버플로 버퍼 옆에 배치해야 하고, 그렇지 않으면 서비스가 크래시한다. 공개된 오프셋은 AnyDesk Linux <code>8.0.2</code> 특정 빌드 대상이며, 동일 취약 코드 경로는 릴레이 서버 경유로도 도달 가능하나 전체 체인은 Frida 계측으로만 검증됐다. 벤더는 영향 범위를 &ldquo;리눅스 직접 연결에 한정, Windows·macOS는 영향 없음&rdquo;으로 밝혔다.</li>
+                <li><strong>대응:</strong> AnyDesk Linux를 최소 <code>8.0.3</code>(최신은 <code>8.1.0</code>) 이상으로 즉시 업데이트한다. 8.0.2 이전 버전도 같은 코드 경로를 공유할 가능성이 제기된다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/researchers-publish-working-exploit-for.html" target="_blank">The Hacker News - Researchers Publish Working Exploit for Pre-Auth AnyDesk Linux Flaw That Gives Root Access</a></p>
+
+            <h2>4. AhsayCBS 미패치 결함 실제 익스플로잇 — 웹셸 심고 &lsquo;edge.exe&rsquo;로 위장한 XMRig 채굴</h2>
+            <p>백업 관리 플랫폼 AhsayCBS의 결함 두 건이 공개 직후 무기화돼, 감염 기기를 장악하고 웹셸과 XMRig 암호화폐 채굴기를 심는 공격이 관측됐다.</p>
+            <ul>
+                <li><strong>결함:</strong> <code>CVE-2026-105133</code>(CVSS v4 <strong>5.5</strong>) — <code>checkSysPwd()</code> 함수(<code>com/ahsay/obs/api/ApiStructsAction.java</code>)의 부적절한 인증. <code>CVE-2026-105134</code>(CVSS v4 <strong>9.3</strong>) — Replication Receiver 컴포넌트의 운영체제 명령 주입. 두 결함을 연쇄하면 인증을 우회하고 임의 명령을 실행할 수 있다.</li>
+                <li><strong>타임라인:</strong> CVE 식별자는 <strong>2026년 10월 4일</strong>에야 공개됐고, Huntress에 따르면 익스플로잇 시도는 <strong>10월 7일 23:20 UTC</strong>에 시작됐다 — 공개에서 사흘, 패치는 아직 나오지 않았다(미패치 상태 익스플로잇).</li>
+                <li><strong>포스트 익스플로잇:</strong> 정찰 후 웹셸을 배치하고, <code>edge.exe</code>라는 이름으로 Microsoft Edge를 사칭한 XMRig 채굴기를 심는다. AI 도움으로 작성된 것으로 보이는 PowerShell 스크립트 <code>Taskgmr.ps1</code>이 curl로 실행돼 채굴을 보조하며, 심야에 작업 관리자가 일정 시간 이상 열려 있으면 강제 종료하는 안티 분석 로직을 포함한다.</li>
+                <li><strong>대응:</strong> 벤더 패치가 나오기 전까지 AhsayCBS 인스턴스를 인터넷에서 직접 노출하지 말고 VPN 뒤로 옮기거나 접근을 제한한다. 감염 시 웹셸·<code>edge.exe</code>·<code>Taskgmr.ps1</code> 흔적을 점검한다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/attackers-exploit-ahsaycbs-flaws-to.html" target="_blank">The Hacker News - Attackers Exploit AhsayCBS Flaws to Deploy XMRig Miners Disguised as Microsoft Edge</a> | <a href="https://www.bleepingcomputer.com/news/security/unpatched-ahsaycbs-flaws-exploited-to-deploy-webshells-mine-crypto/" target="_blank">BleepingComputer - Unpatched AhsayCBS flaws exploited</a></p>
+
+            <h2>5. [취약점] 경계 어플라이언스·GPU — SonicWall SMA1000 CVSS 10.0이 &lsquo;패치 3일 만에&rsquo; 익스플로잇, NVIDIA GPU 모니터링 결함</h2>
+            <p>주간 NVD 창(2026-10-07~10-10, totalResults 1,176)의 최상단은 패치된 지 사흘 만에 실제 공격에 쓰인 SonicWall SMA1000 결함이 차지했다.</p>
+            <ul>
+                <li><strong>SonicWall SMA1000, <code>CVE-2026-102255</code>(CVSS <strong>10.0</strong>):</strong> Workplace 인터페이스의 의도치 않은 대체 접근 경로로 인한 사전 인증 SSRF다. 원격 무인증 공격자가 이를 악용할 수 있다. 결함은 10월 6일(화) 패치됐고, <strong>10월 9일 실제 익스플로잇이 확인</strong>됐다 — &lsquo;패치 후 며칠 내 익스플로잇&rsquo; 패턴이 이번 주도 반복됐다.</li>
+                <li><strong>NVIDIA GPU 모니터링(고위험):</strong> 무인증 공격자가 GPU 모니터링 서비스를 크래시시킬 수 있는 고위험 결함이 공개됐다. GPU 노드가 AI/학습 인프라의 핵심이 된 만큼 영향 범위가 넓다.</li>
+                <li><strong>NVD 헤드의 나머지(참고):</strong> Fanvil x7a IP폰 펌웨어 <code>2.6.0.1182</code> 클러스터(<code>CVE-2026-102255</code>류가 아닌 <code>CVE-2025-70518</code>&middot;<code>70521</code> 10.0/9.8 — 진단 ping 도구 명령 주입)와 웹소켓 무인증 <code>CVE-2025-70516</code>(9.1), VMware Workstation·Fusion 정수 오버플로 <code>CVE-2026-59346</code>(9.3), Eclipse ThreadX NetX Duo TLS 캐시 아웃오브바운드 <code>CVE-2026-103416</code>(9.3), Apache Impala JWT/OAuth 오구현 <code>CVE-2026-97720</code>(9.1), wolfSSH ECDSA 곡선 미검증 <code>CVE-2026-16516</code>(9.0)이 상위에 올랐다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/max-severity-sonicwall-sma1000-flaw-now-exploited-in-attacks/" target="_blank">BleepingComputer - Max severity SonicWall SMA1000 flaw now exploited in attacks</a> | <a href="https://news.google.com/rss/search?q=NVIDIA+GPU+monitoring+unauthenticated+crash+vulnerability" target="_blank">Google News - High-severity NVIDIA vulnerability lets unauthenticated attackers crash GPU monitoring</a> | <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-102255" target="_blank">NVD - CVE-2026-102255</a></p>
+
+            <h2>6. [취약점] Citrix NetScaler 신규 RCE &lsquo;CVE-2026-107406&rsquo; — SAML 구성 인스턴스 대상 &lsquo;즉시 업그레이드&rsquo; 권고</h2>
+            <p>Citrix가 NetScaler ADC·NetScaler Gateway의 신규 치명 결함 <code>CVE-2026-107406</code>에 대해 &ldquo;즉시 패치&rdquo;를 권고했다. 메모리 오버플로 결함으로 RCE 또는 서비스 거부(크래시)를 유발할 수 있다.</p>
+            <ul>
+                <li><strong>취약 조건:</strong> NetScaler ADC·Gateway가 <strong>SAML IdP(자격 증명 공급자) 또는 SP(서비스 공급자)로 구성된 경우</strong>에만 취약하다. 그 외 구성은 해당 없음.</li>
+                <li><strong>권고 버전:</strong> NetScaler ADC·Gateway <code>14.1-73.46</code> 이상, 13.1 계열 <code>13.1-64.29</code> 이상, 14.1-FIPS <code>14.1-73.46</code> 이상, 13.1-FIPS·13.1-NDcPP <code>13.1.37.283</code> 이상.</li>
+                <li><strong>노출 규모:</strong> Shadowserver는 인터넷에 NetScaler 지문이 노출된 IP가 <strong>21,000개 이상</strong>(Gateway 약 1,500대 + ADC 약 20,000대)이라고 집계했다. 허니팟·기패치·비취약 구성 여부는 미확인. Citrix는 게시 시점에 &ldquo;완화되지 않은 익스플로잇을 인지하지 못한&rdquo; 상태다.</li>
+                <li><strong>맥락:</strong> NetScaler는 이달 들어 이미 <code>CVE-2026-88779</code>(KEV 마감 10/7 통과)와 사후 익스플로잇 페이로드(수퍼유저 생성, CSS 유사 URL에 웹셸 매핑)로 연속 보도됐다. 경계 어플라이언스가 표적 1순위라는 흐름 속에서 SAML 구성 인스턴스는 최우선 점검 대상이다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/citrix-warns-admins-to-patch-new-netscaler-rce-flaw-immediately/" target="_blank">BleepingComputer - Citrix warns admins to patch new NetScaler RCE flaw immediately</a> | <a href="https://news.google.com/rss/search?q=CVE-2026-107406+NetScaler" target="_blank">Google News - CVE-2026-107406: Critical NetScaler RCE Flaw (SOC Prime)</a></p>
+
+            <h2>7. [취약점] GoBalance 결함 — 공개 정보만으로 .onion 주소 탈취, 다크웹 최대 포럼 Dread 두 주소 장악</h2>
+            <p>다크웹 사이트가 DoS 공격 중에도 접속을 유지하도록 돕는 도구 GoBalance의 결함으로, 누구든 <strong>공개 정보만으로</strong> 사이트의 .onion 주소를 통제하는 비밀 키를 복원해 주소를 탈취할 수 있게 됐다. Searchlight Cyber가 10월 8일 공개했다.</p>
+            <ul>
+                <li><strong>범위:</strong> 주소를 탈취해도 사이트 서버·데이터베이스·저장된 사용자 데이터에 접근하는 것은 아니다. 다만 방문자를 공격자가 통제하는 복제 사이트로 리다이렉트할 수 있다. .onion 주소는 사실상 하나의 공개 키이고, 서명 키가 짧게 유효하더라도 복원된 키로 먼 미래까지 유효한 레코드에 서명할 수 있다.</li>
+                <li><strong>취약 조건:</strong> GoBalance는 Tor의 Onionbalance 로드밸런서를 Go로 재작성한 버전이며, DoS 중 다크웹 사이트 유지에 널리 쓰이는 EndGame 툴킷에 포함된다. 결함은 이 재작성에 있다 — <strong>원본 Onionbalance와 Tor 자체는 영향 없음</strong>. 또한 마스터 키를 Tor 자체 키 형식으로 저장한 사이트만 영향받고, GoBalance 설정 도구가 더 안전한 형식으로 키를 쓰는 경우는 노출되지 않는다.</li>
+                <li><strong>실사례:</strong> 다크웹 최대 포럼 중 하나인 <strong>Dread</strong>의 두 .onion 주소가 10월 5~7일 사이 탈취돼 경쟁 사이트 Conclave로 리다이렉트됐다. 운영자는 처음엔 자체 실수(키 업로드)로 봤으나, 이틀 뒤 백업 주소까지 탈취되자 GoBalance 결함 사용 가능성을 인정했다. Dread는 새 주소로 이전하고 사용자에게 비밀번호 변경을 권고했다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/gobalance-flaw-lets-attackers-hijack.html" target="_blank">The Hacker News - GoBalance Flaw Lets Attackers Hijack .onion Addresses by Recovering Tor-Format Keys</a></p>
+
+            <h2>8. [패치] CISA KEV 5건 — 내일(10/11)이 연방기관 패치 마감일, Flax Typhoon이 실제 악용</h2>
+            <p>CISA가 중국 연계 위협 행위자 <strong>Flax Typhoon</strong>의 악용을 근거로 결함 5건을 KEV(Known Exploited Vulnerabilities) 카탈로그에 등재했고, 연방기관 대응 마감일은 <strong>2026년 10월 11일</strong>이다.</p>
+            <ul>
+                <li><strong>등재 5건:</strong> <code>CVE-2015-3306</code> ProFTPD 부적절한 접근 제어(CVSS <strong>10.0</strong>, <code>site cpfr</code>/<code>site cpto</code>로 임의 파일 읽기·쓰기) · <code>CVE-2021-3199</code> ONLYOFFICE Docs 경로 순회(<strong>9.8</strong>, JWT 사용 시 이미지 업로드 파라미터 <code>/..</code>로 RCE) · <code>CVE-2016-3081</code> Apache Struts 명령 주입(<strong>8.1</strong>) · <code>CVE-2015-5477</code> ISC BIND TKEY 질의 DoS(<strong>7.5</strong>) · <code>CVE-2023-22894</code> Strapi 평문 저장(<strong>7.2</strong>).</li>
+                <li><strong>공동 권고:</strong> 호주·캐나다·일본·뉴질랜드·스페인·영국·미국이 공동 권고를 내고 중국 기반 보안업체 <strong>Integrity Technology Group</strong>의 활동을 경고했다. 해당 작전은 위 5건 외 3건(Shellshock <code>CVE-2014-6278</code>, Ivanti Pulse <code>CVE-2019-11510</code>, GitLab <code>CVE-2021-22205</code> — 모두 기존 KEV)을 포함해 8개 결함으로 초기 침투하고, 스캐닝·XSS·Microsoft Exchange 비밀번호 스프레이 후 VPN 소프트웨어로 지속성을 확보하며 이메일·자격증명을 탈취했다.</li>
+                <li><strong>법 집행:</strong> FBI는 Flax Typhoon이 마이크로스캔(MicroScan)·피시허브(FishHub) 해킹 도구를 운영하는 데 쓴 <strong>도메인 7개를 압수</strong>했다. 두 도구는 중요 인프라 침해에 사용됐다. &ldquo;중국 정부 연계 행위자는 OT를 포함한 중요 인프라 네트워크에 상주하며 향후 원하는 시점에 핵심 기능을 교란할 목표를 유지한다&rdquo;(CISA Chris Butera)는 평가가 함께 나왔다.</li>
+                <li><strong>추가 패치 소식:</strong> Microsoft는 지원 종료 버전을 쓰는 기기가 <strong>내년 Windows Update 인증서 로테이션 이후 보안 업데이트를 받지 못한다</strong>고 경고했다. 지원 종료 OS는 로테이션 전에 업그레이드해야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/flax-typhoon-exploits-five-flaws-as.html" target="_blank">The Hacker News - Flax Typhoon Exploits Five Flaws as CISA Sets October 11 Deadline for Federal Agencies</a> | <a href="https://www.bleepingcomputer.com/news/microsoft/microsoft-outdated-windows-devices-will-lose-security-protection-next-year/" target="_blank">BleepingComputer - Microsoft: Outdated Windows devices will stop receiving security updates</a></p>
+
+            <h2>9. [트렌드] 검색광고 리다이렉트로 &lsquo;가짜 Claude 설치 프로그램&rsquo; 유포 — 정품 배포 채널이 공격 인프라가 된다</h2>
+            <p>공격자들이 합법적인 Bing 검색 결과 리다이렉트를 Google 검색 광고의 클릭 URL로 악용해, 가짜 Claude 설치 프로그램으로 유도하는 ClickFix 공격을 벌이고 있다.</p>
+            <ul>
+                <li><strong>기법:</strong> 광고 링크를 신뢰할 수 있는 Bing 리다이렉트로 감싸 필터를 우회하고, 도착 페이지에서 ClickFix 방식(사용자가 직접 명령을 붙여넣어 실행하도록 유도)으로 악성코드를 설치하게 한다. AI 도구 설치를 미끼로 삼은 점이 특징이다.</li>
+                <li><strong>시사점:</strong> &lsquo;검색 광고 + 정품 브랜드&rsquo;가 신뢰 신호로 소비되면서, AI 어시스턴트 설치 과정 자체가 새 공격면이 됐다. 사용자는 광고가 아닌 공식 도메인에서 직접 다운로드해야 하고, 붙여넣기-실행을 요구하는 설치 안내는 피해야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/hackers-abuse-google-ads-bing-redirects-to-push-claude-clickfix-attacks/" target="_blank">BleepingComputer - Hackers abuse Google Ads, Bing redirects to push Claude ClickFix attacks</a></p>
+
+            <h2>10. [트렌드] ShinyHunters 세 번째 검거 &amp; Pwn2Own Ireland 마감 — 제로데이 98건·상금 126만 달러</h2>
+            <p>사이버 범죄 조직에 대한 법 집행이 이어지는 가운데, 취약점 시장의 &lsquo;열기&rsquo;를 보여주는 대회 결과도 나왔다.</p>
+            <ul>
+                <li><strong>ShinyHunters 3번째 검거:</strong> FBI 국장 Kash Patel은 10월 9일 X 게시물로 ShinyHunters 공모 혐의자 1명을 추가 체포했다고 밝혔다. NYT·CBS에 따르면 캐나다 국적자로 펜실베이니아에서 체포됐고, FBI의 구인 포털(FBIjobs.gov) 침해와 직접 연관된 것으로 보인다. 신원·기소 내용은 비공개다. 이는 9월 네덜란드(암스테르담 24세), 9월 29일 요르단에 이은 세 번째 공개 체포다. FBI는 &ldquo;공모자 일부는 여전히 도피 중&rdquo;이라고 밝혔다.</li>
+                <li><strong>Pwn2Own Ireland 2026 마감:</strong> 98건의 제로데이를 익스플로잇해 참가자들이 상금 <strong>126만 2,000달러</strong>를 획득했다. 지난 10월 7일 첫날 기록(제로데이 32건·38만 8,500달러)에서 최종 집계로 확대됐다.</li>
+                <li><strong>AI 보안 도구 확산(맥락):</strong> Anthropic이 오픈소스 생태계 보안을 위한 무료 취약점 스캐너 <strong>OSS Scanner</strong>(옵트인, Project Glasswing 경험 기반)를 공개했다. 취약점 &lsquo;발견&rsquo;이 AI에 의해 자동화되는 속도가 빨라지면서, 발견과 패치 사이의 간극(이번 주 SonicWall&middot;AhsayCBS 사례)이 핵심 리스크로 남는다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/fbi-arrests-another-shinyhunters.html" target="_blank">The Hacker News - FBI Arrests Another ShinyHunters Suspect Reportedly Involved in Its Jobs Portal Hack</a> | <a href="https://www.bleepingcomputer.com/news/security/hackers-earn-1262000-for-98-zero-days-at-pwn2own-ireland/" target="_blank">BleepingComputer - Hackers get $1,262,000 for 98 zero-days at Pwn2Own Ireland</a> | <a href="https://thehackernews.com/2026/10/anthropic-launches-free-ai.html" target="_blank">The Hacker News - Anthropic Launches Free AI Vulnerability Scanner for Open-Source Projects</a></p>
+
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
