@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 [클래식] A Future-Adaptable Password Scheme — '비밀번호 해시는 하드웨어와 함께 늙는다': 무어의 법칙에 맞춰 비용을 스스로 올리는 적응형 해시 bcrypt의 탄생 (Provos·Mazières, USENIX 1999)</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style></head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 [클래식] A Future-Adaptable Password Scheme — 비밀번호 해시는 하드웨어와 함께 늙는다</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-09 · 카테고리: Research (전통 보안 · 인증/비밀번호 · 암호학적 해시 · Blowfish 키 스케줄 · 오프라인 사전 공격 방어)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> A Future-Adaptable Password Scheme<br>
+                <strong>저자:</strong> Niels Provos · David Mazières (The OpenBSD Project)<br>
+                <strong>출처:</strong> Proceedings of the FREENIX Track, 1999 USENIX Annual Technical Conference, Monterey, California (1999년 6월 6–11일) · <a href="https://www.usenix.org/legacy/events/usenix99/provos/provos.pdf" target="_blank" rel="noopener">usenix.org (PDF)</a><br>
+                <strong>분야:</strong> 인증·비밀번호 보안 · 암호학적 해시 · (Blowfish 기반) 블록 암호의 키 스케줄 · 오프라인 사전 공격 방어<br>
+                <strong>인용:</strong> <strong>OpenAlex 기준 182회</strong> — 이 논문은 DOI 없이 USENIX가 무료로 공개한 '열린 논문'이라 학술 DB 카운트가 실제 영향력을 크게 밑돈다. 대신 <strong>채택 규모</strong>로 위치를 가늠한다: bcrypt는 OpenBSD의 기본 비밀번호 스킴(2.1부터), FreeBSD·NetBSD·macOS·Linux PAM, PHP <code>password_hash()</code>의 기본값(PASSWORD_BCRYPT) 등 <strong>사실상 모든 비밀번호 DB의 표준</strong>이 되었다. 계보의 뿌리인 Morris &amp; Thompson의 <em>Password Security: A Case History</em>(CACM 1979)는 OpenAlex 930회.<br>
+                <strong>원문:</strong> <a href="https://www.usenix.org/legacy/events/usenix99/provos/provos.pdf" target="_blank" rel="noopener">USENIX FREENIX'99 PDF (431 KB)</a> · <a href="https://static.usenix.org/event/usenix99/provos/provos.pdf" target="_blank" rel="noopener">static 미러</a> · <a href="https://www.usenix.org/conference/usenix-99" target="_blank" rel="noopener">학회 페이지</a>
+            </div>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 한 줄 요약 — '비밀번호의 길이와 무작위성은 고정인데, 공격자의 컴퓨터는 매년 빨라진다. 그렇다면 해시 함수의 비용도 함께 올라가야 한다'</h2>
+            <p>사용자가 고르는 비밀번호의 엔트로피는 시간이 지나도 거의 늘지 않는다. 반면 하드웨어는 꾸준히 빨라진다. 1976년 UNIX의 <code>crypt(3)</code>는 비밀번호를 DES 한 번(DES 상수를 25회 반복)으로 해시했고, 당시엔 그것으로 충분했다 — 1977년 VAX-11/780에서 <strong>초당 3.6회</strong>밖에 계산하지 못했으니 사전 공격이 비현실적이었다. 그런데 20여 년 뒤, 같은 알고리즘이 <strong>초당 수십만 회</strong> 계산되면서 그 '충분함'은 사라졌다. 이 논문(1999)은 그 비대칭을 정면으로 다룬다 — <strong>비밀번호 해시의 계산 비용은 하드웨어가 빨라지는 만큼 스스로 올라가야 한다.</strong> 그리고 그 첫 구현이 바로 <strong>bcrypt</strong>다. 요령은 단순하다: 해시의 <em>반복 횟수</em>를 조절 가능한 '비용(cost)' 파라미터로 노출하고, 검증할 때마다 그 비용을 지불하게 만든다. 하드웨어가 2배 빨라지면 비용을 1만큼 올리면 된다. 논문이 1999년에 남긴 문장은 지금 읽으면 소름 돋는다 — "<em>이 알고리즘들은 비밀번호 기반 시스템이 하드웨어 개선에 적응해 <strong>앞으로 20년 동안</strong> 안전하게 남게 해줄 것이다.</em>" 그리고 27년이 지난 2026년에도 bcrypt는 현역이다.</p>
+            <blockquote>
+                "비밀번호 스킴의 보안은 <strong>사용자가 고르는 비밀번호만큼만</strong> 좋다(as good as the passwords users choose) … 따라서 <strong>어떤 안전한 비밀번호 스킴이든, 그 계산 비용은 하드웨어 성능이 향상됨에 따라 반드시 증가해야 한다.</strong>" — 논문 3·7절
+            </blockquote>
+
+            <h2><i class="fa-solid fa-hourglass-half"></i> 배경 — '전통 crypt'가 실패할 수밖에 없었던 이유</h2>
+            <ul>
+                <li><strong>전통 crypt(3)(1976)는 당시 하드웨어에 묶여 있었다:</strong> 최대 8자 비밀번호를 DES 키(56비트, 각 문자의 하위 7비트)로 사용하고, 64비트 상수 <code>"0"</code>을 <strong>25회</strong> DES 암호화했다. 입력 공간도 반복 횟수도 <em>고정</em>이다. 안전성이 "그 순간의 컴퓨터 속도"에 못 박혀 있다는 뜻이다.</li>
+                <li><strong>솔트가 12비트뿐:</strong> 4,096가지. 같은 비밀번호라도 4,096가지 암호문이 되지만, 공간이 작아 서로 다른 사용자가 같은 솔트를 받는 <em>충돌</em>이 흔하다. 출력은 12비트 솔트 + 64비트 암호문 = 76비트 → 13글자 ASCII.</li>
+                <li><strong>그때는 정말 안전했다:</strong> 1976년엔 crypt가 "초당 4개 미만"이었고, 1977년 VAX-11/780에서도 3.6회/초였다. 사전 전체를 훑는 것이 불가능했다.</li>
+                <li><strong>20년 뒤 뒤집혔다:</strong> 1998년 EFF DES 크래커는 56비트 DES 키를 <strong>56시간</strong>에 찾았고(초당 약 88×10⁹ 키), 그와 비슷한 기계면 전통 crypt를 <strong>22일</strong>에 브루트포스할 수 있었다. "가장 빠른 Alpha 프로세서에서 875년" 걸리던 것을 말이다.</li>
+                <li><strong>MD5 crypt도 같은 병:</strong> FreeBSD의 Poul-Henning Kamp가 만든 MD5 crypt는 더 긴 비밀번호와 12~48비트 솔트를 허용했지만, 역시 <em>고정 비용</em>이라 하드웨어가 빨라지면 함께 약해진다. → "고정 비용 함수는 반드시 무너진다"가 이 논문의 출발점이다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-ruler-combined"></i> 핵심 1 — 좋은 비밀번호 스킴의 세 가지 조건 (논문 3절)</h2>
+            <ul>
+                <li><strong>두 번째 역상 저항(second preimage-resistance):</strong> 해시값이 주어졌을 때 <em>다른</em> 비밀번호를 찾는 일이, 비밀번호 자체를 추측하는 일만큼 어려워야 한다. 논문은 이를 형식화해 "비밀번호 스킴은 사용자가 고른 비밀번호만큼만 좋다"는 명제로 못 박는다.</li>
+                <li><strong>충분히 큰 솔트 공간:</strong> 미리 계산한 룩업 테이블(레인보우 테이블의 원형)을 무력화한다. 솔트는 해시 출력에 영향을 주는 두 번째 입력으로, 같은 비밀번호가 매번 다른 해시를 갖게 만든다.</li>
+                <li><strong>적응 비용(adaptable cost):</strong> 고정 비용 함수를 '더 비싼 함수'로 갈아치우는 것은 시스템을 매번 깨뜨린다. 대신 <em>하나의 함수 안에 비용 파라미터</em>를 두어, 호환성을 깨지 않고 비용만 올릴 수 있어야 한다.</li>
+                <li><strong>논문의 핵심 공식:</strong> 비용(=반복 횟수)의 최적값은 하드웨어 성능에 <em>반비례</em>한다 → 하드웨어가 빨라질 때마다 올려야 한다. "무어의 법칙에 맞춘 보안"이라는 발상이 여기서 처음 구체화됐다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-gears"></i> 핵심 2 — eksblowfish: '일부러 비싼' 키 스케줄</h2>
+            <ul>
+                <li><strong>기반은 Bruce Schneier의 Blowfish:</strong> 64비트 블록, 16라운드 Feistel 네트워크. F 함수는 <code>F(a,b,c,d) = ((S1[a] ⊞ S2[b]) ⊕ S3[c]) ⊞ S4[d]</code> — 4개의 256×32비트 S박스를 쓴다.</li>
+                <li><strong>eksblowfish = "expensive key schedule blowfish":</strong> 암호화 과정은 Blowfish와 <em>완전히 동일</em>하다. 다른 것은 오직 <em>키 스케줄</em>(비밀번호+솔트를 서브키·S박스로 확장하는 단계)을 일부러 비싸게 만든 것뿐이다.</li>
+                <li><strong>EksBlowfishSetup(cost, salt, key):</strong> InitState(π 상수로 상태 채움) → ExpandKey(state, salt, key) → 이후 <strong>2^cost번</strong> 반복 { ExpandKey(state, 0, salt); ExpandKey(state, 0, key) }. 즉 비용 파라미터가 반복 횟수를 <em>지수적으로</em>(2^cost) 조절한다 — cost 6이면 64회, cost 8이면 256회.</li>
+                <li><strong>솔트 128비트, 키(비밀번호) 최대 56바이트</strong>(Blowfish 최대 키 448비트).</li>
+                <li><strong>설계 의도 — 'HW 파이프라인' 봉쇄:</strong> 4KB에 달하는 S박스를 매 반복마다 다시 쓰기 때문에, 전용 하드웨어의 파이프라이닝과 비트슬라이싱(bit-slicing)이 사실상 불가능하다. 논문 표현대로 "아직 알려지지 않은 최적화"의 여지를 줄이려는 것이다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flask"></i> 핵심 3 — bcrypt: 192비트 '마법값'을 64번 암호화한다</h2>
+            <ul>
+                <li><strong>bcrypt는 eksblowfish를 해시로 감싼 것</strong>이다. 128비트 솔트와 192비트 <em>마법값(magic value)</em>을 사용한다.</li>
+                <li><strong>그 마법값의 문자열:</strong> <code>"OrpheanBeholderScryDoubt"</code> — 24바이트 = 정확히 192비트다. bcrypt는 이 고정 문자열을 암호화한다.</li>
+                <li><strong>1단계(비싼 부분):</strong> EksBlowfishSetup(cost, salt, pwd)로 키 스케줄 상태를 초기화. 계산 시간의 대부분이 여기서 소비된다.</li>
+                <li><strong>2단계(반복):</strong> 그 상태로 192비트 마법값을 ECB 모드로 <strong>64번 반복 암호화</strong>. 출력은 <strong>cost + 128비트 솔트 + 암호문</strong>을 이어붙인 값이다 — cost와 솔트가 함께 인코딩되므로 검증 시 그대로 재현된다.</li>
+                <li><strong>버전 접두:</strong> 한 비밀번호 파일에 여러 스킴이 공존하도록, bcrypt 출력은 <code>$2a$</code>(후대 $2b$, $2y$)로, MD5 crypt는 <code>$1$</code>로 시작한다. 전통 crypt 출력은 <code>$</code>로 시작하지 않아 충돌이 없다.</li>
+                <li><strong>기본 비용:</strong> 논문 게재 당시 일반 사용자 <strong>cost 6</strong>, 관리자(root) <strong>cost 8</strong>. bcrypt는 OpenBSD 2.1부터 기본 비밀번호 스킴이다. 비밀번호 최대 55바이트.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-user-secret"></i> 핵심 4 — 공격자 관점: 전통 crypt·MD5 crypt를 뚫는 다섯 갈래 (논문 6절)</h2>
+            <ul>
+                <li><strong>① 사전 공격(dictionary attack):</strong> 사용자는 예측 가능한 비밀번호("Susan1", "neme$i$"처럼 이름+숫자)를 고른다. 해시가 빠르면 사전 한 부가 곧 열쇠가 된다. → bcrypt는 비용을 '정당한 사용자가 견딜 수 있는 한계까지' 높여 사전 공격을 비현실적으로 만든다.</li>
+                <li><strong>② 솔트 충돌(salt collision):</strong> 전통 crypt는 솔트가 4,096개뿐이라 충돌이 다발한다. 공격자는 <em>같은 솔트끼리 묶어</em> 후보를 솔트당 한 번만 해시하는 최적화를 얻는다. 15,000개 엔트리 파일에서 솔트가 유일하려면 2⁴¹ 공간이 필요한데, 2¹²면 약 3,991개만, 2²⁴면 14,994개만 유일하다. bcrypt의 128비트 솔트는 이 문제를 원천 제거한다.</li>
+                <li><strong>③ 미리 계산(precompute):</strong> 전통 crypt는 "사전 단어 전부 × 가능한 12비트 솔트"가 <strong>9GB 하드디스크 한 대에 들어간다.</strong> QCrack은 출력을 1바이트로 줄여 Webster 사전(1934판, 8자 절단·중복 제거 후 171,395개)을 <strong>670MB</strong>에 담았다. bcrypt는 솔트 공간이 커서 '솔트당 1비트'조차 저장이 불가능하다.</li>
+                <li><strong>④ 알고리즘 최적화(비트슬라이싱):</strong> Biham의 비트슬라이스 DES는 300MHz Alpha 8400에서 137Mb/s로, libdes(28Mb/s)보다 약 5배 빨랐다. John the Ripper는 MD5 crypt의 핵심 루프를 단순화해 대폭 가속했다. 하지만 <strong>bcrypt는 S박스가 매번 바뀌어 비트슬라이싱이 통하지 않는다.</strong></li>
+                <li><strong>⑤ 하드웨어 발전:</strong> 1977년 3.6회/초 → 1998년 EFF DES 크래커까지. 고정 라운드 함수는 하드웨어가 빨라지는 만큼 <em>자동으로</em> 약해진다. bcrypt는 사용자가 비용을 올려 이 추세에 맞서는 <em>유일한</em> 방향을 제공한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-clock-rotate-left"></i> 핵심 5 — 1999년의 예언은 왜 2026년에도 유효한가</h2>
+            <ul>
+                <li><strong>비용 파라미터 하나로 '안전 수준'을 시간에 대해 고정한다:</strong> cost를 1 올리면 계산량이 2배가 되므로, 하드웨어가 빨라진 만큼 따라잡을 수 있다. 이는 '고정 비용' 함수가 가진 구조적 결함을 없앤다.</li>
+                <li><strong>bcrypt가 현역으로 남았다는 증거:</strong> OpenBSD 기본, PHP <code>password_hash()</code>의 기본(PASSWORD_BCRYPT), 수많은 웹 프레임워크와 DB. <code>$2b$</code> 접두는 오늘날 거의 모든 비밀번호 덤프에서 보인다.</li>
+                <li><strong>현대 부채널과의 연결:</strong> 4KB S박스를 무작위로 접근하는 구조는 <em>캐시 타이밍 부채널</em>의 원인이기도 하다 — 그래서 지금은 메모리-하드 함수(Argon2·scrypt)로 이어졌다. bcrypt는 그 계보의 출발점이다.</li>
+                <li><strong>진짜 유산은 '사고틀'이다:</strong> "큰 솔트 + 조절 가능한 반복 비용"이라는 틀 자체. 오늘날 OWASP의 work-factor 권고(예: cost ≥ 10)는 모두 이 틀 위에 서 있다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-scale-balanced"></i> 한계 · 유의점 · 의의</h2>
+            <ul>
+                <li><strong>bcrypt 자체의 한계:</strong> 55바이트 비밀번호 제한(후대 구현은 72바이트에서 절단), 4KB S박스의 캐시 부채널, 병렬 공격에 대한 별도 비용이 없는 점(메모리-하드가 아님). → Argon2·scrypt·PBKDF2 같은 현대 대안의 등장 배경이다.</li>
+                <li><strong>'적응형'은 알고리즘이 아니라 운영의 문제다:</strong> 비용을 올리는 것은 <em>정책</em>이다. 한 번 정하고 방치하면 다시 늙는다. 논문도 "비용은 때때로 재평가해야 한다"고 명시한다.</li>
+                <li><strong>패러다임 전환:</strong> 이 논문은 '해시 하나 더'가 아니다. 비밀번호 보안의 변수를 <em>'알고리즘의 비밀'</em>에서 <em>'시간 축에서 조절 가능한 비용'</em>으로 재정의했다. Morris &amp; Thompson 1979가 '솔트'를 도입했고, 이 논문이 '적응 비용'을 도입했으며, 둘이 합쳐져 오늘날의 표준이 됐다.</li>
+                <li><strong>오늘의 교훈:</strong> 비밀번호 DB를 설계할 때 "무엇으로 해시할까"만 묻지 말고, <strong>"이 선택이 5년 뒤에도 충분히 비쌀까"</strong>를 함께 물어야 한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-book-open"></i> 출처</h2>
+            <ul>
+                <li>논문 원문: Niels Provos &amp; David Mazières, <em>A Future-Adaptable Password Scheme</em>, FREENIX Track, 1999 USENIX Annual Technical Conference — <a href="https://www.usenix.org/legacy/events/usenix99/provos/provos.pdf" target="_blank" rel="noopener">usenix.org (PDF)</a> · <a href="https://static.usenix.org/event/usenix99/provos/provos.pdf" target="_blank" rel="noopener">static 미러</a></li>
+                <li>계보의 뿌리(참고문헌 [9]): Robert Morris &amp; Ken Thompson, <em>Password Security: A Case History</em>, Communications of the ACM 22(11), 1979 — 솔트와 느린 해싱의 원형</li>
+                <li>함께 읽기: 2026-09-16 <em>How to Break MD5</em>(해시 충돌의 실제 — 이 논문이 MD5 crypt를 비판한 이후의 이야기) · 2026-10-07 <em>Differential Power Analysis</em>(Kocher, 부채널) · 2026-10-05 <em>RSA 원논문</em> · 2026-09-30 <em>New Directions in Cryptography</em>(Diffie–Hellman)</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
