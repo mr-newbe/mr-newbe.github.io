@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - DeepTest (Columbia University, ICSE 2018): '자율주행 DNN은 비·안개에서 핸들을 놓친다' — 9가지 이미지 변형으로 뉴런 커버리지를 100% 끌어올려 Udacity 상위 3개 모델에서 수천 건의 치명적 오류를 자동 검출 (인용 1,551회 · 소프트웨어 공학 최상위 학회)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        code { background: #0b1220; padding: 2px 6px; border-radius: 4px; color: #7dd3fc; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - DeepTest (Columbia University, ICSE 2018): '자율주행 DNN은 비·안개에서 핸들을 놓친다' — 9가지 이미지 변형으로 뉴런 커버리지를 100% 끌어올려 Udacity 상위 3개 모델에서 수천 건의 치명적 오류를 자동 검출 (인용 1,551회 · 소프트웨어 공학 최상위 학회)</h1>
+            <p class="date">2026-10-09</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>유형:</strong> DNN 기반 자율주행차의 <em>자동화된 소프트웨어 테스팅</em> 논문 — 인지·플래닝 <em>알고리즘</em>이 아니라, 그 알고리즘이 <strong>“어떤 조건에서 무너지는가”를 체계적으로 찾아내는 검증(V&amp;V)</strong> 축이다. 이 블로그가 다뤄 온 <a href="autonomous-2026-09-28.html">Eykholt의 물리적 적대적 공격</a>(09-28, <em>악의적</em> 조작)과 달리, DeepTest는 <strong>비·안개·조명 같은 자연스러운 조건 변화</strong>에서 발생하는 오류를 겨냥한다.</li>
+                    <li><strong>논문:</strong> <em>“DeepTest: Automated Testing of Deep-Neural-Network-driven Autonomous Cars”</em> — arXiv <a href="https://arxiv.org/abs/1708.08559" target="_blank">1708.08559</a>(v1 2017-08-28 · v2 2018-03-20) · <strong>ICSE 2018</strong> 게재 · DOI <code>10.1145/3180155.3180220</code> · 분야 <em>Software Engineering(cs.SE)</em> · AI · ML</li>
+                    <li><strong>저자:</strong> <strong>Yuchi Tian · Kexin Pei · Suman Jana</strong>(Columbia University) · <strong>Baishakhi Ray</strong>(University of Virginia) — 소프트웨어 공학·보안 검증 그룹이 주도한, SW 테스팅 전통을 딥러닝으로 옮긴 연구.</li>
+                    <li><strong>게재지:</strong> <strong>ICSE 2018</strong>(제40회 International Conference on Software Engineering, pp. 303–314) — 소프트웨어 공학 분야 최상위 학회. 자율주행 DNN을 ‘안전 필수 소프트웨어’로 취급한 첫 대표 사례다.</li>
+                    <li><strong>인용:</strong> <strong>Semantic Scholar 기준 1,551회</strong>(influential 135회) · OpenAlex의 <em>ICSE 정식판</em> 레코드 기준 <strong>1,260회</strong>. 2017년 arXiv 공개 후 9년 가까이 인용되는 ‘AI 테스팅’ 분야의 출발점이다.</li>
+                    <li><strong>아티팩트:</strong> 검출된 오류 사례(조향 실패 애니메이션)를 모아 둔 공개 페이지 <a href="https://deeplearningtest.github.io/deepTest/" target="_blank">deeplearningtest.github.io/deepTest</a>(현재도 접속 가능) — Chauffeur 모델이 <em>비를 추가한 이미지</em>에서 차선을 이탈하는 장면을 직접 볼 수 있다.</li>
+                    <li><strong>함께 읽기:</strong> 적대적 공격 축 <a href="autonomous-2026-09-28.html">Eykholt</a>(09-28) · 테스트 대상 <a href="autonomous-2026-09-08.html">ChauffeurNet</a>(09-08) · 원점 <a href="autonomous-2026-10-07.html">Stanley / DARPA</a>(10-07) · 검증을 소비하는 최종단 <a href="autonomous-2026-09-25.html">esmini</a>(09-25)</li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>이 논문의 한 줄 명제는 <strong>“자율주행 DNN의 버그는 코드가 아니라 <em>입력 조건</em>에서 터진다”</strong>이다. 2017년 당시 자율주행 인지 모델의 테스트는 대부분 <em>사람이 직접 모은 라벨 데이터</em>에 의존했고, 그 데이터는 맑은 날·주간 주행에 편중돼 있었다. 저자들은 실제 사고 사례(테슬라의 흰 트럭 미검출 치명 사고, 현대차의 우천 중 사인·차선 미인식 등, 논문 Table 1)를 나열하며, 문제는 <strong>희귀한 corner case를 아무도 체계적으로 만들어내지 못한다</strong>는 데 있다고 지적한다. 그래서 이미지에 <em>현실적인 변형</em>을 합성해 그 조건을 강제로 생성하고, 조향 출력이 흔들리면 버그로 판정하는 자동 파이프라인을 만들었다.</p>
+            <ul>
+                <li><strong>① 뉴런 커버리지(neuron coverage)를 조향 코퍼스로 이식:</strong> 전통 SW의 <em>코드 커버리지</em>에서 착안한 지표로, 테스트 입력이 활성화하는 뉴런의 수를 측정한다(활성 임계값 0.2). Pei et al.의 DeepXplore(SOSP 2017)가 CNN용으로 정의한 개념을 <strong>LSTM 등 순환 신경망까지 일반화</strong>하고, “커버리지가 늘면 실제 주행 출력(조향각)이 변한다”는 상관관계를 실측해 테스팅 목표로 삼을 근거를 댔다(Table 5).</li>
+                <li><strong>② 9가지 현실적 이미지 변형:</strong> 밝기·대비·이동(translation)·스케일·수평 전단(shear)·회전·블러·안개·비 — 이를 선형/아핀/합성곱 3군으로 분류하고, 각 변형에 <strong>10단계 파라미터</strong>를 썼다(Table 4). 핵심 관찰은 <strong>“서로 다른 변형은 서로 다른 뉴런 집합을 깨운다”</strong>는 것 — 그래서 변형을 <em>쌓으면</em> 커버리지가 계속 오른다.</li>
+                <li><strong>③ 커버리지 100% 향상 (Table 6):</strong> 100장의 seed 이미지에 변형을 조합·유도(coverage-guided search)한 결과, 뉴런 커버리지는 수동 테스트 대비 <strong>평균 약 100% 증가</strong>했다. Chauffeur-CNN은 기저 46% → 누적 75% → <em>가이드 88%</em>, Epoch는 25% → 41% → 51%, Rambo-S2는 30% → 58% → 70%. 이미 97%로 포화된 Rambo-S3는 98%(+0.5%)에 그친 것이 오히려 지표의 신뢰성을 보여준다. seed 100장에서 254·221·864장의 유도 이미지를 생성했다.</li>
+                <li><strong>④ 메타모픽 관계로 ‘오류’를 자동 판정:</strong> 변형은 <em>정답 라벨</em>을 지운다. 대신 “같은 장면은 다른 조명·날씨에서도 비슷하게 주행해야 한다”는 <strong>메타모픽 관계(metamorphic relation)</strong>를 세워, 원본과 변형본의 조향 차이가 임계값을 넘으면 <em>오류</em>로 표시한다. 회전처럼 조향이 크게 달라지는 변형은 예외 처리해 오탐을 줄였다.</li>
+                <li><strong>⑤ 수천 건의 치명적 오류 (Table 7):</strong> Udacity 챌린지 상위 3개 모델(<em>Rambo</em>=2위·<em>Chauffeur</em>=3위·<em>Epoch</em>=6위)에서, 임계값 λ=5 기준 <strong>안개 변형 4,448건 · 비 변형 741건 · 가이드 서치 820건</strong>의 오류를 검출했다. λ=1로 완화하면 안개 9,018건·비 6,133건까지 늘어난다. 이 중 상당수가 <strong>차선 이탈로 이어지는 조향 오류</strong>로, 실제 도로였다면 치명적일 수 있는 유형이다.</li>
+                <li><strong>⑥ 왜 중요한가 — ‘최적화 지표’가 아니라 ‘안전 지표’:</strong> MSE 0.06 같은 평균 오차는 좋아 보여도, 비·안개 같은 꼬리 분포에서의 실패를 감춘다. DeepTest는 <em>평균 성능</em>이 아니라 <strong>실패가 몰려 있는 입력 영역을 찾아내는 것</strong>이 안전의 조건임을 수치(뉴런 커버리지 ↔ 출력 변화의 통계적 유의성)로 못 박았다.</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>‘AI 시스템 검증’이라는 분야를 연 출발점:</strong> 코드 커버리지·메타모픽 테스팅·뮤테이션 같은 <em>전통 소프트웨어 공학의 도구</em>를 딥러닝 자율주행에 처음 체계적으로 이식했다. 이후 뉴런 커버리지는 DeepGauge·DeepHunter 등 후속 테스팅 연구의 <strong>사실상 표준 지표</strong>가 됐고, ICSE 2018에는 DeepRoad(608회)·concolic testing for DNN(328회) 등 같은 문제의식의 논문이 잇따라 나왔다.</li>
+                <li><strong>‘corner case’와 SOTIF 논의의 학술적 뿌리:</strong> 오늘날 자율주행 안전 규제(ISO 21448 SOTIF)와 산업계의 “롱테일 시나리오” 담론은, 결국 DeepTest가 던진 질문 — <em>“희귀 조건을 어떻게 체계적으로 만들어 검증할 것인가”</em> — 의 연장선에 있다. 실제 주행 데이터가 넘쳐나는 지금도 이 질문은 <a href="autonomous-2026-09-25.html">시뮬레이터·시나리오 생성</a> 연구로 이어지고 있다.</li>
+                <li><strong>합성 데이터로 검증한다는 발상의 전환:</strong> 2017년에는 대규모 실주행 데이터가 지금처럼 흔하지 않았다. “실제 데이터를 더 모으자”가 아니라 <strong>“이미지 변형으로 조건을 합성해 커버리지를 끌어올리자”</strong>는 접근은, 이후 <em>도메인 랜덤화·합성 데이터 증강</em>이 표준이 되는 길을 열었다. <a href="autonomous-2026-08-22.html">DAVE-2</a>(08-22) 같은 end-to-end 조향 모델의 취약점을 정량화하는 도구로도 그대로 통한다.</li>
+                <li><strong>지금의 VLA·end-to-end 시대에도 유효한 방법론:</strong> <a href="autonomous-2026-10-06.html">SparseDrive</a>(10-06)·<a href="autonomous-2026-08-12.html">UniAD</a>(08-12)처럼 모델은 커졌지만, “어떤 입력에서 무너지는가”를 찾는 문제는 그대로다. 대규모 언어·비전 모델의 <em>적대적 견고성 평가</em>가 화제인 지금, 입력 변형 기반 검증은 오히려 더 중요해졌다.</li>
+                <li><strong>정직한 한계:</strong> 무거운 연산이 없어 재현이 쉬운 대신(모델당 수백 장 합성), 평가가 <strong>실차가 아닌 시뮬레이터·Udacity 코퍼스</strong>에 국한된다. 또한 λ 임계값 선택에 따라 오류 건수가 크게 달라져(λ=1이면 수만 건, λ=10이면 수백 건) “얼마나 엄격히 볼 것인가”가 결과를 좌우한다 — 이 점은 후속 연구들이 데이터 기반 임계값으로 보완해 갔다.</li>
+                <li><strong>블로그 계보와의 연결:</strong> <a href="autonomous-2026-09-28.html">Eykholt</a>(09-28)가 ‘악의적 조작’이라는 위협면을 열었다면, DeepTest는 <strong>‘자연 조건’이라는 더 흔한 위협면</strong>을 열었다. <a href="autonomous-2026-09-08.html">ChauffeurNet</a>(09-08) 같은 모방학습 모델은 오류의 원인(분포 밖 입력)을, DeepTest는 그 <em>검출 방법</em>을 각각 다룬다.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>DeepTest가 남긴 교훈은 “모델을 더 잘 학습시키자”가 아니라 <strong>“모델이 틀리는 조건을 먼저 정의하고, 그 조건을 인위적으로 만들어내자”</strong>는 발상의 전환이다. 평균 오차(MSE 0.06)는 성능표를 예쁘게 만들지만, 실제 위험은 <em>비·안개·야간</em> 같은 꼬리 조건 — 사람이 모은 데이터에 잘 들어오지 않는 영역 — 에 몰려 있다. 논문은 9가지 이미지 변형과 뉴런 커버리지, 메타모픽 관계라는 소박한 도구만으로 Udacity 상위 3개 모델에서 <strong>수천 건의 잠재적 치명 오류</strong>를 자동으로 끄집어냈고, 그중 다수가 차선 이탈로 이어지는 조향 실패였다. 오늘날 자율주행 스택이 <a href="autonomous-2026-10-06.html">희소 표현</a>과 end-to-end·VLA로 커지고, <a href="autonomous-2026-09-28.html">적대적 공격</a>과 <a href="autonomous-2026-09-25.html">시나리오 시뮬레이션</a>이 산업 표준이 된 뒤에도 “무엇을 테스트하고, 무엇을 커버리지로 삼고, 무엇을 실패로 판정할 것인가”라는 DeepTest의 질문은 그대로 남아 있다. 1,551회 인용은 이 논문이 만든 질문이 아직도 유효하다는 뜻이며, <strong>자율주행의 안전은 성능표가 아니라 ‘실패 지도의 정직함’에서 나온다</strong>는 것을 2018년에 증명한 연구다.</p>
+            <p>원문: <a href="https://arxiv.org/abs/1708.08559" target="_blank">https://arxiv.org/abs/1708.08559</a> · 오류 사례 공개: <a href="https://deeplearningtest.github.io/deepTest/" target="_blank">https://deeplearningtest.github.io/deepTest/</a></p>
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
