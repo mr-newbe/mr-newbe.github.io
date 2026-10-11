@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - Pseudo-LiDAR (Cornell University, CVPR 2019): '문제는 데이터가 아니라 표현이었다' — 스테레오 깊이를 라이다 점군으로 바꿔 30m 이내 검출 정확도를 22%→74%로 끌어올린 인용 1,191회 패러다임 (⭐1,006 · MIT · 후속 Pseudo-LiDAR++ · 반론 DD3D)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        code { background: #0b1220; padding: 2px 6px; border-radius: 4px; color: #7dd3fc; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - Pseudo-LiDAR (Cornell University, CVPR 2019): '문제는 데이터가 아니라 표현이었다' — 스테레오 깊이를 라이다 점군으로 바꿔 30m 이내 검출 정확도를 22%→74%로 끌어올린 인용 1,191회 패러다임 (⭐1,006 · MIT · 후속 Pseudo-LiDAR++ · 반론 DD3D)</h1>
+            <p class="date">2026-10-12</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>논문:</strong> <em>“Pseudo-LiDAR from Visual Depth Estimation: Bridging the Gap in 3D Object Detection for Autonomous Driving”</em> — arXiv <a href="https://arxiv.org/abs/1812.07179" target="_blank">1812.07179</a>(v1 2018-12-18 · v6 2020-02-22) · <strong>CVPR 2019</strong> 채택(arXiv comment: <code>Accepted by CVPR 2019</code>) · 분야 <code>cs.CV</code></li>
+                    <li><strong>저자·소속:</strong> <strong>Yan Wang · Wei-Lun Chao · Divyansh Garg · Bharath Hariharan · Mark Campbell · Kilian Q. Weinberger</strong> — <strong>Cornell University</strong>. 마지막 저자는 준지도학습·모델 해석으로 알려진 ML 교수, <em>Mark Campbell</em>은 코넬 자율주행·로보틱스 그룹의 축이다.</li>
+                    <li><strong>인용:</strong> <strong>OpenAlex 기준 1,191회</strong>(CVPR 2019 정식판 <code>10.1109/CVPR.2019.00864</code> 레코드 · 프리프린트 레코드는 68회로 따로 집계). Semantic Scholar는 이 런에서 두 번 모두 HTTP 429(레이트리밋)로 조회되지 않아, 숫자는 OpenAlex 값만 인용한다.</li>
+                    <li><strong>공식 코드:</strong> <a href="https://github.com/mileyan/pseudo_lidar" target="_blank">mileyan/pseudo_lidar</a> — ⭐ <strong>1,006</strong> · 🍴 216 · <strong>MIT</strong> · 생성 2019-01-04 · 최근 커밋 2020-07-02 · Jupyter Notebook · 프로젝트 페이지 <a href="https://mileyan.github.io/pseudo_lidar/" target="_blank">mileyan.github.io/pseudo_lidar</a>(200 확인). <em>연구용으로 완결된 참조 구현</em>이며, 후속작은 <a href="https://github.com/mileyan/Pseudo_Lidar_V2" target="_blank">mileyan/Pseudo_Lidar_V2</a>(ICLR 2020 · ⭐650 · MIT · arXiv 1904.09664 · OpenAlex 123회)다.</li>
+                    <li><strong>후속 논쟁(반론 포함):</strong> <a href="https://github.com/xinzhuma/patchnet" target="_blank">xinzhuma/PatchNet</a> <em>“Rethinking Pseudo-LiDAR Representation”</em>(ECCV 2020 · ⭐166 · OpenAlex 188회)은 이득의 출처가 3D 점군 <em>표현</em>이 아니라 <strong>좌표 변환 + 패치 기반(point-wise) 네트워크</strong>였다고 반박했고, <a href="https://github.com/TRI-ML/dd3d" target="_blank">TRI-ML/dd3d</a> <em>“Is Pseudo-Lidar needed for Monocular 3D Object Detection?”</em>(2021 · ⭐493 · OpenAlex 334회)은 <strong>대규모 깊이 사전학습</strong>이면 pseudo-LiDAR 없이도 따라잡을 수 있다는 반대편 결론을 냈다. 오늘의 이 논문이 던진 질문 하나가 5년간의 실증 논쟁을 만들었다.</li>
+                    <li><strong>함께 읽기(블로그 계보):</strong> 깊이 추정기 <a href="autonomous-2026-10-03.html">Monodepth2</a>(10-03) → <strong>이 논문은 그 깊이의 ‘소비 방식’</strong> → 이미지에서 BEV로 가는 다른 경로 <a href="autonomous-2026-08-27.html">LSS</a>(08-27)·<a href="autonomous-2026-08-17.html">BEVFormer</a>(08-17) → 점군 검출기 <a href="autonomous-2026-09-05.html">PointPillars</a>(09-05) → 벤치마크 <a href="autonomous-2026-09-11.html">KITTI</a>(09-11) → 그리고 nuScenes 시대의 반전 <a href="autonomous-2026-09-26.html">DETR3D</a>(09-26).</li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>논문의 주장은 한 문장으로 요약된다. <strong>“이미지 기반 3D 검출이 라이다보다 훨씬 부정확한 이유는 <em>깊이 추정의 품질</em>이 아니라 <em>3D 정보를 담아둔 표현(representation)</em> 때문이다.”</strong> 스테레오 깊이맵을 점군으로 되돌려(<em>pseudo-LiDAR</em>) 기존 라이다 검출기에 그대로 투입하면, 이미지 단독 성능이 급등한다 — KITTI <strong>30m 이내 객체 검출 정확도 22% → 74%</strong>(초록). 출발점의 대비는 더 극적이다: 라이다 66% AP 대비 <strong>이미지 단독 SOTA는 10% AP</strong>에 불과했다.</p>
+            <ul>
+                <li><strong>① 진단 — 좌표계가 범인이다:</strong> 스테레오 깊이 오차는 깊이의 <em>제곱</em>으로 커지고(라이다 ToF는 선형), 이미지 공간에서 3D 상자를 예측하면 위치 오차가 <strong>깊이에 비례(multiplicative)</strong>해 번진다. 30m 밖 객체는 이미지에서 몇 픽셀에 불과하다. 그래서 2018년까지의 이미지 기반 검출은 이미지 격자 위에서 그 정밀도를 싸우고 있었다.</li>
+                <li><strong>② 해법 — 깊이맵을 (u,v,d) 역투영으로 점군화:</strong> 깊이맵의 각 픽셀을 3D 점으로 되돌려 <strong>라이다와 같은 자료형</strong>을 만들고, 라이다용 검출기(<em>AVOD</em>, <em>Frustum PointNet</em>)를 그대로 학습시킨다. 논문의 표현대로 <em>“far-away objects are no longer smaller”</em> — 먼 객체가 작아지지 않는 <strong>깊이 불변성</strong>을 얻고, 컨볼루션·풀링이 물리적으로 가까운 점들만 묶게 된다.</li>
+                <li><strong>③ Table 1 — KITTI 검증셋 차량, AP<sub>BEV</sub>/AP<sub>3D</sub>(IoU 0.5):</strong> 이미지 단독 Mono3D 30.5/25.2 · AVOD(단안) 61.2/57.0 · F-PointNet(단안) 70.8/66.3 → <strong>pseudo-LiDAR: AVOD(스테레오) 89.0/88.5 · F-PointNet(스테레오) 89.8/89.5</strong>. 실제 라이다는 AVOD 90.5/90.5 · F-PointNet 96.2/96.1로, <em>쉬운 구간에서는 사실상 격차가 사라진다</em>.</li>
+                <li><strong>④ 남은 격차(IoU 0.7):</strong> moderate에서 AVOD 스테레오 56.8/45.3 vs 라이다 86.5/73.5, hard에서 49.0/39.0 vs 79.3/67.1. 어려운 구간일수록 깊이 오차가 그대로 청구된다 — 이 논문의 한계도 정확히 여기다.</li>
+                <li><strong>⑤ Table 2 — 결정적 대조(표현만 바꾼 실험):</strong> <em>같은</em> PSMNet⋆ 깊이를 쓰고 검출기(AVOD)도 같은데, <strong>정면(frontal) 2D 표현으로 넣으면 AP 11.9/6.6, pseudo-LiDAR 점군으로 넣으면 56.8/45.3</strong>(moderate · IoU 0.7). 깊이 품질·네트워크가 아니라 <strong>표현이 성능을 7배 가까이 바꾼다</strong>는 논문의 심장이다.</li>
+                <li><strong>⑥ 깊이 정확도 ≠ 검출 정확도(Table 6):</strong> 부록에서 여러 스테레오 기법을 같은 검출기에 물렸더니 SPS-stereo 39.1/28.3 · DispNet-S 36.3/27.0 · DispNet-C 36.5/26.2 · PSMNet 39.2/27.4 · PSMNet⋆ <strong>56.8/45.3</strong>. KITTI stereo 2015 리더보드에서 PSMNet의 disparity 오차(1.86%)가 DispNet-C(4.32%)보다 훨씬 좋은데도 검출 성능은 그 순서를 따르지 않는다. 게다가 공개 PSMNet 가중치는 KITTI stereo의 200장 학습셋이 <em>검출 검증셋과 겹치는</em> 문제가 있어, 저자들은 3,712장 검출 학습셋으로 다시 학습한 <strong>PSMNet⋆</strong>를 만들어 썼다 — 재현 시 반드시 봐야 하는 지점이다.</li>
+                <li><strong>⑦ 저자들이 밝힌 한계:</strong> 입력이 <strong>0.4 메가픽셀</strong>급이라 먼 객체가 몇 픽셀에 불과하고, 보행자·자전거에서는 격차가 훨씬 크다(cyclist는 테스트셋에서 급락). 테스트셋 차량(IoU 0.7) AVOD 스테레오 66.8/55.4 vs 라이다 88.5/81.9.</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>‘표현’이라는 축을 처음 정면으로 세운 논문:</strong> 지금이야 BEV·점유·쿼리 기반 표현이 당연하지만, 2019년 초 이미지 기반 3D 검출의 통설은 “깊이를 더 잘 추정하면 된다”였다. 이 논문은 <em>깊이가 아니라 좌표계</em>를 바꾸자는 주장으로 KITTI 이미지 기반 순위를 갈아치웠고, <strong>인용 1,191회</strong>로 그 논쟁의 기준점이 됐다.</li>
+                <li><strong>하나의 서브필드가 됐다:</strong> Pseudo-LiDAR++(ICLR 2020, ⭐650)가 깊이를 정밀화하는 후속을 냈고, PatchNet(ECCV 2020)은 이득의 원천을 재해석했고, DD3D(2021)는 “표현이 아니라 깊이 <em>사전학습</em> 규모가 답”이라 맞섰다 — <strong>공식 코드(⭐1,006 · MIT)와 리더보드 숫자</strong>가 모두 공개됐기 때문에 반박과 재현이 연쇄할 수 있었다.</li>
+                <li><strong>산업적 함의가 명확하다:</strong> 결론부의 문장이 곧 비즈니스 논리다. <em>“현재 라이다 하드웨어는 자율주행에 필요한 부품 중 가장 비싼 항목”</em>이므로, 그 격차를 소프트웨어로 메우면 추가 하드웨어 비용이 급감한다. 더 나아가 <strong>라이다가 있는 차는 라이다로 이미지 분류기를 계속 학습(fine-tune)하고, 센서 고장 시에는 이미지 경로로 fallback</strong>하는 구조를 제안한다 — 오늘의 <em>센서 이중화·저하 운용(graceful degradation)</em> 설계와 같은 논리다.</li>
+                <li><strong>블로그 계보와의 연결:</strong> <a href="autonomous-2026-10-03.html">Monodepth2</a>(10-03)가 “깊이를 어떻게 학습하는가”라면 이 논문은 <strong>“그 깊이를 어떤 좌표계에 담는가”</strong>, <a href="autonomous-2026-08-27.html">LSS</a>(08-27)·<a href="autonomous-2026-08-17.html">BEVFormer</a>(08-17)는 <strong>이미지에서 BEV로 가는 또 다른 경로</strong>다. 그리고 <a href="autonomous-2026-09-26.html">DETR3D</a>(09-26) 포스트가 기록해 둔 대로 nuScenes 시대에 pseudo-LiDAR는 NDS 0.160·mAP 0.048로 무너진다 — <em>원조의 화려한 KITTI 결과와 5년 뒤의 몰락을 함께 봐야 이 논문이 온전히 이해된다.</em></li>
+                <li><strong>정직한 현재 위치:</strong> 저장소는 2020-07 이후 멈춘 <em>연구용 완결 프로젝트</em>(릴리스 없음), 성능 주장의 무대였던 KITTI 역시 지금 기준으로는 작은 벤치마크다. 그러나 “라이다 없이 어디까지 가능한가”라는 질문은 테슬라식 카메라 중심 스택과 <a href="autonomous-2026-08-27.html">LSS</a> 계열 BEV 네트워크로 이어졌고, 그 물음의 <em>출발점 문서</em>가 이 논문이다.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>이 논문이 남긴 가장 실무적인 교훈은 <strong>“좋은 표현 하나가 새 알고리즘 열 개를 이긴다”</strong>는 것이다. 깊이 추정기를 그대로 두고 점군 표현으로 바꾸는 것만으로 AP<sub>3D</sub>가 6.6에서 45.3으로 뛰었고, 반대로 깊이 정확도(1.86% vs 4.32%)를 앞세운 추정기가 검출 성능에서는 이기지 못했다. 저자 스스로 결론에서 <em>“Sometimes, it is the simple discoveries that make the biggest differences”</em>라 쓰고, 자신들의 결과를 <em>“새 알고리즘이라기보다 시스템적 비효율의 교정”</em>이라고 규정한다. 그러나 동시에 이 표현은 공짜가 아니다 — 깊이 오차는 어려운 구간·먼 객체·보행자에서 그대로 성능으로 청구되고, 도시 규모·악천후·야간으로 무대가 옮겨 간 nuScenes 시대에는 BEV·쿼리 기반 표현에 자리를 내줬다. 결국 인지 스택 설계에서 <strong>“무엇을 추론하느냐”만큼 “그 추론을 어떤 좌표계에 담느냐”가 성능과 비용을 결정한다</strong>는 것 — 오늘날 BEV·점유 격자·희소 쿼리로 이어진 모든 표현 논쟁의 원형이 여기에 있다. 라이다 없이(혹은 라이다의 <em>보험</em>으로) 카메라만으로 3D를 세우는 일을 고민한다면, 먼저 이 2019년의 실험을 읽어야 한다.</p>
+            <p>원문: <a href="https://arxiv.org/abs/1812.07179" target="_blank">https://arxiv.org/abs/1812.07179</a> · 코드: <a href="https://github.com/mileyan/pseudo_lidar" target="_blank">https://github.com/mileyan/pseudo_lidar</a> · 프로젝트: <a href="https://mileyan.github.io/pseudo_lidar/" target="_blank">https://mileyan.github.io/pseudo_lidar/</a></p>
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
