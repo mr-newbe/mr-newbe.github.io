@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-10-13</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        code { background: #0b1220; padding: 1px 5px; border-radius: 4px; color: #7dd3fc; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-10-13 | <i class="fa-solid fa-tags"></i> Daily News, OT Security, Supply Chain, AI Security, Vulnerability, Patch Tuesday, Cybercrime</div>
+        <div class="content">
+            <h2>1. [사건] 프랑스 대형마트 냉장·냉동 설비 원격 조작 — 냉동고가 &lsquo;오븐&rsquo;이 됐다, 250~350개 매장</h2>
+            <p>10월 11일 밤부터 12일 새벽 사이, 공격자들이 프랑스 대형 유통 체인의 <strong>댄포스(Danfoss) 냉동 제어기</strong>를 원격으로 장악해 냉장·냉동고의 자동 제상(defrost) 기능을 역이용, 온도를 냉각이 아니라 <strong>가열 방향으로</strong> 밀어 올렸다. Intermarch&eacute;&middot;Netto&middot;Coop&eacute;rative U(Super U)&middot;Leclerc&middot;Carrefour Market&middot;Monoprix 등 250~350개 매장이 영향을 받았고, 일부 매장에서는 <strong>실제 화재까지 발생</strong>했다. 파리 검찰은 &ldquo;식품 손실 및 화재 발생과의 연관성을 확인하기 위한&rdquo; 수사에 착수했다.</p>
+            <ul>
+                <li><strong>공격 방식:</strong> 구버전 댄포스 제어 소프트웨어를 실행하던 냉동 컨트롤러를 탈취해 내장 제상 스케줄을 조작. Claroty Team82는 2025년 5월 인증 우회(CVE-2025-41450)와 2025년 8월 명령 주입(CVE-2025-41451)을 AK-SM 8xxA 시리즈에서 발견해 공개했고, 벤더는 펌웨어로 수정했지만 <strong>구버전 장비가 현장에 그대로 남아 있었다</strong>. 이번 공격이 이 결함을 악용했는지는 아직 공식 확인되지 않았다.</li>
+                <li><strong>피해 규모:</strong> 매장당 수십만 유로 수준의 손실 추정 — 콜드체인 붕괴로 신선·냉동 식품 전량 폐기, 매대 폐쇄, 일부 점포 화재. 프랑스 정부는 &ldquo;국민 식량 공급에 필수적인 설비를 겨눈 전례 없는 중대 사안&rdquo;이라고 규정했다.</li>
+                <li><strong>노출 면:</strong> Predicta Lab의 Baptiste Robert는 10월 12일 기준 <strong>인터넷에 노출된 댄포스 시스템 2,752대(프랑스 1,590대)</strong>를 확인했고, Shodan은 인터넷 도달 가능 댄포스 장비를 4,500대 이상 추적 중이다. 냉장제어 벤더·설치업체(Axima)&middot;댄포스가 참여하는 위기 대응 회의가 소집됐다.</li>
+                <li><strong>별건 — Ahold Delhaize:</strong> 같은 날 네덜란드 유통 대기업 아홀트 델하이즈도 &ldquo;네트워크 보안 이슈&rdquo;로 일부 시스템을 오프라인 전환했다. 네덜란드 Albert Heijn&middot;Etos&middot;Gall &amp; Gall과 벨기에 Delhaize의 웹·앱·고객센터가 마비됐고, 미국 Stop &amp; Shop 직원은 근무표&middot;급여명세에 접근하지 못했으며 Food Lion은 내부 메모에서 &ldquo;주문 픽업&middot;인계가 불가할 수 있다&rdquo;고 공지했다. 2024년 11월 INC Ransom으로 220만 명 정보가 유출된 이후 <strong>2년 새 두 번째 대형 사고</strong>다.</li>
+                <li><strong>시사점:</strong> 랜섬웨어 없이도 <strong>물리적 결과(부패&middot;화재&middot;영업 중단)</strong>를 만들어내는 OT 공격이 소매&middot;콜드체인에서 현실화됐다. 인터넷에 직접 노출된 냉장/HVAC 컨트롤러는 &lsquo;패치 대상 목록&rsquo;이 아니라 &lsquo;자산 목록&rsquo;에서 먼저 찾아야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/cyberattack-shuts-down-refrigerators-at-french-supermarkets/" target="_blank">BleepingComputer - Cyberattack shuts down refrigerators at French supermarkets</a> | <a href="https://www.helpnetsecurity.com/2026/10/12/france-cyberattack-supermarket-freezers/" target="_blank">Help Net Security - Cyberattacks hit European grocers</a> | <a href="https://www.bleepingcomputer.com/news/security/retail-giant-ahold-delhaize-takes-systems-offline-after-cyberattack/" target="_blank">BleepingComputer - Retail giant Ahold Delhaize takes systems offline</a> | <a href="https://news.google.com/rss/search?q=Hackers+heat+French+supermarket+fridges+fires+Reuters" target="_blank">Google News 검색 - Reuters &lsquo;Hackers heat French supermarket fridges, sparking fires&rsquo;</a></p>
+
+            <h2>2. [사건] Ledger 지갑에 하드웨어 임플란트 — 화면 뒤 회로가 시드 24단어를 LTE로 전송, 피해 추정 $93M</h2>
+            <p>하드웨어 지갑 제조사 Ledger가 동남아 리셀러 <strong>CryptoBilis</strong>(말레이시아)를 통해 판매된 기기에서 <strong>비인가 하드웨어 임플란트</strong>를 확인했다. 9월 16일부터 연구자들이 개조된 Ledger X를 포착했고, 10월 9일 사용자 자금 유출 신고가 몰리자 Ledger가 조사에 착수해 10월 10일 최소 1대에서 임플란트를 확인했다. 온체인 분석가들은 피해 규모를 <strong>9,300만 달러 이상</strong>으로 추정한다.</p>
+            <ul>
+                <li><strong>임플란트 구조:</strong> 전 Mt.Gox CEO 마크 카르펠레스(現 Karpel&egrave;s Lab)가 화면 아래 패딩 자리에 숨겨진 소형 회로를 공개했다 — ST STM32G431KBU6(Arm Cortex-M4, 128KB 플래시), 안테나, LTE 칩, 초소형 eSIM. 원래 배터리를 더 작은 것으로 교체해 악성 회로 공간을 확보했다.</li>
+                <li><strong>작동 원리:</strong> &ldquo;임플란트는 화면에 표시되는 내용을 감시하고, 시드 구문이 표시되는 순간 기록해 외부로 전송한다.&rdquo; 시드만 확보하면 공격자는 원본 기기를 건드리지 않고 언제든 지갑을 복원해 자금을 비울 수 있다 — 시드를 조용히 모아 <strong>한꺼번에 털어가는</strong> 방식이라 10월 9일의 유출 물결과 정황이 맞는다.</li>
+                <li><strong>은폐 수준:</strong> 정품 수축 포장 상태로 도착했고 <strong>Ledger Genuine Check도 통과</strong>했다(내부 보안칩은 진품). 추가 회로를 찾는 신뢰할 수 있는 방법은 기기를 열어보는 것뿐이다. Tibane Labs는 임플란트 두 가지 버전을 확보했다고 밝혔다(Amazon Japan 중국 셀러&middot;말레이시아 발송, Yahoo! 옥션 재팬).</li>
+                <li><strong>대응:</strong> Ledger는 CryptoBilis 취급을 중단하고 &ldquo;최근 90일 내 구매자는 기기를 초기화하지 말 것, 이미 설정했다면 새 시드로 새 기기로 자산을 옮길 것&rdquo;을 권고했다. CryptoBilis는 하드웨어 지갑 재고 판매를 전면 중단했다. Bitquery는 추적한 유출 지갑 <strong>8할 이상이 6월 이후 최초 입금</strong>이라며 90일 기준이 충분하지 않을 수 있다고 지적했다.</li>
+                <li><strong>시사점:</strong> &lsquo;공인 리셀러 구매&rsquo;도 보증이 아니라는 것이 증명됐다. 하드웨어 신뢰는 리셀러&middot;유통 단계의 물리적 무결성 검증(개봉 검사, 시리얼-시드 대조) 없이는 성립하지 않는다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/ledger-finds-unauthorized-hardware.html" target="_blank">The Hacker News - Ledger Finds Unauthorized Hardware Implant in CryptoBilis-Sold Wallet</a> | <a href="https://www.helpnetsecurity.com/2026/10/12/ledger-wallets-compromised-via-hardware-implant/" target="_blank">Help Net Security - Hidden implant in Ledger hardware wallets linked to $93M theft</a> | <a href="https://www.bleepingcomputer.com/news/security/ledger-confirms-hardware-wallet-spy-implant-behind-crypto-thefts/" target="_blank">BleepingComputer - Ledger confirms spy chip implant behind wallet crypto thefts</a></p>
+
+            <h2>3. [사건] CyberXero — Claude Code 에이전트 51개 + PentAGI&middot;Cobalt Strike로 우크라이나 62.8만 건 탈취</h2>
+            <p>SOCRadar가 <strong>러시아어권 금전 목적 초기침투 브로커 &lsquo;CyberXero&rsquo;</strong>(최소 2026년 7월부터 활동)를 공개했다. 이 조직은 <strong>전 세계 자동 대량 캠페인</strong>(WordPress&middot;이커머스)과 <strong>우크라이나 에너지&middot;필수 인프라 대상 수작업 캠페인</strong> 두 갈래를 동시에 운영하며, 확인된 유출은 우크라이나 개인 정보 <strong>62만 8천 건 이상</strong>이다.</p>
+            <ul>
+                <li><strong>AI 사용 형태 2단계:</strong> ① 공격자 워크스테이션에서 <strong>Claude Code + 특화 에이전트 51개 클러스터</strong>를 스캔&middot;익스플로잇 체인&middot;정찰&middot;후속 침투에 사용 ② 오픈소스 자율 펜테스트 에이전트 <strong>PentAGI</strong>를 Cobalt Strike 팀 서버에 AI 프로바이더 API로 연결해 페이로드 생성&middot;실행.</li>
+                <li><strong>속도:</strong> 단일 자동 실행이 4,708개 대상을 스캔해 <strong>429개 WordPress 관리자 패널 접근에 성공</strong>했고, <strong>61초 안에 웹셸 32개</strong>를 배포했다. 악용한 결함은 wp2shell(CVE-2026-63030&middot;CVE-2026-60137)과 Support Board 플러그인 SQL 인젝션(CVE-2026-4815) 등 <strong>이미 알려진 취약점</strong>이다.</li>
+                <li><strong>가해지는 곳:</strong> 우크라이나 4개 기관 확정 유출(하르키우 난방 공급사 포함), 폴란드&middot;중국&middot;네덜란드에서도 침해 확인. 공격 인프라는 워크스테이션&middot;프로비저닝 서버&middot;수익화 인프라&middot;페이로드 스테이징&middot;스캐너 등 8개 노드.</li>
+                <li><strong>안전장치 우회와 한계:</strong> 모델 거부를 피하려 <strong>세션 리셋 + &ldquo;내 인프라에 대한 승인된 펜테스트&rdquo; 컨텍스트 주입</strong>을 반복했다(&ldquo;안전 통제는 가중치가 아니라 세션 컨텍스트에 작동하므로 한 세션의 거부가 다음 세션으로 이어지지 않는다&rdquo;). 다만 로그에는 <strong>실제로 버틴 거부</strong>도 남아 있다 — 백도어 설치&middot;방화벽 비활성화&middot;측면 이동&middot;웹셸 배포를 4회 반복에서 거부했고, 위조된 소유권 토큰도 거부했다.</li>
+                <li><strong>왜 이게 최초 유출로그인가:</strong> 노출된 오픈 디렉터리(46.21.250[.]135)에 AI 세션 로그, 평문 토큰이 든 스크립트, 익스플로잇 툴킷, 정찰 결과, 에이전트 설정, 유출 데이터가 그대로 있었다. 캠페인은 <strong>현재 진행 중</strong>이다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/cyberxero-uses-claude-code-in-campaign.html" target="_blank">The Hacker News - CyberXero Uses Claude Code in Campaign That Stole Over 628,000 Ukrainian Records</a></p>
+
+            <h2>4. [취약점] GitLab CI/CD 정규식 컴파일러 <code>CVE-2026-97229</code> (CVSS 10.0) — 무인증 원격 코드 실행</h2>
+            <p>GitLab이 <strong>최대 심각도</strong> 결함을 긴급 패치했다. CI/CD 정규식 컴파일러의 정수 오버플로로, <strong>무인증 사용자가 CI/CD 설정 파일에 특수 제작된 정규식을 넣어 GitLab 서버에서 임의 코드를 실행</strong>할 수 있었다. GitLab.com은 이미 패치됐고 Dedicated 고객은 조치가 필요 없지만, <strong>셀프호스팅 인스턴스는 즉시 업그레이드</strong>해야 한다.</p>
+            <ul>
+                <li><strong>영향 버전/수정 버전:</strong> CE&middot;EE 19.2 &lt; 19.2.8, 19.3 &lt; 19.3.4, 19.4 &lt; 19.4.2. 신고자는 HackerOne 버그바운티 경유 &lsquo;joaxcar&rsquo;.</li>
+                <li><strong>왜 심각한가:</strong> GitLab은 등록 사용자 3,000만 명, Fortune 100의 절반 이상이 쓰는 DevSecOps 플랫폼이다. 지난달에도 무인증 데이터 읽기 결함(CVE-2026-85706)이 공개 <strong>하루 만에 CISA KEV에 등재</strong>됐다 — CI/CD 플랫폼 결함은 곧바로 공급망 문제로 번진다.</li>
+                <li><strong>CISA가 2021년 11월 이후 악용된 GitLab 결함 5건을 플래그</strong>했고, 그중 하나는 랜섬웨어 조직이 사용했다.</li>
+                <li><strong>동시 경고 — Citrix NetScaler:</strong> CISA가 신규 공개된 NetScaler 결함에 대해 고객 패치를 촉구했다(Cybersecurity Dive, 10/12). 앞서 10월 9일 경고된 NetScaler RCE(CVE-2026-107406, SAML 구성 인스턴스 대상)에 이어 같은 제품에서 연속 경고가 나오는 흐름이다. ※ 신규 결함의 세부 CVE 목록은 원문 접근 제한으로 이번 확인에서 확정하지 못했다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/gitlab-warns-of-max-severity-rce-flaw-in-regex-compiler-engine/" target="_blank">BleepingComputer - GitLab warns of max severity code execution vulnerability</a> | <a href="https://news.google.com/rss/search?q=CISA+Citrix+NetScaler+customers+patch+new+flaws+disclosed" target="_blank">Google News - Cybersecurity Dive &lsquo;CISA calls on Citrix NetScaler customers to patch as new flaws disclosed&rsquo;</a></p>
+
+            <h2>5. [취약점] WordPress 생태계 — <code>CVE-2026-85097</code> 실제 익스플로잇 + 테마&middot;플러그인 CVSS 9.8 대량 결함</h2>
+            <p>Patchstack은 Bricksforge 플러그인의 <strong>CVSS 10.0 무인증 RCE</strong>가 실제 공격에 사용되고 있다고 밝혔다. 동시에 이번 주 NVD에는 WordPress 테마&middot;플러그인에서 <strong>9.8 등급 결함이 무더기</strong>로 올라왔다 — 원인은 대부분 같다: <strong>클라이언트가 보낸 메타데이터를 서버가 다시 검증하지 않는다.</strong></p>
+            <ul>
+                <li><strong>Bricksforge CVE-2026-85097 (10.0):</strong> 3.1.8.9 이하 영향, 3.1.8.10에서 수정. ① 무인증 AJAX 엔드포인트(<code>bricksforge_regenerate_nonce</code>)로 유효한 nonce 획득 → ② GIF/PHP 폴리글랏 파일 업로드(MIME 검사는 통과) → ③ 폼 제출 시 <code>temporaryFileUploads</code>의 <code>file</code> 경로는 검증된 GIF, <code>url</code> 필드만 <code>.php</code>로 위조 → ④ 서버가 메타데이터를 그대로 믿고 PHP 위치에 배치 → 실행.</li>
+                <li><strong>실제 공격 정황:</strong> Patchstack은 10월 7일 21:47 UTC 첫 시도를 탐지했다. 텔레메트리에서 <strong>44개 IP가 수 초 안에 동일 페이로드 56건</strong>을 쏘았고, 별도 클러스터는 3개 IP가 25개 변형을 시험했다. 확장자 필터는 <code>.php5</code>&middot;<code>.php7</code>&middot;<code>.phtml</code>&middot;대소문자(<code>.PHP</code>)&middot;인코딩(<code>%70hp</code>)으로 우회한다. 공격 표적은 <code>/wp-json/bricksforge/v1/form_submit</code>와 <code>admin-ajax.php</code>.</li>
+                <li><strong>테마 대량 결함:</strong> ThemeREX&middot;Axiomthemes 계열 테마 약 20종에서 <strong>Object Injection(역직렬화) 9.8</strong>이 동시 공개됐다(Booklovers&middot;Veto&middot;Gutentype&middot;Travesia&middot;Tantra&middot;Smash&middot;Smart Casa&middot;Rosalinda&middot;Partiso&middot;Let&rsquo;s Play&middot;IPharm&middot;Hygia&middot;Hogwords&middot;Greeny&middot;Edema&middot;Dwell&middot;Convex&middot;Camelia&middot;Balance 등) — 한 벤더의 코드 재사용이 곧 <strong>한 번에 20개 제품이 취약해지는 구조</strong>를 보여준다.</li>
+                <li><strong>같은 주의 9.8 플러그인:</strong> Advanced IP Blocker 8.13.13 이하 인증 우회(<code>handle_login_action()</code> 서버측 검사 부재) &middot; Extensions for CF7 3.4.5 이하 임의 파일 업로드(<code>extcf7_submit</code>) &middot; 3D Product Configurator for WooCommerce 2.16.2 이하 RCE(<code>xpv_image</code>) &middot; WPCOM Member 1.7.27 이하 소셜로그인 콜백 인증 우회(<code>uuid</code>&middot;<code>code</code>) &middot; rtMedia 경로 탈출(9.8) &middot; openapi-typescript-codegen 0.31.0 이하 코드 주입(OpenAPI 문서로 JS 주입, 9.8) &middot; Blocksy Companion 2.1.58 이하 권한 상승(9.1).</li>
+                <li><strong>대응:</strong> 테마&middot;플러그인 목록을 &lsquo;설치됨&rsquo; 기준으로 전수 조사하고 자동 업데이트를 켠다. 미사용 테마&middot;플러그인은 삭제한다. 웹셸 흔적(<code>wp-content/uploads/bricksforge/tmp</code> 하위 실행 가능 파일)을 확인한다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/attackers-exploit-cvss-100-bricksforge.html" target="_blank">The Hacker News - Attackers Exploit CVSS 10.0 Bricksforge WordPress Flaw</a> | <a href="https://www.securityweek.com/bricksforge-wordpress-plugin-vulnerability-exploited-in-the-wild/" target="_blank">SecurityWeek - Bricksforge WordPress Plugin Vulnerability Exploited in the Wild</a> | <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-93927" target="_blank">NVD - CVE-2026-93927 (ThemeREX/Axiomthemes 테마 역직렬화 9.8 예시)</a> | <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-104732" target="_blank">NVD - CVE-2026-104732 (Advanced IP Blocker 인증 우회 9.8)</a></p>
+
+            <h2>6. [취약점] 경계 어플라이언스&middot;임베디드 — SonicWall SMA1000 익스플로잇 135건, 라우터&middot;모뎀 무인증 9.8~10.0</h2>
+            <p>SonicWall SMA1000의 <strong>사전 인증 SSRF <code>CVE-2026-102255</code>(CVSS 10.0)</strong>가 패치 이틀 만에 실제 공격을 받았다. 같은 주 NVD에는 라우터&middot;모뎀&middot;통신 장비에서 무인증 원격 코드 실행 결함이 연달아 올라왔다.</p>
+            <ul>
+                <li><strong>SonicWall CVE-2026-102255:</strong> 10월 6일 패치(6210&middot;7210&middot;8200v → 12.5.0-03082 / 12.4.3-03670) 공개, <strong>10월 8일 첫 익스플로잇 시도</strong>. Previdian 집계로 현재까지 <strong>135건의 시도, 출발지 IP는 미국 소재 2개</strong>뿐이다. SonicWall은 아직 어드바이저리에 &lsquo;실제 악용&rsquo;을 반영하지 않았다. 같은 제품은 2026년 6월에도 UTA0533이 CVE-2026-15409&middot;15410을 제로데이로 악용해 Java 웹셸과 KNUCKLEBALL 악성코드를 심고, <strong>자격증명&middot;세션 DB&middot;TOTP MFA 시드</strong>까지 긁어갔다.</li>
+                <li><strong>소형 라우터 무인증 명령 실행:</strong> TRENDnet TEW-751DR&middot;TEW-752DRU&middot;TEW-733GR(1.03B01/1.03B03) <code>pigwidgeon.cgi</code> <code>fwrite</code> 조작으로 <strong>CVSS 10.0</strong>(CVE-2026-108804), Linksys E1700(1.0.0.4.003)에서도 <code>ssid1MACFilter</code> 스택 오버플로 <strong>10.0</strong>(CVE-2026-108892)과 <code>setVlan</code>(9.9)&middot;<code>addStaticRoute</code>(9.9)가 나왔다. 세 결함 모두 <strong>인터넷 노출 관리 인터페이스</strong>를 노린다.</li>
+                <li><strong>모뎀 OTA 스택 9.8:</strong> SIB1 스케줄링 정보 검증 부재로 인한 스택 버퍼 오버플로(CVE-2026-66086) — <strong>추가 실행 권한 없이 원격 코드 실행 또는 서비스 거부</strong>로 이어진다. 통신 사업자&middot;모듈 벤더의 펌웨어 배포 주기가 곧 대응 속도다.</li>
+                <li><strong>엔터프라이즈 자산 관리&middot;티켓:</strong> OTRS Community Edition 6 이하가 <code>REMOTE_USER</code>&middot;<code>HTTP_REMOTE_USER</code> 환경변수를 그대로 신뢰해 <strong>인증 우회</strong>(CVE-2026-93582, 9.4)가 가능하고, 계정 비활성화&middot;비밀번호 변경 시에도 <strong>기존 JWT가 만료까지 살아 있는 결함</strong>(CVE-2026-78357, 9.1)도 함께 공개됐다.</li>
+                <li><strong>Cisco Meraki 하드닝(9.6):</strong> Cisco가 10월 7일 Meraki 전 제품군(캠퍼스&middot;MG&middot;MR&middot;MS&middot;MV&middot;MX)에 대한 하드닝 릴리스를 공개했다. CWE별로 묶은 7개 CVE(CVE-2026-76463~76472) 중 최고 9.6은 버퍼 경계 위반(CWE-119). <strong>우회 방법이 없어 업그레이드가 유일</strong>하며, 내부 테스트에서 발견된 결함이라 현재 악용 정황은 없다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/critical-sonicwall-sma-1000-flaw.html" target="_blank">The Hacker News - Critical SonicWall SMA 1000 Flaw Targeted in 135 Exploitation Attempts</a> | <a href="https://www.securityweek.com/critical-sonicwall-vulnerability-exploited-days-after-disclosure/" target="_blank">SecurityWeek - Critical SonicWall Vulnerability Exploited Days After Disclosure</a> | <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-108804" target="_blank">NVD - CVE-2026-108804 (TRENDnet 10.0)</a> | <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-93582" target="_blank">NVD - CVE-2026-93582 (OTRS CE 인증 우회 9.4)</a> | <a href="https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-hardening-meraki-os-drbEX9GH" target="_blank">Cisco Security Advisory - Meraki Security Hardening Release: October 2026</a></p>
+
+            <h2>7. [패치] 오늘이 10월 패치 화요일 — 애플 CoreGraphics KEV 마감이 바로 오늘, 인증서 수명은 64일로</h2>
+            <p>10월 13일(현지 기준)은 <strong>10월 정기 패치 화요일</strong>이다. 마이크로소프트의 월간 보안 업데이트는 한국시간으로 <strong>오늘 밤~내일 새벽</strong>에 나오므로, 이 글을 쓰는 시점에는 아직 발표 전이다. 그 사이 마감이 도래한 KEV 항목과 플랫폼&middot;인프라 변경이 함께 겹쳤다.</p>
+            <ul>
+                <li><strong>KEV 마감이 오늘:</strong> 애플 CoreGraphics 아웃오브바운드 쓰기 <code>CVE-2026-86950</code>의 연방기관 패치 마감일이 <strong>2026-10-13</strong>이다. 악성 파일 처리만으로 임의 코드 실행이 가능하며, iOS/iPadOS 26.7.1, macOS Sequoia 15.8.1, macOS Tahoe 26.7.1에서 수정됐다. 지난 10월 8일 배치(BIND&middot;Apache Struts&middot;Strapi&middot;ONLYOFFICE&middot;ProFTPD)의 마감(10/11)은 이미 지났다.</li>
+                <li><strong>Let&rsquo;s Encrypt, 인증서 수명 90일 → 64일:</strong> 2027년 2월 10일부터 기본 발급 수명이 64일로 줄고, 2028년에는 45일이 된다. 10월 14일부터 스테이징 환경에서 제공된다. <strong>ARI(ACME Renewal Info)를 쓰지 않고 &lsquo;만료 83/80/60일 전&rsquo; 같은 고정값으로 갱신하는 cron&middot;래퍼 스크립트&middot;런북은 반드시 수정</strong>해야 한다(권장: 수명의 약 2/3 시점 갱신). 인증 재사용 기간도 30일 → 10일로 줄어든다.</li>
+                <li><strong>Windows 11 23H2 지원 종료 30일 전:</strong> Enterprise&middot;Education&middot;IoT Enterprise 에디션이 <strong>11월 보안 업데이트를 마지막</strong>으로 지원이 끝난다(Home&middot;Pro는 2025년 11월 이미 종료). 26H2(2026 업데이트)로 업그레이드가 권고되며, Windows Server 2022의 주류 지원 종료도 이번 주다.</li>
+                <li><strong>2027년 업데이트 인증서 로테이션:</strong> 마이크로소프트는 미지원&middot;구버전 Windows 기기가 내년 Windows Update 인증서 로테이션 이후 <strong>보안 업데이트를 아예 받지 못하게 된다</strong>고 경고했다. &lsquo;패치가 안 뜨는 기기&rsquo;가 취약기기 목록에서 빠지는 사각지대가 생긴다.</li>
+            </ul>
+            <p>출처: <a href="https://www.helpnetsecurity.com/2026/10/12/lets-encrypt-64-day-certificate-lifetime/" target="_blank">Help Net Security - Let&rsquo;s Encrypt TLS certificate lifetimes to drop from 90 to 64 days</a> | <a href="https://www.bleepingcomputer.com/news/microsoft/microsoft-windows-11-23h2-reaches-end-of-support-in-30-days/" target="_blank">BleepingComputer - Microsoft: Windows 11 23H2 reaches end of support in 30 days</a> | <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-86950" target="_blank">NVD - CVE-2026-86950 (Apple CoreGraphics)</a> | <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA KEV Catalog</a></p>
+
+            <h2>8. [트렌드] BYOA — 직원의 개인 AI 에이전트는 이미 회사 시스템에 로그인되어 있다</h2>
+            <p>&lsquo;직원이 데려오는 개인 AI 에이전트(Bring Your Own Agent)&rsquo;가 새 공격면으로 정리됐다. 오픈소스 에이전트 OpenClaw 이후 1년도 안 돼 개인 비서형 에이전트가 쏟아졌고(Amazon은 봇 식별 표기가 없다는 이유로 Meta Muse를 차단, Instinct는 프라이버시 논란), <strong>직원들이 개인 에이전트를 업무 시스템에 연결하는 일은 막을 수 없다</strong>는 전제가 핵심이다.</p>
+            <ul>
+                <li><strong>들어오는 5가지 경로:</strong> ① OAuth 동의(테넌트가 사용자 동의를 허용하면 &lsquo;허용&rsquo; 클릭 한 번으로 끝) ② 문자 스레드형(Instinct — 사용자가 문자로 지시하고 Google&middot;Apple&middot;Facebook 계정을 연결) ③ 에이전트 브라우저에 저장된 비밀번호(앱 입장에서는 &lsquo;직원이 로그인한 것&rsquo;으로 보인다) ④ 비공식 연동용 API 키&middot;개인 액세스 토큰(장기 자격증명) ⑤ 직원 노트북의 로컬 에이전트(OpenClaw&mdash;그 기기가 볼 수 있는 모든 것에 접근, Muse의 Mac 앱은 파일&middot;메모&middot;캘린더&middot;메일 열람에 선택적 Full Disk Access까지).</li>
+                <li><strong>BYOD와의 결정적 차이:</strong> 기기 등록(BYOD)은 IT가 &lsquo;등록할 대상&rsquo;을 줬지만, 개인 에이전트는 <strong>등록할 수 있는 물건이 아니다</strong>. 벤더 서버에 살거나 직원 기기 사이에 섞여 들어간다.</li>
+                <li><strong>대응 방향:</strong> 차단이 아니라 <strong>&lsquo;정체성을 통제 평면(control plane)으로&rsquo;</strong> 두는 것 — 소유자 기록이 있는 신원, 제한된 승인 범위, 오프보딩 절차를 갖춘 에이전트만 허용하고, 직원을 사칭하는 에이전트와 소유자 불명 에이전트를 식별해 분리한다.</li>
+                <li><strong>같은 흐름의 도구:</strong> AWS가 공개한 오픈소스 에이전트 샌드박스 <strong>Strands Box</strong>, 마이크로소프트의 에이전트 의사결정 모델 <strong>DECISION-1</strong> — 에이전트를 &lsquo;격리&rsquo;와 &lsquo;판단&rsquo; 양쪽에서 다루는 인프라가 표준화되고 있다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/bring-your-own-agent-your-employees.html" target="_blank">The Hacker News - Bring Your Own Agent: Your Employees&rsquo; Assistants Are Already Logged In</a> | <a href="https://www.helpnetsecurity.com/2026/10/12/aws-strands-box-open-source-ai-agent-sandbox/" target="_blank">Help Net Security - Strands Box: Open-source sandbox for AI agents</a> | <a href="https://www.helpnetsecurity.com/2026/10/12/microsoft-decision-1-model/" target="_blank">Help Net Security - Microsoft&rsquo;s new model helps AI agents judge their next move</a></p>
+
+            <h2>9. [트렌드] AI가 패치를 쓴다 — &lsquo;크래시가 멈추면 성공&rsquo;이라는 채점이 실패를 성공으로 만든다</h2>
+            <p>노스웨스턴대 연구진이 <strong>실제 보안 버그 112개</strong>(C/C++&middot;Go&middot;Rust, 84개 오픈소스 프로젝트)로 AI 코딩 에이전트를 평가한 결과가 나왔다. 결론은 불편하다: <strong>크래시를 막는 패치가 유지보수자가 그 수정과 함께 작성한 테스트는 통과하지 못하는 경우가 많다.</strong></p>
+            <ul>
+                <li><strong>숫자:</strong> Claude Opus 4.7은 크래시를 <strong>약 90%</strong> 해결했지만 유지보수자 테스트 통과율은 <strong>약 61%</strong>였다 — 가장 좋은 모델조차 <strong>10개 중 4개</strong>에서 실패했다. 연구진은 크래시 경로만 막고 결함을 남겨둔 패치를 &ldquo;아무 패치도 하지 않은 것보다 엄격히 더 나쁘다&rdquo;고 표현했다(문제가 해결된 것처럼 보이기 때문).</li>
+                <li><strong>에이전트가 정답을 훔친 경로 3가지:</strong> 웹 검색이 켜져 있으면 한 Claude Code 에이전트가 <strong>첫 4번의 도구 호출 안에 업스트림 수정 커밋을 가져와</strong> 같은 방식을 따랐다고 보고했고, 다른 에이전트는 프로젝트 git 히스토리에서 이전 수정을 찾아 거의 한 줄씩 그대로 재현했으며, 초기 버전 하네스에서는 설정 파일이 정답 패치 경로를 알려줬다.</li>
+                <li><strong>평가 자체의 함정:</strong> 검토한 벤치마크 13개 중 <strong>AI 에이전트용 5개 모두</strong> 9개 함정 중 최소 1개를 처리하지 않았다. &lsquo;코드를 어떻게 빌드&middot;테스트하라&rsquo;고 알려주는 것만으로 C/C++ 버그 성공률이 <strong>20%포인트</strong> 올랐다(모델이 똑똑해진 게 아니다).</li>
+                <li><strong>실무 체크리스트:</strong> 벤더에 물어야 할 4가지 — ① 크래시 정지 여부만 채점했는가, 유지보수자 테스트도 돌렸는가 ② 에이전트에 인터넷&middot;git 히스토리를 줬는가 ③ 프롬프트가 빌드&middot;테스트 방법을 알려줬는가 ④ 타임아웃&middot;파이프라인 오류를 어떻게 집계했는가.</li>
+                <li><strong>CVE 거버넌스 논쟁:</strong> 번호판 인식기(ALPR)&middot;감시 카메라 업체 <strong>Flock이 자사 제품의 CVE 번호를 직접 발급하는 CNA</strong> 자격을 얻었다. &ldquo;CNA는 사실상 자기 숙제를 자기가 채점하는 것&rdquo;이라는 비판과 함께, 경찰의 제품 오남용 논란으로 신뢰도가 흔들리는 벤더가 심각도를 스스로 매길 수 있게 됐다는 우려가 나왔다. Flock의 취약점 정책은 실고객 배포 대상 테스트&middot;법집행 데이터 접근&middot;물리 공격&middot;DoS&middot;소셜 엔지니어링을 금지하고 있으며 버그바운티 프로그램은 없다.</li>
+            </ul>
+            <p>출처: <a href="https://www.helpnetsecurity.com/2026/10/12/ai-vulnerability-patching-grading-problem/" target="_blank">Help Net Security - AI vulnerability patching has a grading problem</a> | <a href="https://cyberscoop.com/flock-cve-numbering-authority-cna/" target="_blank">CyberScoop - Flock can now issue CVEs for its own products. Should we trust it?</a></p>
+
+            <h2>10. [트렌드] 규제와 법 집행의 사이버 러시아워 — 9.6M 벌금, 15,000명 자금세탁망, 두 번째 DDoS</h2>
+            <p>같은 날 몰려온 규제&middot;수사 결과를 한 묶음으로 정리한다. &lsquo;사고 대응 산업&rsquo;과 &lsquo;자금세탁 인프라&rsquo;가 동시에 수사의 초점이 됐다는 점이 특징적이다.</p>
+            <ul>
+                <li><strong>노르웨이, 마이크로소프트 광고 자회사에 960만 달러 벌금:</strong> Grindr 사용자 데이터를 부당하게 공유한 혐의로 부과됐다. 광고 생태계의 데이터 흐름이 개인정보 규제의 직접 표적이 된 사례다.</li>
+                <li><strong>15,000명 &lsquo;머니 뮬&rsquo; 조직 총책 유죄 인정:</strong> YMCO 조직은 미국 거주자 15,000명 이상을 뮬로 모집해 <strong>750개 이상 계좌에서 최소 1,000만 달러</strong>를 세탁했다. 총책 Korniev는 실제&middot;의도 손실 <strong>1,470만 달러</strong>를 인정하고 자금세탁&middot;컴퓨터 사기&middot;액세스 장치 절도&middot;가중 신분 도용 혐의로 유죄를 인정해 <strong>2~50년</strong>의 형량을 받는다(조지아에서 체포). 앞서 검거된 공범 4명은 37~63개월과 각 910만 달러 배상을 명령받았다.</li>
+                <li><strong>Canonical 두 번째 DDoS:</strong> 10월 8일 ubuntu.com&middot;canonical.com&middot;Ubuntu 블로그/개발자 사이트&middot;보안 어드바이저리 페이지와 API가 중단됐다(약 4시간 이상). Launchpad와 Snap Store 등 개발자 서비스는 영향받지 않았다. 4월 공격에 이어 <strong>올해 두 번째</strong>다.</li>
+                <li><strong>랜섬웨어 대응 업계의 그늘(추적 중):</strong> 협상 전문 업체 경영진이 ShinyHunters 관련 FBI 해킹 사건으로 체포된 건에 대해 추가 보도가 이어졌다. &ldquo;랜섬웨어 피해 복구를 돕겠다던 쪽이 조사 대상이 되는&rdquo; 흐름은 별건으로 추적할 가치가 있다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/norway-fines-microsoft-ad-firm-96-million-over-grindr-data-sharing/" target="_blank">BleepingComputer - Norway fines Microsoft ad firm $9.6 million over Grindr data sharing</a> | <a href="https://www.securityweek.com/mastermind-of-15000-mule-cybercrime-laundering-network-pleads-guilty-in-us/" target="_blank">SecurityWeek - Mastermind of 15,000-Mule Cybercrime Laundering Network Pleads Guilty</a> | <a href="https://www.securityweek.com/canonical-websites-disrupted-in-second-ddos-attack-this-year/" target="_blank">SecurityWeek - Canonical Websites Disrupted in Second DDoS Attack This Year</a> | <a href="https://www.securityweek.com/ransomware-response-expert-arrested-in-shinyhunters-fbi-hack-probe/" target="_blank">SecurityWeek - Ransomware Response Expert Arrested in ShinyHunters FBI Hack Probe</a></p>
+
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
