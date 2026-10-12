@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧅 [클래식] Tor: The Second-Generation Onion Router — '중계자들은 서로를 못 믿어도, 회선은 나를 지킨다': 512바이트 셀·최소 3중 홉·완전 전방향 비밀성으로 익명 통신을 실세계에 올린 설계도 (Dingledine·Mathewson·Syverson, USENIX Security 2004)</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style></head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧅 [클래식] Tor: The Second-Generation Onion Router — 중계자들은 서로를 못 믿어도, 회선은 나를 지킨다</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-12 · 카테고리: Research (전통 보안 · 네트워크 보안 · 익명성/온라인 라우팅 · 트래픽 분석 · 저지연 믹스넷 · 숨은 서비스)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Tor: The Second-Generation Onion Router<br>
+                <strong>저자:</strong> Roger Dingledine · Nick Mathewson (The Free Haven Project) · Paul Syverson (Naval Research Laboratory, 미국 해군연구소)<br>
+                <strong>출처:</strong> Proceedings of the 13th USENIX Security Symposium, San Diego, CA (2004년 8월 9–13일) · <a href="https://www.usenix.org/legacy/events/sec04/tech/full_papers/dingledine/dingledine.pdf" target="_blank" rel="noopener">USENIX Security 2004 (PDF)</a> · <a href="https://svn-archive.torproject.org/svn/projects/design-paper/tor-design.pdf" target="_blank" rel="noopener">tor-design.pdf 미러</a><br>
+                <strong>분야:</strong> 네트워크 보안 · 익명 통신(anonymity) · 저지연 믹스넷 · 트래픽 분석 방어 · 온라인 라우팅(onion routing) · 숨은 서비스(location-hidden services)<br>
+                <strong>인용:</strong> <strong>OpenAlex 기준 4,047회</strong> (2004 USENIX 레코드) — 이번 회차 Semantic Scholar는 API 전역 제한(429)으로 응답하지 않아 OpenAlex 수치로 대체했다. DOI 없이 USENIX가 무료 공개한 '열린 논문'이라 학술 DB 카운트는 실제 영향력을 크게 밑돈다. 진짜 채택 규모는 <em>네트워크 자체</em>다 — 이 논문의 설계가 그대로 <strong>Tor 네트워크</strong>가 되어, Tor Browser·<code>.onion</code> 숨은 서비스·검열 우회·언론인·활동가의 통신 인프라로 20년 넘게 운영되고 있다.<br>
+                <strong>원문:</strong> <a href="https://www.usenix.org/legacy/events/sec04/tech/full_papers/dingledine/dingledine.pdf" target="_blank" rel="noopener">USENIX Security 2004 PDF (206 KB)</a> · <a href="https://www.usenix.org/conference/13th-usenix-security-symposium" target="_blank" rel="noopener">학회 페이지</a> · <a href="https://gitlab.torproject.org/tpo/core/tor" target="_blank" rel="noopener">구현체 tor (코드)</a>
+            </div>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 한 줄 요약 — '누가 누구와 말하는지'를 지우려면, 한 명의 중계자도 믿지 않으면 된다</h2>
+            <p>인터넷 패킷에는 출발지와 목적지가 적혀 있다. 익명 통신의 문제는 <strong>그 표지를 지우면서도 지연(latency)을 감당 가능한 수준으로 유지하는 것</strong>이다. 1981년 Chaum의 믹스넷(mix-net)은 메시지를 모아 섞고 재정렬해 이 문제를 이론적으로 풀었지만, 그 방식은 웹 브라우징·SSH·채팅처럼 <em>즉답이 필요한 저지연 트래픽</em>에는 너무 느렸다. 1세대 Onion Routing(1996)은 '양파(회선마다 한 번에 다중 암호화)'를 제안했으나 단일 실패점·상태 플러딩·취약한 핸드셰이크가 발목을 잡았다. 이 논문(2004)은 그 위에 <strong>전방향 비밀성(perfect forward secrecy), 텔레스코핑(telescoping) 경로 구축, 서명된 디렉터리, 무결성 검증, 설정 가능한 출구 정책, 랑데부 기반 숨은 서비스</strong>를 얹어 <strong>2세대</strong> 익명망을 완성하고, 그것을 실세계에 배포했다. 핵심 설계 하나만 기억하면 된다 — <strong>어떤 단일 노드도 '출발지와 목적지'를 동시에 알지 못한다.</strong></p>
+            <blockquote>
+                "Tor는 회선 기반의 <strong>저지연 익명 통신 서비스</strong>다. … 특권도 커널 수정도 필요 없이 실제 인터넷에서 동작하며, 노드 간 동기화나 조정을 거의 요구하지 않고, 익명성·사용성·효율 사이의 합리적 절충을 제공한다." — 논문 초록
+            </blockquote>
+
+            <h2><i class="fa-solid fa-hourglass-half"></i> 배경 — 익명 통신의 세 가지 난제와 1세대의 실패</h2>
+            <ul>
+                <li><strong>난제 ① 지연(latency):</strong> Chaum의 믹스넷은 지연을 <em>의도적으로</em> 크게 만들어 강한 익명성을 얻지만, 그 대가로 대화형 트래픽(웹·SSH·채팅)을 사실상 불가능하게 만든다. 높은 지연은 전역 관찰자를 막아주지만 사용자는 그걸 견디지 못한다 — 저지연 익명성은 훨씬 어려운 문제다.</li>
+                <li><strong>난제 ② 전역 수동 관찰자:</strong> 통신 양 끝(진입·이탈)의 <em>타이밍과 볼륨</em>을 동시에 보는 관찰자는 암호를 전혀 깨지 않고도 "누가 누구와 말하는지"를 상관분석으로 알아낸다. Tor도 이 <em>끝단 상관(end-to-end) 공격</em>을 완전히 해결하지는 못한다고 스스로 인정한다.</li>
+                <li><strong>난제 ③ 신뢰할 수 없는 중계자:</strong> 자원봉사자로 돌아가는 분산망에서는 어떤 노드도 신뢰할 수 없다. 노드가 늘고 지형이 바뀌는데, 클라이언트가 <em>네트워크 전체 구조</em>를 알아야 회선을 만들 수 있다는 것 자체가 공격 표면이다.</li>
+                <li><strong>1세대 Onion Routing(1996)의 한계:</strong> 회선마다 '양파'를 통째로 쌓아 올렸고(공개키 연산 폭증), 경로를 만들다 실패하면 시작부터 다시 해야 했다. 상태 정보는 네트워크에 <em>플러딩</em>됐고, 호스트 노드 하나가 모든 트래픽을 기록하면 이후 노드가 노출될 수 있었다(전방향 비밀성 부재).</li>
+                <li><strong>그래도 남은 교훈:</strong> 초기 Onion Routing의 공개 PoC는 단일 머신에서 돌던 취약한 프로토타입이었는데도 <strong>전 세계 6만 개가 넘는 서로 다른 IP에서 하루 약 5만 건</strong>의 연결을 처리했다 — 수요는 이미 증명돼 있었다. 문제는 <em>설계</em>였지 <em>수요</em>가 아니었다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-gears"></i> 핵심 1 — 2세대가 1세대 위에 얹은 다섯 가지</h2>
+            <ul>
+                <li><strong>① 완전 전방향 비밀성(perfect forward secrecy):</strong> '양파 한 덩어리' 대신 <strong>텔레스코핑(telescoping) 경로 구축</strong>을 쓴다. 출발점(Alice)이 회선의 <em>각 홉과 하나씩</em> 세션 키를 협상하고, 키를 쓰고 나면 <em>삭제</em>한다. 그 뒤 어떤 노드가 장악돼도 과거 트래픽을 복호화할 수 없다. 부수 효과로 <strong>재전송(replay) 탐지가 불필요</strong>해지고, 실패한 홉을 <em>그 지점에서</em> 교체할 수 있어 경로 구축이 훨씬 안정적이 된다.</li>
+                <li><strong>② 디렉터리 서버:</strong> 1세대의 상태 플러딩 대신, <strong>소수의 잘 알려진 신뢰 노드</strong>가 서명된 디렉터리(모든 노드의 키·주소·대역폭·출구 정책)를 발행한다. 논문 당시 <strong>디렉터리 서버 3대</strong>(네트워크가 커지면 최대 9대), 클라이언트는 이 서명된 목록을 받아 회선을 만든다. 서명된 디렉터리는 다른 노드가 캐시할 수 있어 확장성도 확보한다.</li>
+                <li><strong>③ 무결성 검증:</strong> 각 relay 셀에 <strong>SHA-1 기반 digest(4바이트)</strong>를 실어, 도중에 셀을 변조하는 <em>태깅(tagging)</em> 공격을 노드가 즉시 탐지하고 회선을 끊는다(48비트면 우연한 충돌 확률이 하드웨어 고장보다 낮다고 논문은 각주로 덧붙인다).</li>
+                <li><strong>④ 설정 가능한 출구 정책(exit policy):</strong> 각 노드는 "어떤 호스트·포트로 나가줄지"를 광고한다. 자원봉사자는 남용 위험을 감수할 필요가 없고, 사용자는 목적지에 맞는 출구를 고를 수 있다. Tor의 기본 출구 정책은 <strong>SMTP(25번)를 거부</strong>한다 — 스팸 중계 악용을 막기 위해서다.</li>
+                <li><strong>⑤ 랑데부 기반 숨은 서비스:</strong> <em>응답자 익명성</em>(responder anonymity)을 위해, 서버의 IP를 숨긴 채 서비스를 제공하는 랑데부(rendezvous) 메커니즘을 내장했다(뒤 핵심 3).</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-cubes"></i> 핵심 2 — 512바이트 고정 셀, 그리고 '새는 파이프'</h2>
+            <ul>
+                <li><strong>모든 트래픽은 똑같은 크기의 셀로 흐른다:</strong> 셀 하나는 <strong>정확히 512바이트</strong> = 헤더 + 페이로드. 헤더에는 <strong>회선 식별자 circID</strong>가 들어간다. 크기가 고정이므로 패킷 길이로 <em>내용</em>을 추측할 수 없다.</li>
+                <li><strong>두 종류의 키:</strong> 각 onion router(OR)는 <strong>장기 신원키</strong>(TLS 인증서와 라우터 설명자 서명)와 <strong>단기 양파키</strong>(사용자 요청 복호화)를 유지한다. OR들은 서로 <strong>TLS 연결</strong>을 맺고, OR 자체는 <em>특권 없는 일반 사용자 프로세스</em>로 돈다 — 커널 수정이 필요 없다.</li>
+                <li><strong>홉별 암호화:</strong> 회선을 따라가며 relay 셀의 헤더와 페이로드가 노드마다 함께 복호화된다. 암호 스트림 생성은 <strong>128비트 AES-CTR</strong>, 핸드셰이크의 키 교환은 <strong>RSA(메시지를 RSA 공개키로 암호화해 g^x를 전달)</strong>로 이뤄진다 — "각 계층이 세션 키와 다음 서버 주소를 담은 양파 껍질"이 바로 이것이다.</li>
+                <li><strong>'새는 파이프(leaky pipe)' 위상:</strong> 회선 내 in-band 신호로, 출발점이 트래픽을 <em>회선 중간쯤의 노드</em>에서 내보낼 수 있게 한다. 단일 회선에서 여러 목적지로 나갈 수 있어 효율이 오르고, 회선-대-회선 트래픽 모양이 흐려진다.</li>
+                <li><strong>혼잡 제어:</strong> 회선 단위와 스트림 단위로 <strong>end-to-end ACK</strong>와 <code>relay sendme</code> 셀을 주고받아 흐름을 조절한다(패키징 윈도 기준 10셀 등). 노드가 혼잡·플러딩을 감지하면 데이터를 줄여, "익명성을 유지한 채" 폭주를 억제한다.</li>
+                <li><strong>경로 길이:</strong> Alice는 <strong>적어도 3개의 노드</strong>를 (자기 자신·목적지와 무관하게) 골라 회선을 만든다. 진입(guard)·중간·출구가 각각 다른 노드이므로, 어느 하나도 "나와 목적지"를 함께 알지 못한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-map-location-dot"></i> 핵심 3 — 랑데부와 숨은 서비스: '.onion'의 원형</h2>
+            <ul>
+                <li><strong>문제:</strong> 서버도 익명이어야 할 때 — 웹서버를 돌리는 Bob이 자기 IP를 드러내지 않고 접속을 받을 수 있는가?</li>
+                <li><strong>소개 지점(introduction points):</strong> Bob은 자신의 서비스를 대표할 <strong>공개키</strong>를 정해 몇몇 OR을 '소개 지점'으로 지정하고, 그 키로 메시지에 서명해 남이 소개 지점을 가로채지 못하게 한다. Alice는 (별도 경로로) 그 서비스의 설명을 얻는다.</li>
+                <li><strong>랑데부(rendezvous):</strong> Alice는 임의의 OR 하나를 랑데부 지점으로 정해 비밀 쿠키를 남기고, 소개 지점을 통해 Bob에게 알린다. Bob은 그 랑데부 지점으로 회선을 열고, Alice·Bob은 <strong>서로의 IP를 전혀 모른 채</strong> 그 지점에서 만나 통신한다. 이때 쓰이는 서비스 주소가 훗날 <code>.onion</code> 주소의 원형이다.</li>
+                <li><strong>설계의 긴장:</strong> 소개 지점은 DoS 표적이 되기 쉬워, Bob은 여러 지점을 두거나 신뢰하는 사용자에게만 비공개 소개 지점을 알려주는 식으로 노출을 줄인다.</li>
+                <li><strong>1세대 대비:</strong> 초기 설계의 '회신 양파(reply onion)'를 대체한다. 랑데부 방식은 회선을 미리 알 필요가 없고, 응답자 익명성을 더 깔끔하게 분리한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 핵심 4 — 위협 모델과, 논문이 <em>스스로 인정한</em> 한계</h2>
+            <ul>
+                <li><strong>전제하는 적:</strong> 가장 흔한 가정은 <strong>전역 수동 관찰자(global passive adversary)</strong>다. Tor의 목표는 "관찰자가 <em>모든</em> 링크를 도청하더라도 양 끝을 잇지 못하게" 하는 것이다.</li>
+                <li><strong>끝단 공격은 해결 못 한다(명시):</strong> 논문은 Tor가 <strong>end-to-end 타이밍/교차(intersection) 공격을 완전히 막지 못한다</strong>고 분명히 밝힌다. 양 끝을 동시에 보는 관찰자 앞에서는 상관분석이 여전히 유효하다.</li>
+                <li><strong>패딩·교란 없음(의도적):</strong> 1세대가 가정한 배칭·재정렬·링크 패딩·트래픽 셰이핑은 성능 비용이 크고, 무엇보다 <em>상수 대역폭 트래픽 셰이핑</em>은 자원봉사자가 감당할 수 없다. 논문은 "입증된 트래픽 셰이핑 설계가 나올 때까지 이 전략들은 <strong>뺀다</strong>"고 선언한다 — 익명성과 실용성의 명시적 트레이드오프다.</li>
+                <li><strong>공격 목록을 스스로 열거:</strong> 태깅(tagging), 재전송, 내부자 변조(malleability), 선수(predecessor) 공격, 교차 공격, 순회 타협(roving adversary가 회선을 따라 노드를 차례로 장악), DoS, 디렉터리 서버 조작(디렉터리 과반을 장악하면 가짜 노드를 목록에 넣을 수 있음) 등을 논문 7절에서 정직하게 정리한다.</li>
+                <li><strong>설계 목표가 아닌 것(non-goals):</strong> P2P 시스템이 아니며, 전역 관찰자나 끝단 공격에 대한 완전한 방어를 <em>주장하지 않는다.</em> "무엇을 못 하는지"를 명시하는 이 태도가 오히려 후속 연구의 좌표가 됐다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-gauge-high"></i> 핵심 5 — 실측과 배포: '돌아간다'를 증명하다</h2>
+            <ul>
+                <li><strong>지연 실험:</strong> 1GHz Athlon 한 대에서 돌린 4-노드 테스트망으로, <code>debian.org</code>에서 <strong>60MB 파일을 30분마다 54시간(108회) 다운로드</strong>. Tor 경유 평균 <strong>약 300초</strong> vs 직접 다운로드 <strong>210초</strong> — 실사용 가능한 지연 수준임을 보였다.</li>
+                <li><strong>실배포:</strong> 2003년 10월 가동. <strong>2004년 5월 중순 기준 32개 노드(미국 24 · 유럽 8)</strong>, 매주 새 노드가 합류. "느린 성장이 오히려 기능 추가·버그 수정·사용자 니즈 파악의 시간을 준다"고 저자들은 적었다.</li>
+                <li><strong>남용 통제가 실제로 통했다:</strong> 제한적 기본 출구 정책(예: SMTP 거부)과 낮은 프로필 덕에, 2003년 10월 배포 이후 <strong>남용 문제가 없었다</strong>고 보고한다.</li>
+                <li><strong>계보와 병렬 연구:</strong> 뿌리는 Chaum의 믹스넷(1981)과 1세대 Onion Routing(1996, Goldschlag·Reed·Syverson). 동시대에 Tarzan, MorphMix, Cebolla, Herbivore, p5 등이 같은 문제를 풀려 했고, 랑데부 아이디어는 Ian Goldberg의 선행 설계(2000)에서 출발했다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-tower-broadcast"></i> 시사점 — 20년 뒤, 이 설계가 남긴 것</h2>
+            <ul>
+                <li><strong>'설계 논문'이 인프라가 된 드문 사례:</strong> 대부분의 학술 프로토타입은 논문으로 끝나지만, Tor는 그대로 구현되어 오늘날 <strong>Tor Browser · <code>.onion</code> 숨은 서비스 · 검열 우회 · 언론인/활동가 통신</strong>의 기반이 됐다. 논문의 '32개 노드'는 이후 수천 개 자원봉사 릴레이로 성장했다.</li>
+                <li><strong>익명성은 '암호'가 아니라 '시스템'의 문제다:</strong> Tor의 안전성은 어떤 강력한 암호 하나가 아니라 <em>경로 위상 + 디렉터리 합의 + 무결성 + 출구 정책 + 혼잡 제어</em>가 맞물린 <strong>시스템 설계</strong>에서 나온다. 익명성은 개별 링크가 아니라 <em>전체 네트워크 관찰</em>에 대한 성질이다.</li>
+                <li><strong>메타데이터는 '부산물'이 아니라 '자산'이다:</strong> "누가 누구와 언제 얼마나" 말했는지 — 이 논문은 그 <em>메타데이터</em>를 1급 보호 대상으로 끌어올렸다. 오늘날 모든 트래픽 분석·프라이버시 논의의 출발점이다.</li>
+                <li><strong>정직한 위협 모델의 가치:</strong> "우리는 이것을 못 막는다"를 명시한 논문은 방어 범위를 정확히 그려, 사용자가 과신하지 않게 한다. 완벽을 주장하는 보안 설계보다, 한계를 밝히는 설계가 오래 산다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-scale-balanced"></i> 한계 · 유의점 · 의의</h2>
+            <ul>
+                <li><strong>저지연의 근본적 딜레마:</strong> 지연을 줄이면 끝단 타이밍 상관에 취약해지고, 늘리면 사용성이 무너진다. Tor는 실용성을 택했고 그 대가를 논문이 명시했다.</li>
+                <li><strong>트러스트의 집중:</strong> 소수 디렉터리 서버가 네트워크 뷰를 결정한다 — 그 과반이 장악되면 익명성의 <em>토대</em>가 흔들린다. 논문도 이 지점을 열린 문제로 남긴다.</li>
+                <li><strong>당시의 배포 규모는 작다:</strong> 32개 노드는 실험이었고, 규모가 커질수록 진입 노드 선택·트래픽 지역 편중·자원봉사 유인 같은 새 문제가 등장한다.</li>
+                <li><strong>의의:</strong> 이 논문은 익명성을 <em>이론에서 실서비스로</em> 옮긴 분기점이다. 저지연 익명 통신을 '돌아가는 시스템'으로 완성하고, 그 위에 숨은 서비스·검열 저항이라는 실전 응용을 얹었다. "익명성은 누구나 쓸 수 있어야 강하다"는 원칙 — 사용자가 많을수록 각자의 트래픽이 섞여 익명성 집합이 커진다는 발상 — 은 오늘날 프라이버시 기술의 기본 전제가 됐다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-book-open"></i> 출처</h2>
+            <ul>
+                <li>논문 원문: Roger Dingledine, Nick Mathewson, Paul Syverson, <em>Tor: The Second-Generation Onion Router</em>, 13th USENIX Security Symposium, 2004 — <a href="https://www.usenix.org/legacy/events/sec04/tech/full_papers/dingledine/dingledine.pdf" target="_blank" rel="noopener">usenix.org (PDF)</a> · <a href="https://svn-archive.torproject.org/svn/projects/design-paper/tor-design.pdf" target="_blank" rel="noopener">tor-design.pdf 미러</a></li>
+                <li>계보의 뿌리: David Chaum, <em>Untraceable Electronic Mail, Return Addresses, and Digital Pseudonyms</em>, CACM 1981(믹스넷) · Goldschlag·Reed·Syverson, <em>Hiding Routing Information</em>, 1996(1세대 Onion Routing) · Ian Goldberg, 2000(랑데부 설계)</li>
+                <li>함께 읽기: 2026-09-14 <a href="security-research-2026-09-14.html">Security Problems in the TCP/IP Protocol Suite</a>(인터넷의 '신뢰 가정'을 무너뜨린 네트워크 보안의 창시 논문) · 2026-09-21 <a href="security-research-2026-09-21.html">On the Security of Public Key Protocols</a>(능동적 공격자 Dolev–Yao 모델) · 2026-10-07 <a href="security-research-2026-10-07.html">Differential Power Analysis</a>(관찰만으로 비밀을 캐는 부채널의 고전) · 2026-10-03 <a href="security-research-2026-10-03.html">The Innocent Courier (LLMLeak)</a>(네트워크 메타데이터로 은밀히 새는 정보의 현대판)</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
