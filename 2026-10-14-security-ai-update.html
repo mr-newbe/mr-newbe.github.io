@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-10-14</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        code { background: #0b1220; padding: 1px 5px; border-radius: 4px; color: #7dd3fc; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-10-14 | <i class="fa-solid fa-tags"></i> Daily News, Zero-Day, Supply Chain, Vulnerability, Patch Tuesday, AI Security, Cybercrime</div>
+        <div class="content">        <h2>1. [사건] Ivanti Connect Secure 제로데이 3개 연쇄 &mdash; &#39;완전 패치된&#39; VPN에서 루트 권한, 세 번째는 아직 미패치</h2>
+        <p>보안기업 Volexity가 2026년 10월 13일, Ivanti Connect Secure(ICS) VPN 어플라이언스의 제로데이 3개를 연쇄해 <strong>로그인 없이 루트 권한으로 명령을 실행</strong>한 사례를 공개했다. 피해 어플라이언스는 사고 당시 22.8R2.4로 <strong>최신 패치가 적용된 상태</strong>였고, 공격은 10월 3일부터 시작됐다.</p>
+        <ul>
+            <li><strong>추적 번호:</strong> <code>CVE-2026-104935</code> (Ivanti CVSS 8.6) &mdash; 인증 우회 + 원격 코드 실행 결함 두 개를 함께 묶은 번호. 나머지 하나인 <strong>권한 상승 결함은 아직 미패치</strong>로, Ivanti는 &#39;향후 몇 주 내 릴리스&#39;라고 밝혔다.</li>
+            <li><strong>수정 버전:</strong> 22.8R2.5 / 25.1.1.2 / 25.1.3.0 / 25.1.3.1 &mdash; 영향 범위는 &#39;25.1.3.0 미만&#39;. CISA는 KEV에 등록하며 악용 상태를 &#39;active&#39;, 기술적 영향도를 &#39;total&#39;로 표기했고 <strong>연방기관 패치 마감일은 2026-10-16</strong>이다.</li>
+            <li><strong>공격자:</strong> Volexity가 <code>UTA0576</code>으로 추적하는 미문서화 조직. LDAP 도메인 자격증명과 AD 메타데이터를 탈취하고, LAPS 비밀번호&middot;BitLocker 복구키를 AD에서 검색했으며, 커스텀 Kerberos 도구로 자격증명을 검증하고 비밀번호 스프레이를 수행했다. 백도어&middot;웹셸은 남기지 않았다.</li>
+            <li><strong>&#39;무결성 검사 도구&#39;가 못 잡는다:</strong> 익스플로잇이 라이브러리 코드를 <strong>메모리에서만</strong> 바꾸고 설정 데이터를 원복하기 때문에 Ivanti Integrity Checker Tool을 회피한다. 침해 확인은 네트워크&middot;메모리 포렌식으로만 가능하다.</li>
+            <li><strong>침해 지표(IOC):</strong> 대량 요청되는 <code>/dana-na/auth/url_default/welcome.cgi</code>, URL 경로와 값이 어긋나는 <code>X-DSCGI-PATH</code> 헤더, <code>/data/.icscap/</code> 디렉터리, 공격자 호스트 <code>108.165.147[.]64</code>.</li>
+            <li><strong>AI 각주:</strong> Volexity는 UTA0576이 <strong>익스플로잇 개발과 침해 후 활동에 LLM을 활용했을 가능성을 &#39;중간 신뢰도&#39;</strong>로 평가했다. 동기(동기 부여)는 첩보보다 범죄 쪽일 가능성이 낮은 신뢰도로 제시됐다.</li>
+            <li><strong>별건:</strong> 같은 공지에서 Ivanti는 Xtraction <code>CVE-2026-106042</code>(9.9)와 Neurons Patch for Intune <code>CVE-2026-109412</code>(9.9) 패치도 함께 발표했다(악용 정황 없음).</li>
+        </ul>
+        <p>출처: <a href="https://www.securityweek.com/ivanti-zero-day-chain-gave-attackers-root-access-to-fully-patched-vpn/" target="_blank">SecurityWeek - Ivanti Zero-Day Chain Gave Attackers Root Access to Fully Patched VPN</a> | <a href="https://thehackernews.com/2026/10/attacker-chains-three-ivanti-connect.html" target="_blank">The Hacker News - Attacker Chains Three Ivanti Connect Secure Zero-Days for Root Access</a> | <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA - Known Exploited Vulnerabilities Catalog</a></p>
+
+        <h2>2. [사건] 컨테이너&middot;패키지 레지스트리 신뢰 붕괴 &mdash; Docker Hub 계정 위장(CVE-2026-105445)과 npm 신뢰 발행 1,500개 패키지 탈취</h2>
+        <p>소프트웨어 공급망의 두 관문에서 같은 날 &#39;레지스트리가 신원을 확인하지 않는다&#39;는 결함이 드러났다. 컨테이너 이미지와 npm 패키지는 그 위에 올라간 코드를 신뢰하는 근거 자체이기 때문에, 두 결함 모두 <strong>공급망 리스크로 분류</strong>됐다.</p>
+        <ul>
+            <li><strong>Docker Hub (CVE-2026-105445, critical):</strong> 2024년 8월 26일 도입된 &#39;개인 계정 &rarr; 조직 전환&#39; 기능이 <strong>개인 액세스 토큰(PAT)을 새 소유자에게 재할당하면서 비밀 값을 교체하지도, 대상자 동의를 받지도 않았다</strong>. 공격자는 자기 계정을 조직으로 전환한 뒤 피해자를 소유자로 지정하는 것만으로, 피해자의 PAT로 인증해 저장소 이미지를 pull&middot;push&middot;delete할 수 있었다. Docker는 9월 30일 신고 접수 후 <strong>4시간 이내에 프로덕션 수정</strong>을 배포했고, 이전된 토큰으로 이뤄진 304,000건의 push를 조사해 악용 증거는 찾지 못했다고 밝혔다.</li>
+            <li><strong>npm Trusted Publishing (Bloom Security):</strong> 2025년 7월 정식 도입된 신뢰 발행은 유지보수자가 지정한 GitHub 저장소&middot;워크플로만 패키지를 발행하도록 묶는 구조다. 그런데 npm이 저장소를 <strong>이름(owner/repo 슬러그)으로만 기록하고, 이름 바꾸기&middot;이전에도 살아남는 영구 숫자 ID를 검증하지 않았다</strong>. 유지보수자가 저장소 이름을 바꾸거나 삭제/이전하면 슬러그가 풀리고, 누구나 같은 이름의 저장소와 같은 파일명의 워크플로를 만들어 <strong>남의 패키지 발행 자격증명을 받아낼 수 있었다</strong>. 노출 규모는 <strong>1,500개 이상 패키지, 총 10M+ 다운로드</strong>(월 1M+)이며, 이 방식으로 발행된 릴리스는 <strong>정상적인 출처 증명(provenance)까지 붙는다</strong>.</li>
+            <li><strong>완화:</strong> GitHub는 첫 발행 전까지 검증되지 않은 신뢰 발행 설정을 <strong>생성 48시간 후 만료</strong>시키고, 복제 수가 많은 저장소는 계정명 변경&middot;삭제 시 이름을 회수한다. 그래도 &#39;점유 가능한 슬러그&#39;는 남는다는 점이 연구진의 경고다.</li>
+        </ul>
+        <p>출처: <a href="https://www.bleepingcomputer.com/news/security/docker-hub-flaw-let-attackers-impersonate-users-tamper-with-images/" target="_blank">BleepingComputer - Docker Hub flaw let attackers impersonate users, tamper with images</a> | <a href="https://www.helpnetsecurity.com/2026/10/13/slugfest-npm-trusted-publishing-flaw/" target="_blank">Help Net Security - npm Trusted Publishing flaw exposed 1,500+ npm packages to takeover</a> | <a href="https://thehackernews.com/2026/10/github-tightens-npm-publishing-after.html" target="_blank">The Hacker News - GitHub Tightens npm Publishing After Flaw Left 1,500+ Packages Vulnerable</a></p>
+
+        <h2>3. [사건] Meta, GitHub 저장소 침해로 1,500명에 개인정보 유출 통지 &mdash; 직원 자격증명이 뚫렸다</h2>
+        <p>Meta가 약 <strong>1,500명</strong>(대부분 미국 소재 직원)에게 개인정보가 영향을 받았다고 통지하기 시작했다. 외부 조직이 <strong>직원의 탈취된 자격증명</strong>을 이용해 회사의 일부 GitHub 저장소에 접근한 사건으로, 발견 자체는 몇 주 전이었고 통지는 10월 13일부터 이뤄졌다.</p>
+        <ul>
+            <li><strong>비율:</strong> 탈취된 데이터의 <strong>99%는 제품 관련 소스코드(비즈니스 데이터)</strong>, 나머지 <strong>1%가 개인정보</strong>. 개인정보는 회사 정책을 위반한 채 저장소에 <strong>실수로 함께 올라가 있던</strong> 것이며, 상당수는 합성&middot;비식별 테스트 데이터여서 공격자가 진짜 기록과 구분하기 어려울 수 있다고 Meta는 설명했다.</li>
+            <li><strong>대응:</strong> 공격자 접근 차단, GitHub&middot;수사기관 공조, 저장소에서 발견된 <strong>시크릿 전면 교체</strong>, GitHub에 사용자 데이터가 올라가지 않도록 통제 추가, 실수 업로드를 탐지하는 <strong>사전 스캐닝</strong> 도입, 규제기관 통지, 대상자에게 신용&middot;다크웹 모니터링 제공.</li>
+            <li><strong>프레이밍:</strong> Meta는 &#34;Meta 제품의 취약점이 아니고 내부 시스템도 침해되지 않았다&#34;며 &#34;GitHub 저장소에 보관된 비즈니스 데이터가 직원 자격증명 도용으로 부적절하게 접근된 사안&#34;이라고 선을 그었다.</li>
+        </ul>
+        <p>출처: <a href="https://www.securityweek.com/meta-says-hackers-took-code-personal-data-of-1500-in-github-breach/" target="_blank">SecurityWeek - Meta Says Hackers Took Code, Personal Data of 1,500 in GitHub Breach</a></p>
+
+        <h2>4. [사건] OpenAI 임원 회의실 TV 뒤에 도청 장치를 심은 엔지니어 체포 &mdash; 조사에 쓴 건 자사 AI 모델</h2>
+        <p>미 법무부(DOJ)는 10월 13일, OpenAI 샌프란시스코 사무실의 <strong>임원 회의실</strong>에 은닉 녹음 장치를 설치한 혐의로 <strong>35세 사우디 국적 엔지니어 Abdulrahman Alfozan</strong>을 기소했다고 발표했다. 그는 2025년 7월부터 OpenAI에 근무했고 10월 9일 체포됐다.</p>
+        <ul>
+            <li><strong>발견 경위:</strong> 9월 30일 OpenAI 보안 담당자가 임원 회의실 <strong>TV 뒤 USB 포트에 꽂힌 녹음 장치</strong>를 발견했다. 장치는 <strong>화장지에 감싸</strong> 숨겨져 있었고 9월 28일경 설치된 것으로 보이며 데이터는 암호화돼 있었다. 10월 5일에는 다른 방에 놓인 가방 안에서 <strong>두 번째 유사 장치</strong>가 나왔다.</li>
+            <li><strong>정황:</strong> 폐쇄회로 영상에 출입 권한이 없는 회의실 근처를 여러 차례 오가는 모습이 찍혔고, 사내 생산성 도구로 사무실&middot;회의실&middot;임원 위치&middot;회의 일정을 검색한 기록이 있었다. 배우자 명의로 추정되는 챗봇 계정으로 <strong>연속 녹음기 제작, Wi-Fi 연결 개조, 실시간 청취 성능 향상, SD카드 암호화</strong>를 묻고, 해당 장치의 커스텀 헤더와 MAC 주소까지 프롬프트에 넣은 정황도 담겼다.</li>
+            <li><strong>기업 대응:</strong> OpenAI는 <strong>자사 AI 모델로 장치를 분석해 며칠 전 설치한 특정 직원을 특정</strong>했다고 밝히고, 해고 후 FBI에 이관했다. 모델 가중치&middot;소스코드&middot;고객 데이터의 부적절한 접근&middot;유출 정황은 현재까지 없다고 덧붙였다. 최대 5년 징역과 25만 달러 벌금이 가능하다.</li>
+        </ul>
+        <p>출처: <a href="https://www.bleepingcomputer.com/news/artificial-intelligence/openai-engineer-arrested-for-allegedly-planting-spy-device-in-office/" target="_blank">BleepingComputer - OpenAI engineer arrested for allegedly planting spy device in office</a></p>
+
+        <h2>5. [취약점] SAP 10월 크리티컬 물결 &mdash; Cloud SDK for Python CVE-2026-89111 (CVSS 10.0)로 OAuth2 자격증명 탈취</h2>
+        <p>SAP가 10월 13일 보안 공지에서 <strong>Cloud SDK for Python</strong>의 치명적 결함을 공개했다. 멀티테넌트 BTP 애플리케이션이 SDK에 넘기는 <code>tenant_subdomain</code> 값을 공격자가 제어하면, 애플리케이션의 <strong>OAuth2 클라이언트 자격증명이 공격자 서버로 전송</strong>된다.</p>
+        <ul>
+            <li><strong>핵심 결함:</strong> <code>CVE-2026-89111</code>, SAP 자체 CVSS <strong>10.0</strong>. 공지는 <strong>0.45.2(2026-08-21)를 수정 버전</strong>으로 명시하고, &#39;단순 이름이 아닌 tenant_subdomain을 즉시 거부&#39;하는 검사를 추가했다고 설명한다.</li>
+            <li><strong>버전 함정(thehackernews 확인):</strong> 0.45.2의 검사가 <strong>모든 경로에 적용되지 않았다</strong>. <strong>0.53.0~0.55.0</strong>(9월 10~18일)은 Destination 서비스 모듈 경로에서 검사를 건너뛰었고, <strong>0.55.1(9월 18일)에서 복원</strong>됐다. 구 라인인 <strong>0.36.1&middot;0.36.2</strong>도 검사가 없다. 즉 &#39;0.45.2 이상이면 안전&#39;이라는 단순 판단이 위험하다.</li>
+            <li><strong>같은 날 SAP 클러스터:</strong> S/4HANA(대체&middot;검증 규칙) <code>CVE-2026-89107</code> <strong>9.9</strong>, NetWeaver Visual Composer <code>CVE-2026-89110</code> <strong>9.9</strong>, MII(제조통합) <code>CVE-2026-89108</code> <strong>9.1</strong>, 그리고 권한 경계 미강제 <code>CVE-2026-44415</code> 9.1이 같은 NVD 1일 창에 올라왔다.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/sap-discloses-critical-cvss-10-flaw-in.html" target="_blank">The Hacker News - SAP Discloses Critical CVSS 10 Flaw in Cloud SDK for Python Allowing OAuth2 Credential Theft</a> | <a href="https://www.bleepingcomputer.com/news/security/sap-warns-of-maximum-severity-oauth2-ssrf-security-flaw/" target="_blank">BleepingComputer - SAP warns of maximum severity OAuth2 SSRF security flaw</a> | <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-89111" target="_blank">NVD - CVE-2026-89111</a></p>
+
+        <h2>6. [취약점] Ghostscript 힙 버퍼 오버플로 CVE-2026-39919 &mdash; PDF 하나 업로드되면 서버가 넘어간다</h2>
+        <p>PostScript&middot;PDF 인터프리터인 <strong>Ghostscript</strong>에서 힙 버퍼 오버플로가 발견됐다. 조작된 PDF는 미리보기&middot;썸네일 생성 경로를 타고 <strong>인증 없이 원격 코드 실행</strong>까지 이어질 수 있다. Wordfence(Defiant)의 AI 기반 분석 시스템 <strong>Argus</strong>가 8월 23일 발견했다.</p>
+        <ul>
+            <li><strong>결함:</strong> <code>CVE-2026-39919</code>. <strong>JPEG 2000 이미지</strong>가 들어간 PDF가 저비트 심도 샘플과 구성요소 해상도 불일치를 잘못 처리하게 만들어, <strong>256바이트 버퍼에 1,024바이트를 쓰는</strong> 메모리 손상을 일으킨다.</li>
+            <li><strong>영향 범위:</strong> <strong>Ghostscript 9.21 ~ 10.07.1</strong>. Debian&middot;Ubuntu&middot;Fedora&middot;Alpine&middot;AlmaLinux 등 리눅스 10종과 공식 WordPress 도커 이미지 스냅샷을 테스트한 결과 <strong>모두 취약 코드를 포함</strong>했다.</li>
+            <li><strong>WordPress 연쇄:</strong> PHP Imagick &rarr; ImageMagick &rarr; Ghostscript 경로로 호출된다. 성공 조건은 4가지 &mdash; ① 공격자가 익명 또는 저권한으로 PDF 업로드 가능 ② 사이트가 그 PDF로 미리보기/썸네일 생성 ③ 처리 체인이 Ghostscript까지 도달 ④ 환경에 맞는 페이로드 조정.</li>
+            <li><strong>현실적 난이도:</strong> 연구진은 리눅스 패키지를 대상으로 <strong>10,240회</strong> 익스플로잇을 시도했지만 RCE에 실패했고, 별도로 만든 테스트 서버에서만 성공했다. 폰트&middot;언어 설정&middot;폰트 구성&middot;핵심 시스템 라이브러리 수정이 필요하며 <strong>재현성이 완전하지는 않다</strong>. 그럼에도 영향 범위가 넓어 패치가 필수적이다.</li>
+        </ul>
+        <p>출처: <a href="https://www.bleepingcomputer.com/news/security/ghostscript-flaw-lets-hackers-hijack-servers-via-pdf-uploads/" target="_blank">BleepingComputer - Ghostscript flaw lets hackers hijack servers via PDF uploads</a></p>
+
+        <h2>7. [취약점] 엣지&middot;가전&middot;임베디드 클러스터 &mdash; LG webOS TV 사전 인증 루트 체인, 라우터 10.0, 산업 장비 9.6</h2>
+        <p>같은 네트워크에 붙기만 하면 최고 권한을 얻는 결함들이 가전과 네트워크 장비에서 동시다발로 보고됐다. 오늘 NVD 1일 창에는 <strong>Wavlink 공유기 CVSS 10.0 두 건</strong>과 TRENDnet&middot;D-Link&middot;지멘스 라인이 함께 올라왔다.</p>
+        <ul>
+            <li><strong>LG webOS 스마트 TV (사전 인증 루트, CVE 미부여):</strong> LG ThinQ 앱 페어링에 쓰이는 <strong>포트 3001 서비스</strong>로 진입한다. 기기에 이미 있는 <code>sync-demo</code> 앱의 매니페스트를 <strong>펌웨어가 신뢰하는 테스트 인증서</strong>로 서명해 재전송하면, 매니페스트의 권한 선언이 <strong>PIN 입력을 건너뛰게</strong> 만들고 특권 키를 넘겨준다. 그 키로 <code>cmp-client</code> 앱을 공격자 페이지로 유도하면 페이지가 내부 인터페이스 <code>PalmServiceBridge</code> 접근을 유지하고, 최종적으로 로깅 서비스 <code>pmlogd</code>에 쉘 명령을 밀어넣어 <strong>루트로 실행</strong>된다. 32LQ636BPSA&middot;27TQ600SW(webOS 7.5.7-25, 펌웨어 04.54.40)에서 검증됐고 LG는 수정 펌웨어를 배포했다. 우회 방법은 없다. 2024년 Bitdefender가 공개한 유사 체인의 재발이다.</li>
+            <li><strong>Wavlink 공유기 (CVSS 10.0 &times;2):</strong> <code>CVE-2026-109109</code>(WL-WN530BE1-A, 설정 내보내기 CGI의 strcpy) &middot; <code>CVE-2026-109110</code>(WL-WN592AX6, wmapd 데몬 OS 명령 주입) &middot; <code>CVE-2026-109108</code>(9.9, VPN 업로드 CGI) &mdash; 전부 원격에서 악용 가능하다.</li>
+            <li><strong>기타 임베디드&middot;산업:</strong> TRENDnet TEW-432BRP <code>CVE-2026-109157</code>(9.9, formTcpipSetup 스택 오버플로) &middot; D-Link DCS-930L <code>CVE-2026-108971</code>(9.6, 응급 복구 서버 펌웨어 업로드) &middot; 지멘스 트레이스 파일 3종 <code>CVE-2026-63350</code>/<code>63353</code>/<code>63354</code>(9.6, 진단 권한자 사회공학 유도) &middot; Perforce Helix 인증 서비스 <code>CVE-2026-109758</code>(9.3, 기본 SCIM 베어러 토큰) &middot; Metasploit 웹 서비스 <code>CVE-2026-87689</code>(9.8, 자격증명 저장소 노출).</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/lg-smart-tvs-vulnerable-to-pre-auth.html" target="_blank">The Hacker News - LG Smart TVs Vulnerable to Pre-Auth Root Takeover From Local Network</a> | <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-109109" target="_blank">NVD - CVE-2026-109109</a> | <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-108971" target="_blank">NVD - CVE-2026-108971</a></p>
+
+        <h2>8. [패치] 10월 패치 화요일 결과 &mdash; MS 사상 최대 1,411건&middot;제로데이 3건, Adobe 140건, Firefox 158</h2>
+        <p>어제(10/13) 진행된 10월 패치 화요일의 실제 규모가 드러났다. Microsoft는 <strong>사상 최대인 1,411개 결함</strong>을 수정했고, 그중 <strong>70개가 &#39;치명적&#39;</strong>(원격 코드 실행 57건)이다. 제로데이 3건 가운데 1건은 <strong>실제 악용 중</strong>이다.</p>
+        <ul>
+            <li><strong>실제 악용 제로데이:</strong> <code>CVE-2026-96951</code> &mdash; Windows Shell 보안 기능 우회(명령 주입)로 <strong>Mark of the Web 우회</strong>가 가능하다. CISA KEV 등록, <strong>연방기관 마감일 2026-10-16</strong>.</li>
+            <li><strong>공개된 제로데이 2건:</strong> <code>CVE-2026-108398</code> &mdash; .NET Framework의 신뢰할 수 없는 검색 경로로 <strong>WDAC(Windows Defender Application Control) 우회</strong>와 보호 프로세스 내 코드 실행이 가능(Google Project Zero의 James Forshaw 발견, 사용자 상호작용 불필요) &middot; <code>CVE-2026-92707</code> &mdash; MessagePack-CSharp 서비스 거부(DoS).</li>
+            <li><strong>수명 종료(EOS) 도래:</strong> 10월 13일자로 <strong>Windows 11 24H2 Home&middot;Pro</strong>와 <strong>Windows 10 Enterprise LTSB 2016</strong>이 지원 종료됐다. 이번 10월 보안 업데이트가 이 에디션들의 마지막 업데이트다. Windows 11은 <code>KB5127648</code>&middot;<code>KB5126653</code>, Windows 10 ESU는 <code>KB5126657</code>이 배포됐다.</li>
+            <li><strong>Adobe:</strong> 10개 제품군에 걸쳐 약 <strong>140건</strong> 패치 &mdash; ColdFusion 32건, Content Credentials SDK 30건, Photoshop 18건(대부분 임의 코드 실행), Substance 3D Stager 16건, Commerce 11건(무인증 코드 실행&middot;권한 상승, 유일하게 우선순위 2). 실제 악용 정황은 없다. AI로 결함을 대량 발굴하면서 <strong>월 1회 &rarr; 월 2회(둘째&middot;넷째 화요일) 발표</strong>로 전환했다.</li>
+            <li><strong>Firefox 158 / ESR 153.5 / Thunderbird 158:</strong> Networking 컴포넌트의 <strong>use-after-free &rarr; 샌드박스 탈출</strong> 2건(<code>CVE-2026-109705</code>&middot;<code>CVE-2026-109707</code>, 각 9.6)이 수정됐다. 즉시 업데이트 권고.</li>
+            <li><strong>기타:</strong> Google이 <strong>Chrome 버그 바운티 삭감을 부분 철회</strong>했다. 지난주 다룬 Atlassian Data Center <code>CVE-2026-21589</code>(PoC 공개 후 곧바로 익스플로잇)와 Citrix NetScaler 결함도 같은 주에 패치된 상태다.</li>
+        </ul>
+        <p>출처: <a href="https://www.bleepingcomputer.com/news/microsoft/microsoft-october-2026-patch-tuesday-fixes-1-411-flaws-3-zero-days/" target="_blank">BleepingComputer - Microsoft October 2026 Patch Tuesday fixes 1,411 flaws, 3 zero-days</a> | <a href="https://www.securityweek.com/adobe-patches-140-vulnerabilities-across-10-products/" target="_blank">SecurityWeek - Adobe Patches 140 Vulnerabilities Across 10 Products</a> | <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-109705" target="_blank">NVD - CVE-2026-109705</a></p>
+
+        <h2>9. [트렌드] &#39;AI 웜&#39;이 다음 공격면 &mdash; Anthropic, 소형 모델의 IoT 자기복제 봇넷 경고</h2>
+        <p>Anthropic은 소형 AI 모델이 <strong>몇 달 안에 스마트 오븐&middot;무명 안드로이드 TV 박스 같은 IoT 기기에서 자기복제</strong>할 능력을 갖출 수 있다고 경고했다. 자율적으로 증식하는 웜 봇넷은 <strong>&#39;끌 수 있는 중앙 지점이 없다&#39;</strong>는 점에서 대응이 특히 어렵다는 것이 요지다.</p>
+        <ul>
+            <li><strong>왜 위험한가:</strong> AI 에이전트가 네트워크를 스캔하고, 익스플로잇을 실행하고, <strong>모델 가중치를 대상 기기로 복사</strong>해 감염된 하드웨어에서 직접 추론을 돌리는 것이 이미 개념적으로 입증됐다. 가중치가 곧 악성 페이로드가 되는 구조다. 큰 모델은 여러 기기에 쪼개 분산 추론할 수 있다.</li>
+            <li><strong>증식 유형 3가지:</strong> ① 호스트 침해로 스스로 복제하는 <strong>가중치 기반</strong> ② 고연산 데이터센터를 겨냥한 <strong>프런티어&middot;오픈웨이트 기반</strong>(미탐지 악성 배포) ③ AI 서비스 제공자의 <strong>API 키&middot;플랫폼 자격증명을 탈취</strong>해 자기 복사본을 돌리는 <strong>API 기반</strong>(제공자는 정상 고객 요청으로 오인).</li>
+            <li><strong>실험 근거:</strong> Alibaba&middot;DeepSeek&middot;Google&middot;Meta&middot;MoonShot AI&middot;OpenAI&middot;Zhipu AI 등의 <strong>오픈웨이트 모델 11종</strong>을 대상으로 테스트했고, <strong>스마트 TV 박스 15대에 분산 추론으로 Gemma4-26B-A4B를 돌리는</strong> 구성까지 제시했다.</li>
+            <li><strong>통제 시도:</strong> Mozilla는 기업용 <strong>Firefox Enterprise</strong> 플랫폼으로 브라우저 안의 <strong>섀도 AI(shadow AI) 차단</strong>을 내걸었고, Meta는 사용자 대신 행동하는 AI 에이전트에 대한 <strong>Muse Wonder 안전장치</strong>를 공개했다. 규제&middot;통제가 &#39;에이전트 실행 지점&#39;으로 옮겨가는 흐름이다.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/anthropic-warns-small-ai-models-could.html" target="_blank">The Hacker News - Anthropic Warns Small AI Models Could Soon Form Self-Propagating IoT Botnets</a> | <a href="https://www.securityweek.com/small-ai-models-may-soon-be-able-to-self-replicate-on-iot-devices-anthropic-warns/" target="_blank">SecurityWeek - Small AI Models Could Soon Self-Replicate on IoT Devices</a> | <a href="https://www.helpnetsecurity.com/2026/10/13/mozilla-firefox-enterprise-platform/" target="_blank">Help Net Security - Mozilla&#39;s Firefox Enterprise lets companies block shadow AI in the browser</a></p>
+
+        <h2>10. [트렌드] 사이버-물리 타격과 감시 악성코드 &mdash; Yandex 데이터센터 3곳 피격, XWorm의 &#39;원격 브라우저&#39;, 영국 연쇄 사고</h2>
+        <p>사이버 사고가 물리 인프라 타격과 결합하고, 악성코드가 &#39;정보 탈취&#39;에서 &#39;실시간 감시&#39;로 진화하는 흐름이 같은 날 확인됐다. 영국에서는 규제기관과 유통기업의 시스템이 연달아 멈췄다.</p>
+        <ul>
+            <li><strong>Yandex 데이터센터 3곳 피격:</strong> 드론 공격으로 <strong>사소보(랴잔, 10/7~8)</strong>와 <strong>블라디미르(10/11)</strong> 설비가 가동을 멈추고 <strong>칼루가(10/9)</strong> 인프라 일부가 손상됐다. Yandex Cloud는 10월 11일 고객에게 <strong>비상 모드</strong>로 운영 중이며 자체 재해복구(DR) 계획을 쓰라고 통보했다. 블라디미르 주지사는 변전소 2곳이 타격돼 주민 5,000명 전력이 끊기고 인근 주민이 대피했다고 밝혔다. 4일 만에 3곳이 타격받은 것으로 알려지며 러시아 내부 &#39;트롤 팜&#39; 활동이 조용해졌다는 관측도 나왔다.</li>
+            <li><strong>XWorm RAT &rarr; 감시 플랫폼:</strong> Netskope는 3분기에 <strong>100개 조직에서 1,200건 이상</strong>의 XWorm 사고를 관측했다. 플러그인 수가 <strong>2025년 7월 35개 &rarr; 2026년 10월 46개</strong>로 늘었고, <strong>Maps</strong>(프롬프트 없이 GPS 위치), <strong>Microphone</strong>(실시간 오디오 스트리밍), <strong>Webcam</strong>(요청 시 촬영)에 더해 <strong>HBrowser</strong>가 추가됐다. HBrowser는 자격증명을 건드리지 않고 <strong>인증된 브라우저 세션을 실시간으로 장악해 MFA를 통째로 우회</strong>한다 &mdash; 운영자에게는 사실상 원격 브라우저 세션이다.</li>
+            <li><strong>영국 연쇄 사고:</strong> <strong>Housing Ombudsman Service</strong>(주택 분쟁 규제기관)가 <strong>제3자 IT 사고</strong>로 사건관리 시스템이 영향받아 신규 민원 접수가 중단됐고, ICO에 통지했다. 별도로 패션그룹 <strong>TFG London</strong>(Phase Eight&middot;Hobbs&middot;Whistles)이 10월 11일 침해를 탐지해 일부 IT 시스템이 중단됐다(전 세계 649개 매장, 연매출 4억 8,800만 파운드). 앞서 ASOS가 앱 푸시 알림을 악용한 유출로 고객 데이터를 잃은 지 얼마 되지 않은 시점이다.</li>
+        </ul>
+        <p>출처: <a href="https://www.helpnetsecurity.com/2026/10/13/ukraine-drone-strikes-yandex-data-centers/" target="_blank">Help Net Security - Ukrainian drones hit Yandex data centers</a> | <a href="https://www.securityweek.com/xworm-rat-evolves-into-surveillance-platform/" target="_blank">SecurityWeek - XWorm RAT Evolves Into Surveillance Platform</a> | <a href="https://www.bleepingcomputer.com/news/security/uk-housing-ombudsman-service-investigates-security-incident/" target="_blank">BleepingComputer - UK Housing Ombudsman Service investigates security incident</a> | <a href="https://www.bleepingcomputer.com/news/security/tfg-london-cyberattack-disrupts-systems-at-hobbs-and-whistles-retailers/" target="_blank">BleepingComputer - TFG London cyberattack disrupts systems at Hobbs and Whistles retailers</a></p>
+
+
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
