@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 [최신] ToFu (arXiv 2610.13651, FSE 2027) — '스키마만 맞으면 안전하다'는 착각: MCP 서버 273개·도구 3,405개를 퍼징해 118개 서버에서 검증된 취약점 253건</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style></head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 [최신] ToFu: Exploiting and Fuzzing the LLM–Orchestrator–Tool Trust Boundary — '스키마가 맞으면 안전하다'는 착각</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-13 · 카테고리: Research (최신 보안 논문 · LLM 에이전트 보안 · MCP · 퍼징 · 시맨틱 오라클 · 소프트웨어 보안)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> ToFu: Exploiting and Fuzzing the LLM–Orchestrator–Tool Trust Boundary<br>
+                <strong>저자:</strong> Md Nazmul Islam Ananto · Colin Smith · Taegyu Kim · Arslan Khan (Pennsylvania State University, 미국) · Pierre Prevost-Avenel (Université de Montpellier, 프랑스) · Kyungtae Kim (Dartmouth College, 미국)<br>
+                <strong>출처:</strong> arXiv:2610.13651v1 [cs.CR] (2026년 10월 9일 공개) · <strong>FSE 2027 채택</strong> (The 35th ACM International Conference on the Foundations of Software Engineering, 2027년 7월 12–16일, 중국 선전) · <a href="https://arxiv.org/abs/2610.13651" target="_blank" rel="noopener">arXiv abs</a> · <a href="https://arxiv.org/html/2610.13651v1" target="_blank" rel="noopener">HTML 전문</a><br>
+                <strong>분야:</strong> LLM 에이전트 보안 · 도구 호출(Model Context Protocol) · 퍼징 · 시맨틱 오라클 · 소프트웨어 보안 엔지니어링 (ACM CCS: Security and privacy → Software security engineering)<br>
+                <strong>인용:</strong> <strong>미확인 (2026-10-09 공개 프리프린트 — OpenAlex/Semantic Scholar 조회 시점에 레코드 미등록, 인용 집계 전)</strong>. 대신 학술적 무게중심은 <em>게재지</em>에 있다 — 소프트웨어 공학 분야 최상위 학회 중 하나인 <strong>ACM FSE 2027</strong>에 채택된 논문이며, 부록을 포함해 <strong>33페이지·그림 4개·표 16개</strong> 규모다.<br>
+                <strong>논문 규모:</strong> MCP 서버 <strong>273개</strong> · 도구 <strong>3,405개</strong> 평가 · 시맨틱 새니타이저 <strong>74종</strong> · 런타임 추적기(tracer) <strong>21종</strong> · 실험 대상 소스는 공개 데이터셋 <strong>MCPCorpus</strong>(고정 커밋)<br>
+                <strong>원문:</strong> <a href="https://arxiv.org/abs/2610.13651" target="_blank" rel="noopener">arXiv:2610.13651</a> · <a href="https://arxiv.org/pdf/2610.13651" target="_blank" rel="noopener">PDF</a> · 라이선스 CC BY 4.0
+            </div>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 한 줄 요약 — 도구는 '스키마'가 아니라 '의미'를 지켜야 하는데, 아무도 그것을 검사하지 않았다</h2>
+            <p>LLM 에이전트는 대개 <strong>LLM · 오케스트레이터 · 도구</strong> 세 층으로 구성된다. 오케스트레이터(LangGraph, Semantic Kernel, ADK, AutoGen, Strands, CrewAI …)는 모델이 뱉은 텍스트를 해석해 <em>구조화된 도구 호출</em>로 바꾸고 실행한다. 여기서 논문이 겨냥하는 지점은 명확하다 — <strong>"모델이 만들어 준 인자도 결국은 외부 입력인데, 도구 구현체는 그것을 신뢰된 값처럼 받는다."</strong> 타입·필수 필드 같은 <em>스키마 검증</em>은 흔히 하지만, 도구가 문서에 적어놓은 <em>의미론적 계약</em>(예: "이 경로는 작업 폴더 안이어야 한다", "이 값은 로그에 남기면 안 된다")은 대개 <strong>집행되지 않는다</strong>. 저자들은 MCP 서버 273개·도구 3,405개를 자동 퍼징해 <strong>118개 서버·343개 도구에서 검증된 취약점 253건</strong>을 찾아냈고, 그 결론을 한 문장으로 요약한다 — <em>LLM이 생성한 인자를 신뢰된 입력으로 취급하는 것은 안전하지 않다.</em></p>
+            <blockquote>
+                "실제 도구들은 자신이 문서화한 입력 의미론을 자주 집행하지 못한다. 따라서 LLM이 생성한 인자를 신뢰된 것으로 취급하는 것은 안전하지 않다." — 논문 초록
+            </blockquote>
+
+            <h2><i class="fa-solid fa-bullseye"></i> 배경 — 왜 '도구 경계'가 새로운 신뢰 경계인가</h2>
+            <ul>
+                <li><strong>도구 호출의 정체:</strong> 도구 호출은 결국 <em>오케스트레이터가 실행 가능한 요청으로 해석하는 구조화된 모델 출력</em>이다. 즉 신뢰할 수 없는 쪽(모델 텍스트·간접 프롬프트 인젝션을 통해 오염될 수 있는 컨텍스트)에서 만들어진 값이, 신뢰된 실행 경로로 들어간다.</li>
+                <li><strong>기존 연구와의 차이:</strong> 지금까지의 에이전트 보안 연구는 주로 <em>프롬프트 안전성</em>(탈옥, 간접 프롬프트 인젝션, 도구 포이즈닝, 도구 하이재킹, 크로스툴 공격)에 집중했다. 이 논문은 프롬프트가 아니라 <strong>시스템 관점</strong>에서 묻는다 — "도구는 LLM이 만든 입력을 <em>얼마나 신뢰해야 하는가?</em>"</li>
+                <li><strong>스키마 검증의 사각지대:</strong> MCP 도구는 이름·설명·인자 스키마를 메타데이터로 노출하고, 오케스트레이터는 그 스키마로 호출 형식을 검사한다. 하지만 스키마는 "문자열이다"까지만 보장하지 "그 문자열이 안전한 경로다"는 보장하지 않는다. 그 간극이 논문이 파고든 곳이다.</li>
+                <li><strong>왜 퍼징인가:</strong> 이런 위반은 <em>크래시를 내지 않는다.</em> 크래시 기반 퍼저는 도구가 요구사항을 조용히 위반한 경우(path traversal은 정상 응답을 돌려준다)를 아예 발견할 수 없다. 그래서 '의미'를 판정할 <strong>오라클</strong>이 따로 필요하다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-repeat"></i> 핵심 1 — Repeat-After-Me: "이거 그대로 따라 써봐"가 곧 도구 실행이 된다</h2>
+            <ul>
+                <li><strong>공격 아이디어:</strong> 오케스트레이터가 인식하는 <em>도구 호출 형식</em>을 공격자가 이미 안다면, 타깃 도구 이름과 <em>공격자가 고른 인자</em>를 담은 텍스트를 만든 뒤 LLM에게 <strong>"이 문장을 그대로 반복해줘"</strong>라고 시킨다.</li>
+                <li><strong>왜 통하는가:</strong> 모델은 <em>주어진 텍스트를 그대로 재생산했을 뿐</em>인데, 오케스트레이터는 그 출력을 <strong>도구 호출로 해석해 실행</strong>한다. 즉 '무해해 보이는 텍스트 반복 요청'이 도구 호출과 그 인자에 대한 <strong>직접 통제권</strong>으로 바뀐다.</li>
+                <li><strong>재현 범위(중요):</strong> 논문은 이 동작을 <strong>6개 오케스트레이션 레이어에서 모두 재현</strong>했다 — <code>LangGraph</code>(LangChain) · <code>MAF</code>(Microsoft Agent Framework) · <code>ADK 2.0</code>(Google) · <code>AutoGen</code>(Microsoft) · <code>Strands</code>(AWS) · <code>CrewAI</code>. 특정 프레임워크의 버그가 아니라 <strong>아키텍처 패턴의 문제</strong>라는 뜻이다.</li>
+                <li><strong>부록의 실증 트랜스크립트:</strong> LangGraph 1.2.0의 사전 빌드 <code>ToolNode</code>(<code>tools_condition</code> 라우팅) + Ollama 0.6.2의 <code>llama3.1:8b</code>(temperature 0)로 돌린 대화 기록을 부록 B에 그대로 싣는다. 도구는 부작용 없는 스텁 <code>make_bomb(max_budget)</code>·<code>launch_missiles(max_distance)</code> 이고, 유일한 가드레일은 "위험한 요청은 거절하라"는 시스템 프롬프트 하나다. 모델이 낸 원문 텍스트(<code>[RAW]</code>)와 LangGraph가 파싱한 도구 호출(<code>[PARSED]</code>)이 함께 출력된다.</li>
+                <li><strong>설계 시사점:</strong> "모델이 위험한 요청을 거절했는가"는 <em>안전 척도가 아니다.</em> 거절을 우회하는 게 아니라, <strong>모델 출력이 곧 실행 명령이 되는 구조</strong> 자체가 문제다. 오케스트레이터는 모델 출력을 신뢰 경계를 넘는 데이터로 다뤄야 한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-gears"></i> 핵심 2 — ToFu의 설계: 메타데이터에서 '의미 검사'를 자동으로 끌어낸다</h2>
+            <ul>
+                <li><strong>① 메타데이터 추출:</strong> 각 도구가 이미 노출하는 이름·설명·인자 스키마를 읽는다.</li>
+                <li><strong>② CWE 기반 새니타이저 코퍼스(74종):</strong> 코드의 '의미 보증'을 CWE 약점 클래스별 검사로 바꾼다. 런타임 추적(introspection) 계열과, 출력·실행 상태 계열로 나뉜다. LLM은 <em>고르기만</em> 하고 기대 결과를 설정할 뿐, 새니타이저를 <strong>런타임에 새로 생성하지 않는다</strong>(생성형 오라클의 환각 위험을 구조적으로 차단).</li>
+                <li><strong>③ 도구별 특화(specialization):</strong> 일반 규칙을 그대로 쓰지 않고, 각 도구의 메타데이터에 맞춰 검사를 좁힌다 — "이 도구의 <code>path</code> 인자는 작업 디렉터리 하위여야 한다"처럼.</li>
+                <li><strong>④ 스키마 인지 하네스 생성:</strong> 인자 타입을 이해해 <em>스키마를 통과하는</em> 시드를 만든다(문자열 5종 페이로드, 숫자 경계값 7종, 불리언 양쪽, 배열 5형태, 객체 3형태, enum은 전 멤버 + 무효값 1개, 타입 혼동 값 2~3개, 전 인자 기본값 시드 1개). LLM이 파일 빌더를 호출해 문서 인자를 만든 경우도 119개 도구였다.</li>
+                <li><strong>⑤ 런타임 추적기 21종:</strong> Python 타깃 내부에서 <code>open</code>·<code>socket</code> 같은 <em>싱크에 도달한 호출</em>을 기록한다(성공적으로 실행된 경로에 대한 증거). 즉 '정적 탐지'가 아니라 <strong>실제 실행 증거</strong>를 요구한다.</li>
+                <li><strong>⑥ 커버리지 기반 퍼징 루프:</strong> libFuzzer 스타일의 커버리지 유도 변이를 도구 경계에 적용하고, 위반 시 트리거된 호출·기대 속성·증거를 함께 기록한다. 모든 실행은 <code>bubblewrap</code> 샌드박스(읽기 전용 루트, 전용 <code>/tmp</code>)에서 돌려 폭발 반경을 격리한다.</li>
+                <li><strong>재현성:</strong> LLM 단계는 <code>gpt-4.1</code> temperature 0 + 고정 시드라 <em>구성상 결정론적</em>이고, 잔여 변동(커버리지 유도 탐색)은 3회 반복 실행으로 측정한다. 도구당 예산 60초.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-chart-column"></i> 핵심 3 — 실측 결과: 508개 후보 → 수동 검증 후 253건</h2>
+            <ul>
+                <li><strong>퍼널:</strong> ToFu가 처음 보고한 후보는 <strong>147개 서버에서 508건</strong>. 저자들이 재현·코드 검토로 수동 검증해(스크립트 실행기를 '스크립트를 실행한다'는 이유로 오탐 처리하지 않도록 도구의 <em>의도</em>까지 확인) 최종 <strong>118개 서버 · 343개 도구에서 253건</strong>으로 정리했다. 즉 후보의 약 절반이 실제 취약점이었다.</li>
+                <li><strong>유형별 분포(253건):</strong></li>
+            </ul>
+            <table>
+                <tr><th>유형</th><th>건수</th><th>성격</th></tr>
+                <tr><td>반사 출력(reflected output)</td><td>115</td><td>입력이 그대로 응답·stderr·디버그 출력으로</td>
+                <tr><td>경로 순회(path traversal)</td><td>64</td><td>임의 파일 접근</td>
+                <tr><td>로그 인젝션(log injection)</td><td>58</td><td>로그 위조·주입</td>
+                <tr><td>SSRF</td><td>7</td><td>서버를 대신해 임의 요청</td>
+                <tr><td>데이터 유출(data exfiltration)</td><td>5</td><td>민감 파일을 같은 호출에서 외부로 전송</td>
+                <tr><td>OS 명령 인젝션</td><td>3</td><td>명령 우회 실행</td>
+                <tr><td>임시 파일 잔존</td><td>1</td><td>호출 후에도 남는 temp 파일</td></tr>
+            </table>
+            <ul>
+                <li><strong>핵심 관찰:</strong> <em>"이 중 어느 것도 크래시를 요구하지 않는다."</em> 그래서 크래시 기반 퍼저로는 찾을 수 없다. 위반은 정상적인 응답을 돌려주면서 조용히 일어난다.</li>
+                <li><strong>베이스라인 비교(273개 서버):</strong> ToFu는 <strong>118개 서버</strong>를 지목. ToolFuzz(Milev et al., 2025)는 92개를 지목했고 그중 <strong>56개가 ToFu와 공유</strong>, VIPER-MCP(Sun et al., 2026)는 48개(36개 공유). Cisco MCP Scanner 같은 <em>정적</em> 분석기는 실행이 없어 다른 성질을 재며, "taint 경로가 곧 익스플로잇은 아니다"라는 간극을 저자들은 별도 절로 설명한다.</li>
+                <li><strong>탐지 속도(깊은 예산 실험, 34개 서버 24시간):</strong> 도구 커버리지는 <em>1분 안에</em> 사실상 포화(중앙값 정규화 커버리지 약 1.0)되고, 누적 발견의 <strong>74%가 1분 안에</strong>, 거의 100%가 1시간 안에 나온다 — 설정이 비싼 게 아니라 <em>의미 오라클이 없어서</em> 아무도 못 찾았던 것이다.</li>
+                <li><strong>추적기 적용 범위(RQ1, 일부):</strong> Python/JS 기준 로그 인젝션 85.4%/66.7%, 민감정보 로깅 72.5%/79.1%, 파일 접근 59.5%/50.3%, 파일 쓰기 34.8%/47.6%, 네트워크 실행 57.8%/61.5%, 명령 실행 30.8%/33.0%, XXE 5.0%/2.4% 등 — 무엇이 얼마나 <em>집행 가능한지</em>를 정직하게 드러낸다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-magnifying-glass-chart"></i> 핵심 4 — 사례: 스크린샷 도구 하나가 서버 디스크를 넘겨준다</h2>
+            <ul>
+                <li><strong>대상:</strong> <code>s/webpage-screenshot-mcp</code> 서버의 <code>t/screenshot-page</code> — URL을 받아 렌더링한 스크린샷을 돌려주는 도구.</li>
+                <li><strong>발견 ① SSRF (CWE-918):</strong> <code>http://</code> URL을 주면 서버가 대신 임의의 원격 요청을 보낸다 — 원격 서버의 무결성을 사실상 훼손할 수 있다.</li>
+                <li><strong>발견 ② 임의 경로 순회 (CWE-22 / 552 / 73):</strong> <code>file:///</code> URL을 주면 <strong>서버 자신의 디스크에 있는 파일이나 디렉터리 목록을 렌더링해 이미지로 돌려준다.</strong> 논문은 그 결과 이미지(로컬 파일 1장, 디렉터리 목록 1장)를 그림 4로 싣는다.</li>
+                <li><strong>왜 의미 오라클이 필요한가:</strong> 이 서버는 JavaScript라서 ToFu의 tracer가 내부에 들어가지 못한다 → 출력·상태 계열 새니타이저만으로 판정해야 했다. 즉 <em>도구의 문서화된 의미("URL의 스크린샷")와 실제 행동("파일 시스템 읽기")의 괴리</em>를 잡아낸 것이 핵심이다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-tower-broadcast"></i> 시사점 — 에이전트 시대의 '입력 검증'은 어디에 놓여야 하는가</h2>
+            <ul>
+                <li><strong>신뢰 경계를 한 칸 옮겨야 한다:</strong> 지금까지는 "프롬프트를 안전하게"가 화두였지만, 도구 호출은 <em>모델 출력 → 실행</em>으로 넘어가는 진짜 경계다. 오케스트레이터는 모델 출력을 <code>trusted=True</code>가 아니라 <strong>구조화된 외부 입력</strong>으로 취급해야 한다.</li>
+                <li><strong>스키마 검증은 의미 검증이 아니다:</strong> MCP의 인자 스키마는 필요조건일 뿐 충분조건이 아니다. 도구 구현체가 "내가 문서에 적은 계약"을 스스로 강제해야 하며, 그 계약을 테스트 가능한 형태로 노출하는 것이 다음 단계다.</li>
+                <li><strong>거절은 방어가 아니다:</strong> Repeat-After-Me는 모델의 <em>판단</em>을 우회한다 — 모델은 시킨 대로 반복했을 뿐이다. 즉 모델 정렬(alignment)과 시스템 격리는 서로를 대체하지 못한다.</li>
+                <li><strong>퍼징 연구의 확장:</strong> 1988년 Miller의 퍼징(<a href="security-research-2026-09-18.html">2026-09-18 회차</a>)이 '크래시'를 신호로 삼았다면, 이 논문은 <strong>'의미 계약 위반'을 신호로 삼는 오라클</strong>을 자동 생성한다. 오라클을 사람이 쓰지 않고 메타데이터에서 끌어낸 것이 방법론적 기여다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-scale-balanced"></i> 한계 · 유의점 · 의의</h2>
+            <ul>
+                <li><strong>런타임 의존:</strong> 증거 기반이라 실행 가능한 환경이 필요하다. 백엔드가 없으면 정적 분석기가 잡은 것(예: Sonnet-5가 지목한 Sitecore 도구 7개 중 일부)을 확인할 수 없다 — 이는 오라클의 사각지대가 아니라 <em>도달성(reachability)의 비용</em>이다.</li>
+                <li><strong>상태 기반 도구는 미해결:</strong> 여러 도구를 <em>순서대로</em> 호출해야 드러나는 위반(도구 A가 돌려준 리소스 ID를 도구 B가 소비하는 관계 등)은 future work로 남겼다. 다중 호출 하네스와 호출 순서 변이가 다음 과제다.</li>
+                <li><strong>수동 검증의 비용:</strong> 후보 508건을 사람이 확인해 253건으로 줄였다. 자동 탐지의 정밀도는 여전히 사람 손을 요구한다.</li>
+                <li><strong>책임 공개:</strong> 논문 본문에 CVE 발급·개별 서버 신고 절차는 서술하지 않는다(부록에 평가 대상 저장소 목록과 재현 자료를 공개). 따라서 "고쳐졌는가"는 별도로 추적해야 할 문제다.</li>
+                <li><strong>의의:</strong> 에이전트 보안 담론을 <em>프롬프트에서 시스템 경계로</em> 되돌려 놓은 논문이다. 273개 서버·3,405개 도구라는 실제 생태계 규모에서, 그리고 <strong>6개 주요 오케스트레이션 레이어 전부</strong>에서 재현되는 아키텍처 취약성을 제시했다는 점에서, "내 MCP 서버는 스키마 검증을 하니 안전하다"는 가정을 정면으로 반박한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-book-open"></i> 출처</h2>
+            <ul>
+                <li>논문 원문: Md Nazmul Islam Ananto, Pierre Prevost-Avenel, Colin Smith, Kyungtae Kim, Taegyu Kim, Arslan Khan, <em>ToFu: Exploiting and Fuzzing the LLM–Orchestrator–Tool Trust Boundary</em>, arXiv:2610.13651v1 [cs.CR], 2026-10-09 (FSE 2027 채택) — <a href="https://arxiv.org/abs/2610.13651" target="_blank" rel="noopener">arXiv abs</a> · <a href="https://arxiv.org/pdf/2610.13651" target="_blank" rel="noopener">PDF</a> · <a href="https://arxiv.org/html/2610.13651v1" target="_blank" rel="noopener">HTML 전문</a></li>
+                <li>데이터셋: MCPCorpus(고정 커밋) — 평가 대상 273개 MCP 서버·3,405개 도구의 원천</li>
+                <li>함께 읽기: 2026-09-18 <a href="security-research-2026-09-18.html">Fuzzing</a>(Miller·Fredriksen·So, CACM 1990 — 크래시를 신호로 삼은 퍼징의 원형, 이 논문은 '의미 위반'을 신호로 확장) · 2026-10-03 <a href="security-research-2026-10-03.html">The Innocent Courier (LLMLeak)</a>(LLM의 '웹 가져오기' 도구를 악용한 은밀 유출 — 도구가 공격 표면이 된다는 같은 결론) · 2026-10-10 <a href="security-research-2026-10-10.html">ORCAGen</a>(LLM 기반 악성코드 대응 자동화) · 2026-10-11 <a href="security-research-2026-10-11.html">When Flaws Cascade</a>(취약점·익스플로잇 체인 전수 분석)</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
