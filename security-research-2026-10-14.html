@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔮 [클래식] Spectre Attacks: Exploiting Speculative Execution — '추측 실행은 보안 가정을 지키지 않는다': CPU의 분기 예측을 악용해 프로세스·브라우저 샌드박스 경계를 넘어 임의 메모리를 읽다 (Kocher 외, IEEE S&amp;P 2019)</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style></head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔮 [클래식] Spectre: '성능을 위해 추측한' 그 실행이 보안 경계를 넘는다</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-14 · 카테고리: Research (전통 보안 논문 · 하드웨어 보안 · 추측 실행 · 마이크로아키텍처 부채널 · 사이드채널)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Spectre Attacks: Exploiting Speculative Execution<br>
+                <strong>저자:</strong> Paul Kocher · Daniel Genkin · Daniel Gruss · Werner Haas · Mike Hamburg · Moritz Lipp · Stefan Mangard · Thomas Prescher · Michael Schwarz · Yuval Yarom (arXiv v1 기준 10인; <strong>IEEE S&amp;P 최종판에는 Jann Horn(Google Project Zero)·Anders Fogh가 추가된 12인</strong> 공저)<br>
+                <strong>출처:</strong> <a href="https://arxiv.org/abs/1801.01203" target="_blank" rel="noopener">arXiv:1801.01203v1</a> [cs.CR] (2018년 1월 3일 공개) · <strong>IEEE S&amp;P (Oakland) 2019 정식 게재</strong> · <a href="https://arxiv.org/pdf/1801.01203" target="_blank" rel="noopener">PDF</a><br>
+                <strong>분야:</strong> 하드웨어·마이크로아키텍처 보안 · <strong>추측 실행(speculative execution) 부채널</strong> · 캐시 기반 사이드채널 · 프로세서 보안 (ACM CCS: Security and privacy → Side-channel analysis and countermeasures)<br>
+                <strong>인용:</strong> <strong>OpenAlex 기준 1,781회</strong> (IEEE S&amp;P 2019 버전; 2018년 1월 프리프린트 공개 직후 폭발적으로 인용됨) — 이 논문 하나가 현대 CPU 설계·운영체제·컴파일러·브라우저의 완화책을 통째로 다시 쓰게 만들었다.<br>
+                <strong>CVE:</strong> Spectre Variant 1 = <code>CVE-2017-5753</code> (Bounds Check Bypass) · Variant 2 = <code>CVE-2017-5715</code> (Branch Target Injection)<br>
+                <strong>공개:</strong> 2018년 1월 3일, Intel·AMD·ARM·Qualcomm 등과 조율된 책임 공개 — 같은 날 공개된 자매 논문 <a href="security-research-2026-09-07.html">Meltdown</a>과 함께 "2018년의 두 단어"로 불린다.<br>
+                <strong>원문:</strong> <a href="https://arxiv.org/abs/1801.01203" target="_blank" rel="noopener">arXiv:1801.01203</a> · <a href="https://arxiv.org/pdf/1801.01203" target="_blank" rel="noopener">PDF</a> · <a href="https://spectreattack.com/" target="_blank" rel="noopener">프로젝트 페이지 (spectreattack.com)</a>
+            </div>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 한 줄 요약 — "추측 실행은 안 보이는 곳에서 실행된다"는 착각이 모든 격리를 무너뜨렸다</h2>
+            <p>현대 CPU는 성능을 위해 <strong>분기 예측(branch prediction)</strong>과 <strong>추측 실행(speculative execution)</strong>을 쓴다. 분기 목적지가 메모리 읽기 결과에 달려 있으면, CPU는 <em>결과가 올 때까지 기다리지 않고</em> 목적지를 찍어서 미리 실행해 둔다. 이때 CPU가 "실행한 척"한 명령들(논문의 용어로 <em>transient instructions</em>)은 <strong>나중에 폐기되지만, 그 사이에 접근한 메모리·레지스터와 캐시에 남긴 흔적은 폐기되지 않는다.</strong> Spectre는 이 구멍으로 피해자를 <em>추측 실행 자체로 속여서</em> 정상 실행에서는 결코 일어나지 않을 연산을 시키고, 그 부작용을 부채널로 읽어낸다.</p>
+            <blockquote>
+                "Speculative logic is unfaithful in how it executes, can access the victim's memory and registers, and can perform operations with measurable side effects." — 논문 초록
+            </blockquote>
+            <p>저자들은 이 원리로 <strong>프로세스 경계·커널 경계·브라우저 샌드박스</strong>를 넘어 임의 메모리를 읽는 실증 공격을 제시했다. 그리고 논문이 던진 더 근본적인 경고는 이것이다 — <em>추측 실행은 운영체제의 프로세스 격리, 정적 분석, 컨테이너 격리, JIT 컴파일, 그리고 캐시 타이밍 완화책이라는 "소프트웨어 보안의 가정들"을 한꺼번에 위반한다.</em></p>
+
+            <h2><i class="fa-solid fa-bullseye"></i> 배경 — 왜 이 논문이 부채널 공격의 분기점인가</h2>
+            <ul>
+                <li><strong>기존 부채널 공격과의 차이:</strong> 종전의 캐시 부채널·전력 분석(<a href="security-research-2026-10-07.html">DPA</a>)은 <em>실제로 실행된</em> 접근의 흔적을 읽었다. Spectre는 한 걸음 더 나아가, <strong>아키텍처적으로는 절대 실행되어서는 안 되는 코드 경로를 투기적으로 강제 실행</strong>시킨 뒤 그 흔적을 읽는다 — 즉 "실행되지 않은 코드의 부작용"을 공격면으로 만든 최초의 사례다.</li>
+                <li><strong>두 공격 수단의 결합:</strong> 논문은 <em>사이드채널 공격 + 결함 주입(fault) 공격 + return-oriented programming</em>의 방법론을 결합했다고 스스로 설명한다. 즉 미세아키텍처 수준의 "가젯"을 조합해 임의 주소를 읽는 <strong>정보 유출용 ROP</strong>라 할 수 있다.</li>
+                <li><strong>유출 채널:</strong> 구현에는 캐시 기반 은밀 채널인 <code>Flush+Reload</code>(그리고 그 변형 <code>Evict+Reload</code>)를 쓴다. 추측 실행이 캐시에 남긴 상태 차이를 타이밍으로 역산해 비트를 복원한다.</li>
+                <li><strong>표적 하드웨어(논문 실측):</strong> Intel Ivy Bridge·Haswell·Skylake 계열, <strong>AMD Ryzen</strong>, 그리고 Samsung·Qualcomm의 <strong>ARM 모바일 프로세서</strong>에서 재현됐다. 즉 <em>특정 제조사의 버그가 아니라, 추측 실행을 쓰는 사실상 모든 현대 프로세서의 설계 특성</em>이다. 테스트에 쓰인 i7 Surface Pro 3(i7-4650U)에서는 <code>if</code> 문과 접근부 사이에 <strong>약 188개 명령</strong>을 끼워 넣어도 추측 실행이 진행될 만큼 추측 창(window)이 깊었다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 핵심 1 — Variant 1 · Bounds Check Bypass: 경계 검사가 '추측'으로 통과된다</h2>
+            <ul>
+                <li><strong>아이디어:</strong> 코드에 흔한 방어 패턴 <code>if (x &lt; array1_size)</code>로 배열 범위를 검사한다고 하자. 공격자는 먼저 <strong>분기 예측기를 "이 조건은 항상 참"이라고 학습(오학습)시킨다</strong> — 그리고 <code>array1_size</code>를 캐시에서 밀어낸(uncached) 상태에서 범위를 벗어난 <code>x</code>로 호출한다.</li>
+                <li><strong>무슨 일이 벌어지나:</strong> 경계 검사가 <em>추측 실행 단계에서 참으로 예측</em>되므로, CPU는 <code>array2[array1[x] * 256]</code>을 앞서 실행한다. 이 접근은 나중에 폐기되지만, <strong>공격자가 조작한 인덱스에 의존해 특정 주소가 캐시에 올라간다.</strong></li>
+                <li><strong>복원:</strong> 캐시 상태 변화(로드 타이밍)를 읽으면 <code>array1[x]</code>의 바이트 값이 드러난다. 한 번에 한 바이트씩, 언제든 메모리 임의 위치를 읽을 수 있다.</li>
+                <li><strong>왜 치명적인가:</strong> 이 패턴은 컴파일러가 생성하는 <em>평범한</em> 경계 검사 코드다. <strong>소스 코드를 잘못 짜서가 아니라, 올바른 코드가 마이크로아키텍처에서 오작동해서</strong> 뚫린다 — 이것이 Spectre가 "소프트웨어 버그"가 아니라 "하드웨어-소프트웨어 계약의 균열"인 이유다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-code-branch"></i> 핵심 2 — Variant 2 · Branch Target Injection: 간접 분기의 목적지를 오염시킨다</h2>
+            <ul>
+                <li><strong>대상:</strong> <code>jmp eax</code>·<code>jmp [eax]</code>·<code>ret</code>처럼 목적지가 하나로 정해지지 않은 <strong>간접 분기</strong>. 간접 분기의 목적지를 예측하기 위해 CPU는 <em>분기 대상 버퍼(BTB)</em> 같은 예측 구조를 쓴다.</li>
+                <li><strong>공격:</strong> 공격자는 자신의 코드를 실행시켜 <strong>BTB를 "오염(poison)"</strong>시켜, 피해자의 간접 분기가 <em>공격자가 고른 목적지</em>로 추측 실행되도록 만든다. 목적지 예측이 캐시 미스로 지연되는 사이, CPU는 피해자 권한으로 공격자의 가젯을 추측 실행한다.</li>
+                <li><strong>가젯 설계:</strong> 추측 실행된 가젯은 피해자의 레지스터·메모리에 접근해 값을 캐시 기반 채널로 흘려보낸다 — Variant 1과 유사한 유출 기법으로 귀결된다.</li>
+                <li><strong>의의:</strong> Variant 1이 "조건 분기"를 노린다면 Variant 2는 "예측 자체(예측 구조)"를 노린다. <strong>두 변종이 서로 다른 마이크로아키텍처 자원(조건 분기 예측 vs BTB)을 악용</strong>하기 때문에, 한쪽만 막는 단일 완화책으로는 부족하다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-user-secret"></i> 핵심 3 — 실증: 프로세스 경계도, 브라우저 샌드박스도 넘는다</h2>
+            <ul>
+                <li><strong>네이티브 코드 — 프로세스 경계 위반:</strong> 비밀 데이터를 담은 희생 프로세스를 만들고, 공격자는 <strong>그 프로세스의 전체 메모리 주소 공간(내부 비밀 포함)을 읽어냈다.</strong> 서로 다른 프로세스 사이의 격리가 무너진 것이다.</li>
+                <li><strong>JavaScript — 브라우저 샌드박스 위반:</strong> 논문은 <strong>Google Chrome에서 실행되는 JavaScript 프로그램</strong>으로, 자신이 실행되는 브라우저 프로세스의 사설 메모리를 읽어냈다. 즉 <strong>웹 페이지 하나가 브라우저의 메모리 격리를 뚫을 수 있음</strong>을 보였다 — JIT 컴파일러가 만들어낸 코드와 타이밍 채널만으로. (JavaScript 측 우회 코드에는 <code>TABLE1_STRIDE=4096</code>, <code>TABLE1_BYTES=2^25</code> 같은 상수와, JIT에게 "다음 연산이 범위 안"이라고 납득시키려는 <code>and</code> 마스크가 등장한다.)</li>
+                <li><strong>함의:</strong> 같은 클래스의 공격이 <em>원격의, 이식성 높은 웹 코드</em>로도 가능하다는 뜻이다. 이것이 2018년 초 전 세계 브라우저 개발사가 타이머 정밀도 축소·<code>SharedArrayBuffer</code> 비활성화 같은 긴급 조치를 한 이유다.</li>
+                <li><strong>무엇이 무너지는가(논문 명시):</strong> 운영체제의 프로세스 분리, 정적 분석 기반 방어, 컨테이너 격리, JIT 컴파일의 격리, 캐시 타이밍·부채널 대응책까지 — <strong>소프트웨어 보안 메커니즘의 전제 자체가 위반된다.</strong> 단, 위협은 <em>기밀성(secrecy)</em>에 대한 것이며 무결성(integrity) 침해는 아니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-screwdriver-wrench"></i> 핵심 4 — 왜 Meltdown보다 훨씬 고치기 어려운가</h2>
+            <table>
+                <tr><th>구분</th><th>Meltdown (2018-09-07 회차)</th><th>Spectre</th></tr>
+                <tr><td>악용 대상</td><td>비순차 실행 + 권한 검사 우회</td><td>분기 예측 + 추측 실행(조건·간접 분기)</td></tr>
+                <tr><td>완화 난이도</td><td>상대적으로 명확 (KPTI + 실리콘 수정)</td><td><strong>훨씬 어려움</strong> — 추측 실행은 성능의 핵심</td></tr>
+                <tr><td>대표 완화책</td><td>KPTI(페이지 테이블 격리)</td><td>retpoline(간접 분기 격리), IBRS/IBPB 마이크로코드, 브라우저 완화</td></tr>
+                <tr><td>영향 범위</td><td>주로 Intel 계열</td><td><strong>Intel·AMD·ARM 전반</strong> (Ryzen·모바일 ARM 포함)</td></tr>
+            </table>
+            <ul>
+                <li><strong>논문의 결론:</strong> "즉흥적인 프로세서별 완화책은 일부 가능하지만, <em>근본적 해결은 프로세서 설계의 수정과 ISA(명령어 집합) 업데이트를 요구한다</em>" — 즉 하드웨어 설계자와 소프트웨어 개발자에게 공통의 이해를 주는 방향으로 나아가야 한다고 못 박았다.</li>
+                <li><strong>실제 파장:</strong> 공개 직후 OS 커널(리눅스·윈도우·macOS), 하이퍼바이저, 브라우저, 컴파일러(예: <code>retpoline</code> 코드 생성)가 일제히 패치됐고, 상당수는 <strong>성능 저하</strong>를 감수해야 했다. 이후 몇 년간 수십 개의 파생 변종(Variant 3/4, Speculative Store Bypass, L1TF, MDS, ZombieLoad 등)이 "Spectre 계보"로 이어졌다.</li>
+                <li><strong>이름의 유래:</strong> 저자 Paul Kocher가 <em>제임스 본드의 범죄 조직 'SPECTRE'</em>에서 이름을 땄다(추측 = speculation, 유령 = ghost). 형제 논문 Meltdown의 이름은 Meltdown 팀이 따로 붙였다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-tower-broadcast"></i> 시사점 — "올바른 소프트웨어"가 "틀린 하드웨어"에서 안전하지 않을 수 있다</h2>
+            <ul>
+                <li><strong>신뢰 경계는 소프트웨어 안에만 있지 않다:</strong> Spectre는 <em>아키텍처(ISA) 수준에서는 완벽한 코드</em>가 <em>마이크로아키텍처 구현</em>에서 격리를 위반함을 보였다. "격리 = 소프트웨어 추상화"라는 가정을 하드웨어가 보장하지 않는다면, 그 위의 모든 보안 속성도 조건부다.</li>
+                <li><strong>성능과 보안의 영구적 긴장:</strong> 추측 실행을 끄면 Spectre는 사라지지만 프로세서 성능이 무너진다. 그래서 대응은 "완전 제거"가 아니라 "완화의 연속"이 된다 — 현대 보안이 <em>설계 자체의 트레이드오프</em>를 다뤄야 하는 대표 사례다.</li>
+                <li><strong>부채널 연구의 확장:</strong> DPA가 "전력"을, Rowhammer가 "DRAM 물리"를 공격면으로 만들었듯(<a href="security-research-2026-09-11.html">2026-09-11 회차</a>), Spectre는 "추측 실행"이라는 <em>성능 최적화 기법 자체</em>를 공격면으로 만들었다. 이후 사이드채널 연구의 표준 미세아키텍처 표적이 되었다.</li>
+                <li><strong>완화의 정직함:</strong> retpoline·IBRS 같은 소프트웨어/마이크로코드 완화책은 특정 변종·패턴에 대한 방어이며, 논문 스스로 "sound solution은 하드웨어 수정을 요구한다"고 인정한다. <em>완화책이 있다는 것과 안전하다는 것은 다르다.</em></li>
+            </ul>
+
+            <h2><i class="fa-solid fa-scale-balanced"></i> 한계 · 유의점 · 의의</h2>
+            <ul>
+                <li><strong>기밀성 vs 무결성:</strong> Spectre는 정보 <em>유출</em>(기밀성)을 노린다. 데이터를 변조하거나 실행을 조작하는 무결성 침해는 아니다 — 위협 모델을 정확히 구분해야 한다.</li>
+                <li><strong>공격 정밀도:</strong> 캐시 타이밍으로 비트를 복원하는 구조라 채널의 신뢰도·대역폭에 의존한다. 단발성 익스플로잇보다는 <em>반복 측정을 통한 통계적 복원</em>에 강하다.</li>
+                <li><strong>완화책의 비용:</strong> 추측 창을 줄이거나 격리(serialization)를 넣는 완화책은 성능에 직결되며, 모든 마이크로아키텍처·모든 소프트웨어 스택(커널·하이퍼바이저·브라우저·컴파일러)에 걸쳐 조율이 필요하다.</li>
+                <li><strong>의의:</strong> Spectre는 <em>정보보안 교과서를 다시 쓴 논문</em>이다. "추측 실행은 관찰 불가능하다"는 통념을 깨고, 프로세스·커널·샌드박스 격리를 하드웨어 수준에서 무너뜨릴 수 있음을 실증했다. 이후 CPU 벤더들이 설계 단계부터 부채널을 고려하고, 완화책이 ISA·마이크로코드의 일부가 된 것은 이 논문이 만든 전환의 직접적 결과다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-book-open"></i> 출처</h2>
+            <ul>
+                <li>논문 원문: Paul Kocher, Daniel Genkin, Daniel Gruss, Werner Haas, Mike Hamburg, Moritz Lipp, Stefan Mangard, Thomas Prescher, Michael Schwarz, Yuval Yarom, <em>Spectre Attacks: Exploiting Speculative Execution</em>, arXiv:1801.01203v1 [cs.CR], 2018-01-03 (IEEE S&amp;P 2019 정식 게재) — <a href="https://arxiv.org/abs/1801.01203" target="_blank" rel="noopener">arXiv abs</a> · <a href="https://arxiv.org/pdf/1801.01203" target="_blank" rel="noopener">PDF</a> · <a href="https://ar5iv.labs.arxiv.org/html/1801.01203" target="_blank" rel="noopener">HTML 전문(ar5iv)</a></li>
+                <li>프로젝트 페이지: <a href="https://spectreattack.com/" target="_blank" rel="noopener">spectreattack.com</a> (Spectre·Meltdown 공식 자료·FAQ·완화책 목록)</li>
+                <li>CVE: <code>CVE-2017-5753</code>(Variant 1, Bounds Check Bypass) · <code>CVE-2017-5715</code>(Variant 2, Branch Target Injection)</li>
+                <li>함께 읽기:
+                    <ul>
+                        <li>2026-09-07 <a href="security-research-2026-09-07.html">Meltdown: Reading Kernel Memory from User Space</a> — 같은 날 공개된 자매 논문. 비순차 실행으로 커널 메모리를 읽은 하드웨어 취약점(Intel 중심). Spectre와 대비해 읽으면 두 계보의 차이가 선명하다.</li>
+                        <li>2026-10-07 <a href="security-research-2026-10-07.html">Differential Power Analysis</a> — 부채널 공격의 원형(Kocher·Jaffe·Jun, CRYPTO 1999). Spectre는 "실행되지 않은 코드"의 부작용까지 부채널로 확장했다.</li>
+                        <li>2026-09-11 <a href="security-research-2026-09-11.html">Rowhammer (ISCA 2014)</a> — DRAM 물리 계층을 공격면으로 만든 하드웨어 취약점의 또 다른 축.</li>
+                        <li>2026-09-09 <a href="security-research-2026-09-09.html">The Geometry of Innocent Flesh on the Bone (ROP)</a> — Spectre가 방법론으로 끌어온 return-oriented programming의 원형.</li>
+                        <li>2026-09-23 <a href="security-research-2026-09-23.html">Cold Boot Attacks</a> — 전원을 내려도 남는 DRAM의 기억. 물리·미세아키텍처 경계가 격리를 위협하는 또 하나의 고전.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
