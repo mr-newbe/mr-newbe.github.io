@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 [최신] What You Sign Is Not What You Run — 서명은 '가중치'를 보증하지만 당신은 '양자화본'을 실행한다: HF GGUF 200개 중 198개가 제3자 재현 불가(IVR 0/198), 카드가 빠뜨린 두 좌표만 기록하면 8개 중 7개가 비트 단위로 재현 (arXiv 2610.19498, 2026)</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style></head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧪 [최신] What You Sign Is Not What You Run — 서명은 '가중치'를 보증하는데, 당신은 '양자화본'을 실행한다</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-15 · 카테고리: Research (최신 보안 논문 · AI 공급망 보안 · 모델 무결성/서명 · 양자화(GGUF·llama.cpp) · 재현 가능 빌드)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> What You Sign Is Not What You Run: The Verifiability Gap in Quantized LLM Supply Chains<br>
+                <strong>저자:</strong> Wei-Liang Liu · Cheng-Yen Tsai<br>
+                <strong>출처:</strong> <a href="https://arxiv.org/abs/2610.19498" target="_blank" rel="noopener">arXiv:2610.19498v1</a> [cs.CR; cs.LG] (2026년 10월 14일 제출) · 15 pages · 3 figures · 4 tables · <a href="https://arxiv.org/pdf/2610.19498" target="_blank" rel="noopener">PDF</a><br>
+                <strong>분야:</strong> AI 공급망 보안 · <strong>모델 무결성과 서명(model signing)</strong> · <strong>양자화 파이프라인(GGUF / llama.cpp)</strong> · 재현 가능 빌드(reproducible builds) · 소프트웨어 공급망 무결성(SLSA 계보)<br>
+                <strong>아티팩트:</strong> <a href="https://github.com/Rlonglong/gguf-verifiability-artifact" target="_blank" rel="noopener">github.com/Rlonglong/gguf-verifiability-artifact</a> (MIT) — 감사 데이터셋 + 재실행 가능한 검증 하네스 공개<br>
+                <strong>인용:</strong> <strong>미확인 — 신규 프리프린트(2026-10-14 제출)</strong>. Semantic Scholar는 조회 시 HTTP 429(레이트 리밋), OpenAlex 검색은 동명 논문 없이 무관한 타 논문만 반환했다. 인용 집계가 붙기 전 시점이라 수치 앵커는 논문 자체의 측정값(IVR 0/198 등)으로 삼았다.<br>
+                <strong>원문:</strong> <a href="https://arxiv.org/abs/2610.19498" target="_blank" rel="noopener">arXiv abs</a> · <a href="https://arxiv.org/pdf/2610.19498" target="_blank" rel="noopener">PDF</a> · <a href="https://ar5iv.labs.arxiv.org/html/2610.19498" target="_blank" rel="noopener">HTML(ar5iv)</a> · <a href="https://github.com/Rlonglong/gguf-verifiability-artifact" target="_blank" rel="noopener">아티팩트 저장소</a>
+            </div>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 한 줄 요약 — "서명이 검증한 것"과 "내가 실행하는 것"이 다르다</h2>
+            <p>모델 서명(model signing)은 배포되는 <strong>풀 정밀도 가중치 W</strong>를 인증한다. 그런데 실사용자는 그 W가 아니라, W를 양자화한 <strong>아티팩트 Q</strong>(예: <code>Q4_K_M</code> GGUF 파일)를 내려받아 실행한다. 문제는 <strong>W → Q로 가는 변환 과정이 현재의 공개 관행으로는 유일하게 결정되지 않는다</strong>는 점이다. 즉 서명은 "W가 맞다"까지만 보증하고, "내가 실행하는 Q가 정말 그 W에서 나온 것"은 보증하지 않는다 — 논문은 이 틈을 <strong>검증 공백(verifiability gap)</strong>이라 부른다.</p>
+            <blockquote>
+                "Model signing authenticates the full-precision weights W an LLM is released with, yet users run a quantized artifact Q whose producing transformation is not uniquely determined under current disclosure."
+            </blockquote>
+            <p>저자들은 이 공백을 말로만 지적하지 않고 <strong>새로운 측정치</strong>를 정의해 실제 생태계에서 재봤다. 그 결과가 논문의 제목과 첫 문장에 담긴 수치다 — 다운로드 상위 200개 GGUF 저장소 중 스코프에 든 <strong>198개 전부</strong>가 제3자 재현 대상에서 탈락했다.</p>
+
+            <h2><i class="fa-solid fa-ruler-combined"></i> 핵심 1 — 새 측정치 IVR: 200개 GGUF 중 198개가 '재현 불가'로 집계됐다</h2>
+            <ul>
+                <li><strong>IVR(Independent Verifiability Rate):</strong> 논문이 "우리가 아는 한 측정된 적 없다"고 밝힌 값으로, <strong>인기 기준으로 표집한 GGUF 생태계 중 제3자가 비트 단위(bit-for-bit)로 그대로 재유도(re-derive)할 수 있는 비율</strong>이다. 검증의 기준을 "로그를 봤더니 그럴듯하다"가 아니라 <strong>"내가 다시 만들어서 바이트가 똑같아야 한다"</strong>로 못 박은 것이 핵심이다.</li>
+                <li><strong>측정 대상:</strong> Hugging Face에서 <strong>가장 많이 다운로드된 GGUF 저장소 상위 200개</strong> 가운데 스코프 조건을 통과한 <strong>198개</strong>.</li>
+                <li><strong>결과 — IVR = 0/198:</strong> <strong>아티팩트도 모델 카드도 빌드 환경(build environment)을 기록하지 않았다.</strong> 기록된 입력(recorded-inputs) 프로토콜로 판정하면 재현 가능한 것이 <em>하나도 없다</em>. "200개 중 198개"라는 숫자는 <strong>아티팩트가 원리적으로 재현 불가능해서가 아니라, 재현에 필요한 좌표가 아무도 공개하지 않아서</strong> 생긴다 — 저자들이 곧바로 이 점을 반박 근거로 쓴다.</li>
+                <li><strong>왜 이게 보안 문제인가:</strong> 서명 검증이 통과해도, 사용자가 실제 실행하는 파일과 서명된 원본 파일을 잇는 <strong>암호학적 연결고리가 없다</strong>. 그 연결고리가 없으면 배포 경로(프록시·미러·재업로드·RAG 파이프라인) 어디에서든 바이트가 조작되어도 "서명은 여전히 유효"하다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-list-check"></i> 핵심 2 — 막는 건 '비밀'이 아니라 '카드에 안 쓴 두 좌표'다 (x86 8개 중 7개 재현 성공)</h2>
+            <ul>
+                <li><strong>스코프 축소 후 실험:</strong> 입력을 공개한 <strong>표본 4개 저장소(in-sample)</strong>를 골라 실제로 재유도를 시도했다. 비교 대상은 <code>Q4_K_M</code> 등의 대상 양자화 파일과 fp16 아티팩트다.</li>
+                <li><strong>카드 정보만으로는 실패:</strong> 모델 카드에 적힌 정보만으로 재현했을 때는 <strong>어떤 <code>Q4_K_M</code> 파일도 비트 단위로 일치하지 않았다.</strong> 즉 "카드에 다 적혀 있으니 재현되겠지"라는 가정이 실측으로 깨진다.</li>
+                <li><strong>그런데 두 좌표만 넣으면 거의 다 재현된다:</strong> 카드가 <em>빠뜨린</em> 두 좌표를 추가하자 — ① <strong>빌드의 부동소수점 축약(floating-point contraction) 설정</strong>, ② <strong>하이브리드 모델의 경우 텐서별 양자화 레시피(per-tensor quantization recipe)</strong> — 대상 양자화 파일이 <strong>x86에서 8개 중 7개(7/8), arm64에서 8개 중 5개(5/8)</strong>가 비트 단위로 재유도됐다.</li>
+                <li><strong>fp16의 함정 — imatrix는 '보내고 해시로 묶어야' 한다:</strong> fp16 아티팩트는 제공자의 체크포인트에서 재유도됐지만, <strong>보정(calibration) imatrix는 반드시 함께 배포하고 해시로 바인딩해야</strong> 했다. <em>다시 계산(recompute)한 imatrix는 일치하지 않았다</em> — 재현 절차의 입력은 "계산할 수 있는 것"이 아니라 "고정해서 전달해야 하는 것"이 될 수 있다는 뜻이다.</li>
+                <li><strong>버전·아키텍처 변수도 남는다:</strong> 더 오래된 릴리스는 <strong>명령어 집합(instruction set)까지 고정</strong>해야 했고, 그 조건에서도 재유도에 실패했다. 즉 기록해야 할 좌표의 목록은 모델·릴리스마다 다르다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-microchip"></i> 핵심 3 — 실행 환경(E)도 필수 좌표다: llama.cpp PR #25353과 "+0.06% 퍼플렉서티"</h2>
+            <ul>
+                <li><strong>논문의 분해:</strong> 저자들은 아티팩트를 만드는 입력을 <strong>비-환경 입력(non-environment inputs)</strong>과 <strong>실행 환경 E</strong>로 분리한다. 모델 카드는 전자만 일부 적고, 후자는 사실상 아무도 안 적는다.</li>
+                <li><strong>E는 장식이 아니라 좌표다:</strong> 논문은 llama.cpp 생태계에서 보고된 <strong>PR #25353</strong>의 발산(divergence)을 재현해, <strong>컴파일러 설정 하나가 결과를 바꾼다</strong>는 것을 보였다. 곧 같은 소스·같은 가중치라도 "어떤 환경에서 빌드했는가"가 출력 바이트를 가른다.</li>
+                <li><strong>해법도 같이 제시된다:</strong> 그 <strong>특정 컴파일러 설정 하나를 고정하면 테스트한 플랫폼들에서 유일한 출력(unique output)</strong>이 나왔고, <strong>품질 비용은 퍼플렉서티 +0.06%</strong> 수준으로 무시할 만했다. "재현 가능하게 만들려면 정확도가 무너진다"는 통념을 실측으로 반박한 셈이다.</li>
+                <li><strong>정리하면:</strong> 재현 가능한 양자화 공급망은 (W, 레시피, imatrix, 컴파일러/FP 설정, 명령어 집합)을 <strong>전부 기록</strong>하고 그 조합을 해시로 묶는 것으로 달성 가능하다 — 비용은 거의 없고, 요건은 "기록 의무"다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-user-secret"></i> 핵심 4 — 공격자 관점: 균일한 nibble 조작은 잡히지만, '임베딩 표적 편집'은 통계를 피한다</h2>
+            <ul>
+                <li><strong>공격 시나리오:</strong> 양자화본 Q는 서명 대상이 아니므로, 배포 지점에서 Q의 바이트를 고칠 수 있다고 가정하자. 논문은 여기서 <strong>보안 특성화(security characterization)</strong>를 수행한다 — 어떻게 조작하면 <em>탐지되지 않는가</em>를 본다.</li>
+                <li><strong>통계적 방어선:</strong> <strong>균일하게 배치된 nibble-flip 변조</strong>는, 양자화 자체가 만드는 <em>선의의 부동소수점 비결정성</em>과 통계적으로 분리된다는 것을 보였다. 다만 이 분리에는 <strong>탐지 하한(detection floor)</strong>이 있고, 그 하한은 <strong>검증자가 허용해야 하는 환경의 수가 늘어날수록 함께 올라간다</strong> — 재현성 검사를 너무 관대하게 만들면 탐지력이 약해진다는 트레이드오프다.</li>
+                <li><strong>그런데 표적 편집은 살아남는다:</strong> <strong>임베딩(embedding) 영역에 대한 표적 편집은 이 통계량을 회피했다.</strong> 즉 "비결정성 대비 변조"를 확률로 판정하는 접근에는 구멍이 있다.</li>
+                <li><strong>논문의 결론적 처방:</strong> 그래서 제안 프로토콜은 <strong>'정확한 재유도(exact re-derivation)'</strong>를 축으로 삼는다 — "통계적으로 그럴듯하다"가 아니라 "내가 다시 만들어서 바이트가 같다"를 요구한다. 그리고 저자들은 스스로 한계를 명시한다: <strong>적대적 fp16 공격(adversarial-fp16 attacks)은 이 프로토콜의 스코프 밖</strong>이다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-scale-balanced"></i> 시사점 — AI 공급망 보안의 축이 '서명'에서 '재현'으로 옮겨간다</h2>
+            <ul>
+                <li><strong>서명 ≠ 무결성.</strong> 서명은 "누가 무엇을 서명했는가"를 증명하지만, "당신이 실행하는 바이트가 그 서명 대상에서 유도되었는가"는 별개 문제다. 이 구분은 SLSA·재현 가능 빌드가 소프트웨어에서 10년에 걸쳐 배운 교훈이며, 논문은 그 교훈을 <strong>모델 양자화 파이프라인에 처음으로 정량화해 적용</strong>한다.</li>
+                <li><strong>양자화는 부가 기능이 아니라 신뢰 경계다.</strong> 오늘날 실제 추론의 상당 부분이 4비트·8비트 양자화본에서 돌아간다 — 즉 <strong>실제 실행되는 대다수 아티팩트가 서명 경계 밖</strong>에 있다. 공급망 위협 모델을 세울 때 이 비대칭을 무시하면 방어선이 엉뚱한 곳에 그어진다.</li>
+                <li><strong>비용이 낮다는 것이 핵심 메시지다.</strong> 컴파일러 설정 고정의 대가는 퍼플렉서티 +0.06%, 나머지는 "기록"이다. 관행(모델 카드 관례, 배포 스크립트)을 조금 바꾸면 <strong>제3자 감사가 가능한 생태계</strong>가 된다 — 이건 기술적 난제라기보다 관례·표준의 문제다.</li>
+                <li><strong>기존 AI 보안 연구와의 연결:</strong> MCP 도구 퍼징(<a href="security-research-2026-10-13.html">2026-10-13 ToFu</a>), LLM의 도구를 통한 유출(<a href="security-research-2026-10-03.html">2026-10-03 LLMLeak</a>), RAG 기반 디셉션(<a href="security-research-2026-10-10.html">2026-10-10 ORCAGen</a>)이 모두 "런타임의 에이전트·도구" 계층을 겨눴다면, 이 논문은 <strong>한 층 더 아래인 '가중치 파일 그 자체'</strong>를 겨눈다. 에이전트가 아무리 잘 설계돼도, 그 에이전트가 올리는 모델 파일이 검증되지 않으면 하위 계층에서 신뢰가 새어나간다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 한계 · 유의점</h2>
+            <ul>
+                <li><strong>측정 범위는 GGUF/llama.cpp 계열 중심</strong>이다. 다른 양자화 형식(AWQ·GPTQ·SmoothQuant 등 서빙 스택)에도 같은 공백이 있을 것으로 보이지만, 이 논문의 수치를 그대로 일반화하면 안 된다.</li>
+                <li><strong>"IVR 0/198"은 '재현 불가능'이 아니라 '재현 정보 미공개'다.</strong> 표본 4개에서 두 좌표를 추가해 7/8·5/8이 재현된 것이 그 증거다. 이 수치를 "GGUF는 전부 위조 가능"으로 확대해석하지 않도록 주의.</li>
+                <li><strong>arm64는 x86보다 재현률이 낮다(5/8 vs 7/8)</strong> — 플랫폼별 부동소수점·컴파일러 차이가 여전히 남는다. 재현성 표준이 하드웨어 생태계 전반으로 확장될 때의 난이도를 시사한다.</li>
+                <li><strong>적대적 fp16 공격은 논문 스코프 밖</strong>이라고 저자들이 직접 밝힌다. 임베딩 표적 편집이 통계적 방어를 회피한 결과도 함께 보고되므로, "재현 프로토콜만 있으면 끝"이 아니라 <em>재현 + 검증 알고리즘</em>이 같이 필요하다.</li>
+                <li><strong>신규 프리프린트(2026-10-14)</strong>로 아직 동료심사를 거치지 않았고, 인용 집계도 없다. 프레임워크(IVR, 좌표 분해)의 문제 제기는 설득력 있으나, 수치는 저자들의 표집(상위 200개)과 하네스에 의존한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-book-open"></i> 출처</h2>
+            <ul>
+                <li>논문 원문: Wei-Liang Liu, Cheng-Yen Tsai, <em>What You Sign Is Not What You Run: The Verifiability Gap in Quantized LLM Supply Chains</em>, arXiv:2610.19498v1 [cs.CR; cs.LG], 2026-10-14 — <a href="https://arxiv.org/abs/2610.19498" target="_blank" rel="noopener">arXiv abs</a> · <a href="https://arxiv.org/pdf/2610.19498" target="_blank" rel="noopener">PDF</a> · <a href="https://ar5iv.labs.arxiv.org/html/2610.19498" target="_blank" rel="noopener">HTML(ar5iv)</a></li>
+                <li>아티팩트(감사 데이터 + 재실행 하네스, MIT): <a href="https://github.com/Rlonglong/gguf-verifiability-artifact" target="_blank" rel="noopener">github.com/Rlonglong/gguf-verifiability-artifact</a></li>
+                <li>관련 선행 이슈: llama.cpp <code>PR #25353</code> (양자화 재현성 발산 이슈 — 논문이 재현한 대상)</li>
+                <li>함께 읽기:
+                    <ul>
+                        <li>2026-10-13 <a href="security-research-2026-10-13.html">ToFu — MCP 서버 273개·도구 3,405개 퍼징, 검증된 취약점 253건</a>: 도구 계층의 공급망. 이 논문은 그 아래의 '가중치 파일' 계층.</li>
+                        <li>2026-10-03 <a href="security-research-2026-10-03.html">The Innocent Courier (LLMLeak) — 인터넷이 막힌 악성코드가 LLM의 웹 도구만으로 DNS 유출</a>: 모델·도구를 신뢰 경로로 쓰는 공격의 또 다른 축.</li>
+                        <li>2026-10-10 <a href="security-research-2026-10-10.html">ORCAGen — RAG로 악성코드별 디셉션 플레이북 생성</a>: "검증된 로직만 런타임에" 라는 설계 원칙이 이 논문의 '정확한 재유도'와 같은 철학을 공유한다.</li>
+                        <li>2026-10-01 <a href="security-research-2026-10-01.html">GPT-6 Astra는 왜 '범위 밖' 오픈소스에 공격을 시도했나 (UK AISI 감사)</a>: 프런티어 모델 감사 — 이 논문은 그 모델이 배포되는 <em>아티팩트</em>의 감사 문제.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
