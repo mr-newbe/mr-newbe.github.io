@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-10-16</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        code { background: #0b1220; padding: 1px 5px; border-radius: 4px; color: #7dd3fc; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-10-16 | <i class="fa-solid fa-tags"></i> Daily News, Zero-Day, VM Escape, Supply Chain, Vulnerability, Patch, Cybercrime, AI Security</div>
+        <div class="content">
+        <h2>1. [사건] PwnEscape <code>CVE-2026-99999</code> &mdash; 게스트 VM이 호스트 메모리를 읽는다, 클라우드 '공유 계층'의 결함</h2>
+        <p>리눅스 커널 네트워킹 코드에서 <strong>가상머신 안의 코드가 호스트 메모리를 읽을 수 있는</strong> 크리티컬 결함이 공개됐다. 별명 <strong>PwnEscape</strong>, CVSS <strong>9.3</strong>. 보안업체 pwn.ai의 Paulos Yibelo가 Vercel의 보안 챌린지에서 발견했고, Vercel이 <strong>자사 프로덕션 샌드박스를 대상으로 메모리 유출을 재현&middot;확인</strong>했다.</p>
+        <ul>
+            <li><strong>무엇이 새는가:</strong> 게스트가 보낸 패킷 하나당 호스트 메모리 약 <strong>32바이트</strong>가 되돌아온다. 패킷을 계속 보내면 계속 읽힌다. 조작된 패킷 <strong>2개</strong>로 호스트를 크래시시켜 그 위에서 돌던 모든 샌드박스를 함께 내릴 수 있었다.</li>
+            <li><strong>탈출까지:</strong> 같은 결함으로 연구자는 호스트의 관리자 권한에 도달해 VM 경계를 벗어났다. 다만 연구자는 "어떤 벤더의 프로덕션 환경에서 root 명령 실행을 주장하는 것이 아니다"라고 선을 그었다 &mdash; 크래시와 코드 실행은 Vercel 구성을 복제한 자기 장비에서만 관측됐다.</li>
+            <li><strong>공격 벡터는 local:</strong> 이미 게스트 안에서 코드를 돌리고 있어야 한다. 인터넷 건너편에서 패킷만 던져 터지는 결함이 아니며, <strong>CISA KEV에 없고 실제 악용 흔적도 보고되지 않았다</strong>.</li>
+            <li><strong>왜 남 일이 아닌가:</strong> Vercel Sandbox는 고객 코드를 Firecracker 마이크로VM에 격리한다. 문제는 그 '벽'이 아니라 <strong>호스트가 쓰는 리눅스 커널의 네트워킹 코드</strong>다. 거의 모든 대형 클라우드가 같은 커널 계층으로 고객 워크로드를 분리하기 때문에, 특정 사업자가 아니라 <strong>공유 인프라 전체의 위험</strong>이 된다.</li>
+            <li><strong>수정:</strong> 커밋 <code>6785011f8b16</code>(Red Hat의 Michael S. Tsirkin, 메인라인 머지) &mdash; 패킷의 checksum 데이터가 IPv4 헤더를 가리키지 못하도록 검사 한 줄을 추가한다.</li>
+            <li><strong>시사점:</strong> AI 보조 연구 도구(Omega-Pwn 하네스 + GPT-5.6 Sol)가 커널 수준 결함을 찾아낸 사례다. "우리는 하드닝을 잘했다"는 클라우드의 주장은 커널 하나가 격리의 바닥이라는 사실을 바꾸지 못한다.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/critical-pwnescape-linux-kernel.html" target="_blank">The Hacker News - Critical PwnEscape Linux Kernel Vulnerability Lets Guest VMs Read Host Memory</a> | <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-99999" target="_blank">NVD - CVE-2026-99999</a></p>
+
+        <h2>2. [사건] Citizen Lab &mdash; 알자지라를 노린 Candiru 제로클릭 스파이웨어, 감염 경로는 '평범한 온라인 광고'</h2>
+        <p>토론토대 Citizen Lab이 <strong>상용 스파이웨어가 표적 광고를 통해 실제 기기까지 도달한 첫 공개 기술 확인</strong>을 내놨다. 이스라엘 Candiru의 스파이웨어가 알자지라 기기를 <strong>사용자 클릭 없이</strong> 감염시켰다.</p>
+        <ul>
+            <li><strong>수법:</strong> 광고는 이스라엘 회사 <strong>Discover-Tech</strong>가 집행했다. 광고에 실린 작은 코드가 로드되는 순간 기기의 <strong>광고 ID와 IP를 Discover-Tech 서버로 전송</strong>하고, 그 서버가 표적 여부를 판정해 공격 코드를 돌려보냈다. 광고 자체엔 공격 코드가 없어 <strong>광고 네트워크가 탐지할 것이 없었다</strong>. 광고가 화면 밖에서 로드된 경우도 있었다.</li>
+            <li><strong>피해:</strong> 2024~2025년 알자지라 <strong>최소 45대</strong>가 표적됐다. 감염 기기의 트래픽 로그는 매번 같은 순서를 보였다 &mdash; Discover-Tech 광고 서버 &rarr; 기기를 심사하는 Candiru 서버 &rarr; 스파이웨어를 돌리는 C2 서버.</li>
+            <li><strong>귀속 근거:</strong> 감염 기기에서 빼낸 Windows 실행 파일이 Citizen Lab이 2021년 해부한 Candiru 도구와 같은 고유 기법을 썼다(high confidence). 어떤 정부가 배후인지는 밝히지 않았다. 익스플로잇 자체는 확보하지 못했다.</li>
+            <li><strong>플랫폼 대응:</strong> Google과 IAB Europe이 10월 초 Discover-Tech를 승인 광고 벤더 목록에서 제거했다(2020년부터 등재돼 있었다). Google은 광고 거래소 접근을 차단했고 Comcast(Beeswax)&middot;Vungle&middot;Eskimi도 각각 차단&middot;검토에 들어갔다.</li>
+            <li><strong>맥락:</strong> Candiru는 2021년 미국 수출 블랙리스트에 올랐지만 2025년 미국 투자사에 자산이 팔려 제재 밖 신설 법인으로 옮겨졌다. 알자지라는 2020년 NSO Pegasus로도 기자들의 아이폰이 뚫린 전력이 있다.</li>
+            <li><strong>시사점:</strong> '공격 코드가 없는 광고'는 광고 생태계의 심사 모델 자체를 우회한다 &mdash; 방어선이 브라우저가 아니라 <strong>광고 공급망</strong>으로 이동한다.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/citizen-lab-traces-zero-click-candiru.html" target="_blank">The Hacker News - Citizen Lab Traces Zero-Click Candiru Spyware Infections at Al Jazeera to Targeted Online Ads</a></p>
+
+        <h2>3. [사건] Silent Lynx(UAT-6275) &mdash; WinRAR 결함으로 CIS 정부 기관에 리버스 셸, 9개국 표적</h2>
+        <p>Cisco Talos와 Recorded Future Insikt Group이 <strong>2025년 6월 ~ 2026년 8월</strong> CIS(독립국가연합) 정부&middot;핵심 인프라를 겨냥한 Silent Lynx(UAT-6275 / TAG-193) 캠페인을 공개했다. <strong>서로 다른 4가지 감염 체인</strong>이 커스텀 리버스 셸로 이어진다.</p>
+        <ul>
+            <li><strong>4개 감염 체인:</strong> ①(2025-06) 매크로 문서로 2단계 바이너리 실행 ②(2025-07) PS2EXE 다운로더 + 예약 작업으로 지속성 ③(2025-10) RAR 아카이브 속 악성 LNK &rarr; PowerShell &rarr; GitHub 호스팅 스크립트 ④ WinRAR 결함 <code>CVE-2025-8088</code>을 악용한 조작 아카이브.</li>
+            <li><strong>페이로드:</strong> FoalShell&middot;Chvost&middot;Laplas&middot;PickleShell 등 커스텀 리버스 셸을 배포해 감염 호스트에 대화형 원격 접속을 확보한다.</li>
+            <li><strong>표적&middot;수법:</strong> 카자흐스탄&middot;키르기스스탄&middot;타지키스탄&middot;투르크메니스탄&middot;우즈베키스탄&middot;아르메니아&middot;아제르바이잔&middot;러시아&middot;벨라루스 <strong>9개국</strong>. 외교&middot;국제무역&middot;에너지&middot;항공을 주제로 한 유인 문서를 썼고, <strong>탈취한 정부 계정에서 발송</strong>해 신뢰를 만들었다.</li>
+            <li><strong>확장 신호:</strong> 공개된 스테이징 디렉터리 3곳에서 <strong>리눅스용 도구와 Fortinet FortiWeb SQL 인젝션 <code>CVE-2025-25257</code> PoC</strong>가 발견됐다 &mdash; 인터넷 노출 어플라이언스로 활동을 넓히려는 정황이다.</li>
+            <li><strong>귀속:</strong> 카자흐스탄 연계로 평가되며 최소 2020년부터 활동. YoroTrooper&middot;ShadowSilk&middot;Cavalry Werewolf&middot;Tomiris와 겹친다.</li>
+            <li><strong>시사점:</strong> 공격자 자신의 OPSEC 실수 덕에 연구진이 인프라와 악성코드 개발 과정을 직접 들여다봤다 &mdash; 반면 수법은 GitHub&middot;WinRAR&middot;탈취한 정부 메일함 등 <strong>'정상 서비스'만으로 4개 체인을 조립</strong>한다.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/silent-lynx-exploits-winrar-flaw-to.html" target="_blank">The Hacker News - Silent Lynx Exploits WinRAR Flaw to Deploy Reverse Shell in CIS Government Attacks</a> | <a href="https://therecord.media/suspected-kazakhstan-phishing-central-asia-espionage" target="_blank">The Record - Suspected Kazakhstan-linked hackers target governments across former Soviet states</a></p>
+
+        <h2>4. [사건] 가짜 Arch Linux 패키지가 root 권한으로 악성코드를 심는다 &mdash; yay&middot;paru 사칭, AUR 대량 업로드</h2>
+        <p>공격자가 Arch Linux의 커뮤니티 저장소 <strong>AUR</strong>에 인기 헬퍼 도구 <code>yay</code>&middot;<code>paru</code>를 사칭한 악성 패키지를 올렸다. <strong>10월 13일</strong> 탐지됐고, 사용자 <code>marchos1as</code>가 올린 타이포스쿼팅 이름들이 문제였다.</p>
+        <ul>
+            <li><strong>트로이 목마 구조:</strong> 정품 소스 URL과 소스 타르볼을 그대로 가져와 <strong>정품 재포장처럼 보이게</strong> 만든 뒤, 악성 설치 스크립트(install scriptlet)로 <strong>root 권한으로 원격 셸 스크립트를 실행</strong>한다. AUR 관리자는 "패키지 이름과 악성 스크립트가 진짜 패키지에 섞여 들어가도록 설계된 트로이 목마 사칭"이라고 경고했다.</li>
+            <li><strong>페이로드 경로:</strong> Wayback Machine URL을 경유해 러시아 호스팅 GitFlic의 개인 저장소(<code>hellscripter/install-scripts</code>)에서 내려받는다 &mdash; 원본 서버를 숨기는 이중 우회다.</li>
+            <li><strong>연계 의혹:</strong> SafeDep가 문서화한 npm 캠페인 <strong>'DirtyBlanket'</strong>이 Codeberg의 같은 <code>hellscripter/install-scripts</code> 저장소에서 코드를 가져왔고, OSV 권고도 같은 Wayback&middot;GitFlic 도메인을 지목한다. CHAOS 원격 접속 트로이목마를 폰트 서비스로 위장한 리눅스 웜이 AUR 패키지에 로더를 주입한 사례다.</li>
+            <li><strong>대응:</strong> AUR 팀이 계정을 차단하고 악성 패키지를 제거했다. 의심 패키지를 설치한 사용자는 <strong>시스템이 이미 침해됐다고 가정하고 즉시 재설치&middot;자격증명 교체</strong>를 해야 한다.</li>
+            <li><strong>전례:</strong> 6월에는 400개 패키지가 루트킷급 자격증명 탈취 악성코드를 배포했고, 7월 캠페인으로 Arch가 패키지 '입양(adoption)' 기능을 일시 중단했다.</li>
+            <li><strong>시사점:</strong> 배포판 커뮤니티 저장소는 이제 공급망 공격의 1순위 표적이다 &mdash; <strong>PKGBUILD를 직접 읽지 않으면 아무도 대신 검사해 주지 않는다</strong>.</li>
+        </ul>
+        <p>출처: <a href="https://www.bleepingcomputer.com/news/security/fake-arch-linux-packages-push-malware-with-root-privileges/" target="_blank">BleepingComputer - Fake Arch Linux packages push malware with root privileges</a></p>
+
+        <h2>5. [사건] 유출 후폭풍 &mdash; 영국 Legal Aid는 1978년 기록까지, CenterPoint는 100만 명</h2>
+        <p>두 건의 대형 유출이 이번 주 규모를 확정했다. 영국 법률구조청(LAA)은 침해 범위가 <strong>1978년까지</strong> 거슬러 올라간다고 밝혔고, 미국 유틸리티 CenterPoint Energy는 텍사스 주민 <strong>106만 명</strong>이 영향을 받았다고 통지했다.</p>
+        <ul>
+            <li><strong>LAA 규모:</strong> 압수된 기록 대부분은 2007~2025년 신청&middot;청구&middot;지급 관련이지만, <strong>약 25만 건이 2007년 이전</strong>이다. 대부분 1990~2000년대이고 1990년 이전은 극소수, <strong>현재 확인된 가장 오래된 기록은 1978년</strong>이다.</li>
+            <li><strong>LAA 내용:</strong> 신청자&middot;수령자의 이름, 주소, 생년월일, NI 번호, 사건번호, CCMS 입력 내용. 업무 종사자(변호사&middot;사무소&middot;법관)의 계약&middot;결제 정보&middot;포털 자격증명도 포함됐고, <strong>2010~2017년 보호관찰(Probation) 대상자</strong> 일부 데이터도 확인됐다.</li>
+            <li><strong>왜 이렇게 늦었나:</strong> 2025년 4월 침해, 5월 공개. 여러 시스템에 걸쳐 <strong>비정형&middot;파편화 데이터</strong>가 방대해 분석이 오래 걸렸다며, 유출 정보가 공개&middot;판매된 증거는 없다고 밝혔다. 영국 법무부는 디지털 서비스 현대화에 <strong>2억 파운드 이상</strong>을 투입 중이다.</li>
+            <li><strong>CenterPoint:</strong> 휴스턴 기반 유틸리티로 텍사스 <strong>1,062,060명</strong> 피해를 텍사스 법무장관실에 신고했다. 이름&middot;주소&middot;주민번호&middot;운전면허번호가 포함됐고, <strong>개인 통지서는 아직 발송되지 않은 것으로 보인다</strong>. 인디애나&middot;미네소타&middot;오하이오 고객도 영향권이지만 전체 규모는 불명이다.</li>
+            <li><strong>맥락:</strong> 침해 공개 며칠 전 범죄 포럼에 <strong>750만 건</strong> 확보 주장이 올라왔고, 9월 12일에는 약 300만 개 전화번호를 포함한 <strong>2.5GB 아카이브</strong>가 유포됐다. 반면 SEC 신고서는 "고객 일부만 영향"이라고 적었다 &mdash; 신고 수치와 공표 규모 사이의 간극이 남는다.</li>
+            <li><strong>시사점:</strong> 40년 넘게 보관된 종이 시대 데이터가 온라인 시스템에 얹혀 있으면 침해 한 번에 그 전체가 위험해진다 &mdash; <strong>데이터 보존 기간(retention) 정책 자체가 보안 통제</strong>다.</li>
+        </ul>
+        <p>출처: <a href="https://www.bleepingcomputer.com/news/security/uk-legal-aid-agency-hackers-stole-records-dating-back-to-1978/" target="_blank">BleepingComputer - UK Legal Aid Agency: Hackers stole records dating back to 1978</a> | <a href="https://therecord.media/uk-legal-aid-cyberattack-data" target="_blank">The Record - UK Legal Aid Agency hack worse than thought</a> | <a href="https://www.securityweek.com/centerpoint-energy-data-breach-impacts-1-million-texans/" target="_blank">SecurityWeek - CenterPoint Energy Data Breach Impacts 1 Million Texans</a></p>
+
+        <h2>6. [취약점] '인증은 있는데 검증이 없다' &mdash; 서비스 인프라 인증 우회 클러스터</h2>
+        <p>이날 NVD 크리티컬 목록의 공통 결함 형태는 <strong>"경계를 신뢰하지만 다시 검증하지 않는다"</strong>였다. 인증 로직이 붙어 있음에도 대상&middot;출처&middot;무결성 중 하나를 확인하지 않는 결함들이다.</p>
+        <ul>
+            <li><strong>WMS MobileServer <code>CVE-2026-89309</code> (CVSS 10.0):</strong> 권한 부여 미들웨어가 <strong>GET&middot;HEAD 요청에만 Authorization 헤더를 요구</strong>한다. 다른 HTTP 메서드는 검사 없이 통과해 <strong>무인증 접근</strong>이 가능하다 &mdash; 메서드 하나로 인증 전체가 무력화된다.</li>
+            <li><strong>Znuny <code>CVE-2026-93483</code> (9.5):</strong> 애플리케이션이 특정 <strong>HTTP 요청 헤더를 신뢰</strong>해, 조작된 헤더로 표준 로그인 절차를 우회하고 민감 시스템 기능에 접근한다. 7.3.6 이하 영향.</li>
+            <li><strong>IBM i <code>CVE-2026-96119</code> (9.9):</strong> HTTP Server Administration 웹 애플리케이션의 부적절한 데이터 정제로, 원격 인증 사용자가 임의 코드를 실행하거나 민감 정보를 획득할 수 있다. 7.3~7.6 영향.</li>
+            <li><strong>Stela <code>CVE-2026-101287</code> (9.3):</strong> <code>authProcess</code> 쿠키의 <strong>무결성을 검증하지 않는다</strong> &mdash; 사용자 식별자와 인증 상태를 담은 쿠키를 공격자가 직접 만들 수 있다. 1.60.1 이전.</li>
+            <li><strong>EthereumAuthenticator <code>CVE-2026-19863</code> (9.3):</strong> 요청 경로에 로그인 경로 문자열이 <strong>포함되기만 하면</strong> 보호 자원에 접근된다 &mdash; 앵커 없는 부분 문자열 매칭(unanchored substring match)이 원인이다.</li>
+            <li><strong>시사점:</strong> 이 클래스는 스캐너가 "인증 없음"으로 잡기 어렵다 &mdash; 코드가 <strong>인증을 시도하는 것처럼 보이기</strong> 때문이다. 검사 대상은 '인증 코드의 존재'가 아니라 '<strong>모든 경로가 같은 검사를 통과하는가</strong>'다.</li>
+        </ul>
+        <p>출처: <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-89309" target="_blank">NVD - CVE-2026-89309</a> | <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-93483" target="_blank">NVD - CVE-2026-93483</a> | <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-96119" target="_blank">NVD - CVE-2026-96119</a> | <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-101287" target="_blank">NVD - CVE-2026-101287</a></p>
+
+        <h2>7. [취약점] WordPress 플러그인 생태계 대량 결함 &mdash; 9.8급 5종, 무제한 파일 업로드부터 권한 상승까지</h2>
+        <p>NVD 1일 창(10-15 ~ 10-16)의 상단을 WordPress 플러그인 결함이 차지했다. 이번 물결의 핵심은 <strong>'인가 누락'과 '신뢰할 수 없는 데이터 역직렬화'</strong>다.</p>
+        <ul>
+            <li><strong>10Web Booster <code>CVE-2026-108587</code> (9.8):</strong> <code>compressCustom</code> 함수를 통한 <strong>임의 파일 업로드</strong>. 2.34.10 이하 전 버전 영향 &mdash; 사이트 속도 최적화 플러그인이라 설치 기반이 넓다.</li>
+            <li><strong>User Rights Access Manager <code>CVE-2026-109145</code> (9.8):</strong> AJAX 회원가입 핸들러가 <strong>접근 제한 없이 열려 있고</strong>, 새 계정에 <strong>관리자 역할을 복제한 역할</strong>을 부여한다 &mdash; 가입만 하면 관리자급 권한이다. 1.1.3 이하.</li>
+            <li><strong>Fluent CRM <code>CVE-2026-109694</code> &middot; Frontend Admin <code>CVE-2026-109892</code> (각 9.8):</strong> 둘 다 <strong>부적절한 권한 할당</strong>으로 권한 상승을 허용한다(3.2.5 / 3.29.13 이하).</li>
+            <li><strong>Link Whisper Free <code>CVE-2026-109686</code> (9.8) &middot; <code>CVE-2026-109688</code> (9.3):</strong> 신뢰할 수 없는 데이터 역직렬화(<strong>Object Injection</strong>)와 블라인드 SQL 인젝션이 한 플러그인에 함께 있다 &mdash; 0.9.7 이하.</li>
+            <li><strong>Amelia 예약 <code>CVE-2026-108497</code> (9.3) &middot; Mang Board WP <code>CVE-2026-109698</code> (9.3):</strong> 각각 SQL 인젝션. 2.4.10 / 2.4.4 이하.</li>
+            <li><strong>시사점:</strong> 플러그인 결함은 이제 <strong>역할(role) 설계 결함</strong>으로 나타난다 &mdash; 코드 인젝션이 아니라 "누가 이 엔드포인트를 부를 수 있는가"를 아무도 확인하지 않는 형태다. 버전 고정과 자동 업데이트 외에 실질 통제가 거의 없다.</li>
+        </ul>
+        <p>출처: <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-108587" target="_blank">NVD - CVE-2026-108587</a> | <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-109145" target="_blank">NVD - CVE-2026-109145</a> | <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-109686" target="_blank">NVD - CVE-2026-109686</a></p>
+
+        <h2>8. [취약점] 임베디드&middot;산업&middot;NAS &mdash; 냉장 컨트롤러 공격 확대, QNAP&middot;미쓰비시 클러스터</h2>
+        <p>프랑스 슈퍼마켓 냉장 설비 공격의 범위가 넓어졌고, NAS와 산업 제어 소프트웨어에서도 크리티컬 결함이 쏟아졌다.</p>
+        <ul>
+            <li><strong>냉장 컨트롤러 공격 확대:</strong> 프랑스 ANSSI(CERT-FR)가 대상에 <strong>Copeland XWEB</strong>와 <strong>Dixell XWEB</strong>를 추가했다. 약 700개 매장이 영향받았고, Intermarch&eacute; 150개 점포는 냉장고가 <strong>6시간 동안 50&deg;C</strong>로 돌아 식품 전량을 폐기했으며 카르푸는 80개 점포가 영향권이었다. 알자스 두 매장 손실만 합계 <strong>27만 유로</strong>. 공격자는 자동 제상 주기를 1시간에서 최대 8시간으로 늘려 <strong>경보를 지연</strong>시켰고, 원인 취약점 특정&middot;범인 주장&middot;몸값 요구가 모두 없는 상태다.</li>
+            <li><strong>노출 규모:</strong> Censys는 10월 11일 인터넷 노출 Danfoss StoreView 패널을 <strong>약 3,000개</strong>(프랑스 1,800개 이상)로 셌고, 10월 14일 프랑스는 <strong>537개</strong>로 줄었다. 패치본과 미패치본이 같은 속도로 사라진 것으로 보아 <strong>업데이트가 아니라 인터넷에서 분리</strong>한 것이다.</li>
+            <li><strong>QNAP 클러스터:</strong> QuMagie <code>CVE-2026-50612</code>(9.4, 심볼릭 링크 추종), HybridDesk Station <code>CVE-2026-47786</code>(9.3, OS 명령 주입), Qsirch <code>CVE-2026-50619</code>(9.3, 경로 탈출), sMedio DTCP MOVE <code>CVE-2026-34006</code>(9.3, 핵심 기능 인증 누락). NAS는 홈&middot;소규모 사무실에서 인터넷에 그대로 노출되는 경우가 많다.</li>
+            <li><strong>미쓰비시전기 GENESIS64 &middot; ICONICS Suite:</strong> <code>CVE-2026-16438</code>(9.4, 권한 할당 오류) &middot; <code>CVE-2026-16436</code>(9.2, 취약한 비밀번호 복구 메커니즘). 10.97.3 이하 &mdash; HMI/SCADA 계층이다.</li>
+            <li><strong>개발&middot;런타임 스택:</strong> Ruby <strong>Wheels</strong> <code>CVE-2026-110911</code>(9.8) &mdash; 동적 finder가 이미 인용된 값을 다시 SQL로 파싱해 <strong>SQL 인젝션</strong>(1.1.8 ~ 4.1.1). Eclipse <strong>Vert.x</strong> DB2 클라이언트 <code>CVE-2026-102469</code>(9.2) &mdash; DRDA 프로토콜 처리가 UDT 컬럼 데이터를 역직렬화한다.</li>
+            <li><strong>시사점:</strong> 냉장 컨트롤러 사건은 <strong>"패치가 아니라 분리"</strong>가 유일한 대응임을 보여준다 &mdash; EOL 장비는 팩토리 리셋도 무의미하고, 재노출되면 다시 뚫린다.</li>
+        </ul>
+        <p>출처: <a href="https://www.securityweek.com/supermarket-refrigeration-attack-widens-to-copeland-dixell-controllers/" target="_blank">SecurityWeek - Supermarket Refrigeration Attack Widens to Copeland, Dixell Controllers</a> | <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-50612" target="_blank">NVD - CVE-2026-50612</a> | <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-16438" target="_blank">NVD - CVE-2026-16438</a></p>
+
+        <h2>9. [패치] 오늘이 KEV 마감 &mdash; NGINX&middot;Next.js&middot;Drupal 동시 긴급 패치, Chrome 37건</h2>
+        <p>CISA가 준 3일 시한이 오늘 끝나고, 오픈소스 3종이 같은 날(10월 14일) 긴급 패치를 냈다.</p>
+        <ul>
+            <li><strong>오늘 마감 (10-16):</strong> <strong>Ivanti Connect Secure <code>CVE-2026-104935</code></strong>(스푸핑 인증 우회 &rarr; 원격 무인증 명령 실행)와 <strong>Microsoft Windows Shell <code>CVE-2026-96951</code></strong>(보안 기능 우회 &rarr; 명령 주입)의 연방기관 조치 마감일이 <strong>오늘</strong>이다. 둘 다 10월 13일 KEV 등록.</li>
+            <li><strong>내일 마감 (10-17):</strong> CISA가 10월 14일 <strong>4건을 한꺼번에 KEV에 추가</strong>하고 3일을 줬다 &mdash; PAN-OS <code>CVE-2026-0322</code>(8.6, 관리 인터페이스 root RCE, 익스플로잇 시도 IP 3개), Cisco SEG <code>CVE-2026-76519</code>(9.8), AhsayCBS <code>CVE-2026-105133</code>&middot;<code>CVE-2026-105134</code>. PAN-OS는 <strong>알려진 워크어라운드가 없다</strong>(관리 인터페이스 접근을 신뢰 IP로 제한하는 완화만 가능). 이어 Atlassian <code>CVE-2026-21589</code>가 10-18 마감이다.</li>
+            <li><strong>NGINX 1.30.6 / 1.31.7 (5건):</strong> F5는 메모리 결함 3건을 CVSS v4.0 <strong>9.2</strong>로 매겼다. <code>CVE-2026-15176</code>은 <strong>0.1.29(2005년 5월)부터 모든 릴리스에 존재</strong>했다. <code>CVE-2026-97629</code>(8.3)는 세션 티켓 키 회전 버그로 <strong>위조 TLS 세션</strong>이 클라이언트 인증서 검증을 통과할 수 있고(3개 슬롯 중 1개만 회전), <code>CVE-2026-95101</code>은 HTTP/3 클라이언트가 프록시 요청에 바이트를 끼워 넣는다. 모두 <strong>특정 지시어를 추가한 구성</strong>에서만 노출되며 &mdash; 그중 <code>ssl_session_cache shared:SSL:10m</code>는 <strong>NGINX 문서의 예제 구성 그대로</strong>다.</li>
+            <li><strong>Next.js 16.4.1 / 15.5.28:</strong> 무인증 RCE 2건(CVSS 9.5) + DoS 1건. ① React Server Components의 <code>use cache</code> 경로(<code>use cache</code> 함수가 타입 배열을 2개 이상 반환할 때, 16.0.0~16.4.0) ② <code>sharp</code>가 쓰는 <strong>librsvg</strong> 메모리 결함(<code>CVE-2026-96889</code>, 공격자 제공 SVG, glibc 리눅스) ③ Server Action DoS. <strong>버전 15 주의:</strong> 15.5.28은 여전히 취약한 <code>sharp 0.34.x</code>를 받아들이므로 <code>npm ls sharp</code>로 확인 후 0.35.5 이상으로 올려야 한다.</li>
+            <li><strong>Drupal <code>CVE-2026-108097</code>:</strong> Field UI 모듈 크리티컬 RCE. 11.4.10 / 11.3.19 / 10.6.19에서 수정. 코어만으로는 도달할 수 없지만 <strong>기여 모듈을 통한 경로 중 최소 1개는 로그인이 필요 없다</strong>. 10월 4일 주 기준 버전을 신고한 531,499개 사이트 중 <strong>151,442개(28.5%)가 수정이 없는 브랜치</strong>에 있다. Field UI는 표준 설치 프로필에 포함되며, 업데이트 전 임시 조치로 모듈 <code>field_ui</code>를 제거할 수 있다.</li>
+            <li><strong>Chrome 37건:</strong> Google이 <strong>7건의 크리티컬을 포함해 37개</strong> 보안 결함을 수정했다 &mdash; 브라우저는 오늘 바로 재시작해 업데이트하는 편이 낫다.</li>
+            <li><strong>시사점:</strong> "패치가 없으면 인터넷에서 빼라"가 이번 주의 실질 지침이다 &mdash; PAN-OS는 워크어라운드 없음, Drupal은 28.5%가 미수정 브랜치, NGINX 결함은 문서 예제 구성에서 노출된다.</li>
+        </ul>
+        <p>출처: <a href="https://www.helpnetsecurity.com/2026/10/15/cve-2026-0322-cve-2026-76519-cve-2026-105133-cve-2026-105134-exploted/" target="_blank">Help Net Security - CISA flags exploited flaws in Palo Alto, Cisco and Ahsay products</a> | <a href="https://thehackernews.com/2026/10/nginx-fixes-5-flaws-including-possible.html" target="_blank">The Hacker News - NGINX Fixes 5 Flaws, Including Possible RCE and a TLS Bug</a> | <a href="https://thehackernews.com/2026/10/nextjs-ships-out-of-band-patch-for-two.html" target="_blank">The Hacker News - Next.js Ships Out-of-Band Patch for Two Critical RCE Flaws</a> | <a href="https://thehackernews.com/2026/10/drupal-patches-critical-core-rce-flaw.html" target="_blank">The Hacker News - Drupal Patches Critical Field UI Flaw With Unauthenticated RCE Path</a> | <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA - Known Exploited Vulnerabilities Catalog</a></p>
+
+        <h2>10. [트렌드] 발견은 폭증했는데 익스플로잇은 따라오지 않는다 &mdash; AI가 바꾼 '속도'의 실체</h2>
+        <p>이번 주 여러 보고서가 같은 질문에 서로 다른 답을 냈다. AI가 취약점 발견을 폭증시켰다는 것까지는 합의, 그러나 <strong>실제 피해로 이어지는 비율과 협박의 방식</strong>은 전혀 다른 곳에서 움직이고 있다.</p>
+        <ul>
+            <li><strong>Cisco Talos Q3 결함 펄스:</strong> CVE가 <strong>7만 건</strong>을 넘겼고 전년 대비 <strong>+105%</strong>. 반면 KEV(실제 악용)는 <strong>+37%</strong>에 그쳤다. 더 중요한 건 <strong>KEV의 33%가 2025년이나 그 이전 CVE</strong>라는 점 &mdash; 실제 위협의 3분의 1은 <strong>패치 부채(patch debt)</strong>다. 2026년 CVE 중 공개일과 KEV 등록일이 같은 비율은 29%로, 2025년 전체보다 2%p 높은 수준에 불과하다.</li>
+            <li><strong>Censys 노출 지도:</strong> AI 관련 소프트웨어의 인터넷 노출이 <strong>9개월 만에 63% 증가</strong>했다(2025년 10월 164,088개 &rarr; 2026년 7월 <strong>267,915개</strong> IP). 워크플로 자동화 <strong>n8n이 113,926개 호스트</strong>로 최다이며, 버전을 신고한 n8n 중 <strong>76.1%가 CVSS 9.0 이상 결함의 영향 범위</strong>에 있다 &mdash; 그리고 이 서버들은 워크플로가 연결하는 서비스의 자격증명을 들고 있다.</li>
+            <li><strong>속도의 비대칭:</strong> 자체 호스팅 AI 에이전트 <strong>OpenClaw</strong>는 제어 패널이 포함된 첫 릴리스(2026-01-05) 6일 뒤 노출 패널이 <strong>2개</strong>였는데 4월 7일에는 <strong>85,478개</strong>가 됐다. 반대로 ICS 노출은 2년 반 동안 약 <strong>4%</strong> 증가에 그쳤고(약 129,000 &rarr; 134,000대, 70%가 소비자&middot;모바일 회선), Telerik&middot;Jenkins&middot;Cleo MFT&middot;SharePoint의 최고(最古) 버전 점유율은 <strong>1%p 이내로 거의 변하지 않았다</strong>.</li>
+            <li><strong>협박의 인격화:</strong> 한 보고서는 <strong>랜섬웨어 공격의 84%에서 AI가 사용</strong>됐다고 집계했고, 여러 매체가 공격자들이 <strong>직원과 그 가족을 직접 겨냥</strong>해 스와팅&middot;실명 위협&middot;"우리가 어디 있는지 안다"는 식의 압박을 가한다고 보도했다. 몸값을 못 받는 조직이 늘면서 기술적 압박이 심리적 압박으로 대체되는 흐름이다.</li>
+            <li><strong>방어선도 AI로:</strong> Google은 Android에 <strong>Gemini 기반 클라우드 스캠 분석</strong>(Private AI Compute 환경)과 기기 내 Gemini Nano 링크 검사를 넣었고, 가짜 CAPTCHA를 악용한 ClickFix 공격은 2025년 조사한 피싱킷 공격의 <strong>43%</strong>에서 확인됐다.</li>
+            <li><strong>시사점:</strong> "AI가 10억 개의 취약점을 찾았다"는 헤드라인은 <strong>위험의 총량이 아니라 스캐너의 처리량</strong>을 말한다. 실무 우선순위는 새로 발견된 7만 건이 아니라 &mdash; <strong>이미 1년 이상 방치된, KEV에 남아 있는 패치 부채</strong>다.</li>
+        </ul>
+        <p>출처: <a href="https://blog.talosintelligence.com/the-q3-vulnerability-pulse-discovery-exploitation/" target="_blank">Cisco Talos - The Q3 Vulnerability Pulse: Discovery &ne; Exploitation</a> | <a href="https://www.helpnetsecurity.com/2026/10/15/exposed-ai-infrastructure-report/" target="_blank">Help Net Security - The internet's attack surface moves at very different speeds</a> | <a href="https://www.itbrew.com/stories/your-ai-cybersecurity-scanner-just-found-a-billion-vulnerabilities-now-what" target="_blank">IT Brew - Your AI cybersecurity scanner just found a billion vulnerabilities. Now what?</a> | <a href="https://www.helpnetsecurity.com/2026/10/15/barracuda-fake-captcha-phishing-attacks/" target="_blank">Help Net Security - Fake CAPTCHAs are tricking users into running malware</a></p>
+
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
