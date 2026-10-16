@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛡️ [클래식] Control-Flow Integrity — '새 코드를 못 심어도, 이미 있는 코드로 원하는 계산을 시킨다': 실행 흐름 자체를 검증하는 CFI의 탄생 (Abadi et al., CCS 2005)</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style></head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛡️ [클래식] Control-Flow Integrity — '새 코드를 심지 못해도, 이미 있는 코드로 원하는 계산을 시킨다'</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-16 · 카테고리: Research (전통 보안 논문 · 시스템 보안 · 코드 재사용 공격 방어 · 실행 흐름 무결성 · 소프트웨어 완화책)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Control-Flow Integrity: Principles, Implementations, and Applications<br>
+                <strong>저자:</strong> Martín Abadi · Mihai Budiu · Úlfar Erlingsson · Jay Ligatti (당시 <strong>Microsoft Research</strong>)<br>
+                <strong>출처:</strong> <strong>ACM CCS 2005</strong> (12th ACM Conference on Computer and Communications Security, 2005년 11월) — DOI <code>10.1145/1102120.1102165</code> · 확장 저널판 <strong>ACM TISSEC 14(1), 2009</strong> (DOI <code>10.1145/1609956.1609960</code>)<br>
+                <strong>분야:</strong> 시스템 보안 · 소프트웨어 무결성 · <strong>코드 재사용 공격(code-reuse) 방어</strong> · 소프트웨어 기반 완화책(software-based mitigation) · 실행 시간 정책 강제(runtime enforcement)<br>
+                <strong>인용:</strong> <strong>OpenAlex 기준 1,032회</strong> (CCS 2005 원판; S2 기준 645회) · 확장판 TISSEC 2009은 OpenAlex 기준 795회 — 20년 뒤 이 아이디어는 <strong>Intel CET · Windows CFG · Clang/LLVM CFI</strong>로 모든 프로세서와 컴파일러에 내장됐다.<br>
+                <strong>원문:</strong> <a href="https://dl.acm.org/doi/10.1145/1102120.1102165" target="_blank" rel="noopener">ACM DL (CCS 2005)</a> · <a href="https://dl.acm.org/doi/10.1145/1609956.1609960" target="_blank" rel="noopener">ACM TISSEC 2009 (확장판)</a> · <a href="https://doi.org/10.1145/1102120.1102165" target="_blank" rel="noopener">DOI</a>
+            </div>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 한 줄 요약 — "어디로 점프할 수 있는가"를 화이트리스트로 못 박는다</h2>
+            <p>2000년대 초 <strong>W⊕X(NX/DEP)</strong>가 배포되면서 공격자는 스택·힙에 <em>새 코드를 심는</em> 방식에 제동이 걸렸다. 그가 택한 우회로는 더 교묘했다 — 새 코드를 심는 대신 <strong>이미 프로세스 안에 존재하는 코드 조각(gadget)들을 원하는 순서로 엮어 실행</strong>하는 것(return-into-libc → ROP). 코드가 실행 가능한 영역에만 있든 말든, 공격자는 <em>제어 흐름(control flow)</em>만 조작하면 원하는 계산을 시킬 수 있었다.</p>
+            <p>이 논문은 그 지점에서 질문을 바꾼다. "메모리를 어떻게 지킬까"가 아니라, <strong>"프로그램의 실행이 원래 컴파일러가 의도한 경로를 벗어나지 않게 강제할 수 있는가"</strong>. 저자들이 정의한 속성이 <strong>Control-Flow Integrity(CFI, 실행 흐름 무결성)</strong>다:</p>
+            <blockquote>
+                "The enforcement of a basic safety property, Control-Flow Integrity (CFI), can prevent such attacks from arbitrarily controlling program behavior." — 논문 초록
+            </blockquote>
+            <p>핵심은 단순하다. 프로그램을 실행하기 <em>전에</em> 정적 분석으로 <strong>control-flow graph(CFG)</strong>를 만들고, 실행 중 <strong>모든 간접 분기(간접 호출·점프·리턴)가 그 CFG의 유효한 간선만 따라가도록</strong> 검사 코드를 심는다. 목적지가 화이트리스트 밖이면 실행을 즉시 중단한다. "어디로든 점프할 수 있다"를 "정해진 곳으로만 점프할 수 있다"로 바꾸는 것 — 이것이 오늘날 모든 CPU에 내장된 완화책의 원형이다.</p>
+
+            <h2><i class="fa-solid fa-bullseye"></i> 배경 — W⊕X 이후 남은 빈틈</h2>
+            <ul>
+                <li><strong>공격의 이동:</strong> W⊕X가 "데이터 영역의 코드 실행"을 막자, 공격 기법은 <em>코드 주입(code injection)</em>에서 <strong>코드 재사용(code reuse)</strong>으로 이동했다. 리턴 주소를 조작해 기존 라이브러리 함수로 점프하는 <em>return-into-libc</em>, 나아가 명령어 몇 바이트짜리 조각을 사슬처럼 잇는 <strong>ROP(return-oriented programming)</strong>가 등장했다 — ROP는 이 사이트의 <a href="security-research-2026-09-09.html">2026-09-09 'The Geometry of Innocent Flesh on the Bone'</a> 편에서 다뤘다.</li>
+                <li><strong>기존 완화책의 한계:</strong> 스택 카나리(StackGuard 계열)와 ASLR은 각각 <em>휴리스틱·확률적</em> 방어다. 메모리 유출 정보 하나면 ASLR은 무력해지고, 카나리는 리턴 주소가 아닌 다른 간접 분기의 조작을 막지 못한다.</li>
+                <li><strong>CFI의 발상 전환:</strong> "버그를 없애자"가 아니라 <strong>"버그가 있어도 공격자가 임의로 계산을 바꾸지 못하게 하자"</strong>. 저자들은 이것을 형식적으로 정의 가능한 <em>안전 속성(safety property)</em>으로 세우고, "강력한 적대자(arbitrary memory corruption을 가진 공격자)에 대해서도" 성립함을 논증한다.</li>
+                <li><strong>왜 '무결성'인가:</strong> 데이터 무결성(값이 변조되지 않음)과 달리, CFI는 <strong>제어 흐름의 무결성</strong>을 지킨다. 공격자가 데이터를 아무리 흔들어도, 실행 흐름만은 원래 프로그램의 골격을 벗어나지 못하게 묶는다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-sitemap"></i> 핵심 1 — 원리: 레이블 기반 CFI와 인라인 검사</h2>
+            <ul>
+                <li><strong>CFG 구축:</strong> 실행 전(pre-execution) 정적 분석으로 프로그램의 제어 흐름 그래프를 만든다. 노드는 기본 블록(straight-line 명령 묶음), 간선은 "이 분기가 도달할 수 있는 합법적 목적지"다.</li>
+                <li><strong>레이블(label) 부여:</strong> 간접 분기가 도달할 수 있는 <em>합법적인 목적지</em>에 고유 ID를 부여한다. 분기 검사는 "대상의 ID가 이 분기가 허용하는 집합에 속하는가"만 본다 — 목적지별 화이트리스트를 두는 셈이다. ID 집합이 커지면 성능을 위해 비트맵·해시 등으로 압축한다.</li>
+                <li><strong>인라인 강제(inlined enforcement):</strong> 검사는 <em>참조 모니터(reference monitor)</em>를 각 간접 분기 <strong>직전에 기계어로 인라인 삽입(IRM, inlined reference monitors)</strong>해 구현한다. 별도 커널·하이퍼바이저 도움 없이, 이진 재작성(binary rewriting)만으로 소스 코드 없이도 적용 가능하다.</li>
+                <li><strong>리턴의 특수성:</strong> 리턴 주소는 데이터(스택)에 있고 공격 표적이 되므로, 리턴은 별도의 <strong>그림자 호출 스택(shadow call stack)</strong>과 대조하는 방식으로 검증한다 — 같은 논문이 이 "보호된 그림자 스택"을 CFI 위에 구현해 보인다.</li>
+                <li><strong>부산물은 확장성:</strong> 초록이 강조하듯 CFI는 그 자체로 끝이 아니라 <strong>더 많은 보안 정책을 얹을 수 있는 토대</strong>다. 논문은 그림자 호출 스택과 <strong>메모리 영역 접근 제어(memory-region access control)</strong>라는 두 정책을 효율적으로 구현해 이 확장성을 입증한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-microchip"></i> 핵심 2 — 상용 하드웨어에서 '실용적'으로: 이진 재작성 구현</h2>
+            <ul>
+                <li><strong>실용성 증명:</strong> 저자들은 아이디어를 이론에 머물지 않고, <strong>상용 아키텍처(x86, Itanium 등)에서 소프트웨어 이진 재작성으로 동작하는 구현</strong>을 내놨다. 기존 소프트웨어와 호환되며, 소스가 없어도 바이너리에 적용할 수 있다는 점이 채택의 관건이었다.</li>
+                <li><strong>형식 보증:</strong> CFI 속성이 성립함을 <em>형식(formal)</em>적으로 논증한다. "공격자가 메모리 버그로 임의 제어를 얻어도, CFG 밖으로는 나갈 수 없다"는 진술이 증명 대상이 된다.</li>
+                <li><strong>가용성과 비용:</strong> 검사는 정밀도(precision)와 성능(memory/runtime overhead) 사이의 트레이드오프를 갖는다. 논문의 핵심 주장은 "이 오버헤드가 배포를 막을 만큼 크지 않다"는 것 — 이후 20년의 산업 채택이 그 판단을 확인해 준다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-scale-balanced"></i> 핵심 3 — 무엇을 보장하고, 무엇을 보장하지 '않는가'</h2>
+            <ul>
+                <li><strong>보장하는 것:</strong> 간접 분기의 목적지를 CFG의 유효 간선으로 제한함으로써, <strong>코드 주입과 코드 재사용(ROP/return-into-libc)을 통한 임의 제어 흐름 탈취</strong>를 원리적으로 막는다. 공격자가 어떤 gadget을 골라도, CFG상 그리로 가는 간선이 없으면 실행이 끊긴다.</li>
+                <li><strong>보장하지 '않는' 것:</strong> CFI는 <strong>만능이 아니다</strong>. CFG 안에 <em>이미 합법적으로 존재하는</em> 전이를 악용한 공격은 막지 못한다. 예컨대 프로그램이 이미 <code>execve</code>를 호출하는 경로를 갖고 있다면, 그 호출을 유발하는 것은 CFG상 유효한 간선이므로 "허용"된다. 저자들 스스로 <strong>"CFI는 강력하지만 완전하지 않다(a strong, but not complete, defense)"</strong>고 프레이밍한다.</li>
+                <li><strong>관점의 정리:</strong> CFI는 "임의 코드 실행(arbitrary code execution)"의 문을 닫지만, "프로그램의 정상 기능을 무기로 삼는 행위"까지는 닫지 못한다. 이 구분은 이후 모든 완화책 논의의 기준선이 됐다.</li>
+                <li><strong>스코프 밖:</strong> 값 자체를 변조하는 <strong>데이터 지향 공격(data-oriented attacks)</strong>·제어 데이터 무결성(CDI) 문제는 CFI의 범위가 아니다 — 별도의 계보(데이터 흐름 무결성·DFI, 제어 데이터 무결성)가 이를 다룬다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 핵심 4 — 정밀도 vs 성능, 그리고 '우회' 연구의 등장</h2>
+            <ul>
+                <li><strong>정밀도의 스펙트럼:</strong> CFG를 얼마나 촘촘히(간선 하나하나) 검사하느냐에 따라 <em>fine-grained CFI</em>와 <em>coarse-grained CFI</em>로 나뉜다. 정밀할수록 보안은 강하지만 검사 비용과 호환성 제약이 커진다.</li>
+                <li><strong>거친 CFI는 뚫린다:</strong> 목적지 집합을 넓게 뭉뚱그린 coarse CFI는 <strong>COOP(counterfeit object-oriented programming)</strong> 같은 공격으로 우회된다 — 이는 <em>"Out of Control: Overcoming Control-Flow Integrity"</em>(Göktaş·Athanasopoulos·Bos·Portokalidis, IEEE S&amp;P 2014; OpenAlex 기준 361회)가 시연했다.</li>
+                <li><strong>균형점의 탐색:</strong> 그래서 실무의 CFI는 "정밀도·성능·호환성" 삼각형에서 실용적 타협점을 찾는 방향으로 진화했다. 원논문이 세운 개념 틀은 그대로, 구현의 최적점만 옮겨간 셈이다.</li>
+                <li><strong>후속 계보:</strong> CCFIR·bin-CFI 등 이진 CFI 연구, 컴파일러 기반 CFI, 그리고 결정적으로 <strong>하드웨어 지원</strong>으로 이어진다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-industry"></i> 시사점 — 20년 뒤, 모든 칩에 내장된 아이디어</h2>
+            <ul>
+                <li><strong>Intel CET (Control-flow Enforcement Technology):</strong> 간접 분기 추적(<strong>IBT</strong>)과 <strong>그림자 스택(shadow stack)</strong>을 프로세서에 내장한 상용 하드웨어 CFI. 논문의 "레이블 검사 + 보호된 그림자 스택"이 실리콘으로 들어간 형태다.</li>
+                <li><strong>Windows CFG / XFG, Clang·LLVM <code>-fsanitize=cfi</code>, Android:</strong> 운영체제·컴파일러 수준의 CFI가 기본 방어선으로 자리 잡았다. "CFG를 만들고 간접 분기를 검사한다"는 이 논문의 골격이 표준 툴체인에 내장됐다.</li>
+                <li><strong>공격-방어의 축:</strong> <a href="security-research-2026-09-09.html">2026-09-09 ROP</a>가 "W⊕X를 무너뜨린 공격"이었다면, 이 논문은 <strong>"그 공격에 대한 원리적 답"</strong>이다. 두 편을 나란히 읽으면 코드 재사용 공격사(史)가 한눈에 잡힌다.</li>
+                <li><strong>완전한 방어는 없다는 교훈:</strong> CFI가 코드 재사용을 조이자, 공격자는 <strong>데이터 지향 공격</strong>과 <strong>사이드채널</strong>로 이동했다 — 캐시·전력·마이크로아키텍처를 파고드는 <a href="security-research-2026-10-14.html">Spectre(2026-10-14)</a>, <a href="security-research-2026-09-11.html">Rowhammer(2026-09-11)</a>가 그 축이다. 한 계층의 완화는 늘 다음 계층의 공격을 부른다.</li>
+                <li><strong>연구 방법론으로서의 가치:</strong> 이 논문은 "새 버그를 찾는" 대신 <strong>"공격자에게 남는 자유도를 구조적으로 줄이는"</strong> 완화책 연구의 교과서적 예다. 오늘날 모든 시스템 보안 논문이 인용하는 문제 설정("무엇을 보장하는가 / 무엇을 보장하지 않는가")을 정립했다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-circle-info"></i> 한계 · 유의점</h2>
+            <ul>
+                <li><strong>정밀도-성능 트레이드오프는 영구적:</strong> coarse CFI는 실측으로 우회됐고(COOP), fine CFI는 비용·호환성 문제가 남는다. "CFI를 켰으니 안전"이라는 단정은 이 논문의 정신에 어긋난다 — <em>어떤 정밀도의 CFI인가</em>가 항상 문제다.</li>
+                <li><strong>동적·유연한 제어 흐름과의 충돌:</strong> JIT, 콜백, 예외 처리, 가상 디스패치처럼 목적지가 컴파일 시점에 고정되지 않는 코드는 CFG를 보수적으로 넓힐 수밖에 없어 정밀도가 떨어진다.</li>
+                <li><strong>데이터 무결성은 안 다룬다:</strong> CFI는 제어 흐름만 지킨다. 값·포인터 데이터의 무결성(데이터 지향 공격 방어)은 별개 연구 영역이다.</li>
+                <li><strong>시대적 맥락:</strong> 원판(2005)의 구현·오버헤드 측정은 당시 x86·Itanium 상용 하드웨어 기준이다. 오늘날 Intel CET 같은 하드웨어 지원으로 오버헤드는 크게 줄었지만, "완전한 CFI"와 그 검증은 여전히 활발한 연구 주제다.</li>
+                <li><strong>인용 수 출처:</strong> OpenAlex 1,032회(CCS 2005 원판)·795회(TISSEC 2009 확장판)는 조회 시점 기준이며, 두 판본이 각각 집계되어 세는 방식에 따라 달라질 수 있다. S2는 645회(CCS 2005).</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-book-open"></i> 출처</h2>
+            <ul>
+                <li>논문 원문: Martín Abadi, Mihai Budiu, Úlfar Erlingsson, Jay Ligatti, <em>Control-Flow Integrity: Principles, Implementations, and Applications</em>, <strong>ACM CCS 2005</strong> — <a href="https://dl.acm.org/doi/10.1145/1102120.1102165" target="_blank" rel="noopener">ACM DL</a> · <a href="https://doi.org/10.1145/1102120.1102165" target="_blank" rel="noopener">DOI 10.1145/1102120.1102165</a></li>
+                <li>확장 저널판: <em>Control-flow integrity principles, implementations, and applications</em>, <strong>ACM TISSEC 14(1), 2009</strong> — <a href="https://dl.acm.org/doi/10.1145/1609956.1609960" target="_blank" rel="noopener">ACM DL</a> · <a href="https://doi.org/10.1145/1609956.1609960" target="_blank" rel="noopener">DOI 10.1145/1609956.1609960</a></li>
+                <li>인용 수: <a href="https://api.openalex.org/works/doi:10.1145/1102120.1102165" target="_blank" rel="noopener">OpenAlex (CCS 2005)</a> · <a href="https://api.openalex.org/works/doi:10.1145/1609956.1609960" target="_blank" rel="noopener">OpenAlex (TISSEC 2009)</a></li>
+                <li>함께 읽기:
+                    <ul>
+                        <li>2026-09-09 <a href="security-research-2026-09-09.html">The Geometry of Innocent Flesh on the Bone — W⊕X를 무너뜨린 return-oriented programming</a>: CFI가 답하려 한 바로 그 공격.</li>
+                        <li>2026-10-14 <a href="security-research-2026-10-14.html">Spectre — 추측 실행을 겨눈 마이크로아키텍처 부채널</a>: 코드 재사용을 조이자 공격자가 옮겨간 다음 계층(하드웨어).</li>
+                        <li>2026-09-11 <a href="security-research-2026-09-11.html">Rowhammer — 메모리를 건드리지 않고 비트를 뒤집은 DRAM 교란</a>: 소프트웨어 완화책 바깥의 물리 계층 위협.</li>
+                        <li>2026-09-07 <a href="security-research-2026-09-07.html">Meltdown — 커널 메모리를 읽어낸 추측 실행 부채널</a>: Spectre와 함께 프리프린트로 공개된 자매 논문.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
