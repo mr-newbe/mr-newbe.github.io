@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - YOLOP (HUST·화중과기대, MIR 2022): '세 망을 하나로' — 검출·주행가능영역·차선을 인코더 1 + 디코더 3으로 동시에 뽑아 Jetson TX2에서 23 FPS, BDD100K 세 과제 전부 SOTA (⭐2,249 · MIT · 후속 YOLOPv2 ⭐695)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        code { background: #0b1220; padding: 2px 6px; border-radius: 4px; color: #7dd3fc; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - YOLOP (HUST·화중과기대, MIR 2022): '세 망을 하나로' — 검출·주행가능영역·차선을 인코더 1 + 디코더 3으로 동시에 뽑아 Jetson TX2에서 23 FPS, BDD100K 세 과제 전부 SOTA (⭐2,249 · MIT · 후속 YOLOPv2 ⭐695)</h1>
+            <p class="date">2026-10-16</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>논문(본편):</strong> <em>“YOLOP: You Only Look Once for Panoptic Driving Perception”</em> — arXiv <a href="https://arxiv.org/abs/2108.11250" target="_blank">2108.11250</a>(v1 2021-08-25 · v7 2022-03-26) · <strong>Machine Intelligence Research(MIR) 2022</strong> pp. 1–13(DOI <code>10.1007/s11633-022-1339-y</code>) · 분야 <code>cs.CV</code>. 논문이 던지는 한 줄 문제는 <em>“카메라 영상 한 장에서 교통 객체·주행가능영역·차선을 동시에, 그것도 임베디드 실시간으로 뽑을 수 있는가”</em>다.</li>
+                    <li><strong>저자·소속:</strong> <strong>Dong Wu</strong> · <strong>Manwen Liao</strong> · <strong>Weitian Zhang</strong> · <strong>Xinggang Wang</strong> · <strong>Xiang Bai</strong> · <strong>Wenqing Cheng</strong> · <strong>Wenyu Liu</strong> — School of EIC, <strong>Huazhong University of Science and Technology(HUST, 화중과기대)</strong>. 논문의 실행 환경은 입력 <strong>1280×720 → 640×384</strong> 축소, 실험은 전부 <strong>NVIDIA GTX TITAN XP 1장</strong>에서 수행됐다.</li>
+                    <li><strong>인용(인덱스 명시):</strong> <strong>OpenAlex 464회</strong>(MIR 2022 정간물 레코드) + 정정본(Correction) 5회. 후속·형제 논문은 <strong>OpenAlex 기준</strong> <em>YOLOPv2</em> 51회(arXiv 레코드) · <em>HybridNets</em> 84회, 파생 <em>Q-YOLOP</em>(ICMEW 2023, 양자화 인식 학습) 6회. <em>주의: Crossref 제목 검색은 본편 대신 파생 논문 Q-YOLOP의 DOI(<code>10.1109/icmew59549.2023.00015</code>)를 반환했기 때문에, 이 글의 본편 인용 수치는 OpenAlex 정간물 레코드만 사용했다.</em></li>
+                    <li><strong>공식 저장소:</strong> <a href="https://github.com/hustvl/YOLOP" target="_blank">hustvl/YOLOP</a> — <strong>⭐2,249</strong> · 🍴457 · <strong>MIT</strong> · Python · 생성 <strong>2021-08-25</strong> · 마지막 푸시 <strong>2023-10-20</strong>(README 갱신이 마지막, 사실상 코드 동결) · 릴리스 태그 없음(사전학습 가중치로 배포) · 저장소 토픽: <code>multitask-learning</code> · <code>jetson-tx2</code> · <code>lane-detection</code> · <code>drivable-area-segmentation</code> · <code>object-detection</code>.</li>
+                    <li><strong>계보(3형제):</strong> <a href="https://github.com/CAIC-AD/YOLOPv2" target="_blank">CAIC-AD/YOLOPv2</a>(⭐695 · MIT · 릴리스 V0.0.1 · arXiv <a href="https://arxiv.org/abs/2208.11434" target="_blank">2208.11434</a>, 2022-08-24) · <a href="https://github.com/datvuthanh/HybridNets" target="_blank">datvuthanh/HybridNets</a>(⭐689 · MIT · v1.0 · arXiv <a href="https://arxiv.org/abs/2203.09035" target="_blank">2203.09035</a>, 2022-03-17). 세 저장소 모두 <strong>MIT</strong>라 상용 재사용 제약이 없다 — 3형제가 서로의 비교표에 등장하는 소분야가 바로 <em>panoptic driving perception</em>이다.</li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>YOLOP는 <strong>인코더 하나 + 디코더 셋</strong> 구조의 <em>파노픽(panoptic) 주행 지각망</em>이다. 공유 인코더가 특징을 뽑고, 검출 헤드·주행가능영역 세그멘테이션 헤드·차선 분할 헤드가 <strong>한 번의 forward pass</strong>로 동시에 답을 낸다. 10만 프레임·10개 과제 주석을 가진 BDD100K에서 세 과제 모두 당시 최고 정확도·속도를 주장하며, 저자들은 <em>“이 세 가지 시각 지각 과제를 임베디드 기기(Jetson TX2)에서 동시에 실시간 처리한 첫 사례”</em>라고 못 박는다.</p>
+            <ul>
+                <li><strong>교통 객체 검출:</strong> Recall <strong>89.2%</strong> · mAP50 <strong>76.5</strong> @ <strong>41 FPS</strong> — 비교군은 DLT-Net 89.4/68.4 @9.3 FPS, MultiNet 81.3/60.2 @8.6 FPS, YOLOv5s 86.8/77.2 @82 FPS. mAP50은 YOLOv5s에 0.7 뒤지지만, <em>그 한 번의 추론이 세 과제를 동시에 낸다.</em></li>
+                <li><strong>주행가능영역 세그멘테이션:</strong> mIoU <strong>91.5</strong> @ <strong>41 FPS</strong> — 전용 세그멘테이션망 PSPNet 89.6 @11.1 FPS보다 <strong>1.9 높으면서 3.7배 빠르고</strong>, MultiNet 71.6 · DLT-Net 71.3과는 20점 차이다.</li>
+                <li><strong>차선 검출:</strong> Accuracy <strong>70.50%</strong> · IoU <strong>26.20</strong> @ <strong>41 FPS</strong> — 경량 차선 전용망(ENet 34.12/14.64 @100 FPS · SCNN 35.79/15.84 @19.8 · ENet-SAD 36.56/16.02 @50.6) 대비 정확도가 <strong>두 배</strong>다. IoU 26.2가 낮아 보이는 것은 BDD100K 차선이 2픽셀 폭으로 평가되는 규약 때문이며, 논문도 이 지표를 그대로 인용한다.</li>
+                <li><strong>임베디드 실시간:</strong> 프레임당 <strong>24.4 ms</strong>(GTX TITAN XP, 41 FPS)로, 같은 조건에서 R-CNNP 계열 다중과제망은 103.3 ms/frame에 그친다. Jetson TX2에서는 <strong>23 FPS</strong> — 논문 제목의 ‘실시간’은 데스크톱이 아니라 <em>차량 탑재 보드 숫자</em>다.</li>
+                <li><strong>다중과제 학습이 이긴다(Table 5):</strong> 단독 학습 시 Det(only) Recall 88.2 · mAP 76.9, Seg(only) mIoU 91.6 → 합동 학습 시 <strong>89.2 · 76.5 · 91.5</strong>(차선 Accuracy +0.6). 반면 R-CNNP 계열은 합동 학습에서 성능이 <em>떨어졌다</em>(Recall −1.8 · mAP −4.7 · mIoU −3.4). <em>같은 구조가 아니라 같은 손실 함수 설계가 공유를 가능하게 했다</em>는 것이 이 논문의 실험적 핵심이다.</li>
+                <li><strong>학습 레시피:</strong> Adam(lr 0.001 · β 0.937/0.999) + warm-up·cosine annealing, k-means 앵커, 데이터 증강. 논문은 end-to-end 외에 <strong>단계적 학습 패러다임</strong>(인코더+검출 → 인코더 동결 후 세그멘테이션 헤드 → 전체 합동)까지 실험해 절차를 알고리즘으로 남겼다.</li>
+                <li><strong>후속 YOLOPv2의 가격표:</strong> 파라미터 <strong>7.9M → 38.9M</strong>, 추론 <strong>49 → 91 FPS</strong>(NVIDIA TESLA V100), mAP50 <strong>83.4</strong> · 주행영역 mIoU <strong>93.2</strong> · 차선 Accuracy <strong>87.31</strong> — “이전 SOTA 대비 추론 시간 절반”이 초록의 주장이다. 대신 차선 IoU는 26.20 → 27.25로 거의 그대로, HybridNets(차선 Accuracy 85.40 · IoU 31.60)와는 다른 트레이드오프를 택했다.</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>‘세 망’을 ‘한 망’으로 바꾼 시스템 논문:</strong> L2 ADAS에서 검출·차선·주행영역을 각각 돌리면 지연·전력·비용이 3배가 된다. YOLOP은 그 비용 구조를 한 번의 추론으로 접었고, 그 대가가 <em>임베디드 23 FPS</em>라는 실측 숫자로 남았다. ⭐2,249 · OpenAlex 464회는 정확도가 아니라 <strong>이 시스템적 선택</strong>의 시장 가격이다.</li>
+                <li><strong>임베디드 ADAS의 사실상 기준 구현:</strong> 저장소 토픽 자체가 <code>jetson-tx2</code> · <code>multitask-learning</code> · <code>lane-detection</code> — Jetson 계열 보드로 차선유지·주행가능영역을 실습할 때 가장 먼저 복제되는 참조 구현이다. 차선 축의 <a href="autonomous-2026-09-24.html">Ultra-Fast-Lane-Detection</a>(⭐2.1k, MIT)와 함께, 이 소분야에서 라이선스가 깨끗한 두 축을 이룬다.</li>
+                <li><strong>데이터셋 논문과 구현체의 짝:</strong> <a href="autonomous-2026-10-02.html">BDD100K</a>(10만 영상·1억 프레임, CVPR 2020)가 ‘낮에 배운 모델은 밤에 무너진다’를 정량화한 정답지라면, YOLOP는 그 정답지 위에서 <em>실제로 돌아가는</em> 다중과제망이다. 벤치마크와 구현체를 함께 읽어야 세 과제의 난이도 차이가 보인다 — 검출 89.2 vs 차선 70.5가 그 증거다.</li>
+                <li><strong>파생 생태계:</strong> Q-YOLOP(ICMEW 2023)는 YOLOP을 <em>양자화 인식 학습</em>으로 다시 학습해 임베디드 배포를 겨냥했고, 2024년 서베이 “Panoptic Perception for Autonomous Driving”이 이 계열을 정리했다. HybridNets → YOLOPv2 → YOLOP 3자 비교표는 이후 논문들의 사실상 표준 비교 기준이 됐다.</li>
+                <li><strong>한계도 그대로 기록됨:</strong> 코드는 2023-10-20 이후 동결(PyTorch 버전·CUDA 호환은 사용자 몫), 릴리스 태그도 없다. 그리고 <em>한 망의 실패는 세 과제를 동시에 무너뜨린다</em> — 비·안개에서 DNN 주행망이 무너지는 조건은 <a href="autonomous-2026-10-09.html">DeepTest</a>(ICSE 2018)가 이미 실측으로 보여줬다. 통합의 이득과 통합의 리스크가 같은 구조에서 나온다.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>2026년의 자율주행 담론은 언어·VLA 기반 end-to-end(<a href="autonomous-2026-09-12.html">LMDrive</a> · DriveLM · Alpamayo)와 3D 점유(<a href="autonomous-2026-09-14.html">TPVFormer</a>) 쪽으로 옮겨 갔지만, <em>양산 L2의 카메라 지각은 여전히 이런 경량 다중과제망이 담당한다.</em> YOLOP가 남긴 교훈은 정확도 경쟁이 아니라 <strong>“한 번의 추론으로 몇 개의 과제를 뽑는가”</strong>라는 시스템 설계의 문제다 — Table 5의 결과(합동 학습이 단독 학습을 앞선다)는 오늘날 지각·예측·계획을 한 망으로 합치는 흐름(<a href="autonomous-2026-08-05.html">UniAD</a> · <a href="autonomous-2026-10-06.html">SparseDrive</a>)의 <em>카메라 지각 버전</em>으로 읽을 수 있다. 반대로 <a href="autonomous-2026-08-17.html">BEVFormer</a> · <a href="autonomous-2026-10-08.html">BEVFusion</a> · TPVFormer로 이어지는 3D 인식 계보와 <a href="autonomous-2026-09-21.html">MapTR</a>의 HD맵 생성은 YOLOP가 다루지 않은 축이고, 두 계보는 경쟁이 아니라 역할 분담이다. 640×384 입력 · TITAN XP 41 FPS · Jetson TX2 23 FPS라는 숫자는 2021년 임베디드 현실의 스냅샷이고, 그 위에서 후속(YOLOPv2 91 FPS)과 3D 계열이 갈라져 나갔다. 논문 한 편을 읽는 것보다 <em>README의 파이프라인 하나를 돌려보는 것이 빠르고, 이 저장소는 2026년에도 그대로 돌아간다.</em></p>
+            <p>원문: <a href="https://arxiv.org/abs/2108.11250" target="_blank">https://arxiv.org/abs/2108.11250</a>(YOLOP, MIR 2022) · <a href="https://arxiv.org/abs/2208.11434" target="_blank">https://arxiv.org/abs/2208.11434</a>(YOLOPv2, 2022) · 코드: <a href="https://github.com/hustvl/YOLOP" target="_blank">https://github.com/hustvl/YOLOP</a></p>
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
