@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🖥️ [최신] PAGE404 — MIG로 갈라놓은 GPU인데 '페이지 마이그레이션 카운터'는 함께 쓴다: 8,500bps 은닉 채널 · LLM 지문 94% · 프롬프트 길이 MAE 4.6토큰 (arXiv 2610.20962, 2026)</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style></head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🖥️ [최신] PAGE404 — MIG로 갈라놓은 GPU인데, '페이지 마이그레이션 카운터'는 함께 쓴다</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-17 · 카테고리: Research (최신 보안 논문 · 하드웨어/GPU 보안 · 마이크로아키텍처 부채널 · 클라우드 멀티테넌시 · MIG 격리)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> PAGE404: Breaking GPU Isolation Through Hardware-assisted Page Migration<br>
+                <strong>저자:</strong> Ravan Nazaraliyev · Yicheng Zhang · Nael Abu-Ghazaleh (University of California, Riverside)<br>
+                <strong>출처:</strong> <strong>arXiv:2610.20962</strong> (cs.CR · cs.AR), 2026년 10월 14일 제출 — <a href="https://arxiv.org/abs/2610.20962" target="_blank" rel="noopener">arXiv abs</a> · <a href="https://arxiv.org/html/2610.20962v1" target="_blank" rel="noopener">HTML 전문</a><br>
+                <strong>분야:</strong> GPU 하드웨어 보안 · 통합 메모리(Unified Memory) · <strong>Multi-Instance GPU(MIG) 격리</strong> · 은닉/부채널 · LLM 서빙 프라이버시<br>
+                <strong>인용:</strong> 2026-10-14 제출된 3일짜리 프리프린트로, 인용 집계는 아직 의미 없음(OpenAlex/S2 미등재). 대신 본문에 <strong>피어리뷰 메타리뷰</strong>가 포함되어 있고, 리뷰어들은 "GH200과 그 MIG 격리 프리미티브에 대한 최초의 보안 분석"이라는 점을 수용 사유로 꼽았다.<br>
+                <strong>원문:</strong> <a href="https://arxiv.org/abs/2610.20962" target="_blank" rel="noopener">arXiv:2610.20962</a> · <a href="https://arxiv.org/pdf/2610.20962" target="_blank" rel="noopener">PDF</a>
+            </div>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 한 줄 요약 — "MIG는 연산과 메모리를 갈라놨지만, '누가 이 페이지를 몇 번 읽었나'를 세는 하드웨어는 갈라놓지 않았다"</h2>
+            <p>NVIDIA GH200(Grace Hopper) 슈퍼칩은 CPU와 GPU를 NVLink-C2C로 붙이고, <strong>하드웨어가 직접 페이지를 세고 옮기는</strong> 통합 메모리를 도입했다. GPU가 CPU 메모리의 한 페이지를 반복해서 읽으면, 하드웨어 <em>액세스 카운터</em>가 임계값(기본 256회)에 도달하는 순간 인터럽트를 올리고, UVM 드라이버가 그 페이지를 GPU HBM으로 <strong>마이그레이션</strong>한다. 성능을 위한 기능이다.</p>
+            <p>이 논문은 그 기능이 <strong>테넌트 사이의 정보 통로</strong>가 된다는 것을 보인다. 카운터는 <strong>MIG 파티션 사이에서 공유</strong>되고, 마이그레이션 인터럽트를 처리하는 드라이버 경로도 공유된다. 그래서 공격자는 남의 GPU 안을 들여다보지 않고도 <strong>① 자기 카운터를 밀어내어(eviction) 남의 접근을 감지하고, ② 마이그레이션 지연 시간을 재서 남의 워크로드를 식별</strong>할 수 있다. 격리 경계를 넘는 은닉 채널은 <strong>8,500 bps(오류율 1.5%)</strong>, 마이그레이션 지연 채널은 <strong>8,100 bps(4%)</strong>를 기록했고, 서로 다른 MIG 인스턴스에 있는 <strong>20개 LLM을 94% 정확도로 구분</strong하며 <strong>처리된 토큰 수를 평균 4.6토큰 오차</strong>로 추정했다.</p>
+            <blockquote>
+                "both channels target a GPU-wide shared resource, which makes them exploitable across Multi-Instance GPU (MIG) partitions, breaking the isolation guarantees of MIG." — 논문 1장
+            </blockquote>
+
+            <h2><i class="fa-solid fa-bullseye"></i> 배경 — 왜 GH200의 메모리 관리가 새로운 공격면인가</h2>
+            <ul>
+                <li><strong>UVM의 값비싼 길:</strong> 기존 통합 가상 메모리는 GPU가 CPU 메모리를 건드릴 때마다 페이지 폴트를 내고, UVM 드라이버가 소프트웨어로 페이지를 옮겼다. LLM의 KV 캐시처럼 GPU 메모리를 넘어서는 워크로드에서는 이 오버헤드가 곧 성능이다.</li>
+                <li><strong>GH200의 해법:</strong> 72코어 Arm Grace CPU와 Hopper GPU를 한 모듈에 얹고, <strong>ATS(Address Translation Service)</strong>로 GPU 스레드가 시스템 메모리를 직접 주소 변환해 접근하게 했다. 여기에 <strong>하드웨어 보조 페이지 마이그레이션</strong> — 접근 카운터가 뜨거운 페이지를 자동으로 GPU DRAM으로 승격한다.</li>
+                <li><strong>MIG라는 격리 약속:</strong> 클라우드에서 GH200은 비싸기 때문에 여러 사용자가 나눠 쓴다. 가장 강한 격리는 테넌트마다 <strong>별도 MIG 인스턴스 + 컨테이너</strong>를 주는 것이고, 이때도 <strong>nvidia.ko 드라이버는 공유</strong>된다. 이 논문의 위협 모델은 정확히 이 "최고 수준의 격리" 구성이다. 공격자에게 필요한 것은 <strong>일반 사용자 권한</strong>과 자기 MIG 안에서 CUDA 커널을 돌릴 권한뿐이다.</li>
+                <li><strong>왜 지금인가:</strong> 마이그레이션은 성능 기능이라 문서화가 거의 없다. 저자들은 카운터 회로와 드라이버 인터럽트 파이프라인을 <strong>역공학</strong>해 구조를 밝혀낸 뒤 공격을 설계했다 — CloudLab과 Lambda Cloud의 실제 GH200 노드에서.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-microscope"></i> 핵심 1 — 역공학: 카운터는 8개 세트 × 32개, 2MB 영역마다 하나</h2>
+            <ul>
+                <li><strong>마이그레이션 단위는 64KB:</strong> 스트라이드 접근 실험에서 2MB 가상 영역마다 반복되는 지연 패턴이 나타난다. 카운터가 임계값에 닿으면 64KB 페이지 하나가 옮겨지고, UVM의 트리 기반 프리페처가 형제 노드를 끌어와 <code>1–1–2–4–8–16</code> 페이지로 프리페치가 두 배씩 늘어난다.</li>
+                <li><strong>캐시라인 32바이트:</strong> 스트라이드를 32B 이하로 줄이면 마이그레이션을 트리거하는 데 필요한 접근 수가 두 배가 된다 — 시스템 메모리에 대한 GPU 캐시라인이 32B임을 확인. <code>volatile</code> 로드는 캐시를 우회한다.</li>
+                <li><strong>카운터 풀은 유한하고 공유된다:</strong> 디스터랙터 페이지를 늘려가며 실험하면 <strong>약 360~380개</strong>에서 카운터가 고갈된다. 두 프로세스를 <strong>서로 다른 MIG 인스턴스</strong>에 넣어도 같은 지점에서 무너진다 — 즉 <strong>카운터 하드웨어는 MIG 경계를 넘어 공유</strong>된다(관찰 3).</li>
+                <li><strong>구조:</strong> 전체 256개 카운터가 <strong>8개 세트 × 32개</strong>로 묶여 LRU로 교체되고, 물리 주소 비트 21–38에 대한 XOR 해시 3개로 배정된다. 결과적으로 <strong>2MB 물리 영역 하나가 카운터 하나</strong>에 대응한다. 이 "세트 연관 구조"가 캐시 공격과 똑같은 eviction 놀이를 가능하게 만든다.</li>
+                <li><strong>드라이버 쪽:</strong> 임계값 도달 → 링 버퍼에 알림 기록 + 인터럽트 → top half가 인터럽트를 끄고 작업을 예약 → bottom half가 링 버퍼를 배치로 비우고 → 서비스 단계에서 주소 공간을 찾아 <strong>Copy Engine</strong> 마이그레이션을 걸고 → 카운터를 지우고 인터럽트를 다시 연다. 문제는 이 단계들이 <strong>페이지 폴트 핸들러와 같은 워크큐</strong>를 쓰고, <code>mmap_lock</code>(writer 우선) 같은 락을 공유한다는 점이다. 유휴 상태의 정상 마이그레이션 지연은 <strong>시스템 메모리 접근 20~30회</strong> 분량인데, 경합이 걸리면 이 값이 흔들린다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-bolt"></i> 핵심 2 — 두 개의 누출 경로, 하나는 하드웨어고 하나는 커널 모듈이다</h2>
+            <ul>
+                <li><strong>경로 A · 카운터 세트 경합(하드웨어):</strong> 송신자는 자기 페이지들로 특정 카운터 세트를 밀어내고, 수신자는 자기 페이지를 임계값 직전까지 밀어둔 뒤 마이그레이션이 일어나는지 본다. 밀려났으면 비트 0/1이 뒤집힌다. 카운터 배정이 물리 주소 해시라서 <strong>주소를 모르는 공격자에게는 눈먼 탐색</strong>이 되는 것이 난점인데, 저자들은 GH200 커널의 기본 페이지 크기가 64KB라는 점과 <strong>512MB huge page</strong>가 해시상 256개 카운터 전체를 덮는다는 성질을 이용해 eviction set을 구성하고, huge page 간 세트 ID를 맞추는 동기화 절차를 만든다.</li>
+                <li><strong>경로 B · 마이그레이션 지연(소프트웨어):</strong> 남이 커널을 런치하거나 메모리를 할당/해제하면 드라이버의 워크큐와 락이 붐빈다. 그 순간 공격자의 마이그레이션이 늦어지고, 그 지연의 파형이 곧 남의 실행 프로파일이 된다. 심지어 <strong>피해자가 GPU를 전혀 쓰지 않아도</strong> 된다 — 마이그레이션이 <code>mmap_lock</code>을 잡아야 하므로, CPU 쪽 <code>munmap</code> 같은 연산만으로도 지연이 관측된다.</li>
+                <li><strong>공격 구현의 두 가지 교묘함:</strong> ① <strong>프리페치 우회</strong> — 128KB 스트라이드로 한 페이지 걸러 접근해 트리의 어느 노드도 "절반이 상주" 상태가 되지 않게 만들어, 2MB 영역마다 16개의 마이그레이션 가능 페이지를 확보한다. ② <strong>파괴적 마이그레이션 대응</strong> — 한 번 옮겨진 페이지는 다시 폴트를 내지 않으므로, 매 비트마다 새 페이지로 전진한다. 병렬 256스레드 접근으로 <strong>초당 약 17,000 샘플</strong>을 뽑아낸다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-chart-simple"></i> 핵심 3 — 숫자로 본 결과</h2>
+            <table>
+                <tr><th>공격</th><th>채널</th><th>결과</th></tr>
+                <tr><td>은닉 채널 (eviction 기반)</td><td>하드웨어 카운터 세트</td><td><strong>8,500 bps</strong> @ 오류율 1.5% · eviction set 2개로 <strong>15,500 bps</strong> @ 약 5%</td></tr>
+                <tr><td>은닉 채널 (지연 기반)</td><td>드라이버 인터럽트 경합</td><td><strong>8,100 bps</strong> @ 오류율 4%</td></tr>
+                <tr><td>CUDA 앱 지문</td><td>마이그레이션 지연</td><td>25개 앱, 트레이스 2,500개 → <strong>약 94%</strong> 식별</td></tr>
+                <tr><td>LLM 아키텍처 지문</td><td>마이그레이션 지연</td><td>20개 모델, LightGBM <strong>F1 93.7%</strong> (정확도 최대 94%)</td></tr>
+                <tr><td>클라우드 간 전이</td><td>마이그레이션 지연</td><td>CloudLab(GH200) 학습 → Lambda(GH200, 다른 드라이버/CUDA) 평가 <strong>72%</strong></td></tr>
+                <tr><td>프롬프트 길이 추정</td><td>prefill/decode 경계</td><td>Gemma 3 1B, <strong>R² = 0.92</strong> · MAE <strong>4.6 토큰</strong></td></tr>
+                <tr><td>커널 지문 / 향후 세밀 계측</td><td>카운터 세트</td><td>PolyBench 커널 식별 · 확장 시 피해자 접근 횟수를 <strong>5% 오차</strong>로 정량화 가능</td></tr>
+            </table>
+            <p>특히 마지막 항목이 이 논문의 확장성을 보여준다. 카운터는 <strong>2MB 단위</strong>로 집계되는데 실제 페이지는 64KB라서, 같은 2MB 구간의 여러 페이지가 하나의 카운터를 공유하고 그 상태가 실행 경계를 넘어 유지된다. 공격자는 자기 64KB 페이지로 카운터를 임계값 근처까지 채운 뒤 피해자를 실행시키고, 마이그레이션이 일어날 때까지의 접근 횟수 차이를 재서 <strong>피해자의 접근 횟수를 역산</strong>할 수 있다. 이진 채널이 양적 채널로 바뀌는 지점이다.</p>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 왜 중요한가 — '격리'의 정의가 흔들린다</h2>
+            <ul>
+                <li><strong>MIG의 보장이 하드웨어 수준에서 깨진다:</strong> MIG는 SM·L2 슬라이스·메모리를 물리적으로 쪼개 멀티테넌시를 보장하는 기능으로 팔린다. 그런데 페이지 마이그레이션 카운터와 드라이버 인터럽트 경로는 <strong>GPU 전역 자원</strong>이라 파티션 밖으로 샌다. 컨테이너를 아무리 잘 나눠도 소용이 없다.</li>
+                <li><strong>LLM 서빙에서의 프라이버시:</strong> 어떤 모델을 쓰는지, 프롬프트가 얼마나 긴지는 그 자체로 민감한 정보일 수 있다. 라우터가 질의별로 모델을 고르는 시스템이라면 "어느 모델이 처리했는가"가 곧 질의 내용의 단서가 된다. 저자들이 강조하는 응용이 바로 이것이다.</li>
+                <li><strong>NVIDIA의 반응:</strong> 책임 공개 후 NVIDIA는 findings를 인정했지만 <strong>"보안 이슈로 보지 않는다"</strong>고 답했다 — 누출이 coarse-grained이고, NVLink가 신뢰할 수 없는 테넌트 사이에서 공유되지 않는다는 이유였다. 저자들의 반박은 명확하다. PAGE404는 <strong>물리 NVLink 공유를 전제하지 않으며</strong>, 다중 GH200 구성에서는 드라이버 수준 상호작용과 동시 메모리 관리만으로도 경합이 생긴다.</li>
+                <li><strong>완화책:</strong> 카운터를 MIG 파티션별로 분할하고, 드라이버 경로를 성능 격리하는 것. vGPU가 드라이버 격리를 제공하지만 ARM 플랫폼은 아직 미지원이고, 호스트 vGPU 매니저로 누출이 이동할 가능성도 실험으로 확인해야 한다고 저자들은 남겨두었다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-scale-balanced"></i> 한계와 반론 (메타리뷰가 짚은 것)</h2>
+            <ul>
+                <li><strong>공격의 깊이:</strong> 리뷰어들은 "워크로드 식별·길이 추정"을 넘어 <strong>LLM 입출력 복구나 프롬프트 인젝션으로 이어지는 공격</strong>을 기대했다. 현재 결과는 아키텍처/토큰 수준의 <em>메타데이터 누출</em>이며 내용 복구는 아니다.</li>
+                <li><strong>일반화:</strong> 클라우드 간 전이는 보였지만(72%), <strong>다른 시스템 아키텍처</strong>로 일반화되는지는 미확인. GH200 특유의 64KB 기본 페이지·512MB huge page·드라이버 구조에 상당 부분 의존한다.</li>
+                <li><strong>측정 조건:</strong> 8,500 bps는 오류율 1.5%의 특정 튜닝 조건이고, 15,500 bps는 오류율 5%로 올린 값이다. 대역폭과 신뢰도의 트레이드오프를 함께 읽어야 한다.</li>
+                <li><strong>긍정적인 면:</strong> 은닉 채널 대역폭은 "격리된 테넌트끼리 통신할 수 있다"는 것 자체가 핵심이며, 클라우드 환경에서 co-location을 확보하는 문제는 기존 연구들이 이미 다뤄온 영역이다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-book-open"></i> 출처</h2>
+            <ul>
+                <li>논문: Ravan Nazaraliyev, Yicheng Zhang, Nael Abu-Ghazaleh, <em>PAGE404: Breaking GPU Isolation Through Hardware-assisted Page Migration</em>, <strong>arXiv:2610.20962</strong> (cs.CR, cs.AR), 2026-10-14 — <a href="https://arxiv.org/abs/2610.20962" target="_blank" rel="noopener">arXiv abs</a> · <a href="https://arxiv.org/pdf/2610.20962" target="_blank" rel="noopener">PDF</a> · <a href="https://arxiv.org/html/2610.20962v1" target="_blank" rel="noopener">HTML</a></li>
+                <li>함께 읽기:
+                    <ul>
+                        <li>2026-10-04 <a href="security-research-2026-10-04.html">The Achilles' Heel of Partial Reconfiguration</a>: FPGA 비트스트림 암호화를 광학 부채널로 뚫은 사례 — "하드웨어가 성능을 위해 공유한 자원이 비밀을 흘린다"는 같은 구조.</li>
+                        <li>2026-10-14 <a href="security-research-2026-10-14.html">Spectre — 추측 실행을 겨눈 마이크로아키텍처 부채널</a>: 격리 경계를 넘는 마이크로아키텍처 누출의 고전.</li>
+                        <li>2026-09-11 <a href="security-research-2026-09-11.html">Rowhammer — 메모리를 건드리지 않고 비트를 뒤집은 DRAM 교란</a>: 물리 계층에서 무너지는 무결성 가정.</li>
+                        <li>2026-09-27 <a href="security-research-2026-09-27.html">OllamaDrama — 인증 없는 Ollama API 하니팟</a>: LLM 서빙 스택의 노출면을 본 반대편 사례.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
