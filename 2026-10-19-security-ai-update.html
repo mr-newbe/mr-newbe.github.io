@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-10-19</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        code { background: #0b1220; padding: 1px 5px; border-radius: 4px; color: #7dd3fc; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-10-19 | <i class="fa-solid fa-tags"></i> Daily News, WAF, Zero-Day, Data Breach, Supply Chain, Vulnerability, Patch, Korea Finance</div>
+        <div class="content">
+        <h2>1. [사건] SiteGuard WAF <code>CVE-2026-106931</code> &mdash; &ldquo;통계 기능&rdquo;이 root를 부른다, <strong>150만 사이트</strong>가 대상</h2>
+        <p>일본 WAF 벤더 SiteGuard의 <strong>Server Edition</strong>에서 OS 명령 주입 결함이 실제 공격에 쓰이고 있다. 결함은 <code>CVE-2026-106931</code>, 문제는 <strong>통계(statistics) 기능</strong>에 있으며 <strong>기본 활성화</strong> 상태다. 성공하면 <code>root</code> 또는 Windows <code>SYSTEM</code> 권한으로 명령이 실행된다.</p>
+        <ul>
+            <li><strong>규모:</strong> SiteGuard는 <strong>150만 개 웹사이트</strong>를 보호한다고 밝히는 일본 대표 WAF이며, WordPress.org 통계 기준 <strong>50만 개 사이트</strong>에서 활성 상태다. 벤더 공지와 <strong>JPCERT/CC</strong> 경고 모두 &ldquo;현재 실제 악용이 확인됨&rdquo;이라고 명시했다.</li>
+            <li><strong>영향 버전:</strong> Apache httpd&middot;Nginx&middot;IIS용 2.20 이상 ~ <strong>8.00 Update 5</strong> 미만, FreeBSD용 Apache&middot;Nginx 2.20 이상 ~ <strong>7.00 Update 6</strong> 미만. IIS 에디션 3.10~4.00 Update 4는 영향 없음. 즉 <strong>8년치 버전 대역</strong>이 한 번에 걸린다.</li>
+            <li><strong>운영 함정:</strong> 벤더는 <strong>패치가 공격 흔적을 지울 수 있다</strong>고 경고하며, 업데이트 전에 웹 관리 화면 &rarr; 진단 정보 &rarr; 다운로드로 <strong>증거를 먼저 보존</strong>하라고 안내한다. 사후 포렌식이 불가능해지는 전형적인 순서 문제다. EOL 버전에는 통계 처리 파일만 교체하는 별도 패치가 제공된다.</li>
+            <li><strong>타임라인:</strong> 직접 지원 고객에게는 <strong>9월 29일</strong> 사전 통지, 공개 경고는 10월 중순. 공격자 신원&middot;피해 규모&middot;침해 경로는 벤더&middot;CERT 어디에도 공개되지 않았다.</li>
+            <li><strong>시사점:</strong> WAF는 &ldquo;보호 장비&rdquo;로 분류돼 경계 안쪽에 놓이지만, 실제로는 <strong>인터넷에 노출된 관리 인터페이스와 기본 켜짐 기능</strong>을 가진 서버다. 통계&middot;리포트&middot;대시보드처럼 <em>부가 기능</em>으로 취급된 모듈이 root 경로가 된 사례가 이번에도 반복됐다.</li>
+        </ul>
+        <p>출처: <a href="https://www.bleepingcomputer.com/news/security/hackers-exploit-siteguard-waf-flaw-to-run-commands-as-system-root/" target="_blank">BleepingComputer - Hackers exploit SiteGuard WAF flaw to run commands as admins</a></p>
+
+        <h2>2. [사건] 캘리포니아 학생 <strong>전원</strong>의 기록이 시험위탁사 SFTP에서 &mdash; 5개월 잠복, 2006년까지 거슬러</h2>
+        <p>캘리포니아주 교육부(CDE)가 <strong>10월 16일</strong> 대규모 유출을 공개했다. 침해된 곳은 주 전체 학력평가를 위탁 운영하는 비영리 <strong>ETS(Educational Testing Service)</strong>의 <strong>보안 파일 전송(SFTP) 사이트</strong>다. 공격자는 <strong>탈취한 로그인 자격증명 하나</strong>로 들어와 약 5개월간 파일을 복사했다.</p>
+        <ul>
+            <li><strong>침해 창:</strong> <code>2026-05-22 ~ 09-18</code>, 약 <strong>4개월</strong> 동안 여러 차례 접속. ETS가 이상 행위를 <strong>발견한 것은 9월 25일</strong> &mdash; 즉 <strong>마지막 접속 이후 7일</strong>이 지나서야 인지했다.</li>
+            <li><strong>피해 범위:</strong> 최근 <strong>3년간 캘리포니아 공립학교에 재학한 모든 학생</strong> + <strong>2006년까지 거슬러 올라가는 일부 졸업생</strong>. 약 <strong>700만 명</strong> 규모로 보도됐다.</li>
+            <li><strong>유출 항목:</strong> 이름&middot;주소&middot;생년월일&middot;학생 ID&middot;인구통계&middot;평가 데이터, 그리고 <strong>장애 정보(disability status)</strong>. ETS는 사회보장번호&middot;금융정보&middot;비밀번호&middot;보호자 정보는 접근되지 않았다고 밝혔다. 장애&middot;평가 데이터는 <strong>바꿀 수 없는 정보</strong>라 피해가 오래간다.</li>
+            <li><strong>대응:</strong> SFTP 사이트를 폐쇄하고 <strong>보안 통제를 강화한 새 SFTP를 처음부터 구축</strong>. 주 교육부는 <strong>10월 18일부터</strong> 학생&middot;가정 통지를 시작했다.</li>
+            <li><strong>시사점:</strong> 기관 간 데이터 교환의 <strong>단일 자격증명 SFTP</strong>는 MFA도, 세션 감시도 붙지 않은 경우가 많다. &ldquo;계약사가 뚫리면 원본 기관의 <em>전체 이력</em>이 나간다&rdquo;는 구조 &mdash; 10월 17일 영국 Legal Aid(1978년 기록)와 같은 형태다.</li>
+        </ul>
+        <p>출처: <a href="https://cybernews.com/news/california-student-data-breach-millions-records-ets-hack/" target="_blank">Cybernews - California student data breach exposes millions of records</a> | <a href="https://www.politico.com/news/2026/10/16/hack-exposes-data-on-millions-of-california-students-01124018" target="_blank">POLITICO - Hack exposes data on millions of California students</a> | <a href="https://www.reuters.com/world/us/hacker-gets-data-millions-california-students-state-education-department-says-2026-10-17/" target="_blank">Reuters - Hacker gets data on millions of California students</a></p>
+
+        <h2>3. [사건] ConnectWise, Cloud Backup <strong>서비스 전면 중단</strong> &mdash; 앱 ID 7개 폐기, &ldquo;백업은 지금 복구할 수 없다&rdquo;</h2>
+        <p>어제 다룬 ConnectWise 사건이 <strong>통제 단계로 넘어갔다</strong>. ConnectWise는 10월 17일 07:00 UTC에 <strong>애플리케이션 ID 7개를 비활성화</strong>하고 <strong>Cloud Backup 서비스를 중단</strong>했다. 백업&middot;복구 기능이 <strong>현재 작동하지 않는다</strong>.</p>
+        <ul>
+            <li><strong>폐기된 ID:</strong> Cloud Backup 자체 외에 <strong>Cloud Management</strong>와 그 하위 <strong>MS Teams&middot;Exchange Online&middot;MS Graph&middot;Partner Center&middot;SharePoint Online</strong> 커넥터가 모두 포함됐다. 백업 앱 하나가 아니라 <strong>MSP 관리면 전체</strong>를 내린 것이다.</li>
+            <li><strong>인증서 폐기:</strong> 영향받은 앱 연결에 쓰인 <strong>인증서를 전면 폐기</strong>해 신규 인증을 차단했다. 단 벤더는 &ldquo;<strong>이미 발급된 액세스 토큰은 만료 전까지 유효</strong>&rdquo;하며, &ldquo;연결 차단은 테넌트 안에서 이미 이루어진 변경을 되돌리지 않는다&rdquo;고 명시했다.</li>
+            <li><strong>서비스 상태:</strong> 예약 백업 중단, 영향받은 아카이브 열람&middot;복구 불가. 기존 아카이브는 <strong>암호화&middot;격리&middot;보존</strong> 상태이며 유출 증거는 없다고 밝혔다. SaaS Security&middot;Cloud Management도 예방적으로 오프라인.</li>
+            <li><strong>타임라인:</strong> <strong>10월 14일</strong> 자체 모니터링으로 탐지 &rarr; 조사 착수 &rarr; <strong>10월 17일</strong> 자격증명 폐기. 자격증명이 <em>어떻게</em> 새었는지는 아직 &ldquo;진행 중인 분석&rdquo;이며 제품 취약점 여부도 미확정이다.</li>
+            <li><strong>시사점:</strong> 앱 자격증명 사고의 종료 조건은 <strong>① 앱 비활성화 ② 시크릿&middot;인증서 폐기 ③ 테넌트 내 권한 변경 전수 재검토</strong> 세 가지다. 3번이 빠지면 공격자가 만들어 둔 <em>다른</em> 앱&middot;서비스 주체가 남는다. 그리고 백업이 멈추면 <strong>가용성 사고가 2차로 시작된다</strong>.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/connectwise-suspends-cloud-backup-after.html" target="_blank">The Hacker News - ConnectWise Suspends Cloud Backup After Attackers Compromise Microsoft 365 Tenants</a></p>
+
+        <h2>4. [사건] 러시아 경찰, DataSuckers 3명 검거 &mdash; 단서는 &ldquo;자기 IP를 노출한 것&rdquo;</h2>
+        <p>모스크바 경찰이 러시아&middot;우크라이나 기업을 상대로 한 <strong>DataSuckers</strong> 조직원 3명을 검거했다. 계기는 피자 체인 <strong>Dodo Pizza</strong> 침해 &mdash; <strong>15년치 수억 건 주문 기록</strong>이 유출된 사건이다.</p>
+        <ul>
+            <li><strong>인물:</strong> 19세 <strong>Denis Fridman</strong>이 12월 8일까지 가택연금. 조직은 4인으로, 2명 추가 구금&middot;1명 도주. 국적은 러시아&middot;카자흐스탄&middot;벨라루스.</li>
+            <li><strong>침해 경로:</strong> <strong>Dodo Pizza의 기업 자격증명이 GitHub에 노출</strong>돼 있었고, 이를 이용해 클라우드 스토리지&middot;데이터베이스&middot;저장된 비밀번호까지 연결 시스템으로 확장했다. 코드 저장소에 남은 <strong>운영 자격증명</strong>이 시작점이었다.</li>
+            <li><strong>검거 단서:</strong> Fridman이 훔친 데이터에 접속하다 <strong>자기 실제 IP를 노출</strong>했고, 경찰이 바르나울 자택까지 추적했다. 유출 DB는 다크웹에서 <strong>10만 달러</strong>에 팔렸고 대금은 공유 지갑으로 이동, 체포 후 지갑 비밀번호가 바뀌었다.</li>
+            <li><strong>시사점:</strong> 이 사건의 교훈은 두 개다. ① <strong>GitHub 시크릿 스캔</strong>은 여전히 가장 값싼 방어선이다. ② 같은 조직이 <strong>러시아 국내 기업</strong>까지 털자 러시아 당국이 움직였다 &mdash; &ldquo;표적이 자국이 되기 전까지는 수사하지 않는다&rdquo;는 패턴이 다시 확인됐다. Recorded Future는 사건 경위를 독립적으로 검증하지 못했다고 밝혔다.</li>
+        </ul>
+        <p>출처: <a href="https://therecord.media/russia-datasuckers-hackers-arrested" target="_blank">The Record - Moscow police detain suspected DataSuckers hackers linked to breaches in Ukraine and Russia</a></p>
+
+        <h2>5. [취약점] Vanus <code>CVE-2026-111998</code> (9.8) &mdash; <strong>코드에 박혀 있는 관리자 토큰</strong>으로 클러스터 장악</h2>
+        <p>이벤트버스 플랫폼 <strong>Vanus 0.8.0~0.9.0</strong>에 <strong>하드코딩된 기본 관리자 토큰</strong>이 있다. 인증 없이 그 토큰을 <strong>게이트웨이 gRPC 프록시 포트</strong>에 보내면 <strong>cluster-admin</strong> 권한을 얻는다. CVSS 3.1 <strong>9.8</strong>(4.0은 9.3), NVD 게시 <strong>10월 18일</strong>.</p>
+        <ul>
+            <li><strong>할 수 있는 일:</strong> 네임스페이스&middot;이벤트버스&middot;사용자&middot;토큰&middot;<strong>역할 바인딩 관리</strong>, 이벤트 읽기&middot;발행. 즉 <strong>클러스터의 권한 체계 자체를 다시 쓸 수 있다</strong>.</li>
+            <li><strong>근거:</strong> 값은 <code>internal/primitive/constants.go</code>에 상수로 존재하고, 테넌트 컨트롤러가 이를 그대로 신뢰한다(<code>controller.go#L449-L500</code>). 이슈 <code>#647</code>과 VulnCheck 권고로 공개됐다. <strong>설정 오류가 아니라 소스 코드에 있는 비밀</strong>이다.</li>
+            <li><strong>같은 날 NVD 크리티컬:</strong> <code>CVE-2026-110372</code> <strong>9.8</strong> OttoKit &le;1.1.40 &mdash; 잘못된 권한 부여로 <strong>권한 상승</strong> / <code>CVE-2026-110886</code> <strong>9.8</strong> Conversational Forms for ChatBot &le;1.5.1 &mdash; 신뢰할 수 없는 데이터 역직렬화로 <strong>객체 주입</strong> / <code>CVE-2026-109894</code> <strong>9.3</strong> Booktics &le;1.0.29 &mdash; SQL 주입.</li>
+            <li><strong>시사점:</strong> 세 결함의 공통점은 &ldquo;인증을 우회했다&rdquo;가 아니라 <strong>인증이 애초에 의미 없게 설계됐다</strong>는 점이다. 상수로 박힌 토큰, 역할을 그대로 복사하는 핸들러, 직렬화 문법을 걸러내지 않는 살균 함수 &mdash; 스캐너가 &ldquo;취약&rdquo;으로 표시하기 어려운 <strong>설계 결함</strong> 계열이다.</li>
+        </ul>
+        <p>출처: <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-111998" target="_blank">NVD - CVE-2026-111998</a> | <a href="https://www.vulncheck.com/advisories/vanus-0.8.0-through-0.9.0-default-admin-credentials-via-gateway" target="_blank">VulnCheck - Vanus Default Admin Credentials via Gateway</a></p>
+
+        <h2>6. [취약점] FreeRDP 3.32.0 미만 &mdash; <strong>악성 RDP 서버</strong>가 클라이언트 메모리를 덮어쓴다 (8.8 &times; 2)</h2>
+        <p>오픈소스 RDP 클라이언트 <strong>FreeRDP</strong>에서 클라이언트 측 결함 2건이 나왔다. 둘 다 <strong>8.8</strong>, 원격 코드 실행은 아니지만 <strong>클라이언트 프로세스 메모리 손상</strong>으로 이어진다. 공격자는 <em>접속 대상 서버</em>다.</p>
+        <ul>
+            <li><code>CVE-2026-111382</code> &mdash; <code>general_LumaToYUV444</code>&middot;<code>general_ChromaV2ToYUV444</code>에서 <strong>힙 기반 범위 초과 쓰기</strong>. 악성 서버가 <strong>RDPGFX AVC444/AVC444v2 프레임</strong>을 홀수 높이로 보내 경계를 넘긴다.</li>
+            <li><code>CVE-2026-111380</code> &mdash; Apple 오디오 입력 백엔드(<code>audin_mac.m</code>&middot;<code>audin_ios.m</code>)에서 <strong>정수 오버플로</strong>. <code>FramesPerPacket * 2 * nChannels</code>를 <strong>UINT32</strong>로 계산해 버퍼 크기가 넘친다. macOS&middot;iOS 클라이언트가 대상.</li>
+            <li><strong>주목할 점:</strong> 111380은 <strong>직전 수정 <code>CVE-2026-91962</code>를 우회</strong>한다. 같은 계산식의 다른 지점을 고치지 않았기 때문이다. <strong>패치가 패치를 부르는 전형</strong>이고, 그래서 &ldquo;고정 버전 3.32.0 이상&rdquo;을 확인하는 것이 유일한 판정법이다.</li>
+            <li><strong>시사점:</strong> RDP는 &ldquo;서버가 위험하다&rdquo;는 인식이 강하지만, <strong>클라이언트도 공격면</strong>이다. 계정 탈취 없이 <em>접속만 유도</em>하면 되므로 피싱&middot;악성 .rdp 파일과 결합하기 쉽다.</li>
+        </ul>
+        <p>출처: <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-111382" target="_blank">NVD - CVE-2026-111382</a> | <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-111380" target="_blank">NVD - CVE-2026-111380</a></p>
+
+        <h2>7. [취약점] 오늘 게시된 NVD 크리티컬 &mdash; <strong>WordPress 권한 상승 2건</strong>과 즉시 패치 가능한 것들</h2>
+        <p>10월 18일 NVD에는 <strong>9.8급 2건</strong>이 추가로 올라왔다. 둘 다 &ldquo;관리자 계정을 훔치는&rdquo; 대신 <strong>관리자 역할을 부여받는</strong> 유형이라, 침해 후 흔적이 로그인 기록에 남지 않는다.</p>
+        <ul>
+            <li><code>CVE-2026-109515</code> <strong>9.8</strong> &mdash; MailOptin &le;1.2.78.6, <code>subscribe_to_</code> 계열 처리에서 <strong>권한 상승</strong>. 구독 폼 하나로 관리자 권한.</li>
+            <li><code>CVE-2026-109219</code> <strong>9.8</strong> &mdash; Mang Board &le;2.4.4, <code>mbw_file_upload</code>에서 <strong>확장자 검증 누락 &rarr; 임의 파일 업로드</strong>.</li>
+            <li><code>CVE-2026-107436</code> <strong>8.8</strong> &mdash; Strong Testimonials &le;3.3.12 역직렬화 <strong>객체 주입</strong>. <code>CVE-2026-110015</code> <strong>8.8</strong> &mdash; Salon Booking &lt;10.31.9, REST API에서 <strong>코어 nonce 검사를 버리고</strong> 쿠키 인증 세션 전체를 신뢰.</li>
+            <li><strong>운영 메모:</strong> 10월 16일&middot;18일 글에서 다룬 WordPress 물결(LearnPress&middot;User Rights Access Manager&middot;10Web Booster)과 <strong>다른 CVE</strong>다. 플러그인 재고 조사는 &ldquo;설치된 것&rdquo;이 아니라 <strong>버전 표</strong>로 해야 한다 &mdash; 같은 플러그인이 주마다 새 CVE를 받고 있다.</li>
+        </ul>
+        <p>출처: <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-109515" target="_blank">NVD - CVE-2026-109515</a> | <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-109219" target="_blank">NVD - CVE-2026-109219</a> | <a href="https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2026-110015" target="_blank">NVD - CVE-2026-110015</a></p>
+
+        <h2>8. [패치] <strong>오늘이 KEV 마감</strong> &mdash; BeyondTrust&middot;Fortinet D-day, 그리고 Windows Server 2022의 조용한 전환</h2>
+        <p>CISA KEV 카탈로그(총 <strong>1,748건</strong>)에서 <strong>오늘(10월 19일) 마감</strong>인 항목은 두 건이다. 10월 16일 등록분으로, 어제 글에서 &ldquo;내일 마감&rdquo;으로 예고했던 그 두 건이다.</p>
+        <ul>
+            <li><code>CVE-2026-102764</code> <strong>BeyondTrust Remote Support</strong> (CVSS 9.3) &mdash; 내부 메시징 컴포넌트의 <strong>origin 검증 결함</strong>. 중국 연계 <strong>Armory Castle</strong>이 8월 말 제로데이로 악용해 원격 지원 서버를 장악했다. 인증 우회&middot;스푸핑으로 어플라이언스 파일 조작이 가능하다.</li>
+            <li><code>CVE-2025-61624</code> <strong>Fortinet</strong> (CVSS 6.0) &mdash; FortiOS&middot;FortiPAM&middot;FortiProxy&middot;FortiSwitchManager <strong>경로 순회</strong>. 점수는 낮지만 <strong>관리자 프로필 인증만 있으면</strong> 임의 파일 쓰기&middot;삭제가 되어 설정 변조로 이어진다. KEV 등재는 &ldquo;실제 악용&rdquo; 신호다.</li>
+            <li><strong>수명주기:</strong> <strong>Windows Server 2022</strong>가 10월 13일부로 <strong>주류 지원 종료</strong>, 연장 지원으로 전환됐다(보안 업데이트는 <strong>2031-10-14</strong>까지). Azure Edition 핫패치는 2027년 10월까지 연장. 10월 보안 업데이트가 <strong>마지막 주류 지원 업데이트</strong>다.</li>
+            <li><strong>실무 판정:</strong> KEV와 NVD가 어긋나는 항목이 여전히 있다(10월 18일 Atlassian <code>CVE-2026-21589</code>는 KEV 마감 당일인데 NVD는 <em>Rejected</em>). <strong>KEV를 우선하고 벤더 권고로 버전을 확정</strong>하는 규칙을 유지해야 한다. 자산 스캐너가 NVD 상태만 보면 이 항목을 조용히 목록에서 뺀다.</li>
+        </ul>
+        <p>출처: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA - Known Exploited Vulnerabilities Catalog</a> | <a href="https://www.securityweek.com/chinese-apt-exploited-beyondtrust-vulnerability-as-zero-day/" target="_blank">SecurityWeek - Chinese APT Exploited BeyondTrust Vulnerability as Zero-Day</a> | <a href="https://www.bleepingcomputer.com/news/microsoft/microsoft-windows-server-2022-reached-end-of-mainstream-support/" target="_blank">BleepingComputer - Microsoft: Windows Server 2022 reached end of mainstream support</a></p>
+
+        <h2>9. [트렌드] 국내 금융권 &ldquo;AI 해킹&rdquo; &mdash; <strong>16개사 10만 건</strong>, 555개사 점검에 <strong>130개사 &lsquo;미흡&rsquo;</strong></h2>
+        <p>금융위원회가 10월 14일 &lsquo;제2차 긴급 상황대응 회의&rsquo;를 열고 침해사고 조사 경과를 발표했다. 신한은행 사고를 전후로 <strong>은행&middot;저축은행&middot;상호금융 등 전 업권 16개사</strong>가 침해를 겪었고, 유출된 개인정보는 약 <strong>10만 건</strong>이다.</p>
+        <ul>
+            <li><strong>업권별:</strong> 은행 4곳(신한&middot;KB국민&middot;BNK부산&middot;하나), 저축은행 4곳(예가람&middot;웰컴&middot;DB&middot;OK), 여기에 <strong>가상자산 거래소(고팍스 등)</strong>가 합류하며 피해가 업권 밖으로 번졌다. 유출 항목은 성명&middot;연락처&middot;주민등록번호&middot;이메일이며, <strong>계좌번호&middot;카드번호는 제외</strong>됐다.</li>
+            <li><strong>점검 결과가 더 문제다:</strong> 전 금융권 <strong>555개사</strong>를 12개 항목 체크리스트로 긴급 점검한 결과 <strong>130개사가 &lsquo;미흡&rsquo;</strong>. 지적 사항은 <strong>최신 보안패치 미적용</strong>, <strong>EOS(제조사 지원 종료) 시스템 방치</strong>, <strong>24시간 관제 미구축</strong>, <strong>외부 접속 다중인증 누락</strong>이다. 전자금융업&middot;온라인투자연계금융업에서 집중됐다.</li>
+            <li><strong>제도 변화:</strong> 대형사 취약점 점검 주기를 <strong>연 1회 &rarr; 연 2회 이상</strong>, 수시 점검 근거 신설, <strong>CEO&middot;CISO 책임 명확화</strong>, 위협정보를 통합관제(FIRST)로 전 금융권 즉시 공유, 중소형사용 <strong>AI 기반 공동 관제</strong> 검토. 금융위는 &ldquo;AI 공격은 AI로 방어&rdquo;라며 <strong>망분리 규제 완화</strong>까지 언급했다.</li>
+            <li><strong>시사점:</strong> 사고의 본질은 &ldquo;AI가 뚫었다&rdquo;가 아니라 <strong>기본 통제가 비어 있었다</strong>는 점이다. 패치&middot;EOS&middot;MFA&middot;관제 네 가지는 AI 이전부터 있던 항목이다. 동시에 &ldquo;AI 방어를 위해 망분리를 푼다&rdquo;는 방향 전환은 <strong>공격면을 넓히는 대가</strong>를 어떻게 계산할지 묻는다 &mdash; 규제 완화와 통제 강화를 같은 회의에서 결정하는 전형적인 딜레마다.</li>
+        </ul>
+        <p>출처: <a href="https://biz.newdaily.co.kr/site/data/html/2026/10/14/2026101400320.html" target="_blank">뉴데일리 - 금융권 해킹 16개사&middot;정보유출 10만건, 555곳 점검했더니 130곳 보안 허술</a> | <a href="https://www.chosun.com/economy/economy_general/2026/10/14/6XJYIOFTPBHYNN2XPQKIF4WG3M/" target="_blank">조선일보 - 은행 넘어 가상자산업체까지, 금융권 AI 해킹 피해 16곳으로 확대</a></p>
+
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
