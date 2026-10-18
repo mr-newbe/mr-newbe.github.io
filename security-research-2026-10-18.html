@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧮 [최신] Reaction Attack on CKKS (arXiv 2610.21127, IEEE S&P 2027) — 수학은 멀쩡한데 클라이언트의 '유효/무효' 1비트가 비밀키를 넘긴다: N+|S| 질의로 100% 복구 · 엔트로피 하한의 1.05배</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style></head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧮 [최신] Reaction Attack on CKKS — 동형암호 수학은 멀쩡한데, '유효/무효' 한 비트가 비밀키를 넘긴다</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-18 · 카테고리: Research (최신 보안 논문 · 동형암호 FHE/CKKS · 프로토콜 레벨 부채널 · 반응(Reaction) 공격 · 격자 암호 분석)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Reaction Attack on CKKS Deployments with Asymptotically Optimal Query Complexity<br>
+                <strong>저자:</strong> Song Bian (Beihang University) · Hyeongmin Choe (University of Luxembourg) · Jiseung Kim (Jeonbuk National University) · Changmin Lee (Korea University, 교신저자)<br>
+                <strong>출처:</strong> <strong>arXiv:2610.21127</strong> (cs.CR), 2026년 10월 15일 제출 · <strong>IEEE Symposium on Security and Privacy 2027 채택</strong> — <a href="https://arxiv.org/abs/2610.21127" target="_blank" rel="noopener">arXiv abs</a> · <a href="https://arxiv.org/pdf/2610.21127" target="_blank" rel="noopener">PDF</a><br>
+                <strong>분야:</strong> 완전동형암호(FHE) · CKKS 근사 산술 · 계수→슬롯(C2S) 변환 · <strong>프로토콜 레벨 반응 누출</strong> · LLL 격자 기저 축소<br>
+                <strong>인용:</strong> 제출 3일 된 프리프린트라 인용 집계는 아직 무의미(OpenAlex 0회, Semantic Scholar 429) — 대신 <strong>IEEE S&amp;P 2027 채택</strong>과 <strong>Lattigo v6.2.0 전체 구현·재현 아티팩트 공개</strong>가 이 논문의 무게를 대신한다.<br>
+                <strong>아티팩트:</strong> <a href="https://github.com/JiseungKim90/reaction-attack" target="_blank" rel="noopener">JiseungKim90/reaction-attack</a> (Go 1.24 · MIT · Lattigo v6.2.0 기반, 2026-10-06 최종 푸시)<br>
+                <strong>원문:</strong> <a href="https://arxiv.org/abs/2610.21127" target="_blank" rel="noopener">arXiv:2610.21127</a> · <a href="https://arxiv.org/pdf/2610.21127" target="_blank" rel="noopener">PDF</a>
+            </div>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 한 줄 요약 — "RLWE도 IND-CPA도 깨지지 않았다. 깨진 것은 '클라이언트가 결과를 검사하고 반응한다'는 평범한 습관이다"</h2>
+            <p>CKKS는 실수·복소수 벡터를 암호화한 채로 연산하는 동형암호다. 클라이언트는 서버가 돌려준 암호문을 복호화·디코딩한 뒤, 값이 허용 범위를 벗어나면 <strong>재요청하거나 중단</strong>한다. 이 논문은 그 <strong>1비트짜리 반응(valid / invalid)</strong>만 보고도 CKKS의 비밀키 전체를 되찾을 수 있음을 보인다. 열쇠는 두 가지 공개 자료뿐이다 — <strong>공개 암호화 키</strong>와 부트스트래핑·계수↔슬롯 변환에 쓰이는 <strong>공개 회전키(Galois keys)</strong>.</p>
+            <p>공격은 놀랄 만큼 단순하다. 공개키를 <code>(a, b)</code>에서 <code>(a − Δ, b)</code>로 <strong>Δ만큼 밀면</strong>, 이 암호문은 비밀키 없이도 <strong>평문이 Δ·s + e가 된다</strong>. 여기에 공개 C2S 변환을 한 번 적용해 비밀키 계수 하나를 슬롯 하나에 정확히 옮긴 뒤, 위상 마스크를 곱해 "이 계수가 0인가?"만 물으면 클라이언트의 유효/무효 응답이 곧 <strong>비밀키 계수 하나에 대한 1비트 오라클</strong>이 된다. 계수 N개를 훑어 지지집합(support)을 찾고, 0이 아닌 |S|개에 대해 부호를 한 번씩 더 물으면 끝 — 총 <strong>N + |S| ≤ 2N</strong> 질의, <strong>복구율 100%</strong>.</p>
+            <blockquote>
+                "The attack does not break RLWE or CKKS IND-CPA security. Instead, it exploits the interaction between client-side validity reactions and public homomorphic linear transformations." — 초록
+            </blockquote>
+
+            <h2><i class="fa-solid fa-bullseye"></i> 배경 — 왜 '검사하는 클라이언트'가 새로운 공격면인가</h2>
+            <ul>
+                <li><strong>위협 모델이 IND-CCA도 IND-CPAD도 아니다:</strong> 기존 IND-CPAD 연구는 공격자에게 <em>정당한</em> 암호문(정직한 암호화·평가의 출력)만 준다. 이 논문의 공격자는 <strong>임의로 조작한 암호문</strong>을 복호화시키고, 그 결과에 따른 <strong>외부 관찰 가능한 반응</strong>을 본다. 두 모델 사이의 빈틈을 겨냥한다.</li>
+                <li><strong>공격이 성립하는 세 조건(논문 3.1절):</strong> ① 클라이언트가 평가자가 준 암호문을 복호화·디코딩하고, ② 디코딩된 슬롯에 응용 수준의 허용 범위 검사(예: <code>‖slots‖∞ ≤ 1</code>)를 적용하며, ③ 그 결과가 재시도·중단·에러·다음 라운드 메시지처럼 <strong>서버가 볼 수 있는 행동</strong>을 바꾼다. 셋이 동시에 성립할 때만 반응 오라클이 생긴다.</li>
+                <li><strong>실제로 흔한 구성:</strong> 암호화 추론에서 로짓을 복호화해 범위 위반을 '잘못된 응답'으로 처리하는 워크플로, 복호화 값을 공개 후속 계산의 입력으로 쓰는 프로토콜, 그리고 이미 명시적 valid/invalid 응답을 모델링한 선행 연구들의 배포 형태.</li>
+                <li><strong>왜 지금까지 안 알려졌나:</strong> TFHE·BGV/BFV에 대한 반응 공격은 있었지만, CKKS는 부트스트래핑 키가 비밀키의 암호문을 공개하지 않는다. 그래서 "계수별 누출"이 불가능하다고 여겨졌다. 이 논문은 그 장애물을 <strong>공개 C2S 변환</strong>으로 우회한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-microscope"></i> 핵심 1 — 공개키를 Δ만큼 밀면, 비밀키가 평문이 된다</h2>
+            <ul>
+                <li><strong>오프라인 1단계(키 시프트):</strong> 공개키 <code>pk = (a, b = a·s + e)</code>에서 <code>ct(1) := (a − Δ, b)</code>를 만든다. 복호화하면 <code>b − (a − Δ)·s = Δ·s + e (mod q)</code>. <strong>비밀키를 전혀 쓰지 않고</strong>, 정상적인 CKKS 암호문 형식을 유지한 채 비밀키 다항식이 그대로 평문 자리에 들어온다.</li>
+                <li><strong>오프라인 2단계(C2S 국소화):</strong> 공개 회전키로 정규화 C2S 변환 <code>C2S_Δ</code>를 적용하면, 실수부 암호문의 k번째 슬롯에 <code>s_k</code>, 허수부의 k번째 슬롯에 <code>s_{k+N/2}</code>가 (슬롯 잡음 ≪ τ 범위로) 놓인다. 전형적 분해에서 곱셈 레벨 3~4단을 소모하며, <strong>회전키만 있으면</strong> 된다 — 부트스트래핑 전용 키 묶음이 아니어도, 소수 개의 키로도 충분하다.</li>
+                <li><strong>슬롯 마진 분석(Theorem 3.1):</strong> 이 공격의 진짜 기술적 기여는 "신호는 임계값을 넘고 잡음은 넘지 않는다"를 <strong>계수 영역과 슬롯 영역 사이의 노름 경계</strong>로 증명한 것이다. 측정된 C2S 잡음은 (12,35,30)에서 <code>≤ 2^-12.7</code>, (16,55,50)에서 <code>≤ 2^-32.0</code>이었고, 진폭 α=4일 때 마진 항은 <code>≤ 2^-10.7 ≪ τ = 1</code> — 여유가 크다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-bolt"></i> 핵심 2 — 한 계수씩 캐묻기: support N번 + sign |S|번</h2>
+            <ul>
+                <li><strong>Phase 1 · support (N회):</strong> 슬롯 k만 α로 채운 원-핫 마스크 <code>π(k,α)</code>를 국소화된 암호문에 곱한다. 대상 계수가 0이면 슬롯에는 <strong>잡음만</strong> 남아 <code>‖·‖∞ &lt; τ</code> → 클라이언트는 <strong>valid</strong>. 계수가 ±1이면 크기 α의 신호가 서서 <code>&gt; τ</code> → <strong>invalid</strong>. 즉 질의 하나가 "이 계수가 0인가?"에 대한 정확한 답이 된다. k와 β∈{R,I}를 모두 훑으면 정확히 N번.</li>
+                <li><strong>Phase 2 · sign (|S|회):</strong> 0이 아님이 확인된 계수에 대해, 마스크를 한 번 더 <strong>빼면</strong> 슬롯 신호가 <code>α(s−1)</code>이 된다. s=+1이면 0(valid), s=−1이면 −2α(invalid). 부호가 한 번에 갈린다.</li>
+                <li><strong>재사용 필터를 무력화:</strong> 매 질의마다 <strong>새로운 영(0) 암호화</strong>를 더해 재무작위화한다. 제출되는 암호문은 RLWE 가정 아래 새 암호문과 계산적으로 구분 불가능하고, 질의 간 상관도 없다. "고정 암호문을 조금씩 변형하는 패턴"을 잡는 방어가 통하지 않는다.</li>
+                <li><strong>부호화 키도 필요 없다:</strong> 모든 질의의 곱셈은 평문 마스크와의 곱이라 relinearization key가 필요 없다. 공격 표면이 더 좁아진다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-chart-simple"></i> 핵심 3 — 숫자로 본 결과 (Lattigo v6.2.0, 단일 스레드)</h2>
+            <table>
+                <tr><th>(log N, log q0, log Δ)</th><th>평균 질의 수</th><th>엔트로피 하한 대비</th><th>End-to-End 시간</th></tr>
+                <tr><td>(12, 35, 30)</td><td>6,832</td><td>1.052×</td><td>30.0초</td></tr>
+                <tr><td>(12, 37, 32)</td><td>6,826</td><td>1.051×</td><td>30.1초</td></tr>
+                <tr><td>(14, 45, 40)</td><td>27,313</td><td>1.052×</td><td>506초 (8.4분)</td></tr>
+                <tr><td>(16, 55, 50)</td><td>109,232</td><td>1.052×</td><td>8,529초 (142분)</td></tr>
+                <tr><td>(16, 60, 58)</td><td>109,219</td><td>1.051×</td><td>68,408초 (5회 동시 실행)</td></tr>
+            </table>
+            <ul>
+                <li><strong>100% 복구, 예외 없음:</strong> 160회 실행·총 <strong>300만 회 이상</strong>의 오라클 질의에서 모든 계수를 정확히 복구했고, 반응 오라클의 오탐/미탐은 0이었다. 질의 수는 이론값 <code>N + |S| ≈ 1.667N</code>을 그대로 따라간다.</li>
+                <li><strong>하한에 거의 붙었다:</strong> 균등 삼진 키의 평균 엔트로피 <code>H₂/₃(s) ≈ 1.585N</code> 대비 <strong>1.05배</strong>. 즉 "정보이론적으로 가능한 최소 질의 수"의 5% 이내다. 초록의 <code>O(H)</code> 주장이 실측으로 확인된 셈.</li>
+                <li><strong>키 분포를 바꿔도:</strong> 고정 해밍웨이트(h ∈ {128,192,256}), Bernoulli 희소(p ∈ {1/3,1/2,2/3,0.9}), 절단 이산 가우시안(σ=3.2, S=20)까지 <strong>515회 전부 복구</strong>. Bernoulli p=1/2는 하한 대비 <strong>1.000배</strong>로 사실상 tight.</li>
+                <li><strong>희소 키는 더 빠르다:</strong> 이분 기반 교집합 탐색으로 support를 <code>O(h log(N/h))</code>에 찾고, 남은 부호는 <strong>2h+1 차원 LLL</strong>로 푼다. (log N, h) = (16,128)에서 <strong>1,801 질의</strong> — 기준 공격의 65,664 질의 대비 <strong>36배</strong> 감소. LLL 시간은 h=32에서 0.4초, h=64에서 3.3초, h=128에서 25분.</li>
+                <li><strong>남은 격자 난이도:</strong> Lattice Estimator 기준 축소된 인스턴스의 비트 비용은 h=32에서 <strong>33.1비트</strong>, h=1,024에서 43.2비트 — 표준 <strong>128비트 보안에 한참 못 미친다</strong>. "질의 수는 최적이지만 마지막 격자 문제는 원래 약했다"는 점이 이 공격을 실용적으로 만든다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 왜 중요한가 — '암호가 안전하다'와 '배포가 안전하다'는 다른 말이다</h2>
+            <ul>
+                <li><strong>프리미티브는 무죄:</strong> RLWE도, CKKS의 IND-CPA도 깨지지 않았다. 무너진 것은 <strong>프로토콜 계층</strong> — 복호화 결과를 검사하고 그 결과를 외부에 노출하는 인터페이스다. "수학적으로 안전하니 구현도 안전하다"는 추론이 성립하지 않는 전형적 사례.</li>
+                <li><strong>CKKS 고유의 새 경로:</strong> TFHE/BGV의 반응 공격은 부트스트래핑 키가 비밀키 비트의 암호문을 공개한다는 점을 이용했다. CKKS에는 그런 공개가 없지만, <strong>공개 C2S 변환 + 1비트 유효성 응답</strong>만으로 같은 일이 가능함을 처음 보였다.</li>
+                <li><strong>완화가 까다롭다:</strong> ① <strong>응답 표준화</strong> — 검사 결과와 무관하게 항상 같은 응답을 돌려주고 실패는 내부에서 처리(가장 실용적). ② <strong>키 단위 반응 모니터링</strong> — 공격은 질의마다 높은 확률로 거부를 유도하므로 질의량·거부율이 자연스러운 탐지 신호가 된다. ③ 노이즈 smudging은 α=4·τ=1 구조에서 <strong>정직한 출력까지 거부</strong>하게 되어 사실상 불가능하고, 링 교체도 성능만 잃을 뿐 근본 방어가 아니다.</li>
+                <li><strong>한계:</strong> 세 조건이 모두 성립하는 배포에만 적용된다. 클라이언트가 정당한 암호문만 복호화하거나, 검사 결과가 외부에 전혀 드러나지 않으면 표면 자체가 없다. 또한 논문은 <em>키 복구</em>까지이며, 그 키로 무엇을 할 수 있는지는 응용·프로토콜에 달렸다. IND-CPAD식 노이즈 플러딩이 걸린 변형에 대한 완전한 분석은 향후 과제로 남겨두었다.</li>
+                <li><strong>연구 윤리:</strong> 공격 코드는 Lattigo 기반 재현 아티팩트로 공개되어 있으나, 대상은 <strong>공개 라이브러리의 파라미터·프로토콜 계층</strong>이며 취약한 실서비스나 개인 키를 겨냥하지 않는다. 이 글은 방어 설계를 위한 분석으로만 읽어야 한다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-book-open"></i> 출처</h2>
+            <ul>
+                <li>논문: Song Bian, Hyeongmin Choe, Jiseung Kim, Changmin Lee, <em>Reaction Attack on CKKS Deployments with Asymptotically Optimal Query Complexity</em>, <strong>arXiv:2610.21127</strong> (cs.CR), 2026-10-15 · IEEE S&amp;P 2027 — <a href="https://arxiv.org/abs/2610.21127" target="_blank" rel="noopener">arXiv abs</a> · <a href="https://arxiv.org/pdf/2610.21127" target="_blank" rel="noopener">PDF</a></li>
+                <li>아티팩트: <a href="https://github.com/JiseungKim90/reaction-attack" target="_blank" rel="noopener">JiseungKim90/reaction-attack</a> (Go 1.24 · Lattigo v6.2.0 · MIT) — 파라미터 스윕 스크립트 포함</li>
+                <li>함께 읽기:
+                    <ul>
+                        <li>2026-09-21 <a href="security-research-2026-09-21.html">On the Security of Public Key Protocols</a>: Dolev–Yao 모델 — "암호 프리미티브가 아니라 <em>프로토콜</em>을 공격 대상으로 놓은" 최초의 형식화. 이 논문의 정확한 사상적 출발점.</li>
+                        <li>2026-08-31 <a href="security-research-2026-08-31.html">Timing Attacks</a>: 관측 가능한 <em>응답 시간</em>이 곧 오라클이 된 사례. 여기서는 응답 시간 대신 <em>valid/invalid 1비트</em>가 오라클이 된다.</li>
+                        <li>2026-10-07 <a href="security-research-2026-10-07.html">Differential Power Analysis</a>: 물리적 누출(전력)을 통계로 증폭해 키를 캐낸 고전. "구현·배포 계층의 누출"이라는 같은 계열.</li>
+                        <li>2026-09-04 <a href="security-research-2026-09-04.html">Differential Cryptanalysis of DES</a>: 암호 분석의 또 다른 축 — 수학적 구조를 공격하는 쪽과, 이 논문처럼 <em>프로토콜의 반응</em>을 공격하는 쪽의 대비.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
