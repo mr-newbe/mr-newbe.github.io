@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - PointRCNN (CUHK MMLab, CVPR 2019): '제안은 점에서, 정밀화는 정규 좌표에서' — 라이다 원시 점만으로 RGB 융합을 이긴 최초의 2단계 3D 검출기 (인용 3,028회 · ⭐1,821 · MIT)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        code { background: #0b1220; padding: 2px 6px; border-radius: 4px; color: #7dd3fc; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92rem; }
+        th, td { border: 1px solid var(--border-color); padding: 8px 10px; text-align: center; }
+        th { background: #0b1220; color: var(--accent-color); font-weight: 600; }
+        td:first-child, th:first-child { text-align: left; }
+        .hl { color: #7dd3fc; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>자율주행 리서치 - PointRCNN (CUHK MMLab, CVPR 2019): '제안은 점에서, 정밀화는 정규 좌표에서' — 라이다 원시 점만으로 RGB 융합을 이긴 최초의 2단계 3D 검출기 (인용 3,028회 · ⭐1,821 · MIT)</h1>
+            <p class="date">2026-10-19</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>논문:</strong> <em>PointRCNN: 3D Object Proposal Generation and Detection from Point Cloud</em> — <strong>CVPR 2019</strong></li>
+                    <li><strong>저자:</strong> Shaoshuai Shi · Xiaogang Wang · Hongsheng Li (CUHK MMLab, 멀티미디어랩)</li>
+                    <li><strong>분야:</strong> <code>cs.CV</code> (3D 객체 검출 · 라이다 인지) · <strong>게시일:</strong> arXiv v1 <strong>2018-12-11</strong>, v2 2019-05-16 (<code>Accepted by CVPR 2019</code>)</li>
+                    <li><strong>인용:</strong> <strong>Semantic Scholar 3,028회</strong> (OpenAlex 3,084 · Crossref 2,523 — CVPR 2019 DOI <code>10.1109/CVPR.2019.00086</code>)</li>
+                    <li><strong>코드:</strong> <a href="https://github.com/sshaoshuai/PointRCNN" target="_blank">sshaoshuai/PointRCNN</a> — <strong>⭐1,821</strong> · 🍴421 · <strong>MIT</strong> · Python · 생성 <strong>2019-04-01</strong> · 마지막 실질 커밋 <strong>2020-08-03</strong>(README) · 푸시 2022-09-01 · 릴리스 없음 · 열린 이슈 144</li>
+                    <li><strong>한 줄 정의:</strong> 라이다 <strong>원시 점(point)만</strong> 입력으로 받아, ① 점마다 전경/배경을 나눠 3D 박스 후보(제안)를 직접 뽑고 ② 각 제안을 <em>정규 좌표계(canonical coordinates)</em>로 옮겨 박스를 정밀화하는 <strong>2단계 3D 검출기</strong>. BEV 투영도, 복셀화도, 카메라 영상도 쓰지 않는다.</li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>2018년까지 라이다 3D 검출의 주류는 점군을 <strong>조감도(BEV) 이미지나 복셀 격자</strong>로 바꿔 2D 검출기를 얹는 방식이었다. 편리하지만 두 가지 손실이 따라온다 — 격자로 바꾸는 순간 <em>점의 정밀도</em>가 깎이고, 빈 공간이 대부분인 희소 격자를 계산하는 데 연산이 낭비된다. PointRCNN은 이 변환 자체를 거부하고, <strong>점군 위에서 직접 “후보 생성 → 정밀화”</strong>를 수행한다. 이 분업 구조가 이후 3D 검출 논문들의 표준 골격이 됐다.</p>
+            <ul>
+                <li><strong>1단계 — 점에서 바로 제안을 뽑는다:</strong> 장면당 <strong>16,384점</strong>을 서브샘플링하고, PointNet++ 계열의 4개 set-abstraction 층(그룹 크기 4096 → 1024 → 256 → 64)으로 점별 특징을 만든다. 여기서 <strong>전경점/배경점 분할</strong>과 <strong>3D 박스 제안</strong>을 동시에 학습한다. 제안은 “전경점 주변”에서만 나오므로 수가 적고(수백 개) 품질이 높다.</li>
+                <li><strong>bin 기반 회귀 손실:</strong> 각 전경점 주변 영역을 X·Z축으로 <strong>bin</strong>으로 쪼개, “어느 bin인가”(분류) + “bin 안에서 얼마나 벗어났나”(잔차 회귀)로 위치를 예측한다. 논문의 recall 곡선(Fig. 5)에서 직접 회귀(BB-loss)보다 <strong>수렴이 빠르고 최종 recall이 높다</strong> — 특히 IoU 0.7에서 격차가 크다. 방향(orientation)도 같은 bin 방식(10° 단위)으로 잡는다.</li>
+                <li><strong>2단계 — 정규 좌표에서 정밀화:</strong> 제안마다 <strong>512점</strong>을 샘플링해, 제안 중심으로 이동하고 진행방향(heading)을 축에 맞춘 <strong>canonical 좌표계</strong>로 변환한다. 여기에 1단계에서 배운 <em>점별 의미 특징</em>을 결합해 3개 set-abstraction 층(128/32/1)을 통과시키고, 신뢰도와 박스 오프셋을 회귀한다. 차량의 회전·위치 편차를 모델이 “외워서 보정”할 필요가 없어지는 것이 핵심이다.</li>
+                <li><strong>결과 — 라이다만으로 RGB 융합을 이겼다 (KITTI test 3D AP, IoU 0.7, Car):</strong></li>
+            </ul>
+
+            <table>
+                <tr><th>방법</th><th>입력</th><th>Easy</th><th>Moderate</th><th>Hard</th></tr>
+                <tr><td>VoxelNet (CVPR 2018)</td><td>LiDAR</td><td>77.47</td><td>65.11</td><td>57.73</td></tr>
+                <tr><td>SECOND (Sensors 2018)</td><td>LiDAR</td><td>83.13</td><td>73.66</td><td>66.20</td></tr>
+                <tr><td>AVOD-FPN</td><td>RGB + LiDAR</td><td>81.94</td><td>71.88</td><td>66.38</td></tr>
+                <tr><td><strong>PointRCNN</strong></td><td><strong>LiDAR만</strong></td><td class="hl">85.94</td><td class="hl">75.76</td><td class="hl">68.32</td></tr>
+            </table>
+
+            <ul>
+                <li><strong>val split에서는 hard 난이도 +8.28 AP:</strong> Car 3D AP가 <strong>88.88 / 78.63 / 77.38</strong>(Easy/Mod/Hard)로, SECOND(87.43 / 76.48 / 69.10) 대비 hard에서 8.28%p 앞선다. 저장소 README의 재현 수치는 3D <strong>89.19 / 78.85 / 77.91</strong>, BEV 90.21 / 87.89 / 85.51.</li>
+                <li><strong>제안 품질이 병목이 아니라는 증거:</strong> 1단계 제안 <strong>50개</strong>만으로 moderate <strong>IoU 0.5 recall 96.01%</strong>(RGB+LiDAR를 쓰는 AVOD-FPN의 91%보다 높음), 300개면 <strong>98.21%</strong>. 엄격한 IoU 0.7에서도 300개로 <strong>82.29%</strong>를 기록해 “2단계 정밀화가 필요한 이유”를 숫자로 보여준다.</li>
+                <li><strong>소거 실험의 충격 — 정규 좌표 변환이 없으면 학습이 붕괴한다:</strong> 2단계에서 canonical 변환을 빼면 val 3D AP가 <strong>88.45 → 7.64</strong>, moderate <strong>77.67 → 13.68</strong>로 떨어진다. 1단계의 점별 의미 특징을 빼면 moderate가 2.71%p 하락. context pooling 폭은 <strong>η = 1.0 m</strong>가 최적이며, context를 아예 넣지 않으면 hard AP가 76.30 → 68.92로 내려간다.</li>
+                <li><strong>한계도 논문이 직접 인정한다:</strong> 보행자는 easy <strong>49.43</strong>으로 SECOND(51.07)보다 낮고 RGB 융합 방식에는 더 뒤진다 — 점군만으로는 작은 물체의 외형 정보가 부족하다는 것. 또 KITTI 단일 벤치마크이고, 논문은 <strong>FPS를 보고하지 않는다</strong>(2단계 구조상 단일 단계 검출기보다 무겁다).</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>“최초의 2단계 raw-point 3D 검출기”:</strong> 저장소 README가 직접 그렇게 소개하고(“the first two-stage 3D object detector … using only the raw point cloud as input”), 논문도 “RGB 영상이나 BEV·복셀로 제안을 만들던 기존 방식과 달리 점군에서 직접 제안을 생성한다”고 구조적 차별점을 못박는다. 투고 시점 KITTI 3D 객체 검출 <strong>리더보드 1위</strong>(게재 논문 기준)를 기록했다.</li>
+                <li><strong>인용 3,028회 — 3D 검출 비교표의 고정 출연자:</strong> 이후 5년간 KITTI·Waymo·nuScenes 계열 검출 논문의 baseline 표에 거의 항상 등장한다. “복셀 vs 점”, “1단계 vs 2단계” 논쟁의 기준점을 만든 논문이라는 뜻이다.</li>
+                <li><strong>계보가 그대로 이어졌다:</strong> 같은 1저자의 <strong>PV-RCNN</strong>(CVPR 2020, 인용 2,384회)이 PointRCNN의 점 기반 정밀화에 복셀 특징을 얹어 정확도를 끌어올렸고, <a href="autonomous-2026-09-01.html">OpenPCDet</a>은 PointRCNN을 <em>공식 코드 릴리스</em>로 명시한다. <a href="autonomous-2026-10-18.html">MMDetection3D</a>에도 <code>point_rcnn</code> config가 들어 있어, 지금도 “한 줄 설정”으로 재현된다.</li>
+                <li><strong>재현 비용이 낮다:</strong> MIT 라이선스에 KITTI val 수치·사전학습 모델(약 15MB)까지 README에 공개돼 있다. OpenPCDet 기준 KITTI Car 학습이 <strong>약 3시간</strong>, 3D AP moderate <strong>78.70</strong> — 연구실 노트북에서 하루면 베이스라인을 손에 쥔다.</li>
+                <li><strong>당시 흐름을 뒤집은 실증:</strong> <a href="autonomous-2026-09-13.html">VoxelNet</a>(2018)이 “복셀화하면 정확도가 오른다”를 보여준 직후, PointRCNN은 <em>“복셀화를 버려도 더 정확하다”</em>를 같은 KITTI에서 보여줬다. 이 대립이 곧 <a href="autonomous-2026-09-05.html">PointPillars</a>(실시간 pillar)와 <a href="autonomous-2026-09-10.html">CenterPoint</a>(단일 단계 anchor-free)로 갈라지는 분기점이 된다.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>PointRCNN의 진짜 유산은 “2단계”라는 형식이 아니라 <strong>“거친 후보 → 정규 좌표에서의 정밀화”</strong>라는 사고방식이다. 2026년의 3D 인지는 <a href="autonomous-2026-10-18.html">BEV·occupancy·end-to-end</a>로 무게중심이 옮겨갔고 KITTI 리더보드의 위상도 예전 같지 않지만, 최신 리파이너와 플래너 역시 <em>싸게 넓게 훑고, 고른 소수만 비싸게 다듬는</em> 같은 구조를 쓴다. 특히 canonical 변환을 뺐을 때 성능이 88.45에서 7.64로 무너진 소거 실험은, <strong>모델 구조보다 좌표계 정규화가 학습 가능성을 결정한다</strong>는 사실을 가장 선명하게 보여주는 사례다.</p>
+            <p>실무적으로 이 논문이 지금도 유효한 지점은 두 가지다. 첫째, <strong>라이다만으로 어디까지 가능한가</strong>의 기준선 — 카메라 융합을 붙이기 전에 “점만으로 이 정도”를 알고 있어야 융합의 이득을 정직하게 측정할 수 있다. 둘째, <strong>재현 경로</strong> — <a href="autonomous-2026-09-01.html">OpenPCDet</a>·MMDetection3D의 <code>point_rcnn</code> config로 3시간이면 KITTI 베이스라인이 서고, 여기에 센서·과제를 하나씩 얹으며 ablation을 쌓는 방식이 2019년 이후 3D 검출 연구의 사실상 표준 절차였다. 저장소의 마지막 실질 커밋이 2020-08이라는 사실은 이 코드의 쇠퇴가 아니라, <em>그 아이디어가 이후 툴박스들의 공통 자산으로 흡수됐다</em>는 표시로 읽는 것이 맞다.</p>
+            <p>원문: <a href="https://arxiv.org/abs/1812.04244" target="_blank">https://arxiv.org/abs/1812.04244</a> · 코드: <a href="https://github.com/sshaoshuai/PointRCNN" target="_blank">https://github.com/sshaoshuai/PointRCNN</a> · 후속: <a href="https://arxiv.org/abs/2012.09849" target="_blank">PV-RCNN (arXiv 2012.09849)</a></p>
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
