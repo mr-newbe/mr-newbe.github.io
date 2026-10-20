@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧭 [최신] PatchAlign (arXiv 2610.25071, 2026) — '패치가 들어갔나?'를 묻는 바이너리, 심볼은 지워졌고 함수는 인라인됐다: 62개 CVE·496개 타깃에서 F1 93.93% (슈도코드 97.15%)</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧭 [최신] PatchAlign — 심볼도 없는 바이너리에 "이 패치가 들어갔는가"를 묻는 법</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-20 · 카테고리: Research (최신 보안 논문 · 바이너리 분석 · 패치 존재 판정 · LLM 추론 · n-day 취약점)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Locate, Then Reason: End-to-End Patch Presence Testing in Stripped Binaries<br>
+                <strong>저자:</strong> Huaijin Wang, Tongda Wang, Zhibo Liu, Yue Zhang, Shuai Wang, Pengfei Hu, Jianzhong Liu, Fangtian Zhong, Shaohua Wang (Shandong University · Nanjing University · HKUST · Central University of Finance and Economics)<br>
+                <strong>출처:</strong> <strong>arXiv:2610.25071v1 [cs.CR]</strong>, 2026년 10월 18일 제출 (프리프린트)<br>
+                <strong>분야:</strong> 바이너리 분석 · 패치 존재 판정(PPT) · 바이너리 코드 유사성(BCSA) · 명령어 정렬 · LLM 기반 추론<br>
+                <strong>인용:</strong> 신규 프리프린트(2026-10-18 공개) — Semantic Scholar·OpenAlex에 아직 레코드가 없어 <strong>인용 집계 전</strong><br>
+                <strong>원문:</strong> <a href="https://arxiv.org/abs/2610.25071" target="_blank" rel="noopener">arXiv abs</a> · <a href="https://arxiv.org/html/2610.25071v1" target="_blank" rel="noopener">HTML 전문</a> · <a href="https://arxiv.org/pdf/2610.25071" target="_blank" rel="noopener">PDF</a>
+            </div>
+
+            <h2><i class="fa-solid fa-circle-question"></i> 왜 이 논문인가 — "패치했다"는 말과 "패치가 들어갔다"는 사실 사이</h2>
+            <p>공급망 보안의 실무 질문은 점점 "이 제품에 어떤 취약점이 있는가"에서 <strong>"이 바이너리에 그 수정이 실제로 반영됐는가"</strong>로 옮겨가고 있습니다. SBOM은 구성요소 목록을 주지만, 벤더가 백포트한 펌웨어·독점 바이너리 안에 수정이 들어갔는지는 말해주지 않습니다. 바이너리 패치 존재 판정(<strong>Patch Presence Testing, PPT</strong>)은 바로 이 질문에 답하는 기술입니다.</p>
+            <p>그런데 기존 시스템들은 조용한 가정을 하나 깔고 갑니다. <em>"패치와 관련된 코드가 어디 있는지 이미 알고 있거나, 적어도 성공적으로 매칭된다"</em>는 가정입니다. 이 논문은 그 가정이 최적화 컴파일 앞에서 무너진다고 지적합니다. 함수 단위 매칭은 <strong>컴파일러 변화, 인라인, 유한한 모델 컨텍스트, 호출 문맥의 부재</strong>에 취약하고, 더 근본적으로 <strong>유사도 점수는 '패치 크기의 차이'를 눌러버립니다</strong>. 8바이트 경계 검사를 12바이트로 바꾼 수정은 함수 전체 유사도에서 반올림 오차 수준입니다.</p>
+            <blockquote>핵심 재설계: <strong>찾는 일(recall)</strong>과 <strong>판정하는 일(precision)</strong>을 분리한다. 값싸게 넓게 찾고, 최종 판정은 패치 고유의 증거 위에서만 추론한다.</blockquote>
+
+            <h2><i class="fa-solid fa-bullseye"></i> 문제를 보여주는 실제 사례 — tcpdump CVE-2018-14461</h2>
+            <ul>
+                <li><strong>수정 내용은 두 줄입니다.</strong> 경계 검사 두 곳을 8바이트에서 12바이트로 늘리는 패치.</li>
+                <li><strong>타깃에서는 함수가 사라집니다.</strong> 최적화 빌드에서 해당 함수 <code>ldp_tlv_print</code>는 호출자 <code>ldp_print</code> 안으로 <strong>인라인</strong>됩니다. 심볼도, 원래 함수 경계도 없습니다.</li>
+                <li><strong>그래서 정답도 하나가 아닙니다.</strong> 이 논문은 "정확한 대응 함수"뿐 아니라 <em>참조 함수의 의미를 품고 있는 다른 함수</em>(인라인·함수 병합·특수화로 생긴 컨테이너)도 정답으로 인정합니다. 위 사례에서 <code>ldp_print</code>가 정답이 되는 식입니다.</li>
+                <li><strong>찾았다고 끝이 아닙니다.</strong> 올바른 코드를 찾은 뒤에도 "두 경계 검사가 모두, 해당 접근을 실제로 보호하는가"를 따로 확인해야 합니다. 함수 유사도는 이 마지막 1비트를 주지 않습니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-screwdriver-wrench"></i> 설계 — 4단계, 앞단은 값싸게 넓게, 뒷단은 좁고 깊게</h2>
+            <ul>
+                <li><strong>① Reference Patch Analysis (오프라인, CVE당 1회):</strong> 알려진 취약/패치 빌드와 소스 패치에서 패치 관련 함수와 호출자-피호출자 문맥을 뽑고, LLM이 CVE를 해석해 "이 두 빌드를 어떻게 구별할지"에 대한 <em>재사용 가능한 판정 계획</em>을 만듭니다. 타깃마다 다시 만들 필요가 없습니다.</li>
+                <li><strong>② Semantic Localization (온라인, 타깃당):</strong> 세 단계로 후보를 좁힙니다.
+                    <ul>
+                        <li><em>CFG-guided windowing</em> — 인코더 컨텍스트 한도를 넘지 않도록 제어흐름그래프를 따라 <strong>명령어를 빠짐없이 덮는</strong> 윈도(슬라이스)를 잘라냅니다. 역방향 문맥 + 전방 주경로 방식.</li>
+                        <li><em>Complete-coverage retrieval</em> — 명령어 정렬(instruction alignment) 기반 점수(MAS)로 후보를 검색합니다.</li>
+                        <li><em>Context-aware refinement</em> — 호출 그래프 문맥을 그래프 편집거리(GED)로 비교하되, <code>merge_edge_to_node</code> 연산을 추가해 <strong>인라인으로 피호출자가 호출자에 접히는 현상</strong>을 명시적으로 모델링합니다.</li>
+                    </ul>
+                </li>
+                <li><strong>③ Relevance Screening:</strong> 후보를 LLM에게 <strong>exact / contained / wrong</strong> 3-class로 심사시킵니다. '우연히 비슷한' 후보를 여기서 걸러내는 것이 정밀도의 핵심입니다. 명백한 쌍은 조기 종료해 토큰을 아낍니다.</li>
+                <li><strong>④ Patch-Status Reasoning:</strong> 살아남은 후보에 대해서만, 취약 참조·패치 참조·타깃 코드를 나란히 놓고 <strong>패치 고유의 행동 차이</strong>를 추론해 최종 판정을 냅니다. 타깃 심볼도, 정답 위치 오라클도 필요 없습니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flask"></i> 실험 — PS³-Balanced 벤치마크</h2>
+            <ul>
+                <li><strong>데이터:</strong> 기존 PS³ 벤치마크를 재구성해 CVE 편중을 제거한 <strong>PS³-Balanced</strong>. <strong>CVE 62건</strong> — FFmpeg 26 · OpenSSL 23 · tcpdump 11 · libxml2 2.</li>
+                <li><strong>바이너리:</strong> 총 <strong>620개</strong>. 참조는 <code>gcc-11 -O0</code> 취약/패치 각 1개, 타깃은 <strong>GCC·Clang × -O3·-Os</strong> 4가지 설정에서 취약/패치 각 1개 → 타깃 <strong>496개</strong>.</li>
+                <li><strong>비교 대상:</strong> PS³(+inline), React(심볼 기반), React(Sem-Loc) — 즉 기존 PPT·BCSA 계열의 대표 주자들.</li>
+                <li><strong>모델:</strong> <code>deepseek-v4-flash-0731</code> (temperature 0, 최대 추론). 슈도코드는 Ghidra로 생성. 16코어 AMD 9950X3D2 · 256 GiB · RTX 5090 환경.</li>
+            </ul>
+
+            <h3>RQ1 — 끝에서 끝까지의 판정 성능 (62 CVE · 496 타깃 전체 종합)</h3>
+            <table>
+                <tr><th>방법</th><th>Precision</th><th>Recall</th><th>F1</th><th>Accuracy</th><th>MISSING</th></tr>
+                <tr><td>PS³ +inline</td><td>69.26</td><td>71.77</td><td>70.50</td><td>69.96</td><td>130</td></tr>
+                <tr><td>React (symbols)</td><td>76.29</td><td>71.37</td><td>73.75</td><td>74.60</td><td>125</td></tr>
+                <tr><td>React (Sem-Loc)</td><td>69.60</td><td>92.34</td><td>79.38</td><td>76.01</td><td>9</td></tr>
+                <tr><td><strong>PatchAlign (어셈블리)</strong></td><td><strong>94.31</strong></td><td><strong>93.55</strong></td><td><strong>93.93</strong></td><td><strong>93.95</strong></td><td><strong>9</strong></td></tr>
+                <tr><td><strong>PatchAlign (슈도코드)</strong></td><td><strong>97.95</strong></td><td><strong>96.37</strong></td><td><strong>97.15</strong></td><td><strong>97.18</strong></td><td>20</td></tr>
+            </table>
+            <ul>
+                <li><strong>핵심은 정밀도입니다.</strong> React(Sem-Loc)가 <strong>위양성 100건</strong>을 내는 동안 PatchAlign은 <strong>14건(어셈블리) / 5건(슈도코드)</strong>으로 줄였고, 재현율은 93.55~96.37%를 유지했습니다. 위양성은 "패치됐는데 취약하다고 오판" 또는 그 반대의 <em>틀린 확신</em>이라, 실무에서는 재현율보다 비쌉니다.</li>
+                <li><strong>왜 React(Sem-Loc)가 무너지는지가 통찰입니다.</strong> 검색 단계만 개선하면 MISSING이 125→9로 줄고 재현율은 92.34%까지 오르지만, <strong>정확도는 76.01%</strong>에 머뭅니다. "찾기"와 "판정하기"는 다른 문제이며, 패치급 미세 차이를 구분하는 판정기를 따로 세워야 한다는 뜻입니다.</li>
+                <li><strong>설정별 최고치는 더 높습니다.</strong> Clang -O3 타깃에서 슈도코드 경로는 정확도 <strong>98.39%</strong>(P/R 모두 98.39), GCC -O3에서는 96.77%였습니다. 반대로 가장 어려운 설정은 슈도코드 경로에서도 GCC -Os 타깃(95.97%)이었습니다.</li>
+            </ul>
+
+            <h3>RQ2 — 패치 관련 코드 위치 찾기 (768 쿼리)</h3>
+            <p>Recall@k = 상위 k개 후보 안에 정답 함수가 하나라도 포함된 쿼리 비율. 인라인으로 다른 함수에 흡수된 경우도 정답으로 계산합니다.</p>
+            <table>
+                <tr><th>구성</th><th>Recall@1 / @5 / @10</th><th>MRR</th></tr>
+                <tr><td>Cosine (linear)</td><td>65.23 / 76.30 / 79.17</td><td>0.7007</td></tr>
+                <tr><td>Cosine (subgraph)</td><td>70.70 / 78.78 / 80.99</td><td>0.7419</td></tr>
+                <tr><td>+ MAS (명령어 정렬 검색)</td><td>84.11 / 89.19 / 90.23</td><td>0.8616</td></tr>
+                <tr><td><strong>+ Context-aware refinement</strong></td><td><strong>87.11 / 97.27 / 97.53</strong></td><td><strong>0.9146</strong></td></tr>
+                <tr><td>− 관계 정규화 (no-rel)</td><td>23.44 / 65.23 / 80.21</td><td>0.4163</td></tr>
+                <tr><td>− 인라인 인식 (no-inl)</td><td>76.17 / 85.55 / 87.50</td><td>0.8052</td></tr>
+            </table>
+            <ul>
+                <li><strong>Recall@1이 65.23% → 87.11%</strong>, Recall@10은 <strong>97.53%</strong>. "넓게 찾아 상위 10개만 남긴다"는 앞단 설계가 수치로 증명됩니다.</li>
+                <li><strong>어블레이션이 각 부품의 값을 말해줍니다.</strong> 후보 순위를 참조 내 상대 점수로 정규화하지 않으면 Recall@10이 97.53→80.21%로 붕괴하고(절대 점수는 여러 후보가 공유하는 의미 때문에 오해를 부릅니다), 인라인 병합 연산을 빼면 Recall@1이 76.17%로 떨어집니다.</li>
+            </ul>
+
+            <h3>RQ3 — "관련 있음" 심사는 믿을 만한가</h3>
+            <ul>
+                <li><strong>어셈블리:</strong> end-to-end 정답률 <strong>737/768 (95.96%)</strong>, 무관 후보를 'irrelevant'로 맞힌 비율 <strong>356/369 (96.48%)</strong>.</li>
+                <li><strong>슈도코드:</strong> end-to-end <strong>743/768 (96.74%)</strong>, 무관 후보 판정 <strong>380/380 (100.00%)</strong>. contained(인라인 유래) 판정도 100%.</li>
+                <li>즉 <strong>슈도코드는 '포함 관계'와 '무관' 판정에서 더 강하고, 어셈블리는 '정확히 같은 함수' 판정에서 근소하게 앞섭니다</strong>. 재귀·간접호출이 많은 함수는 어셈블리 쪽이 정밀하다는 트레이드오프가 드러납니다.</li>
+            </ul>
+
+            <h3>RQ4 — 비용: CVE당 0.7센트, 타깃당 7센트</h3>
+            <ul>
+                <li><strong>오프라인(CVE·참조쌍당 1회):</strong> 총 <strong>1.88시간</strong>, LLM 호출 124회, 입력 30.4만 / 출력 70.7만 토큰 → <strong>$0.47 (CVE당 약 $0.0076)</strong>.</li>
+                <li><strong>온라인(타깃 1개당):</strong> 평균 2,018초(중앙 1,425 / p95 4,997), LLM 호출 2,018회 → <strong>타깃당 약 $0.073</strong>. 슈도코드 경로는 평균 1,890초·<strong>$0.069</strong>로 조금 더 쌉니다.</li>
+                <li><strong>시간 배분(슈도코드):</strong> 윈도잉+검색 59.3% · 관련성 심사 31.2% · 최종 추론 7.5% · 문맥 정제 2.0%. <strong>비용의 대부분이 '추론'이 아니라 '찾기'에 쓰입니다</strong> — 그래서 앞단을 값싼 결정론적 검색으로 설계한 것이 합리적이었습니다.</li>
+                <li><strong>LLM 판정이 비싼 이유도 명확합니다.</strong> 최종 추론 단계는 검색 전체 시간의 12.27%(슈도코드)/16.94%(어셈블리)를 쓰지만, 그 대가로 정확도가 74.80%→96.17%로 올라갑니다. 베이스라인의 판정 단계는 전체의 0.17~0.40%로 사실상 공짜인 대신 정확도를 잃습니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 한계와 반론</h2>
+            <ul>
+                <li><strong>x86_64 전용.</strong> ARM 펌웨어·MIPS 라우터·RISC-V 임베디드로 일반화하는 것은 미검증입니다. 실무에서 PPT가 가장 필요한 곳이 바로 그런 펌웨어라는 점을 생각하면 남는 숙제입니다.</li>
+                <li><strong>벤치마크 규모.</strong> 62개 CVE·4개 프로젝트(C/C++)에 그칩니다. 라벨 균형을 인위적으로 맞췄으므로 실제 배포 환경의 취약/패치 비율을 반영하지는 않습니다.</li>
+                <li><strong>LLM 학습데이터 오염.</strong> 공개 CVE와 패치는 모델이 이미 본 적이 있을 수 있습니다. 저자들은 이 설정이 <em>소스 패치를 함께 주는 1-day 테스트</em>라고 명시하며, 최신 모델일수록 새 CVE까지 '알고 있을' 가능성을 인정합니다. 즉 <strong>"처음 보는 취약점"에서의 성능은 이 숫자보다 낮을 수 있습니다.</strong></li>
+                <li><strong>비용의 현실성.</strong> 타깃 1개당 20~35분·7센트는 연구·표적 분석에는 합리적이지만, 수만 개 펌웨어를 훑는 대량 스캔에는 아직 무겁습니다. 앞단 검색을 더 값싸게 만드는 것이 다음 과제입니다.</li>
+                <li><strong>'패치 존재'는 '안전'이 아닙니다.</strong> 이 논문이 답하는 것은 "수정이 들어갔는가"이지 "그 수정이 우회 가능한가"가 아닙니다. 컴파일러가 검사를 최적화로 제거했다면 판정은 '패치됨'이어도 실제로는 취약할 수 있습니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 그래서 무엇이 남는가</h2>
+            <ul>
+                <li><strong>아키텍처 교훈: 검색과 판정을 분리하라.</strong> "비슷한 함수를 찾는 일"과 "이 1비트가 다른가를 판정하는 일"은 요구사항이 정반대입니다(전자는 recall, 후자는 precision). 하나의 유사도 점수로 둘을 동시에 하려던 시도가 74~80% F1에서 막힌 이유입니다.</li>
+                <li><strong>인라인을 예외가 아니라 1급 시민으로.</strong> 최적화 빌드에서 함수 경계는 사라집니다. GED에 '피호출자를 호출자로 접는' 연산을 넣는 것 같은 <em>컴파일러 현실을 모델에 박아넣는</em> 설계가 Recall@1을 10%p 이상 끌어올렸습니다.</li>
+                <li><strong>LLM의 자리는 '마지막 추론'입니다.</strong> 대량 후보를 LLM에게 다 읽히는 대신, 결정론적 검색으로 상위 10개까지 줄이고 나서 패치 고유 증거만 추론시킵니다. 이 분업이 7센트라는 단가를 만들었습니다.</li>
+                <li><strong>공급망 실무로의 번역:</strong> "이 펌웨어, 로그상 패치됨"이라는 벤더의 주장을 <strong>바이너리 자체로 반증</strong>할 수 있는 도구 계열이 구체화되고 있습니다. 다만 그 답은 조건부입니다 — 대상 아키텍처, 알려진 CVE, 소스 패치가 주어진 1-day 상황에서만.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-book-open"></i> 출처</h2>
+            <ul>
+                <li>논문: Huaijin Wang et al., <em>Locate, Then Reason: End-to-End Patch Presence Testing in Stripped Binaries</em>, arXiv:2610.25071v1 [cs.CR], 2026-10-18 — <a href="https://arxiv.org/abs/2610.25071" target="_blank" rel="noopener">abs</a> · <a href="https://arxiv.org/html/2610.25071v1" target="_blank" rel="noopener">HTML</a> · <a href="https://arxiv.org/pdf/2610.25071" target="_blank" rel="noopener">PDF</a></li>
+                <li>벤치마크: PS³-Balanced (원본 PS³ 벤치마크, Zhan et al. 2024 재구성) — 62 CVE / 620 바이너리</li>
+                <li>사례 CVE: <a href="https://nvd.nist.gov/vuln/detail/CVE-2018-14461" target="_blank" rel="noopener">CVE-2018-14461</a> (tcpdump LDP 파서 경계 검사, 8→12바이트)</li>
+                <li>함께 읽기:
+                    <ul>
+                        <li>2026-10-16 <a href="security-research-2026-10-16.html">Control-Flow Integrity (CCS 2005)</a>: 바이너리 수준에서 '실행 흐름'을 신뢰할 수 있는가라는 원형 질문. PatchAlign이 검사하는 것은 흐름이 아니라 <em>경계값</em>이지만, 문제의식은 같은 뿌리다.</li>
+                        <li>2026-10-11 <a href="security-research-2026-10-11.html">When Flaws Cascade</a>: 작은 논리 오류가 메모리 파괴로 증폭되는 사슬 분석. 여기서 '8→12바이트' 같은 사소해 보이는 수정이 왜 중요한지 보여준다.</li>
+                        <li>2026-10-13 <a href="security-research-2026-10-13.html">ToFu (FSE 2027)</a>: LLM이 취약점을 '찾는' 쪽. PatchAlign은 LLM이 '확인하는' 쪽 — 같은 도구, 반대 방향의 사용법.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
