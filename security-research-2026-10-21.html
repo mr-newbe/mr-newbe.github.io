@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[클래식] Weaknesses in the Key Scheduling Algorithm of RC4 (SAC 2001) — WEP를 죽인 3바이트: 24비트 IV·약한 IV·선형 체크섬이 키를 통째로 넘겼다</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚡ [클래식] RC4 키 스케줄의 약점 — WEP를 무너뜨린 '약한 IV' 한 줌</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-21 · 카테고리: Research (클래식 보안 논문 · 스트림 암호 · RC4 · WEP/802.11 · 키 스케줄 · 무선 보안)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Weaknesses in the Key Scheduling Algorithm of RC4<br>
+                <strong>저자:</strong> Scott Fluhrer (Cisco Systems), Itsik Mantin, Adi Shamir (Weizmann Institute of Science)<br>
+                <strong>출처:</strong> <strong>Selected Areas in Cryptography (SAC) 2001</strong>, LNCS Vol. 2259, pp. 1–24 (Springer) · 2001년 8월 공개<br>
+                <strong>분야:</strong> 스트림 암호 암호분석 · 키 스케줄(KSA) · related-key 공격 · 무선랜 보안(WEP) · 프로토콜 설계<br>
+                <strong>인용:</strong> <strong>OpenAlex 기준 1,043회</strong> (LNCS 2001 레코드)<br>
+                <strong>원문:</strong> <a href="https://link.springer.com/chapter/10.1007/3-540-45682-1_2" target="_blank" rel="noopener">Springer (DOI 10.1007/3-540-45682-1_2)</a> · <a href="https://www.semanticscholar.org/search?q=Weaknesses%20in%20the%20Key%20Scheduling%20Algorithm%20of%20RC4" target="_blank" rel="noopener">Semantic Scholar</a> · <a href="https://en.wikipedia.org/wiki/Fluhrer,_Mantin_and_Shamir_attack" target="_blank" rel="noopener">FMS 공격 개요</a>
+            </div>
+
+            <h2><i class="fa-solid fa-circle-question"></i> 왜 이 논문인가 — 무너진 것은 '수학'이 아니라 '조립'이었다</h2>
+            <p>WEP(Wired Equivalent Privacy)는 1997년 IEEE 802.11 표준의 일부로 확정된 무선랜 암호화 방식입니다. 이름부터가 야심적이었습니다. "유선과 동등한(equivalent) 프라이버시". 그리고 실제로 그 이름값을 정확히 했습니다 — <strong>유선과 동등하게, 즉 전혀 안전하지 않았습니다.</strong></p>
+            <p>2001년 8월, 시스코의 Scott Fluhrer와 와이즈만 연구소의 Itsik Mantin·Adi Shamir는 이 실패가 <em>구현 버그</em>나 <em>짧은 키</em> 때문이 아니라는 것을 보여줍니다. RC4라는 암호 자체도, 40비트라는 키 길이도 아닙니다. 문제는 <strong>RC4의 키 스케줄 알고리즘(KSA)에 키를 넣는 방식</strong> — 특히 <em>공개된 IV를 비밀 키 앞에 그대로 이어 붙이는</em> 그 한 줄이었습니다. IV를 키의 일부로 쓰는 순간, 공격자는 같은 키를 <strong>자기가 고른 변형으로</strong> 수만 번 사용할 수 있게 됩니다. related-key 공격의 무대가 스스로 열린 셈입니다.</p>
+            <blockquote>이 논문의 진짜 교훈은 "RC4가 약하다"가 아닙니다. <strong>암호 프리미티브가 안전해도, 그 프리미티브에 키를 공급하는 방식(key schedule)이 공격면이 된다</strong>는 것입니다. 2026년의 AEAD·논스 설계에서도 그대로 반복되는 교훈입니다.</blockquote>
+
+            <h2><i class="fa-solid fa-layer-group"></i> 배경 — WEP가 조립한 세 부품과 그 사이의 틈</h2>
+            <p>WEP의 설계는 단순합니다. 부품 세 개를 이어 붙였습니다.</p>
+            <table>
+                <tr><th>부품</th><th>역할</th><th>설계자의 기대</th><th>실제</th></tr>
+                <tr><td>RC4 (스트림 암호)</td><td>기밀성 — 평문 ⊕ 키스트림</td><td>"빠르고 검증된 스트림 암호"</td><td>프리미티브 자체는 이 논문의 표적이 아님</td></tr>
+                <tr><td>24비트 IV</td><td>패킷마다 다른 키스트림</td><td>"충돌은 일어나지 않는다"</td><td><strong>2<sup>24</sup> = 16,777,216</strong> — 생일 한계로 5,000패킷이면 절반이 겹침</td></tr>
+                <tr><td>CRC-32 (ICV)</td><td>무결성</td><td>"변조를 탐지한다"</td><td><strong>선형 함수</strong> — 암호학적 인증이 아님, 비트 플립에 그대로 반응</td></tr>
+            </table>
+            <ul>
+                <li><strong>키 유도:</strong> RC4 키 = <code>IV(3바이트) ‖ 공유키</code>. WEP-40은 40비트 키 + 24비트 IV = 64비트, WEP-104는 104비트 키 + 24비트 IV = 128비트.</li>
+                <li><strong>IV는 평문으로 전송됩니다.</strong> 숨길 필요가 없는 값이라는 전제 — 그리고 그 전제가 공격의 출발점입니다. IV를 아는 공격자는 <em>키의 앞 3바이트를 아는 상태</em>로 RC4를 돌려볼 수 있습니다.</li>
+                <li><strong>키 길이의 유래가 규제라는 점</strong>도 기억할 만합니다. 1997년 미국의 암호 수출 규제가 40비트를 넘는 키를 막았고, 그래서 "표준"의 보안 강도가 위협 모델이 아니라 <em>행정 규정</em>으로 정해졌습니다. 규제가 풀린 뒤 벤더들이 104비트로 늘렸지만, 아래의 구조적 결함은 키 길이와 무관했습니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-repeat"></i> 첫 번째 균열 — 24비트 IV, 5,000패킷이면 절반이 겹친다</h2>
+            <p>스트림 암호의 절대 규칙은 하나입니다. <strong>같은 키스트림을 두 번 쓰지 말 것.</strong> 두 번 쓰면 <code>C₁ ⊕ C₂ = P₁ ⊕ P₂</code>가 되어 암호가 통째로 사라집니다(두 번 쓰는 일회용 패드, two-time pad).</p>
+            <ul>
+                <li>IV 공간은 2<sup>24</sup>개. 생일 역설에 따라 <strong>약 5,000패킷</strong>만 관찰해도 같은 IV가 다시 나올 확률이 50%입니다. 계산은 단순합니다 — √(2<sup>24</sup>) ≈ 4,096, 여기에 상수 1.25를 곱하면 약 5,100.</li>
+                <li>충돌한 두 패킷은 <strong>같은 키스트림</strong>으로 암호화됩니다. 공격자는 두 암호문을 XOR해 평문끼리의 XOR을 얻고, WEP 프레임의 고정 헤더(LLC/SNAP, IP 헤더, TCP 헤더)를 알기 때문에 실제 평문 복원까지 도달합니다.</li>
+                <li>바쁜 네트워크라면 이건 <em>수동 관찰만으로</em> 일어납니다. 공격자가 아무것도 하지 않아도 IV는 순환하고, 순환은 겹칩니다.</li>
+            </ul>
+            <p>즉 WEP는 <strong>"IV가 충분히 크다"는 가정 하나</strong>에 기밀성 전체를 걸었고, 그 가정은 트래픽이 조금만 많아지면 무너집니다.</p>
+
+            <h2><i class="fa-solid fa-key"></i> FMS의 핵심 — KSA의 '결정되는 앞 3스텝'에서 키 한 바이트가 샌다</h2>
+            <p>IV 충돌은 <em>기밀성</em>의 문제입니다. FMS가 보여준 것은 더 나쁩니다. <strong>충돌이 한 번도 없어도 키 자체를 복원할 수 있다</strong>는 것.</p>
+            <p>RC4의 키 스케줄은 256번의 스왑으로 S-box를 섞습니다.</p>
+<pre><code>for i in 0..255:
+    j = (j + S[i] + key[i mod keylen]) mod 256
+    swap(S[i], S[j])</code></pre>
+            <p>WEP에서 <code>key</code>의 앞 3바이트는 <strong>공개된 IV</strong>입니다. 그래서 공격자는 KSA의 <strong>첫 3회 반복을 정확히 재현</strong>할 수 있고, 그 결과 i=3 시점의 S-box 상태를 (자기가 고른 IV에 대해) 알고 있습니다. 문제는 그다음입니다.</p>
+            <ul>
+                <li><strong>약한 IV(weak IV)의 형태:</strong> <code>(B+3, 255, X)</code>. 두 번째 바이트가 255일 때, KSA 초반의 스왑이 특정 인덱스에 "고정"되는 <em>resolved condition</em>이 높은 확률로 성립합니다.</li>
+                <li><strong>그때 첫 출력 바이트가 키 바이트를 흘립니다:</strong> 조건이 성립하면 PRGA의 첫 출력 <code>O</code>가 키 바이트 <code>K[i]</code>와 상관관계를 갖고, 후보값을 <code>K[i] = (O − j − S[i]) mod 256</code>으로 역산할 수 있습니다.</li>
+                <li><strong>첫 출력 바이트 O는 어떻게 아는가:</strong> WEP 프레임의 첫 평문 바이트는 LLC/SNAP 헤더의 <code>0xAA</code>로 거의 고정입니다. 따라서 <code>O = C₀ ⊕ 0xAA</code> — 암호문 첫 바이트만 보면 됩니다.</li>
+                <li><strong>한 번의 추측은 틀릴 수 있습니다.</strong> 해당 IV에서 조건이 성립할 확률은 대략 5% 수준. 그래서 논문의 처방은 <strong>다수결(majority voting)</strong>입니다. 같은 키 바이트에 대해 <em>약 60개</em>의 약한 IV를 모아 후보값을 세고, 가장 많이 나온 값을 채택합니다. 틀린 후보는 균등하게 흩어지고, 맞는 후보만 통계적으로 솟아오릅니다.</li>
+                <li><strong>바이트는 순서대로만 캘 수 있습니다.</strong> 앞 바이트를 확정해야 다음 바이트의 KSA 상태를 재현할 수 있기 때문입니다. 대신 패킷은 한 번만 모아두고, 앞에서부터 차례로 깨면 됩니다.</li>
+            </ul>
+            <p>결과적으로 <strong>완전히 수동적인(passive) 공격</strong>입니다. 전파를 잡기만 하면, 키를 네트워크에 한 번도 던지지 않고 복원할 수 있습니다. 트래픽이 많은 네트워크라면 논문이 언급한 것처럼 <strong>1분 수준</strong>의 관찰로 충분할 수 있습니다.</p>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 두 번째 균열 — CRC-32는 무결성이 아니다</h2>
+            <p>FMS는 기밀성 붕괴입니다. 그런데 WEP의 ICV는 <em>선형 함수</em>인 CRC-32라서, 암호학적 MAC이 하려는 일을 원리적으로 못 합니다.</p>
+            <ul>
+                <li><strong>비트 플립이 그대로 통과합니다.</strong> 암호문의 특정 비트를 뒤집으면 CRC도 예측 가능한 방식으로 같이 뒤집히므로, 공격자는 ICV를 다시 계산해 <em>유효한</em> 변조 패킷을 만들 수 있습니다. "복호화는 못 해도 주입은 된다"가 성립합니다.</li>
+                <li><strong>chopchop:</strong> 패킷의 마지막 바이트를 잘라내고 ICV를 조정하는 시도를 반복하면, AP의 "ICV 불일치/정상" 응답 자체가 <strong>오라클</strong>이 되어 평문을 한 바이트씩 복원할 수 있습니다.</li>
+                <li><strong>Shared Key 인증이 오히려 독입니다.</strong> 챌린지-응답 핸드셰이크에서 평문과 암호문을 모두 볼 수 있어, <strong>키스트림을 그대로 획득</strong>합니다. "인증이 더 강한 모드"가 실제로는 더 많은 것을 넘겨줍니다. (그래서 실무 권고는 역설적으로 Open System 인증이었습니다.)</li>
+                <li><strong>같은 키로 암호화와 인증을 겸함</strong> — 키 분리(key separation)의 부재. 암호화 키가 인증에도, 인증 핸드셰이크에도 쓰입니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-screwdriver-wrench"></i> 실전화 — AirSnort·aircrack, 그리고 2007년의 마무리</h2>
+            <ul>
+                <li><strong>도구화:</strong> FMS는 논문으로만 남지 않았습니다. AirSnort, aircrack, weplab 같은 도구가 이 공격을 그대로 구현했고, "WEP은 설정 옵션이 아니라 이미 뚫린 것"이라는 인식이 업계에 퍼졌습니다.</li>
+                <li><strong>후속 연구가 비용을 더 낮췄습니다:</strong> KoreK(2004)의 통계 공격, Klein(2005)의 상관관계 공격을 이어받아 2007년 Tews·Weinmann·Pyshkin이 104비트 키를 실용적으로 끝냈습니다.</li>
+            </ul>
+            <table>
+                <tr><th>필요 패킷(104비트 키)</th><th>성공 확률</th></tr>
+                <tr><td>40,000</td><td>50%</td></tr>
+                <tr><td>60,000</td><td>약 80%</td></tr>
+                <tr><td>85,000</td><td>약 95%</td></tr>
+            </table>
+            <ul>
+                <li>계산 시간은 <strong>Pentium-M 1.7GHz에서 약 3초, 메모리 3MB</strong> 수준이었습니다. 즉 2007년의 노트북으로도 "실시간"입니다.</li>
+                <li>유휴 네트워크에서도 <strong>deauth로 클라이언트를 끊고 ARP를 재주입</strong>하면 40,000패킷을 1분 안에 모을 수 있었습니다. 수동 공격이 능동 공격으로 승격되는 순간입니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-file-invoice-dollar"></i> 반응과 청구서 — WPA, 그리고 RC4의 최후</h2>
+            <ul>
+                <li><strong>WPA(TKIP, 2003):</strong> WEP 하드웨어에서 펌웨어 업그레이드로 구현 가능한 <em>임시</em> 해법. 패킷마다 키를 섞고, IV를 확장하고, Michael MIC로 무결성을 보강했습니다. 하지만 TKIP도 2008년 이후 부분적으로 깨졌고 802.11-2012에서 공식 폐기됩니다.</li>
+                <li><strong>WPA2(CCMP/AES, 2004, 802.11i):</strong> AES-CCMP로 근본 교체. 같은 해 WEP은 표준에서 <em>사용 중단(deprecated)</em>으로 표시됩니다. "선택 가능한 옵션"으로 남겨둔 것이 얼마나 오래 청구서를 만들었는지는, 2026년에도 설정 화면에 WEP 항목이 남아 있는 공유기를 보면 알 수 있습니다.</li>
+                <li><strong>RC4 자체의 종말:</strong> RC4는 TLS에서도 오래 버텼지만, 통계적 편향 연구가 누적되며 2015년 <strong>RFC 7465</strong>로 TLS에서 사용이 금지됩니다. 같은 해 'Bar Mitzvah' 공격은 이 FMS 계보의 약한 키 문제가 SSL/TLS의 특정 키 생성 경로에서도 재현됨을 보여줬습니다.</li>
+                <li><strong>그리고 반복:</strong> WPA2도 2017년 KRACK(키 재설치)으로 흔들렸고, WPA3에서도 초기 구현 결함이 나왔습니다. "<strong>프로토콜의 상태 기계와 키 관리</strong>가 프리미티브만큼 자주 발목을 잡는다"는 것이 25년간의 요약입니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flask"></i> 교육용 PoC — 키스트림 재사용이 왜 치명적인가 (로컬 실습 전용)</h2>
+            <p>아래 코드는 <strong>실제 네트워크 공격이 아니라</strong>, 같은 IV로 두 번 암호화했을 때 무엇이 사라지는지 눈으로 확인하는 <em>장난감 구현</em>입니다. RC4 KSA/PRGA를 30줄로 옮기고, 가상의 두 평문을 같은 IV로 암호화한 뒤 XOR만으로 두 번째 평문이 복원되는지 봅니다.</p>
+<pre><code>def ksa(key: bytes) -&gt; list:
+    S = list(range(256)); j = 0
+    for i in range(256):
+        j = (j + S[i] + key[i % len(key)]) % 256
+        S[i], S[j] = S[j], S[i]
+    return S
+
+def prga(S: list, n: int) -&gt; bytes:
+    i = j = 0; out = bytearray()
+    for _ in range(n):
+        i = (i + 1) % 256
+        j = (j + S[i]) % 256
+        S[i], S[j] = S[j], S[i]
+        out.append(S[(S[i] + S[j]) % 256])
+    return bytes(out)
+
+iv, shared = b"\x01\x02\x03", b"SECRETKEY"      # IV는 평문 전송된다고 가정
+ks = prga(ksa(iv + shared), 16)                 # 두 패킷이 같은 IV를 썼다면
+p1 = b"HTTP/1.1 200 OK"[:16]
+p2 = b"HTTP/1.1 403 NO"[:16]
+c1 = bytes(a ^ b for a, b in zip(p1, ks))       # 같은 키스트림으로 두 번 암호화
+c2 = bytes(a ^ b for a, b in zip(p2, ks))
+print(bytes(a ^ b for a, b in zip(c1, c2)))     # = p1 ^ p2 : 암호가 사라진다</code></pre>
+            <ul>
+                <li>출력은 <code>p1 ⊕ p2</code>입니다. <strong>키도, IV도, RC4도 등장하지 않습니다.</strong> 공격자는 한쪽 평문의 일부(HTTP 헤더 같은 고정 문자열)를 알기만 하면 다른 쪽을 통째로 얻습니다.</li>
+                <li>실습에서는 <strong>같은 IV로 두 번 암호화하지 않는 것</strong>이 전부입니다. 실제 WEP은 24비트 IV를 순환시키며 이 금기를 <em>구조적으로</em> 어깁니다 — 이게 FMS 이전에 이미 존재하던 결함입니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 한계와 반론</h2>
+            <ul>
+                <li><strong>"RC4가 깨졌다"는 과잉 해석입니다.</strong> FMS는 <em>IV를 키 앞에 붙이는 특정 키 유도</em>에 대한 공격입니다. TLS는 세션 키를 해시로 유도해 세션 간 키를 무관하게 만들었기 때문에 이 공격이 직접 적용되지 않았습니다. (RC4가 TLS에서 죽은 것은 나중의 편향(bias) 연구들 덕분입니다.)</li>
+                <li><strong>패킷 수가 필요합니다.</strong> 조용한 네트워크에서는 수동만으로 부족하고, deauth·ARP 재주입 같은 능동 개입이 전제됩니다. "1분"은 조건부 수치입니다.</li>
+                <li><strong>원논문의 비용 추정은 보수적이었습니다.</strong> FMS는 수백만 패킷 규모를 상정했지만, 2007년 PTW는 40,000패킷으로 같은 목표를 달성했습니다. 논문의 공격 비용은 <em>그 시대의 상한</em>으로 읽어야 합니다.</li>
+                <li><strong>IV 충돌과 FMS는 다른 공격입니다.</strong> 전자는 기밀성(평문 복원), 후자는 키 복원입니다. WEP는 <em>둘 다</em> 갖고 있었고, 그래서 하나를 고쳐도 살아나지 못했습니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 그래서 무엇이 남는가</h2>
+            <ul>
+                <li><strong>키 스케줄은 공격면이다.</strong> "암호는 안전하다"는 명제는 <em>키를 어떻게 넣는가</em>까지 명시해야 성립합니다. IV를 키에 이어 붙이는 순간, 공격자는 related-key 오라클을 손에 넣습니다. 2026년의 논스 합성(nonce-misuse resistance) 설계는 이 실패의 직접적 후손입니다.</li>
+                <li><strong>논스 길이는 생일 한계로 계산하라.</strong> 2<sup>24</sup>는 "충분히 크다"고 느껴지지만, 5,000패킷에서 절반이 겹칩니다. 무작위 값의 안전성은 <em>값의 크기</em>가 아니라 <em>충돌 확률</em>로 판단해야 합니다.</li>
+                <li><strong>무결성에 체크섬을 쓰지 마라.</strong> CRC는 우연한 오류를 잡는 함수이고, 공격자는 <em>의도적으로</em> 오류를 만듭니다. 선형 함수는 조작에 선형으로 반응합니다. 인증은 MAC/AEAD의 영역입니다.</li>
+                <li><strong>암호화와 인증은 키를 분리하라.</strong> WEP는 하나의 키로 기밀성·무결성·인증을 모두 처리하려 했고, 그 겸업이 Shared Key 인증의 키스트림 노출 같은 역설을 만들었습니다.</li>
+                <li><strong>하위호환과 규제가 보안 예산을 정하게 두지 마라.</strong> 40비트 키는 수출 규제가 정했고, WEP 옵션은 "구형 장비 지원"이 정했습니다. 둘 다 위협 모델이 아닙니다. 오늘의 IoT 펌웨어에 남아 있는 WEP/TKIP 설정 항목이 같은 방식으로 청구서를 쌓고 있습니다.</li>
+                <li><strong>한국의 실무 감각으로:</strong> 공유기·AP 설정에서 WEP/TKIP/WPA 혼용 모드가 보이면 그것은 "호환성 설정"이 아니라 <em>가장 약한 모드로 전체를 낮추는 스위치</em>입니다. WPA2-AES(가능하면 WPA3) 단일 모드가 답입니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-book-open"></i> 출처</h2>
+            <ul>
+                <li>논문: Scott Fluhrer, Itsik Mantin, Adi Shamir, <em>Weaknesses in the Key Scheduling Algorithm of RC4</em>, SAC 2001, LNCS 2259, pp. 1–24 — <a href="https://link.springer.com/chapter/10.1007/3-540-45682-1_2" target="_blank" rel="noopener">Springer</a> (DOI 10.1007/3-540-45682-1_2)</li>
+                <li>공격 원리 요약: <a href="https://en.wikipedia.org/wiki/Fluhrer,_Mantin_and_Shamir_attack" target="_blank" rel="noopener">Fluhrer, Mantin and Shamir attack</a> (KSA/PRGA 의사코드, 약한 IV 형태, SNAP 헤더 가정)</li>
+                <li>WEP 규격·연표·후속 공격 수치: <a href="https://en.wikipedia.org/wiki/Wired_Equivalent_Privacy" target="_blank" rel="noopener">Wired Equivalent Privacy</a> — 1997 표준, 2004 폐기, 5,000패킷 IV 충돌, PTW 40,000/60,000/85,000패킷 수치</li>
+                <li>후속 연구: Erik Tews, Ralf-Philipp Weinmann, Andrei Pyshkin, <em>Breaking 104 bit WEP in less than 60 seconds</em> (2007) · Andreas Klein, <em>Attacks on the RC4 stream cipher</em> (2005/2006)</li>
+                <li>표준 후속: <a href="https://www.rfc-editor.org/rfc/rfc7465" target="_blank" rel="noopener">RFC 7465 — Prohibiting RC4 Cipher Suites</a> (2015)</li>
+                <li>함께 읽기:
+                    <ul>
+                        <li>2026-08-31 <a href="security-research-2026-08-31.html">Timing Attacks (1996)</a>: 암호 구현이 <em>시간</em>이라는 부수 채널로 키를 흘리는 이야기. FMS는 <em>키 스케줄</em>로 흘렸고, Kocher는 <em>실행 시간</em>으로 흘렸습니다 — 같은 질문("어디서 새는가")의 두 갈래.</li>
+                        <li>2026-09-04 <a href="security-research-2026-09-04.html">Differential Cryptanalysis of DES-like Cryptosystems (1990)</a>: 암호 <em>내부</em>의 구조적 약점을 통계로 캐는 원형. FMS의 다수결 투표도 "약한 표본을 많이 모아 통계로 이긴다"는 같은 발상입니다.</li>
+                        <li>2026-08-30 <a href="security-research-2026-08-30-4.html">Smashing The Stack For Fun And Profit (1996)</a>: IV 재사용이 <em>기밀성</em>을 지울 때, 버퍼 오버플로우는 <em>경계</em>를 지웁니다. 1996~2001년 사이에 "설계 가정은 언제나 틀린다"가 두 번 증명된 셈입니다.</li>
+                        <li>2026-09-11 <a href="security-research-2026-09-11.html">Rowhammer (ISCA 2014)</a>: 소프트웨어가 하드웨어의 물리적 가정을 깨는 사례. WEP는 프로토콜이 암호의 가정을 깬 사례로 나란히 놓을 만합니다.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
