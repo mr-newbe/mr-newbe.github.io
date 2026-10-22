@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-10-23</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        code { background: #0b1220; padding: 1px 5px; border-radius: 4px; color: #7dd3fc; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-10-23 | <i class="fa-solid fa-tags"></i> Daily News, Zero-Day, SD-WAN, Data Breach, RCE, Linux Kernel, AI Agent, PKI, Law Enforcement
+        </div>
+        <div class="content">
+
+        <h2>1. [사건] Arista VeloCloud Orchestrator <code>CVE-2026-114625</code> (9.9) &mdash; 읽기 전용 계정으로 <strong>최고 관리자 권한</strong> 탈취, 실제 악용 중</h2>
+        <p>Arista가 10월 22일 VeloCloud Orchestrator(VCO)의 <strong>SQL 인젝션 0-day</strong>를 공개했다. VCO는 VeloCloud SD-WAN의 중앙 관리 시스템이다. 이 결함은 오케스트레이터에 로그인할 수 있는 사람이라면 <strong>가장 낮은 등급인 Enterprise Read Only</strong> 계정만 있어도 <strong>operator(로컬 슈퍼유저) 권한</strong>을 얻을 수 있게 한다. CVSS는 <strong>9.9</strong>이며 이미 야생에서 악용되고 있다.</p>
+        <ul>
+            <li><strong>3개월 새 세 번째:</strong> 7월 <code>CVE-2026-16812</code>, 9월 <code>CVE-2026-93952</code>에 이어 또 하나다. 앞의 두 개는 <strong>인증 없이</strong> 가능했지만 이번 건은 <strong>로그인만 있으면</strong> 된다는 점이 다르다 &mdash; 즉 자격증명 하나 탈취로 끝난다.</li>
+            <li><strong>패치 버전:</strong> 온프레미스는 VCO <code>5.2.3.18</code>, <code>6.1.3.10</code>, <code>6.4.2.12</code> 이상. Hosted/Dedicated는 이미 패치됨. 주의 &mdash; <strong>7월&middot;9월 결함을 고친 릴리스는 이번 결함에는 여전히 취약</strong>하다(그 릴리스가 더 오래된 버전이므로). VeloCloud Gateway&middot;Edge는 영향 없음.</li>
+            <li><strong>노출 특성:</strong> VCO 웹 인터페이스는 <strong>기본으로 노출</strong>되며 이를 막는 VCO 설정이 없다. 그래서 Arista는 업그레이드 전 임시 조치로 ① 관리망에서만 웹 UI 접근 허용 ② 악성 IP 연결 모니터링 ③ VCO 호스트의 비정상 아웃바운드 감시 ④ 불필요 아웃바운드 포트 차단 ⑤ 백도어 데몬&middot;웹셸 점검 ⑥ 관리자 활동 이력 검토를 권고했다.</li>
+            <li><strong>침해 지표(IoC):</strong> 공격에 쓰인 IP 2개 &mdash; <code>74.82.197[.]86</code>, <code>38.54.50[.]151</code>. 웹 로그에서 URL처럼 보이는 비정상 경로, 인코딩 문자, 내부 서비스 참조, 과도한 요청률을 확인할 것. 침해 의심 시 <strong>증거(웹&middot;백엔드&middot;시스템&middot;DB 로그)를 먼저 보존</strong>한 뒤 조치하라고 명시했다.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/arista-warns-of-critical-velocloud-sql.html" target="_blank">The Hacker News - Arista Warns of Critical VeloCloud SQL Injection Zero-Day Exploited in Attacks</a> | <a href="https://www.bleepingcomputer.com/news/security/arista-patches-new-velocloud-orchestrator-zero-day-exploited-in-attacks/" target="_blank">BleepingComputer - Arista patches new VeloCloud Orchestrator zero-day</a></p>
+
+        <h2>2. [사건] Capcom <code>CAPCOM ID</code> 침해 &mdash; <strong>1,170만 계정</strong> 이메일&middot;로그인 이력 유출</h2>
+        <p>일본 게임사 Capcom이 자사 통합 계정 서비스 CAPCOM ID가 침해당해 <strong>1,170만 건 이상</strong>의 고객 이메일과 부가 정보가 유출됐다고 10월 22일 확인했다. 10월 19일 의심스러운 활동을 포착해 20일 침해를 확정했고, 21일 일본 경찰과 개인정보보호위원회에 신고했다.</p>
+        <ul>
+            <li><strong>유출 범위:</strong> 이메일 + 계정 생성일, 최종 로그인 시각, 로그인 횟수, 최종 로그인 IP. 일부(43계정)는 생년월일&middot;성별&middot;닉네임&middot;국가까지. <strong>196계정은 비밀번호가 변경</strong>돼 소유자를 잠그려는 시도가 있었고 Capcom이 재설정했다. 비밀번호 해시와 신용카드 정보는 유출되지 않았다고 밝혔다.</li>
+            <li><strong>침투 경로는 비공개:</strong> &ldquo;침입 수법을 확인해 재발 방지 조치를 적용했다&rdquo;고만 언급했다. 2020년 Ragnar Locker 랜섬웨어(1TB 탈취 주장), 2021년 <strong>노후 VPN 장비</strong>를 통한 침입 이력이 있는 회사다.</li>
+            <li><strong>실무 대응:</strong> 1,170만 건 규모라 통지는 단계적으로 나간다. CAPCOM ID로 로그인하는 서드파티 연동을 점검하고, 동일 이메일&middot;비밀번호를 재사용한 계정을 전부 교체할 것. 추가 정보나 링크를 요구하는 메일은 피싱으로 간주한다.</li>
+        </ul>
+        <p>출처: <a href="https://www.bleepingcomputer.com/news/security/capcom-confirms-data-breach-affecting-117-million-accounts/" target="_blank">BleepingComputer - Capcom confirms data breach affecting 11.7 million accounts</a></p>
+
+        <h2>3. [사건] Railway, <strong>환경변수 저장 시스템</strong> 침입 &mdash; &ldquo;API 키 전부 로테이션하라&rdquo;</h2>
+        <p>PaaS 업체 Railway가 고객 환경변수를 보관하는 시스템에서 비정상 활동을 탐지했다. 조사 결과 <strong>제3자가 암호화된 환경변수에 접근</strong했고 일부는 <strong>복호화된 내용까지</strong> 확보한 것으로 보인다. 영향은 &ldquo;일부 사용자&rdquo;라고만 밝혔다.</p>
+        <ul>
+            <li><strong>공격 의도가 AI 인프라:</strong> Railway는 이번 사건이 <strong>AI 추론 제공업체를 노린 플랫폼 기업 연쇄 공격</strong>의 일부일 가능성이 크다고 봤다. 업스트림 제공업체에도 키 선제 폐기를 통보했다. 사고 직후 모든 버킷 자격증명과 Railway API 토큰을 무효화했다.</li>
+            <li><strong>지갑까지 털렸다:</strong> 보안 연구자 Taylor Monahan에 따르면 공격자 주소(<code>0xd9773325282874d18cb83f1fe50f14c39750b2ee</code>)가 <strong>Railway에 개인키를 둔 암호화폐 지갑</strong>에서 자금을 빼갔다. 최초 탈취 트랜잭션은 공식 공지보다 <strong>최소 2시간 먼저</strong> 발생했다.</li>
+            <li><strong>연결 고리 &mdash; LLMjacking:</strong> 같은 주간 Wiz는 <strong>GCP 권한 탈취 &rarr; 공격자 프로젝트를 피해자 결제 계정에 연결 &rarr; 대량 LLM 추론</strong> 사례를 공개했다. 초기 접근은 &ldquo;google cloud&rdquo; 등을 검색한 사용자를 Google Sites 리다이렉트로 유도한 <strong>검색 광고</strong>였다. 프롬프트와 출력은 피해자에게 보이지 않아 무엇이 돌아갔는지 알 수 없다.</li>
+            <li><strong>즉시 할 일:</strong> Railway에 저장한 환경변수&middot;API 키&middot;<strong>프라이빗 레지스트리 자격증명</strong>을 전부 교체하고, 해당 키를 쓰는 서비스 로그에서 비정상 호출을 확인한다. 과금 폭증도 함께 본다.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/railway-says-intruder-may-have-accessed.html" target="_blank">The Hacker News - Railway Says Intruder May Have Accessed Customer Secrets, Urges Credential Rotation</a> | <a href="https://www.bleepingcomputer.com/news/security/railway-warns-devs-to-rotate-secrets-after-potential-breach/" target="_blank">BleepingComputer - Railway warns devs to rotate secrets after potential breach</a></p>
+
+        <h2>4. [사건] INTERPOL <strong>Operation Serengeti III</strong> &mdash; 1,462명 검거, 10,909개 범죄 네트워크 차단</h2>
+        <p>INTERPOL이 21개국 합동 작전으로 <strong>10,909개 악성 네트워크</strong>를 차단하고 <strong>1,462명을 검거</strong>, <strong>1억 500만 달러</strong>의 불법 자금을 회수했다고 발표했다. 작전 기간은 2026년 6월 29일~8월 31일, 확인된 피해자는 <strong>65,929명</strong>, 금융 조사로 연결된 손실액은 <strong>3억 8,500만 달러</strong>를 넘는다.</p>
+        <ul>
+            <li><strong>주요 성과:</strong> 우간다에서 아시아권 투자&middot;연금 사기를 노린 초국적 사기 조직 2곳 해체 및 <strong>외국인 365명</strong> 검거. 앙골라에서 불법 채굴장 2곳&middot;채굴기 2,000대&middot;불법 변압 설비 6기 압수(100만 달러 상당). 나이지리아에서 <strong>이메일 210만 개</strong>를 수집한 피싱&BEC 조직원과 240만 달러 규모 투자 사기 운영자 각각 검거.</li>
+            <li><strong>수법:</strong> BEC, 랜섬웨어, 온라인 사기, 불법 채굴이 중심. Group-IB&middot;Team Cymru 등 민간 파트너가 피싱 킷&middot;봇넷 인프라 위협 인텔리전스를 제공했다. &ldquo;공격을 기다려 조사하는 대신 인프라를 먼저 찾아 끊는다&rdquo;는 모델.</li>
+            <li><strong>의미:</strong> 2024년&middot;2025년 두 차례 작전으로 누적 2,000명 이상 검거. 아프리카발 사기가 아시아&middot;유럽 피해자로 직결된다는 점이 반복 확인됐다 &mdash; 한국어권 투자&middot;연금 사기도 같은 인프라를 공유한다.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/interpol-arrests-1462-suspects-disrupts.html" target="_blank">The Hacker News - INTERPOL Arrests 1,462 Suspects, Disrupts 10,909 Cybercrime Networks</a> | <a href="https://www.bleepingcomputer.com/news/security/authorities-disrupt-nearly-11-000-cybercrime-networks-in-africa/" target="_blank">BleepingComputer - Authorities disrupt nearly 11,000 cybercrime networks in Africa</a></p>
+
+        <h2>5. [규제] Meta, 뉴멕시코 법원서 <strong>250억 달러</strong> 벌금 &mdash; &ldquo;데이터는 사용자가 통제한다&rdquo;는 말은 거짓</h2>
+        <p>뉴멕시코주 지방법원 Francis J. Mathew 판사가 Meta에 <strong>250억 달러</strong> 벌금을 선고했다. 주 불공정거래법 위반 <strong>4,300만 건</strong>에 대한 판결로, 2018년 케임브리지 애널리티카 스캔들에서 출발한 2021년 소송의 결론이다.</p>
+        <ul>
+            <li><strong>판결 요지:</strong> &ldquo;Facebook은 사용자가 자기 데이터를 통제한다고 약속했다. <strong>이것은 거짓이었다</strong>&rdquo;. 주 내 사용자 대상 프라이버시 관련 허위 진술이 핵심.</li>
+            <li><strong>사건의 뿌리:</strong> 성격 퀴즈 앱 &ldquo;thisisyourdigitallife&rdquo;가 참여자 약 30만 명은 물론 <strong>친구 데이터까지</strong> 수집해 <strong>8,700만 프로필</strong> 규모 데이터셋을 만들었다. Meta는 2015년 앱을 차단하고 삭제를 요구했지만 이미 늦었다.</li>
+            <li><strong>누적 비용:</strong> 2019년 FTC 50억 달러, 2022년 집단소송 7억 2,500만 달러 화해, 2026년 8월 주정부들과 10년간 180억 달러 합의(뉴멕시코&middot;플로리다는 제외). Meta는 항소하겠다고 밝혔다.</li>
+            <li><strong>실무 시사점:</strong> &ldquo;프라이버시 문구와 실제 데이터 흐름이 다르면 주 단위 불공정거래법으로 대규모 과징금&rdquo;이라는 공식이 확립됐다. 서비스 기업은 개인정보 처리방침&middot;동의 화면 문구를 <strong>실제 수집&middot;공유 경로와 대조</strong>하는 내부 감사가 필요하다.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/meta-ordered-to-pay-25-billion-after.html" target="_blank">The Hacker News - Meta Ordered to Pay $25 Billion After Court Finds 43 Million Privacy Violations</a></p>
+
+        <h2>6. [취약점] Linux <code>KSMBD</code> CVSS <strong>9.0</strong> RCE 2건 &mdash; 커널 수정 전에 <strong>공개 메일링리스트</strong>로 나왔다</h2>
+        <p>커널 내장 SMB 서버인 KSMBD에서 원격 코드 실행 결함 2건이 공개됐다. Trend Micro ZDI가 <strong>9.0</strong>으로 평가했고, <strong>메인라인 커널에 아직 수정이 없다</strong>. 둘 다 CVE 번호도 아직 없다 &mdash; 커널 프로젝트는 안정 트리 수정이 나온 뒤에야 CVE를 부여한다.</p>
+        <ul>
+            <li><strong><code>ZDI-CAN-33774</code> (인증 불필요):</strong> KSMBD 핸들러 테이블 할당의 <strong>레이스</strong>. 짧은 SMB1 패킷 연속 + SMB2 패킷을 같은 TCP 쓰기에 넣으면, 워커가 SMB1 데이터를 <strong>SMB2 핸들러로</strong> 처리해 짧은 버퍼 끝을 넘겨 읽는다. 포트 <strong>445</strong>가 열린 모든 KSMBD 서버가 표적이다.</li>
+            <li><strong><code>ZDI-CAN-33549</code> (SMB Direct):</strong> SMB Direct 경로의 <strong>정수 언더플로</strong>. 첫 RDMA 버퍼 기술자가 선언된 페이로드보다 길면 서버 크기 카운터가 감싸 돌고(wrap), 이후 메모리 복사가 할당 버퍼 끝을 넘어 쓴다. 조건은 <strong>RDMA 가능 인터페이스(rxe 소프트웨어 드라이버 가능) + 쓰기 가능한 공유 + SMB Direct 협상</strong>.</li>
+            <li><strong>메타 이슈 &mdash; 공개된 0-day:</strong> ZDI가 패치 없이 <strong>공개 리스트</strong>에 보고하면서 커널 유지보수진과 마찰이 났다. Greg Kroah-Hartman은 &ldquo;패치도 없이 공개 리스트로 보냈다면 우리가 할 수 있는 게 없다&hellip; 제출 절차를 고쳐달라&rdquo;고 답했다. 배경에는 2026년 5월 갱신된 커널 보안 문서 &mdash; <strong>AI 도구가 찾은 버그는 정의상 이미 공개된 것으로 보고 서브시스템 리스트로 보내라</strong>는 Linus Torvalds의 지침이 있다. 실제로 이번 건은 <strong>TrendAI(AI 스캐너)</strong>가 발견자로 크레딧됐다.</li>
+            <li><strong>확인&middot;대응:</strong> <code>systemctl status ksmbd</code> 또는 <code>lsmod | grep ksmbd</code>로 모듈 활성 여부 확인. RHEL은 기본 미포함. 불필요하면 모듈을 내리고, 445를 인터넷에 노출하지 말 것. SMB Direct 수정은 다음 커널 개발 주기용으로 제출됐다는 보도가 있으나 확인되지 않았다.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/two-cvss-90-linux-ksmbd-rce-flaws.html" target="_blank">The Hacker News - Two CVSS 9.0 Linux KSMBD RCE Flaws Disclosed on Public Mailing Lists Before Kernel Fixes</a></p>
+
+        <h2>7. [취약점] OpenCode, 악성 <code>MCP</code> 서버로 <strong>로그인 시점 코드 실행</strong> (9.8) &mdash; CVE 없음, 스캐너도 못 잡는다</h2>
+        <p>AI 코딩 에이전트 OpenCode에서, 악성 또는 탈취된 MCP 서버가 개발자가 <strong>로그인하는 순간</strong> Windows/WSL 머신에서 코드를 실행할 수 있었다. Anomaly는 <strong>1.18.33</strong>(9월 28일)에서 조용히 고쳤고 <strong>CVE도 권고문도 없어</strong> 취약 빌드(<code>1.0.137</code>~<code>1.18.32</code>)가 스캐너에 잡히지 않는다.</p>
+        <ul>
+            <li><strong>원리:</strong> MCP 로그인(OAuth) 때 서버가 <strong>인가 엔드포인트 주소</strong>를 직접 준다. Windows/WSL에서 OpenCode는 이 주소를 브라우저 열기 헬퍼에 넘기는데, 헬퍼가 <strong>PowerShell 명령을 이스케이프 없이</strong> 조립했다. 주소 자리에 PowerShell 명령을 넣으면 그대로 실행된다. macOS/Linux는 셸을 거치지 않아 영향 없다.</li>
+            <li><strong>트리거 조건:</strong> 개발자가 <code>opencode mcp auth</code> 등으로 로그인을 시작할 때만. 서버를 등록만 하거나 세션을 여는 것만으로는 도달하지 않는다. 단, 공격자는 <strong>처음부터 적대적일 필요가 없다</strong> &mdash; 나중에 탈취되거나 도메인이 넘어간 MCP 서버도 같은 페이로드를 실을 수 있다.</li>
+            <li><strong>왜 위험한가:</strong> Pillar Security가 8월 29일 비공개 보고, 심각도 <strong>9.8</strong> 제안. Anomaly는 &ldquo;사용자가 설정한 MCP 서버는 신뢰 경계 밖&rdquo;이라며 CVE 발급을 거부했다. 수정 PR은 &ldquo;브라우저 실행 코드 리팩터링&rdquo;으로만 설명돼 보안 수정임이 드러나지 않았다. 2025년 7월 <code>mcp-remote</code>의 거의 동일한 결함(<code>CVE-2025-6514</code>)과 같은 계열이다.</li>
+            <li><strong>조치:</strong> OpenCode <strong>1.18.33 이상</strong>으로 업그레이드. 불가하면 검증하지 않은 원격 MCP 서버를 설정에서 제거. &ldquo;https 주소인지 확인&rdquo; 같은 통상 방어는 <strong>통하지 않는다</strong>(공격도 평범한 HTTPS 주소를 쓴다).</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/opencode-flaw-lets-malicious-mcp.html" target="_blank">The Hacker News - OpenCode Flaw Lets Malicious MCP Servers Execute Code During Sign-In on Windows and WSL</a></p>
+
+        <h2>8. [취약점] AI 에이전트 프레임워크가 새 공격면 &mdash; <strong>무인증 RCE 9.8이 한 주에 6건</strong></h2>
+        <p>NVD 최근 3일(10/20~10/23, 총 2,965건) 상위를 보면 <strong>CVSS 9.8 무인증 RCE가 AI 에이전트&middot;LLM 프레임워크에 몰려 있다.</strong> 공통 원인은 &ldquo;기본 설정이 인증을 안 건다&rdquo;와 &ldquo;에이전트에게 셸 도구를 그냥 준다&rdquo;이다.</p>
+        <ul>
+            <li><strong><code>CVE-2026-77932</code> DB-GPT &le;0.8.2 (9.8):</strong> <code>/api/v1/chat/react-agent</code>가 목(mock) <code>get_user_from_headers</code>에 의존해 <strong>모든 호출자에게 admin 역할</strong>을 준다. 인증 없이 RCE.</li>
+            <li><strong><code>CVE-2026-77933</code> DB-GPT (9.8):</strong> 기본 <code>docker-compose.yml</code>에 <strong>고정 MySQL root 비밀번호</strong> + 3306 전체 인터페이스 공개.</li>
+            <li><strong><code>CVE-2026-77936</code> Letta &le;0.16.8 (9.8):</strong> <code>compose.yaml</code>이 <code>LETTA_SERVER_SECURE</code>를 켜지 않아 비밀번호 미들웨어가 아예 붙지 않는다 &mdash; <strong>모든 API 라우트 무인증</strong> + 기본 자격증명 PostgreSQL 노출.</li>
+            <li><strong><code>CVE-2026-75128</code> Langchain-Chatchat (9.8):</strong> <code>POST /tools/call</code>이 이름만 주면 <strong>등록된 아무 도구나</strong> 무인증 실행. 상시 등록된 <strong>shell 도구</strong>가 그대로 호출된다.</li>
+            <li><strong><code>CVE-2026-109442</code> piflow 2.0.0~2.0.1 (9.8):</strong> DeepAgents 채팅 에이전트의 <code>/chat</code>&middot;<code>/chat/stream</code>에 인증이 없어 <code>exec_shell</code> 호출 가능. <strong><code>CVE-2026-109444</code> OpenSRE (9.8)</strong>는 headless presenter의 <code>execution_allowed()</code>가 항상 True라 <strong>승인 게이트를 우회</strong>. <strong><code>CVE-2026-77930</code> EvoScientist (9.8)</strong>는 <code>interrupt_on</code> 게이트가 없는 서브에이전트로 셸 명령을 위임시켜 승인 우회.</li>
+            <li><strong>같은 주의 다른 고위험:</strong> <code>CVE-2026-105312</code> Kubernetes Console CRD(9.9, 임의 이미지 &rarr; ClusterRole 바인딩된 SA로 배포), DrayTek Vigor2960 <code>CVE-2026-113389/90/91</code> <strong>3건 모두 9.9</strong>(<code>mainfunction.cgi</code> 명령 주입), Signal RingRTC &lt;2.72.0 <code>CVE-2026-113380</code>(9.3, FSM 큐 포화로 <strong>통화 종료 방해</strong>).</li>
+            <li><strong>공통 방어:</strong> ① 에이전트&middot;LLM 프레임워크를 <strong>인터넷에 노출하지 않는다</strong>(기본값이 무인증인 제품이 다수) ② 배포 전 compose 기본값&middot;비밀번호&middot;포트 공개 여부 점검 ③ 셸&middot;코드 실행 도구는 <strong>화이트리스트 + 사람 승인</strong> 강제 ④ 버전 고정 대신 CVE 모니터링 파이프라인에 이들 패키지 포함.</li>
+        </ul>
+        <p>출처: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-77932" target="_blank">NVD - CVE-2026-77932 (DB-GPT)</a> | <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-77936" target="_blank">NVD - CVE-2026-77936 (Letta)</a> | <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-75128" target="_blank">NVD - CVE-2026-75128 (Langchain-Chatchat)</a> | <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-105312" target="_blank">NVD - CVE-2026-105312 (Kubernetes Console)</a></p>
+
+        <h2>9. [패치] eMudhra, <strong>글로벌 SSL/TLS 사업 철수</strong> &mdash; Chrome&middot;Firefox 루트 불신, <strong>3.08만 인증서</strong> 교체 필요</h2>
+        <p>인도 CA eMudhra가 이사회 결정으로 글로벌 SSL/TLS 인증서 사업에서 <strong>철수</strong>한다고 밝혔다. 연구자가 <strong>중간 CA 8개의 개인키를 복구</strong>했다고 보고한 지 5일 만이다. 8개 중 <strong>6개가 웹(TLS)용</strong>이었고, Chrome은 상위 루트 <code>emSign ECC Root CA - G3</code>를 <strong>10월 27일 오전(태평양시간)</strong>부터 신뢰하지 않는다. Mozilla는 10월 20일 이미 Firefox에서 같은 루트를 제거하기로 했다.</p>
+        <ul>
+            <li><strong>왜 이렇게 됐나:</strong> 개인키는 거대한 난수여야 하는데 <strong>8개 모두 256 미만</strong>이었다 &mdash; 사실상 누구나 몇 초에 계산할 수 있는 값. Chrome&middot;Firefox는 6개 TLS 중간 CA를 몇 시간 만에 차단했다. 다행히 차단 전까지 CT 로그에 이 중간 CA로 발급된 웹 인증서는 없었다고 Google은 밝혔다. eMudhra는 시스템 침해나 실제 발급 사실은 없다고 주장한다.</li>
+            <li><strong>규모:</strong> 10월 21일 기준 해당 루트에 연결된 <strong>미만료 인증서 약 30,800장</strong>. 그중 <strong>99.9%가 InCommon</strong>(Internet2의 고등교육 인증서 서비스)을 통해 발급됐다 &mdash; InCommon이 올해 4~7월에 eMudhra의 CertiNext 플랫폼으로 옮긴 결과다. 코넬은 자체 300여 장, 미시간대 등 미국 대학들이 직격탄.</li>
+            <li><strong>즉시 조치:</strong> Google은 해당 루트 아래 인증서를 쓰는 사이트에 &ldquo;<strong>Chrome 루트 스토어에 포함된 다른 PKI에서 새 TLS 인증서를 즉시 발급&middot;설치하라</strong>&rdquo;고 명시했다. 대학들은 <strong>RSA 인증서</strong>로 전환 권고(별도 루트인 G1 계열은 현재 영향 없음) 또는 Let's Encrypt로 이동. 약 97%가 ACME로 발급됐지만, <strong>ACME 클라이언트는 갱신 주기가 아닌 인증서를 자동 교체하지 않는다</strong>(ARI 미지원 시) &mdash; 수동 개입이 필요하다.</li>
+            <li><strong>남는 리스크:</strong> Chrome은 G1 RSA 루트까지 루트 스토어에서 뺄지 아직 결정 중이다. 전자서명&middot;eSign&middot;CertiNext 사업은 계속되지만, <strong>G1에 의존하는 인증서도 대체 경로를 미리 확보</strong>해 두는 것이 안전하다. eMudhra는 폐기&middot;상태 서비스를 모든 인증서가 만료&middot;교체될 때까지 유지한다.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/emudhra-to-exit-global-ssltls-business.html" target="_blank">The Hacker News - eMudhra to Exit Global SSL/TLS Business After 8 Intermediate CA Keys Found Easily Guessable</a></p>
+
+        <h2>10. [패치] Chrome, <strong>Gemini 서버측 사기 탐지</strong> + <code>ClickFix</code> 클립보드 경고</h2>
+        <p>Chrome의 Safe Browsing <strong>Enhanced Protection</strong>이 Gemini 기반 사기 탐지를 서버측으로 확장하고, <strong>ClickFix</strong> 공격용 명령을 사용자가 복사하는 순간을 잡아낸다. Google은 표준 보호 대비 피싱&middot;소셜 엔지니어링&middot;알림 악용에서 <strong>10배 안전</strong>하다고 주장한다.</p>
+        <ul>
+            <li><strong>서버측 모델로 이동:</strong> 기존 온디바이스 Gemini를 Enhanced Protection 사용자에 한해 더 큰 서버 모델로 교체. 페이지의 브랜드&middot;의도&middot;사기 가능성을 신호로 보고 도메인 평판 등과 결합한다. &ldquo;<strong>고신뢰 사기 지표</strong>가 있을 때만 페이지 텍스트를 분석&rdquo;하고, 전송된 내용은 <strong>일시 처리(ephemeral)</strong> &mdash; 기록&middot;보관&middot;학습에 쓰지 않는다고 밝혔다.</li>
+            <li><strong>&ldquo;suspicious site&rdquo; 경고 신설:</strong> 전체 화면 빨간 경고를 띄울 확신도까지는 못 미치지만 <strong>기만적 패턴</strong>을 보이는 페이지에 별도 UI로 경고한다. 경고 UI를 세분화해 <strong>더 많은 페이지에 보호 경고를 넓히겠다</strong>는 전략.</li>
+            <li><strong>ClickFix 차단:</strong> 사용자가 직접 PowerShell/CMD 명령을 붙여넣게 만드는 수법을 겨냥. 클립보드 페이로드에서 <strong>개인식별정보를 제거</strong>한 뒤 Safe Browsing에 보내 분석하고, 위험 판정이면 진행 전에 경고한다.</li>
+            <li><strong>실무 메모:</strong> 이 기능은 <strong>Enhanced Protection 옵트인</strong>에서만 동작한다. 기업은 정책으로 켜야 하고, 켜면 <strong>페이지 텍스트 일부가 Google로 전송</strong>된다는 점을 개인정보 검토에 반영해야 한다(일시 처리 고지). KEV 마감도 계속 확인 &mdash; 최근 항목은 Ivanti Connect Secure 인증 우회(<code>CVE-2026-104935</code>, 10/16 마감), Microsoft Windows 명령 주입(<code>CVE-2026-96951</code>, 10/16), PAN-OS 코드 주입(<code>CVE-2026-0322</code>, 10/17), Cisco Secure Email Gateway 경로 순회(<code>CVE-2026-76519</code>, 10/17), AhsayCBS 인증 우회(<code>CVE-2026-105133</code>, 10/17).</li>
+        </ul>
+        <p>출처: <a href="https://www.bleepingcomputer.com/news/google/google-chrome-adds-gemini-powered-scam-detection-warns-users-of-clickfix-attacks/" target="_blank">BleepingComputer - Google Chrome adds Gemini-powered scam detection, warns users of ClickFix attacks</a> | <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA - Known Exploited Vulnerabilities Catalog</a></p>
+
+        <h2>11. [트렌드] &lsquo;Black October&rsquo; &mdash; AI가 찾은 취약점이 <strong>패치보다 먼저</strong> 악용된다</h2>
+        <p>10월 한 달의 패턴이 뚜렷해졌다. AI가 대규모로 찾아낸 취약점이 <strong>패치 공개 전에 이미 공격에 쓰이고</strong>, 방어자는 &ldquo;패치&middot;배포&middot;검증&rdquo;이라는 사람 속도에 갇힌다. Amazon Threat Intelligence는 PHP2Shell 결함 악용이 <strong>패치 공개 4일 전</strong>에 시작됐다고 밝혔다. 같은 주에 GitLab 10.0, PHP 긴급 패치, LiteLLM 공급망 침해, KSMBD 9.0 무패치 공개가 겹쳤다.</p>
+        <ul>
+            <li><strong>공격도 자동화로 맞선다:</strong> BleepingComputer가 정리한 &ldquo;machine speed&rdquo; 분석에 따르면 자격증명 탈취에서 데이터 유출 시작까지 <strong>몇 분</strong>이면 끝난다. 탈취된 GitHub 토큰, 악성 AI 설치 프로그램, MFA 피싱이 대표 경로다. 유효 자격증명을 잡은 뒤에는 <strong>공격자 행동의 63%가 차단되지 않는다</strong>는 벤더 측정도 있다 &mdash; 예방 점수는 초기 침투 이후를 설명하지 못한다.</li>
+            <li><strong>공급망이 새 기본값:</strong> LiteLLM은 PyPI 패키지와 Docker 이미지가 동시에 오염됐고, 회사는 <strong>AI 게이트웨이 로그에 남은 GitHub 토큰 유출</strong>을 의심한다. Railway 사례까지 겹치면 &ldquo;개발자 플랫폼&middot;AI 게이트웨이의 시크릿&rdquo;이 최우선 표적이다.</li>
+            <li><strong>AI가 취약점을 찾는 속도가 규제&middot;공개 절차를 압박한다:</strong> KSMBD 건에서 ZDI는 AI 스캐너(TrendAI)가 찾은 버그를 커널 지침대로 공개 리스트에 올렸고, 패치 없는 0-day가 그대로 노출됐다. &ldquo;AI가 찾으면 이미 공개된 것&rdquo;이라는 2026년 커널 정책과 &ldquo;조율된 공개&rdquo; 원칙이 충돌하는 지점이다.</li>
+            <li><strong>그래서 우선순위는:</strong> ① <strong>엣지&middot;관리 평면</strong>(VCO, VPN, 방화벽, Kubernetes Console)부터 패치 &mdash; 이번 주 고위험은 전부 여기다 ② <strong>시크릿 위생</strong>: 환경변수&middot;CI 토큰&middot;패키지 배포 권한을 짧은 수명&middot;자동 로테이션으로 ③ <strong>AI 에이전트 런타임을 인터넷에서 격리</strong>하고 셸 도구에 승인 게이트 ④ <strong>PKI 인벤토리</strong> 관리(10/27 eMudhra 루트 불신 D-day) ⑤ 탐지&middot;격리를 자동화해 &ldquo;사람 속도&rdquo; 구간을 줄이기 ⑥ AI가 찾은 취약점이 곧 공개된다는 전제로 <strong>패치 SLA를 시간 단위로</strong> 재설계.</li>
+        </ul>
+        <p>출처: <a href="https://www.bleepingcomputer.com/news/security/amazon-says-php2shell-exploitation-began-4-days-before-patches/" target="_blank">BleepingComputer - Amazon says PHP2Shell exploitation began 4 days before patches</a> | <a href="https://www.bleepingcomputer.com/news/security/machine-speed-attacks-require-machine-speed-detection-and-response/" target="_blank">BleepingComputer - Machine speed attacks require machine speed detection and response</a> | <a href="https://thehackernews.com/2026/10/litellm-suspects-github-token-leak-in.html" target="_blank">The Hacker News - LiteLLM Suspects GitHub Token Leak in AI Gateway Logs</a></p>
+
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
