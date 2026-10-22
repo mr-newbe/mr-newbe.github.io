@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[최신] SPECTER (arXiv 2610.28401) — 데이터 선을 건드리지 않고 'USB 전원'만 깜빡여 에어갭을 넘는다: 충전 표시등 0.2~0.25 bit/s, 마우스 LED 1.0 bit/s</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔌 [최신] SPECTER — 에어갭을 넘는 신호는 '데이터'가 아니라 '전원'이었다</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-22 · 카테고리: Research (최신 보안 논문 · 에어갭 유출 · USB 전원 제어 · 부수 채널 · 하드웨어 보안)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> SPECTER: Covert Data Exfiltration from Air-Gapped Systems via USB Power Modulation<br>
+                <strong>저자:</strong> Hyeongjun Choi, Ji Hyuk Jung, Ji Won Yoon (Korea University)<br>
+                <strong>출처:</strong> arXiv:2610.28401 [cs.CR] · 2026년 10월 20일 제출 · 11 pages, 7 figures, 3 tables<br>
+                <strong>분야:</strong> 에어갭/망분리 환경 유출 · USB 전원 관리 · 물리적 부수 채널 · 악성코드 사후(post-compromise) 행위<br>
+                <strong>인용:</strong> 2026-10-20 신규 공개 — 인용 집계 전 (OpenAlex/S2 레코드 미형성)<br>
+                <strong>원문:</strong> <a href="https://arxiv.org/abs/2610.28401" target="_blank" rel="noopener">arXiv:2610.28401</a> · <a href="https://arxiv.org/html/2610.28401v1" target="_blank" rel="noopener">HTML 전문</a> · <a href="https://github.com/hjchoi17/SPECTER" target="_blank" rel="noopener">아티팩트 (MIT)</a>
+            </div>
+
+            <h2><i class="fa-solid fa-circle-question"></i> 왜 이 논문인가 — "망을 끊었으니 안전하다"의 마지막 구멍</h2>
+            <p>에어갭(air-gap)은 보안의 마지막 카드입니다. 원자력·발전 제어망, 국방, 금융 망분리 PC, 제조 OT — "인터넷이 없다"는 한 줄로 위협 모델의 절반을 잘라냅니다. 그래서 지난 10년간 연구자들은 그 카드를 계속 뒤집어 왔습니다. CPU 부하로 열을 만들고(BitWhisper), 자기장을 흘리고(MAGNETO), 내장 스피커를 초음파로 울리고(MOSQUITO), USB <em>데이터 버스</em>의 전자기 방사를 잡았습니다(USBee).</p>
+            <p>고려대학교의 Hyeongjun Choi·Ji Hyuk Jung·Ji Won Yoon이 10월 20일 올린 <strong>SPECTER</strong>는 그 계보에서 한 칸을 비워둔 자리를 채웁니다. 신호를 싣는 곳이 <em>데이터 선(D+/D−, SuperSpeed 페어)</em>도, <em>USB 데이터 전송(payload)</em>도 아닙니다. <strong>호스트가 USB 전원 관리·장치 상태를 바꾸는 그 동작 자체</strong>입니다.</p>
+            <blockquote>핵심 문장은 이겁니다. <strong>"유출할 데이터를 USB 데이터 전송 안에 넣지 않는다."</strong> USB 트래픽을 전수 감시하는 DLP도, USB 데이터 캡처 기반 탐지기도, 원리적으로 볼 것이 없습니다 — 관찰 대상은 <em>충전 표시등이 켜졌다 꺼졌다 하는 패턴</em>입니다.</blockquote>
+
+            <h2><i class="fa-solid fa-user-secret"></i> 위협 모델 — 이미 뚫린 호스트, 남은 것은 '빼내기'뿐</h2>
+            <ul>
+                <li><strong>전제:</strong> 망분리·에어갭 환경의 호스트에서 <em>이미</em> root(Linux) 또는 Administrator(Windows) 권한을 얻은 상태. 초기 침투·권한 상승·지속성은 논문 범위 밖입니다(감염 매체, 공급망, 내부자).</li>
+                <li><strong>환경 조건:</strong> 네트워크 egress는 없거나 강하게 제한되지만, <strong>USB 충전이나 주변기기 연결은 허용</strong>되는 곳. 실제로 대부분의 망분리 PC가 그렇습니다 — 개인 스마트폰 충전, USB 마우스, 허브.</li>
+                <li><strong>목표:</strong> 대용량 파일이 아닙니다. <strong>짧고 값비싼 비밀</strong> — 암호화 키, 자격증명, 인증 토큰. 저자들이 명시적으로 "short secrets"라고 못 박습니다.</li>
+                <li><strong>은닉성에 대한 정직한 구분:</strong> 논문은 "전송 능력"과 "그 동작을 들키지 않는 능력"을 분리합니다. 제어 동작은 USB 알림, 충전 표시, LED 변화, 주변기기 순단을 <em>일으킬 수 있습니다.</em> 따라서 공격자는 <strong>아무도 보지 않는 시간</strong>(야간 무인 운영 등)이라는 전송 기회를 필요로 합니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-microchip"></i> 메커니즘 — 5초에 1비트, '전원 상태'를 스위치로 쓴다</h2>
+            <p>송신기는 두 플랫폼에서 각각 다른 프리미티브를 씁니다. 둘 다 <strong>관리자 권한이 필요한, 그러나 지극히 정상적인 OS 기능</strong>입니다.</p>
+            <table>
+                <tr><th>플랫폼</th><th>제어 수단</th><th>동작</th></tr>
+                <tr><td>Ubuntu 22.04</td><td>sysfs 전원 관리 속성</td><td><code>power/control</code> = <code>on</code>(활성) / <code>auto</code>(커널이 유휴 장치 서스펜드 허용) · iOS 분기는 <code>autosuspend_delay_ms</code>를 2000 ↔ 0으로 함께 변경</td></tr>
+                <tr><td>Windows 10</td><td>DevCon 장치 상태 명령</td><td><code>devcon disable "&lt;HWID&gt;"</code> / <code>devcon enable "&lt;HWID&gt;"</code> — <em>enable을 두 번</em> 호출해야 상태가 안정적으로 복구됨(실측)</td></tr>
+            </table>
+            <ul>
+                <li><strong>상태 기반 부호화(충전·주변기기 경로):</strong> 비트 1 = 활성 상태, 비트 0 = 비활성 상태. 같은 비트가 연속되면 상태를 유지합니다.</li>
+                <li><strong>이벤트 기반 부호화(RF 경로):</strong> 심볼 구간 안에서 USB 상태 변경이 <em>한 번 일어나면</em> 1, <em>없으면</em> 0. 버스트의 유무만 봅니다.</li>
+                <li><strong>심볼 간격:</strong> Linux 스마트폰 분기 <strong>5초</strong>, Windows 분기 <strong>1초</strong> 대기. 이 값이 그대로 비트레이트 상한을 만듭니다 — 5초면 0.2 bit/s, 1초면 1.0 bit/s.</li>
+                <li><strong>패킷 구조(프레이밍 사용 시):</strong> 프리앰블 <code>101011</code> → 페이로드 길이 헤더 → 페이로드 → CRC → 트레일러(1). RF 경로는 짧은 프리앰블 <code>101</code>. <strong>ACK도, 재전송도 없습니다</strong> — 단방향, 손실 감수.</li>
+                <li><strong>중요한 뉘앙스:</strong> <code>power/control=auto</code>는 "VBUS를 물리적으로 뽑았다"는 뜻이 아닙니다. 실제 관찰 가능한 변화는 <em>호스트 컨트롤러·허브·드라이버·연결된 장치의 조합</em>에 달려 있고, 논문도 이 점을 반복해서 못 박습니다. 즉 이 채널은 <strong>"USB 전력 규격의 결함"이 아니라 "전원 상태를 바꾸는 OS 기능이 만들어내는 관찰 가능한 부수 효과"</strong>입니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-satellite-dish"></i> 수신 경로 세 갈래 — 폰, 눈, 그리고 SDR</h2>
+            <ul>
+                <li><strong>① 충전 상태 수신기 (스마트폰):</strong> 감염 호스트에 충전을 위해 연결된 폰이 수신기입니다. Android 구현은 <strong>일반 사용자 앱</strong>이 1초 간격으로 배터리 상태를 6회 샘플링해 비트를 해독합니다 — <strong>root도, 펌웨어 수정도, OS 수정도 필요 없습니다.</strong> iOS는 화면의 충전 표시를 <em>사람이 육안으로</em> 읽는 방식(실험실 조건).</li>
+                <li><strong>② 주변기기 상태 수신기 (눈/카메라):</strong> 순정 USB 마우스·웹캠·허브의 <em>겉으로 보이는</em> 변화를 관찰합니다. 악성코드도, 변조 펌웨어도 필요 없습니다. 대신 <strong>시선(line of sight)</strong>이 필요합니다 — 옆자리 사람, 복도 CCTV.</li>
+                <li><strong>③ 근접 RF 수신기 (SDR):</strong> HackRF One + LF-R 400 루프 안테나를 <strong>USB 케이블에 직접 접촉</strong>시켜, 약 <strong>5 MHz</strong> 부근의 스위칭성 버스트를 관찰합니다. 샘플링 2.6 MS/s, STFT 8192 샘플, 0주파수 빈의 크기를 정규화해 시간축 트레이스로 만듭니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-chart-simple"></i> 실측 결과 — 표 두 줄이 이 논문의 전부다</h2>
+            <table>
+                <tr><th>수신 경로</th><th>Ubuntu 데스크톱</th><th>Windows 노트북</th></tr>
+                <tr><td>충전 상태 · Android (Galaxy S22 / Android 14)</td><td><strong>0.2 bit/s</strong></td><td><strong>0.25 bit/s</strong></td></tr>
+                <tr><td>충전 상태 · iPhone (13 Pro / iOS 17.4.1, 육안)</td><td><strong>0.2 bit/s</strong></td><td><strong>0.25 bit/s</strong></td></tr>
+                <tr><td>주변기기 · USB 마우스 (LED 소등 + 응답 정지)</td><td>N/O</td><td><strong>1.0 bit/s</strong></td></tr>
+                <tr><td>주변기기 · 웹캠 (사용 중일 때만 LED 점등)</td><td>N/O</td><td>0.25 bit/s</td></tr>
+                <tr><td>주변기기 · USB 허브 (허브 LED는 계속 켜짐, 하위 장치가 죽음)</td><td>N/O</td><td>0.25 bit/s</td></tr>
+                <tr><td>주변기기 · 키보드 / 헤드셋 동글</td><td>N/O</td><td>N/O</td></tr>
+            </table>
+            <p><em>N/O = 해당 조합에서 사용 가능한 채널을 얻지 못함.</em> Ubuntu 데스크톱에서는 테스트한 <strong>모든</strong> 주변기기가 실패했습니다 — 즉 이 채널은 "<strong>호스트 + 장치 + 수신 경로의 조합</strong>"에 극단적으로 의존합니다. 저자들이 이 사실을 숨기지 않고 표에 그대로 남긴 점이 오히려 신뢰를 높입니다.</p>
+            <ul>
+                <li><strong>1.0 bit/s가 실전에서 무슨 뜻인가:</strong> 256비트(AES-256 키)를 보내는 데 <strong>약 4분 16초</strong>. 0.2 bit/s라면 <strong>약 21분</strong>입니다. 느립니다. 그러나 "야간에 아무도 없는 사무실"이라는 시간 예산에서는 충분합니다.</li>
+                <li><strong>RF 경로의 실증:</strong> 6비트 시퀀스 <code>110101</code>과 <strong>48비트 페이로드</strong> 모두, 전송 시퀀스와 복호 시퀀스가 일치했습니다. 단 — 케이블에 안테나를 <em>밀착</em>시킨 조건이고, 짧은 노이즈 버스트가 섞인 사례도 있었습니다.</li>
+                <li><strong>채널 비교(Table 1)에서 SPECTER의 자리:</strong> USBee 160~640 bit/s(USB 데이터 버스 RF), 스피커 10~166 bit/s, PowerHammer 10/1000 bit/s, CovertPower 최대 10 bit/s. SPECTER는 <strong>0.2~1.0 bit/s로 이들 중 가장 느리지만</strong>, 표에서 <em>부하 변조(load modulation)도, USB 데이터 부호화도</em> 하지 않는 유일한 항목입니다. 느린 대신 <strong>데이터 경로에 아무 흔적을 남기지 않는다</strong>는 것이 이 논문의 거래입니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 어디까지 믿어야 하나 — 저자들이 스스로 깎은 주장</h2>
+            <p>이 논문은 최근 유행하는 "AI가 다 뚫었다"류와 정반대의 태도로 쓰였습니다. 실험실 규모의 사실만 남기고 나머지를 명시적으로 비워둡니다.</p>
+            <ul>
+                <li><strong>비트 오류율(BER)·패킷 오류율·실효 처리량을 <em>측정하지 않았습니다.</em></strong> 관찰된 예시에서 오류가 없었다는 사실은 "채널 전체의 오류율이 낮다"는 증거가 아니라고 직접 씁니다.</li>
+                <li><strong>거리·각도·환경 견고성 미평가:</strong> RF는 안테나를 케이블에 접촉한 구성만 측정. "접촉 프로브 조건"이라는 단서를 붙입니다.</li>
+                <li><strong>재현성의 경계:</strong> 통제된 실험실, 연구자 소유 장치, 선택된 소수의 호스트·주변기기. 다른 컨트롤러/드라이버/허브로 일반화되지 않을 수 있음.</li>
+                <li><strong>탐지 가능성은 구성 의존:</strong> 어떤 조합에서는 충전 표시가 보이고 화면이 깜빡였고, 완충 상태에서는 아무 표시도 없었습니다. 후자를 "일반적으로 은닉성이 높다"로 확대 해석하지 말라고 선을 긋습니다.</li>
+                <li><strong>방어 평가 없음:</strong> 탐지기·속도 제한 정책·임계값을 <em>검증하지 않았습니다.</em> 제안은 "후보 방어"일 뿐입니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 방어 — USB '데이터' 감시로는 안 잡힌다</h2>
+            <ul>
+                <li><strong>USB 전원 관리·장치 상태 이벤트를 보안 텔레메트리로 승격.</strong> 논문의 1순위 제안입니다. <em>같은 장치에 대한 enable/disable/suspend/resume의 반복</em>을 감사하고, 애플리케이션 활동·충전 상태 관찰과 상관 분석합니다.</li>
+                <li><strong>정상 동작과의 구분이 과제:</strong> 절전, 재연결, 드라이버 재설정도 같은 이벤트를 만듭니다. 그래서 "이벤트 1회"가 아니라 <strong>주기성·반복성·시간 규칙성</strong>을 특징(feature)으로 삼아야 합니다.</li>
+                <li><strong>정책 계층:</strong> 소프트웨어에 의한 USB 상태 변경 제한, 미사용 포트 비활성, 장치 허용목록, 민감 호스트 주변의 개인 스마트폰 반입 제한.</li>
+                <li><strong>역설 — 그리고 가장 중요한 문장:</strong> "장치 연결을 허용하는 것만으로는 이 채널을 막지 못한다." 공격은 <em>순정 마우스</em>로도 성립하기 때문입니다. 또한 <strong>root 권한을 이미 내준 상태에서는 호스트 기반 감시 자체를 신뢰할 수 없습니다.</strong> 즉 이 방어는 <em>침투 이후</em>가 아니라 <em>침투 이전</em>의 통제(매체 통제, 권한 최소화)와 함께 놓여야 의미가 있습니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flask"></i> 교육용 PoC — 채널을 '만들지' 않고 '탐지'하는 쪽을 짜본다</h2>
+            <p>아래 코드는 실제 하드웨어를 제어하지 않습니다. <strong>로컬 로그 시뮬레이션</strong>입니다. (1) 상태 기반 부호화로 비트열이 어떤 이벤트 시퀀스가 되는지 만들고, (2) 그 시퀀스를 <em>방어자 입장</em>에서 "주기적 상태 변경" 패턴으로 탐지합니다. 목적은 <em>탐지 규칙의 취약점</em>을 이해하는 것입니다 — 임계값을 조금만 올리면 공격은 그대로 두고 오탐만 사라집니다.</p>
+<pre><code>import statistics
+
+# 1) 상태 기반 부호화: bit1 = 활성(on), bit0 = 비활성(auto)
+def encode(bits, period=5.0):
+    t, events = 0.0, []
+    state = None
+    for b in bits:
+        new = "on" if b == 1 else "auto"
+        if new != state:                    # 상태가 바뀔 때만 실제 이벤트 발생
+            events.append((round(t, 1), new))
+            state = new
+        t += period
+    return events
+
+secret = [int(c) for c in "10110011"]        # 교육용 8비트
+ev = encode(secret, period=5.0)
+print(ev)
+
+# 2) 방어자 측 휴리스틱: '같은 장치의 상태 변경 간격이 규칙적인가'
+def detect(events, min_events=5, cv_threshold=0.15):
+    if len(events) &lt; min_events:
+        return "PASS (이벤트 부족)"
+    gaps = [b[0] - a[0] for a, b in zip(events, events[1:])]
+    cv = statistics.pstdev(gaps) / statistics.mean(gaps)   # 변동계수
+    return ("ALERT: 주기적 USB 상태 변경 (간격 CV=%.2f)" % cv) if cv &lt; cv_threshold else "PASS"
+
+print(detect(ev))
+print(detect([(0,"auto"),(37,"on"),(51,"auto"),(180,"on"),(181,"auto")]))  # 정상 재연결</code></pre>
+            <ul>
+                <li><strong>연속된 같은 비트는 이벤트를 만들지 않습니다.</strong> <code>10110011</code>은 8비트지만 실제 상태 변화는 5회입니다 — 방어자는 "이벤트 개수 ≠ 비트 개수"라는 사실을 먼저 알아야 합니다.</li>
+                <li><strong>탐지기의 진짜 약점은 임계값입니다.</strong> <code>cv_threshold</code>를 0.05로 조이면 정상 절전 패턴까지 잡고, 0.3으로 풀면 공격이 통과합니다. 논문이 "탐지기를 검증하지 않았다"고 말한 이유가 여기 있습니다.</li>
+                <li><strong>실습 과제:</strong> 정상 트래픽(절전·재연결·도킹/언도킹) 로그를 섞어 오탐률을 재보세요. 그리고 <em>비트 0을 '이벤트 없음'으로 보내는 RF 방식</em>으로 바꾸면 이 탐지기가 통째로 무력화된다는 것도 확인해 보세요.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 그래서 무엇이 남는가</h2>
+            <ul>
+                <li><strong>"데이터 경로를 감시한다"는 보안 가정이 좁다.</strong> USB는 데이터 선과 전원 선, 그리고 <em>상태 기계</em>로 이루어집니다. 우리는 앞의 둘은 봤지만 세 번째는 텔레메트리로 취급하지 않았습니다. 이 논문의 실제 기여는 속도(0.2~1.0 bit/s)가 아니라 <strong>관찰 대상의 재정의</strong>입니다.</li>
+                <li><strong>속도가 느린 채널도 '키'에는 충분히 빠르다.</strong> 1 bit/s로 4분이면 AES-256 키 하나입니다. 에어갭 유출 연구에서 비트레이트는 "파일 유출" 기준으로 평가되지만, 위협은 <em>비밀 하나</em>로 끝나는 경우가 많습니다.</li>
+                <li><strong>토폴로지가 곧 공격면이다.</strong> Ubuntu 데스크톱에서는 주변기기 경로가 전부 실패하고 Windows 노트북에서만 성공했습니다. 같은 "USB"라도 호스트 컨트롤러·허브·드라이버에 따라 결과가 갈립니다 — 자산 관리 문서에 <em>포트 토폴로지</em>가 들어가야 하는 이유입니다.</li>
+                <li><strong>한국 실무 관점:</strong> 망분리 PC에 개인 스마트폰을 충전용으로 꽂는 관행, 무인 야간 운영되는 제어망 단말, "USB 데이터만 막으면 된다"는 매체 통제 정책 — 이 세 가지가 이 논문의 직접적인 표적입니다. 충전 허용 = 관찰 가능한 상태 변화 노출입니다.</li>
+                <li><strong>연구 윤리:</strong> 모든 실험은 연구자 소유 장치, 격리된 실험실, 네트워크 비연결. 아티팩트는 MIT로 공개됐지만 송신기는 장치 식별자를 명시적으로 설정해야만 동작하도록 안전장치를 뒀습니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-book-open"></i> 출처</h2>
+            <ul>
+                <li>논문: Hyeongjun Choi, Ji Hyuk Jung, Ji Won Yoon, <em>SPECTER: Covert Data Exfiltration from Air-Gapped Systems via USB Power Modulation</em>, arXiv:2610.28401 [cs.CR], 2026-10-20 — <a href="https://arxiv.org/abs/2610.28401" target="_blank" rel="noopener">arXiv 초록</a> · <a href="https://arxiv.org/html/2610.28401v1" target="_blank" rel="noopener">HTML 전문</a></li>
+                <li>아티팩트: <a href="https://github.com/hjchoi17/SPECTER" target="_blank" rel="noopener">github.com/hjchoi17/SPECTER</a> (MIT) — <code>final_send.py</code> 송신기 · <code>RF_receive.py</code> RF 트레이스 처리 · <code>charging_receive.apk</code> Android 수신기</li>
+                <li>Linux USB 전원 관리: <a href="https://docs.kernel.org/driver-api/usb/power-management.html" target="_blank" rel="noopener">kernel.org — USB power management</a> · Windows: <a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/devcon" target="_blank" rel="noopener">Microsoft DevCon</a></li>
+                <li>선행 계보: Guri et al., <em>USBee</em> (2016, USB 데이터 버스 RF) · <em>MOSQUITO</em> (2018, 스피커 재구성) · <em>PowerHammer</em> (2019, 전원선 전류) · <em>MAGNETO</em> (2021, CPU 자기장) · Spolaor et al. (2017) 및 <em>CovertPower</em> (2025, 충전측 전력 모니터)</li>
+                <li>함께 읽기:
+                    <ul>
+                        <li>2026-10-07 <a href="security-research-2026-10-07.html">Differential Power Analysis (1999)</a>: 전력 <em>소비량</em>을 통계로 캐 키를 뽑은 부수 채널의 원형. SPECTER는 전력을 <em>측정</em>하는 대신 전력 상태를 <em>변조</em>합니다 — 같은 매체, 반대 방향.</li>
+                        <li>2026-10-14 <a href="security-research-2026-10-14.html">Spectre (2019)</a>: "구현은 안전한데 하드웨어가 가정을 지키지 않는다"의 대표. SPECTER는 그 가정 위반이 <em>물리 계층</em>에서 일어난 사례입니다.</li>
+                        <li>2026-10-17 <a href="security-research-2026-10-17.html">PAGE404 (2026)</a>: MIG로 격리한 GPU에서도 카운터가 공유된다는 최신 부수 채널. 격리는 <em>논리</em>에서 끝나지 않는다는 같은 교훈.</li>
+                        <li>2026-09-23 <a href="security-research-2026-09-23.html">Cold Boot Attacks (2008)</a>: 물리적 접근이 암호의 전제를 깨는 고전. 에어갭 유출 계보의 이웃 가지입니다.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
