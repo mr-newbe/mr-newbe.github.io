@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏛️ [클래식] Bell–LaPadula (1976) — '읽기는 아래로, 쓰기는 위로': 기밀 등급을 격자로 바꾼 MAC의 원형</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏛️ [클래식] Secure Computer System: Unified Exposition and Multics Interpretation (1976) — '읽기는 아래로, 쓰기는 위로'</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-23 · 카테고리: Research (클래식 보안 논문 · 접근통제 · 다단계 보안(MLS) · 강제적 접근통제(MAC) · 보안 모델 · 운영체제 보안)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Secure Computer System: Unified Exposition and Multics Interpretation<br>
+                <strong>저자:</strong> David Elliott Bell, Leonard J. LaPadula (MITRE Corporation) — Roger R. Schell(미 공군 ESD)의 강한 요구에 따라 수행<br>
+                <strong>출처:</strong> MITRE Technical Report MTR-2997 Rev. 1 · ESD-TR-75-306 · 1976년 3월 · DTIC AD-A023 588<br>
+                <strong>선행 보고서:</strong> <em>Secure Computer Systems: Mathematical Foundations</em> 및 <em>A Mathematical Model</em> (MTR-2547 Vol. I/II, ESD-TR-73-278, 1973)<br>
+                <strong>분야:</strong> 형식적 보안 정책 모델 · 다단계 보안(MLS) · 강제적 접근통제(MAC) · 참조 모니터(reference monitor) · 보안 커널<br>
+                <strong>인용:</strong> OpenAlex 기준 1,917회 (기술보고서 레코드 집계, 2026-10-23 조회 — Semantic Scholar API는 429로 조회 불가)<br>
+                <strong>원문:</strong> <a href="https://apps.dtic.mil/sti/citations/ADA023588" target="_blank" rel="noopener">DTIC AD-A023588</a> · <a href="https://doi.org/10.21236/ada023588" target="_blank" rel="noopener">DOI 10.21236/ada023588</a>
+            </div>
+
+            <h2><i class="fa-solid fa-circle-question"></i> 왜 이 논문인가 — 117편 중 비어 있던 단 하나의 자리</h2>
+            <p>이 사이트의 research 글 117편을 세어 보면 이상할 정도로 고른 구색입니다. 암호 원시연산(RSA·Diffie–Hellman·RC4·MD5·차분 분석), 메모리 오염(Smashing the Stack·ROP·CFI·Rowhammer), 하드웨어 부수 채널(Spectre·Meltdown·DPA·콜드부트), 네트워크(Bro·Ptacek–Newsham·Bellovin), 형식 모델(Dolev–Yao), 그리고 수십 편의 악성코드 사례 분석.</p>
+            <p>그런데 <strong>접근통제(access control) 모델은 단 한 편도 없었습니다.</strong> 공격도, 도구도, 악성코드도 아닌 — "누가 무엇을 읽고 쓸 수 있는가"를 정의하는 문서. Bell–LaPadula는 그 자리의 주춧돌이고, 동시에 이 사이트에서 가장 자주 인용된 개념(참조 모니터, 보안 커널, 라벨, MAC)의 출처입니다.</p>
+            <p>이 논문의 진짜 야심은 소박해 보이는 한 문장에 있습니다. 군대에서 쓰던 <em>"기밀(Secret)"</em>이라는 행정 용어를, <strong>부분순서(partial order)를 가진 대수적 격자(lattice) 위의 라벨</strong>로 바꾸고, 그 위의 상태 전이를 귀납법으로 증명하겠다는 것. 서류 봉투에 찍히던 도장 하나가 수학이 된 순간입니다.</p>
+
+            <h2><i class="fa-solid fa-clock-rotate-left"></i> 1973 → 1976: 두 편의 보고서와 한 명의 공군 장교</h2>
+            <p>Bell과 LaPadula는 MITRE의 연구원이었지만, 이 연구를 "해달라"고 요구한 쪽은 고객이었습니다. 미 공군 전자시스템국(ESD)의 Roger R. Schell은 당시 컴퓨터 보안 담당으로, <em>"보안을 주장하지 말고 증명하라"</em>는 입장을 밀어붙였습니다. 그 압력이 1973년의 두 권짜리 보고서를 만들었습니다.</p>
+            <ul>
+                <li><strong>1973, MTR-2547 Vol. I</strong> — <em>Mathematical Foundations</em>: 주체·객체·접근 모드를 집합과 관계로 정의하고 "안전한 상태(secure state)"를 형식화.</li>
+                <li><strong>1973, MTR-2547 Vol. II</strong> — <em>A Mathematical Model</em>: 상태 전이 규칙(rule) 집합과 그 보존 정리.</li>
+                <li><strong>1976, MTR-2997 Rev. 1</strong> — <em>Unified Exposition and Multics Interpretation</em>: 두 권의 표기 불일치를 통합하고, 실제 운영체제(Multics)에 모델을 사상(mapping)한 해석편을 붙인 결정판. 오늘날 "Bell–LaPadula 모델"이라고 부르는 것은 사실 이 1976년 문서입니다.</li>
+            </ul>
+            <p>여기에 1972년 James P. Anderson의 <em>Computer Security Technology Planning Study</em>가 제공한 <strong>참조 모니터(reference monitor)</strong> 개념이 결합합니다. "모든 접근을 중재하고, 변조 불가능하며, 검증 가능할 만큼 작은 단일 메커니즘" — Bell–LaPadula는 그 메커니즘이 <em>무엇을</em> 검사해야 하는지를 정했고, Anderson은 그것이 <em>어디에</em> 있어야 하는지를 정했습니다. 이 둘의 결합이 이후 50년 운영체제 보안평가의 기본 도면입니다.</p>
+
+            <h2><i class="fa-solid fa-layer-group"></i> 모델의 뼈대 — 라벨은 숫자가 아니라 격자다</h2>
+            <p>모델의 어휘는 단순합니다. <strong>주체(subject)</strong>는 프로세스, <strong>객체(object)</strong>는 파일·세그먼트·장치입니다. 둘 다 <strong>보안 라벨 (등급, 카테고리 집합)</strong>을 가집니다. 등급은 Unclassified &lt; Confidential &lt; Secret &lt; Top Secret의 전순서(total order)이고, 카테고리는 {NUC, CRYPTO, NATO, …} 같은 구획(compartment)의 집합입니다.</p>
+            <p>핵심은 두 라벨을 비교하는 <strong>지배(dominates) 관계</strong>입니다. 라벨 A가 B를 지배한다는 것은 <em>등급은 같거나 높고, 카테고리는 B를 전부 포함</em>한다는 뜻입니다.</p>
+            <blockquote>(L₁, C₁) ≥ (L₂, C₂) ⟺ L₁ ≥ L₂ ∧ C₁ ⊇ C₂</blockquote>
+            <p>이 정의 때문에 관계가 <strong>부분순서</strong>가 됩니다. 등급만 보면 모두 비교 가능하지만, 카테고리가 어긋나면 <em>비교 불가(incomparable)</em>가 됩니다. {Secret, NUC}와 {Secret, CRYPTO}는 어느 쪽도 상대를 지배하지 못합니다. 이 "비교 불가"가 실무에서 얼마나 성가신지를 아는 사람은 곧바로 알 것입니다 — 원자력 인가를 가진 사람과 암호 인가를 가진 사람이 <em>같은 등급</em>인데도 서로의 문서를 못 보는 이유입니다.</p>
+            <table>
+                <tr><th>라벨 예시</th><th>등급</th><th>카테고리</th><th>지배하는 대상</th></tr>
+                <tr><td>(TS, {NUC, CRYPTO})</td><td>Top Secret</td><td>2개</td><td>아래 3개 라벨 전부</td></tr>
+                <tr><td>(S, {NUC})</td><td>Secret</td><td>1개</td><td>(S,{NUC}), (C,{NUC}), (U,∅) — (S,{CRYPTO})는 불가</td></tr>
+                <tr><td>(C, {CRYPTO})</td><td>Confidential</td><td>1개</td><td>(C,{CRYPTO}), (U,∅)</td></tr>
+                <tr><td>(U, ∅)</td><td>Unclassified</td><td>없음</td><td>자기 자신뿐</td></tr>
+            </table>
+            <p>카테고리가 6개면 라벨 공간은 4 × 2⁶ = <strong>256개</strong>이지만, 임의의 두 라벨 사이의 관계는 딱 세 가지(지배·피지배·비교불가)뿐입니다. 정책 엔진이 해야 할 일이 "256가지 경우의 수"에서 "부분순서 비교 한 번"으로 줄어드는 것이 이 추상화의 값어치입니다.</p>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 세 가지 속성 — 읽기·쓰기·재량</h2>
+            <p>모델은 접근을 세 개의 술어로 나눕니다. 이름은 투박하지만(간단 보안 속성, 별 속성), 이 세 줄이 MAC의 전부입니다.</p>
+            <table>
+                <tr><th>속성</th><th>형식</th><th>일상어</th><th>막으려는 것</th></tr>
+                <tr><td>ss-property<br>(Simple Security)</td><td>read 허용 ⟹ level(s) ≥ level(o) ∧ cats(s) ⊇ cats(o)</td><td>아래로만 읽는다<br>(no read up)</td><td>낮은 등급 주체가 높은 등급 객체를 읽어 <em>위로</em> 유출</td></tr>
+                <tr><td>*-property<br>(Star)</td><td>write 허용 ⟹ level(o) ≥ level(s) ∧ cats(o) ⊇ cats(s)</td><td>위로만 쓴다<br>(no write down)</td><td>높은 등급 주체가 낮은 등급 객체에 써서 <em>아래로</em> 유출</td></tr>
+                <tr><td>ds-property<br>(Discretionary)</td><td>접근 ∈ M[s, o]</td><td>재량 행렬도 통과해야 한다</td><td>MAC가 허용해도 소유자가 안 열어줬으면 거부</td></tr>
+            </table>
+            <p><strong>"쓰기를 위로"</strong>가 이 모델에서 가장 낯선 부분입니다. Secret 프로세스는 Top Secret 파일에는 쓸 수 있지만, Unclassified 파일에는 쓸 수 없습니다. 언뜻 거꾸로처럼 보이지만 이유는 명확합니다 — 쓰기가 허용되면 Secret 내용을 <em>공개 파일에 복사</em>해버릴 수 있기 때문입니다. 기밀성 모델에서 쓰기 제한은 <em>출력 제한</em>이고, 그래서 이 모델은 "읽기 통제"가 아니라 사실상 <strong>유출 통제</strong>입니다.</p>
+            <p>실무형 변형도 문서에 들어 있습니다. 어떤 주체가 여러 객체에 동시에 접근 중이라면, 쓰기 대상은 <em>그 주체가 읽을 수 있는 모든 객체들의 최소 상한(join)</em>을 지배해야 합니다. 이른바 하이워터마크(high-water mark) 규칙으로, 프로세스가 한 번이라도 높은 등급 데이터를 만졌다면 그 순간 프로세스의 유효 등급이 올라가 아래로는 못 쓰게 됩니다. 오늘날 브라우저의 taint 전파, 클라우드 DLP의 라벨 승격이 정확히 같은 발상입니다.</p>
+            <p>데이터베이스 진영은 더 엄격한 <strong>Strong Star</strong>를 씁니다. 쓰기 허용 조건을 "지배"가 아니라 "등급 동일"로 좁히는 변형으로, 위로 쓰기(write up)를 아예 없앱니다. 등급이 섞이는 순간 무결성이 깨진다는 지적을 반영한 것입니다.</p>
+
+            <h2><i class="fa-solid fa-square-root-variable"></i> 기본 보안 정리 — 그리고 9년 뒤의 반례</h2>
+            <p>이 논문이 "정리(theorem)"를 표방하는 이유는 <strong>기본 보안 정리(Basic Security Theorem)</strong>입니다. 내용은 귀납법 한 줄입니다.</p>
+            <blockquote>초기 상태가 안전하고, 모든 상태 전이 규칙이 ss·*·ds 속성을 보존한다면, 도달 가능한 모든 상태는 안전하다.</blockquote>
+            <p> Bell과 LaPadula는 이를 위해 <code>get-read</code>, <code>get-append</code>, <code>get-write</code>, <code>get-execute</code>, <code>release-*</code>, <code>give-*</code>, <code>rescind-*</code>, <code>create-object</code>, <code>delete-object</code> 같은 규칙들을 하나씩 정의하고, 각 규칙이 세 속성을 깨지 않음을 보입니다. 지루해 보이는 이 규칙 목록이 사실 <strong>최초의 검증 가능한 보안 커널 명세</strong>입니다.</p>
+            <p>그런데 1985년 John McLean이 짧은 논평 하나로 이 정리의 급소를 찌릅니다. 그는 <strong>System Z</strong>라는 시스템을 제시합니다. 모든 전이가 ss·*·ds를 보존하고, 따라서 기본 보안 정리를 완벽히 만족합니다. 그런데 System Z에는 <em>"Top Secret 객체를 Unclassified로 재분류할 수 있는"</em> 규칙이 하나 있습니다. 정리는 참인데, 시스템은 최악으로 유출합니다.</p>
+            <p>McLean의 결론은 잔인하고 지금도 유효합니다. <strong>기본 보안 정리는 "이 시스템이 안전하다"가 아니라 "이 시스템이 내가 정의한 안전을 유지한다"만 말합니다.</strong> 정책이 틀렸다면, 정리는 그 틀린 정책을 완벽하게 보존해 줄 뿐입니다. 형식 검증의 가치는 명세의 품질을 넘지 못한다는 이 교훈은, 이후 비간섭성(noninterference, Goguen–Meseguer 1982) 같은 더 강한 성질을 낳았고, 오늘날에도 "모델 체크를 통과했는데 왜 뚫렸나"라는 질문의 원형입니다.</p>
+
+            <h2><i class="fa-solid fa-server"></i> Multics에서 SELinux까지 — 이 모델이 실제로 깔린 곳</h2>
+            <p>1976년판의 부제가 <em>Multics Interpretation</em>인 것은 장식이 아닙니다. Bell과 LaPadula는 모델을 MITRE의 책상 위 이론으로 두지 않고, 당시 가장 진보한 운영체제였던 Multics의 <strong>AIM(Access Isolation Mechanism)</strong>에 사상했습니다. 링 기반 보호(8개 링)와 등급·카테고리 라벨을 결합해, "모델의 규칙이 실제 커널의 어느 검사 지점에 대응하는가"를 문서화했습니다. 이 해석편이 있었기 때문에 이 모델은 <em>평가 기준</em>이 될 수 있었습니다.</p>
+            <table>
+                <tr><th>연도</th><th>산출물</th><th>Bell–LaPadula와의 관계</th></tr>
+                <tr><td>1976</td><td>Multics AIM 해석</td><td>모델 → 실제 커널 사상의 첫 증명</td></tr>
+                <tr><td>1983</td><td>TCSEC (Orange Book, CSC-STD-001-83 → 1985 DoD 5200.28-STD)</td><td>B1 등급부터 라벨링된 MAC <em>요구</em> — 사실상 BLP가 평가 잣대가 됨</td></tr>
+                <tr><td>1985</td><td>Honeywell SCOMP (XTS-200)</td><td>최초의 A1 평가 시스템 — 형식 명세 + 검증된 보안 커널</td></tr>
+                <tr><td>2006</td><td>Solaris Trusted Extensions</td><td>상용 UNIX에 MLS 라벨·구획 도입</td></tr>
+                <tr><td>2007</td><td>SELinux MLS 정책 (RHEL 5)</td><td>리눅스에 다단계 보안 정책으로 편입</td></tr>
+                <tr><td>현재</td><td>XTS-400(STOP), FreeBSD TrustedBSD MAC</td><td>여전히 "BLP 계열 MAC"을 구현·평가</td></tr>
+            </table>
+            <p>여기서 냉정하게 짚을 점이 있습니다. Bell–LaPadula가 표준이 된 것은 이론이 특히 우아해서가 아니라, <strong>평가 기준(TCSEC)이 그 모델을 요구했기 때문</strong>입니다. 보안에서 승자는 옳은 모델이 아니라 <em>조달 요건에 적힌</em> 모델인 경우가 많습니다. 그리고 SELinux의 실제 배포에서 대부분의 사이트가 쓰는 것은 MLS가 아니라 type enforcement라는 점도 — 이론의 위상과 실무의 채택은 별개라는 증거입니다.</p>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 모델이 일부러 다루지 않은 것 — 그리고 빈자리를 채운 논문들</h2>
+            <p>좋은 고전은 한계까지 교과서입니다. Bell–LaPadula의 빈자리는 우연이 아니라 <strong>명시된 범위(scope)</strong>이고, 그 목록이 곧 이후 40년 보안 연구의 목차가 됩니다.</p>
+            <ul>
+                <li><strong>무결성은 없다.</strong> 이 모델은 기밀성만 본다. "위로 쓰기"를 허용하므로, 신뢰할 수 없는 낮은 등급의 데이터가 높은 등급 공간으로 <em>올라가</em> 섞일 수 있습니다. Biba(1977)는 부등호를 뒤집어(no read down, no write up) 무결성 모델을 만들었고, Clark–Wilson(1987)은 군사 모델이 상업 환경에 맞지 않는다는 이유로 잘 형성된 트랜잭션과 직무 분리를 제안했습니다.</li>
+                <li><strong>은닉 채널은 언급만 된다.</strong> "미리 약속한 행동으로 정보를 넘기는" 문제는 Lampson의 <em>A Note on the Confinement Problem</em>(1973)가 이미 지적했지만, BLP 본문은 저장·시간 채널을 형식적으로 다루지 않습니다. TCSEC B2가 은닉 채널 분석을 요구하면서 이 구멍이 제도적으로 메워집니다.</li>
+                <li><strong>트랭퀼리티(tranquility).</strong> 참조 중에는 라벨이 바뀌지 않는다는 가정. 강한 형태는 라벨을 아예 고정하고, 약한 형태는 "정책을 깨지 않는 범위에서만" 변경을 허용합니다. 동적으로 라벨이 변하는 오늘날의 클라우드·데이터 메시에서는 이 가정이 가장 무거운 짐입니다.</li>
+                <li><strong>신뢰 주체(trusted subject)라는 비상구.</strong> *-property를 면제받는 주체. 실무의 모든 MLS 시스템에 존재하며, 보증(assurance) 논리의 성패는 결국 이 비상구의 코드가 얼마나 작고 검증됐는가에 달려 있습니다.</li>
+                <li><strong>단일 시스템 모델.</strong> 네트워크로 확장하는 문제는 later work의 몫으로 남았습니다. (같은 해 Harrison–Ruzzo–Ullman이 "접근 행렬의 안전성 문제는 결정 불가능"임을 보인 것도 이 시기의 일입니다 — 정적 분석만으로는 안전을 보장할 수 없다는 또 하나의 한계선.)</li>
+            </ul>
+            <p>이 목록을 "고전의 낡은 부분"으로 읽으면 아깝습니다. 오히려 <strong>모델이 무엇을 보증하지 않는지 아는 것이 보안 엔지니어의 실력</strong>입니다. "MAC를 켰으니 안전하다"는 말은, BLP가 기밀성만 보증한다는 사실을 잊은 순간 거짓이 됩니다.</p>
+
+            <h2><i class="fa-solid fa-diagram-project"></i> 오늘의 관점 — 라벨은 어디로 갔나</h2>
+            <p><strong>첫째, "no write down"은 죽지 않고 이름만 바꿨습니다.</strong> DLP(데이터 유출 방지), DRM, 클라우드의 데이터 경계, 브라우저의 taint 전파, 정보흐름통제 언어(Jif 등)는 모두 "높은 곳에서 낮은 곳으로의 쓰기를 막는다"는 같은 명제의 후손입니다. 최근의 기밀 컴퓨팅(confidential computing)은 여기에 <em>증명(attestation)</em>이라는 새 라벨 종류를 추가했을 뿐입니다.</p>
+            <p><strong>둘째, MAC와 DAC의 분리가 이 논문의 가장 실천적인 유산입니다.</strong> 사용자가 자기 파일의 권한을 마음대로 바꿀 수 있는 시스템(DAC)에서는 *-property가 원리적으로 성립하지 않습니다 — 소유자가 라벨을 낮추면 되니까요. SELinux가 기존 POSIX 권한 위에 별도의 MAC 계층을 얹고, 관리자가 정책을 다시 컴파일해야 하는 이유가 여기 있습니다. "왜 root인데도 안 되는가"라는 질문의 답도 여기 있습니다.</p>
+            <p><strong>셋째, 정책은 코드보다 오래 삽니다.</strong> 이 문서에는 익스플로잇도, CVE도, PoC도 없습니다. 그런데 50년 뒤에도 커널 설정 파일의 이름(<code>mls</code>, <code>categories</code>, <code>clearance</code>)으로 살아 있습니다. 오늘 우리가 쓰는 수많은 "보안 설정"이 20년 뒤에도 읽힐 문장인지 묻는 것이, 이 고전을 오늘 읽는 이유입니다.</p>
+
+            <h2><i class="fa-solid fa-link"></i> 출처 및 참고자료</h2>
+            <ul>
+                <li>D. E. Bell, L. J. LaPadula, <em>Secure Computer System: Unified Exposition and Multics Interpretation</em>, MITRE MTR-2997 Rev. 1 / ESD-TR-75-306, 1976-03 — <a href="https://apps.dtic.mil/sti/citations/ADA023588" target="_blank" rel="noopener">DTIC AD-A023588</a> · <a href="https://doi.org/10.21236/ada023588" target="_blank" rel="noopener">DOI</a></li>
+                <li>D. E. Bell, L. J. LaPadula, <em>Secure Computer Systems: Mathematical Foundations</em> / <em>A Mathematical Model</em>, MTR-2547 Vol. I–II, ESD-TR-73-278, 1973 (모델의 원형)</li>
+                <li>J. P. Anderson, <em>Computer Security Technology Planning Study</em>, ESD-TR-73-51, 1972 — 참조 모니터 개념</li>
+                <li>J. McLean, <em>A Comment on the "Basic Security Theorem" of Bell and LaPadula</em>, Information Processing Letters, 1985 — System Z 반례</li>
+                <li>K. J. Biba, <em>Integrity Considerations for Secure Computer Systems</em>, MITRE MTR-3153, 1977 · D. Clark, D. Wilson, <em>A Comparison of Commercial and Military Computer Security Policies</em>, IEEE S&amp;P 1987</li>
+                <li>B. Lampson, <em>A Note on the Confinement Problem</em>, CACM 1973 · J. Goguen, J. Meseguer, <em>Security Policies and Security Models</em>, IEEE S&amp;P 1982</li>
+                <li>DoD 5200.28-STD, <em>Trusted Computer System Evaluation Criteria</em> (Orange Book), 1985 — B1 이상 MAC 요구 (DTIC 원문 페이지는 브라우저에서 열람)</li>
+                <li>모델 개요·속성 요약: <a href="https://en.wikipedia.org/wiki/Bell%E2%80%93LaPadula_model" target="_blank" rel="noopener">Wikipedia — Bell–LaPadula model</a> (원문 대조용 보조 자료)</li>
+                <li>함께 읽기:
+                    <ul>
+                        <li>2026-09-28 <a href="security-research-2026-09-28.html">The Protection of Information in Computer Systems (1975)</a>: 최소 권한·완전 중재·개방 설계 — Bell–LaPadula가 구현하려 한 <em>설계 원칙</em> 쪽의 짝.</li>
+                        <li>2026-09-21 <a href="security-research-2026-09-21.html">On the Security of Public Key Protocols (Dolev–Yao, 1983)</a>: 같은 시대, 다른 축 — 암호 프로토콜의 능동 공격자 모델.</li>
+                        <li>2026-09-02 <a href="security-research-2026-09-02.html">Reflections on Trusting Trust (1984)</a>: "검증된 코드"라는 신뢰의 밑바닥을 컴파일러에서 파헤친 글. 보안 커널의 보증 논리와 정면으로 만납니다.</li>
+                        <li>2026-10-19 <a href="security-research-2026-10-19.html">Bro (1998)</a>: 정책을 서명이 아니라 <em>사건</em>으로 정의한 실시간 탐지 — 정책 명세라는 주제의 네트워크 쪽 후예.</li>
+                        <li>2026-10-12 <a href="security-research-2026-10-12.html">Tor (2004)</a>: "라벨을 숨기는" 접근 — 기밀성을 등급이 아니라 <em>관찰 불가능성</em>으로 얻는 반대 전략.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+
+    </div>
+</body>
+</html>
