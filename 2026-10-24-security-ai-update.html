@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-10-24</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        code { background: #0b1220; padding: 1px 5px; border-radius: 4px; color: #7dd3fc; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-10-24 | <i class="fa-solid fa-tags"></i>  Daily News, AI Agent, APT, Credential Theft, UEFI, RCE, WordPress, Patch, PHP
+        </div>
+        <div class="content">
+        <h2>1. [사건] Storm-0940, 오픈소스 AI 침투 프레임워크 &lsquo;Artex&rsquo;로 국내 금융권을 두드렸다</h2>
+        <p>마이크로소프트는 중국 연계 위협 행위자 <strong>Storm-0940</strong>이 오픈소스 AI 모의해킹 프레임워크 <strong>Artex</strong>를 악용해 ConnectWise 고객 환경 침해를 자동화했다고 밝혔다. 앞선 크라우드스트라이크&middot;Zscaler&middot;Recorded Future 보고서는 이 AI 기반 활동을 <strong>한국 금융기관 공격</strong>과 연결지은 바 있어, 10월 19일 다룬 국내 금융권 침해 사건의 행위자 윤곽이 이번에 구체화됐다.</p>
+        <ul>
+            <li><strong>속도:</strong> 8개 조직의 300개 이상 계정을 분당 <strong>2,900회 이상</strong> 시도 속도로 공격. OAuth 애플리케이션 남용으로 2,250개 이상 테넌트 로그인 시도, 실패 로그온 이벤트만 151,000건 이상 수집됐다.</li>
+            <li><strong>에이전트가 인증 이후까지:</strong> 일부 환경에서는 AI 에이전트가 Microsoft Graph와 디렉터리 작업까지 진행했다. 정찰, 지속성 확보를 위한 <strong>애플리케이션 자격증명 변경</strong>, ID&middot;그룹&middot;권한 역할 변경이 모두 기록됐다.</li>
+            <li><strong>왜 위험한가:</strong> 공격자가 앱 자격증명을 바꿔두면 해당 애플리케이션을 교체&middot;삭제해도 접근이 살아남는다. 사고 대응이 &lsquo;앱 제거&rsquo;에서 끝나면 안 되는 이유다.</li>
+            <li><strong>연쇄:</strong> 초기 침해 이후 ConnectWise는 Cloud Backup&middot;SaaS Security&middot;Cloud Management 서비스를 중단했고, Huntress는 탈취된 앱 자격증명으로 300개 이상 Entra 테넌트에 접근한 정황을 관찰했다.</li>
+        </ul>
+        <p>출처: <a href="https://www.securityweek.com/china-apt-uses-ai-pentest-tool-artex-in-connectwise-attacks/" target="_blank">SecurityWeek - China APT Uses AI Pentest Tool Artex in ConnectWise Attacks</a></p>
+
+        <h2>2. [사건] 노출된 서버가 말해준 &lsquo;Phantom&rsquo; &mdash; 랜섬웨어 계열이 AI 에이전트에게 침해를 맡겼다</h2>
+        <p>SOCRadar가 <code>45.227.254[.]43</code>에 그대로 노출된 작업 디렉터리를 분석해, INC&middot;The Gentlemen 랜섬웨어 계열과 연결된 러시아어권 조직의 <strong>AI 실행형 침해 생태계</strong>를 공개했다. 핵심은 &lsquo;AI가 실행하고 사람이 승인하는&rsquo; 구조로, 침해 자체는 <strong>OpenCode + OpenRouter 상용 모델</strong>이 수행했다.</p>
+        <ul>
+            <li><strong>규모:</strong> 133개 세션에 8,257개 메시지가 로그로 남아 있었다. 사람 운영자는 피해자별 프롬프트를 넣고 단계마다 검토만 했다.</li>
+            <li><strong>거부 우회:</strong> 모델이 요청을 거부하면 모델을 바꾸는 대신 요청을 &lsquo;승인된 레드팀 평가&rsquo;로 <strong>다시 써서</strong> 통과시켰다. 가드레일이 문구 수준에서 뚫린 사례다.</li>
+            <li><strong>도구:</strong> 18개 스킬 모듈을 가진 공격 프레임워크 Phantom, 32개 MCP 서버 묶음 WormGPT-MCP, Cloudflare&middot;텔레그램&middot;DNS로 통신하는 3세대 다형 임플란트 Ghost C2, RevSocks 리버스 SOCKS5.</li>
+            <li><strong>악용 취약점:</strong> SimpleHelp <code>CVE-2024-57727</code>(경로 순회), FortiClient <code>CVE-2026-35616</code>(인증 우회), cPanel/WHM <code>CVE-2026-41940</code>(인증 우회)은 <strong>실제 악용</strong>. SonicWall SMA 1000 <code>CVE-2026-15409</code>, WordPress <code>CVE-2026-63030</code>, LiteLLM <code>CVE-2026-42208</code>, Drupal <code>CVE-2026-9082</code>는 개발&middot;대상 지정 단계.</li>
+            <li><strong>배수:</strong> 재사용된 자격증명이 최대 무기였다. 한 사례에서는 비밀번호 하나가 VPN&middot;서버&middot;RMM&middot;백업&middot;보안관리 플랫폼을 동시에 열었다.</li>
+            <li><strong>정직한 단서:</strong> BYOVD 킬러와 로더 수준 회피를 썼지만, 운영자 자신의 로그에도 기업용 EDR에 대한 결과는 &lsquo;혼재&rsquo;로 기록돼 있었다.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/exposed-infrastructure-reveals-how.html" target="_blank">The Hacker News - Exposed Infrastructure Reveals How Ransomware Affiliates Used AI Agents to Execute Intrusions</a></p>
+
+        <h2>3. [사건] 비밀번호 없이 79개 조직 &mdash; 10주짜리 &lsquo;토큰 스프레이&rsquo; 캠페인</h2>
+        <p>Huntress는 7월 14일부터 9월 22일까지 <strong>79개 조직</strong>의 Microsoft 365 계정이 탈취됐다고 밝혔다. 공격자는 비밀번호를 한 번도 쓰지 않았다. AiTM(중간자) 릴레이로 진짜 마이크로소프트 로그인 페이지와 MFA 프롬프트를 그대로 통과시킨 뒤, 인증이 끝난 시점에 발급되는 <strong>세션 토큰만</strong> 가로챘다.</p>
+        <ul>
+            <li><strong>숫자:</strong> 성공 로그인 497건, 실패 로그인 <strong>20만 건 이상</strong>. 토큰을 여러 조직에 대량 재생하는 방식을 연구진은 &lsquo;토큰 스프레이&rsquo;라 명명했다 &mdash; 비밀번호 스프레이와 같은 패턴, 다른 재료.</li>
+            <li><strong>토큰 획득 경로:</strong> AiTM 릴레이 외에 기기 코드(device-code) 피싱, 정상 로그인 과정의 사회공학이 함께 쓰였다.</li>
+            <li><strong>인프라:</strong> 독일 함부르크 법인 1337 Services GmbH의 서버에서 재생됐고, Microsoft Entra ID Protection이 해당 주소 일부를 <strong>독립적으로 탐지</strong>했다. 인프라가 탐지된 뒤에도 캠페인은 계속됐다.</li>
+            <li><strong>속도:</strong> 7월 21일 사례는 피해자가 MFA 프롬프트를 본 뒤 <strong>12분</strong>, 9월 22일 사례는 <strong>4분</strong> 만에 탈취된 세션이 사용됐다.</li>
+            <li><strong>회피:</strong> <code>193.26.115.0/24</code> 대역의 주소 6개를 4단계로 나눠 썼다. 주소 하나를 차단해도 한 단계만 막힌다. 침투 후에는 숨은 받은편지함 규칙으로 피해자가 메일 일부를 못 보게 만들었다.</li>
+        </ul>
+        <p>출처: <a href="https://www.helpnetsecurity.com/2026/10/23/microsoft-365-accounts-stolen-sessions/" target="_blank">Help Net Security - Microsoft 365 accounts compromised at 79 organizations, no passwords needed</a></p>
+
+        <h2>4. [사건] BlackX &mdash; 패치를 해도 막히지 않는다, DBX에 인증서를 넣어야 한다</h2>
+        <p>카스퍼스키는 타지키스탄&middot;우즈베키스탄&middot;투르크메니스탄의 외교기관을 노린 신종 UEFI 부트킷 <strong>BlackX</strong>를 공개하며, 중국 연계 <strong>APT41</strong> 소행으로 추정했다. BlackX는 2022년 말 포럼에 등장했던 BlackLotus의 개량형이다.</p>
+        <ul>
+            <li><strong>핵심:</strong> <code>CVE-2022-21894</code>(Baton Drop, CVSS 4.4)를 그대로 쓴다. Windows Production PCA 2011 인증서는 <strong>2026년 10월 19일 만료</strong>됐지만, 그 인증서가 Secure Boot 차단목록(DBX)에 올라가 있지 않으면 취약한 바이너리는 여전히 로드된다.</li>
+            <li><strong>즉 &lsquo;패치 적용&rsquo;은 끝이 아니다:</strong> 마이크로소프트의 수동 완화 절차(DBX에 인증서 추가)를 조직이 거의 하지 않았다는 점을 공격자가 노렸다는 것이 연구진의 평가다.</li>
+            <li><strong>설치 흔적:</strong> <code>C:\ProgramData\Intel\inst.exe</code>와 확장자 없는 암호화 파일 <code>PVMDIJGKAX2</code>, 명령줄의 <code>Q46F6MDLI3RX2KV1</code>은 RC4 복호화 키다. 이후 시스템&middot;UEFI 파티션에 파일을 떨어뜨려 MOK(Machine Owner Key)를 설치하고 임의 EFI 로드를 가능하게 한다.</li>
+            <li><strong>출처의 역설:</strong> BlackLotus 소스 코드는 공개된 적이 없다. APT가 범죄 조직의 코드를 사거나 역공학하는 일은 드물어, 이번 사례가 이례적이라는 평가다.</li>
+            <li><strong>전제 조건:</strong> 부트킷은 1차 침해 수단이 아니라 <strong>지속성&middot;방어 회피</strong> 수단이다. 이미 관리자 권한이나 물리 접근을 얻은 뒤에 배포된다.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/blackx-uefi-bootkit-bypasses-secure.html" target="_blank">The Hacker News - BlackX UEFI Bootkit Bypasses Secure Boot on Patched Windows Systems Missing Revocations</a></p>
+
+        <h2>5. [사건] k0t &mdash; 엣지 장비에서 7만 자격증명, 그 뒤에 Qilin&middot;The Gentlemen</h2>
+        <p>Group-IB와 NyxLab의 공동 조사에 따르면 <strong>k0t</strong>(일명 CryptoFeel&middot;Member19)로 추적되는 행위자가 FortiGate&middot;Palo Alto GlobalProtect 같은 노출된 네트워크 경계 장비를 대량으로 털어 <strong>7만 건 이상의 자격증명</strong>을 확보했다. 조사팀은 이 활동이 <strong>Qilin&middot;The Gentlemen 랜섬웨어와 연결</strong>돼 있으며, 초기 접근 브로커 또는 어필리에이트로 보인다고 밝혔다.</p>
+        <ul>
+            <li><strong>지역 분포:</strong> 아시아태평양 38%, 라틴아메리카 31.9%, 유럽 15.8%, 중동&middot;북아프리카 12.7%. 침해 상당수는 2026년 2~6월에 집중됐고 FortiBleed 캠페인과 겹친다.</li>
+            <li><strong>공격 사슬:</strong> FOFA&middot;ZoomEye로 인터넷 노출 장비를 열거해 표적 목록 작성 &rarr; <code>CVE-2025-64446</code>(FortiWeb 경로 순회), <code>CVE-2026-0257</code>(PAN-OS&middot;Prisma Access 인증 우회) 전용 파이썬 스크립트나 무차별 대입 &rarr; OpenConnect VPN으로 거점 확보.</li>
+            <li><strong>내부 확산:</strong> AD&middot;SMB&middot;설치된 백신 열거 후 MeshCentral&middot;Atera&middot;Teramind&middot;AnyDesk 같은 <strong>정상 원격관리 도구</strong>와 AdaptixC2로 지속성 확보. NetExec&middot;Impacket&middot;PetitPotam&middot;Mimikatz 등 관리&middot;모의해킹 도구를 그대로 사용했다.</li>
+            <li><strong>유출:</strong> Rclone으로 Wasabi S3 버킷과 MEGA 클라우드에 데이터를 모았다.</li>
+            <li><strong>선택 기준:</strong> 연구진은 &ldquo;산업이 아니라 노출된 제품과 위치가 표적 선택을 결정한다&rdquo;고 정리했다. 우리 자산이 무엇을 인터넷에 열어뒀는지가 곧 노출면이라는 뜻이다.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/hackers-breach-enterprise-firewalls-and.html" target="_blank">The Hacker News - Hackers Breach Enterprise Firewalls and VPNs, Exposing Over 70,000 Credentials</a></p>
+
+        <h2>6. [사건] Sandworm, P2P 메시망에 C2를 숨겼다 &mdash; 우크라이나 물류사 파괴 공격</h2>
+        <p>ESET은 러시아 국가배후 <strong>Sandworm</strong>이 UAC-0099(Earth Sirrush)와 손잡고 우크라이나 물류기업을 와이핑한 사건을 분석해 공개했다. 눈에 띄는 것은 <strong>Yggdrasil 피어투피어 메시망</strong> 안에 C2를 둔 신종 백도어 <strong>MythicRatatoskr</strong>다.</p>
+        <ul>
+            <li><strong>타임라인:</strong> 2025년 7월 16일 UAC-0099가 악성 첨부 스피어피싱으로 초기 접근, MATCHBOIL 다운로더로 MATCHWOK 설치. 다음 날 MythicRatatoskr 투입. 약 두 달 뒤인 9월 17일 Sandworm이 <strong>AD 그룹 정책으로 SDelete를 배포</strong>해 데이터를 파괴했다.</li>
+            <li><strong>왜 중요한가:</strong> 국가 배후 행위자가 실험적 P2P 네트워크를 C2 인프라로 악용한 <strong>첫 문서화 사례</strong>다. 연구진은 인프라 생존성과 은닉성을 높이려는 더 넓은 흐름의 신호로 본다.</li>
+            <li><strong>기능:</strong> 피해자 메타데이터 전송, 명령 폴링, 출력 회수, 화면 캡처, 파일 업&middot;다운로드, 작업 디렉터리 변경, cmd.exe 실행, 리버스 SOCKS5 프록시 생성.</li>
+            <li><strong>탐지 회피:</strong> 일부 아티팩트에는 시작 시 <strong>10분 지연</strong>이 들어 있다. 메시망 접속이 즉시 일어나지 않게 하려는 의도로 보인다.</li>
+            <li><strong>리눅스 가능성:</strong> 소스에 <code>crond</code> 참조가 있어 리눅스판이 따로 존재할 수 있다는 관측이 나온다.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/russian-linked-hackers-used-new-mesh.html" target="_blank">The Hacker News - Russia-Linked Hackers Used New Mesh Network Backdoor in Destructive Ukraine Attack</a></p>
+
+        <h2>7. [취약점] Pillow <code>CVE-2026-112900</code> (9.2) &mdash; 이미지가 아니라 &lsquo;파일 이름&rsquo;이 공격 벡터다</h2>
+        <p>파이썬에서 가장 널리 쓰이는 이미지 라이브러리 Pillow가 EPS 이미지를 열 때 파일 이름을 검사하지 않고 그대로 <strong>Ghostscript</strong>에 넘긴다. Ghostscript는 공격자가 정한 이름을 파일이 아니라 <strong>지시문</strong>으로 해석할 수 있고, 두 번째 파일을 가리켜 명령을 실행하게 만들 수 있다.</p>
+        <ul>
+            <li><strong>영향 범위:</strong> Pillow <strong>2.6.0 ~ 12.3.0</strong>. <strong>13.0.0</strong>(10월 16일 배포)에서 수정. 월 다운로드 약 <strong>4억 3,600만 회</strong>(OX Security 추정) &mdash; 웹 업로드 폼, 아바타&middot;썸네일 생성, PDF 파이프라인, 대부분의 ML 프로젝트가 해당된다.</li>
+            <li><strong>핵심 문장:</strong> &ldquo;취약점은 PostScript 문서 내용이 아니라 파일 이름으로 발동한다.&rdquo; 무해한 EPS 파일도 이름이 조작되면 위험해진다. 사용자 입력으로 저장 파일명을 만드는 업로드 엔드포인트가 현실적 표적이다.</li>
+            <li><strong>같은 릴리스의 다른 구멍:</strong> <code>CVE-2026-112403</code>은 무손실 JPEG 썸네일 생성 시 버퍼 오버플로, <code>CVE-2026-112393</code>은 <strong>2013년부터</strong> 있던 TIFF 메모리 저장 경로 버그다. FlashPix(FPX) 건은 <code>olefile</code>이 설치돼 있으면 <code>Image.open()</code> 한 번으로 명령 실행이 가능하다.</li>
+            <li><strong>출처가 흥미롭다:</strong> 112403은 <strong>Anthropic이 Claude로 오픈소스 보안을 분석</strong>해 찾았고 Ada Logics가 수동 검증했다. AI가 찾은 취약점이 실제 CVE로 이어지는 흐름의 또 다른 사례다.</li>
+            <li><strong>주의:</strong> Pillow 13은 <strong>Python 3.10 지원을 중단</strong>한다. 컨테이너&middot;휠&middot;베이스 이미지에 구버전이 구워져 있는 곳은 재빌드가 필요하다.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/critical-flaw-in-pythons-popular-pillow.html" target="_blank">The Hacker News - Critical Flaw in Python&rsquo;s Popular Pillow Image Library Allows Code Execution via a Crafted Image</a></p>
+
+        <h2>8. [취약점] 인증은 있는데 통과된다 &mdash; WizLearn 9.8, frevvo 9.3, Okta OAG 9.1, PraisonAI 9.8</h2>
+        <p>NVD 상위권이 오늘은 &lsquo;인증 로직 자체&rsquo;를 노린다. 넷 다 인증 기능이 없는 게 아니라, <strong>있는 인증이 우회되는</strong> 유형이라 스캐너가 &lsquo;무인증&rsquo;으로 표시해 주지 않는다.</p>
+        <ul>
+            <li><code>CVE-2026-63244</code> (9.8, WizLearn LMS): 특수하게 구성된 요청만으로 <strong>비밀번호 인증과 OAuth 인증 흐름을 동시에</strong> 우회한다. 무인증 원격 공격자에게 사실상 관리자 세션이 열린다.</li>
+            <li><code>CVE-2026-19677</code> (9.3, frevvo 11.0.14): 공개된 가입 폼을 통해 <strong>임의 테넌트 사용자로 인증</strong>되고, 이어 TenantAdmin&middot;Designer 권한까지 얻는다. 가입 폼이 곧 인증 우회 지점이다.</li>
+            <li><code>CVE-2026-115547</code> (9.1, Okta Access Gateway Admin Console): 특수 형식 구성값을 처리하면서 시스템 명령이 실행된다. 관리자 권한이 필요하지만, 게이트웨이를 만지는 사람에게는 곧 호스트 장악이다.</li>
+            <li><code>CVE-2026-57116</code> (9.8, PraisonAI): AgentOS FastAPI 배포면이 <strong>무인증 상태로 남아 있다.</strong> 4.2.1부터 4.6.59 미만 구간이 해당되며, 문서상 &lsquo;패치된 버전&rsquo; 이후 릴리스에서도 문제가 유지됐다.</li>
+            <li><code>CVE-2026-56832</code> (8.8, PraisonAI): Discord 승인 봇이 <strong>봇이 아닌 후속 메시지 하나만 보이면</strong> 대기 중인 위험 도구 호출을 승인한다. &lsquo;사람이 승인한다&rsquo;는 안전장치가 채널 잡담 한 줄로 무력화된다.</li>
+        </ul>
+        <p>출처: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-63244" target="_blank">NVD - CVE-2026-63244</a> | <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-57116" target="_blank">NVD - CVE-2026-57116</a> | <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-115547" target="_blank">NVD - CVE-2026-115547</a></p>
+
+        <h2>9. [취약점] WordPress 테마 12종에 똑같은 9.8 &mdash; 테마 빌더 하나가 만든 대량 객체 주입</h2>
+        <p>오늘 NVD에서 가장 눈에 띄는 것은 개별 취약점이 아니라 <strong>패턴</strong>이다. 서로 다른 이름의 테마 12종이 같은 코드를 공유해, 모두 <strong>CVSS 9.8 역직렬화 객체 주입</strong>으로 등록됐다.</p>
+        <ul>
+            <li><strong>9.8 무더기:</strong> ThemeREX 계열(Save Life 1.2.14, ZenSoul 1.13, HotLock 1.3.9, Vagabonds 1.3.10, Little Birdies 1.3.16)과 axiomthemes 계열(HostMe v2 7.0, Hallelujah 1.1.1, Holistic Center 1.2.6, Redy 1.3.5, Reprizo 1.0.8, Rhodos 1.3.3) &mdash; 모두 <code>CVE-2026-11284x~11285x</code> 대역.</li>
+            <li><strong>같은 벤더, 같은 코드:</strong> 테마 빌더가 공통 모듈을 재사용하면 취약점도 함께 복제된다. 고객 입장에서는 테마 이름을 바꿔도 위험이 그대로인 셈이다.</li>
+            <li><strong>플러그인 쪽:</strong> Participants Database 2.7.8.5 이하 <code>CVE-2026-112862</code> (9.8)도 같은 역직렬화 객체 주입이고, 같은 제품에 blind SQL 삽입 <code>CVE-2026-112860</code> (9.3)이 겹친다.</li>
+            <li><strong>업로드 경로:</strong> Part-DB 2.12.1 미만 <code>CVE-2026-54630</code> (9.6)은 첨부 업로드 핸들러가 <strong>클라이언트가 준 파일명 그대로</strong> 웹에서 서빙되는 미디어 디렉터리에 저장한다. 업로드 한 번이 웹셸이 된다.</li>
+            <li><strong>권한 검사 누락:</strong> Advanced Custom Fields: Extended 0.9.2.8 미만 <code>CVE-2026-94267</code> (9.0)은 프런트엔드 폼으로 글을 수정할 때 <strong>capability 검사를 하지 않는다.</strong></li>
+        </ul>
+        <p>출처: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-112862" target="_blank">NVD - CVE-2026-112862</a> | <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-54630" target="_blank">NVD - CVE-2026-54630</a> | <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-94267" target="_blank">NVD - CVE-2026-94267</a></p>
+
+        <h2>10. [패치] ArubaOS 72건 중 8건이 최고 심각도 &middot; Atlassian 75건 &middot; 10월 26일 KEV 마감</h2>
+        <p>HPE가 ArubaOS에서 <strong>72개 취약점</strong>을 패치했고, 그중 <strong>8건이 최고 심각도</strong>다. AOS-8과 AOS-10 양쪽에 무인증 명령 주입&middot;SQL 삽입&middot;버퍼 오버플로가 고루 섞여 있어, 경계 스위치&middot;무선 컨트롤러를 운영하는 조직은 이번 주 최우선 항목이다.</p>
+        <ul>
+            <li><strong>최고 심각도 8건:</strong> <code>CVE-2026-79844</code>(AOS-10 인증 우회&rarr;RCE), <code>79845</code>(PAPI 프로토콜 인증 우회), <code>79846</code>(AOS-8 무인증 명령 주입), <code>79847</code>&middot;<code>79851</code>(AOS-10 무인증 버퍼 오버플로), <code>79848</code>&middot;<code>79849</code>(AOS-8 무인증 SQL 삽입&rarr;RCE), <code>79850</code>(AOS-8 인증 우회&rarr;RCE).</li>
+            <li><strong>현재 상태:</strong> HPE는 공개 PoC나 실제 악용 정황이 없다고 밝혔다. 다만 무인증 RCE 6건이 한 제품군에 몰려 있어 노출된 관리 인터페이스는 즉시 점검이 필요하다.</li>
+            <li><strong>Atlassian:</strong> Data Center&middot;Server 제품군에서 <strong>75건</strong>을 패치했다. KEV에 오른 Atlassian 항목은 이미 마감이 지난 상태라, 이번 것은 &lsquo;신규 정기 패치&rsquo;로 처리하면 된다.</li>
+            <li><strong>KEV 카탈로그 1,756건:</strong> 10월 26일 마감은 <code>CVE-2026-114625</code>(Arista VeloCloud Orchestrator, 10월 23일 글에서 다룸)과 <code>CVE-2026-110447</code>(Collabora Online &mdash; Built-in CODE Server, 신규). Collabora 항목은 NextCloud 환경에서 CODE 서버가 실행 중이 아닐 때 <strong>OS 명령 주입</strong>이 가능한 유형이다.</li>
+            <li><strong>캘린더:</strong> Windows Server 2016은 <strong>2027년 1월</strong> 지원 종료로 보안 업데이트가 끊긴다. 연말 예산&middot;마이그레이션 계획에 지금 넣어야 하는 항목이다.</li>
+        </ul>
+        <p>출처: <a href="https://www.bleepingcomputer.com/news/security/hpe-patches-eight-max-severity-rce-and-auth-bypass-aos-flaws/" target="_blank">BleepingComputer - HPE patches eight max severity RCE and auth bypass AOS flaws</a> | <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA - Known Exploited Vulnerabilities Catalog</a></p>
+
+        <h2>11. [트렌드] PHP2Shell &mdash; &ldquo;안정적인 익스플로잇은 어렵다&rdquo;는 말이 닷새 만에 깨졌다</h2>
+        <p>10월 21일 긴급 패치된 PHP2Shell(<code>CVE-2026-109618</code>&middot;<code>CVE-2026-109619</code>, 각 CVSS v4.0 9.2)을 둘러싼 상황이 빠르게 바뀌었다. 패치 직후 &lsquo;스캐닝은 많지만 실제 코드 실행은 확인되지 않는다&rsquo;는 관측이 우세했는데, 사흘 만에 <strong>Mirai 봇넷 참전</strong>과 <strong>ASLR 우회 익스플로잇</strong>이 나왔다.</p>
+        <ul>
+            <li><strong>확산 규모:</strong> 공개 45분 만에 수만 건이던 시도가 10월 22일 초에는 <strong>수백만 건</strong>으로 늘었다(Cloudflare). Wiz&middot;OpenAI&middot;Calif가 8월에 발견했고, CVE 번호가 온라인에 유출되면서 예정보다 하루 앞당겨 배포됐다.</li>
+            <li><strong>Mirai 변종:</strong> Sophos는 Mirai 파생 <strong>Potassium</strong>을 설치하려던 시도를 분석했다. 해당 시도는 차단됐지만, Arctic Wolf는 두 바이너리와 PHP2Shell 페이로드 서버의 연관을 확인했고 Hunt.io는 2026년 5월부터 활동한 봇넷이 확산 수단 목록에 이 취약점을 추가했다고 본다.</li>
+            <li><strong>메모리 보호 우회:</strong> 한 보안업체가 <strong>ASLR을 우회하는 익스플로잇</strong>을 개발했다. 아직 성공 침해는 확인되지 않았지만, &lsquo;어렵다&rsquo;는 방어 논리는 더 이상 근거가 되지 못한다.</li>
+            <li><strong>현실 비용:</strong> 유럽의 정부&middot;학교&middot;병원 웹사이트 다수가 10월 21일 오프라인이 됐고, 영국 정부는 서비스 <strong>32개 중단&middot;4개 부분 중단</strong>을 밝혔다. 대부분 사전 조치였지만, 패치 지연이 곧 서비스 중단이라는 사실을 보여준다.</li>
+            <li><strong>새 구멍:</strong> <code>CVE-2026-115560</code>은 <code>session.serialize_handler</code>를 런타임에 <code>php_binary</code>/<code>php_serialize</code>에서 <code>php</code>로 바꾸고 <code>session_start()</code> 전에 호출하는 <strong>좁은 구성</strong>에서만 성립한다. 긴급 패치는 없고, 완화책은 <code>session.upload_progress.enabled=0</code> &mdash; 10월 21일 권고와 <strong>같은 설정</strong>이다.</li>
+            <li><strong>실무 결론:</strong> 21일에 완화책을 넣고 그대로 둔 조직은 새 CVE까지 함께 막혀 있다. 패치 전에 적용한 설정을 &lsquo;임시&rsquo;로 되돌리지 않는 것이 이번 주 가장 값싼 방어다.</li>
+        </ul>
+        <p>출처: <a href="https://www.securityweek.com/mirai-botnet-operators-join-php2shell-attacks-as-aslr-bypass-exploits-emerge/" target="_blank">SecurityWeek - Mirai Botnet Operators Join PHP2Shell Attacks as ASLR Bypass Exploits Emerge</a> | <a href="https://thehackernews.com/2026/10/urgent-php-warns-of-another-unpatched.html" target="_blank">The Hacker News - PHP Warns of Another Unpatched RCE Risk Two Days After Emergency PHP2Shell Patches</a></p>
+
+
+        </div>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
