@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - RangeNet++ (University of Bonn, IROS 2019): '점군을 레인지 이미지로 펴고, kNN으로 그림자를 지운다' — 라이다 의미분할을 임베디드 GPU 10Hz로 끌어내린 원점 (인용 1,313회 · ⭐1,038 · MIT)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        code { background: #0b1220; padding: 2px 6px; border-radius: 4px; color: #7dd3fc; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92rem; }
+        th, td { border: 1px solid var(--border-color); padding: 8px 10px; text-align: center; }
+        th { background: #0b1220; color: var(--accent-color); font-weight: 600; }
+        td:first-child, th:first-child { text-align: left; }
+        .hl { color: #7dd3fc; font-weight: 600; }
+        blockquote { margin: 16px 0; padding: 12px 18px; border-left: 3px solid var(--accent-color); background: #0b1220; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <header>
+            <h1>자율주행 리서치 - RangeNet++ (University of Bonn, IROS 2019): '점군을 레인지 이미지로 펴고, kNN으로 그림자를 지운다' — 라이다 의미분할을 임베디드 GPU 10Hz로 끌어내린 원점 (인용 1,313회 · ⭐1,038 · MIT)</h1>
+            <p class="date">2026-10-24</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>GitHub:</strong> <a href="https://github.com/PRBonn/lidar-bonnetal" target="_blank">PRBonn/lidar-bonnetal</a> — ⭐<strong>1,038</strong> · 🍴214 · <strong>MIT</strong> · 2019-07-24 생성 · 최종 푸시 <strong>2024-08-05</strong> · <strong>2024년 아카이브(읽기 전용)</strong> · topics: <code>lidar</code>, <code>segmentation</code>, <code>deep-learning</code>, <code>ptcl</code>, <code>semantic</code>, <code>dataset</code></li>
+                    <li><strong>논문:</strong> <em>RangeNet++: Fast and Accurate LiDAR Semantic Segmentation</em> — IEEE/RSJ <strong>IROS 2019</strong> · arXiv 없음 (DOI <a href="https://doi.org/10.1109/IROS40897.2019.8967762" target="_blank">10.1109/IROS40897.2019.8967762</a>) · <a href="https://www.ipb.uni-bonn.de/wp-content/papercite-data/pdf/milioto2019iros.pdf" target="_blank">공개 PDF</a></li>
+                    <li><strong>저자/소속:</strong> Andres Milioto · Ignacio Vizzo · Jens Behley · Cyrill Stachniss — <strong>University of Bonn</strong> (Photogrammetry &amp; Robotics Lab, IPB)</li>
+                    <li><strong>인용:</strong> <strong>1,313회</strong> (OpenAlex, 2026-10-24 조회)</li>
+                    <li><strong>데이터셋:</strong> <strong>SemanticKITTI</strong> — 같은 그룹이 같은 해(ICCV 2019)에 공개. KITTI 오도메트리 <strong>43,000+ 스캔</strong>에 점 단위 라벨, train seq 00–10(21,000+ 스캔) / test seq 11–21, <strong>19 클래스</strong></li>
+                    <li><strong>저장소 구성:</strong> <code>train/</code> (backbones · tasks/semantic · auxiliary)로 <strong>학습 파이프라인 공개</strong> + 사전학습 모델 8종(squeezeseg · squeezeseg-crf · squeezesegV2 · darknet21 · darknet53 · darknet53-512/1024) · <code>arch_cfg.yaml</code>의 불리언 하나로 kNN 후처리 on/off</li>
+                    <li><strong>한 줄 정의:</strong> 라이다 점군을 <strong>구면 range image(64×2048)</strong>로 투영해 2D CNN(DarkNet53 인코더–디코더)으로 분할하고, 역투영에서 생기는 <strong>그림자(shadow) 오류</strong>를 <strong>GPU kNN 투표</strong>로 되돌리는 파이프라인. 검출 <em>상자</em>가 아니라 <strong>모든 점에 클래스</strong>를 붙이는 인지 계층이다.</li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>2019년까지 라이다 분할의 주류는 점을 3D에서 직접 다루는 방식이었다 — PointNet(<a href="autonomous-2026-10-23.html">10-23 글</a>)의 max pooling, PointNet++의 계층 샘플링, SPGraph의 슈퍼포인트. 정확도도 낮고(PointNet 14.6 mIoU) 속도도 실차와 거리가 멀었다. RangeNet++의 주장은 한 문장으로 요약된다: <strong>"점을 3D에서 다루지 말고, 센서가 스캔하는 방식 그대로 2D 이미지로 펴라."</strong> 회전형 라이다는 한 열이 한 시점의 레이저 배열, 한 행이 회전 각도이므로 <em>애초에</em> 구면 이미지다.</p>
+            <ul>
+                <li><strong>표현 — 구면 투영 + 5채널:</strong> 각 점을 <code>(u,v) = (atan2(y,x)/Δφ, asin(z/r)/Δθ)</code>로 이미지 좌표에 매핑하고, 픽셀마다 <strong>range · x · y · z · remission</strong> 5채널을 저장해 <code>[5×h×w]</code> 텐서를 만든다. 스캔이 회전하는 동안 점이 찍히므로 <strong>range 내림차순</strong>으로 렌더링해 원거리 점이 가까운 점에 덮이지 않게 한다(디스큐잉). 64×2048 = <strong>131,072 픽셀</strong> vs HDL-64E 약 130,000점 — 해상도를 맞추면 점 손실이 거의 없다.</li>
+                <li><strong>네트워크 — hourglass 2D CNN:</strong> 32× 다운샘플 인코더로 문맥을 넓히고, 업샘플링마다 skip connection을 더해 경계의 고주파를 복원한 뒤 1×1 conv + softmax. 백본은 DarkNet21 / DarkNet53. 파라미터를 줄인 <strong>RangeNet21</strong>은 정확도를 조금 내주고 20 scans/s를 낸다.</li>
+                <li><strong>문제 — "그림자":</strong> 두 점 이상이 같은 픽셀에 매핑되고, CNN 마스크가 번지면서 <strong>물체 라벨이 뒤쪽 배경으로 늘어난다</strong>. 해상도를 낮출수록(512px) 심해져서, 단순 역투영으로는 작은 이미지를 쓸 수가 없다. 여기서 대부분의 구현이 포기하고 2048px로 연산을 낭비한다.</li>
+                <li><strong>해법 — projective kNN 투표:</strong> 각 점의 <code>[S,S]</code> 이웃창을 <strong>im2col</strong>로 펼쳐 <code>S²</code> 후보를 만들고(모든 프레임워크에 이미 있는 프리미티브), <strong>range 차이</strong>를 유클리드 거리의 프록시로 쓴다 — 이웃 픽셀은 range가 비슷할 때만 3D에서도 가깝기 때문. 역가우시안 커널로 (u,v)상 먼 이웃을 감쇠시키고, <code>argmin</code>으로 <strong>k개</strong>를 뽑아 <strong>cut-off 1.0 m</strong> 안의 라벨만 <code>gather-add</code>로 투표시켜 <code>argmax</code>. 전 과정이 벡터화 가능해 <strong>2048px 기준 7 ms</strong>(유클리드 거리 버전은 11 ms)에 끝난다.</li>
+                <li><strong>정확도:</strong> SemanticKITTI test(seq 11–21) mean IoU <strong>52.2</strong> — SqueezeSegV2 39.7, TangentConv 35.9, SqueezeSeg 29.5, PointNet 14.6을 모두 앞선다. 후처리만의 기여는 <strong>49.9 → 52.2 (+2.3)</strong>, 512px에서는 <strong>39.3 → 41.9 (+2.6)</strong>로 해상도를 깎을수록 더 크다(손실을 메우는 장치이므로).</li>
+                <li><strong>속도:</strong> Quadro P6000에서 64×2048 <strong>82 ms(12 FPS)</strong> · 1024 47 ms(21 FPS) · 512 26 ms(38 FPS), <strong>Jetson AGX</strong>에서 188 / 122 / <strong>80 ms(13 FPS)</strong> — 10 Hz 센서를 <em>임베디드 GPU 한 장</em>으로 소화한다는 것이 이 논문의 세 번째 주장이다.</li>
+                <li><strong>남은 한계:</strong> 회전형 라이다의 구면 모델을 전제하므로 비반복(non-repetitive)·솔리드스테이트 스캔에는 그대로 쓸 수 없다. 원거리에서 점이 희소한 클래스는 여전히 약하다 — bicyclist 25.7, motorcyclist 23.0, other-ground 4.8.</li>
+            </ul>
+
+            <table>
+                <tr><th>SemanticKITTI test (seq 11–21)</th><th>mean IoU [%]</th><th>scans/sec</th></tr>
+                <tr><td>PointNet</td><td>14.6</td><td>2</td></tr>
+                <tr><td>PointNet++</td><td>20.1</td><td>0.1</td></tr>
+                <tr><td>SPGraph</td><td>20.0</td><td>0.2</td></tr>
+                <tr><td>SqueezeSeg</td><td>29.5</td><td>66</td></tr>
+                <tr><td>TangentConv</td><td>35.9</td><td>0.3</td></tr>
+                <tr><td>SqueezeSegV2</td><td>39.7</td><td>50</td></tr>
+                <tr><td>RangeNet21 (ours)</td><td>47.4</td><td>20</td></tr>
+                <tr><td>RangeNet53 (ours)</td><td>49.9</td><td>13</td></tr>
+                <tr><td><strong>RangeNet53++ (ours + kNN)</strong></td><td><strong>52.2</strong></td><td><strong>12</strong></td></tr>
+                <tr><td colspan="3">출처: 논문 Table I (64×2048 px, 동일 하드웨어 기준)</td></tr>
+            </table>
+
+            <table>
+                <tr><th>런타임 (RangeNet53++)</th><th>64×512</th><th>64×1024</th><th>64×2048</th></tr>
+                <tr><td>Quadro P6000 — 총 시간 / FPS</td><td>26 ms / 38</td><td>47 ms / 21</td><td>82 ms / 12</td></tr>
+                <tr><td>Jetson AGX — 총 시간 / FPS</td><td>80 ms / 13</td><td>122 ms / 8</td><td>188 ms / 5</td></tr>
+                <tr><td>kNN 후처리 몫</td><td colspan="3">P6000 <strong>7 ms</strong>(range 기준) · Jetson <strong>35 ms</strong> — 해상도와 무관하게 점 개수에만 비례</td></tr>
+                <tr><td colspan="4">출처: 논문 Table II. 해상도 손잡이 하나로 정확도–속도를 맞춘다.</td></tr>
+            </table>
+
+            <blockquote>논문의 논리를 한 줄로: <strong>"표현을 바꾸면 후처리가 필요해지고, 후처리를 잘하면 표현의 손실을 이긴다."</strong> 3D 전용 아키텍처를 이긴 것은 더 깊은 네트워크가 아니라 <em>센서 기하학에 맞춘 표현 + 그 손실을 아는 후처리</em>였다.</blockquote>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>1,313회 인용, 지금도 모든 비교표의 기준선:</strong> 라이다 시맨틱 분할 논문은 대개 RangeNet++를 첫 줄에 놓고 시작한다. "SOTA"보다 오래 쓰이는 <em>baseline</em> 지위가 이 논문의 실제 영향력이다.</li>
+                <li><strong>데이터셋 + 코드 + 평가 프로토콜을 한 그룹이 함께 배포:</strong> SemanticKITTI(ICCV 2019)와 이 저장소, <code>semantic-kitti-api</code>(⭐900)가 세트로 공개돼 재현성이 확보됐다. 라이다 분할이 2019년 이후 빠르게 정량 비교가 가능해진 이유다.</li>
+                <li><strong>kNN 투영 복원 기법이 계보를 만들었다:</strong> SalsaNext(⭐472, MIT)를 비롯한 range-image 계열 후속작들이 같은 "range image + 투영 손실 후처리" 골격을 계승했다. <strong>"투영 오류를 학습이 아니라 기하학으로 고친다"</strong>는 발상은 지금의 자동 라벨링 파이프라인에도 그대로 남아 있다.</li>
+                <li><strong>임베디드 우선 설계:</strong> 정확도 자랑이 아니라 <em>Jetson에서 13 FPS</em>를 명시적 주장(iii)으로 내건 점이 실무적이다. 512/1024/2048 해상도 하나로 지연–정확도를 조절하는 방식은 배포 현장에서 그대로 쓰인다.</li>
+                <li><strong>아카이브됐지만 여전히 쓸모:</strong> 2024년 읽기 전용으로 닫혔지만 MIT 라이선스에 학습 코드·사전학습 가중치가 남아 있다. 새 모델의 <strong>재현 기준선</strong>, 교육용 라이다 분할 파이프라인, 그리고 <strong>자동 라벨링 부트스트랩</strong>(분할 결과를 사람이 검수해 주석 비용 절감)에 지금도 유효하다.</li>
+                <li><strong>실무 활용:</strong> ① 주행 로그의 점 단위 사전 라벨링 → 주석 도구에서 검수, ② 측량·건설·농업용 이동 로봇의 지면/식생/구조물 분리, ③ SemanticKITTI 프로토콜로 새 백본을 빠르게 스크리닝, ④ 점 기반 검출기(<a href="autonomous-2026-10-19.html">PointRCNN</a>)의 전처리로 배경 점 제거.</li>
+                <li><strong>함께 읽기:</strong>
+                    <ul>
+                        <li>2026-10-23 <a href="autonomous-2026-10-23.html">PointNet</a> — 정반대 진영. 점을 <em>있는 그대로</em> 다루는 문법을 만든 원점이라, 두 글을 나란히 보면 "표현 vs 아키텍처" 논쟁이 한눈에 잡힌다.</li>
+                        <li>2026-10-19 <a href="autonomous-2026-10-19.html">PointRCNN</a> — 같은 해, 점만으로 <em>상자</em>를 뽑은 2단계 검출기. 분할(이 글)과 검출의 분업.</li>
+                        <li>2026-10-08 <a href="autonomous-2026-10-08.html">BEVFusion</a> — range image 대신 <em>BEV</em>로 통합한 3년 뒤의 답. 표현 선택이 다시 한 번 승부처였음을 보여준다.</li>
+                        <li>2026-08-24 <a href="autonomous-2026-08-24.html">nuScenes</a> — KITTI/SemanticKITTI 시대를 잇는 다음 표준 데이터셋.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>RangeNet++가 남긴 교훈은 <strong>"입력 표현이 아키텍처를 이긴다"</strong>는 것이다. 2019년의 경쟁 구도에서 더 큰 3D 네트워크를 쌓는 대신, 센서가 스캔하는 기하학을 그대로 받아들이고 2D CNN의 성숙한 자산을 가져왔다. 그 대가로 생긴 투영 손실은 <em>학습으로 떠넘기지 않고</em> 기하학적 후처리(kNN 투표)로 갚았다. 정확도 +2.3 mIoU는 화려해 보이지 않지만, 그 2.3이 <strong>512px에서 실시간으로 돌아가는 분할</strong>을 가능하게 만든 차이다.</p>
+            <p>두 번째 교훈은 <strong>평가 인프라의 힘</strong>이다. 이 그룹은 모델, 데이터셋(SemanticKITTI), 평가 API를 함께 내놓았다. 그래서 RangeNet++는 "그 당시 가장 정확한 모델"이 아니라 <strong>"모두가 비교하는 좌표계"</strong>가 되었고, 인용 수는 모델의 수명을 넘어 살아남았다. 모델은 2년이면 지지만, 좌표계는 10년을 간다.</p>
+            <p>세 번째는 <strong>전제의 명시</strong>다. 이 방법은 회전형 라이다의 구면 스캔 패턴에 강하게 묶여 있다. 저자들은 그 사실을 숨기지 않고 "rotating LiDAR"를 제목급 전제로 두었기에, 독자는 <em>어디까지 가져다 쓸 수 있는지</em>를 바로 안다. 이후 연구가 복셀(CenterPoint 계열), 폴라(polar), 점 기반(MinkowskiEngine)으로 갈라진 것은 이 전제가 깨진 환경(솔리드스테이트·비반복 스캔)이 등장했기 때문이다.</p>
+            <p>결론: 라이다 인지를 처음 붙이는 팀이라면 오늘날에도 이 저장소가 가장 빠른 출발점 중 하나다. 1,038 스타·아카이브라는 숫자는 "인기 없음"이 아니라 <strong>역할을 다한 기준선</strong>의 표시다 — 새 모델을 만들기 전에, 이 기준선을 이기는지부터 재보는 것이 순서다.</p>
+
+            <p>원문: <a href="https://github.com/PRBonn/lidar-bonnetal" target="_blank">https://github.com/PRBonn/lidar-bonnetal</a><br>
+            논문 PDF: <a href="https://www.ipb.uni-bonn.de/wp-content/papercite-data/pdf/milioto2019iros.pdf" target="_blank">milioto2019iros.pdf (IROS 2019)</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+
+    </div>
+</body>
+</html>
