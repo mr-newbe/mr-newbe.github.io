@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⏱️ [최신] LLVMhammer (arXiv 2610.30798) — Rowhammer 비트 하나가 Triton 최적화 패스를 뒤집어 LLM 추론을 4~16% 느리게 만든다: GPU 벤더 무관, 디스크 캐시에 영구 잔존</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⏱️ [최신] LLVMhammer — 메모리 한 비트가 '컴파일러의 판단'을 뒤집으면, GPU는 멀쩡한데 청구서가 오른다</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-24 · 카테고리: Research (최신 보안 논문 · Rowhammer · 컴파일러/LLM 서빙 · 하드웨어-소프트웨어 교차)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Amplifying Latency and Cost of LLM Inference via Rowhammer Attack<br>
+                <strong>저자:</strong> Mrityunjay Shukla, Shubham Roy, Biswabandan Panda (Indian Institute of Technology Bombay)<br>
+                <strong>출처:</strong> arXiv:2610.30798 [cs.CR] · 2026년 10월 22일 제출 · 8 pages, 7 figures, 6 tables<br>
+                <strong>분야:</strong> Rowhammer · Triton/MLIR-LLVM 컴파일러 · vLLM 추론 서빙 · 클라우드 공동 테넌시 · 가용성/비용 공격<br>
+                <strong>인용:</strong> 2026-10-22 신규 공개 — 인용 집계 전 (OpenAlex/S2 레코드 미형성)<br>
+                <strong>원문:</strong> <a href="https://arxiv.org/abs/2610.30798" target="_blank" rel="noopener">arXiv:2610.30798</a> · <a href="https://arxiv.org/html/2610.30798v1" target="_blank" rel="noopener">HTML 전문</a> · 라이선스 CC BY-NC-SA 4.0
+            </div>
+
+            <h2><i class="fa-solid fa-circle-question"></i> 왜 이 논문인가 — "정확도는 그대로인데 느려졌다"는 가장 찾기 어려운 공격</h2>
+            <p>LLM 서빙에서 보통 공격자는 <em>모델 가중치</em>를 노립니다. 비트를 뒤집어 답을 틀리게 만들거나, 백도어를 심거나, 컨텍스트를 빼냅니다. 그런 공격은 <strong>출력이 이상해지므로</strong> 결국 누군가 알아챕니다.</p>
+            <p>IIT Bombay의 Shukla·Roy·Panda가 10월 22일 올린 <strong>LLVMhammer</strong>는 정반대를 겨냥합니다. 뒤집는 대상은 모델도, GPU 메모리도 아닙니다. <strong>CPU DRAM에 올라와 있는 Triton 컴파일러 라이브러리(<code>libtriton.so</code>)</strong>입니다. 결과는 <em>기능적으로 완전히 동일하지만 더 느린</em> GPU 커널 — 정확도 지표는 흔들리지 않고, TTFT·TPOT·처리량만 조금씩 나빠집니다.</p>
+            <blockquote>논문의 한 줄 요약: <strong>"공격자는 코드를 바꾸지 않고, 컴파일러가 내리는 '최적화 결정'만 바꾼다."</strong> 그리고 Triton은 커널을 <code>~/.triton/cache</code>에 저장하므로, <em>비트플립 한 번이 프로세스를 재시작해도 계속 남습니다.</em></blockquote>
+
+            <h2><i class="fa-solid fa-user-secret"></i> 위협 모델 — 같은 물리 호스트의 '평범한' 공동 테넌트</h2>
+            <ul>
+                <li><strong>피해자:</strong> 공유 물리 호스트에서 LLM 추론 서비스를 운영. Triton으로 GPU 커널을 JIT 컴파일하고 vLLM으로 서빙. 모델 가중치는 공격자에게 노출되지 않고, Triton/MLIR/LLVM 소스도 신뢰된 배포판 그대로입니다.</li>
+                <li><strong>공격자:</strong> 같은 머신에서 도는 <em>비특권 사용자 프로세스</em>. 피해자 메모리·가중치·추론 설정을 읽거나 쓸 수 없습니다. 다만 자기 주소 공간의 물리 DRAM 페이지를 잡고 Rowhammer를 걸 수 있습니다 — PRowhammer 등이 확립한 클라우드 공동 테넌시 모델 그대로입니다.</li>
+                <li><strong>핵심 전제:</strong> Triton은 <em>공유 라이브러리</em>로 배포됩니다. 메모리 중복제거(deduplication)나 메모리 마사징으로 피해자의 <code>libtriton.so</code> 페이지를 공격자가 겨냥할 수 있다는 것이 선행 연구의 결론이고, 이 논문은 그 위에 올라탑니다.</li>
+                <li><strong>공격 목표:</strong> 기밀성도 무결성도 아닌 <strong>효율성</strong>입니다. 논문은 이를 "inference efficiency attack"으로 부르고, 정확도 저하 공격(DeepHammer 계열)과 명확히 구분합니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-microchip"></i> 메커니즘 — 128비트 로드를 4개의 스칼라 로드로 바꾸는 '한 비트'</h2>
+            <p>Triton은 Python DSL에서 시작해 MLIR → LLVM IR → PTX/AMDGCN → 기계어로 내려가는 파이프라인을 씁니다. 이 중 <strong>타깃 독립 단계</strong>(Triton IR·Triton-GPU IR 최적화)는 NVIDIA·AMD 백엔드가 <em>공통으로</em> 소비하는 표현입니다. 여기에 비트 하나가 뒤집히면, 벤더별 백엔드에 도달하기 전에 이미 잘못된 최적화 결정이 굳어집니다.</p>
+            <table>
+                <tr><th>단계</th><th>정상 커널</th><th>비트플립 후</th></tr>
+                <tr><td>LLVM IR</td><td><code>ld.global.v4.b32</code> — 128비트 벡터 로드 1회</td><td><code>ld.global.b32</code> × 4 — 스칼라 로드 4회</td></tr>
+                <tr><td>PTX</td><td>128비트 코얼레스드 로드/스토어</td><td>32비트 로드 4개, 메모리 트랜잭션 4배</td></tr>
+                <tr><td>SASS</td><td><code>LDG.E.128</code></td><td>스칼라 <code>LDG</code> 여러 개</td></tr>
+            </table>
+            <ul>
+                <li><strong>왜 정확도는 그대로인가:</strong> 벡터 로드를 스칼라로 쪼개도 <em>산술 결과</em>는 같습니다. 바뀌는 것은 메모리 트랜잭션 수와 대역폭 효율뿐입니다. 그래서 출력 검증·정확도 모니터링으로는 잡히지 않습니다.</li>
+                <li><strong>왜 영구적인가:</strong> Triton은 컴파일된 커널을 온디스크 캐시에 저장하고 다음 요청에서 재사용합니다. 비트플립이 만든 준최적 커널이 캐시에 들어가면, <strong>프로세스를 재시작해도</strong> 계속 그 커널이 로드됩니다.</li>
+                <li><strong>왜 벤더 무관인가:</strong> 공격 지점이 NVIDIA SASS가 아니라 <em>타깃 독립 IR 단계</em>이기 때문입니다. PRowhammer가 NVIDIA SASS 프로파일링에 묶여 있던 것과 대비되는 이 논문의 핵심 주장입니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-magnifying-glass-chart"></i> Karnage — 118만 개 후보를 1,176개로 줄이는 자동화</h2>
+            <p><code>libtriton.so</code>에는 12만 개가 넘는 함수가 있고, 타깃 독립 구간만 봐도 후보 비트플립 위치가 100만 개를 넘습니다. 하나당 30초씩 추론을 돌리면 <strong>409일</strong>이 걸립니다. 저자들은 4단계 프루닝 도구 <strong>Karnage</strong>를 만들어 이 탐색을 현실적인 시간으로 줄입니다.</p>
+            <table>
+                <tr><th>프루닝 단계</th><th>NVIDIA 후보</th><th>AMD 후보</th></tr>
+                <tr><td>Stage 1: 네임스페이스 필터 (타깃 독립 함수)</td><td>1,183,008</td><td>1,326,122</td></tr>
+                <tr><td>Stage 1: Intel PT 필터 (실행된 명령)</td><td>38,769</td><td>42,996</td></tr>
+                <tr><td>Stage 3: 오프라인 컴파일 출력 비교</td><td>1,176</td><td>810</td></tr>
+                <tr><td>Stage 4: 실제 GPU 프로파일링</td><td>생존</td><td>생존</td></tr>
+            </table>
+            <ul>
+                <li><strong>P1 타깃 독립성 · P2 출력 정상 + 느려짐 · P3 프롬프트/모델 전반의 일관된 느려짐</strong> — 이 세 조건을 모두 만족하는 희귀한 비트만 "쓸모 있는 플립"으로 남깁니다. 대부분은 커널을 바꾸지 않거나, 크래시를 내거나, 출력을 망가뜨립니다.</li>
+                <li><strong>Stage 3의 트릭:</strong> Triton의 오프라인 컴파일을 이용해 커널 런치를 가로채고 GPU 실행 전에 컴파일 결과만 비교합니다. CPU만으로 병렬 필터링이 가능해집니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-chart-simple"></i> 실측 결과 — 4~16% 느려지고, 청구서는 최대 224만 달러</h2>
+            <ul>
+                <li><strong>실험 환경:</strong> Intel i7-4790 + DDR3 8GB / i7-8700 + DDR4 8GB, NVIDIA RTX 4090과 AMD RX 7900 XTX, vLLM 0.24/0.25.1 + Triton 3.6. 모델은 Qwen2.5-7B-Instruct, Llama-3.1-8B-Instruct, Mistral-7B-Instruct-v0.3, DeepSeek-LLM-7B-chat.</li>
+                <li><strong>지연 증가:</strong> 단일 GPU 추론 서버에서 <strong>4~16%</strong>. 최대치는 DeepSeek-7B에 1,000개 요청을 몰아넣은 조건에서 관측됐습니다. 30회 반복 + Welch's t-test로 배치 추론의 고유 분산과 구분했습니다.</li>
+                <li><strong>비용 환산:</strong> H100을 시간당 4.50~10달러로 가정하면 GPU당 연 3.9천~8.76천 달러, 256-GPU 배포에서는 <strong>연 100만~224만 달러</strong>. 지연이 10% 늘면 연간 약 <strong>876시간(37일)</strong>의 서빙 용량이 사라진다는 계산입니다.</li>
+                <li><strong>더 나쁜 모드:</strong> 같은 도구로 <em>출력까지</em> 망가뜨릴 수 있습니다. 교차 벤더 조건에서 BERTScore가 <strong>25%까지</strong> 떨어졌습니다. 느려지는 것만으로도 충분히 나쁜데, 정확도 손상까지 가능하다는 뜻입니다.</li>
+                <li><strong>탐지 회피:</strong> 크래시도, 예외도, 정확도 하락도 없습니다. 관측되는 것은 "평소보다 조금 느린 서버"뿐입니다. 저자들은 이것이 기존 fault-injection 방어(DeepDyve, BitFlipScope)로 잡히지 않는다고 주장합니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 어디까지 믿어야 하나 — "Rowhammer로 실제로 뒤집었다"는 아직 아니다</h2>
+            <p>이 논문은 정직하게도 자기 주장의 경계를 여러 곳에서 긋습니다. 실무자 관점에서 가장 중요한 구분은 <strong>공격의 두 조각이 분리돼 있다</strong>는 점입니다.</p>
+            <ul>
+                <li><strong>입증된 것 = 결과.</strong> <code>libtriton.so</code>의 특정 비트를 뒤집었을 때 커널이 느려지고, 그 커널이 캐시에 남아 재사용된다는 사실은 실제 하드웨어에서 측정됐습니다(4개 모델 · 2개 GPU · 30회 반복).</li>
+                <li><strong>입증되지 않은 것 = 트리거.</strong> 이 논문의 실험은 Karnage로 <em>비트플립을 주입</em>해 측정합니다. 메모리 마사징 → 공격자 행 할당 → 해머링으로 <code>libtriton.so</code>의 정확한 비트를 실제로 뒤집는 end-to-end 시연은 선행 Rowhammer 연구(PRowhammer 등)에 기대고 있습니다. 즉 "가능하다"는 논리적 확장이지, 이 논문 안에서 해머링까지 돌린 것은 아닙니다.</li>
+                <li><strong>플랫폼 한계:</strong> DDR3/DDR4에서만 실험했습니다. DDR5의 PRAC·TRR 환경, 데이터센터 GPU(H100 등), ECC 메모리 구성은 검증되지 않았습니다.</li>
+                <li><strong>측정의 한계:</strong> 표 VI를 보면 n=10 같은 작은 배치에서는 5개 지표 중 유의한 것이 0~2개뿐인 조합이 많습니다. 4% 수준의 저하는 구성에 따라 통계적으로 잡히지 않을 수 있습니다.</li>
+                <li><strong>완화책의 비용:</strong> 저자들이 제시하는 방어는 <code>TRITON_ALWAYS_COMPILE</code>과 세션마다 <code>libtriton.so</code> 재로드입니다. 캐시를 버리는 것이므로 <strong>커널 재컴파일 오버헤드</strong>를 상시 지불해야 합니다. "공짜 방어"가 아닙니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 방어 — 정확도 모니터링이 아니라 '성능 기준선'을 감시해야 한다</h2>
+            <ul>
+                <li><strong>1순위: 커널 캐시 무결성.</strong> <code>~/.triton/cache</code>의 커널 아티팩트와 <code>libtriton.so</code>의 해시를 배포 시점 기준선으로 고정하고, 변경·재컴파일을 감사합니다. Triton 커널 캐시 키에 컴파일러 바이너리 해시가 포함되도록 하는 것도 같은 방향의 개선입니다.</li>
+                <li><strong>2순위: 성능 기준선(performance baseline)을 보안 텔레메트리로 승격.</strong> TTFT·TPOT·tokens/s를 <em>버전·모델·배치 크기별 기준선</em>과 비교해, 설명되지 않는 지속적 하락을 알림으로 올립니다. 정확도 지표만 보는 모니터링은 이 공격에 구조적으로 눈이 먼 상태입니다.</li>
+                <li><strong>3순위: 세션 경계에서 컴파일러 상태 리셋.</strong> 신뢰 경계가 바뀌는 시점(새 테넌트, 재배포)마다 <code>TRITON_ALWAYS_COMPILE=1</code> 또는 라이브러리 재로드를 적용하고, 그 비용을 SLO에 미리 반영합니다.</li>
+                <li><strong>근본 방어:</strong> TRR/PRAC 같은 DRAM 완화책, ECC, 그리고 공동 테넌시에서 민감 워크로드를 물리적으로 분리. 결국 이 공격의 뿌리는 2014년부터 이어진 DRAM 무결성 문제입니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flask"></i> 교육용 PoC — 벡터가 스칼라로 쪼개질 때 '얼마나 손해인가'를 계산해 본다</h2>
+            <p>아래 코드는 실제 하드웨어를 건드리지 않습니다. (1) 128비트 벡터 로드가 스칼라 로드로 바뀌었을 때의 메모리 트랜잭션 증가를 모델링하고, (2) 컴파일러 라이브러리·커널 캐시의 무결성 기준선을 검사하는 <em>방어자</em> 쪽 루틴을 흉내 냅니다. 목적은 "정확도는 그대로인데 느려지는" 변화를 <em>어떤 지표로 잡을 수 있는가</em>를 이해하는 것입니다.</p>
+<pre><code>import hashlib, os, statistics
+
+# 1) 벡터 폭이 4 -> 1로 쪼개질 때의 상대 비용 모델 (교육용 근사)
+#    트랜잭션 수는 4배, 대역폭 효율은 1/4. 실제 지연은 캐시/코얼레싱에 따라 달라진다.
+def relative_cost(vec_width, elements=4096):
+    transactions = elements // vec_width
+    return transactions * vec_width / 32.0   # 32B 섹터 기준 정규화
+
+base = relative_cost(4)
+broken = relative_cost(1)
+print(f"vectorized: {base:.1f}  scalarized: {broken:.1f}  "
+      f"modeled slowdown: {broken/base:.2f}x")
+# 실측 논문 값은 1.04~1.16x -- 모델은 상한(최악)에 가깝다.
+# 즉 '트랜잭션 4배'가 곧 '지연 4배'는 아니다. 메모리 수준 병렬성이 흡수한다.
+
+# 2) 방어자 루틴: 컴파일러 바이너리 + 커널 캐시의 기준선 해시
+def manifest(paths):
+    out = {}
+    for p in paths:
+        if os.path.isfile(p):
+            with open(p, "rb") as f:
+                out[p] = hashlib.sha256(f.read()).hexdigest()[:16]
+    return out
+
+def audit(baseline, actual):
+    drift = []
+    for p, h in actual.items():
+        if baseline.get(p) not in (None, h):
+            drift.append((p, baseline[p], h))
+    return drift
+
+# 예: 배포 시점에 baseline.json 을 만들어 두고, 매 세션 시작 시 비교한다.
+baseline = {"libtriton.so": "a1b2c3d4e5f60718"}
+actual = {"libtriton.so": "a1b2c3d4e5f60718"}   # 비트플립이 있으면 해시가 달라진다
+print("integrity drift:", audit(baseline, actual))
+
+# 3) 성능 기준선 감시: 같은 배치 크기에서의 지속적 지연 증가만 경보
+def drifting(samples, baseline_ms, threshold=1.05, windows=3):
+    hits = sum(1 for s in samples[-windows:] if s &gt; baseline_ms * threshold)
+    return hits == windows and len(samples) &gt;= windows
+
+print("slowdown alarm:", drifting([100, 101, 104, 106, 107], baseline_ms=100))
+print("normal jitter :", drifting([101, 99, 103, 100, 102], baseline_ms=100))</code></pre>
+            <ul>
+                <li><strong>첫 번째 교훈:</strong> 트랜잭션 수 4배가 지연 4배를 뜻하지는 않습니다. GPU의 메모리 수준 병렬성이 상당 부분을 흡수하기 때문에 실측은 4~16%에 그칩니다. 모델은 <em>상한</em>으로만 읽어야 합니다.</li>
+                <li><strong>두 번째 교훈:</strong> 해시 기준선은 비트플립 자체는 잘 잡지만, 공격자가 캐시를 정상 커널로 되돌리거나 기준선을 오염시키면 무력해집니다. 그래서 <em>성능 기준선</em>과 <em>무결성 기준선</em>을 함께 봐야 합니다.</li>
+                <li><strong>실습 과제:</strong> 배치 크기 n을 10/100/1000으로 바꿔 가며 위 <code>drifting()</code>의 오탐률을 재보세요. 논문의 표 VI처럼 작은 배치에서는 신호가 잡음에 묻힙니다 — <em>탐지기의 진짜 약점은 임계값과 표본 수</em>입니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 그래서 무엇이 남는가</h2>
+            <ul>
+                <li><strong>공격면이 '모델'에서 '툴체인'으로 넓어졌다.</strong> 지난 10년의 비트플립 공격은 가중치·활성값·페이지 테이블을 노렸습니다. 이 논문은 <em>컴파일러의 최적화 결정</em>이 새로운 표적임을 보여줍니다. 모델을 아무리 잘 지켜도, 모델을 <em>실행 가능하게 만드는 소프트웨어</em>가 공격면입니다.</li>
+                <li><strong>"가용성 공격"은 탐지 체계의 사각지대다.</strong> 무결성·기밀성 중심의 보안 스택은 "느려졌다"를 사고로 분류합니다. 하지만 멀티테넌트 클라우드에서 4~16%의 지속적 손실은 곧 비용이며, 256-GPU 규모에서는 연 100만 달러가 넘습니다.</li>
+                <li><strong>공급망 관점의 교훈:</strong> 공유 라이브러리 하나(<code>libtriton.so</code>)가 수많은 서비스의 성능을 좌우합니다. 라이브러리 무결성 검증은 이제 보안팀의 일이지, DevOps의 편의 기능이 아닙니다.</li>
+                <li><strong>한국 실무 관점:</strong> 국내 클라우드·GPU 임대 사업자와 사내 LLM 추론 클러스터는 대부분 공동 테넌시와 공유 이미지를 씁니다. "정확도는 정상"이라는 대시보드 한 줄로 안심하는 순간, 이 공격은 보이지 않습니다. 성능 SLO를 <em>보안 지표</em>로 승격할 근거가 여기에 있습니다.</li>
+                <li><strong>연구 윤리:</strong> 저자들은 실제 피해 서비스 없이 자체 실험실 장비에서 측정했고, 완화책과 한계를 논문 안에 명시했습니다. 공격 코드는 공개하지 않았습니다 — 재현 도구보다 <em>방어 지표</em>를 먼저 배포한 셈입니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-book-open"></i> 출처</h2>
+            <ul>
+                <li>논문: Mrityunjay Shukla, Shubham Roy, Biswabandan Panda, <em>Amplifying Latency and Cost of LLM Inference via Rowhammer Attack</em>, arXiv:2610.30798 [cs.CR], 2026-10-22 — <a href="https://arxiv.org/abs/2610.30798" target="_blank" rel="noopener">arXiv 초록</a> · <a href="https://arxiv.org/html/2610.30798v1" target="_blank" rel="noopener">HTML 전문</a></li>
+                <li>배경: Kim et al., <em>Flipping Bits in Memory Without Accessing Them: An Experimental Study of DRAM Disturbance Errors</em> (ISCA 2014) — Rowhammer의 원형</li>
+                <li>선행 공격: <em>PRowhammer</em> (CPU-side Rowhammer → GPU 워크로드), <em>GPUHammer</em>/<em>GDDRHammer</em> (GDDR6), <em>DeepHammer</em> (가중치 비트플립), Li et al., <em>Yes, One-Bit-Flip Matters!</em> (USENIX Security 2024, 런타임 코드 fault injection)</li>
+                <li>방어: Targeted Row Refresh(TRR) · DDR5 Per Row Activation Counting(PRAC) · ECC · <code>TRITON_ALWAYS_COMPILE</code> · 라이브러리 무결성 기준선</li>
+                <li>함께 읽기:
+                    <ul>
+                        <li>2026-09-11 <a href="security-research-2026-09-11.html">Rowhammer (ISCA 2014)</a>: 메모리를 건드리지 않고 옆 줄 비트를 뒤집은 원형. LLVMhammer는 그 원시 연산을 <em>컴파일러</em>에 겨눈 응용입니다.</li>
+                        <li>2026-10-17 <a href="security-research-2026-10-17.html">PAGE404 (2026)</a>: MIG로 격리한 GPU에서도 카운터가 공유된다는 최신 부수 채널. "격리는 논리에서 끝나지 않는다"는 같은 교훈.</li>
+                        <li>2026-10-14 <a href="security-research-2026-10-14.html">Spectre (2019)</a>: 구현은 안전한데 하드웨어가 가정을 지키지 않는 사례. 여기서는 <em>툴체인</em>이 그 가정을 배신합니다.</li>
+                        <li>2026-10-20 <a href="security-research-2026-10-20.html">PatchAlign (2026)</a>: 바이너리에서 패치 적용 여부를 판별하는 최신 연구. 소프트웨어 산출물의 무결성을 다루는 같은 문제의식.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
