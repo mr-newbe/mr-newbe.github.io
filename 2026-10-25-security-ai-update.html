@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-10-25</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        code { background: #0b1220; padding: 1px 5px; border-radius: 4px; color: #7dd3fc; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-10-25 | <i class="fa-solid fa-tags"></i>  Daily News, Supply Chain, Brotli, Node.js, Ruby, GitLab, CISA KEV, Healthcare Breach, Privacy, Patch
+        </div>
+        <div class="content">
+        <h2>1. [사건] LiteLLM &mdash; &ldquo;마스터 키를 폐기하지 않았다&rdquo;, 5월의 커밋 하나가 10월 릴리스 탈취로</h2>
+        <p>어제(10-24) 다룬 LiteLLM 공급망 사고의 <strong>근본 원인</strong>이 프로젝트 측 사후 분석으로 공개됐다. 핵심은 공격 기법이 아니라 <strong>폐기되지 않은 키 하나</strong>다. 커밋을 force-push로 덮었지만, 마스터 키만은 회수되지 않은 채 5개월을 살아 있었다.</p>
+        <ul>
+            <li><strong>유입:</strong> 2026년 5월 27일 공개 저장소 <code>LiteLLM-Labs/lite-harness</code>에 설정 파일이 커밋되며 LiteLLM Agent Platform 배포의 <strong>마스터 키</strong>가 함께 올라갔다. 프로젝트는 &ldquo;오류는 빠르게 발견해 커밋을 덮었고 노출 키는 폐기 대상으로 식별했지만, 마스터 키 폐기는 실제로 이뤄지지 않았다&rdquo;고 인정했다.</li>
+            <li><strong>악용:</strong> <code>69.48.229[.]143</code>에서 10월 10일 마스터 키로 플랫폼에 접근, 서비스에 설정돼 있던 <strong>GitHub CLI OAuth 토큰</strong>을 추출했다. 이 토큰은 <strong>권한 범위가 축소되지 않은</strong> 상태였고 조직 소유자(owner) 계정에 묶여 있었다.</li>
+            <li><strong>2단계:</strong> 10월 10일 사내 저장소 임시 브랜치에 워크플로를 커밋해 유지보수 권한 엔지니어 2명의 CLI 토큰을 공격자 웹훅으로 빼냈다. 실행 기록은 몇 분 뒤 삭제됐다.</li>
+            <li><strong>3단계:</strong> 10월 21일 브랜치 보호를 우회하고 릴리스 파이프라인의 소스를 유사 이름 저장소 <code>Berri-AI/litellm</code>(정상: <code>BerriAI/litellm</code>)로 바꿔치기. 11:39 버전 1.107.0이 PyPI에 게시되고 11:46 Docker Hub&middot;GHCR 이미지가 배포됐다.</li>
+            <li><strong>왜 승인이 통과됐나:</strong> 원래 릴리스는 승인된 엔지니어가 시작하고 <strong>사무실 내 물리 장치에 고정된 특수 계정</strong>이 승인해야 했다. 사건 당일 &lsquo;릴리스 빈도 확대&rsquo;를 위해 이 제한이 <strong>엔지니어 2명이면 트리거&middot;승인 가능</strong>하도록 완화돼 있었고, 공격자는 탈취한 두 토큰으로 그 조건을 정확히 채웠다.</li>
+            <li><strong>실무:</strong> &ldquo;비밀을 커밋했으니 force-push로 지웠다&rdquo;는 대응은 대응이 아니다. <strong>폐기(revoke) 확인</strong>이 완료 조건이어야 하고, 배포용 OAuth 토큰은 <code>repo</code> 최소 범위 + 저장소 단위로 좁혀야 한다.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/leaked-litellm-master-key-let-attackers.html" target="_blank">The Hacker News - Leaked LiteLLM Master Key Let Attackers Steal GitHub Tokens and Hijack Release Pipeline</a></p>
+
+        <h2>2. [사건] Quest Diagnostics, Quanum LSM 침해 &mdash; 검사 결과를 다루는 시스템이 멈췄다</h2>
+        <p>미국 최대 임상검사 기업 중 하나인 Quest Diagnostics가 <strong>Quanum LSM(Lab Services Manager)</strong> 무단 접근을 SEC에 신고했다. 의료 데이터 침해가 &lsquo;환자 기록 유출&rsquo;에서 끝나지 않고 <strong>검사 주문&middot;결과 조회 업무 중단</strong>으로 이어진 사례다.</p>
+        <ul>
+            <li><strong>타임라인:</strong> 2026년 10월 21일 무단 접근 인지 &rarr; 사고 대응 프로토콜 가동. 현재 Quanum LSM은 <strong>중단</strong> 상태이며, 고객에게 종이 요청서 또는 Quanum eLabs 사용을 권고했다.</li>
+            <li><strong>규모:</strong> 미국 성인 3명 중 1명을 매년 진료, 65,000명 고용, 연매출 110억 달러 이상. 다만 이번 사고의 <strong>영향 데이터 종류와 건수는 아직 미확정</strong>이다.</li>
+            <li><strong>확산 차단:</strong> 예방 조치로 Essential Insights&middot;LabHQ 등 다른 시스템 접근도 일시 차단. 직접 고객용 LIS 인터페이스와 EMR은 영향 없음이라고 밝혔다.</li>
+            <li><strong>맥락:</strong> 2019년에도 청구 대행사 AMCA 침해로 약 <strong>1,190만 명</strong> 정보가 유출돼 집단소송 19건이 제기됐고, 통합 소송은 아직 종결되지 않았다. 같은 기업이 두 번째 대형 의료 데이터 사건을 맞은 셈이다.</li>
+            <li><strong>귀속:</strong> 작성 시점까지 공격을 주장한 위협 그룹은 확인되지 않았다.</li>
+        </ul>
+        <p>출처: <a href="https://www.bleepingcomputer.com/news/security/quest-diagnostics-confirms-data-breach-exposed-patient-records/" target="_blank">BleepingComputer - Quest Diagnostics confirms data breach exposed patient records</a></p>
+
+        <h2>3. [사건] 연구자들이 남의 컴퓨터 200만 대에 &lsquo;업데이트&rsquo;를 밀어넣었다 &mdash; Popcorn Time 업데이터</h2>
+        <p>네덜란드 Eye Security가 2025년 11월~2026년 3월 사이 <strong>자기가 소유하지 않은 200만 대 이상</strong>의 컴퓨터에 업데이트를 밀어 넣어 백그라운드 업데이터를 원격으로 비활성화했다. 선의의 조치였지만, 그 자체가 &lsquo;공급망을 통한 원격 코드 실행&rsquo;의 교과서적 시연이 됐다.</p>
+        <ul>
+            <li><strong>발견:</strong> 고객 노트북의 <code>Updater.exe</code>가 더 이상 등록되지 않은 도메인을 계속 호출하는 것을 위협 헌팅 중 발견. 해당 도메인은 <strong>누구나 선점 가능한 상태</strong>였다.</li>
+            <li><strong>구조:</strong> 대상은 2014년 원본이 종료된 뒤 남은 복제판 <strong>Time4Popcorn</strong>(2025년 초 같은 이름을 쓴 합법 프로젝트와는 무관). 도메인을 선점한 사람은 업데이터를 통해 <strong>권한 상승 상태로 악성코드 실행</strong>이 가능했고, 이는 대형 봇넷의 기반이 될 수 있었다.</li>
+            <li><strong>대응:</strong> Eye Security는 도메인을 직접 등록한 뒤 서명된 업데이트를 배포해 업데이터를 끄는 방식으로 <strong>200만 회 이상</strong> 원격 조치를 수행했다.</li>
+            <li><strong>쟁점:</strong> 타인 자산에 대한 무단 원격 변경은 법적&middot;윤리적 회색지대다. 버려진 소프트웨어의 자동 업데이트 경로는 그 자체로 <strong>미청구 공격면</strong>이며, &lsquo;누가 먼저 도메인을 잡느냐&rsquo;가 결과를 가른다.</li>
+            <li><strong>실무:</strong> 자산 목록에서 종료된 앱을 지우는 것만으로는 부족하다. 남아 있는 <strong>업데이터&middot;에이전트의 콜백 도메인</strong>을 DNS 싱크홀&middot;아웃바운드 차단으로 덮어야 한다.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/researchers-push-over-2-million-updates.html" target="_blank">The Hacker News - Researchers Push Over 2 Million Updates to Remotely Disable Popcorn Time Updater That Could Fuel a Botnet</a></p>
+
+        <h2>4. [규제] Google, 약관에 명시 &mdash; &ldquo;Gmail&middot;Photos 데이터가 AI 검색을 거쳐 타깃 광고로&rdquo;</h2>
+        <p>Google이 개인정보처리방침을 개정해, <strong>검색&middot;Gemini의 개인화 AI 기능</strong>을 쓰면 다른 연결된 Google 서비스의 활동 데이터가 <strong>맞춤 광고</strong>에 쓰일 수 있음을 명시했다. 그동안 &lsquo;AI 기능용 데이터&rsquo;와 &lsquo;광고 데이터&rsquo;를 분리해 설명해 온 관행과 결이 다르다.</p>
+        <ul>
+            <li><strong>문구:</strong> 사용자가 검색&middot;Gemini 앱 등이 다른 Google 서비스 데이터에 접근하도록 허용할 수 있으며, 이 경우 해당 서비스 활동이 <strong>광고를 포함한</strong> 목적에 사용될 수 있다는 취지.</li>
+            <li><strong>왜 중요한가:</strong> 그동안 기업들은 &ldquo;AI 학습&middot;개인화에 쓰는 데이터는 광고 프로필과 분리된다&rdquo;고 설명해 왔다. 이 구분이 <strong>계약 문구 수준에서</strong> 흐려진 것이다.</li>
+            <li><strong>실무(개인):</strong> 계정 &rarr; 데이터 및 개인정보 &rarr; <strong>웹 및 앱 활동</strong>에서 &lsquo;맞춤 광고&rsquo; &middot; &lsquo;개인정보처리방침 기록&rsquo; 항목을 직접 확인하고, 연결 서비스별 AI 접근 권한을 개별 점검해야 한다.</li>
+            <li><strong>실무(기업):</strong> 임직원 Google 계정에서 AI 개인화 기능을 켜면 업무 메일&middot;사진 데이터가 광고 프로필에 섞일 수 있다. DLP&middot;데이터 거버넌스 리뷰 항목에 넣어야 한다.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/google-says-gmail-and-photos-data.html" target="_blank">The Hacker News - Google Says Gmail and Photos Data Shared With AI Search Could Be Used for Targeted Ads</a></p>
+
+        <h2>5. [취약점] Brotli 디코더 CVE-2026-111497 &mdash; &ldquo;Node2Shell&rdquo;, 제품마다 자기 사본을 고쳐야 한다</h2>
+        <p>Google Brotli 디코더의 C 메모리 손상 결함 <code>CVE-2026-111497</code>이 Node.js뿐 아니라 <strong>Bun, Python Brotli&middot;brotlicffi, Envoy, Istio</strong>까지 확산됐다. Imperva가 미패치 Node.js 24.22.0(리눅스 ARM64)에서 <strong>실제 코드 실행</strong>을 시연했고, OpenAI Codex Security 팀이 최초 보고했다.</p>
+        <ul>
+            <li><strong>원인:</strong> 압축 해제용 C 코드에서 조작된 Brotli 스트림이 버퍼 끝을 넘어 덮어쓴다. 크래시&middot;메모리 유출&middot;공격자 코드 실행으로 이어질 수 있다. <strong>패치는 10월 21일</strong> Node.js와 Google에서 시작됐고 이후 제품별로 이어졌다.</li>
+            <li><strong>핵심 구조:</strong> 결함이 Google 라이브러리에 있지만 <strong>각 프로그램이 자기 사본을 내장</strong>한다. 런타임 하나만 올려서는 끝나지 않는다.</li>
+            <li><strong>노출 조건:</strong> 남이 제어하는 Brotli 데이터를 <strong>디코딩할 때만</strong>. Node.js&middot;Bun은 <code>fetch()</code>가 <code>Content-Encoding: br</code> 응답을 읽거나 Express 5&middot;body-parser 2가 br 업로드를 풀 때. Envoy&middot;Istio는 Brotli 압축 해제를 <strong>켠 경우에만</strong>.</li>
+            <li><strong>Python의 함정:</strong> 코드에서 <code>import</code>하지 않아도 <code>brotli</code> 패키지가 설치돼 있으면 requests&middot;urllib3&middot;httpx&middot;aiohttp가 알아서 br 응답을 푼다. <strong>설치 여부 자체가 위험</strong>이다.</li>
+            <li><strong>버전:</strong> Google Brotli 1.0.10&middot;1.1.1&middot;1.2.1 / Node.js 22.23.4&middot;24.22.1&middot;26.12.1 / Bun 1.4.4 / Envoy 1.40.0 외 / Istio 1.31.2&middot;1.30.6&middot;1.29.9 / Python brotli 1.2.1 / brotlicffi 1.2.1.0 / cdxgen 13.5.0&middot;12.8.9.</li>
+            <li><strong>WAF 한계:</strong> Vercel은 공개 당일 룰을 추가했지만 &ldquo;함수가 <strong>다른 서버에서 가져오는 응답</strong>&rdquo;은 커버하지 못한다고 밝혔다. 그 경로는 런타임&middot;라이브러리 업데이트만이 답이다.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/brotli-decoder-flaw-behind-nodejs-rce.html" target="_blank">The Hacker News - Brotli Decoder Flaw Behind Node.js RCE Also Affects Bun, Python and Other Widely Used Software</a></p>
+
+        <h2>6. [취약점] Ruby Onigmo 버그 3건이 GitLab RCE 4건의 뿌리 &mdash; 그런데 Ruby CVE는 없다</h2>
+        <p>Ruby가 <strong>4.0.9&middot;3.4.12&middot;3.3.13</strong>을 배포해 정규식 엔진 Onigmo의 버그 3건을 고쳤다. 이 버그들이 <strong>GitLab이 지난 한 달간 패치한 치명적 RCE 4건</strong>의 원인이다. 스캐너 사각지대라는 점이 실무적으로 더 중요하다.</p>
+        <ul>
+            <li><strong>메커니즘:</strong> 공격자가 제어하는 문자열로 정규식을 <strong>컴파일하는 과정</strong>에서 메모리가 손상된다. GitLab은 사용자가 입력한 CI/CD 패턴을 컴파일하므로 그대로 노출됐다.</li>
+            <li><strong>심각도:</strong> 9월 23일 2건은 <strong>9.9</strong>(로그인 필요), 10월 12일 <code>CVE-2026-97229</code>&middot;10월 21일 <code>CVE-2026-110264</code>는 <strong>10.0</strong>이며 <strong>계정 불필요</strong>. 후자는 <strong>GitLab 7.0 이후 전 버전</strong>에 영향.</li>
+            <li><strong>고칠 버전:</strong> GitLab 19.5.1 / 19.4.3 / 19.3.6 / 19.2.9 / 19.1.9 / 19.0.10 / 18.11.13. Ruby 4.0 사용자는 <code>4.0.8</code>이 아닌 <strong>4.0.9</strong>여야 한다. Ruby 3.2 이하는 <strong>지원 종료(EOL)</strong>로 수정 없음.</li>
+            <li><strong>스캐너 공백:</strong> Ruby는 &ldquo;당분간&rdquo; 자체 CVE를 신청하지 않았고, GitLab의 CVE 레코드는 영향 제품을 <strong>GitLab으로만</strong> 적는다. 따라서 &ldquo;설치된 Ruby 버전&rdquo;으로 조회하는 스캐너는 매칭할 대상이 없다.</li>
+            <li><strong>효과 없는 방어:</strong> <code>Regexp.timeout</code> 설정은 이 버그를 막지 못하고, 패턴 길이 제한도 짧은 패턴으로 트리거되므로 신뢰할 수 없다. 근본 해결은 <strong>신뢰할 수 없는 입력으로 정규식을 컴파일하지 않는 것</strong>.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/ruby-fixes-three-regex-engine-bugs.html" target="_blank">The Hacker News - Ruby Fixes Three Regex Engine Bugs Responsible for Four Critical GitLab RCE Flaws</a></p>
+
+        <h2>7. [취약점] NVD 3일 고위험군 &mdash; WordPress 생태계 무인증 9.8, 플러그인 SQLi 9.3, Drupal 9.1</h2>
+        <p>10월 22~25일 NVD 신규 <code>totalResults=1062</code> 중 상위 심각도를 보면 <strong>CMS&middot;플러그인 생태계가 다시 최상위</strong>다. 서로 다른 제품이지만 &lsquo;설치형 플러그인 + 낮은 진입 장벽&rsquo;이라는 같은 패턴이다.</p>
+        <ul>
+            <li><strong><code>CVE-2026-112241</code> (9.8)</strong> &mdash; Brainstorm Force <strong>SureCart</strong> &le; 4.9.5, 스푸핑을 통한 <strong>인증 우회</strong>. 비밀번호 없이 인증 상태를 얻는 유형이라 자동 스캔&middot;대량 악용에 적합하다.</li>
+            <li><strong><code>CVE-2026-112327</code> (9.3)</strong> &mdash; <strong>Amelia</strong> 예약 플러그인 &le; 2.4.11, SQL 인젝션. 예약&middot;결제 데이터가 직접 노출된다.</li>
+            <li><strong><code>CVE-2026-96355</code> (9.1)</strong> &mdash; <strong>Drupal Webform</strong> 0.0.0~6.2.12 &middot; 6.3.0~6.3.1, 템플릿 엔진 코드 인젝션.</li>
+            <li><strong>권한 상승&middot;CSRF 군:</strong> Grav Login <code>CVE-2026-114658</code> (8.8, 초대 폼으로 <strong>슈퍼유저 계정</strong> 획득), Cozmoslabs Profile Builder <code>CVE-2026-112242</code> (8.8, 권한 상승), Xpro Elementor <code>CVE-2026-114177</code> (8.8, CSRF).</li>
+            <li><strong>낙점 밖 주의:</strong> <code>CVE-2026-114575</code> (10.0) TOTOLINK A950RG &mdash; <code>UploadCustomModule</code>의 <code>FileMd5</code> 인자 조작으로 명령 실행. <strong>EOL 가정용 공유기</strong>는 패치가 나오지 않는다고 보는 게 맞다.</li>
+            <li><strong>실무:</strong> 이번 주 우선순위는 &lsquo;SureCart 즉시 업데이트&rsquo; + &lsquo;비활성 플러그인 삭제&rsquo;. 설치된 CMS 플러그인 목록을 WAF 뒤에 숨기는 것만으로는 9.8 인증 우회를 막지 못한다.</li>
+        </ul>
+        <p>출처: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-112241" target="_blank">NVD - CVE-2026-112241 (SureCart 인증 우회)</a> &middot; <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-96355" target="_blank">NVD - CVE-2026-96355 (Drupal Webform)</a></p>
+
+        <h2>8. [패치] CISA KEV 2건 &mdash; Collabora CODE 9.2 · VeloCloud 9.9, FCEB 마감 <strong>10월 26일(내일)</strong></h2>
+        <p>CISA가 10월 23일 두 건을 KEV에 추가하며 <strong>실제 악용</strong>을 확인했다. 연방기관 패치 마감이 <strong>내일(10/26)</strong>이라 이번 주 가장 급한 항목이다.</p>
+        <ul>
+            <li><strong><code>CVE-2026-110447</code> (9.2) &mdash; Collabora Online Built-in CODE Server</strong> (<code>richdocumentscode</code>, Nextcloud 플러그인). CODE 로컬 문서 서버가 실행 중이 아닐 때 <code>proxy.php</code>를 통한 <strong>OS 명령 주입</strong>. 2026년 9월 버전 <strong>26.4.303</strong>에서 수정.</li>
+            <li><strong>실제 공격 형태:</strong> 공격자들이 이 결함으로 Nextcloud 서버에 <strong>웹셸을 심어 백도어</strong>를 만들고, 정찰 후 자격증명 저장소&middot;비밀번호 관리자 아티팩트&middot;<strong>암호화폐 지갑</strong>을 탐색한 정황이 확인됐다.</li>
+            <li><strong><code>CVE-2026-114625</code> (9.9) &mdash; Arista VeloCloud Orchestrator</strong> 온프레미스 SQL 인젝션. VCO 웹 UI 접근 + <strong>유효한 인증 세션</strong>이 필요하며 최소 권한은 <strong>Enterprise Read Only</strong>. 5.2.3.18 &middot; 6.1.3.10 &middot; 6.4.2.12에서 수정.</li>
+            <li><strong>귀속 단서:</strong> Arista는 일본에 위치한 IP 2개(<code>74.82.197[.]86</code>, <code>38.54.50[.]151</code>)를 활동 주소로 공개했지만 행위자 귀속은 하지 않았다.</li>
+            <li><strong>반복 패턴:</strong> 같은 제품에서 <strong>2026년 7월 이후 세 번째</strong> 야생 무기화다. 앞선 <code>CVE-2026-16812</code>&middot;<code>CVE-2026-93952</code>는 모두 CVSS 10.0이었다. VCO는 &lsquo;패치해도 또 나오는&rsquo; 자산으로 취급해야 한다.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/cisa-flags-two-actively-exploited.html" target="_blank">The Hacker News - CISA Flags Two Actively Exploited Critical Flaws in Collabora Online and Arista VeloCloud</a></p>
+
+        <h2>9. [패치] 수명주기&middot;완화 라운드업 &mdash; Windows Server 2016 EOL, Teams AI 피싱 탐지, PHP 미패치 RCE</h2>
+        <p>이번 주 패치 뉴스는 &lsquo;고칠 수 있는 것&rsquo;보다 <strong>&lsquo;고칠 수 없게 되는 것&rsquo;</strong>이 많다. 세 건을 묶어 정리한다.</p>
+        <ul>
+            <li><strong>Windows Server 2016, 2027년 1월 지원 종료.</strong> 이후 보안 업데이트가 중단된다. ESU(확장 보안 업데이트) 없이 남기면 2027년 2월 패치 화요일부터 <strong>무패치 상태</strong>가 된다. 마이그레이션 리드타임을 역산하면 <strong>지금이 설계 시점</strong>이다.</li>
+            <li><strong>Microsoft Teams, 11월 초부터 AI 기반 문맥 인식 피싱 탐지.</strong> 메시지 문맥을 보고 의심스러운 대화를 판별하는 방식. 탐지가 붙어도 <strong>사용자 신고 경로</strong>와 외부 테넌트 메시지 정책은 별도로 점검해야 한다.</li>
+            <li><strong>PHP <code>CVE-2026-115560</code> &mdash; 패치 없음, 완화만 제공.</strong> PHP2Shell 긴급 패치 이틀 뒤 나온 또 다른 RCE 경로. <strong>비기본(non-default) 설정에서만</strong> 영향이며 프로젝트는 &ldquo;위험 가능성 낮음&rdquo;으로 보고 긴급 수정을 내지 않는다. 대신 특정 기능을 끄는 완화책을 안내했다.</li>
+            <li><strong>실무 판단:</strong> &ldquo;낮은 위험&rdquo;이라는 표현은 <strong>기본 설정 기준</strong>이다. 커스텀 <code>php.ini</code>&middot;프레임워크 라우팅&middot;레거시 업로드 경로를 쓰는 환경은 스스로 노출 조건을 확인해야 한다.</li>
+            <li><strong>공통점:</strong> 세 건 모두 <strong>릴리스 노트를 읽어야만</strong> 알 수 있는 항목이다. CVE 피드만 보는 모니터링으로는 EOL&middot;기능 플래그 완화를 놓친다.</li>
+        </ul>
+        <p>출처: <a href="https://www.bleepingcomputer.com/news/microsoft/microsoft-windows-server-2016-reaches-end-of-support-in-january/" target="_blank">BleepingComputer - Microsoft: Windows Server 2016 reaches end of support in January</a> &middot; <a href="https://www.bleepingcomputer.com/news/security/php-shares-mitigation-for-new-and-unpatched-rce-vulnerability/" target="_blank">BleepingComputer - PHP shares mitigation for new RCE vulnerability with no patch</a></p>
+
+        <h2>10. [트렌드] &lsquo;공유 코드&rsquo;와 &lsquo;공유 파이프라인&rsquo;이 동시에 무너졌다 &mdash; 10월의 공급망 교훈</h2>
+        <p>이번 주 사건들을 관통하는 구조는 두 가지다. 하나는 <strong>같은 코드가 수십 개 제품에 복제</strong>되는 것(Brotli&middot;Onigmo), 다른 하나는 <strong>릴리스 권한이 사람 한 명의 토큰에 걸리는 것</strong>(LiteLLM). 둘 다 &lsquo;우리 코드는 안전하다&rsquo;는 가정을 무너뜨린다.</p>
+        <ul>
+            <li><strong>복제된 결함:</strong> Brotli는 각 런타임이 자기 사본을 내장해 <strong>제품 수만큼 패치 창</strong>이 생긴다. GitLab 사례에서는 CVE 레코드가 &lsquo;GitLab&rsquo;만 지목해 <strong>Ruby 자체를 스캔하는 도구가 침묵</strong>한다. SBOM이 있어도 &lsquo;취약점 DB 매핑&rsquo;이 끊기면 소용없다.</li>
+            <li><strong>파이프라인이 곧 신뢰 경계:</strong> LiteLLM은 마스터 키 미폐기(5월) &rarr; owner 토큰(10/10) &rarr; 브랜치 보호 우회 &rarr; 유사 저장소로 디플로이어 교체(10/21)로 이어졌다. PyPI 격리까지 <strong>약 80분</strong>이 걸렸고, 그 사이 1.107.0이 배포됐다.</li>
+            <li><strong>완화 조치가 공격 창을 열었다:</strong> LiteLLM은 릴리스 속도를 위해 &lsquo;물리 장치 고정 계정 승인&rsquo;을 &lsquo;엔지니어 2인&rsquo;으로 완화한 직후 공격을 맞았다. 편의를 위한 통제 완화는 <strong>반드시 만료일과 함께</strong> 적용해야 한다.</li>
+            <li><strong>버려진 소프트웨어가 미청구 공격면:</strong> Popcorn Time 업데이터는 아무도 관리하지 않는 콜백 도메인 하나로 200만 대가 원격 실행 위험에 노출됐다. 자산 목록&middot;EOL 목록&middot;아웃바운드 DNS 차단이 한 세트여야 하는 이유다.</li>
+            <li><strong>오늘의 결론:</strong> &ldquo;패치했는가&rdquo;보다 &ldquo;<strong>무엇이 우리 코드 안에 복제돼 있는가</strong>&rdquo;, &ldquo;<strong>릴리스 권한이 몇 개의 토큰에 걸려 있는가</strong>&rdquo;를 먼저 물어야 한다.</li>
+        </ul>
+        <p>출처: <a href="https://thehackernews.com/2026/10/brotli-decoder-flaw-behind-nodejs-rce.html" target="_blank">The Hacker News - Brotli Decoder Flaw (복제된 디코더)</a> &middot; <a href="https://thehackernews.com/2026/10/leaked-litellm-master-key-let-attackers.html" target="_blank">The Hacker News - Leaked LiteLLM Master Key (파이프라인 탈취)</a></p>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
