@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧩 [최신] Structural Cryptanalysis of Classic McEliece (arXiv 2610.31196) — 40년간 '2^3000'이던 구조 공격이 몇 달 만에 2^100대로: 그래도 아직 '공격'은 아니다, BSI는 9월 29일 신규 배포 중단 권고</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧩 [최신] Classic McEliece 구조 암호분석 — 40년 만에 움직인 '구조 공격'의 청구서, 그리고 아직 증명되지 않은 침해</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-25 · 카테고리: Research (최신 보안 논문 · 양자내성암호 · 코드기반 암호 · 구조적 암호분석)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Structural cryptanalysis of classic McEliece: Assessment of claims, costs and evidence<br>
+                <strong>저자:</strong> Ramses Fernandez (AegisQ Technologies)<br>
+                <strong>출처:</strong> arXiv:2610.31196 [cs.CR] · 2026년 10월 22일 제출 · 라이선스 CC BY-NC-ND 4.0<br>
+                <strong>분야:</strong> 양자내성암호(PQC) · 이진 Goppa 부호 · McEliece/Niederreiter · 구조적 키 복구 · 보안 레벨/비용 모델<br>
+                <strong>인용:</strong> 2026-10-22 신규 공개 — OpenAlex 기준 인용 0 (3일 경과, 집계 전) · Semantic Scholar API는 429로 조회 불가<br>
+                <strong>원문:</strong> <a href="https://arxiv.org/abs/2610.31196" target="_blank" rel="noopener">arXiv:2610.31196</a> · <a href="https://arxiv.org/html/2610.31196v1" target="_blank" rel="noopener">HTML 전문</a>
+            </div>
+
+            <h2><i class="fa-solid fa-circle-question"></i> 왜 이 논문인가 — "깨졌다"도 "안 깨졌다"도 아닌, 가장 정확한 문장</h2>
+            <p>암호 뉴스는 보통 두 문장 중 하나로 끝납니다. <em>"깨졌다"</em> 아니면 <em>"여전히 안전하다"</em>. 2026년의 Classic McEliece는 <strong>어느 쪽으로도 쓸 수 없는 상태</strong>입니다. 2024년까지 구조적 키 복구 비용은 <code>2^3000</code> 이상(지원 분할 알고리즘 기준)이었는데, 2년 만에 <strong>실행 1회당 조건부 추정치 <code>2^89</code>~<code>2^128</code></strong>까지 내려왔습니다. 그런데 실제로 키를 복구한 것은 <code>(m,t,n)=(8,12,223)</code>짜리 장난감 부호뿐입니다.</p>
+            <p>Ramses Fernandez의 이 논문은 그 간극을 <strong>버전별로 분해</strong>합니다. 증명된 구별자(distinguisher), 휴리스틱 가정에 기댄 조건부 비용 추정, 실제로 복구된 공개 챌린지를 <em>같은 표에 섞지 않고</em> 각각 따로 평가합니다. 결론은 명확합니다 — <strong>"비용 모델이 지금 가장 큰 정량적 불확실성"</strong>이고, <strong>"이 중 어느 것도 실증된 공격이 아니다"</strong>.</p>
+            <blockquote>논문의 한 줄: <strong>"조건부 추정치가 목표 보안 레벨을 크게 밑돈다는 것은 사실이지만, 그것은 '침해'가 아니라 '재평가가 필요한 상태'다."</strong> 독일 BSI가 2026년 9월 29일 신규 배포를 권고 중단한 이유도, 역설적으로 같은 문장 안에 있습니다 — BSI 스스로 "공개된 결과가 아직 실용적 공격을 가능하게 하지는 않는다"고 기록했습니다.</blockquote>
+
+            <h2><i class="fa-solid fa-clock-rotate-left"></i> 배경 — 1978년 McEliece, 그리고 "구조 공격이 안 통한다"는 40년의 가정</h2>
+            <p>McEliece 암호(1978)는 <strong>이진 Goppa 부호</strong> 위에 세워진 가장 오래된 공개키 암호 중 하나입니다. ClassMcEliece는 이를 Niederreiter 형태의 KEM으로 구현한 것으로, 공개키를 <strong>체계적(systematic) 형태의 패리티 검사 행렬</strong>로 내놓습니다. 이 표현은 부호의 대수적 구조를 숨기기 때문에, 40년간 최선의 키 복구는 <em>지원 분할(support splitting)</em>을 동반한 사실상의 전수 탐색이었습니다. BSI 기준 가장 작은 파라미터에서도 <code>2^3000</code> 이상입니다.</p>
+            <ul>
+                <li><strong>지위:</strong> NIST 4차 라운드 후보였지만 <em>최종 선정되지 못했고</em>, 대신 2026년 6월 ISO/IEC에서 표준화되었습니다. BSI는 2020년부터 이 기법을 권고해 왔습니다.</li>
+                <li><strong>파라미터 5종:</strong> mceliece348864 / 460896 / 6688128 / 6960119 / 8192128 — NIST 카테고리 1·3·5·5·5에 대응합니다.</li>
+                <li><strong>핵심 가정:</strong> "공개키가 랜덤 부호와 구별되지 않는다". 즉 <em>구별자(distinguisher)</em>가 존재하지 않는다는 가정 위에 보안 레벨이 세워져 있습니다.</li>
+            </ul>
+            <p>문제는 그 가정이 <strong>2024년에 흔들리기 시작했다</strong>는 점입니다. 2024년 Randriambololona의 syzygy 구별자는 이진 Goppa 부호를 일반 선형 부호와 <em>점근적으로 준지수 시간</em>에 구별했고, 이후 2년간 공격 계보가 연쇄적으로 이어졌습니다.</p>
+
+            <h2><i class="fa-solid fa-layer-group"></i> 2024–2026의 물결 — 무엇이 실제로 증명되었나</h2>
+            <table>
+                <thead>
+                    <tr><th>연구</th><th>유형</th><th>핵심 아이디어</th><th>Classic McEliece 수치</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Randriambololona (2024, EUROCRYPT 2025)</td><td>구별자</td><td>축약 쌍대부호의 과잉 syzygy</td><td><code>≥2^683</code> (BSI TR 세트)</td></tr>
+                    <tr><td>Hemmert–Wiemers (2025, CRYPTO 2026)</td><td>구별자</td><td>고차 소멸(HOV) — Goppa에선 커널 비영(非零), 랜덤 부호에선 영</td><td><code>≥2^550</code> (TR 세트)</td></tr>
+                    <tr><td>Bardet–Lemoine–Tillich</td><td>키 복구</td><td>Pfaffian 모델링, 매우 높은 rate</td><td>CFS 서명 파괴 · TII-210까지 / CM rate엔 <em>미적용</em></td></tr>
+                    <tr><td>Ghoshal–Ishai–Jain–Sun (GIJS)</td><td>구별자 (준다항식)</td><td>Holdout/Hermite — "PIR meets McEliece"</td><td>구체 추정치는 비실용적</td></tr>
+                    <tr><td>Saarinen, HOVER (2026-08, 10월 개정)</td><td>키 복구</td><td>MinRank 탐색 → 호환 준동형 대수의 <em>선형대수</em>로 대체</td><td>커널 생성 비용 <code>2^297</code>~<code>2^690</code>은 <strong>그대로</strong> (HOVER가 바꾸지 않음)</td></tr>
+                    <tr><td>Saarinen, TII-254 (2026-09)</td><td>키 복구 (실증)</td><td>two-anchor Holdout/Hermite, 13단계</td><td>(8,12,223) 토이 인스턴스 · CM 수치 없음</td></tr>
+                    <tr><td>Weis (2026-09, v0.5 10-06)</td><td>구별자 + 키 복구 + 비용</td><td>샤프닝된 파라미터, 메모리 충전 비용 모델</td><td><code>2^89</code>~<code>2^98</code> (자유 메모리) / <code>2^107</code>~<code>2^117</code> (메모리 충전)</td></tr>
+                </tbody>
+            </table>
+            <p>표를 읽는 순서가 중요합니다. <strong>HOVER는 "알고리즘 개선"으로 인정받아야 하지만</strong>, 가장 낮은 수치의 출처가 아닙니다. HOVER의 입력이 되는 커널을 만드는 비용(<code>2^297</code>~<code>2^690</code>, 소멸 차수 22~52)은 그대로 남아 있고, Saarinen 자신도 10월 8일 개정판에서 <em>"현재 형태로는 Classic McEliece 파라미터에 위협이 되지 않는다"</em>고 명시했습니다. 가장 낮은 추정치는 HOVER도 TII-254도 아닌, <strong>Holdout/Hermite 계보의 비용 분석</strong>(Saarinen의 항목별 계산, Weis의 샤프닝, Vedenev의 10월 개정)에서 나옵니다.</p>
+
+            <h2><i class="fa-solid fa-calculator"></i> 숫자 읽기 — 2^89는 "깨졌다"가 아니라 "모델에 따라 30비트 흔들린다"</h2>
+            <p>같은 계산에 대해 논문이 정리한 핵심 수치입니다(단위: log₂ 비트 연산, 별도 표기 없으면 자유 메모리 가정).</p>
+            <table>
+                <thead>
+                    <tr><th>파라미터</th><th>NIST cat</th><th>NIST 기준(게이트)</th><th>ISD</th><th>GIJS 구별자</th><th>샤프닝 구별자</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>mceliece348864</td><td>1</td><td>143</td><td>151</td><td>114.2</td><td>94.1</td></tr>
+                    <tr><td>mceliece460896</td><td>3</td><td>207</td><td>191</td><td>120.3</td><td>99.3</td></tr>
+                    <tr><td>mceliece6688128</td><td>5</td><td>272</td><td>257</td><td>124.0</td><td>102.4</td></tr>
+                    <tr><td>mceliece6960119</td><td>5</td><td>272</td><td>257</td><td>123.0</td><td>101.6</td></tr>
+                    <tr><td>mceliece8192128</td><td>5</td><td>272</td><td>287</td><td>124.0</td><td>102.4</td></tr>
+                </tbody>
+            </table>
+            <ul>
+                <li><strong>핵심 비교:</strong> 큰 네 세트는 <em>고려된 모든 비용 모델에서</em> 목표 레벨을 크게 밑돕니다. 반면 <strong>mceliece348864는 부족분이 "모델 간 격차"와 같은 크기</strong>입니다 — 즉 결론이 모델 선택에 달려 있습니다.</li>
+                <li><strong>불확실성의 크기:</strong> 동일한 한 번의 실행에 대해 가장 싼 모델과 비싼 모델의 차이가 <strong>28~30비트</strong>입니다. 2^89와 2^117은 같은 계산입니다.</li>
+                <li><strong>모델을 가르는 세 축:</strong> ① 단위(비트 연산 vs 키와 무관한 부울 회로의 게이트) ② 메모리 취급(무료 / <code>M^γ</code>, γ=1/3 또는 1/2 / 접근당 과금) ③ 실행 횟수(1회 vs 100~1400회).</li>
+                <li><strong>Grover-ISD와의 비교:</strong> 큰 네 세트에서는 구조적 추정치가 Grover 가속 ISD보다 <em>거의 모든 모델에서</em> 낮고, 348864에서는 비슷합니다. 즉 "대형 양자컴퓨터가 있는 세계"에서도 가장 싼 공격이 고전적 구조 공격이 될 수 있다는 조건부 진술이 성립합니다.</li>
+                <li><strong>Saarinen의 항목별 계산(Table 3):</strong> <code>2^126.8</code>~<code>2^145.2</code> 비트 연산, 작업 저장공간 <code>2^51.3</code>~<code>2^59.1</code>비트. 단, 주소 생성·메모리 트래픽·통신은 제외하고 미검증 예산 허용치를 포함한 수치입니다.</li>
+            </ul>
+            <p>여기서 저자의 절제가 돋보입니다. 그는 이 수치들을 <strong>"인증된 완전 게이트 카운트도, 경과 시간 공격도 아니다"</strong>라고 못 박습니다. 목표 크기에서 완전 구현으로 검증된 적이 없다는 뜻입니다.</p>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 그러나 '공격'은 아니다 — 7년에서 420년, 그리고 "그런 기계는 없다"</h2>
+            <p>논문에서 가장 중요한 문단은 아마 이것입니다. 한 번의 실행은 <strong><code>2^30</code>~<code>2^34</code>개의 종속 반복</strong>으로 이루어지고, 각 반복은 <strong>100 TiB~1.5 PiB 메모리</strong>를 가진 기계 전체의 교환 연산입니다. 초당 <code>10^9</code> 스텝 기준으로 <strong>7년(mceliece348864)에서 420년(6688128·8192128)</strong>이 걸립니다. Weis의 표현을 그대로 옮기면 — <em>"그런 기계는 존재하지 않는다(No machine of this kind exists)."</em></p>
+            <ul>
+                <li><strong>하드웨어를 늘려도 안 빨라집니다.</strong> 트래픽이 블록 크기 b에 의존하지 않기 때문에, 전수 탐색이나 작은 리스트를 쓰는 ISD와 달리 <em>분산해도 비용이 유지되지 않습니다</em>. 이는 "돈으로 시간을 사는" 통상의 암호분석 경제학이 통하지 않는 구조입니다.</li>
+                <li><strong>가정의 검증 범위:</strong> 4개의 휴리스틱 가정이 최대 <code>10^7</code>개의 미지수 규모에서만 시험되었는데, 목표는 <code>2^38</code>~<code>2^42</code>개입니다. <strong>수만~수십만 배 작은 인스턴스에서 확인된 휴리스틱</strong>이 그대로 유지된다는 보장은 없습니다.</li>
+                <li><strong>실증된 것의 크기:</strong> HOVER와 TII-254는 <code>m≤10</code>, <code>t≤12</code>, <code>n≤1010</code> 범위의 검증된 키 복구입니다. TII 챌린지 라벨(최대 254)은 <em>전수 탐색 작업량</em>이지 보안 레벨이 아닙니다.</li>
+                <li><strong>긍정적 기여:</strong> 두 연구 모두 휴리스틱 수용을 <em>정확하고 재현 가능한 인증서</em>(fail-closed 대수 검사, 유한 Hankel 완전성 한계, Lean 검증 보조정리, 전체 행공간 검증)로 대체했습니다. 구조적 암호분석의 실험 신뢰성을 끌어올린 방법론적 진전입니다.</li>
+            </ul>
+            <blockquote>"증명된 구별자는 키 복구의 보간·랭크·유일성 가정을 조용히 인증하지 않는다." — 이 논문이 반복해서 강조하는 구분선. 구별자 정리는 키 복구 알고리즘의 정리가 아닙니다.</blockquote>
+
+            <h2><i class="fa-solid fa-building-columns"></i> BSI의 2026년 9월 29일 — "신규 배포 자제, 하이브리드만, 2027년 초 재평가"</h2>
+            <p>독일 연방정보보안청(BSI)은 2026년 9월 29일 <strong>Classic McEliece의 신규 배포를 권고하지 않는다</strong>고 발표했습니다. 중요한 건 그 문장의 뒷부분입니다 — BSI 스스로 <em>"공개된 결과가 아직 권고 파라미터에 대한 실용적 공격을 가능하게 하지 않는다"</em>고 기록했습니다. 즉 이 조치는 <strong>침해 확인이 아니라, 보안 주장의 근거(비용 모델)가 재검토 중이라는 판단</strong>입니다.</p>
+            <ul>
+                <li><strong>BSI가 인용한 수치:</strong> TR-02102-1 세트에 대해 <code>2^99</code>~<code>2^102</code>. 이는 Weis의 Table 4에서 <em>단일 실행 (b)</em> 값과 일치합니다 — GIJS 공식을 써서 비영 원소당 2회 연산을 과금하고 <strong>메모리는 무료로 둔</strong> 모델입니다.</li>
+                <li><strong>같은 세트, 더 낮은 수치:</strong> Weis 자신의 계산은 <code>2^95.4</code>~<code>2^98.4</code> 연산(<code>2^98.3</code>~<code>2^101.3</code> 게이트), 최선의 메모리 충전 추정치는 <code>2^114.0</code>~<code>2^117.2</code>입니다. BSI의 우려가 겨눈 축(메모리 접근 비용)이 곧 수치가 가장 크게 흔들리는 축입니다.</li>
+                <li><strong>권고의 순서:</strong> 코드기반 구성요소를 검토한다면 <strong>HQC를 먼저</strong>, Classic McEliece는 최소한 재평가 전까지 <em>추가 구성요소</em>로만. HQC는 Goppa 특유의 구조 공격에 노출되지 않지만, 준순환(quasi-cyclic) 부호 자체의 구조적 복호 공격 가능성은 별도로 분석되어야 합니다.</li>
+                <li><strong>수리(repair)의 조건:</strong> 실행 비용이 m에 지배되므로 <code>n &lt; 2^m</code>이면서 m을 키운 파라미터가 여유를 되살릴 수 있지만, 공개키가 <strong>2.5~6.8배</strong> 커지고, 가정 1·4를 목표 크기 밖으로 외삽하며, 다른 공격을 무시합니다. 사실상 <em>새 설계</em>이고 보수성은 처음부터 다시 입증해야 합니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-robot"></i> 메타 관찰 — HOVER를 찾아낸 것은 LLM이었다</h2>
+            <p>이 논문의 가장 흥미로운 각주는 기술이 아니라 <em>작업 방식</em>에 관한 것입니다. Saarinen은 <strong>HOVER의 발견을 상당 부분 LLM 덕으로 돌립니다</strong>. TII-254 구현은 인간이 방향을 잡고 AI가 운영하는 개선 사이클에서 나왔고, Weis의 논문도 AI 시스템의 도움으로 준비되었다고 밝힙니다. 저자의 해석은 담담합니다 — "장기적 의미가 무엇이든, <strong>아이디어와 검증된 실험 사이의 주기를 단축시켰고, 그 결과 프리프린트의 <em>버전</em>이 수치 인용의 일부가 되었다</strong>."</p>
+            <p>실제로 Weis의 개정 이력은 그 자체로 경고입니다. v0.4(10월 5일)는 가정 5개 중 2개를 정리로 승격했고, v0.5(10월 6일)는 <em>"E를 저장하지 않는 실행은 추가 연산 없이 <code>2^47.8</code>~<code>2^52.1</code>비트만 필요하다"</em>는 v0.1~v0.3의 주장을 철회했습니다. 근거가 된 것은 <strong>한 번도 실행된 적 없는 블록 Wiedemann 추정치</strong>였습니다. 0.4 이전 버전에서 인용한 메모리 충전 수치는 Table 4로 대체해야 합니다.</p>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 정리 — 무엇을 믿고, 무엇을 유보할까</h2>
+            <ul>
+                <li><strong>믿을 것:</strong> 2024~2026년에 이진 Goppa 부호의 구조적 구별이 실제로 진전했고, 조건부 키 복구 추정치가 NIST 목표 레벨을 밑도는 모델이 존재합니다. 큰 네 세트에서는 모델 선택과 무관합니다.</li>
+                <li><strong>유보할 것:</strong> "Classic McEliece가 깨졌다"는 문장. 목표 크기에서의 키 복구는 <em>실증된 적이 없고</em>, 가정은 목표보다 수만 배 작은 인스턴스에서만 시험되었습니다. BSI도 같은 유보를 명시했습니다.</li>
+                <li><strong>진짜 쟁점:</strong> 수치가 아니라 <strong>비용 모델</strong>입니다. 30비트의 격차는 "누가 옳은가"가 아니라 "무엇을 세는가"의 문제이며, 메모리 접근 과금 방식이 결론을 뒤집을 수 있는 유일한 축입니다.</li>
+                <li><strong>실무적 결론:</strong> 신규 시스템에서 코드기반 PQC가 필요하다면 BSI의 순서(HQC 우선, CM은 재평가 후 추가 구성요소)를 따르는 것이 현재 증거에 가장 충실합니다. 기존 배포를 즉시 교체해야 한다는 증거는 없습니다.</li>
+                <li><strong>2027년 초가 분기점:</strong> BSI의 재평가, 그리고 논의된 프리프린트들의 다음 개정이 "조건부 추정"과 "실증된 공격" 사이의 남은 간극을 닫을지 결정합니다.</li>
+            </ul>
+            <p>암호학에서 40년은 아주 긴 시간입니다. 그 40년의 가정이 2년 만에 재검토 대상이 되었다는 사실 자체가, 이 논문이 남기는 가장 실질적인 교훈일지도 모릅니다. <strong>보안 레벨은 수학이 아니라, 우리가 어떤 계산을 비싸다고 부르기로 했는가에 달려 있습니다.</strong></p>
+
+            <h2><i class="fa-solid fa-book-open"></i> 더 읽기</h2>
+            <ul>
+                <li>원문: <a href="https://arxiv.org/abs/2610.31196" target="_blank" rel="noopener">arXiv:2610.31196</a> · <a href="https://arxiv.org/html/2610.31196v1" target="_blank" rel="noopener">HTML 전문</a> (CC BY-NC-ND 4.0)</li>
+                <li>참조 계보: Randriambololona의 syzygy 구별자(2024) · Hemmert–Wiemers HOV(2025) · Ghoshal–Ishai–Jain–Sun Holdout/Hermite · Saarinen HOVER·TII-254 · Weis v0.5 · Vedenev 10월 개정</li>
+                <li>함께 읽기:
+                    <ul>
+                        <li>2026-10-18 <a href="security-research-2026-10-18.html">Reaction Attack on CKKS</a>: 격자 기반 FHE에서 '유효/무효' 1비트가 비밀키를 넘긴 사례. 양자내성 가정이 수학이 아니라 <em>구현/오라클</em>에서 무너지는 또 하나의 경로.</li>
+                        <li>2026-10-21 <a href="security-research-2026-10-21.html">RC4 키 스케줄링 분석 (2001)</a>: "약한 IV + 선형 체크섬"이 24비트 IV를 죽인 고전. 구조적 편향이 실전 공격이 되기까지의 시간을 보여줍니다.</li>
+                        <li>2026-10-09 <a href="security-research-2026-10-09.html">bcrypt (1999)</a>: "비용 파라미터"를 보안의 일부로 끌어들인 설계. 이 논문의 '비용 모델이 곧 보안 주장'이라는 주제와 정확히 맞닿습니다.</li>
+                        <li>2026-10-23 <a href="security-research-2026-10-23.html">Bell–LaPadula (1976)</a>: 40년 넘게 유지된 형식 모델이 재검토되는 순간. 오래된 가정의 수명에 관한 같은 질문.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
