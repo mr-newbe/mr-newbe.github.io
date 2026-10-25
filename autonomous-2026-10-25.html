@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - LaneNet (KU Leuven·Toyota TRACE, IEEE IV 2018)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        code { background: #0b1220; padding: 2px 6px; border-radius: 4px; color: #7dd3fc; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92rem; }
+        th, td { border: 1px solid var(--border-color); padding: 8px 10px; text-align: center; }
+        th { background: #0b1220; color: var(--accent-color); font-weight: 600; }
+        td:first-child, th:first-child { text-align: left; }
+        .hl { color: #7dd3fc; font-weight: 600; }
+        blockquote { margin: 16px 0; padding: 12px 18px; border-left: 3px solid var(--accent-color); background: #0b1220; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <header>
+            <h1>자율주행 리서치 - LaneNet (KU Leuven·Toyota TRACE, IEEE IV 2018)</h1>
+            <p class="date">2026-10-25</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>GitHub:</strong> <a href="https://github.com/MaybeShewill-CV/lanenet-lane-detection" target="_blank">MaybeShewill-CV/lanenet-lane-detection</a> — ⭐<strong>2,570</strong> · 🍴890 · <strong>Apache-2.0</strong> · 2018-05-29 생성 · <code>master</code> 최종 커밋 <strong>2023-05-11</strong> · 릴리스 <strong>0개</strong> · topics: <code>lane-detection</code>, <code>instance-segmentation</code>, <code>lanenet</code>, <code>self-driving-car</code>, <code>tensorflow</code></li>
+                    <li><strong>논문:</strong> <em>Towards End-to-End Lane Detection: an Instance Segmentation Approach</em> — IEEE <strong>IV 2018</strong> (Intelligent Vehicles Symposium) · <a href="https://arxiv.org/abs/1802.05591" target="_blank">arXiv:1802.05591</a> · DOI <a href="https://doi.org/10.1109/IVS.2018.8500547" target="_blank">10.1109/IVS.2018.8500547</a></li>
+                    <li><strong>저자/소속:</strong> Davy Neven · Bert De Brabandere · Stamatios Georgoulis · Marc Proesmans · Luc Van Gool — <strong>ESAT-PSI, KU Leuven</strong> (Toyota 지원, <strong>TRACE Lab</strong> = Toyota Research on Automated Cars in Europe–Leuven)</li>
+                    <li><strong>인용:</strong> <strong>880회</strong> (OpenAlex, 2026-10-25 조회) · arXiv primary category <code>cs.CV</code> · 최초 투고 2018-02-15</li>
+                    <li><strong>데이터셋:</strong> <strong>TuSimple</strong> 차선 벤치마크 — 주간 고속도로 클립, 프레임당 차선 개수가 가변(최대 5개)</li>
+                    <li><strong>저장소 구성:</strong> <code>lanenet_model/</code>(<code>lanenet_front_end.py</code>·<code>lanenet_back_end.py</code>·<code>lanenet_discriminative_loss.py</code>·<code>lanenet_postprocess.py</code>) · <code>tools/</code>(학습·평가·테스트·TuSimple 라벨 자동 생성·tfrecord) · <code>config/tusimple_lanenet.yaml</code> · <code>mnn_project/</code>(<strong>MNN 모바일 추론</strong>: freeze 스크립트 + C++ + kd-tree·DBSCAN) · TensorFlow 1.x</li>
+                    <li><strong>한 줄 정의:</strong> 차선 검출을 <strong>"고정 개수의 픽셀 분할"이 아니라 "차선마다 하나의 인스턴스"</strong>로 다시 정의하고, 짐작으로 쓰던 원근 변환(IPM)마저 <strong>H-Net이 이미지마다 회귀</strong>하도록 만든 2018년의 기준선. 검출한 차선 <em>개수</em>를 세지 않고, 임베딩 클러스터링으로 <strong>있는 만큼</strong> 뽑아낸다.</li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>차선 검출은 자율주행 스택에서 가장 오래된 모듈인데, 2017년까지의 코드는 두 갈래로 갈려 있었다. 하나는 Canny·Hough·Kalman 필터 같은 <em>손으로 만든 특징 + 후처리</em> 조합이고, 다른 하나는 딥러닝 픽셀 분할이다. 전자는 도로 장면이 조금만 달라져도 무너지고, 후자는 <strong>미리 정한 개수의 차선(보통 ego-lane)만</strong> 검출하도록 학습돼 <em>차선 변경</em>을 표현할 방법이 없었다. 이 논문의 답은 새 네트워크가 아니라 <strong>문제 정의를 바꾸는 것</strong>이었다.</p>
+            <ul>
+                <li><strong>재정의 — 차선은 인스턴스다:</strong> 각 차선을 하나의 객체로 보고 인스턴스 분할 문제로 캐스팅한다. 출력은 "차선/배경" 마스크가 아니라 <strong>차선 id가 붙은 인스턴스 맵</strong>이다. 개수 제약이 사라지고, 차선 변경·합류·소실이 전부 "클러스터가 하나 늘거나 줄었다"로 자연스럽게 표현된다.</li>
+                <li><strong>두 갈래 ENet:</strong> ENet 인코더-디코더를 개조해 <strong>binary segmentation 브랜치</strong>(차선 픽셀/배경)와 <strong>embedding 브랜치</strong>(픽셀당 <strong>4차원 임베딩</strong>)를 붙이고 멀티태스크로 <strong>공동 학습</strong>한다. 인코더를 두 갈래가 통째로 공유하면 성능이 떨어져서, 인코더 스테이지를 나눠 공유한다.</li>
+                <li><strong>discriminative loss:</strong> De Brabandere et al.(2017)의 손실을 그대로 쓴다. 같은 차선의 임베딩은 <code>δ_v</code> 안으로 <strong>당기고</strong>, 다른 차선의 클러스터 중심은 <code>δ_d</code> 밖으로 <strong>밀어낸다</strong>. 이 논문의 설정은 <code>δ_v = 0.5</code>, <code>δ_d = 3</code> — <strong>δ_d &gt; 6δ_v</strong>라는 간격 덕분에, 학습이 끝나면 <em>군집 알고리즘 없이도</em> 반경 <code>2δ_v</code> 임계값만으로 한 차선을 통째로 집을 수 있다.</li>
+                <li><strong>클러스터링:</strong> 임의의 차선 픽셀에서 시작해 <strong>mean shift</strong>로 클러스터 중심 쪽으로 이동한 뒤 <code>2δ_v</code> 반경으로 임계값을 잡아 같은 차선의 임베딩을 전부 회수하고, 남은 픽셀에 대해 반복한다. 이상치(outlier)를 중심으로 잡아 반경을 잘못 잡는 사고를 mean shift가 막아준다.</li>
+                <li><strong>H-Net — 고정 IPM의 배신:</strong> 차선은 원영상에서 곡선이라 고차 다항식이 필요하고, 그래서 모두가 조감도(bird's-eye view)로 투영해 2~3차 다항식으로 적합한다. 문제는 그 변환 행렬 <code>H</code>를 <strong>데이터셋 전체에 하나로 고정</strong>한다는 점이다. 노면 경사가 바뀌면 소실점이 위아래로 움직이면서 투영이 통째로 틀어지고, 곡선 적합이 무너진다. 논문은 <code>H</code>를 <strong>입력 이미지에 조건화해 회귀하는 작은 신경망 H-Net</strong>을 붙인다.</li>
+                <li><strong>6-자유도 + 적합 품질을 손실로:</strong> <code>H = [[a,b,c],[0,d,e],[0,f,1]]</code> — 0 세 개는 <strong>"수평선은 변환 후에도 수평"</strong>이라는 제약이다. 손실은 재투영 오차가 아니라 <strong>"변환된 점들에 다항식을 적합했을 때의 MSE"</strong>다. 즉 <em>차선이 잘 맞는 좌표계를 찾는 일 자체</em>를 학습한다. 입력 128×64, Adam, batch 10, lr 5e-5.</li>
+                <li><strong>피팅과 재투영:</strong> H-Net이 준 좌표계에서 차선 픽셀에 <strong>3차 다항식</strong>을 최소자승 적합하고, 평가 지점(<code>y</code>)을 다시 원영상으로 투영해 <code>x</code>를 읽는다. 검출 마스크가 아니라 <strong>연속 곡선</strong>이 최종 출력이라는 점이 이후 LKA·LDW 제어기에 그대로 꽂히는 이유다.</li>
+                <li><strong>속도 예산:</strong> 512×256, GTX 1080 Ti에서 <strong>전체 19 ms = 52.6 fps</strong>. LaneNet 순전파 12 ms, <strong>클러스터링 4.6 ms</strong>, H-Net 순전파 <strong>0.4 ms</strong>(416 fps), 차선 적합 2 ms. 실시간성의 4분의 1이 <em>후처리(클러스터링)</em>라는 사실이 이후 계보의 방향을 결정한다.</li>
+                <li><strong>이 저장소가 제공하는 것:</strong> TensorFlow 1.15 구현체로, TuSimple로 학습한 <strong>사전학습 가중치를 공개</strong>하고(README 기준 추론 약 <strong>50 fps</strong>), <code>generate_tusimple_dataset.py</code>로 TuSimple 원본에서 학습 라벨(rgb·binary·instance)을 <strong>자동 생성</strong>한다. 더 흥미로운 건 <code>mnn_project/</code> — <code>freeze_lanenet_model.py</code> → <code>convert_lanenet_model_into_mnn_model.sh</code>로 <strong>MNN(모바일 추론 엔진) 모델로 변환</strong>한 뒤 C++에서 돌리고, 그 안에서는 mean shift 대신 <strong>kd-tree + DBSCAN</strong>으로 같은 클러스터링을 수행한다. 연구 코드가 <em>폰까지 내려가는 경로</em>를 함께 배포한 2018년 사례다.</li>
+            </ul>
+
+            <table>
+                <tr><th>TuSimple test (논문 Table II, 2018년 리더보드)</th><th>accuracy [%]</th><th>FP</th><th>FN</th></tr>
+                <tr><td>leonardoli</td><td>96.9</td><td>0.0442</td><td>0.0197</td></tr>
+                <tr><td>XingangPan (SCNN 저자)</td><td>96.5</td><td>0.0617</td><td>0.0180</td></tr>
+                <tr><td>aslarry</td><td>96.5</td><td>0.0851</td><td>0.0269</td></tr>
+                <tr><td>dpantoja</td><td>96.2</td><td>0.2358</td><td>0.0362</td></tr>
+                <tr><td><strong>LaneNet (ours)</strong></td><td class="hl">96.4</td><td class="hl">0.0780</td><td class="hl">0.0244</td></tr>
+                <tr><td colspan="4">정확도 1위는 아니지만 FP/FN 균형이 상위권 — <em>차선 개수를 고정하지 않은</em> 모델이 고정 개수 모델들과 같은 급에 올랐다는 것이 이 표의 의미다.</td></tr>
+            </table>
+
+            <table>
+                <tr><th>H-Net 효과 (validation, 픽셀 MSE)</th><th>2차 다항식</th><th>3차 다항식</th><th>평균 miss/lane</th></tr>
+                <tr><td>변환 없음 (원영상 적합)</td><td>53.91</td><td>17.23</td><td>0</td></tr>
+                <tr><td>고정 IPM (업계 표준)</td><td>48.09</td><td>9.42</td><td>0.105</td></tr>
+                <tr><td><strong>H-Net 조건부 변환</strong></td><td class="hl">33.82</td><td class="hl">5.99</td><td class="hl">0</td></tr>
+                <tr><td colspan="4">논문 Table III. 고정 IPM 대비 3차 적합 오차 <strong>9.42 → 5.99 (−36%)</strong>, 2차에서는 <strong>48.09 → 33.82 (−30%)</strong>. 게다가 고정 IPM은 적합 자체가 안 되는 차선(miss)이 0.105개씩 생기는데 H-Net은 0이다.</td></tr>
+            </table>
+
+            <table>
+                <tr><th>구성 요소 (512×256, GTX 1080 Ti)</th><th>시간</th><th>환산 fps</th></tr>
+                <tr><td>LaneNet 순전파</td><td>12 ms</td><td>62.5</td></tr>
+                <tr><td>임베딩 클러스터링 (mean shift + 임계값)</td><td>4.6 ms</td><td>—</td></tr>
+                <tr><td>H-Net 순전파</td><td>0.4 ms</td><td>416.6</td></tr>
+                <tr><td>차선 적합</td><td>2 ms</td><td>—</td></tr>
+                <tr><td><strong>합계</strong></td><td class="hl">19 ms</td><td class="hl">52.6</td></tr>
+                <tr><td colspan="3">논문 Table IV. <strong>24%가 클러스터링</strong> — "인스턴스로 정의한 대가"를 숫자로 보여주는 표다.</td></tr>
+            </table>
+
+            <blockquote>이 논문의 논리를 한 줄로: <strong>"차선 개수를 정하지 않으려면 픽셀마다 좌표를 심고(임베딩), 원근을 짐작하지 않으려면 변환도 학습하라(H-Net)."</strong> 정확도 0.5%p보다 중요한 건 <em>두 개의 가정을 코드에서 걷어낸 것</em>이다 — 고정된 차선 수, 고정된 호모그래피.</blockquote>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>880회 인용 — 차선 검출의 정의를 바꾼 원점:</strong> "차선 = 인스턴스 분할"이라는 재정의는 이후 차선 논문들의 공통 전제가 됐다. 2020년 Ultra-Fast-Lane-Detection이 이 정의를 <em>행 선택 분류</em>로 비틀어 300 fps를 낼 때도, 비교 대상은 항상 LaneNet이다.</li>
+                <li><strong>⭐2,570 · 🍴890 — LaneNet의 사실상 표준 구현체:</strong> 원저자 코드가 아니라 비공식 TensorFlow 구현인데도, 공개 8년이 지난 지금까지 가장 많이 fork된 LaneNet 코드다. 논문을 읽고 바로 돌려볼 수 있는 <em>유일한 완성형 파이프라인</em>(데이터 생성 → 학습 → 평가 → 배포 변환)이었다는 점이 star 수의 실체다.</li>
+                <li><strong>두 아이디어가 따로 살아남았다:</strong> (1) discriminative loss 기반 임베딩 클러스터링은 인스턴스 분할의 일반 기법으로 남았고, (2) "원근 변환도 학습 대상"이라는 H-Net 발상은 <strong>learned IPM</strong> 계보(자기차선 파라미터를 직접 회귀하는 PolyLaneNet류)로 이어졌다. 한 논문이 서로 다른 두 갈래의 조상이 된 드문 경우다.</li>
+                <li><strong>산학 협력의 표본:</strong> KU Leuven ESAT-PSI의 Van Gool 그룹과 Toyota의 유럽 자율주행 연구 조직(TRACE Lab)이 함께 만든 결과물이다. 논문 말미에 지원 기관과 랩 이름을 명시했고, 코드는 Apache-2.0으로 완전 개방됐다 — <em>양산사 연구소의 문제의식</em>이 학계 코드로 나온 경로다.</li>
+                <li><strong>실무 활용:</strong> ① <strong>LKA/LDW</strong>처럼 "차선 하나가 사라지고 생기는" 상황을 다루는 ADAS 기능의 기준 구현, ② HD-map·차선 지도 <strong>자동 검증</strong>(검출 곡선 vs 지도 곡선 비교), ③ <strong>자동 라벨링 부트스트랩</strong>(TuSimple 라벨 생성 스크립트가 그대로 있음), ④ <code>mnn_project/</code> 경로를 통한 <strong>임베디드·모바일 배포</strong> 프로토타이핑. 다만 프로덕션 기본값으로 쓰기엔 무겁다 — 19 ms 중 4.6 ms가 클러스터링이고, TensorFlow 1.x 환경을 요구한다.</li>
+                <li><strong>정직한 한계:</strong> <code>master</code> 최종 커밋이 <strong>2023-05-11</strong>, 릴리스 0개, 요구 사항은 <code>tensorflow_gpu==1.15.0</code> — 재현에는 컨테이너로 TF1 환경을 만드는 편이 빠르다. 평가가 <strong>TuSimple(주간 고속도로)</strong> 단일 벤치마크라 도심·야간·악천후 일반화는 이 숫자로 보장되지 않고, 지금의 TuSimple/CULane SOTA는 CLRNet·PersFormer·UFLDv2 계열이다. 이 글은 <em>"지금 가장 정확한 차선 검출기"</em>가 아니라 <strong>"차선 문제를 어떻게 정의해야 하는지를 정한 글"</strong>로 읽어야 한다.</li>
+                <li><strong>함께 읽기:</strong>
+                    <ul>
+                        <li>2026-09-24 <a href="autonomous-2026-09-24.html">Ultra-Fast-Lane-Detection</a> — 2년 뒤의 답. 픽셀 분할도 클러스터링도 버리고 <em>행(row) 선택 분류</em>로 300 fps를 낸다. 이 글의 4.6 ms가 왜 사라졌는지가 두 글을 나란히 놓았을 때 가장 선명하다.</li>
+                        <li>2026-10-16 <a href="autonomous-2026-10-16.html">YOLOP</a> — 차선을 검출·주행가능영역과 <em>한 인코더</em>에 묶은 멀티태스크. 차선을 독립 모듈로 둘지, 인지 계층에 통합할지의 대조.</li>
+                        <li>2026-10-08 <a href="autonomous-2026-10-08.html">BEVFusion</a> — "어떤 좌표계에서 융합할 것인가"라는 같은 질문을 라이다·카메라로 확장한 사례. H-Net의 <em>학습된 좌표계</em>와 BEV의 <em>고정 좌표계</em>가 좋은 비교쌍이다.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>LaneNet이 남긴 첫 번째 교훈은 <strong>"정확도보다 정의"</strong>다. 차선 개수를 미리 정하는 한 차선 변경은 표현 불가능한 사건이었고, 어떤 네트워크를 얹어도 그 벽은 그대로였다. 문제를 인스턴스 분할로 바꾸는 순간 <em>개수 제약 자체가 사라졌고</em>, 96.4%라는 숫자는 그 정의 위에서 나온 결과일 뿐이다. 새 모델을 설계하기 전에 <strong>"내가 암묵적으로 고정해 둔 가정이 무엇인가"</strong>를 먼저 세는 습관 — 이 논문이 880회 인용되는 이유는 성능표가 아니라 이 태도다.</p>
+            <p>두 번째는 <strong>고정 기하학을 학습 대상으로 올리기</strong>. IPM은 "평평한 노면"이라는 가정을 코드 한 줄에 하드코딩한다. H-Net은 그 가정을 <em>이미지마다 다시 추정하는 변수</em>로 바꿨고, 그 대가로 0.4 ms와 6개 파라미터만 지불했다. 오차 36% 감소를 <strong>모델을 키우지 않고</strong> 얻었다는 점이 핵심이다 — 카메라 캘리브레이션·좌표계 변환이 들어가는 모든 자율주행 모듈(정밀지도 정합, 센서 융합)에 그대로 옮길 수 있는 사고방식이다.</p>
+            <p>세 번째는 <strong>표현의 비용을 세어야 한다</strong>는 것이다. 인스턴스로 정의한 대가로 19 ms 중 4.6 ms(24%)를 클러스터링에 지불했다. 이후 계보는 이 비용을 없애는 방향으로 움직였다 — UFLD의 행 선택 분류, CLRNet의 계층 정제, PersFormer의 3D 앵커. <strong>"무엇을 출력할지"를 바꾸면 "후처리"가 사라지고 속도가 남는다</strong>는 것이 2018→2026 차선 인지의 요약이다. 다만 그 대가로 잃은 것도 있다. 클러스터링은 <em>처음 보는 개수</em>를 견디는 장치였고, 고정 앵커·행 분류는 그 견고함의 일부를 벤치마크 커버리지에 맡겼다.</p>
+            <p>마지막은 <strong>벤치마크의 편향</strong>. TuSimple 96.4%는 <em>맑은 날 고속도로</em>의 숫자다. 그 숫자가 도심·야간·비 오는 날의 LKA를 보장하지 않는다는 사실은 CULane이 등장한 이유이기도 하다. 이 저장소를 오늘 쓰는 가장 현실적인 방법은 SOTA 재현이 아니라, <strong>자기 데이터로 라벨을 만들고 파이프라인을 검증하는 기준선</strong>으로 삼는 것이다. 8년 된 코드가 아직 2,570개의 별을 가진 이유도 그것 — 모델은 지지만, <em>문제를 정의한 방식</em>은 남는다.</p>
+
+            <p>원문: <a href="https://arxiv.org/abs/1802.05591" target="_blank">https://arxiv.org/abs/1802.05591</a><br>
+            코드: <a href="https://github.com/MaybeShewill-CV/lanenet-lane-detection" target="_blank">https://github.com/MaybeShewill-CV/lanenet-lane-detection</a></p>
+
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
