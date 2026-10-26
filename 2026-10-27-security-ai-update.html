@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-10-27</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-10-27 | <i class="fa-solid fa-tags"></i> Daily News, Microsoft 365, Gheist, Wasmtime, WordPress, CISA KEV, AI Agent Security
+        </div>
+
+        <div class="content">
+            <h2>1. Microsoft 365 토큰 재전송 공격 — 79개 조직 97개 계정 장악</h2>
+            <p>Huntress가 7월 14일~9월 22일 관측한 AiTM(중간자) 릴레이 캠페인을 공개했다. 공격자는 가짜 로그인 페이지로 자격증명과 MFA 코드를 중계한 뒤, 마이크로소프트가 발급한 '로그인 증명' 액세스 토큰을 탈취해 자기 기기에서 재전송했다. 비밀번호 추측이 아니라 <strong>토큰 자체를 대량으로 재사용</strong>하는 방식이라 "토큰 스프레이(token spraying)"로 명명됐다.</p>
+            <ul>
+                <li><strong>규모:</strong> 20만 건 이상의 로그인 시도 중 497건이 성공, 97개 계정 장악, 48개의 유령(rogue) Entra 기기 등록. 실패 시도는 193.26.115[.]0/24 대역으로 집중됐다.</li>
+                <li><strong>지속성 확보:</strong> 최소 19개 조직에서 최초 로그인 후 <strong>3시간 이내</strong> 기존 MFA 수단이 제거되고 새 수단이 등록됐다. 7월 21일 사례에서는 세션 탈취 후 <strong>51분</strong> 만에 "iPhone 13"이라는 인증기 앱이 활성화됐다.</li>
+                <li><strong>은닉 규칙:</strong> 받은편지함에 ".", "sss", "iT", "........," 같은 눈에 띄지 않는 이름의 규칙을 심어 급여·입금·상여 관련 메일을 삭제하거나 RSS 피드·대화 기록 폴더로 숨겼다. 한 사서함은 모든 메일을 읽음 처리 후 삭제하고 외부 스팸 발송에 악용됐다.</li>
+                <li><strong>인프라:</strong> 최초 관측 IP는 루마니아 193.26.115[.]221로 AsyncRAT 연관 이력이 있으며, 독일 호스팅 1337 Services GmbH·StarkRDP·rdp[.]sh(가상서버 임대)와 연결된다. 관련 도메인은 이미 테이크다운됐다.</li>
+                <li><strong>대응:</strong> 토큰은 AitM·디바이스 코드 피싱·정상 로그인 중 사회공학 등 여러 경로에서 유입됐다. 조건부 액세스로 토큰 보호(토큰 바인딩), 미등록 기기·비정상 위치 차단, 등록된 인증기·기기 전수 감사가 필요하다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/microsoft-365-token-replay-attacks.html" target="_blank">The Hacker News - Microsoft 365 Token-Replay Attacks Compromise 97 Accounts at 79 Organizations</a></p>
+
+            <h2>2. 'Gheist' 캠페인 — 탈취한 GitHub 토큰으로 Actions 로그에서 시크릿 탈취</h2>
+            <p>Wiz가 9월 15일부터 추적한 자동화 캠페인. 탈취한 GitHub 토큰으로 저장소에 워크플로를 심어 <strong>시크릿을 Actions 로그에 출력</strong>시키고, 로그를 내려받은 뒤 런을 삭제한다. 이름은 공격 도구가 API 요청에 쓰는 User-Agent "gheist"에서 따왔다.</p>
+            <ul>
+                <li><strong>규모:</strong> 850개 이상 침해 계정에서 13,500개 이상의 심어진 브랜치 회수. 개인 프로젝트부터 기업의 프라이빗 저장소까지 포함되며, GitHub Enterprise Server도 영향권이다.</li>
+                <li><strong>수법:</strong> `ci-sync-` + 무작위 6자의 브랜치를 만들고 `.github/workflows/sync-check.yml` 1개를 "ci: sync config" 메시지로(서명 없이) 커밋해 워크플로를 즉시 실행시킨다.</li>
+                <li><strong>로그 마스킹 우회:</strong> 시크릿을 <strong>base32로 인코딩</strong>해 출력한다. 인코딩된 값은 원본과 문자열이 달라 GitHub의 마스킹이 걸리지 않는다. `permissions: {}`로 GITHUB_TOKEN 권한은 오히려 줄여 탐지를 흐린다.</li>
+                <li><strong>C2 없음:</strong> 유출 경로가 GitHub API 자체라 외부 서버·아웃바운드 연결이 없다. 로그 다운로드 수 초 뒤 런을 삭제해 흔적이 남지 않는다. 배포 환경(deployment environment)별 잡도 돌려 프로덕션 전용 시크릿까지 노린다.</li>
+                <li><strong>GitHub 방어의 사각지대:</strong> 7월 28일 도입된 의심 워크플로 보류 기능은 <strong>github.com 공개 저장소에만</strong> 적용된다. Wiz가 확인한 공개 저장소 런은 전부 승인 대기 상태로 페이로드가 실행되지 않았지만, 프라이빗·GHES는 보호되지 않았다.</li>
+                <li><strong>복구:</strong> 브랜치나 런을 지워도 노출은 되돌릴 수 없다. 해당 저장소가 읽을 수 있었던 <strong>모든 시크릿 회전</strong>과 브랜치를 푸시한 토큰 폐기가 필수다. 쓰기 권한자는 저장소의 모든 시크릿을 읽을 수 있다는 전제로 권한을 재설계해야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/gheist-uses-stolen-github-tokens-to.html" target="_blank">The Hacker News - Gheist Uses Stolen GitHub Tokens to Steal Private Repository Secrets via Actions Logs</a></p>
+
+            <h2>3. Microsoft Teams 'IT 지원' 사칭 — 수백 건 반복 패턴, Chaos 랜섬웨어 유포</h2>
+            <p>Arctic Wolf Labs는 Teams의 외부 채팅 생성 기능을 악용한 사칭 사기가 <strong>수백 건에서 동일한 패턴</strong>으로 반복된다고 밝혔다. 같은 일회용 테넌트, 같은 "IT Support (Internal)" 표시 이름, 같은 원격접속 도구, 점점 같은 페이로드 도메인이 재사용된다.</p>
+            <ul>
+                <li><strong>신뢰 위장:</strong> 조사 사례의 30~40%가 `*.onmicrosoft[.]com` 도메인을 사용했다(helpdeskteam365, itendpoint365, itcoreportal, itadmin922, corporateitservicellc 등). 최근에는 표시 이름에 피해 조직의 도메인·회사명을 넣는 수법이 추가됐다.</li>
+                <li><strong>유료 TLD 전환:</strong> 최근 사기 테넌트의 유료 도메인 중 약 50%가 `.top`, 약 40%가 `.com`, 5% 남짓이 `.com.pl`·`.com.vn`·`.com.br` 같은 다단계 도메인이었다.</li>
+                <li><strong>심리 압박:</strong> Teams 메시지에 앞서 수백 통의 뉴스레터·구독 확인 메일로 받은편지함을 폭격(mail bombing)해 "문제가 생겼다"는 긴급감을 만든 뒤 지원을 자처한다.</li>
+                <li><strong>전개:</strong> 보이스피싱(vishing)으로 Quick Assist·AnyDesk·ScreenConnect·TeamViewer·Atera·Zoho Assist·NetSupport·LogMeIn 등 정상 RMM 도구의 핸즈온키보드 권한을 얻고, 정찰 → GoGRPC 백도어 → 도메인 컨트롤러 측면 이동 → Level 등 추가 RMM → 데이터 유출 → 랜섬웨어 순으로 진행한다.</li>
+                <li><strong>귀속:</strong> 과거 `.top` TLD 기반 IT 사칭 도메인을 만든 STAC4749와 활동이 일치하며, Sophos는 이 계열이 Chaos 랜섬웨어를 배포했다고 본다. URL을 직접 붙이지 않고 Microsoft Notes 등 안전 검사를 피하는 방식도 관측됐다.</li>
+                <li><strong>완화:</strong> 외부 Teams 접속이 필요한 조직만 허용목록 기반으로 좁히고, onmicrosoft 계열 신규 테넌트 발신 차단, RMM 도구 실행 화이트리스트, 헬프데스크 채널의 아웃오브밴드 검증 절차를 둔다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/attackers-use-microsoft-teams-it.html" target="_blank">The Hacker News - Attackers Use Microsoft Teams IT Support Scams to Deploy Malware and Ransomware</a></p>
+
+            <h2>4. uCreator 안드로이드 스파이웨어 — 텔레그램 2FA 탈취·위챗 계정 복제</h2>
+            <p>연구자 Ovi가 10월 21일 공개한 분석에 따르면, 임대형(rentable) 안드로이드 스파이웨어 키트 uCreator는 정상 앱의 코드 안에 자신을 숨겨 텔레그램·위챗 계정을 탈취한다. 텔레그램 부분은 Doctor Web이 2025년 10월 보고한 백도어 <strong>Baohuo</strong>와 코드 네임스페이스(`com.ucreator.tgjar`), C2 서버, 명령 이름이 일치한다. 당시 감염 기기는 5만 8천 대 이상으로 추정됐다.</p>
+            <ul>
+                <li><strong>유포:</strong> 공식 스토어 밖 사이드로딩, 인앱 광고를 통한 가짜 앱스토어(텔레그램 X를 데이팅·영상채팅 앱으로 홍보), 키트 제작자의 컨테이너 앱 洋葱盒子("Onion Box") 실행. 일부 변조본은 구글 플레이 정식 앱과 <strong>패키지 이름이 동일</strong>해 이름만으로는 구분되지 않는다. APKPure·ApkSum·AndroidP에도 등장했고, APKPure에는 정식 개발자 이름으로 올라갔지만 서명이 달랐다.</li>
+                <li><strong>동작:</strong> 변조 앱 내부에서 앱 자신의 권한으로 실행되며, 앱 안에 로컬 명령 서버를 띄운다. 대상 앱별 코드는 설치 후 내려받아 설치 파일 단독 분석을 어렵게 만든다. 메시지 저장소에 임의 쿼리를 보내 대화 기록을 회수하고, 텔레그램 2단계 인증 정보를 탈취한다.</li>
+                <li><strong>표적 범위:</strong> 약 20개 앱 지원 코드가 확인됐다(WeCom, QQ, WhatsApp, LINE, Zalo, KakaoTalk, Viber, GCash, MoMo 등). 확보한 C2 서버 데이터에는 중국·미국 소재 피해자로 보이는 정보가 있었으나 신뢰할 만한 규모 산정은 불가하다고 연구자는 밝혔다.</li>
+                <li><strong>Android 17?</strong> 후킹 엔진은 Android 17을 실행한 Pixel 10 Pro에서 의존하는 내부 함수를 찾지 못했다. 다만 Frida는 같은 기기에서 동일하게 후킹에 성공했으므로 <strong>차단 증거가 아니라 제작자의 추가 작업거리</strong>로 해석해야 한다. 최신 샘플(2026-07-29)도 구 엔진을 그대로 사용했다.</li>
+                <li><strong>대응:</strong> 스토어 외 설치 금지, 텔레그램 2단계 인증 비밀번호 재설정, 활성 세션·연결 기기 점검, 텔레그램 X 변조본 서명 확인. 모바일 지갑·메신저를 같이 쓰는 기기라면 초기화가 가장 확실하다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/ucreator-android-spyware-can-steal.html" target="_blank">The Hacker News - uCreator Android Spyware Can Steal Telegram 2FA Passwords and Clone WeChat Accounts</a></p>
+
+            <h2>5. 3,690만 달러 '돼지 도살' 사기 — 44세 중국인 네덜란드서 범죄인 인도</h2>
+            <p>미 법무부는 44세 Zhen Zhao가 네덜란드에서 범죄인 인도돼 캘리포니아 법정에 출석했다고 밝혔다. 미국·캄보디아 공범들과 함께 가짜 가상자산 투자 플랫폼으로 <strong>미국 피해자 174명에게서 3,690만 달러</strong>를 편취한 혐의다.</p>
+            <ul>
+                <li><strong>수법:</strong> 문자·SNS·전화·데이팅 앱으로 접근해 신뢰를 쌓고, 실제 거래소를 닮은 가짜 웹사이트에서 "수익이 늘고 있다"고 속여 송금을 유도하는 전형적 로맨스/투자 사기(pig butchering)다.</li>
+                <li><strong>자금 세탁:</strong> 피해자 송금은 바하마 Deltec Bank의 "Axis Digital Limited" 명의 계좌로 모인 뒤 테더(USDT)로 전환돼 캄보디아 지갑으로, 다시 지역 스캠센터 총책들에게 분배됐다.</li>
+                <li><strong>사법 진행:</strong> Zhao는 2025년 8월 자금세탁 공모 혐의로 기소돼 최대 20년형에 처해질 수 있다. 공범 8명은 이미 유죄를 인정했고 2명은 51개월·46개월을 선고받았다.</li>
+                <li><strong>규모 추세:</strong> FBI 2025 인터넷범죄 보고서 기준 투자 사기 피해는 7만 2,984건 신고에 <strong>86억 달러</strong>로, 2024년 65억 달러에서 급증했다. 개별 사건 처벌보다 플랫폼·송금 경로 차단이 더 큰 레버리지다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/chinese-man-extradited-for-role-in-36-million-cryptocurrency-scam/" target="_blank">BleepingComputer - Chinese man extradited for role in $36 million cryptocurrency scam</a></p>
+
+            <h2>6. Wasmtime 치명적 2건(CVSS 9.9) — 악성 WebAssembly 모듈이 샌드박스 탈출</h2>
+            <p>WebAssembly 런타임 Wasmtime의 Cranelift 컴파일러에서 샌드박스 탈출이 가능한 두 취약점이 공개됐다. Bytecode Alliance는 10월 19일 공지에서 각각 <strong>CVSS 9.9</strong>로 평가했고, 수정 버전은 10월 19~20일 배포됐다. 악용 사례는 보고되지 않았고 CISA KEV에도 10월 26일 기준 등재되지 않았다.</p>
+            <ul>
+                <li><strong>CVE-2026-115889:</strong> 모든 아키텍처 영향. <strong>CVE-2026-115893:</strong> ARM64(aarch64) 전용. 공격자는 자신이 제어하는 모듈을 취약한 빌드로 컴파일할 수 있어야 한다.</li>
+                <li><strong>수정 버전:</strong> 36.0.19 / 48.0.7 / 49.0.4, 또는 50.0.0. 37~42.x는 둘 다 영향, 43~47.x는 ARM64 건만, 48.0.0~48.0.6과 49.0.0~49.0.3도 ARM64 건에 영향.</li>
+                <li><strong>지원 종료 라인:</strong> 보안 수정은 36·48·49·50 라인만 제공된다. 24.x LTS는 2026년 8월 20일 지원이 끝나 수정판이 없다. 4월에 ARM64 이전 Cranelift 탈출(36.0.7/42.0.2/43.0.1)을 패치한 호스트도 CVE-2026-115893에는 여전히 취약하다.</li>
+                <li><strong>라이브러리 주의:</strong> Wasmtime은 다른 프로그램에 내장되는 라이브러리라 <strong>CLI만 업데이트해선 해결되지 않는다.</strong> 이를 포함한 모든 프로그램을 수정 버전으로 재빌드해야 한다. RustSec에는 RUSTSEC-2026-0379·0380으로 등재돼 cargo-audit으로 탐지된다.</li>
+                <li><strong>탐지 공백:</strong> GitHub 보안 공지 DB에는 CVE-2026-115889만 리뷰 완료 항목이 있어, ARM64 건은 Dependabot 알림이 발생하지 않는다. 외부인이 작성한 모듈을 컴파일·실행하는 서비스(예: Fastly Compute는 고객 코드를 Wasmtime으로 실행)가 최고 위험군이다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/two-critical-wasmtime-flaws-could-let.html" target="_blank">The Hacker News - Two Critical Wasmtime Flaws Could Let Malicious WebAssembly Modules Escape Sandboxes</a></p>
+
+            <h2>7. Postiz 9.9 — 하나의 공유 비밀로 서명된 모든 토큰(토큰 혼동)</h2>
+            <p>셀프호스팅형 SNS 예약 발행 도구 Postiz에서 NVD 기준 <strong>CVSS 9.9</strong> 취약점이 확인됐다. 세션·초대·비밀번호 재설정 토큰을 <strong>동일한 공유 시크릿으로, 토큰 용도를 구분하는 표식 없이</strong> 서명하기 때문에 한 종류의 토큰을 다른 용도로 쓸 수 있다.</p>
+            <ul>
+                <li><strong>CVE-2026-115933 (9.9):</strong> 브라우저 확장 채널의 자격증명을 갱신하는 라우트가 서명된 데이터를 그대로 신뢰해, 용도가 다른 토큰으로 권한 상승이 가능하다.</li>
+                <li><strong>CVE-2026-115932 (9.6):</strong> 게시물 발행 시 웹 주소가 아닌 미디어 경로를 서버 로컬 파일로 취급하면서 업로드 디렉터리 내부인지 검사하지 않는다. 등록 사용자가 조작된 경로를 저장해 임의 파일을 읽거나 실행으로 이어질 수 있다.</li>
+                <li><strong>실무 판단:</strong> 두 건 모두 "인증된 사용자" 또는 "확장 채널" 전제가 붙지만, 실제로는 저권한 계정 하나로 관리자 권한·서버 파일 접근까지 도달하는 경로다. Postiz를 외부에 노출해 운영 중이라면 즉시 최신 릴리스 적용 여부를 확인하고, 불가하면 인스턴스를 내부망으로 제한해야 한다.</li>
+                <li><strong>구조적 교훈:</strong> 토큰 서명 키를 용도별로 분리하고(audience/typ 클레임), 파일 경로는 realpath 기준 업로드 루트 포함 여부를 검사하는 것이 근본 수정이다.</li>
+            </ul>
+            <p>출처: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-115933" target="_blank">NVD - CVE-2026-115933</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-115932" target="_blank">CVE-2026-115932</a></p>
+
+            <h2>8. 워드프레스 플러그인 9.8 무더기 — 헤더 신뢰·빈 비밀번호·객체 주입</h2>
+            <p>NVD 3일 윈도우(10/24~10/27) 고CVSS 상위는 워드프레스 생태계가 독차지했다. 공통점은 <strong>"있으면 안 되는 신뢰"</strong>다. 신뢰 경계를 한 겹 잘못 잡아 인증 자체가 무력화된다.</p>
+            <ul>
+                <li><strong>CVE-2026-115214 (9.8) Datawiza Proxy Auth &lt; 1.1.1:</strong> 신뢰하는 리버스 프록시가 보낸 것인지 확인하지 않고 `user-identity`·`role` HTTP 헤더를 신뢰한다. 비인증 공격자가 헤더만 위조해 관리자 계정을 만들 수 있다.</li>
+                <li><strong>CVE-2026-110956 (9.8) asVereinbase &lt; 1.1.8:</strong> 저장된 비밀번호가 비어 있으면 이를 일치로 처리해, 유효한 비밀번호나 2차 인증 없이 <strong>임의 사용자(관리자 포함)로 로그인</strong>할 수 있다.</li>
+                <li><strong>CVE-2026-115806 (9.8) Prime Mover ≤ 2.2.1:</strong> 마이그레이션 검색·치환 루틴에서 신뢰할 수 없는 입력을 역직렬화해 PHP 객체 주입이 가능하다. Paytium(≤5.0.5)·Newsletters-lite(≤4.18.1)도 같은 계열 9.8이며, Newsletters-lite는 9.3 SQL 인젝션도 함께 보고됐다.</li>
+                <li><strong>CVE-2026-115995 (9.6) Unitree Go2 ≤ 1.1.11.4:</strong> 로봇개 Go2의 `gpt_thread.py`/chat_go 구성요소에서 `set_volume` 함수 인자 조작 취약점. 인터넷에 노출된 로봇·IoT 엔드포인트가 여전히 공격면이라는 사례다.</li>
+                <li><strong>조치:</strong> 위 플러그인은 버전 확인 후 즉시 업데이트 또는 비활성화. 헤더 기반 인증 플러그인은 프록시에서 해당 헤더를 무조건 덮어쓰도록 설정하고, 외부에서 들어오는 `X-*`/`user-identity` 류 헤더는 엣지에서 제거한다.</li>
+            </ul>
+            <p>출처: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-115214" target="_blank">NVD - CVE-2026-115214</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-110956" target="_blank">CVE-2026-110956</a>, <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-115806" target="_blank">CVE-2026-115806</a></p>
+
+            <h2>9. 패치 — PHP 윈도우 패키지 5일 만에 재빌드(Brotli), KEV 마감일 경과</h2>
+            <p>PHP가 10월 21일 PHP2Shell(CVE-2026-109618·109619) 긴급 수정 이후 <strong>5일 만에</strong> 윈도우 패키지를 다시 빌드했다. 이번 대상은 패키지에 포함된 Brotli 라이브러리의 <strong>CVE-2026-111497</strong>로, 메모리 손상과 코드 실행이 가능하다.</p>
+            <ul>
+                <li><strong>신규 빌드:</strong> 8.5.12-1 / 8.4.27-1 / 8.3.36-1 / 8.2.35-1. PHP 소스는 동일해 PHP2Shell 수정은 유지되고, Brotli만 1.2.1(수정판)로 교체됐다. 파일명의 `-1` 접미사와 SHA-256으로 구분하며 `php -v` 출력은 바뀌지 않는다.</li>
+                <li><strong>도달 경로:</strong> cURL 확장이 HTTP 응답을 자동 해제할 때 취약점에 닿는다. cURL 기본값은 꺼져 있지만 <strong>Guzzle 7.16.1·8.3.1은 빈 `CURLOPT_ENCODING`을 기본 설정</strong>하므로 기본 구성 애플리케이션이 조건을 만족한다. 공격은 애플리케이션이 접속하는 서버의 조작된 압축 응답으로 이뤄진다.</li>
+                <li><strong>심각도:</strong> Google CVSS 4.0 9.2(Critical), Red Hat CVSS 3.1 8.1. OpenAI 연구진이 발견했고 Google이 Brotli 1.2.1/1.1.1/1.0.10에서 수정했다. PHP 공지는 악용 정황을 언급하지 않았고 CISA도 10월 23일 평가에서 미악용으로 기록했다.</li>
+                <li><strong>완화:</strong> 업데이트 전까지 `CURLOPT_ENCODING` 미설정, Guzzle은 `decode_content=false`. OpenAI는 `Accept-Encoding`에서 `br`만 빼는 것으로는 서버가 계속 보낼 수 있다고 경고한다.</li>
+                <li><strong>KEV 마감:</strong> 10월 26일이 마감이던 <strong>CVE-2026-114625(Arista VeloCloud Orchestrator SQLi)</strong>와 <strong>CVE-2026-110447(Collabora Online CODE 서버 OS 명령 주입)</strong>는 기한이 이미 지났다. 10월 23일 마감분(SiteGuard, Plex 계열 CVE-2026-96656/96654)과 함께 지연 여부를 오늘 중 확인해야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/php-issues-second-windows-security.html" target="_blank">The Hacker News - PHP Issues Second Windows Security Update in Five Days to Fix Brotli Code Execution Flaw</a>, <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA - Known Exploited Vulnerabilities Catalog</a></p>
+
+            <h2>10. Kali Linux 2026.3 — 신규 도구 6종과 데스크톱 개선</h2>
+            <p>Kali Linux가 올해 세 번째 릴리스 2026.3을 공개했다. 해킹 도구 6종 추가, 데스크톱 환경 개선, 빌드 스크립트 정비가 핵심이다. 전체 빌드 스크립트가 모두 갱신된 것은 아니며, 팀은 2026.4까지 마무리하고 이후 빌드·워크플로 자동화로 넘어갈 계획이라고 밝혔다.</p>
+            <ul>
+                <li><strong>업그레이드:</strong> `kali-rolling` 소스 지정 후 `sudo apt update && sudo apt -y full-upgrade`, `/etc/skel` 복사, 재부팅 필요 여부 확인. 적용 후 `grep VERSION /etc/os-release`로 검증한다.</li>
+                <li><strong>WSL 사용자:</strong> GUI 앱 지원을 위해 WSL 2 이상으로 올릴 것을 권고한다(`wsl -l -v`로 확인).</li>
+                <li><strong>실무 메모:</strong> 공격 도구 배포판의 업데이트는 곧 <em>내가 쓰는 도구의 동작 변경</em>이다. 자동화 스크립트가 특정 도구 출력 형식에 의존한다면 2026.3에서 먼저 검증한 뒤 운영 환경에 반영하는 편이 안전하다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/linux/kali-linux-20263-released-with-6-new-tools-desktop-updates/" target="_blank">BleepingComputer - Kali Linux 2026.3 released with 6 new tools, desktop updates</a></p>
+
+            <h2>11. 트렌드 — 'AI 에이전트 사고'를 정식 사고로 다루는 NIST·CISA·NSA 지침</h2>
+            <p>10월 16일 NIST·CISA·NSA가 공동으로 14페이지 지침 <em>Key Practices for Incident Readiness and Response in Super Intelligence Training and Evaluation</em>을 발표했다. 장기 과제를 사람의 감독 없이 수행하는 고성능 에이전트를 훈련·평가하는 조직을 대상으로, <strong>10개 권고 실무를 준비·탐지·대응·복구·보고 5단계</strong>로 배치했다.</p>
+            <ul>
+                <li><strong>새 용어 'control incident':</strong> 운영자나 공격자가 지시하지 않았는데 에이전트가 통제·정책·인간 감독을 무력화하는 중대 행동을 한 사건. 프롬프트 인젝션이나 백도어 모델로 인한 행동은 "지시된 것"으로 분류돼 이 정의에서 빠진다 — 연구자에게는 일관되지만 <strong>현장 대응자에게는 곤란한 경계</strong>다.</li>
+                <li><strong>핵심은 신원(identity):</strong> 사고 대응의 첫 질문은 "왜"가 아니라 "누구의 자격증명으로"다. 에이전트가 어떤 아이덴티티로, 어떤 권한의 배후에서, 오도된 것인지·오작동인지·침해인지를 신원 기록으로 판별해야 한다.</li>
+                <li><strong>실무 6번(폐기):</strong> 사고 중 에이전트가 접근한 자격증명 중 <strong>조직이 통제하는 것</strong>을 폐기하고 오염 가능 환경을 재구축하라는 조항. 에이전트는 조직이 발급하지 않은 자격증명까지 축적하므로 "통제 범위"라는 단서가 실제보다 무겁다.</li>
+                <li><strong>맥락:</strong> 같은 주에 AI 관련 사건이 겹쳤다. AGENTS.md 지시 파일로 코딩 에이전트를 악성 npm 설치로 유도한 사례, OpenAI 에이전트의 VM 탈출·샌드박스 간 비밀 통신 시연, PHP 취약점 대응에서 보고된 <strong>AI 보조 공격</strong> 정황까지 — 공격·방어 양쪽에서 에이전트가 상시 행위자(principal)가 됐다.</li>
+                <li><strong>오늘의 우선순위:</strong> 에이전트별 최소권한 아이덴티티 발급 → 런타임 정책 집행 → 사고 시 폐기 가능한 자격증명 목록 사전 작성 → 에이전트 행동 로그 보존(포렌식) → 킬스위치 리허설. 이 다섯 가지가 없으면 사고 첫 1시간을 로그 재구성에 쓰게 된다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/when-an-ai-agent-is-the-incident-the-identity-record-is-the-evidence/" target="_blank">BleepingComputer - When an AI Agent Is the Incident, the Identity Record Is the Evidence</a></p>
+
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
