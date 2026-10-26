@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 [클래식] How to Share a Secret (Shamir, CACM 1979) — k조각이면 복원, k−1조각이면 정보 0: 462개 자물쇠 문제를 다항식 하나로 바꾼 (k,n) 임계값 비밀공유</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 [클래식] How to Share a Secret — 열쇠를 쪼개도 비밀이 아닌 이유, 그리고 k−1조각이 정말 '무정보'인 이유</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-26 · 카테고리: Research (클래식 보안 논문 · 임계값 암호 · 비밀공유 · 키 관리)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> How to Share a Secret<br>
+                <strong>저자:</strong> Adi Shamir (MIT Laboratory for Computer Science · 이후 Weizmann Institute)<br>
+                <strong>게재지:</strong> <em>Communications of the ACM</em>, Vol. 22, No. 11, pp. 612–613, 1979년 11월 (Programming Techniques, R. Rivest 편집)<br>
+                <strong>DOI:</strong> <a href="https://doi.org/10.1145/359168.359176" target="_blank" rel="noopener">10.1145/359168.359176</a> · 분량 <strong>2페이지</strong><br>
+                <strong>분야:</strong> 임계값 암호(threshold cryptography) · 비밀공유 · 키 관리 · 다항식 보간<br>
+                <strong>인용:</strong> OpenAlex 기준 <strong>13,747회</strong> · Semantic Scholar 기준 <strong>15,611회</strong> (2026-10-26 조회)<br>
+                <strong>원문:</strong> <a href="https://doi.org/10.1145/359168.359176" target="_blank" rel="noopener">ACM Digital Library</a> · <a href="https://web.mit.edu/6.857/OldStuff/Fall03/ref/Shamir-HowToShareASecret.pdf" target="_blank" rel="noopener">MIT 6.857 강의용 PDF</a>
+            </div>
+
+            <h2><i class="fa-solid fa-circle-question"></i> 왜 이 논문인가 — 2페이지가 47년을 버틴 이유</h2>
+            <p>암호 시스템을 설계하다 보면 반드시 같은 벽에 부딪힙니다. <strong>데이터는 암호화하면 보호된다. 그런데 그 암호화 키는 무엇으로 보호하는가?</strong> 키를 한 곳에 두면 고장·사망·사보타주 한 번에 전부 사라지고, 여러 곳에 복제하면 침해·배신·실수 한 번에 전부 새어 나갑니다. 논문의 표현을 그대로 옮기면 — <em>"추가적인 암호화는 문제를 해결하는 것이 아니라 문제를 옮길 뿐이다."</em></p>
+            <p>1979년 Adi Shamir는 이 딜레마를 <strong>암호학 자체로</strong> 해결했습니다. 비밀 <code>D</code>를 <code>n</code>조각으로 나누되, <strong>어떤 <code>k</code>조각으로는 즉시 복원</strong>되고 <strong><code>k−1</code>조각을 전부 알아도 <code>D</code>에 대한 정보가 문자 그대로 0</strong>이 되게 만드는 방법입니다. 논문 초록의 문장은 47년이 지난 지금도 정확합니다.</p>
+            <blockquote>"even complete knowledge of k − 1 pieces reveals absolutely no information about D" — k−1조각을 완전히 알고 있어도 D에 관한 정보는 전혀 드러나지 않는다. (Shamir, 1979)</blockquote>
+            <p>중요한 점은 이것이 <strong>계산 복잡도 가정이 아니라는 것</strong>입니다. RSA가 "소인수분해가 어렵다"에, ECC가 "이산로그가 어렵다"에 기대는 반면, Shamir의 기법은 <strong>정보이론적으로 안전</strong>합니다. 공격자가 가진 것이 아무리 많은 연산 능력이어도, <code>k−1</code>조각이 남기는 것은 <em>모든 후보 비밀이 똑같이 그럴듯한 상태</em>뿐입니다. 오늘날 HashiCorp Vault의 언실 키, Trezor의 SLIP-39 지갑 백업, HSM 키 세리머니가 아직 이 2페이지를 근거로 씁니다.</p>
+
+            <h2><i class="fa-solid fa-clock-rotate-left"></i> 배경 — 462개의 자물쇠, 252개의 열쇠</h2>
+            <p>논문은 C. L. Liu의 조합론 교재에 실린 문제에서 시작합니다. <strong>과학자 11명이 비밀 프로젝트를 하고 있고, 문서를 금고에 넣어 두되 6명 이상이 모여야 열 수 있게 하려면 자물쇠가 몇 개 필요한가?</strong></p>
+            <p>기계적 해법은 이렇습니다. 열 수 있는 사람의 조합마다 <em>서로 다른</em> 자물쇠를 하나씩 달아야 합니다. 6명의 부분집합은 <code>C(11,6) = 462</code>가지이고, 그 각각에 그 6명만 열 수 있는 자물쇠가 필요합니다. 그리고 한 과학자는 자신이 속한 6명 조합 <code>C(10,5) = 252</code>개 전부의 열쇠를 들고 다녀야 합니다.</p>
+            <ul>
+                <li><strong>최소 자물쇠:</strong> 462개 — 5명이 모이면 열리지 않는 것을 보장하려면, 모든 6-부분집합마다 그 집합에만 없는 자물쇠가 하나씩 필요합니다.</li>
+                <li><strong>1인당 열쇠:</strong> 252개 — 11명이면 사람 수에 대해 지수적으로 늘어납니다. 논문의 표현대로 <em>"명백히 비현실적"</em>입니다.</li>
+                <li><strong>Shamir의 재구성:</strong> 자물쇠를 늘리는 대신 <strong>보호 대상 자체를 바꿉니다.</strong> 금고에 넣는 것을 "문서"가 아니라 "하나의 숫자 <code>D</code>"로 보고, 그 숫자를 <code>n</code>조각으로 쪼갭니다.</li>
+            </ul>
+            <p>이 관점 전환이 논문의 전부입니다. 접근 제어(누가 문을 여는가)를 <strong>비밀 분산(누가 얼마만큼의 정보를 갖는가)</strong>으로 바꾸면, 조합 폭발이 사라지고 조각 하나의 크기도 원본을 넘지 않습니다.</p>
+
+            <h2><i class="fa-solid fa-calculator"></i> 핵심 — 비밀은 '절편'이 되고, 조각은 '좌표'가 된다</h2>
+            <p>구성은 놀랄 만큼 단순합니다. 소수 <code>p</code>를 고르고(<code>p &gt; D</code>, <code>p &gt; n</code>), 차수가 <code>k−1</code>인 다항식을 만듭니다. 상수항은 <strong>비밀 그 자체</strong>로 고정하고, 나머지 계수는 무작위로 뽑습니다.</p>
+            <blockquote><code>q(x) = a₀ + a₁x + a₂x² + … + a_{k−1}x^{k−1} (mod p)</code>, &nbsp; 단 <code>a₀ = D</code></blockquote>
+            <p>조각은 이 다항식의 <strong>점</strong>입니다. <code>D₁ = q(1)</code>, <code>D₂ = q(2)</code>, …, <code>Dₙ = q(n)</code>. 여기서 <code>i</code>는 조각의 식별자(인덱스)이고, <strong>인덱스 없이 값만으로는 복원이 안 된다</strong>는 점이 실무에서 자주 사고를 냅니다.</p>
+            <p><strong>왜 k개면 복원되는가?</strong> 서로 다른 <code>k</code>개의 점을 지나는 차수 <code>k−1</code> 이하의 다항식은 <em>유일</em>합니다. <code>k</code>개의 미지수(계수)에 <code>k</code>개의 선형방정식이 생기고, 인덱스가 모두 다르므로 방데르몬드 행렬이 가역입니다. 계수를 구한 뒤 <code>x = 0</code>을 대입하면 <code>a₀ = D</code>가 나옵니다. 실제 계산은 라그랑주 보간으로 <code>x=0</code>에서만 평가하면 되고, 논문은 <code>O(n log² n)</code> 알고리즘(Aho–Hopcroft–Ullman, Knuth)을 참조합니다.</p>
+            <p>구체적인 예를 하나 들어보겠습니다. <code>p = 101</code>, <code>D = 42</code>, <code>(k, n) = (3, 5)</code>, 무작위 계수 <code>a₁ = 17</code>, <code>a₂ = 63</code>:</p>
+            <table>
+                <thead>
+                    <tr><th>항목</th><th>값</th><th>비고</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>다항식</td><td><code>q(x) = 42 + 17x + 63x² mod 101</code></td><td>차수 2 = k−1</td></tr>
+                    <tr><td>조각 1</td><td><code>(1, 21)</code></td><td>q(1) = 122 mod 101</td></tr>
+                    <tr><td>조각 2</td><td><code>(2, 25)</code></td><td>q(2) = 328 mod 101</td></tr>
+                    <tr><td>조각 3</td><td><code>(3, 54)</code></td><td>q(3) = 660 mod 101</td></tr>
+                    <tr><td>조각 4</td><td><code>(4, 7)</code></td><td>q(4) = 1118 mod 101</td></tr>
+                    <tr><td>조각 5</td><td><code>(5, 86)</code></td><td>q(5) = 1702 mod 101</td></tr>
+                </tbody>
+            </table>
+            <p>조각 1·3·5를 라그랑주 보간해 <code>x=0</code>을 평가하면 42, 조각 2·4·5를 써도 42가 나옵니다. 반면 조각 1·2 <em>두 개만</em>으로는 42를 특정할 수 없습니다 — 아래에서 이 "없음"이 얼마나 강한 주장인지 보겠습니다.</p>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 왜 k−1개는 '아무것도'인가 — 계산이 아니라 정보이론</h2>
+            <p>논문의 논증은 한 문단으로 끝납니다. 공격자가 <code>k−1</code>개의 조각 <code>(xᵢ, yᵢ)</code>을 안다고 합시다. 공격자가 "비밀은 <code>D′</code>다"라고 가정하면, <code>q′(0) = D′</code>이고 주어진 <code>k−1</code>개 점을 지나는 차수 <code>k−1</code> 다항식이 <strong>정확히 하나</strong> 존재합니다(자유도 1이 <code>D′</code>로 고정되므로). 즉 후보 비밀 <code>D′ ∈ [0, p)</code>마다 다항식이 하나씩 대응하고, 계수를 균등분포에서 뽑았다면 <strong><code>p</code>개의 다항식은 모두 같은 확률</strong>입니다. 사후확률이 사전확률과 같으니 정보 획득량은 0입니다.</p>
+            <p>앞의 예(<code>p = 101</code>, 조각 1·2만 보유)에서 실제로 세어보면 이 주장이 그대로 확인됩니다. <code>D′ = 0, 1, 42, 100</code> 각각에 대해 조건을 만족하는 다항식이 <strong>정확히 1개씩</strong> 존재하고, 전체 후보 101개에 대해 다항식은 <strong>101개</strong> — 후보당 하나, 빠짐없이.</p>
+            <table>
+                <thead>
+                    <tr><th>공격자가 가정한 비밀 D′</th><th>조건을 만족하는 다항식 (a₁, a₂)</th><th>확률</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td><code>(80, 42)</code></td><td>1/101</td></tr>
+                    <tr><td>1</td><td><code>(28, 93)</code></td><td>1/101</td></tr>
+                    <tr><td>42 (실제 값)</td><td><code>(17, 63)</code></td><td>1/101</td></tr>
+                    <tr><td>100</td><td><code>(31, 92)</code></td><td>1/101</td></tr>
+                </tbody>
+            </table>
+            <ul>
+                <li><strong>가정이 없다:</strong> "이산로그가 어렵다" 같은 계산 가정이 필요 없습니다. 양자컴퓨터가 있어도 <code>k−1</code>조각은 여전히 무정보입니다. Grover도 확률분포를 바꾸지 못합니다.</li>
+                <li><strong>일회용 패드와 같은 계열:</strong> 섀넌의 완전비밀성(perfect secrecy)과 같은 정보이론적 보장입니다. 다른 점은 키를 <em>나눠 갖는다</em>는 것.</li>
+                <li><strong>단, 조건이 있다:</strong> 계수가 <em>균등</em> 무작위여야 하고, <code>p</code>가 비밀보다 커야 하며, 조각 인덱스가 서로 달라야 합니다. 이 셋 중 하나가 깨지면 "완벽한 비밀성" 주장도 깨집니다.</li>
+            </ul>
+            <blockquote>"By construction, these p possible polynomials are equally likely, and thus there is absolutely nothing the opponent can deduce about the real value of D." — 논문 2절의 결론 문장.</blockquote>
+
+            <h2><i class="fa-solid fa-arrows-rotate"></i> 논문이 함께 준 네 가지 '운영' 성질</h2>
+            <p>이 논문이 단순한 수학 퍼즐이 아닌 이유는, 실무에서 필요한 운영 성질을 같은 2페이지에 정리해 두었기 때문입니다.</p>
+            <ul>
+                <li><strong>조각 크기 ≤ 원본 크기:</strong> 조각은 <code>mod p</code> 값 하나이므로 비밀보다 커지지 않습니다. (샤미르 분할은 "데이터를 늘리지 않는" 분할입니다.)</li>
+                <li><strong>조각의 동적 추가·삭제:</strong> <code>k</code>를 고정한 채 새 인덱스로 점을 더 평가하거나, 퇴사자의 조각을 폐기할 수 있습니다. 다만 <em>폐기된 조각이 실제로 접근 불가능해졌을 때만</em> 삭제로 칩니다.</li>
+                <li><strong>조각 재발급(re-issue):</strong> 같은 상수항을 가진 <em>새 다항식</em>으로 조각을 다시 나눠주면, 이전에 유출된 조각들은 무용지물이 됩니다. 단, <strong>서로 다른 판(edition)의 조각을 섞으면 복원이 안 됩니다</strong> — 이 성질이 곧 "유출 조각을 모아도 원본이 안 나온다"는 보장의 근거입니다.</li>
+                <li><strong>계층적(가중) 임계값:</strong> 한 사람에게 점을 여러 개 주면 가중치가 생깁니다. 논문의 예 — 사장에게 3개, 부사장에게 2개, 임원에게 1개를 주는 <code>(3, n)</code> 기법이면 <em>임원 3명</em>, 또는 <em>부사장 포함 2명</em>, 또는 <em>사장 혼자</em> 서명할 수 있습니다.</li>
+            </ul>
+            <p>논문은 같은 해 AFIPS에서 발표된 Blakley의 기법(초평면의 교점을 이용)을 "다르고 다소 덜 효율적인" 방식으로 언급합니다. 오늘날 둘을 묶어 <strong>Shamir–Blakley 비밀공유</strong>로 부르지만, 실제 구현은 거의 모두 Shamir 쪽입니다 — 조각이 숫자 하나라 다루기 쉽고, 가중치 부여가 자유롭기 때문입니다.</p>
+
+            <h2><i class="fa-solid fa-server"></i> 47년 뒤에도 현역 — Vault, SLIP-39, 그리고 HSM</h2>
+            <p>이 기법이 지금 어디에 쓰이는지 확인하는 것이 "왜 유명한가"의 가장 좋은 증거입니다.</p>
+            <ul>
+                <li><strong>HashiCorp Vault의 언실 키:</strong> 기본 설정이 <code>-key-shares=5</code>, <code>-key-threshold=3</code>이며, 루트 키를 Shamir 비밀공유로 쪼갠 조각이 곧 언실 키입니다. 문서가 직접 "Shamir's Secret Sharing to split the root key"라고 적습니다. 5개 중 3개를 모아야 Vault가 열립니다.</li>
+                <li><strong>Trezor의 SLIP-39:</strong> 표준 제목이 <em>"Shamir's Secret-Sharing for Mnemonic Codes"</em>입니다. 차수 <code>&lt; T</code> 다항식, <code>T</code>개면 복원이라는 구조는 논문 그대로인데, 한 가지가 다릅니다 — 비밀을 <code>f(0)</code>이 아니라 <strong><code>f(255)</code></strong>에 저장해 조각 인덱스 <code>0..254</code>를 비워 둡니다. 여기에 RS1024 체크섬과 그룹 임계값(2단계)을 얹어, "3개 중 2개" 같은 정책을 지갑 백업에 적용합니다.</li>
+                <li><strong>HSM 키 세리머니 · 키 에스크로:</strong> 마스터 키를 여러 관리자에게 나눠 보관하고, 복원은 물리적으로 격리된 환경에서만 수행합니다. 조각이 <em>하나씩은 무정보</em>라는 성질 덕분에 보관 자체는 분산할 수 있습니다.</li>
+                <li><strong>차이를 알아야 하는 지점 — 멀티시그 vs 비밀공유:</strong> 블록체인의 멀티시그는 <em>서로 다른 키</em>로 각자 서명하며 키가 한 곳에 모이지 않습니다. Shamir는 <strong>하나의 키를 복원</strong>합니다. 복원하는 순간 메모리에 원본 키가 존재하므로, 그 순간이 단일 실패점이 됩니다. 이 간극을 메우는 것이 임계값 서명(threshold ECDSA, MPC)이고, 이들은 Shamir와 달리 키를 재구성하지 않습니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 함정 — 수학은 맞는데 운영이 틀리는 다섯 지점</h2>
+            <p>"정보이론적으로 안전"은 <em>수학적 모델 안에서</em>의 이야기입니다. 실제 배포에서 사람들이 다치는 곳은 대부분 모델 밖입니다.</p>
+            <ul>
+                <li><strong>검증 불가능(verifiability):</strong> 악의적인 딜러가 조각 하나를 엉터리로 주면, 정직한 참여자들은 그 사실을 알 방법이 없습니다. Shamir의 기법 자체에는 무결성 검사가 없습니다. 이 구멍을 메우는 것이 Feldman/Pedersen의 검증 가능 비밀공유(VSS, 1987)이고, 더 나아가 딜러 없이 생성하는 DKG입니다.</li>
+                <li><strong>조용한 실패:</strong> 조각이 변조되어도 라그랑주 보간은 <em>그럴듯한 쓰레기 값</em>을 자신 있게 돌려줍니다. 예외도, 경고도 없습니다. 그래서 실무 구현은 체크섬(SLIP-39의 RS1024)이나 MAC, 또는 복원 후 별도 검증(예: 복원한 키로 알려진 암호문을 복호화)을 붙입니다.</li>
+                <li><strong>같은 다항식의 재사용:</strong> 두 비밀 <code>D</code>, <code>D′</code>을 <em>같은 계수</em>로 나눠주면, 조각을 빼는 순간 무작위 부분이 소거되어 <code>q(i) − q′(i) = D − D′</code>가 됩니다. 비밀 두 개의 차이가 그대로 드러나고, 한쪽을 알면 다른 쪽도 나옵니다. 비밀마다 반드시 새 난수를 써야 하며, 논문의 "재발급" 성질은 이 원칙의 다른 얼굴입니다.</li>
+                <li><strong>파라미터:</strong> <code>p</code>는 <code>D</code>와 <code>n</code>보다 커야 하고, 논문이 지적하듯 사용 가능한 가장 작은 <code>p</code>는 <code>n+1</code>입니다. 16비트 모듈러스면 조각 64,000개까지 커버되지만, 그 경우 비밀 공간도 16비트라는 뜻이므로 <strong>보안 강도는 조각 수가 아니라 <code>p</code>의 크기</strong>가 결정합니다. 실무에서는 128비트 이상(보통 256비트 소수)을 씁니다.</li>
+                <li><strong>임계값 ≠ 접근 통제:</strong> <code>k−1</code>명이 공모해도 비밀은 모르지만, 그들이 조각을 파기하면 <em>가용성</em>은 사라집니다. 기밀성과 가용성은 서로 다른 축이고, 논문이 <code>n = 2k−1</code>을 권한 이유가 정확히 이 균형입니다 — 절반이 파괴되어도 복원되고, 남은 절반에서 절반이 배신해도 비밀은 지켜집니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 정리 — 오늘의 takeaway</h2>
+            <ul>
+                <li><strong>핵심 한 줄:</strong> 비밀은 "숨기는 것"이 아니라 <strong>"분해해서 아무 조각도 정보를 갖지 않게 하는 것"</strong>일 수 있다. <code>(k, n)</code> 임계값 구조는 그 가능성의 가장 오래되고 가장 단순한 증명입니다.</li>
+                <li><strong>보안의 종류가 다르다:</strong> RSA/ECC는 계산 가정, Shamir는 정보이론. 후자는 양자컴퓨터 시대에도 흔들리지 않지만, 대신 <em>난수·파라미터·딜러 정직성</em>이라는 운영 가정에 전적으로 의존합니다.</li>
+                <li><strong>수학보다 운영:</strong> 실제 사고는 "다항식이 틀려서"가 아니라 조각 재사용, 판(edition) 혼합, 체크섬 부재, 복원 환경의 메모리 유출에서 납니다.</li>
+                <li><strong>지금도 현역:</strong> Vault의 5/3 언실 키, SLIP-39 지갑 백업, HSM 세리머니. 2페이지짜리 1979년 논문이 오늘날 인프라의 신뢰 경계를 그대로 떠받치고 있습니다.</li>
+                <li><strong>함께 볼 것:</strong> 임계값 서명(MPC)은 "복원하지 않는" 방향으로 이 논문의 한계를 넘습니다. 키를 한 곳에 모으는 순간이 곧 위험의 순간이라는 사실은 47년째 변하지 않았습니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-book-open"></i> 더 읽기</h2>
+            <ul>
+                <li>원문: <a href="https://doi.org/10.1145/359168.359176" target="_blank" rel="noopener">CACM 22(11), 612–613 (1979)</a> · <a href="https://web.mit.edu/6.857/OldStuff/Fall03/ref/Shamir-HowToShareASecret.pdf" target="_blank" rel="noopener">PDF 전문</a></li>
+                <li>표준/구현 문서: <a href="https://developer.hashicorp.com/vault/docs/commands/operator/init" target="_blank" rel="noopener">Vault operator init (5 shares / 3 threshold)</a> · <a href="https://github.com/satoshilabs/slips/blob/master/slip-0039.md" target="_blank" rel="noopener">SLIP-39 명세</a></li>
+                <li>함께 읽기:
+                    <ul>
+                        <li>2026-10-05 <a href="security-research-2026-10-05.html">RSA (1978)</a>: "공개해도 안전한 열쇠"라는 계산 가정의 출발점. 이 글의 정보이론적 보장과 정확히 대비됩니다.</li>
+                        <li>2026-09-30 <a href="security-research-2026-09-30.html">New Directions in Cryptography (1976)</a>: 키를 나눠 갖는 문제를 처음 정식화한 논문. 3년 뒤 Shamir가 임계값으로 답합니다.</li>
+                        <li>2026-10-21 <a href="security-research-2026-10-21.html">RC4 키 스케줄링 분석 (2001)</a>: 같은 1979년대 설계가 구현 세부(IV) 하나로 무너진 사례. "수학은 맞고 운영이 틀린다"의 반대 방향.</li>
+                        <li>2026-09-02 <a href="security-research-2026-09-02.html">Reflections on Trusting Trust (1984)</a>: 신뢰의 사슬을 어디까지 믿을 것인가. 딜러를 신뢰할 수 없다는 VSS의 문제의식과 맞닿습니다.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
