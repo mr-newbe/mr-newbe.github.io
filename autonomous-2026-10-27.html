@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - Vision Pilot (Autoware Foundation, 2024–2026): 양산 L2 ADAS를 오픈소스로 — 2MP 카메라 1대·HD맵 없이 ACC/AEB/LKAS (⭐919 · Apache-2.0 · v1.2)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        code { background: #0b1220; padding: 2px 6px; border-radius: 4px; color: #7dd3fc; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92rem; }
+        th, td { border: 1px solid var(--border-color); padding: 8px 10px; text-align: center; }
+        th { background: #0b1220; color: var(--accent-color); font-weight: 600; }
+        td:first-child, th:first-child { text-align: left; }
+        .hl { color: #7dd3fc; font-weight: 600; }
+        blockquote { margin: 16px 0; padding: 12px 18px; border-left: 3px solid var(--accent-color); background: #0b1220; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <header>
+            <h1>자율주행 리서치 - Vision Pilot (Autoware Foundation, 2024–2026): 양산 L2 ADAS를 오픈소스로 — 2MP 카메라 1대·HD맵 없이 ACC/AEB/LKAS (⭐919 · Apache-2.0 · v1.2)</h1>
+            <p class="date">2026-10-27</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>저장소:</strong> <a href="https://github.com/autowarefoundation/vision_pilot" target="_blank">autowarefoundation/vision_pilot</a> (클론 경로 <code>autoware_vision_pilot.git</code>) — ⭐<strong>919</strong> · forks <strong>194</strong> · watchers 22 · 커밋 <strong>4,262</strong> · 기여자 <strong>35</strong> · <strong>Apache-2.0</strong> · 주 언어 C++ (GitHub API, 2026-10-27 조회)</li>
+                    <li><strong>소속:</strong> <strong>Autoware Foundation</strong> — 같은 재단의 <a href="https://github.com/autowarefoundation/autoware" target="_blank">Autoware</a> ⭐<strong>12,194</strong> · <a href="https://github.com/autowarefoundation/autoware_universe" target="_blank">autoware_universe</a> ⭐1,794. Vision Pilot은 그 재단의 <em>L2 ADAS</em> 가지다.</li>
+                    <li><strong>공개·활동:</strong> 최초 공개 <strong>2024-09-24</strong> · 최근 푸시 <strong>2026-10-19</strong> · 기본 브랜치 <code>main</code> · 홈페이지 <a href="https://autoware.org/" target="_blank">autoware.org</a></li>
+                    <li><strong>릴리스:</strong> <strong>v1.2 (2026-08-10)</strong> · v1.1 (2026-07-27) · <strong>v1.0 (2026-07-06)</strong> · v0.9 (2026-03-02) · v0.5 (2026-01-22) — 2026년 한 해에만 5회</li>
+                    <li><strong>센서 사양:</strong> 전방 <strong>단안 카메라 1대</strong>, 수평 화각 <strong>52–55°</strong>, 해상도 <strong>1–2MP</strong> (v1.0 릴리스는 2MP 기준). 라이다·레이다·초음파 없음</li>
+                    <li><strong>기능 세트 (v1.0에서 "production-ready"로 표기):</strong> ACC(자동 순항) · FCW(전방 충돌 경고) · AEB(자동 긴급 제동) · LKAS(차선 유지) · LDW(차선 이탈 경고) · ISA(지능형 속도 제한) · <strong>단일 차선 hands-free 고속도로 오토파일럿</strong></li>
+                    <li><strong>배포 형태:</strong> CMake + <strong>ONNX Runtime</strong>(FP32/INT8) · 미들웨어 없이 단독 실행 + <strong>ROS2 인터페이스</strong>(Humble/Ubuntu 22.04 검증) · Docker(GPU/CPU) · <code>.deb</code> 패키지 · <strong>CARLA 0.9.16</strong> 연동 · OpenLane 샘플로 오픈루프 시험</li>
+                    <li><strong>한 줄 정의:</strong> 인지 AI(안전)와 End-to-End AI(성능)를 <strong>병렬로</strong> 돌리고 <code>safety_guardian</code> 모듈이 두 출력을 합쳐 차선 안 계획을 만드는 <strong>하이브리드 E2E L2 ADAS</strong>. 2MP 카메라 한 대, HD맵 없이 동작하며, <strong>3–5 INT8 TOPS</strong>급 양산 칩에서 전체 파이프라인 <strong>10 FPS 이상</strong>을 목표로 한다. 코드·학습 스크립트뿐 아니라 <strong>모델 가중치(.pth/.onnx)</strong>까지 Apache-2.0으로 공개했다.</li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>2026년 상반기까지 "오픈소스 자율주행"은 사실상 세 갈래였다. <em>openpilot</em>은 소비자 차량 <strong>후장착</strong>에 특화돼 있고, <em>Autoware</em>와 <em>Apollo</em>는 <strong>L4 로보택시</strong>를 겨냥한다. 그 사이 — <strong>양산 승용차의 L2</strong>, 그중에서도 OEM/Tier-1이 자사 차에 이식할 수 있는 형태의 스택 — 은 비어 있었다. Vision Pilot 1.0은 2026-07-06, 정확히 그 자리를 겨냥해 나왔다. 릴리스 노트의 문장은 목표를 숨기지 않는다. "OEM과 Tier-1이 <em>기술 주권</em>을 확보하면서 시간·비용·자원을 아끼도록 돕는, 개방적이고 커스터마이즈 가능한 소프트웨어 기반(substrate)."</p>
+            <ul>
+                <li><strong>하이브리드 E2E — 왜 두 개의 길을 동시에 가는가:</strong> Vision Pilot은 입력 프레임을 <strong>두 계열의 모델에 병렬로</strong> 흘린다. 하나는 <em>안전</em>을 위한 인지 AI(객체·경로), 다른 하나는 <em>성능</em>을 위한 End-to-End AI(거리·곡률·경로). 그리고 <code>VisionPilot/modules/safety_guardian</code>이 두 출력을 융합해 "차선 안에서의 안전한 주행 계획"을 계산한다. E2E만 쓰면 부드럽고 사람 같은 주행을 얻지만 <em>왜 그렇게 판단했는지</em>를 설명하기 어렵고, 인지 기반만 쓰면 검증은 쉽지만 롱테일에서 거칠어진다. 이 스택은 그 둘을 <strong>택일하지 않고 병렬로 두는 쪽</strong>을 양산의 답으로 골랐다.</li>
+                <li><strong>모델 3종, 역할이 곧 아키텍처:</strong> 재단이 별도 저장소로 함께 공개한 세 모델이 이 구조의 뼈대다. <a href="https://github.com/autowarefoundation/auto_speed" target="_blank">AutoSpeed</a>(경로 내 최근접 객체 = CIPO 검출), <a href="https://github.com/autowarefoundation/auto_steer" target="_blank">AutoSteer</a>(자차 미래 경로 waypoint), <a href="https://github.com/autowarefoundation/auto_drive" target="_blank">AutoDrive</a>(CIPO까지 거리·도로 곡률·CIPO 존재확률). 셋 다 2026-06-09 공개, Apache-2.0, ⭐7·8·9로 아직 작지만 <strong>가중치를 직접 받을 수 있다</strong>.</li>
+                <li><strong>AutoSpeed — "차선 안/컷인/밖" 3분류:</strong> YOLOv11 계열 구조에서 백본의 <code>C3k2</code> 블록을 자체 설계한 <strong>'context' 블록</strong>으로 치환했다. 흥미로운 건 출력의 정의다. 객체를 검출한 뒤, <em>자차의 미래 주행 경로</em>를 기준으로 ① 경로 안 ② 경로로 컷인/컷아웃 ③ 경로 밖 — 세 범주로 나눈다. ACC/AEB가 실제로 필요로 하는 것은 "차가 있다"가 아니라 "<strong>내 경로에 들어온다</strong>"이기 때문이다. 학습은 <a href="https://github.com/OpenDriveLab/OpenLane" target="_blank">OpenLane</a>(⭐570)의 CIPO 태스크, Level 3·4 범주를 한 클래스로 병합해 진행했고, 입력은 자율주행에 유리한 <strong>2:1 비율 512×1024</strong>(구형 AutoSpeed는 640×640 정사각).</li>
+                <li><strong>AutoSteer — 차선을 검출하지 않고 경로를 그린다:</strong> "차선 검출 → 곡선 피팅"의 고전 파이프라인을 건너뛰고, 프레임 전체에서 <strong>미래 waypoint를 직접 회귀</strong>한다. README가 내세우는 이유는 명확하다 — <em>차선이 지워졌거나 흐린 도로</em>에서도 주행 경로를 예측할 수 있다. 학습 데이터는 TuSimple + OpenLane + CurveLanes 조합, 입력 1024×512.</li>
+                <li><strong>AutoDrive — 프레임 한 장으로는 부족한 것을 시간으로 메운다:</strong> <code>t-1</code>, <code>t</code> 두 프레임을 받아 공유 특징 위에서 시간 융합하는 소형 모델로, 거리·곡률·존재확률 세 가지를 동시에 뽑는다. 단안 카메라의 고질적 약점(스케일 모호성)을 <em>짧은 시간축</em>으로 보정하는 접근이다.</li>
+                <li><strong>센서·맵 최소주의:</strong> 2MP 단안 카메라 1대, 화각 52–55°, 그리고 <strong>3D HD맵을 쓰지 않는 'mapless' 모드</strong>. 도로를 실시간으로 따라가는 방식이다. 원가(BOM)와 맵 유지비를 동시에 줄이는 대신, <em>롱테일 판단</em>을 전부 모델이 떠안는다 — 이 거래가 이 프로젝트의 성격을 규정한다.</li>
+                <li><strong>예산이 설계를 결정한다:</strong> v1.0 릴리스 노트는 "저가 양산 칩셋, <strong>3–5 INT8 TOPs</strong>에서 전체 파이프라인 <strong>10 FPS 이상</strong>"을 명시한다. 이 제약이 2:1 해상도, 단안, mapless, 소형 3모델이라는 모든 선택을 설명한다. 벤치마크 SOTA를 좇는 연구와, 5 TOPS에서 돌아가야 하는 양산 코드는 같은 문제를 다르게 푼다.</li>
+                <li><strong>릴리스로 본 2026년의 진화:</strong> 1.0이 기능 세트를 확정했고, 1.1에서 <strong>MPC 플래너를 시간영역에서 공간영역으로</strong> 옮기고 파라미터를 다시 튜닝했으며, 융합·추적에서 <em>칼만 필터를 제거</em>했다(그 문제가 추론 모듈에서 이미 해결됐다는 이유), Docker 지원과 <strong>CARLA 0.9.16</strong> 연동을 추가했다. 1.2는 CARLA 통합 개선, 횡방향 추종·융합 개선, <strong>3D occupancy 시각화</strong>, <strong>Rerun 로깅</strong>을 넣었다. 세 달 남짓에 1.0 → 1.2, 커밋 4,262개.</li>
+            </ul>
+
+            <table>
+                <tr><th>모델 (2026-10-27, 각 저장소 README)</th><th>역할</th><th>입력</th><th>검증 지표</th><th>INT8 양자화</th></tr>
+                <tr><td><strong>AutoSpeed 2.0</strong></td><td>CIPO 검출 + 경로 기준 3분류</td><td>512×1024 (2:1)</td><td class="hl">mAP@50 0.74 · mAP 0.56</td><td>0.73 · 0.54</td></tr>
+                <tr><td><strong>AutoSteer 2.0</strong></td><td>미래 주행 경로 waypoint</td><td>1024×512 (2:1)</td><td class="hl">mAP@50 0.969 · mAP 0.955</td><td>0.966 · 0.952</td></tr>
+                <tr><td><strong>AutoDrive</strong></td><td>CIPO 거리 · 곡률 · 존재확률</td><td>프레임 쌍 (t-1, t)</td><td class="hl">곡률 오차 평균 4° · 존재확률 88%</td><td>수치 미공개</td></tr>
+                <tr><td colspan="5">AutoSpeed는 OpenLane CIPO 태스크(Level 3·4 병합, 단일 클래스) / AutoSteer는 TuSimple·OpenLane·CurveLanes 혼합(90:10 분할) 검증값. <strong>데이터셋과 클래스 정의가 달라 두 mAP를 나란히 비교하면 안 된다</strong> — 이 표의 목적은 SOTA 순위가 아니라 "INT8로 바꿔도 거의 떨어지지 않는다"는 사실(0.74→0.73, 0.969→0.966)이다.</td></tr>
+            </table>
+
+            <table>
+                <tr><th>AutoDrive 거리 추정 정확도 (CIPO까지)</th><th>5–40 m</th><th>40–70 m</th><th>80–100 m</th><th>100–150 m</th></tr>
+                <tr><td>구간별 정확도</td><td class="hl">90%</td><td class="hl">91%</td><td>86%</td><td>72%</td></tr>
+                <tr><td colspan="5">AutoDrive README. 100 m를 넘으면 72%로 떨어진다 — 단안 카메라에서 원근이 눌리는 구간이며, AEB가 아니라 <em>ACC의 종방향 안정성</em>을 책임지는 범위가 어디까지인지를 보여주는 숫자다.</td></tr>
+            </table>
+
+            <table>
+                <tr><th>릴리스</th><th>날짜</th><th>핵심 변화</th></tr>
+                <tr><td>v1.0</td><td>2026-07-06</td><td>ACC·FCW·AEB·LKAS·LDW·ISA·hands-free 오토파일럿 "production-ready" 선언, 모델 3종 체제, 3–5 INT8 TOPs에서 10 FPS 이상</td></tr>
+                <tr><td>v1.1</td><td>2026-07-27</td><td>MPC 플래너 시간영역 → <strong>공간영역</strong>, 파라미터 재튜닝 · 칼만 필터 제거 · Docker(GPU/CPU) · <strong>CARLA 0.9.16</strong> 지원</td></tr>
+                <tr><td>v1.2</td><td>2026-08-10</td><td>CARLA 통합 개선 · 횡방향 추종·융합 개선 · <strong>3D occupancy 시각화</strong> · Rerun 로깅 (검증 환경 Ubuntu 22.04 + ROS2 Humble)</td></tr>
+                <tr><td colspan="3">v0.5(2026-01-22) · v0.9(2026-03-02)는 기능 정리 단계. 릴리스 노트에 기여자 핸들이 그대로 적혀 있고, 커밋 4,262개에 기여자 35명 — 재단 프로젝트 중에서도 개발 밀도가 높은 편이다.</td></tr>
+            </table>
+
+            <table>
+                <tr><th>오픈소스 AD 스택 비교</th><th>별</th><th>라이선스</th><th>포지션</th><th>가중치 공개</th></tr>
+                <tr><td>commaai/openpilot</td><td>64,003</td><td>MIT</td><td>소비자 차량 후장착 L2</td><td>부분</td></tr>
+                <tr><td>ApolloAuto/apollo</td><td>26,883</td><td>Apache-2.0</td><td>L4 로보택시 풀스택</td><td>모델별 상이</td></tr>
+                <tr><td>autowarefoundation/autoware</td><td>12,194</td><td>Apache-2.0</td><td>L4 자율주행 (ROS2)</td><td>모델별 상이</td></tr>
+                <tr><td><strong>autowarefoundation/vision_pilot</strong></td><td>919</td><td>Apache-2.0</td><td class="hl">양산 승용차 L2 ADAS</td><td class="hl">전 모델 + INT8</td></tr>
+                <tr><td colspan="5">별 수는 2026-10-27 GitHub API. Vision Pilot의 별이 두 자릿수 배로 작다는 사실은 숨기지 않는다 — 이 글에서 주목하는 것은 <em>별의 크기가 아니라 네 번째 열과 다섯 번째 열의 조합</em>이다.</td></tr>
+            </table>
+
+            <blockquote>한 줄로: <strong>"E2E는 성능을, 인지는 설명을 맡고, Safety Guardian이 둘을 합쳐 차선 안에 둔다."</strong> 2MP 카메라 한 대와 5 TOPS 예산 안에서 그 문장을 코드로 구현하고, 가중치까지 공개한 것이 Vision Pilot 1.0이다.</blockquote>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>비어 있던 칸을 정확히 겨냥했다:</strong> 오픈소스 AD는 "후장착(openpilot)"과 "L4(Autoware·Apollo)"로 양분돼 있었고, <strong>OEM이 자기 차에 이식할 L2 소프트웨어 기반</strong>은 없었다. Vision Pilot은 이 칸을 <em>Autoware 재단</em>이라는 신뢰 가능한 주체가, ISO 26262 용어로 말하면서 채우려 한다.</li>
+                <li><strong>가중치까지 Apache-2.0:</strong> 오픈소스 자율주행의 관행은 "코드는 열고 가중치는 숨긴다"였다. AutoSpeed·AutoSteer·AutoDrive 세 모델의 <code>.pth</code>와 ONNX <strong>FP32/INT8</strong> 가중치를 내려받아 바로 재현·파인튜닝할 수 있다는 점이 이 프로젝트의 실질적 차별점이다. INT8 수치를 README에 함께 적어둔 것도 실무적이다(0.969 → 0.966).</li>
+                <li><strong>하이브리드 구조라는 양산의 타협점:</strong> UniAD·VAD·DiffusionDrive로 이어진 E2E 연구는 "하나의 신경망이 인지·예측·계획을 모두"를 향해 갔지만, 양산 문서(SEooC)에는 "Safety Guardian이 AI 네트워크 출력을 융합해 안전 계획을 계산한다"고 적혀 있다. <strong>학습된 경로와 검증 가능한 경로를 병렬로 두는 것</strong> — 이 구조가 2026년 양산 진영의 실제 답이라는 증거로 읽을 수 있다.</li>
+                <li><strong>ISO 26262 SEooC 경계를 공개(초안):</strong> <code>Functional_Safety/SAFETY_ELEMENT_OUT_OF_CONTEXT.md</code>는 소프트웨어 전용 SEooC로서 <em>ISO 26262 Part 6 + Part 8</em> 준수를 목표로 하고, 포함 기능(ACC·AEB·LDW·LDA·ALK·FCW + Safety Guardian)과 <strong>제외 범위(차량 수준 활동은 OEM/Tier-1 몫)</strong>를 명시한다. 오픈소스 AD에서 안전 경계를 문서로 긋는 사례는 드물다.</li>
+                <li><strong>실무 활용 4가지:</strong> ① <strong>3–5 TOPS급 칩셋 벤치마크</strong> — "이 칩에서 ADAS가 몇 FPS인가"를 재는 오픈 기준선, ② <strong>OEM/Tier-1 프로토타입 기반</strong> — 자체 인지 모델로 갈아끼우는 substrate(모듈 경계가 <code>engine/models/sensing/safety_guardian</code>으로 분리돼 있다), ③ <strong>오픈루프 평가</strong> — OpenLane 샘플 영상 + 차속 파일로 바로 재현 가능, ④ <strong>CARLA 0.9.16 폐루프 실험</strong> — v1.1부터 시뮬레이터 연동이 공식 지원된다.</li>
+                <li><strong>정직한 한계 — 먼저 읽어야 할 것들:</strong> (a) 성능 수치는 <strong>단일 데이터셋 오픈루프</strong> 중심이다. AutoSpeed의 mAP 0.74는 OpenLane CIPO <em>단일 클래스</em> 값이라 일반 검출 SOTA와 비교할 수 없다. (b) <code>Functional_Safety/</code> 안에서 실제 내용이 있는 문서는 SEooC 경계 문서 하나뿐이고, <strong>SAFETY_PLAN.md·SOFTWARE_REQUIREMENTS.md·SAFETY_METRICS.md는 제목 한 줄만 있는 스텁</strong>(각 29~39바이트)이다. "safety certifiable"은 <em>달성된 인증</em>이 아니라 <em>목표와 경계 선언</em>으로 읽어야 한다. (c) ⭐919는 생태계 규모가 아직 작다는 뜻이고, 실차 검증 결과는 저장소 밖(OEM 통합)에 있다. (d) mapless는 <strong>공사구간·지워진 차선·복잡 교차로</strong>에서 구조적 취약점을 안는다.</li>
+                <li><strong>함께 읽기:</strong>
+                    <ul>
+                        <li>2026-08-13 <a href="autonomous-2026-08-13.html">Autoware</a> · 2026-08-15 <a href="autonomous-2026-08-15.html">openpilot</a> · 2026-08-06 <a href="autonomous-2026-08-06.html">Apollo</a> — 같은 재단/같은 시장의 세 갈래. L4(Autoware·Apollo)와 후장착(openpilot) 사이의 빈 칸이 이 글의 자리다.</li>
+                        <li>2026-08-12 <a href="autonomous-2026-08-12.html">UniAD</a> · 2026-08-30 <a href="autonomous-2026-08-30.html">DiffusionDrive</a> · 2026-10-06 <a href="autonomous-2026-10-06.html">SparseDrive</a> — "하나의 망"을 향한 E2E 계보. Vision Pilot은 그 계보에 <em>인지 병렬 경로</em>를 붙여 양산 쪽에서 절충한다.</li>
+                        <li>2026-10-20 <a href="autonomous-2026-10-20.html">AlpaSim</a> · 2026-10-22 <a href="autonomous-2026-10-22.html">NAVSIM</a> — 이 스택이 다음에 받아야 할 시험대. 뉴럴 재구성 폐루프와 의사 시뮬레이션 채점.</li>
+                        <li>2026-09-09 <a href="autonomous-2026-09-09.html">CARLA</a> — v1.1부터 공식 지원되는 폐루프 환경.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>첫 번째 교훈은 <strong>E2E 논쟁이 착지하는 지점</strong>이다. 2023–2026년의 연구는 "인지·예측·계획을 하나의 신경망으로"라는 방향으로 달렸고, 그 성과는 벤치마크 점수로 측정됐다. 그러나 양산 코드는 다른 질문을 한다 — "이 판단이 틀렸을 때 <em>누가</em> 브레이크를 밟고, 그 과정을 <em>어떻게</em> 증명하는가." Vision Pilot의 하이브리드 구조(인지 AI ∥ E2E AI + Safety Guardian)는 그 질문에 대한 2026년의 명시적 답안이다. 성능 경로와 검증 경로를 <strong>택일이 아니라 병렬</strong>로 두는 것 — E2E를 "연구 데모"에서 "양산 부품"으로 옮기는 첫 번째 조건이 이 구조다.</p>
+            <p>두 번째는 <strong>오픈소스의 단위가 '모델'에서 '스택'으로</strong> 옮겨갔다는 점이다. Vision Pilot 저장소에는 모델 코드만 있는 게 아니라 캘리브레이션, 센싱, 안전 경계 문서, 시뮬레이터 연동, Docker/DEB 패키징, Rerun 로깅이 함께 들어 있다. 가중치까지 Apache-2.0으로 풀린 이상, 재현 연구의 기준선은 "논문 코드를 돌려봤다"가 아니라 "<strong>양산 형태의 스택을 5 TOPS에서 돌려봤다</strong>"로 바뀐다. 연구실 GPU에서 mAP를 올리는 일과, INT8로 0.3%p 손실에 끝내는 일은 다른 직업이다.</p>
+            <p>세 번째는 <strong>예산이 설계를 결정한다</strong>는 것이다. 2MP 단안, 52–55° 화각, mapless, 2:1 해상도, 소형 3모델 — 이 선택들은 취향이 아니라 3–5 INT8 TOPS·10 FPS라는 제약의 함수다. AutoDrive의 거리 정확도가 100 m에서 72%로 떨어지는 것도, AutoSpeed가 단일 클래스 CIPO로 문제를 좁힌 것도 같은 예산 안에서의 최적화다. 벤치마크 리더보드와 양산 BOM은 서로 다른 최적화 문제이며, 두 세계를 잇는 언어가 <em>TOPS·FPS·INT8 손실</em>이다.</p>
+            <p>마지막은 <strong>남은 일이 문서에 그대로 적혀 있다</strong>는 점이다. <code>SAFETY_PLAN.md</code>, <code>SOFTWARE_REQUIREMENTS.md</code>, <code>SAFETY_METRICS.md</code>가 아직 제목 한 줄이라는 사실은 이 프로젝트의 현주소를 정확히 말해준다. 기능은 1.0에서 갖춰졌고, 이제 필요한 것은 <strong>폐루프 시나리오 벤치마크(NAVSIM·AlpaSim)</strong>와 <strong>fail-operational 지표</strong>, 그리고 무엇보다 <em>실차에서의 실패 로그</em>다. Apache-2.0 + 공개 가중치라는 조건은 그 검증을 커뮤니티가 대신 할 수 있게 만든다 — 양산 L2를 오픈소스로 한다는 선언의 진짜 값은 코드가 아니라 <strong>검증을 외부에 열어둔 태도</strong>에 있다.</p>
+
+            <p>원문: <a href="https://github.com/autowarefoundation/vision_pilot" target="_blank">https://github.com/autowarefoundation/vision_pilot</a><br>
+            모델: <a href="https://github.com/autowarefoundation/auto_speed" target="_blank">auto_speed</a> · <a href="https://github.com/autowarefoundation/auto_steer" target="_blank">auto_steer</a> · <a href="https://github.com/autowarefoundation/auto_drive" target="_blank">auto_drive</a><br>
+            재단: <a href="https://autoware.org/" target="_blank">https://autoware.org/</a></p>
+
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
