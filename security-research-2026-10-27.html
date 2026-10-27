@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 [최신] CVM-Store (arXiv 2610.34560, NDSS'27) — 기밀 VM은 '쓰는 중인 메모리'만 지킨다: 디스크의 기밀성·무결성·최신성(CIF)을 NVMe 원속도의 96–99%로 되찾다</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 [최신] CVM-Store — 기밀 VM이 지켜주는 건 '쓰는 중인 메모리'뿐, 디스크는 아직 클라우드 업체 것이다</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-27 · 카테고리: Research (최신 보안 논문 · 기밀 컴퓨팅 · 저장장치 보안 · 롤백 공격)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> CVM-Store: A Secure Storage System for Confidential Virtual Machines<br>
+                <strong>저자:</strong> Thore Sommer, Masanori Misono, Dimitrios Stavrakakis, Pramod Bhatotia (Technical University of Munich)<br>
+                <strong>게재지:</strong> <em>NDSS 2027</em> 게재 예정 (arXiv 논문 코멘트: <em>accepted at NDSS'27</em>)<br>
+                <strong>공개:</strong> arXiv:2610.34560v1 · 2026년 10월 25일 제출 · 라이선스 CC BY 4.0<br>
+                <strong>분야:</strong> 기밀 컴퓨팅(confidential computing) · 저장장치 보안 · 롤백/재생 공격 방지 · 인증된 암호화 · 시스템 보안<br>
+                <strong>인용:</strong> Semantic Scholar·OpenAlex <strong>미등재</strong> (공개 이틀 된 신규 논문 — 인용 0이 아니라 아직 색인 전)<br>
+                <strong>원문:</strong> <a href="https://arxiv.org/abs/2610.34560" target="_blank" rel="noopener">arXiv:2610.34560</a> · <a href="https://arxiv.org/html/2610.34560v1" target="_blank" rel="noopener">HTML 전문</a> · <a href="https://doi.org/10.48550/arXiv.2610.34560" target="_blank" rel="noopener">DOI</a>
+            </div>
+
+            <h2><i class="fa-solid fa-circle-question"></i> 왜 이 논문인가 — 신뢰 경계가 메모리에서 멈춘다</h2>
+            <p>지난 몇 년간 클라우드 보안의 문법을 바꾼 것이 <strong>기밀 VM(Confidential VM, CVM)</strong>입니다. AMD SEV-SNP, Intel TDX, Arm CCA가 하이퍼바이저와 클라우드 사업자조차 들여다볼 수 없는 암호화된 실행 환경을 제공하고, 주요 클라우드 사업자가 이를 대규모로 팔고 있습니다. 애플리케이션을 고치지 않아도 VM 전체가 보호된다는 것이 이 모델의 약속입니다.</p>
+            <p>그런데 이 약속에는 조용한 단서가 붙습니다. <strong>CVM이 보호하는 것은 "사용 중(in use)인 데이터", 즉 게스트 메모리뿐</strong>입니다. 디스크에 내려간 상태는 CVM의 신뢰 경계 <em>바깥</em>에 있고, 그 저장장치를 만지는 것은 클라우드 사업자입니다. 논문이 첫 문단에서 못 박는 문장이 이것입니다.</p>
+            <blockquote>"However, they protect only data in use; persistent storage lies outside the CVM trust boundary, leaving all stateful data exposed to the cloud provider." — 기밀 VM은 사용 중인 데이터만 보호한다. 영속 저장장치는 신뢰 경계 밖에 있어, 상태를 가진 모든 데이터가 클라우드 사업자에게 노출된다.</blockquote>
+            <p>메모리를 1,000번 암호화해도, 재시작 한 번에 디스크에서 <strong>암호학적으로는 완벽하게 유효하지만 이미 낡은 스냅샷</strong>을 되돌려 놓으면 애플리케이션은 아무것도 눈치채지 못합니다. 이것이 <strong>롤백(replay) 공격</strong>이고, 결제 원장·감사 로그·모델 체크포인트처럼 "상태"가 곧 자산인 워크로드에서는 기밀성보다 더 치명적일 수 있습니다. 이 논문은 그 마지막 구멍을 <em>성능을 거의 잃지 않고</em> 막는 시스템입니다.</p>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 배경 — 기밀 VM의 I/O는 왜 원래 느린가</h2>
+            <p>문제를 이해하려면 CVM의 I/O 경로를 봐야 합니다. 게스트 메모리가 기본적으로 암호화되어 있으니, NVMe 컨트롤러는 그 메모리에 직접 DMA를 걸 수 없습니다. 모든 I/O는 <strong>바운스 버퍼(bounce buffer)</strong> — 암호화되지 않은 공유 메모리 — 를 거쳐야 하고, 여기서 복사가 최소 두 번, 신뢰 경계를 넘는 컨텍스트 스위치가 추가됩니다.</p>
+            <ul>
+                <li><strong>측정된 손실:</strong> 커널 I/O 스택으로 CVM은 같은 조건의 일반 VM 대비 <strong>쓰기 처리량의 최대 90%, 읽기의 77%</strong> 수준에 그칩니다 (fio 측정, 논문 §III).</li>
+                <li><strong>여기에 블록 암호화를 얹으면:</strong> AES-XTS+SHA256 기반 인증 블록 암호화는 처리량을 <strong>37–56%</strong> 더 깎습니다. 표에서 CVM 기준 무암호화 6.56 GB/s가 LUKS(AES-XTS)에서 4.10, LUKS(AES-XTS+sha256)에서 4.11, dm-verity에서 2.53 GB/s로 떨어집니다.</li>
+                <li><strong>기존 사용자공간 I/O(SPDK, DPDK)는 답이 아니다:</strong> 이들은 <em>장치를 신뢰한다</em>는 전제 위에 서 있습니다. CVM 위협 모델에서는 NVMe 컨트롤러가 악의적일 수 있으므로, 장치 레지스터를 사용자공간에 그대로 매핑하는 순간 공격면이 됩니다.</li>
+                <li><strong>기존 기밀 저장장치 연구도 반쪽:</strong> 블록 단위 암호화는 접근 패턴을 무시해 필요 없는 암호 연산을 반복하고, 애플리케이션 단위 기법은 특정 워크로드에 보장이 묶입니다. 둘 다 <strong>롤백</strong>에는 취약합니다.</li>
+            </ul>
+            <p>그리고 최신성(freshness)을 위한 하드웨어 수단도 마땅치 않습니다. Intel SGX의 단조 카운터는 <strong>회당 60–250 ms 지연</strong>에 쓰기 내구성이 며칠 만에 닳고, 외부 분산 카운터는 매 갱신마다 왕복이 필요합니다. 논문이 지적하는 핵심은 <em>"AEAD 암호도, Merkle 트리도, 사용자공간 I/O도 각각은 병목이 아니다. 이 셋을 순진하게 겹쳐 놓는 조합이 병목이다"</em>라는 것입니다.</p>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 핵심 아이디어 — 암호 연산과 DMA를 '직렬'이 아니라 '교차'시킨다</h2>
+            <p>CVM-Store의 설계는 네 가지 결정으로 요약됩니다. 논문이 스스로 정리한 문장을 그대로 옮기면 이렇습니다 — <em>(i) 장치를 신뢰하는 대신 검증하고, (ii) 암호 연산을 진행 중인 DMA와 직렬화하지 않고 교차시키고, (iii) 무결성 구조를 접근 패턴에 맞추고, (iv) 최신성을 최소 인터페이스 뒤의 외부 epoch 배칭 서비스로 분리한다.</em></p>
+            <ul>
+                <li><strong>커널 바이패스 + 강화된 I/O 엔진:</strong> SPDK 기반 사용자공간 엔진을 쓰되, 악의적 장치를 전제로 DMA 경계 검사와 암호화 메모리 관리를 직접 구현했습니다. VFIO로 NVMe를 게스트에 패스스루하되, CVM 메모리 보호 자체가 IOMMU 없이도 임의 쓰기를 막아준다는 점을 이용해 MMIO 하이퍼콜 비용을 제거합니다.</li>
+                <li><strong>AEAD 선택이 절반:</strong> AES-256-GCM(4.43 GB/s, CVM) 대신 <strong>AEGIS-128X4(26.38 GB/s, CVM)</strong>를 씁니다. 4 KiB 블록 기준 약 <strong>6배</strong> 빠릅니다. 암호 자체가 병목이 아니게 만드는 것이 먼저입니다.</li>
+                <li><strong>복사 제거:</strong> "복사 → 암호화 → 다시 복사"의 3단 대신, 바운스 버퍼를 거치는 in-flight DMA 구간에 암호 연산을 끼워 넣어 중복 복사와 OS/하이퍼바이저 개입을 없앱니다.</li>
+                <li><strong>추상화별 무결성 구조:</strong> 모든 워크로드에 같은 Merkle 트리를 강요하지 않고, 접근 패턴에 맞는 구조를 씁니다 (아래).</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-layer-group"></i> 세 가지 추상화 — 같은 CIF, 다른 무결성 구조</h2>
+            <p>논문은 "기밀성·무결성·최신성(CIF)"을 <em>조합 가능한 프리미티브</em>로 만들고, 그것으로 세 가지 구체적 저장 추상화를 제공합니다. 흥미로운 부분은 <strong>추상화마다 무결성 자료구조가 다르다</strong>는 점입니다.</p>
+            <ul>
+                <li><strong>KVS (키-값 저장소):</strong> 블롭 단위로 카운터를 확인하고, <code>키–카운터 쌍</code>에 대한 해시로 무단 삭제를 막습니다. 값이 4 MB 이상이면 BlobDB로 넘겨 대형 객체 대역폭을 살립니다.</li>
+                <li><strong>공유 로그(shared log):</strong> 추가 전용(append-only) 워크로드에는 Merkle 트리가 오히려 낭비입니다. 대신 <strong>카운터 체인 MAC</strong>으로 순서와 잘림(앞/뒤 truncation)을 검증합니다. "로그에는 로그의 자료구조"를 쓴 셈입니다.</li>
+                <li><strong>파일시스템:</strong> 여기서는 Merkle 트리를 쓰되, 청크마다 리프 하나(오버헤드 &lt; 0.002%)로 두고 루트 해시를 신뢰 카운터에 묶습니다. 쓰기 시점에 고정되는 정적 트리로 충분한 경우(한 번 쓰고 읽는 파일) 동적 갱신 비용을 없앱니다.</li>
+            </ul>
+            <p>구현은 <strong>AMD SEV-SNP</strong>를 대상으로 약 <strong>20,000 LoC</strong>의 SPDK 사용자공간 라이브러리이며, 설계 자체는 Intel TDX·Arm CCA에도 적용 가능한 벤더 중립 구조라고 저자들은 밝힙니다. 부수적으로 SPDK의 DMA 처리와 SEV-SNP 인증 파이프라인에 업스트림 수정을 냈다는 점도 실무적으로 의미가 있습니다.</p>
+
+            <h2><i class="fa-solid fa-clock-rotate-left"></i> 최신성(freshness) — 하드웨어 카운터가 없을 때의 답</h2>
+            <p>CVM에는 SGX 같은 단조 카운터가 없습니다. CVM-Store는 카운터 상태를 <strong>외부 신뢰 주체</strong>로 빼내되, 매 쓰기마다 왕복하지 않습니다.</p>
+            <ul>
+                <li><strong>Epoch 배칭:</strong> 하나의 epoch가 닫힐 때만 카운터를 동기화합니다. 충돌 시 되돌아갈 수 있는 구간은 "마지막 커밋된 epoch" 하나로 제한됩니다.</li>
+                <li><strong>트레이드오프는 명시적:</strong> epoch를 넓히면 파일시스템·공유 로그의 오버헤드가 <strong>8–10% → 약 2.5%</strong>로 떨어지지만, 크래시 손실 창은 <code>max(window, D+RTT)</code>까지 넓어집니다. 즉 <em>"최신성 보장 강도"와 "성능"을 응용이 고르게</em> 만든 것이 설계의 요점입니다.</li>
+                <li><strong>인증이 선택 기능이 아님:</strong> 외부 카운터만으로는 부족합니다. 어떤 CVM 인스턴스가 키를 받고 카운터를 초기화할지 검증하지 않으면, 봉인된 상태를 <em>변조된 인스턴스</em>에 재생하거나 유효한 카운터를 엉뚱한 신원에 묶을 수 있습니다. 그래서 저장 키는 원격 인증(attestation) 통과 후에만 풀리고, 프로비저닝 시 키와 카운터 상태를 증명된 신원에 함께 봉인합니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-gauge-high"></i> 성능 — "1%면 충분하다"를 숫자로</h2>
+            <p>평가 환경의 raw NVMe 대역폭은 fio 기준 <strong>읽기 13.5 GiB/s, 쓰기 6.7 GiB/s</strong>입니다. 이 기준선에 대해:</p>
+            <ul>
+                <li><strong>대형 객체, 단일 코어:</strong> 완전한 CIF를 켜고도 raw의 <strong>≈1%(쓰기) / 1–19%(읽기)</strong> 이내. 실제로 <strong>읽기 13.3 GiB/s, 쓰기 6.6 GiB/s</strong>까지 도달합니다. 같은 조건에서 단일 스레드 ext4·Rollbaccine은 읽기에서 18–30% 수준이고, 바운스 버퍼와 CIF 오버헤드를 메우려면 스레드 8개가 필요합니다.</li>
+                <li><strong>KVS:</strong> 256 MB–1 GB 요청에서 <strong>4.7–4.9 GiB/s</strong> (장치 읽기 대역의 94–98%, 쓰기 99%). RocksDB는 ext4·Rollbaccine 모두에서 <strong>0.9 GiB/s</strong> 아래로 주저앉으므로 <strong>5.5–7.0배</strong> 차이입니다. 단, 1 MB 미만 소형 객체에서는 RocksDB가 더 빠릅니다 — 저자들이 인정한 명확한 트레이드오프입니다.</li>
+                <li><strong>파일시스템:</strong> 256 KB 랜덤 읽기에서 단일 스레드 <strong>2.4 GiB/s</strong> (ext4 1.7의 1.4배, Rollbaccine 1.3의 1.9배). 64 MB–1 GB 순차 읽기는 256 MB부터 <strong>13.0–13.3 GiB/s</strong>로 장치의 96–99% (ext4 30%, Rollbaccine 19%).</li>
+                <li><strong>실제 애플리케이션:</strong> MLPerf-Storage의 <strong>105 GB Llama3-8B 체크포인트</strong> 저장에서 파일시스템·공유 로그가 <strong>6.53–6.55 GB/s</strong>로 ext4와 동등, Rollbaccine(5.61) 대비 1.17배. 불러오기는 파일시스템으로 <strong>11.5 GB/s</strong> (기준선 대비 2.3% 이내), 공유 로그는 읽기 직렬화 때문에 9.74 GB/s로 15% 뒤집니다. Redis AOF는 연산별 내구성 모드에서 Rollbaccine 대비 <strong>1.95–2.27배</strong>.</li>
+                <li><strong>Ablation (256 GB 합성 워크로드):</strong> CIF 전체를 켜는 비용은 런타임 <strong>0.4–0.9%</strong>. 반면 구성 요소 하나를 순진하게 구현하면 최대 <strong>76%</strong>까지 잃습니다. 논문의 주장 — "병목은 암호가 아니라 조합" — 을 이 한 줄이 증명합니다. 쓰기 증폭은 <strong>1‰ 미만</strong>.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 보안 분석 — 어떤 공격을 무엇으로 막는가</h2>
+            <p>논문은 위협 모델을 <em>악의적 클라우드 사업자</em>로 두고, 공격 벡터를 추상화별로 나눠 완화책을 대응시킵니다. 표의 핵심 행만 옮기면:</p>
+            <ul>
+                <li><strong>변조된 인스턴스 로딩</strong> → 원격 인증(attestation)</li>
+                <li><strong>저장 데이터 엿보기 / 변조</strong> → AEAD 암호화·인증</li>
+                <li><strong>장치 디스크립터 조작(악의적 DMA)</strong> → DMA 경계 검사</li>
+                <li><strong>저장 상태 롤백</strong> → 신뢰 카운터 / <strong>인스턴스 간 키 재사용</strong> → 인증에 묶인 키 프로비저닝</li>
+                <li><strong>KVS 값 롤백</strong> → 블롭별 카운터 검사 · <strong>KVS 무단 삭제</strong> → 키–카운터 쌍 해시</li>
+                <li><strong>로그 항목 이어붙이기(splicing)</strong> → 카운터 체인 MAC · <strong>로그 앞/뒤 잘림</strong> → 경계 카운터 검증 · <strong>로그 재정렬</strong> → 단조 카운터 체인</li>
+                <li><strong>파일 청크/블록 교체</strong> → Merkle 리프 MAC · <strong>파일 통째 교체</strong> → 신뢰 카운터에 묶인 루트 해시</li>
+            </ul>
+            <p>주목할 점은 <strong>"롤백은 암호로 못 막는다"</strong>는 사실을 설계 전면에 놓았다는 것입니다. 암호화·무결성은 각각 국소적으로 해결되지만, <em>최신성은 상태를 세는 주체가 필요</em>하고, 그 주체는 반드시 인증된 신원에 묶여야 합니다. 이 세 가지를 분리해서 다룬 것이 이 논문의 가장 실무적인 통찰입니다.</p>
+
+            <h2><i class="fa-solid fa-scale-balanced"></i> 한계와 남는 질문</h2>
+            <ul>
+                <li><strong>하드웨어 종속:</strong> 구현·평가는 AMD SEV-SNP 단일 플랫폼입니다. TDX·CCA로의 이식성은 설계 주장이지 측정된 결과가 아닙니다.</li>
+                <li><strong>패스스루 전제:</strong> near-raw 대역폭은 NVMe를 게스트에 통째로 넘기는 패스스루에 기대며, 저자들도 SR-IOV로 완화 가능하다고만 언급합니다. 멀티테넌트 밀도와는 긴장 관계가 있습니다.</li>
+                <li><strong>외부 카운터 = 외부 의존성:</strong> 최신성은 결국 신뢰 주체와의 동기화에 의존합니다. 그 주체의 가용성·지연이 전체 보장의 상한이 됩니다.</li>
+                <li><strong>소형 객체:</strong> 1 MB 미만에서는 RocksDB보다 느립니다. "무조건 빠르다"가 아니라 <em>대형 객체·체크포인트·이미지 레이어에 최적화된 시스템</em>으로 읽어야 합니다.</li>
+                <li><strong>인용 지표:</strong> 공개 이틀 된 논문이라 인용 수는 아직 의미가 없습니다. 대신 NDSS 2027 게재 확정과 아티팩트(재현 스크립트·평가 태스크) 공개가 이 논문의 신뢰도 지표입니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-flag-checkered"></i> 정리 — 신뢰 경계는 디스크까지 내려와야 끝난다</h2>
+            <p>기밀 컴퓨팅은 "메모리를 암호화했다"에서 멈추기 쉽습니다. 하지만 상태를 가진 워크로드에서 진짜 자산은 <em>재시작 후에도 남아 있는 것</em>이고, 그 지점이 지금까지 신뢰 경계 밖에 있었습니다. CVM-Store의 기여는 새로운 암호가 아니라 <strong>경계의 재설정</strong>입니다. CIF를 조합 가능한 프리미티브로 만들고, 접근 패턴에 무결성 구조를 맞추고, 최신성만 외부로 분리해 배칭했습니다. 그 결과 <strong>완전한 CIF를 켜고도 런타임 1% 미만</strong>이라는, "보안은 느리다"는 통념을 정면으로 반박하는 숫자가 나왔습니다.</p>
+            <p>2026년 9월 DDRop 같은 연구가 <em>기밀 VM의 하드웨어 격리 자체를 흔드는</em> 공격을 보여줬다는 점을 떠올리면, 이 논문의 위치는 분명합니다. <strong>격리가 뚫릴 수 있다는 시대에, 데이터가 어디에 있고 누가 그것을 되돌릴 수 있는지를 설계로 통제하는 일</strong> — 그것이 기밀 컴퓨팅의 다음 단계입니다.</p>
+
+            <h2><i class="fa-solid fa-book-open"></i> 더 읽기</h2>
+            <ul>
+                <li>원문: <a href="https://arxiv.org/abs/2610.34560" target="_blank" rel="noopener">arXiv:2610.34560 (2026-10-25)</a> · <a href="https://arxiv.org/html/2610.34560v1" target="_blank" rel="noopener">HTML 전문</a> · <a href="https://doi.org/10.48550/arXiv.2610.34560" target="_blank" rel="noopener">DOI</a> · NDSS 2027 게재 예정</li>
+                <li>배경: <a href="https://www.amd.com/en/developer/sev.html" target="_blank" rel="noopener">AMD SEV-SNP</a> · <a href="https://www.intel.com/content/www/us/en/developer/tools/trust-domain-extensions/overview.html" target="_blank" rel="noopener">Intel TDX</a> · <a href="https://spdk.io/" target="_blank" rel="noopener">SPDK</a></li>
+                <li>함께 읽기:
+                    <ul>
+                        <li>2026-10-24 <a href="security-research-2026-10-24.html">LLVMhammer (arXiv 2610.30798)</a>: 같은 하드웨어 결함 계열(Rowhammer)을 컴파일러 계층에서 악용한 사례. "격리 가정이 깨지는 지점"이라는 주제가 맞닿습니다.</li>
+                        <li>2026-10-25 <a href="security-research-2026-10-25.html">Structural Cryptanalysis of Classic McEliece</a>: 암호 가정이 흔들릴 때 시스템이 버티는 방식. 이 글의 CIF 설계와 대비해서 읽으면 좋습니다.</li>
+                        <li>2026-09-15 <a href="2026-09-15-security-ai-update.html">Daily Security &amp; AI Update</a>: DDRop이 Intel TDX·AMD SEV-SNP 기밀 컴퓨팅을 무력화한 하드웨어 공격 보도. 이 논문이 방어하려는 신뢰 경계의 반대편.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
