@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-10-28</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-10-28 | <i class="fa-solid fa-tags"></i> Daily News, Lazarus, 국내 보안, AI 에이전트 공격, Ransomware, GoAhead TLS, Apple, CISA KEV
+        </div>
+
+        <div class="content">
+            <h2>1. Lazarus 'Operation FlashHole' — INISAFE CrossWeb EX 악용해 국내 3개 기관 침해, C2에 양자내성암호</h2>
+            <p>카스퍼스키 GReAT가 북한 연계 Lazarus 그룹의 신규 사이버 스파이 캠페인 <strong>Operation FlashHole</strong>을 공개했다. 건설·소프트웨어·유선통신장비 제조 분야 국내 기관 최소 3곳이 표적이 됐고, 활동 시점은 최소 2025년 7월까지 거슬러 올라간다. 2025년 4월 공개된 Operation SyncHole의 후속 물결로 평가된다.</p>
+            <ul>
+                <li><strong>침투 경로:</strong> 이번에는 이니텍의 <strong>INISAFE CrossWeb EX</strong>를 악용했다. SyncHole이 iniLINE Cross EX를 썼던 것과 같은 수법으로, 국내 인터넷뱅킹·정부 포털 접속에 사실상 강제 설치되는 금융 보안 프로그램이 다시 공격 표면이 됐다.</li>
+                <li><strong>유인 수법:</strong> 표적별로 맞춤 제작한 이력서·포트폴리오 사칭 사이트를 스피어피싱 메일로 유포했다. 초기 접근 경로는 확정되지 않았으나 <strong>GitHub Pages에 호스팅된 악성 사이트</strong> 정황이 확인됐고, 한 버전에는 네트워크 장비 개발자의 이력서와 AI로 생성된 것으로 보이는 프로필 사진이 함께 올라가 있었다.</li>
+                <li><strong>악성코드 체인:</strong> TechHub(CLOUDBURST·NickelLoader 계열, GitHub에서 추가 페이로드 수신) → TouchHub → TOUCHSHIFT(mscoree.dll DLL 사이드로딩·지속성). 별도로 Cubridge(SIDESHOW·LightlessCan 계열 C2·플러그인 로더), ClientHub(HTTPS/Dropbox API 이중 채널 백도어), LPEClient(2019년부터 쓰인 정찰 도구)가 함께 배치된다.</li>
+                <li><strong>주목할 점 — ML-KEM-1024:</strong> 최신 버전은 <strong>양자내성암호 ML-KEM-1024</strong>로 공격자 서버와 암호화 세션을 맺은 뒤 추가 악성코드를 메모리에서 직접 실행한다. 통신 암호가 미래에 복호화될 위험을 줄이려는 시도로, 국가 배후 조직이 PQC를 실전 운용 단계로 끌어올렸다는 신호다.</li>
+                <li><strong>국내 영향:</strong> 같은 시기 COPPERHEDGE 백도어를 쓰는 별도 파도가 국내 기관을 공격했고, 최소 1건은 <strong>ULOSE</strong>라는 다크웹 유출 사이트로 데이터가 넘어갔다. 8월 국내를 겨냥한 Gunra 랜섬웨어와 유사한 흐름으로, 스파이 활동이 유출·협박으로 확장되는 양상이다.</li>
+                <li><strong>대응:</strong> INISAFE CrossWeb EX·AnySign4PC 등 금융 보안 모듈 버전을 전수 확인하고 최신으로 갱신한다. "필수 설치 프로그램"이라는 신뢰를 전제로 한 공격이므로, 이력서·채용·포트폴리오 링크는 도메인과 호스팅(GitHub Pages 등)까지 검증해야 한다. KISA·AhnLab의 7월 공동 권고(Struggle/SIGNBT 3.0, Brandoor/COPPERHEDGE)와 함께 대응 체계를 점검할 것.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/lazarus-abuses-south-korean-security.html" target="_blank">The Hacker News - Lazarus Abuses South Korean Security Software to Deploy Malware Using Post-Quantum Encryption</a></p>
+
+            <h2>2. 서울경찰, 전직 펜테스터 검거 — ARTEX AI로 90개 기관 침해·820만 건 탈취</h2>
+            <p>서울경찰청이 국내 90개 이상 조직을 침해하고 <strong>820만 건의 개인정보</strong>를 탈취한 혐의로 7명을 특정했다. 주범은 2019~2022년 보안업체에서 침투 테스트를 하던 32세 남성으로, 대학·병원·대기업은 물론 골프장까지 표적으로 삼았다. 국내에서 <strong>생성형 AI를 악용한 대규모 해킹·개인정보 절도 사건으로는 첫 검거 사례</strong>다.</p>
+            <ul>
+                <li><strong>수법의 전환점:</strong> 처음에는 통상적인 도구를 썼지만 <strong>2026년 8월 말부터 AI 도구를 도입</strong>해 공격 규모를 확장했다. 사용된 것은 자율 AI 침투 테스트 프레임워크 <strong>ARTEX</strong>로, 국내 여러 은행을 공격한 중국어권 위협 행위자에게 쓰인 것과 동일한 계열이다.</li>
+                <li><strong>금전 요구:</strong> 38건에서는 3억 6,000만 원(약 27만 달러)의 몸값을 요구하며 유출하지 않겠다고 약속했다. 협박 메시지는 피해 조직에 직접 발송됐다.</li>
+                <li><strong>수사 경과:</strong> 6월 피해자 신고로 수사가 시작돼 침해된 조직의 서버 로그로 추적했고, 10월 15일 주범을 체포해 17일 구속, 23일 검찰 송치했다. 나머지 6명은 불구속 수사 중이다. 경찰은 압수 증거 분석에도 자체 AI 도구를 사용했다.</li>
+                <li><strong>경찰의 진단:</strong> "AI가 사이버 범죄의 진입장벽을 낮춰, 과거에는 숙련된 소수만 가능했던 대규모 고영향 사건이 일반인에게도 열렸다"고 밝혔다. 전문 조직이 아니어도 AI 도움만으로 대규모 해킹이 가능해졌다는 것.</li>
+                <li><strong>실무 시사점:</strong> 주범이 '펜테스터 출신'이라는 점이 핵심이다. 합법적 침투 테스트로 습득한 스캐닝·권한상승 노하우에 AI 자동화를 얹으면 방어 측 입장에서는 정상 트래픽과 구분이 어렵다. 웹 취약점 스캔 탐지, 비정상 시간대 대량 요청, 단일 IP의 광범위 자산 열거에 대한 상관분석이 필요하다.</li>
+                <li><strong>추적 중:</strong> 탈취 데이터의 다크웹 유출 여부를 조사하고 있다. 수사 결과는 향후 AI 도구 규제·처벌 기준 논의의 선례가 될 전망이다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/former-pentester-used-artex-ai-to-steal-82-million-data-records/" target="_blank">BleepingComputer - Former pentester used ARTEX AI to steal 8.2 million data records</a></p>
+
+            <h2>3. 호주 정보기관, Amadey 악성코드 백엔드 장악 — 18만 대 감염 PC 통제 차단</h2>
+            <p>호주 신호정보국(ASD)이 사이버 범죄자의 Amadey 악성코드 <strong>C2 백엔드에 직접 접근</strong>해 전 세계 18만 대 감염 컴퓨터와의 연결을 끊었다고 밝혔다. 공세적 사이버 작전(offensive cyber operation)으로 범죄 인프라를 무력화한 사례로, 정부 승인 절차를 거쳐 수행됐다.</p>
+            <ul>
+                <li><strong>Amadey의 역할:</strong> 2018년부터 서비스형(MaaS)으로 판매된 로더로, 구매자마다 자체 서버에 컨트롤 패널을 운영한다. 주 임무는 StealC 등 추가 악성코드 설치이며, 자격증명 탈취와 원격 접근 권한도 제공한다. 유포 경로는 가짜 소프트웨어 업데이트, 크랙 설치 파일, 다른 로더가 대부분이다.</li>
+                <li><strong>부분적 조치:</strong> ESET은 서로 인프라를 공유하지 않는 <strong>Amadey 봇넷 53개</strong>를 추적 중이다. 이번 조치는 그중 하나의 컨트롤러를 끊은 것으로, 나머지 봇넷은 여전히 활동한다.</li>
+                <li><strong>한계:</strong> 컨트롤러 차단은 이미 탈취된 자격증명을 되돌리지 못한다. 인포스틸러가 훔친 세션 쿠키는 몇 달 뒤에 사용되며 MFA까지 우회할 수 있어, 감염 이력이 있는 계정은 <strong>비밀번호·세션 전면 폐기</strong>가 필요하다.</li>
+                <li><strong>추가 성과:</strong> ASD는 별건으로 판매 중이던 5TB 규모 탈취 데이터를 발견해 판매 전에 파괴했다. 해당 기업은 자신이 해킹당한 사실조차 몰랐으며, 삭제된 파일에는 호주인 약 480만 명분과 해외 피해자 수십만 명분의 정보가 포함돼 있었다.</li>
+                <li><strong>맥락:</strong> Amadey 인프라는 6월 국제 공조 작전 'Operation Endgame'(6월 15~19일, Amadey·StealC·SocGholish 표적)으로도 타격을 받았다. 호주는 Endgame 참여 9개국 명단에는 없었고, 이번 작전도 ASD 연례 위협 보고서에는 세부가 기술되지 않았다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/australia-gets-into-amadey-malware.html" target="_blank">The Hacker News - Australia Gets Into Amadey Malware Backend, Cuts Off Access to 180,000 Infected Computers</a></p>
+
+            <h2>4. UNM Health 랜섬웨어 — 뉴멕시코 유일 1등급 외상센터 포함, 환자 진료·수술 중단</h2>
+            <p>뉴멕시코대학교 보건과학센터(UNM Health)가 사이버 공격으로 시스템 장애를 겪으며 신규 환자 입원 제한, 구급차 우회 이송, 외래 수술·예약 중단 조치를 취했다. 주 전체에서 연간 100만 건 이상의 환자를 보는 대형 의료기관이며, 앨버커키의 UNM 병원은 <strong>뉴멕시코 유일의 1등급 외상센터</strong>다.</p>
+            <ul>
+                <li><strong>주장된 규모:</strong> UNM은 공격 유형을 밝히지 않았지만, 신생 랜섬웨어 그룹 <strong>Byod</strong>가 데이터 유출 사이트에 공격을 주장했다. 이들은 메인 캠퍼스와 병원 환경의 <strong>3만 6,000개 시스템</strong>, Active Directory 포리스트, 그룹 정책 인프라, Microsoft Entra 테넌트 전체, Oracle DB 2개를 장악했다고 주장했다.</li>
+                <li><strong>유출 주장 데이터:</strong> 주민번호(SSN), 인사·급여·Banner 학생 기록, 내부 메일, 연구 데이터, 병원 예약 데이터, 환자 정보, Cerner EHR 명단.</li>
+                <li><strong>이례적 협박 방식:</strong> Byod는 의료기관에는 복호화 키를 무료 제공하고 <strong>피해 환자 1인당 최대 2,500달러</strong>를 지급하겠다고 제안하면서도, 탈취 데이터는 전부 보유하겠다고 밝혔다. 스스로를 "펜테스트를 하는 정의로운 행위자"로 규정하지만 실제로는 6개 피해 조직 중 3곳의 데이터를 이미 유출했다.</li>
+                <li><strong>복구:</strong> UNM은 외부 파트너와 함께 네트워크를 확보했고, 평가 결과 일부 단말만 영향받고 핵심 시스템 침투는 없었다고 밝혔다. 10월 27일(화)부터 예약·수술을 재개했고 구급차 이송도 정상화됐다. 다만 4개 보건과학 대학 수업은 하루 취소되고 비필수 인력은 재택 지시가 내려졌다.</li>
+                <li><strong>시사점:</strong> 의료기관은 가용성 중단만으로도 즉시 생명 위험이 발생하는 업종이다. EHR·AD·클라우드 테넌트가 한 번에 흔들리는 구조를 전제로, 외상센터·응급 이송 우회 프로토콜과 오프라인 진료 연속성 계획을 사전에 문서화해야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/unm-health-ransomware-attack-disrupts-patient-care-surgeries/" target="_blank">BleepingComputer - UNM Health ransomware attack disrupts patient care, surgeries</a></p>
+
+            <h2>5. Keystone, 하드웨어 월렛 18,835대 폐기 — 정품 검증 키 유출</h2>
+            <p>암호화폐 하드웨어 월렛 제조사 Keystone이 자사 웹사이트 침해로 <strong>기기 정품 검증 키</strong>가 유출됐다며 미판매 재고 18,835대를 전량 폐기하겠다고 발표했다. 복구 시드나 지갑 개인키가 유출된 사고는 아니지만, 공격자는 정품 인증을 통과하는 위조 기기를 만들 수 있게 됐다.</p>
+            <ul>
+                <li><strong>사고 경위:</strong> 10월 20일 비인가 접근을 탐지했다. 웹사이트가 사용하던 <strong>서드파티 데이터 모니터링 도구의 취약점</strong>을 악용해 권한을 상승시킨 뒤 고객 데이터와 검증 키를 확보했다. 최초 침투 시점은 공개되지 않았다.</li>
+                <li><strong>사용자 판단 기준:</strong> 10월 20일 이후 수령한 기기가 기존 키를 쓰고 있다면, 인증을 통과하더라도 위조품 가능성을 완전히 배제할 수 없다고 회사가 직접 인정했다. 해당 사용자는 지원팀 확인 후 사용해야 한다. 10월 20일 이전에 받은 기기는 인증 통과 시 정품으로 간주한다.</li>
+                <li><strong>구조적 문제:</strong> "웹사이트에서 정품 확인"이라는 온라인 검증 모델 자체가 웹 침해에 취약하다. 오프라인 검증(펌웨어 서명, 기기 자체 secure element 증명)으로 옮겨가지 않는 한 같은 사고가 반복될 수 있다.</li>
+                <li><strong>실무:</strong> 하드웨어 월렛은 출처가 확인된 공식 채널에서만 구매하고, 중고·재판매 기기는 시드 초기화 후 새로 생성해 사용해야 한다. 공급망 신뢰가 무너진 기기는 '인증 통과'만으로 안전을 보장할 수 없다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/keystone-to-destroy-18835-hardware.html" target="_blank">The Hacker News - Keystone to Destroy 18,835 Hardware Wallets After Hackers Steal Device Verification Key</a></p>
+
+            <h2>6. GoAhead 임베디드 웹서버 TLS 결함 3종 — 폐기된 클라이언트 인증서가 로그인 통과 (CVE-2026-115881, CVSS 9.1)</h2>
+            <p>수억 대 기기에 탑재된 임베디드 웹서버 <strong>GoAhead</strong>에서 TLS 구현 결함 3건이 공개됐다. 핵심은 OpenSSL 백엔드가 <strong>인증서 폐기 목록(CRL)을 로드만 하고 검사는 켜지 않는</strong> 문제다. 관리자가 CRL을 설정했으니 폐기가 동작한다고 믿게 되지만, 실제로는 폐기된 인증서가 그대로 통과한다.</p>
+            <ul>
+                <li><strong>CVE-2026-115881 (CVSS 9.1, OpenSSL):</strong> 상호 TLS(mTLS) 환경에서 폐기된 클라이언트 인증서가 정상 핸드셰이크를 완료한다. 도난·폐기된 기기가 자신의 신원이 허용하는 모든 접근 권한을 그대로 얻는다. 영향 버전 3.4.5~6.1.0, <strong>6.1.1</strong>에서 수정. FoxIO의 Sébastien Féry가 발견했고, GoAhead 6.1.0 + OpenSSL 3.6.2 조합에서 발급자 검사(issuer checking)를 켠 상태로도 폐기 인증서가 수락됨을 확인했다.</li>
+                <li><strong>CVE-2026-115884 (CVSS 7.4, LibreSSL 레거시 검증기):</strong> 클라이언트 인증서 체인이 GoAhead의 10장 제한을 초과해도 수락된다(클라이언트 인증서 요구 + 발급자 검사 꺼짐 조건). 6.1.1로 업그레이드하거나, 신뢰 CA 번들로 발급자 검사를 켜거나, OpenSSL·LibreSSL 4.x로 전환.</li>
+                <li><strong>Mbed TLS 결함 (CVSS 5.9, CVE 미발급):</strong> 길이 오타로 2,048비트 Diffie-Hellman 값 대신 <strong>1바이트</strong> 값이 전송돼, 수동 관찰자가 세션을 복호화할 수 있다. 4.0.2~6.1.0 영향. TLS 1.3·ECDHE 세션은 영향받지 않고, 최소 길이 검사를 하는 OpenSSL·Go·Java·주류 브라우저는 핸드셰이크를 거부해 실제 성립하지 않는다. 일부 임베디드·커스텀 클라이언트만 취약하다.</li>
+                <li><strong>영향 범위:</strong> GoAhead는 라우터, 프린터, 게이트웨이, 산업용 컨트롤러의 관리 페이지에 펌웨어로 내장된다. 제조사 EmbedThis는 "수억 대 기기에서 동작"한다고 밝힌다. 다만 공격 조건이 <em>의도적으로 설정한 mTLS + CRL + 신뢰 CA</em> 조합이라, 기본 빌드는 해당되지 않는다.</li>
+                <li><strong>주의:</strong> 10월 27일 기준 CVE 번호가 공개 CVE·NVD DB에 아직 등록되지 않았고, CVSS 점수는 벤더(EmbedThis) 자체 평가다. 펌웨어 벤더의 6.1.1 반영 여부를 확인하고, 반영 전에는 영향받는 mTLS 구성에서 해당 인증서 신뢰를 제거하는 것이 안전하다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/goahead-tls-flaws-allow-revoked-client.html" target="_blank">The Hacker News - GoAhead TLS Flaws Allow Revoked Client Certificates and Enable Session Decryption</a></p>
+
+            <h2>7. Microsoft Authenticator 안드로이드 결함 — 권한 없는 앱이 업무 계정 토큰 탈취 (CVE-2026-80097)</h2>
+            <p>안드로이드용 Microsoft Authenticator의 결함으로 <strong>아무 권한도 없는 악성 앱</strong>이 Teams 등 신뢰된 마이크로소프트 앱인 척하고 업무 계정 로그인 토큰을 받아낼 수 있었다. 마이크로소프트는 <strong>CVE-2026-80097</strong>(CVSS 8.6)로 추적하며 Authenticator for Android <strong>6.2606.4246</strong>에서 수정했다.</p>
+            <ul>
+                <li><strong>구조적 원인:</strong> 안드로이드의 Authenticator는 단순 OTP 표시가 아니라 <em>브로커</em> 역할을 한다. Teams·Outlook 등이 로그인을 요청하면 Authenticator가 계정 전체에 접근 가능한 토큰을 발급한다. 문제는 어떤 앱에 토큰을 줄지 판단하는 부분이었다.</li>
+                <li><strong>취약점:</strong> 어떤 앱이든 실행 가능한 <strong>AccountChooserActivity</strong>가 노출되어 있었고, Authenticator는 공격자 앱이 넘긴 값(자신이 Teams라고 주장하는 앱 이름 포함)으로 토큰 요청을 구성했다. 원래 있어야 할 서명 검사는 <em>사칭 대상</em>(Teams)의 실제 서명을 조회해 비교했기 때문에, 기기에 Teams가 정상 설치돼 있으면 그대로 통과했다. 요청을 실제로 보낸 앱이 무엇인지도 알 수 있었지만 판단에 쓰지 않았다.</li>
+                <li><strong>영향:</strong> Enclave 연구진 테스트에서 Teams 사칭 후 Microsoft Graph 토큰을 요청해 메일 읽기·발신, 파일 읽기·쓰기, 캘린더 읽기·쓰기 권한을 확보했다. 토큰은 해당 기기의 Authenticator에 로그인된 <strong>업무 계정에만</strong> 적용된다.</li>
+                <li><strong>평가 이견:</strong> Enclave는 로그인된 계정이 있는 것 외에 <strong>사용자 상호작용 없이</strong> 토큰이 반환됐다고 주장하지만, 마이크로소프트 권고문은 악성 앱 설치 + Authenticator 인증 흐름 완료가 필요하다고 본다(CVSS도 사용자 상호작용 요구). 악용 정황은 없으며 9월 패치 Tuesday에 포함됐다.</li>
+                <li><strong>대응:</strong> Authenticator 6.2606.4246 이상으로 업데이트. MDM/EMM으로 최소 버전을 강제할 것. 업데이트가 <strong>이미 발급된 토큰을 무효화하는지는 권고문에 명시되지 않았으므로</strong>, 의심 단말은 계정 세션 폐기·재인증까지 수행하는 것이 안전하다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/microsoft-authenticator-flaw-let.html" target="_blank">The Hacker News - Microsoft Authenticator Flaw Let Permissionless Android Apps Steal Work Account Tokens</a></p>
+
+            <h2>8. NVD 72시간 고위험 클러스터 — Oray SOHO 장비 CRLF 5종(CVSS 9.9)과 웹앱 인가결함 4종</h2>
+            <p>10월 25~28일 NVD에 1,481건이 접수된 가운데, 최상위 점수는 <strong>Oray Pugongying X5 Pro 7.6.1</strong>(중국 오라이의 SOHO 라우터·AP 계열)에서 나온 CRLF 인젝션 5건이 독점했다. 함께 올라온 웹 애플리케이션 인가·인증 결함들은 "권한 경계를 잘못 그은" 공통 패턴을 보인다.</p>
+            <ul>
+                <li><strong>CVE-2026-116231 / CVE-2026-116232 (CVSS 3.1 9.9, 4.0 8.6):</strong> Oray Pugongying X5 Pro의 Ser2net(regmsg 인자)과 SNMP 핸들러(snmp_set의 info.community)에서 CRLF 인젝션. 낮은 권한(PR:L)만 있으면 원격에서 높은 기밀성·무결성·가용성 영향을 미치며 범위 변경(S:C)이 발생한다.</li>
+                <li><strong>CVE-2026-116233 / 116234 / 116235 (CVSS 9.1):</strong> 같은 제품의 Dnsmasq(rent_time), IPsec 정책 핸들러(/etc/ipsec.conf의 secproto), L2TP 인증(Username)에서 동일한 CRLF 인젝션. 즉 <strong>설정 UI 전반의 입력 검증 부재</strong>가 한 제품에 5건으로 흩어져 나온 형태다. SOHO 장비는 관리 인터페이스를 외부에 노출한 채 쓰이는 경우가 많아 실제 위험이 크다.</li>
+                <li><strong>CVE-2026-115214 (CVSS 9.8, Datawiza Proxy Auth Plugin &lt; 1.1.1):</strong> 신뢰하는 역프록시에서 온 것인지 확인하지 않고 <code>user-identity</code>·<code>role</code> HTTP 헤더를 신뢰해, 미인증 공격자가 관리자 계정을 만들 수 있다. (전일 게시글에서 다룬 프록시 헤더 신뢰 문제의 연장선)</li>
+                <li><strong>CVE-2026-116207 (CVSS 9.1, YesWiki 4.6.0 &lt; 4.7.0 / 5.0.0-alpha4):</strong> SearchManager::prepareSearchRequest()의 미인증 SQL 인젝션. query·searchfields 파라미터의 필드명이 그대로 쿼리에 들어간다.</li>
+                <li><strong>CVE-2026-116068 (8.8, Dokploy ≤ 0.30.10):</strong> 테넌트 격리 붕괴. 어느 조직의 owner/admin이든 <strong>다른 테넌트의 applicationId</strong>를 넣어 남의 애플리케이션을 제어할 수 있다 — 멀티테넌시 SaaS에서 가장 위험한 유형이다.</li>
+                <li><strong>CVE-2026-116165 (8.8, Parse Server) · CVE-2026-116201 (8.8, Snipe-IT &lt; 8.5.0):</strong> 전자는 마스터 키 없는 클라이언트가 임의 클래스의 스키마를 삭제할 수 있고, 후자는 SAML acs 핸들러의 비원자적(non-atomic) nonce 검사로 <strong>SAML 어설션 재전송</strong>이 가능하다(동시 POST로 nonce 경쟁 유발).</li>
+                <li><strong>실무:</strong> SOHO·IoT 장비는 관리 포트를 인터넷에서 차단하고 최신 펌웨어로 갱신한다. SaaS는 테넌트 경계(applicationId·orgId 교차 검증)를, SSO는 nonce 원자성을 회귀 테스트 항목으로 넣어야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-116231" target="_blank">NVD - CVE-2026-116231 (Oray Pugongying X5 Pro CRLF Injection)</a> · <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-116068" target="_blank">NVD - CVE-2026-116068 (Dokploy)</a> · <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-116201" target="_blank">NVD - CVE-2026-116201 (Snipe-IT)</a></p>
+
+            <h2>9. Apple, 실제 악용된 CoreGraphics 0-day 패치를 구형 아이폰·아이패드로 확대 (CVE-2026-86950)</h2>
+            <p>Apple이 지난달 신형 OS에만 배포했던 <strong>CoreGraphics</strong> 취약점 패치를 구형 기기까지 확대 적용했다. <strong>CVE-2026-86950</strong>(CVSS 8.8)는 악의적으로 조작된 파일을 처리할 때 임의 코드 실행으로 이어질 수 있는 <strong>범위 초과 쓰기(out-of-bounds write)</strong>이며, 실제 표적 공격에 악용된 정황이 확인된 0-day다.</p>
+            <ul>
+                <li><strong>패치 이력:</strong> 9월 iOS/iPadOS 26.7.1, macOS Tahoe 26.7.1, macOS Sequoia 15.8.1로 1차 수정. 이번에 <strong>iOS/iPadOS 18.7.11</strong>이 추가되며 iPhone XS·XS Max·XR, iPad 7세대, iPad Air 4세대 이상, iPad 9세대 이상, iPad mini 6세대 이상이 지원 대상에 포함됐다.</li>
+                <li><strong>악용 정황:</strong> Apple은 "iOS 27 이전 버전에서 특정 표적 개인을 겨냥한 <strong>극도로 정교한 공격</strong>"에 악용됐을 수 있다고 명시했다. 스파이웨어급 표적 공격을 시사하는 표현이다.</li>
+                <li><strong>함께 수정된 결함:</strong> Audio의 로직 결함(CVE-2026-65339, 민감 정보 노출), CoreMedia 접근 결함(CVE-2026-86990, 사용자 허가 없이 카메라 접근).</li>
+                <li><strong>iOS 27.2 라인:</strong> iPadOS·macOS Golden Gate·tvOS·watchOS·visionOS·Safari 27.2와 함께 수백 건의 취약점을 수정했다. AppleAVD, CoreAudio, ImageIO, 커널, Model I/O, 화면 공유 서버, Spotlight, StorageKit, WebKit 등이 포함된다. Apple Intelligence의 권한 결함(CVE-2026-86987)은 원격 공격자가 민감 데이터에 접근할 수 있는 문제로, entitlement 검사 강화로 해결됐다.</li>
+                <li><strong>대응:</strong> 구형 기기를 포함해 즉시 최신 버전으로 갱신한다. 0-day가 실제 악용된 상태이고 지원 하한이 XS·XR까지 내려왔다는 것은, <strong>구형 기기를 쓰는 임원·연구자·활동가</strong>가 여전히 표적이라는 뜻이다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/apple-backports-fix-for-exploited.html" target="_blank">The Hacker News - Apple Backports Fix for Exploited CoreGraphics Flaw to Older iPhones and iPads</a> · <a href="https://www.bleepingcomputer.com/news/apple/apple-backports-coregraphics-zero-day-patches-to-older-iphones/" target="_blank">BleepingComputer - Apple backports CoreGraphics zero-day patches to older iPhones</a></p>
+
+            <h2>10. 패치 데드라인 — PHP KEV 마감 D-1, eMudhra 인증서는 Windows OOB로 신뢰 제거</h2>
+            <p>이번 주 패치 우선순위는 <strong>CISA KEV 마감일</strong>이 결정한다. PHP2Shell 두 건은 <strong>10월 29일</strong>까지, Adobe Commerce·Brotli는 11월 10일까지다. 한편 10월 초부터 이어진 eMudhra CA 키 유출 사태는 마이크로소프트의 대역외(OOB) 업데이트로 마무리 단계에 들어갔다.</p>
+            <ul>
+                <li><strong>CVE-2026-109618 (PHP, 메모리 손상):</strong> 메모리 고갈 상태의 손상으로 <strong>미인증 원격 코드 실행</strong>. KEV 등재 2026-10-26, <strong>조치 기한 2026-10-29</strong> — 연방기관 기준 하루 남았다.</li>
+                <li><strong>CVE-2026-109619 (PHP, 내부 요청 상태 잔존):</strong> 요청 간 내부 상태가 남아 미인증 RCE로 이어진다. 역시 기한 2026-10-29. 두 건 모두 CISA가 실제 악용을 확인했고, PHP는 10월 중 긴급 패치와 <strong>Windows 대상 2차 재빌드</strong>까지 배포했다.</li>
+                <li><strong>CVE-2026-48356 (Adobe Commerce / Magento, CVSS 9.3):</strong> 위험한 파일 형식의 무제한 업로드로 임의 코드 실행. KEV 등재 2026-10-27, 기한 2026-11-10. 웹 노출형 커머스이므로 WAF 규칙이 아닌 <strong>실제 패치 적용</strong>이 필요하다.</li>
+                <li><strong>CVE-2026-111497 (Google Brotli, CVSS 9.2 → KEV):</strong> 디코더의 반환값 미검사로 인접 디코더 상태 메모리가 손상돼 민감 메모리 노출·DoS·RCE 가능. Node.js RCE 경로로 알려진 그 결함이며, KEV 기한은 2026-11-10. Node·Brotli 내장 제품 전반을 확인할 것.</li>
+                <li><strong>eMudhra 후속:</strong> 마이크로소프트가 손상된 eMudhra CA 키에 연결된 인증서의 신뢰를 제거하는 <strong>Windows OOB 업데이트</strong>를 배포했다. 인증서 신뢰 목록을 자동 갱신하지 않는(오프라인·에어갭·장기 미부팅) 시스템을 보호하기 위한 조치다. Chrome의 루트 불신 일정과 함께, eMudhra 발급 인증서를 쓰는 내부 서비스·코드 서명은 대체 CA로 이전을 마쳐야 한다.</li>
+                <li><strong>오늘 할 일:</strong> PHP 런타임 버전 전수 조사(웹 노출 우선) → Adobe Commerce 패치 → Node/Brotli 포함 이미지 재빌드 → 오프라인 Windows 단말 OOB 적용 → eMudhra 인증서 의존 서비스 목록화.</li>
+            </ul>
+            <p>출처: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA - Known Exploited Vulnerabilities Catalog</a> · <a href="https://www.bleepingcomputer.com/news/security/cisa-confirms-php2shell-vulnerabilities-now-exploited-in-attacks/" target="_blank">BleepingComputer - CISA confirms PHP2Shell vulnerabilities now exploited in attacks</a> · <a href="https://www.bleepingcomputer.com/news/microsoft/microsoft-releases-windows-oob-updates-to-distrust-emudhra-certificates/" target="_blank">BleepingComputer - Microsoft releases Windows OOB updates to distrust eMudhra certificates</a></p>
+
+            <h2>11. 트렌드: 'AI 에이전트가 공격자' — 44개 에이전트로 일본 19개 기관 자동 타격</h2>
+            <p>트렌드마이크로(TrendAI)가 노출된 공격자 서버 3대를 분석해 <strong>AI가 공격 주체 또는 조력자로 등장한 일본 대상 침해 3건</strong>을 공개했다. 정찰→취약점 발견·검증→익스플로잇→C2→지속성→유출→<strong>자동 보고서 작성</strong>까지 전 과정이 자동화된 사례가 확인됐다.</p>
+            <ul>
+                <li><strong>사례 1 — 완전 자동화:</strong> 오픈소스 침투 테스트 도구 <strong>CyberStrikeAI</strong>를 이용해 <strong>44개 에이전트</strong>에 작업을 분배했다. 짧은 기간에 <strong>일본 16곳 포함 최소 19개 조직</strong>이 검증 활동 대상이 됐고, 각 조직마다 동일한 형식의 보고서와 증거 인덱스가 생성됐다. 운영자의 즉흥 메모가 아니라 <em>플랫폼이 돌린 구조화된 프로세스의 산출물</em>이라는 점이 결정적 차이다. 일본어 가짜 로그인 페이지 생성 기능도 포함됐다.</li>
+                <li><strong>사례 2 — 인간 주도 + LLM 보조:</strong> 기본 자격증명이 노출된 GIS 서버를 침해해 지적도·상업 기록, Windows 자격증명, 메일을 탈취했다. 2026년 8~9월 <strong>24일간</strong> 지속됐고, 부수 목표는 <strong>AI 워크플로 플랫폼·추론 서비스에 침투해 값싼 대량 추론 용량을 확보</strong>하는 것이었다 — 공격 목적 자체가 AI 컴퓨트인 신종 사례다.</li>
+                <li><strong>사례 3 — 도구 개발만 AI:</strong> AI 역할이 스크립트·도구 작성에 국한됐다. Cisco·Citrix·F5·Yamaha 등 엣지 장비를 공개된 취약점, 관리 기능, 설정 파일 내 자격증명으로 공격했고, 2026년 1~10월 최소 6개 캠페인을 운영했다.</li>
+                <li><strong>패턴:</strong> 세 사례의 운영자가 동일인이라는 증거는 없다. 사례 1은 대만·홍콩까지, 사례 3은 영국·프랑스·이탈리아·카타르·콜롬비아의 WebLogic 서버까지 표적이 확장됐다. 특정 국가·업종에 국한된 현상이 아니다.</li>
+                <li><strong>ARTEX와의 연결:</strong> 같은 계열 프레임워크인 <strong>ARTEX</strong>는 한국·일본을 겨냥한 자율 AI 펜테스트 공격에 이미 쓰였고, 국내에서 90개 기관·820만 건 탈취 사건으로 <strong>실제 검거</strong>까지 이어졌다(오늘 2번 항목). 도구가 범죄 수익화 단계에 도달했다는 뜻이다.</li>
+                <li><strong>방어 전환:</strong> ① 자동화 스캐너의 <em>속도·규칙성</em>을 탐지 신호로 사용(짧은 시간에 동일 포맷 요청) ② 외부 노출 자산 인벤토리를 주 단위로 재확인 ③ 엣지 장비·VPN의 기본 자격증명·설정 파일 내 시크릿 제거 ④ AI 워크플로/추론 엔드포인트에 인증·쿼터·이상 사용 탐지 적용 ⑤ 침해 판단 기준에 "공격자 리포트 파일" 같은 AI 산출물 아티팩트를 포함.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/cyberstrikeai-uses-44-ai-agents-to.html" target="_blank">The Hacker News - CyberStrikeAI Uses 44 AI Agents to Automate Hacking Operations Against Japan Targets</a></p>
+
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
