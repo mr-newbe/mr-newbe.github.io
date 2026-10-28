@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-10-29</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-10-29 | <i class="fa-solid fa-tags"></i> Daily News, Volt Typhoon, 중국 APT, 일본 데이터 유출, PHP2Shell, CISA KEV, UEFI PXE, Adobe, AI 익스플로잇
+        </div>
+
+        <div class="content">
+            <h2>1. Volt Typhoon, 'Silent Train' 은닉 네트워크로 제로데이 4건 악용 — 피해자 수백 곳</h2>
+            <p>Lumen Technologies의 Black Lotus Labs가 중국 연계 스파이 그룹 <strong>Volt Typhoon</strong>(Bronze Silhouette·Insidious Taurus·UNC3236·Vanguard Panda)이 운영한 은닉 접근 네트워크 <strong>Silent Train</strong>을 공개했다. 이미 2023년 말부터 가동된 이 인프라는 <strong>침해된 SOHO·IoT·엔터프라이즈 장비를 사슬처럼 회전</strong>시키며 제로데이 익스플로잇과 전략적 상시 접근에 쓰였다. 확인된 피해자는 통신사업자, 정부, 방위산업체, 위성·임무핵심 통신, 대학, IT 기업, 그리고 물·에너지·교통·해운·철도·항공·응급서비스 같은 핵심 인프라에 걸쳐 <strong>수백 곳</strong>이다.</p>
+            <ul>
+                <li><strong>운영 모델:</strong> Silent Train은 장비를 "필요할 때 익스플로잇 → 표적에만 사용 → 작전 후 삭제 → 계속 교체"하는 방식으로 굴러간다. 덕분에 탐지·귀속·교란 기회가 크게 줄었고, Lumen은 여기에 <strong>안티포렌식·작전 분할(compartmentalization)</strong>까지 결합됐다고 평가했다.</li>
+                <li><strong>제로데이 4건:</strong> 이미 알려진 Versa Director 파일 업로드 취약점 <strong>CVE-2024-39717</strong>(VersaMem 웹셸)이 이 네트워크를 통한 4건 중 하나였다. 나머지 3건은 아직 상세가 공개되지 않았고, 별도로 <strong>Quest KACE 추정 제로데이</strong>(2025년 10월 패치)가 30곳 이상을 때린 것으로 의심된다.</li>
+                <li><strong>시작 시점의 의미:</strong> 인프라는 2023년 11월 무렵, 즉 중국 연계 IoT 봇넷 <strong>KV-botnet</strong> 1차 교란 직전에 형태를 갖췄고, 2024년 1월 말 2차 교란 이후 활동이 급증했다. 봇넷이 무너질 때마다 대체 은닉 인프라가 준비돼 있었던 셈이다.</li>
+                <li><strong>표적 선정 논리:</strong> 대규모 엔터프라이즈 환경 전체를 들여다보고 제어할 수 있는 <strong>관문 시스템</strong>만 반복해서 노린다. 단일 호스트 탈취보다 "가시성 확보"가 목적이라는 뜻으로, 초기 침해 로그만 지워도 흔적이 남지 않는 구조다.</li>
+                <li><strong>방어 포인트:</strong> ① SOHO·VPN·방화벽 등 <strong>엣지 장비의 펌웨어/모델 인벤토리</strong>를 만들고 지원 종료 장비부터 교체 ② 동일 ASN·회선에서 반복되는 스캔·인증 시도 상관분석 ③ 핵심 인프라 구간의 아웃바운드 화이트리스트 ④ 프록시 로그·NetFlow 보존 기간을 최소 1년으로 확대(귀속 분석의 전제).</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/volt-typhoon-used-covert-silent-train.html" target="_blank">The Hacker News - Volt Typhoon Used Covert Silent Train Network in Four Zero-Day Exploitation Campaigns</a></p>
+
+            <h2>2. 소니 ISP 자회사 침해 — 258만 건 유출, NTT도코모 회선 고객까지 영향</h2>
+            <p>Sony Network Communications(소니그룹 자회사, 일본 ISP)가 <strong>약 258만 5,481건</strong>의 고객 개인정보 유출을 확인했다. 침해는 <strong>10월 19일</strong> 발생했고 <strong>10월 23일</strong>에 탐지돼 서버 격리·외부 통신 차단이 이뤄졌다. 유출 대상은 'So-net' 회원 DB <strong>214만 1,986건</strong>과 'plala(S코스)' <strong>44만 3,495건</strong>이며, 후자는 NTT도코모가 위탁 운영하는 <strong>도코모 히카리</strong> 회선 고객과 직접 겹친다.</p>
+            <ul>
+                <li><strong>유출 범위:</strong> 은행·결제카드·계좌 정보는 포함되지 않았다. 다만 별도로 <strong>이메일 주소 5만 4,401건과 계정 비밀번호</strong>가 함께 노출돼 회사가 비밀번호 변경을 권고했다.</li>
+                <li><strong>2차 피해 신호:</strong> NTT도코모는 자사 고객에게 <strong>d POINT 클럽·유니버설 스튜디오 재팬(USJ) 캠페인 사칭 피싱</strong>을 경고했다. "티켓 당첨" 미끼로 개인정보 입력을 유도하는 전형적 유출 데이터 악용 패턴이다.</li>
+                <li><strong>영향 고지:</strong> 회선 서비스 전 Current 고객과 <strong>해지 후 6개월 이내</strong> 고객이 대상이다. 소니는 일본 개인정보보호위원회(PPC)에 신고하고 원인·범위를 조사 중이며, 10월 27일 기준 악용 정황은 확인되지 않았다.</li>
+                <li><strong>일본 연쇄 침해:</strong> 올해 일본은 KDDI(1,200만 건), IDC Frontier(랜섬웨어), 니혼콜롬비아(860만 건), 타임즈카(660만 건), GMO 오나마에 데스크톱 클라우드(아래 4번)까지 연속 피격됐다. 결국 <strong>일본 정부가 이번 주 월요일 긴급 회의</strong>를 열고 대응책을 논의할 정도로 이상 수준의 유출 러시다.</li>
+                <li><strong>실무 대응:</strong> 유출된 이메일·비밀번호 조합은 크리덴셜 스터핑의 원료다. 해당 ISP 고객은 즉시 ① 비밀번호 변경 + 재사용 중단 ② 패스키/2차 인증 전환 ③ '당첨·결제·배송' 링크는 공식 앱에서 직접 확인.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/sony-isp-subsidiary-data-breach-exposes-25-million-customer-records/" target="_blank">BleepingComputer - Sony ISP subsidiary data breach exposes 2.5 million customer records</a></p>
+
+            <h2>3. PHP2Shell + 커널 LPE 결합 공격, 25대 서버 루팅 — 미 정부 연계망 침해, 한국도 포함</h2>
+            <p>이스라엘 보안기업 Dream이 <strong>AI 보조 정황이 뚜렷한</strong> 중국 연계 추정 공격을 공개했다. 2026년 10월 25일 관측된 작전은 PHP 취약점군 <strong>PHP2Shell</strong>과 리눅스 커널 권한상승 익스플로잇(<strong>CVE-2026-46300</strong>)을 결합해 <strong>미국·일본·대만·한국에 걸친 25대 서버를 루팅</strong>했고, 그중 3대는 <strong>미국 정부 연계 환경</strong>이었다.</p>
+            <ul>
+                <li><strong>공격 체인:</strong> 특정 대형 벤더의 방화벽 소프트웨어(appweb 관리 서버)를 노려 PHP의 <strong>session.upload_progress</strong> 처리 결함을 트리거했다. 해당 펌웨어는 <strong>PHP 8.0.30 + 높은 메모리 한도</strong>를 쓰는데, 이 조합이 메모리 손상 단계를 가능하게 한다. 이후 커널 LPE로 root를 얻고 <strong>Active Directory</strong>로 이동해 자격증명 추출·디렉터리 열람을 수행했다.</li>
+                <li><strong>커스텀 무기화:</strong> Dream은 회수한 익스플로잇이 공개 PoC 복사본이 아니라 <strong>비공개 커스텀 빌드</strong>라고 밝혔다. 개념은 같지만 표적 방화벽 플랫폼에 맞춰 독자 개발된 형태다.</li>
+                <li><strong>AI 흔적 — 핵심:</strong> 공격 인프라에서 <strong>Anthropic Claude Code 설치</strong>, <strong>FOFA API 키</strong>, DeepSeek·Kimi 계열 LLM을 붙인 공격형 플랫폼 <strong>aiscan</strong> 설정이 발견됐다. 또 <strong>약 40개 스크립트의 코드 구조·주석 스타일·일관성</strong>이 AI 보조 개발의 특징을 보인다.</li>
+                <li><strong>한국 관련:</strong> 피해 25대에 <strong>국내 시스템이 포함</strong>됐다. 노출된 PHP 기반 방화벽·어플라이언스 관리 인터페이스를 운영 중인 조직은 ① 관리 콘솔의 인터넷 노출 제거 ② PHP 8.0 계열 EOL 대응 ③ CVE-2026-46300 커널 패치(KEV 기한 <strong>10월 31일</strong>, 아래 10번) 확인이 시급하다.</li>
+                <li><strong>해석:</strong> PHP2Shell은 CISA가 실제 악용을 확인한 상태이고(10월 27일), 이제 <strong>AI로 무기화 속도와 커스터마이징 수준이 올라간 사례</strong>가 나왔다. "패치 전에 익스플로잇이 완성되는" 구간이 더 짧아지고 있다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/php2shell-attack-roots-25-servers.html" target="_blank">The Hacker News - PHP2Shell Attack Roots 25 Servers, Breaches U.S. Government-Affiliated Network</a></p>
+
+            <h2>4. GMO 오나마에 데스크톱 클라우드 — 고객 서버 2만 6,739대 악성코드 감염, 데이터 유출 확인</h2>
+            <p>일본 대형 도메인 등록업체 GMO 인터넷의 VPS 서비스 <strong>오나마에 데스크톱 클라우드</strong>가 침해됐다. 10월 20일 침투를 탐지했고 <strong>최대 26,739대 고객 서버</strong>에 악성코드가 설치됐을 수 있다고 공지했다. 이후 공격자는 랜섬웨어 실행을 예고했고, 회사는 <strong>자사와 고객 데이터가 실제로 온라인에 게시됐다</strong>고 확인했다.</p>
+            <ul>
+                <li><strong>고객 대상 조치:</strong> GMO는 고객에게 <strong>인터넷 연결 차단과 PC 전원 종료</strong>를 권고했다. 서버를 켠 상태로 두면 암호화·추가 유출 위험이 커지기 때문으로, VPS 사업자 단위 사고에서 나온 이례적으로 강한 권고다.</li>
+                <li><strong>노출 자산:</strong> 결제 정보는 안전하다고 밝혔지만 <strong>MetaTrader 4/5(MT4/MT5) 자격증명과 트레이딩 계좌 정보</strong>가 노출·탈취됐을 수 있다. 비밀번호 재설정 + 활성 세션 강제 종료가 필요하다.</li>
+                <li><strong>왜 중요한가:</strong> FX 자동매매·트레이딩 봇을 VPS에서 돌리는 사용자는 <strong>거래소 API 키와 MT 단말 자격증명을 같은 호스트에 두는</strong> 경우가 많다. 서버 루팅은 곧 계좌 직접 조작 권한 탈취로 이어진다.</li>
+                <li><strong>함께 볼 사건:</strong> 10월 28일 소니 ISP 침해(위 2번)와 묶어 보면, 일본 호스팅·통신 사업자를 겨냥한 연속 공격이 <strong>공급자 경유 대량 피해</strong> 형태로 굳어지고 있다. 일본 정부가 긴급 회의를 연 배경이다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/japans-gmo-urges-customers-to-shut-down-pcs-amid-ransomware-threat/" target="_blank">BleepingComputer - Japan's GMO urges customers to shut down PCs amid ransomware threat</a></p>
+
+            <h2>5. FBI·유럽 수사기관, 방탄호스팅 'Virtualine' 도메인 압수 — 고객 3,000명 데이터 확보</h2>
+            <p>미 법무부(DOJ)가 사이버범죄 포럼에서 활동한 방탄호스팅 <strong>Virtualine</strong>의 주 도메인 <strong>virtualine[.]net</strong>을 압수했다. FBI 주도로 독일 헤센 경찰, 네덜란드 미덴네덜란드 경찰, 영국 NCA, 그리고 OverRIPE·Lumen·Chainalysis가 참여했다. 서비스는 <strong>Secury·Massgod·Spamhouse·Lanedo·Omegatech</strong> 등 여러 이름으로 운영됐다.</p>
+            <ul>
+                <li><strong>영업 모델:</strong> 법 집행기관·권리자의 신고를 차단해 주는 것을 내세웠고, DOJ는 피싱·스팸·카딩·포트스캔 등 "불법/블랙햇 활동"을 명시적으로 허용했다고 밝혔다. 비트코인 직접 결제(비수탁 지갑)를 받아 거래소 컴플라이언스 검사를 우회하고 자금을 세탁했다.</li>
+                <li><strong>자금 흐름(TRM):</strong> 랜섬웨어 조직이 약 <strong>5%</strong>, 러시아 마약 마켓이 약 <strong>44%</strong>를 차지했고, 대형 섹스토션 조직과 믹서도 주요 자금원이었다. 인포스틸러 <strong>StealC</strong>와는 올해 상시적 금융 관계가 확인됐다.</li>
+                <li><strong>수사 성과:</strong> 네덜란드 경찰은 림뷔르흐에서 <strong>물리 서버 수십 대</strong>를 압수해 가상 서버 수백 대를 오프라인화했고, <strong>3,000명 이상 고객 데이터</strong>를 확보해 후속 수사에 들어갔다. 최소 2022년부터 랜섬웨어·봇넷·인포스틸러·피싱·아동성착취물 유통을 조력한 것으로 파악된다.</li>
+                <li><strong>여전히 부분 가동:</strong> 운영자는 새 사이트(virtualine[.]org)에서 혐의를 부인했고, 네트워크 프리픽스 일부는 아직 살아 있는 것으로 관측됐다. 압수는 "완전 종료"가 아니라 인프라 재편 국면으로 봐야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/police-seize-virtualine-bulletproof-service-tied-to-ransowmare-cybercrime/" target="_blank">BleepingComputer - Police seize Virtualine bulletproof service tied to ransomware, cybercrime</a></p>
+
+            <h2>6. Oracle E-Business Suite CVE-2026-101767 (CVSS 9.8) — 패치 직후 인터넷 전체 스캔 시작</h2>
+            <p>지난주 Oracle Critical Patch Update에서 수정된 <strong>CVE-2026-101767</strong>(CVSS 9.8)에 대한 <strong>대규모 인터넷 스캔</strong>이 관측됐다. Defused Cyber가 포착한 이 활동은 패치 공개 후 며칠 만에 이뤄진 것으로, 통상 <strong>익스플로잇 무기화 직전 단계</strong>의 신호로 읽힌다.</p>
+            <ul>
+                <li><strong>취약점 내용:</strong> Oracle E-Business Suite의 <strong>Application Object Library(Core)</strong> 인증 결함. <strong>12.2.3 ~ 12.2.15</strong> 버전이 영향받으며, 네트워크 접근이 가능한 <strong>무인증 공격자</strong>가 HTTP로 제품 전체를 장악(takeover)할 수 있다. 벡터는 AV:N/AC:L/PR:N/UI:N으로 사실상 "붙으면 끝" 유형이다.</li>
+                <li><strong>위험도가 높은 이유:</strong> EBS는 재무·구매·ERP 핵심 데이터를 들고 있고, 외부 파트너·공급업체 포털(iSupplier 등)로 인터넷에 노출되는 경우가 흔하다. 한 번 뚫리면 <strong>회계·조달 데이터 무결성</strong>까지 신뢰할 수 없게 된다.</li>
+                <li><strong>대응:</strong> ① 10월 CPU 적용 여부 즉시 확인(가능하면 12.2.15 최신 RU) ② EBS 로그인·iSupplier 엔드포인트의 인터넷 노출 최소화(WAF·VPN 뒤로) ③ `X-Forwarded-For`·비정상 경로 요청 로그 점검 ④ 침해 의심 시 DB 감사로그·세션 이력 보존 후 포렌식.</li>
+                <li><strong>맥락:</strong> 최근 오라클 제품은 패치 후 수일 내 스캔이 반복 관측된다. CPU 주기(1·4·7·10월)에 맞춘 <strong>패치 캘린더</strong>를 사내 SLA로 고정하지 않으면 매 분기 같은 구간이 노출된다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/hackers-target-critical-oracle-e.html" target="_blank">The Hacker News - Hackers Target Critical Oracle E-Business Suite RCE Flaw Days After Security Patch</a></p>
+
+            <h2>7. EDK II PXE 취약점 CVE-2026-97631 (CVSS 9.5) — 16년 묵은 버퍼오버플로, Secure Boot 이전 코드 실행</h2>
+            <p>대부분의 하드웨어 제조사가 UEFI 펌웨어를 만들 때 쓰는 오픈소스 <strong>EDK II</strong>에서 <strong>16년 된</strong> 버퍼오버플로가 발견됐다. TianoCore는 10월 22일 권고를 내고 <strong>CVE-2026-97631</strong>에 <strong>9.5점</strong>을 매겼다. 문제는 <strong>네트워크(PXE) 부팅 중</strong>에만 트리거되지만, 성공하면 <strong>Secure Boot 등 부팅 시 보안 장치가 로드되기 전에</strong> 코드가 실행된다.</p>
+            <ul>
+                <li><strong>기술적 원인:</strong> PXE 드라이버가 ICMP 오류 메시지와 라우터가 보내는 상태 메시지를 <strong>고정 504바이트 영역</strong>에 복사하는데, IPv4·IPv6 양쪽 모두 <strong>크기 검사가 잘못</strong>돼 있다. 504바이트를 넘는 메시지 하나로 인접 메모리를 공격자 데이터로 덮어쓸 수 있다.</li>
+                <li><strong>공격 조건:</strong> 비밀번호도 기존 접근 권한도 필요 없고, 부팅 중인 짧은 창에 <strong>인접 네트워크 위치</strong>에서 조작된 메시지 1개를 보내면 된다. Red Hat·SUSE도 "인터넷이 아닌 인접 네트워크" 공격으로 평가했다. 단순 결과는 <strong>부팅 행(hang)</strong>이고, 코드 실행은 정확한 펌웨어 빌드를 알아야 해 난도가 높다.</li>
+                <li><strong>영향 범위:</strong> <strong>edk2-stable202608</strong>(2026-08-21)까지 전 버전. 결함 코드는 <strong>2010년 11월 커밋</strong>부터 들어가 있었다. AMI·Insyde·Phoenix는 물론 Microsoft의 강화 포크 <strong>Project Mu</strong>도 같은 레퍼런스를 쓴다. EDK II 표준 빌드에서 <strong>PXE가 기본 활성화</strong>돼 있다.</li>
+                <li><strong>패치 상황 — 가장 답답한 부분:</strong> 코드 수정은 존재하지만 <strong>안정 릴리스에는 아직 반영되지 않았고</strong>, 권고에도 패치 버전이 비어 있다. 즉 "오늘 설치할 것"이 없는 상태다. Intel은 보안 지원 중인 자사 상용 제품은 영향 없다고 밝혔고 Arm도 자사 포트폴리오에는 직접 해당 없다고 했다.</li>
+                <li><strong>완화:</strong> ① 데이터센터·서버에서 <strong>PXE/네트워크 부팅 비활성화</strong> 또는 필요 시에만 활성화 ② PXE·DHCP·TFTP가 닿는 <strong>L2 도메인 분리</strong>(VLAN·ACL) ③ 부팅 순서를 로컬 디스크 우선으로 고정 ④ BMC/펌웨어 제공사 권고 추적 후 수정 빌드가 나오면 즉시 적용. 가정·사무실의 로컬 디스크 부팅 사용자는 해당 없음.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/critical-16-year-old-uefi-flaw-can-run.html" target="_blank">The Hacker News - Critical 16-Year-Old UEFI Flaw Can Run Code Before Secure Boot on Network-Booting Servers</a></p>
+
+            <h2>8. Fortinet FortiSandbox CVE-2026-107656 (CVSS 9.8) — 인증 우회로 무인증 명령 실행</h2>
+            <p>Fortinet <strong>FortiSandbox</strong>에 <strong>대체 경로/채널을 통한 인증 우회</strong> 취약점 <strong>CVE-2026-107656</strong>(CVSS 9.8)이 공개됐다. 조작된 HTTP 요청만으로 <strong>무인증 상태에서 코드·명령 실행</strong>이 가능하다.</p>
+            <ul>
+                <li><strong>영향 버전:</strong> FortiSandbox <strong>5.0.0~5.0.6</strong>, <strong>4.4.0~4.4.9</strong>, <strong>4.2 전체</strong>. FortiSandbox PaaS도 동일 계열(5.0.0~5.0.6, 4.4 전체, 4.2 전체)이 영향받는다. NVD 공개일은 2026-10-26.</li>
+                <li><strong>왜 위험한가:</strong> 샌드박스는 악성 파일을 일부러 받아 분석하는 장비라 <strong>DMZ·분석망 안쪽</strong>에 놓이는 경우가 많다. 여기가 뚫리면 격리망에서 내부망으로 가는 <strong>징검다리</strong>가 확보된다.</li>
+                <li><strong>대응:</strong> ① 관리 인터페이스를 인터넷·사용자망에서 차단(전용 관리 VLAN) ② 벤더 권고의 수정 빌드로 업그레이드 ③ 4.2·4.4는 지원 종료 여부를 확인하고 상위 버전으로 이행 ④ 최근 관리자 로그인·비정상 HTTP POST 이력 점검.</li>
+            </ul>
+            <p>출처: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-107656" target="_blank">NVD - CVE-2026-107656</a></p>
+
+            <h2>9. Adobe, Campaign Classic 치명 취약점 8건 + Connect 9.6 수정 — 최고 CVSS 10.0</h2>
+            <p>Adobe가 <strong>Campaign Classic</strong>의 취약점 8건을 수정하는 보안 업데이트를 배포했다. 코드 인젝션, OS 명령 인젝션, SQL 인젝션, 부적절한 권한 부여가 섞여 있어 <strong>임의 코드 실행·보안 기능 우회·권한 상승</strong>으로 이어질 수 있다. 대상은 <strong>7.4.4 build 9402 이하</strong>(Windows·Linux)이며 <strong>7.4.4 build 9403</strong>에서 수정됐다.</p>
+            <ul>
+                <li><strong>CVSS 10.0:</strong> <strong>CVE-2026-105781</strong> — SQL 인젝션. 사실상 최대 점수로, 마케팅 자동화 서버가 가진 DB 접근 권한 전체가 위협받는다는 의미다.</li>
+                <li><strong>9.9 그룹:</strong> <strong>CVE-2026-104351</strong>(코드 인젝션, 저권한 공격자·사용자 상호작용 불필요·Scope 변경), <strong>CVE-2026-104353</strong>(OS 명령 인젝션), <strong>CVE-2026-105489</strong>(SQLi), <strong>CVE-2026-105780</strong>(부적절한 인가 → 코드 실행).</li>
+                <li><strong>9.1~9.3 그룹:</strong> <strong>CVE-2026-105779</strong>·<strong>CVE-2026-104354</strong>(SQLi, 9.1), <strong>CVE-2026-104350</strong>(반사형 XSS, 9.3).</li>
+                <li><strong>함께 패치된 제품:</strong> <strong>Adobe Connect</strong> 데스크톱·모바일(Windows/macOS/Android)의 코드 인젝션 <strong>CVE-2026-48360</strong>(CVSS 9.6)도 수정됐다. 데스크톱·모바일 앱을 최신 버전으로 올려야 한다.</li>
+                <li><strong>악용 정황:</strong> Adobe는 "현재 야생 익스플로잇을 인지하지 못하고 있다"고 밝혔다. 다만 Campaign Classic은 과거 반복적으로 표적이 된 제품군이라 <strong>외부 노출 관리 콘솔</strong>은 패치와 함께 접근 제어를 재점검하는 편이 안전하다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/adobe-fixes-8-critical-campaign-classic.html" target="_blank">The Hacker News - Adobe Fixes 8 Critical Campaign Classic Flaws Allowing Code Execution and Security Bypass</a></p>
+
+            <h2>10. CISA KEV 마감 러시 — PHP는 <strong>오늘(10/29)</strong>, 커널은 10/31, Brotli·Magento는 11/10</h2>
+            <p>이번 주 KEV(실제 악용 확인 취약점) 카탈로그는 <strong>마감일이 몰려 있다</strong>. 특히 3번 항목의 PHP2Shell 공격에 쓰인 두 취약점이 오늘 마감이고, 같은 공격 체인의 커널 LPE가 사흘 뒤 마감이다.</p>
+            <ul>
+                <li><strong>오늘 마감(10/29):</strong> PHP <strong>CVE-2026-109618</strong>(메모리 손상 → 무인증 RCE), <strong>CVE-2026-109619</strong>(내부 요청 상태 잔존 → 무인증 RCE). 10월 26일 KEV 등재.</li>
+                <li><strong>10/31 마감:</strong> 리눅스 커널 <strong>CVE-2026-46300</strong>(CVSS 7.8) — 소켓 버퍼 병합 시 shared-frag 마커가 유실돼 page-cache 데이터가 의도치 않게 수정될 수 있는 결함. <strong>3번 항목에서 root 획득에 실제 사용된 LPE</strong>다. 로컬 권한상승이지만 PHP RCE와 결합되면 원격→root가 완성된다.</li>
+                <li><strong>11/10 마감:</strong> Google <strong>Brotli CVE-2026-111497</strong>('Node2Shell'/'Broccoli2Shell'/'HTTP2Shell') — CISA가 10월 27일 악용을 공식 확인했다. 디코더 상태 메모리 손상으로 정보 유출·DoS·코드 실행 가능. 같은 날짜에 <strong>Adobe Commerce/Magento CVE-2026-48356</strong>(위험 파일 업로드 → 코드 실행)도 마감.</li>
+                <li><strong>11/11 마감:</strong> Broadcom/VMware <strong>ESX CVE-2026-41709</strong> — 관리자 권한자가 감사 흔적 없이 특정 작업을 수행할 수 있는 불충분한 로깅 문제. 하이퍼바이저 감사 신뢰성 자체가 훼손되는 유형이다.</li>
+                <li><strong>패치가 아니라 이전이 필요한 항목:</strong> Microsoft는 <strong>Entra ID</strong> 관리자에게 사용자를 <strong>패스키</strong>로 옮기라고 재차 경고했다. <strong>2027년 2월</strong> SMS·음성 인증이 은퇴하며, 그때까지 전환하지 않으면 로그인 중단이 발생한다. 피싱 저항성 관점에서 지금이 적기다.</li>
+            </ul>
+            <p>출처: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA - Known Exploited Vulnerabilities Catalog</a> · <a href="https://www.bleepingcomputer.com/news/security/cisa-warns-of-hackers-now-exploiting-critical-node2shell-flaw/" target="_blank">BleepingComputer - CISA warns of hackers now exploiting critical Node2Shell flaw</a> · <a href="https://www.bleepingcomputer.com/news/microsoft/microsoft-reminds-entra-id-admins-to-migrate-users-to-passkeys/" target="_blank">BleepingComputer - Microsoft urges Entra ID admins to migrate users to passkeys</a></p>
+
+            <h2>11. 트렌드: AI가 '취약점 발견'을 넘어 '완성된 익스플로잇 체인'까지 — 방어의 단위가 바뀐다</h2>
+            <p>Anthropic의 Frontier Red Team이 <strong>미공개 내부 모델</strong>로 Chrome·Safari·Android·Windows·Linux의 결함을 찾아 <strong>실제 동작하는 PoC 익스플로잇 체인 5개</strong>를 구성했다고 공개했다. 연구실 환경이며 실제 공격에 쓰인 사례는 없고, 모든 결함은 벤더에 먼저 신고돼 이미 패치됐다. 같은 날 Orange Tsai(DEVCORE)는 <strong>메모리 손상 없이 논리 결함만으로</strong> Edge 샌드박스를 탈출한 체인(Pwn2Own Berlin $175,000)을 5개월 만에 상세 공개했다.</p>
+            <ul>
+                <li><strong>Anthropic 5개 체인:</strong> ① Chrome — V8 메모리 손상 → V8 샌드박스 탈출 → CacheStorage 경쟁조건 → FedCM use-after-free로 샌드박스 밖 코드 실행(페이지 로드만으로 macOS 기본 Chrome에서 계산기 실행) ② Safari — 메모리 읽기/쓰기 권한을 얻어 <strong>동일출처정책(SOP)을 끄는 값 1개</strong>만 변경, 모든 사이트 데이터 열람 ③ Android — 잠긴 도난 단말에서 USB로 사진·데이터 추출 ④ Windows — HTTP/3 요청만으로 서버 다운(<strong>CVE-2026-33096</strong>, 2026-04 패치) ⑤ Linux — multipath TCP 리스너 대상 <strong>무인증 원격 root</strong>(<strong>CVE-2026-98432</strong>, 10-15 패치).</li>
+                <li><strong>규모:</strong> Google에 신고된 Chrome 결함만 <strong>62건</strong>(전부 critical/high, 그중 <strong>샌드박스 탈출 13건</strong>), Chrome 156에서 수정. Apple은 iOS/iPadOS 26.5.2에서 수정하며 "Claude의 도움을 받은" 연구자를 크레딧에 명시했다.</li>
+                <li><strong>검증 가능성의 한계:</strong> 패치·크레딧은 벤더 기록으로 확인되지만, <strong>체인을 모델이 얼마나 자율적으로 구성했는지</strong>는 Anthropic 자체 설명 외에 검증 수단이 없다. "초기 프롬프트만 필요했다"는 주장은 방법론 공개 없이는 그대로 받아들이기 어렵다.</li>
+                <li><strong>공격 측의 대칭적 진화:</strong> 3번 항목의 PHP2Shell 작전은 Claude Code·FOFA·DeepSeek/Kimi 기반 aiscan을 동원해 <strong>커스텀 익스플로잇을 독자 개발</strong>했다. 즉 같은 기술이 <strong>발견(방어)</strong>과 <strong>무기화(공격)</strong> 양쪽에서 동시에 쓰이고 있다.</li>
+                <li><strong>논리 결함의 부상:</strong> Orange Tsai 사례는 메모리 안전성 강화(MTE·CFI·샌드박스)가 진행될수록 <strong>설계·상태 전이 오류</strong>가 더 값싼 공격면이 된다는 것을 보여준다. 자동 스캐너가 잘 못 잡는 영역이라 리뷰·위협모델링의 비중이 다시 커진다.</li>
+                <li><strong>실무 우선순위:</strong> ① LLM 기반 코드 리뷰를 <strong>인증·권한 경계·상태 전이</strong>에 집중 적용 ② 브라우저·OS 패치 주기를 '주 단위'로 단축(체인은 단일 결함이 아니라 조합으로 완성됨) ③ 사내 AI 코딩 도구의 <strong>시크릿·API 키 노출</strong> 점검 ④ 공격 표면 인벤토리에 <strong>AI 에이전트·자동화 워크플로</strong>를 자산으로 등록.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/anthropics-unreleased-ai-model-chains.html" target="_blank">The Hacker News - Anthropic's Unreleased AI Model Chains Flaws Into Working Chrome, Safari, Windows and Linux Exploits</a> · <a href="https://thehackernews.com/2026/10/researcher-reveals-how-logic-bugs-alone.html" target="_blank">The Hacker News - Researcher Reveals How Logic Bugs Alone Cracked Microsoft Edge in $175,000 Pwn2Own Win</a></p>
+
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
