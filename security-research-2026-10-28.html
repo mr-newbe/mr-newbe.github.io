@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏛️ [클래식] A Note on the Confinement Problem (Lampson, CACM 1973) — '가둬도 샌다': 감옥 안 프로그램이 요금표·파일 잠금·CPU 부하로 비밀을 흘리는 7가지 경로</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏛️ [클래식] A Note on the Confinement Problem — 프로그램을 가둬도 새는 이유</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-28 · 카테고리: Research (클래식 보안 논문 · 격리/샌드박스 · 은닉 채널 · 접근 통제)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> A Note on the Confinement Problem<br>
+                <strong>저자:</strong> Butler W. Lampson (Xerox Palo Alto Research Center, PARC)<br>
+                <strong>게재지:</strong> <em>Communications of the ACM</em>, Vol. 16, No. 10 (1973년 10월), pp. 613–615<br>
+                <strong>투고:</strong> 1972년 7월 접수 · 1973년 1월 수정 · <strong>본문 5쪽</strong>, 참고문헌 2개<br>
+                <strong>분야:</strong> 접근 통제 · 격리(confinement) · 은닉 채널(covert channel) · 다중 등급 보안 · 운영체제 보안<br>
+                <strong>인용:</strong> OpenAlex 기준 <strong>1,432회</strong> (학술 데이터베이스별 집계 차이 있음)<br>
+                <strong>원문:</strong> <a href="https://dl.acm.org/doi/10.1145/362375.362389" target="_blank" rel="noopener">ACM DL (DOI 10.1145/362375.362389)</a> · <a href="https://www.cs.umass.edu/~emery/classes/cmpsci691st/readings/Sec/lampson73note.pdf" target="_blank" rel="noopener">공개 PDF 사본</a>
+            </div>
+
+            <h2><i class="fa-solid fa-circle-question"></i> 왜 이 논문인가 — '접근을 막았다'와 '유출을 막았다'는 다르다</h2>
+            <p>1973년, Xerox PARC의 <strong>Butler Lampson</strong>은 다섯 쪽짜리 노트 하나로 보안의 문법을 하나 추가합니다. 그때까지 보호 시스템의 관심사는 <em>데이터를 못 읽게 하는 것</em>, <em>프로그램을 못 실행하게 하는 것</em>이었습니다. Lampson은 그 두 가지를 다 해냈다고 가정한 뒤, 남는 질문을 던집니다.</p>
+            <blockquote>"Even when all unauthorized access has been prevented, there remain two ways in which the customer may be injured by the service: (1) it may not perform as advertised; or (2) it may leak, i.e. transmit to its owner the input data which the customer gives it."</blockquote>
+            <p>권한을 다 막았는데도 서비스 프로그램이 <strong>자기 주인에게 고객의 데이터를 흘릴 수 있다</strong>는 것. 그리고 이 두 번째 경우에는 첫 번째와 달리 <em>피해자가 눈치챌 증거조차 남지 않습니다</em>. 이 논문이 정의한 것이 바로 <strong>격리 문제(confinement problem)</strong>이고, 부산물로 오늘날까지 쓰이는 용어 <strong>"은닉 채널(covert channel)"</strong>이 여기서 태어났습니다.</p>
+            <p>지금 우리가 쓰는 모든 격리 — 브라우저 사이트 격리, 컨테이너, seccomp, 마이크로VM, 기밀 VM — 는 이 논문이 세운 질문 위에 서 있습니다. 2026년의 관점에서 다시 읽으면, 50년 전에 이미 <em>"완벽한 격리는 원리적으로 불가능하고, 그래서 남는 선택지는 채널 용량을 제한하는 것"</em>이라고 결론을 내려놓았다는 점이 가장 인상적입니다.</p>
+
+            <h2><i class="fa-solid fa-users"></i> 무대 설정 — 고객(customer)과 서비스(service)</h2>
+            <p>논문의 등장인물은 둘입니다. 데이터를 맡기는 쪽을 <strong>고객(customer)</strong>, 그 데이터를 처리하려고 불려온 (믿지 못할 수도 있는) 프로그램을 <strong>서비스(service)</strong>라고 부릅니다. 고객은 서비스가 자기 데이터 중 <em>입출력에 필요한 항목에만</em> 접근하도록 권한을 잘라주고, 서비스는 자기 고유의 코드·데이터(예: 독점 소프트웨어)를 고객으로부터 보호받습니다.</p>
+            <p>이 설정은 추상적 비유가 아닙니다. 1973년에는 <em>서비스 뷰로(bureau)</em>가 time-sharing 시스템에서 남의 프로그램을 대신 돌려주는 사업이었고, 오늘날에는 클라우드 함수, SaaS, 광고 SDK, 서드파티 라이브러리, 그리고 브라우저 탭이 정확히 같은 구조입니다. 고객은 코드를 이해하지 못한 채 실행을 맡기고, 서비스는 "결과만 돌려주겠다"고 약속합니다.</p>
+            <p>Lampson이 강조하는 구분이 하나 있습니다. <strong>격리(confinement)는 프로그램의 고유 속성이 아니라, 실행될 때 부과되는 제약</strong>이라는 것.</p>
+            <blockquote>"Recall that being confined is not an intrinsic property of a program but a constraint which can be imposed on it when it runs."</blockquote>
+            <p>같은 바이너리도 격리해서 돌리면 격리된 것이고, 자유롭게 돌리면 아닙니다. 이 한 문장이 오늘날 <em>"이 코드는 안전한가?"</em>라는 질문이 틀렸고 <em>"이 코드를 어떤 제약 아래에서 실행하는가?"</em>가 맞는 질문이라는 사실을 예고합니다.</p>
+
+            <h2><i class="fa-solid fa-list-ol"></i> 논문이 든 7가지 누출 경로 — 예시 0번부터 6번까지</h2>
+            <p>Lampson은 "권한을 다 막아도 새는 길"을 추상론으로 시작하지 않고, <strong>구체적인 예시 일곱 개</strong>로 먼저 나열합니다. 이 목록 자체가 이 논문의 절반입니다.</p>
+            <ul>
+                <li><strong>예시 0 — 기억하는 서비스:</strong> 서비스가 상태를 유지할 수 있으면, 데이터를 모아두었다가 <em>자기 주인이 다음에 호출할 때</em> 그대로 돌려주면 됩니다. 그래서 격리된 프로그램은 <strong>무상태(memoryless)</strong>여야 합니다.</li>
+                <li><strong>예시 1 — 영구 파일:</strong> 자기 주인 디렉터리에 파일을 하나 써두면, 주인이 나중에 느긋하게 와서 읽습니다.</li>
+                <li><strong>예시 2 — 임시 파일:</strong> 임시 파일 생성 자체는 정당한 동작이라 금지하기 어렵습니다. 주인이 <em>적당한 간격으로 존재 여부를 확인</em>하면, 서비스가 일을 끝내고 파일을 지우기 전에 내용을 읽어갈 수 있습니다.</li>
+                <li><strong>예시 3 — IPC:</strong> 시스템의 프로세스 간 통신으로 주인이 조종하는 프로세스에 메시지를 보냅니다.</li>
+                <li><strong>예시 4 — 청구서:</strong> "<em>더 교묘하게는, 정보가 서비스에 대해 발행되는 청구서에 인코딩될 수 있다</em>" — 주인은 반드시 청구서 사본을 받기 때문입니다. 청구서 양식을 제한하면 몇 비트~수십 비트로 줄일 수 있지만, <strong>0으로 만들려면 훨씬 근본적인 조치</strong>가 필요합니다. 주인이 자원 사용료를 낸다면 <em>사용한 시간</em>에도 정보를 실을 수 있습니다(고객이 비용을 내면 이 경로는 막힙니다).</li>
+                <li><strong>예시 5 — 파일 잠금 인터록:</strong> 어떤 시스템은 파일을 동시에 읽기·쓰기로 열지 못하게 합니다. 그러면 서비스는 <em>자기 주인이 쓸 수 있는 파일을 읽기만 해도</em> 데이터를 흘릴 수 있습니다. 인터록이 곧 <strong>공유 불리언 변수</strong>가 되어, 두 프로그램이 비트를 주고받는 채널이 됩니다. (이 예시는 Bell Labs의 A.G. Fraser가 제안했고, 논문은 실제 의사코드까지 싣습니다.)</li>
+                <li><strong>예시 6 — 성능:</strong> 서비스가 <em>연산 대 입출력 비율</em>이나 <em>페이징 빈도</em>를 조절하면, 동시에 도는 프로세스가 시스템 성능을 관찰해 정보를 받습니다. Lampson의 표현대로 이 채널은 잡음이 많지만, <strong>정보이론으로 부호화하면 효과가 0이 아닌 한 아무리 작아도 신뢰성 있게 통과</strong>시킬 수 있습니다. 전송률은 매우 낮겠지만요.</li>
+            </ul>
+            <p>주목할 점은 4번과 6번을 뺀 나머지가 전부 <strong>저장 공간의 오용</strong>이라는 것입니다. "권한이 없는데 어떻게 저장하나"라는 물음에 대한 답은 <em>권한이 아니라 부작용</em>입니다. 파일이 있는지 없는지, 잠겨 있는지 아닌지, 청구서가 몇 줄인지 — 전부 권한 검사를 통과한 정당한 동작의 <strong>관찰 가능한 흔적</strong>입니다.</p>
+
+            <h2><i class="fa-solid fa-water"></i> 세 갈래 분류 — 그리고 '은닉 채널'이라는 이름</h2>
+            <p>예시들을 훑은 뒤 Lampson은 누출 경로를 세 범주로 정리합니다. 이 분류가 이후 50년간의 표준 어휘가 됩니다.</p>
+            <ul>
+                <li><strong>저장 채널(storage channels):</strong> 슈퍼바이저가 관리하는 저장 공간 중, 서비스가 쓰고 비격리 프로그램이 (곧 또는 나중에) 읽을 수 있는 것. 예시 0·1·2·3·5.</li>
+                <li><strong>정당한 채널(legitimate channels):</strong> 서비스가 원래 쓰도록 허용된 출력 경로. 대표가 <strong>청구서</strong>입니다. 정보를 싣는 것이 금지된 게 아니라, 원래 정보를 나르는 통로입니다.</li>
+                <li><strong>은닉 채널(covert channels):</strong> 원문 그대로 — "<em>정보 전달을 위해 의도된 것이 전혀 아닌 것, 예컨대 서비스 프로그램이 시스템 부하에 미치는 영향</em>". 예시 4의 시간·자원 부분과 예시 6.</li>
+            </ul>
+            <p>이 정의가 중요한 이유는 <strong>은닉 채널은 '설계된 통로'가 아니라 '설계되지 않은 부작용'</strong>이라는 점입니다. 접근 통제 행렬을 아무리 촘촘히 짜도, 행렬에 적히지 않은 <em>시간·전력·캐시·소리·발열</em>은 통제 대상이 아닙니다. 2026년의 캐시 타이밍 채널(Spectre 계열), 전력 분석, 전자기 누출, 심지어 팬 소리까지 모두 이 정의의 자식들입니다.</p>
+            <blockquote>"Covert channels, i.e. those not intended for information transfer at all, such as the service program's effect on the system load."</blockquote>
+
+            <h2><i class="fa-solid fa-ruler-combined"></i> 격리 규칙 다섯 개 — 격리는 '성질'이 아니라 '규칙'이다</h2>
+            <p>논문의 후반부는 실무 규칙집입니다. 놀랄 만큼 짧고, 놀랄 만큼 지금도 유효합니다.</p>
+            <ul>
+                <li><strong>① 무상태(memoryless):</strong> 격리된 프로그램은 호출과 호출 사이에 정보를 보존할 수 없어야 합니다. ALGOL로 치면 <em>own 변수도 전역 변수도 참조하지 않는 프로시저</em>. 대부분의 시스템에서 강제하기 쉬운 제약입니다.</li>
+                <li><strong>② 완전 격리(total isolation):</strong> "격리된 프로그램은 다른 어떤 프로그램도 호출하지 않는다." 충분조건이지만 <strong>실용적이지 않습니다</strong> — 예시 5가 보여주듯 순진해 보이는 슈퍼바이저 호출 하나가 누출이 되고, 예시 6은 입출력·페이징·시분할 같은 <em>암묵적</em> 호출까지 문제 삼습니다.</li>
+                <li><strong>③ 전이성(transitivity):</strong> 격리된 프로그램이 <em>신뢰되지 않는</em> 다른 프로그램을 호출하면, 그 피호출 프로그램도 격리되어야 합니다. 슈퍼바이저는 격리할 수 없으니 <strong>신뢰할 수 있어야</strong> 합니다.</li>
+                <li><strong>④ 마스킹(masking):</strong> 격리될 프로그램은 <em>자기 호출자가 정당한 채널과 은닉 채널로 나가는 모든 입력을 결정</em>하도록 허용해야 합니다. 즉 고객이 청구서 내용을 정한다 — 언뜻 우스워 보이지만, 서비스가 호출을 거절할 권리가 있으므로 이는 <strong>발주서(purchase order) 모델</strong>과 정확히 같습니다.</li>
+                <li><strong>⑤ 집행(enforcement):</strong> 슈퍼바이저는 격리된 프로그램의 은닉 채널 입력이 호출자 명세에 맞는지 보장해야 합니다. 프로그램을 <em>느리게 만들거나, 가짜 디스크 참조를 발생시키는</em> 식으로요. 개념적으로는 단순하지만 비용이 클 수 있습니다.</li>
+            </ul>
+            <p>여기서 이 논문의 가장 실무적인 통찰이 나옵니다. 집행 비용이 비싸면, <strong>"0으로 만드는" 대신 "용량을 제한하는"</strong> 선택지가 있습니다.</p>
+            <blockquote>"The cost of enforcement may be high. A cheaper alternative (if the customer is willing to accept some amount of leakage) is to bound the capacity of the covert channels."</blockquote>
+            <p>이는 타협이 아니라 <strong>설계 원칙의 전환</strong>입니다. "유출 불가"를 증명할 수 없으니 "초당 N비트 이하"를 계약 조건으로 삼는 것 — 오늘날 격리 기술의 예산이 정확히 이렇게 짜입니다. 상수 시간(constant-time) 암호 구현, 네트워크 트래픽 패딩, 브라우저의 타이머 해상도 낮추기(coarsening), 캐시 분할이 전부 "채널 용량을 깎는" 기술입니다.</p>
+
+            <h2><i class="fa-solid fa-ban"></i> 논문이 인정한 한계 — "엄밀하지 않다"</h2>
+            <ul>
+                <li><strong>증명이 아니라 개요입니다.</strong> 저자 스스로 "필요조건들을 <em>비형식적으로 정당화</em>한다(informally justified)"고 밝힙니다. 위협 모델도 형식화되어 있지 않고, 채널 열거가 완전하다는 보장도 없습니다.</li>
+                <li><strong>"완전한 열거는 기대하기 어렵다"</strong>고 직접 씁니다 — 중간 복잡도의 시스템에서도 모든 채널을 엄밀하게 식별할 방법은 없을 것이라고. 그래서 예시들을 "내가 생각할 수 있는 전 범위"로 간주하고 논의를 진행합니다.</li>
+                <li><strong>무상태 요구는 서비스를 제한합니다.</strong> 캐시·세션·커넥션 풀을 가진 현대 소프트웨어 대부분은 이 조건을 만족하지 못합니다. 실제 시스템은 상태를 <em>허용하되</em> 그 상태가 채널이 되지 않도록 따로 통제합니다.</li>
+                <li><strong>마스킹은 caller가 채널을 이해한다고 가정합니다.</strong> 고객이 청구서 산식을 안다는 전제인데, 오늘날 SaaS 요금제는 그 반대입니다. 이 가정이 깨지면 규칙 ④는 형식적인 것이 됩니다.</li>
+                <li><strong>단일 시스템 전제:</strong> 1973년의 논문이라 네트워크·멀티테넌트 클라우드·하드웨어 공유(캐시·메모리 컨트롤러)는 논의에 없습니다. 그 영역의 채널은 훨씬 크고 측정도 어렵습니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-clock-rotate-left"></i> 50년 뒤 — 이 논문이 남긴 세 가지</h2>
+            <ul>
+                <li><strong>용어와 분류:</strong> storage / legitimate / covert channel 3분류는 1985년 미국 국방부 <strong>Orange Book(TCSEC)</strong>이 B2 등급 이상에 <em>은닉 채널 분석</em>을 요구하면서 제도가 됩니다. 이후 형식 모델(정보 흐름 격자), 채널 용량 측정, 대역폭 제한 기법이 하나의 연구 분야로 자리 잡았습니다.</li>
+                <li><strong>격리 = 제약이라는 관점:</strong> "안전한 코드"를 찾는 대신 "제약을 걸어 실행"한다는 사고는 샌드박스·컨테이너·seccomp·마이크로VM·기밀 VM으로 이어집니다. 지난 10월 23일 다룬 <a href="security-research-2026-10-23.html">Bell–LaPadula</a>가 <em>누가 무엇을 읽을 수 있는가</em>를 격자로 풀었다면, 이 논문은 <em>읽고 쓰는 권한을 다 맞춰도 남는 경로</em>를 문제 삼습니다. 두 편을 붙여 읽으면 MAC의 완성과 그 한계가 한 쌍으로 보입니다.</li>
+                <li><strong>채널 용량이라는 사고방식:</strong> 10월 14일 다룬 <a href="security-research-2026-10-14.html">Spectre</a>의 캐시 타이밍 채널은 이 논문의 예시 6과 같은 범주입니다. 다만 1973년에는 "매우 낮은 데이터율"이었던 것이 지금은 초당 수백 킬로바이트로 측정됩니다. 그래서 현대 완화책도 "차단"이 아니라 <em>해상도 낮추기·캐시 분할·노이즈 주입</em> — 즉 <strong>용량 제한</strong>입니다.</li>
+            </ul>
+            <p>한 가지 더. 9월 28일 <a href="security-research-2026-09-28.html">Saltzer–Schroeder</a>의 "완전 중재(completely mediated access)" 원칙은 <em>모든 접근을 검사하라</em>고 말합니다. Lampson의 논문은 그 원칙이 <strong>채널에는 적용되지 않는다</strong>는 사실을 보여줍니다. 접근이 아니라 <em>부작용</em>으로 정보가 나가기 때문입니다. 이 둘의 긴장이 50년간 격리 기술을 발전시킨 동력이었습니다.</p>
+
+            <h2><i class="fa-solid fa-flag-checkered"></i> 정리 — 감옥은 벽이 아니라 규칙으로 만든다</h2>
+            <p>이 논문의 결론은 "격리는 불가능하다"가 아닙니다. <strong>"격리는 증명이 아니라 예산의 문제"</strong>입니다. 신뢰 경계를 정하고, 그 경계를 넘는 모든 경로를 — 권한이 아니라 <em>관찰 가능성</em> 기준으로 — 열거하고, 0으로 만들 수 없는 것은 용량을 계량해 계약에 넣는다. 5쪽, 참고문헌 2개, 수식 0개짜리 노트가 오늘날 모든 샌드박스 설계 문서의 첫 장에 깔려 있는 이유입니다.</p>
+            <p>2026년의 시스템은 이 논문보다 훨씬 복잡하지만, 질문은 하나도 늘지 않았습니다. <em>이 프로그램이 밖으로 나갈 수 있는 길은 무엇인가. 그중 우리가 세지 못한 것은 무엇인가.</em></p>
+
+            <h2><i class="fa-solid fa-book-open"></i> 더 읽기</h2>
+            <ul>
+                <li>원문: <a href="https://dl.acm.org/doi/10.1145/362375.362389" target="_blank" rel="noopener">CACM 16(10), 1973, pp. 613–615 (DOI)</a> · <a href="https://www.cs.umass.edu/~emery/classes/cmpsci691st/readings/Sec/lampson73note.pdf" target="_blank" rel="noopener">공개 PDF</a> · <a href="https://cacm.acm.org/research/a-note-on-the-confinement-problem/" target="_blank" rel="noopener">CACM 재공개 페이지</a></li>
+                <li>인용 수: <a href="https://api.openalex.org/works?search=A%20Note%20on%20the%20Confinement%20Problem" target="_blank" rel="noopener">OpenAlex 1,432회</a> (2026-10-28 조회)</li>
+                <li>함께 읽기:
+                    <ul>
+                        <li>2026-10-23 <a href="security-research-2026-10-23.html">Bell–LaPadula (1976)</a>: 기밀 등급 격자로 MAC을 정의한 논문. 권한 통제의 완성본과, 그 통제가 놓치는 채널을 이 글과 대조해서 읽으면 좋습니다.</li>
+                        <li>2026-10-14 <a href="security-research-2026-10-14.html">Spectre Attacks (2019)</a>: 예시 6의 "성능 채널"이 실제 하드웨어에서 어떤 대역폭을 갖는지 보여주는 현대판.</li>
+                        <li>2026-09-28 <a href="security-research-2026-09-28.html">The Protection of Information in Computer Systems (1975)</a>: 최소 권한·완전 중재·개방 설계. Lampson의 논문이 "완전 중재로는 부족하다"고 말하는 지점을 선명하게 만듭니다.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
