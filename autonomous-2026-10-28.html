@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - GAIA-1 (Wayve, 2023): '주행을 다음 토큰 예측으로' — 4,700시간·9.4B로 액션·텍스트 조건부 미래 주행을 생성한 최초의 대규모 주행 월드 모델</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        code { background: #0b1220; padding: 2px 6px; border-radius: 4px; color: #7dd3fc; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92rem; }
+        th, td { border: 1px solid var(--border-color); padding: 8px 10px; text-align: center; }
+        th { background: #0b1220; color: var(--accent-color); font-weight: 600; }
+        td:first-child, th:first-child { text-align: left; }
+        .hl { color: #7dd3fc; font-weight: 600; }
+        blockquote { margin: 16px 0; padding: 12px 18px; border-left: 3px solid var(--accent-color); background: #0b1220; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <header>
+            <h1>자율주행 리서치 - GAIA-1 (Wayve, 2023): '주행을 다음 토큰 예측으로' — 4,700시간·9.4B로 액션·텍스트 조건부 미래 주행을 생성한 최초의 대규모 주행 월드 모델</h1>
+            <p class="date">2026-10-28</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>논문:</strong> <a href="https://arxiv.org/abs/2309.17080" target="_blank">GAIA-1: A Generative World Model for Autonomous Driving</a> (arXiv <code>2309.17080</code>)</li>
+                    <li><strong>저자:</strong> Anthony Hu*, Lloyd Russell*, Hudson Yeo*, Zak Murez, George Fedoseev, Alex Kendall, Jamie Shotton, Gianluca Corrado (*동등 기여) — 전원 <strong>Wayve</strong>(영국 런던)</li>
+                    <li><strong>분야:</strong> cs.CV (컴퓨터 비전 · 생성 모델), 기술 보고서(Technical Report) — 학회 정식 게재본이 아닌 <strong>산업 연구 보고서</strong></li>
+                    <li><strong>게시일:</strong> 2023-09-29 (v1)</li>
+                    <li><strong>모델 규모:</strong> 3개 구성요소 합계 <strong>약 9.4B 파라미터</strong> (이미지 토크나이저 0.3B + 월드 모델 6.5B + 비디오 디코더 2.6B)</li>
+                    <li><strong>학습 데이터:</strong> 런던 시내 주행 <strong>4,700시간 @ 25 Hz</strong> (비공개 자체 데이터), 검증용 400시간 별도</li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>GAIA-1('Generative AI for Autonomy')은 자율주행을 <strong>"다음 프레임을 상상하는 문제"</strong>로 재정의한다. 카메라 영상·텍스트·액션(속도·곡률)을 <em>모두 이산 토큰</em>으로 바꿔 하나의 시퀀스로 이어 붙이고, 언어모델이 문장의 다음 단어를 맞히듯 <strong>다음 이미지 토큰을 자기회귀적으로 예측</strong>한다. 예측된 토큰은 다시 비디오 확산 디코더를 통해 고해상도 프레임으로 되살아난다. 즉 "월드 모델"이라는 말이 은유가 아니라, <em>주행 세계를 어휘 8,192개의 언어로 모델링</em>한 구현이다.</p>
+
+            <table>
+                <tr><th>구성요소</th><th>파라미터</th><th>역할</th><th>학습 비용</th></tr>
+                <tr><td>이미지 토크나이저</td><td>0.3B</td><td>288×512 프레임 → <span class="hl">576개 토큰</span> (vocab 8,192, 압축률 ≈470배)</td><td>200k step / 4일 / A100 32장</td></tr>
+                <tr><td>월드 모델 (자기회귀 Transformer)</td><td>6.5B</td><td>텍스트·이미지·액션 토큰 시퀀스로 다음 프레임 토큰 예측, 시퀀스 길이 15,860</td><td>6.25 Hz · T=26 (4초) 단위</td></tr>
+                <tr><td>비디오 확산 디코더</td><td>2.6B</td><td>토큰 → 고해상도 프레임 + 시간 축 업샘플링(6.25 → 25 Hz)</td><td>300k step / 15일 / A100 32장</td></tr>
+            </table>
+
+            <ul>
+                <li><strong>입력은 한 줄로 인터리브된다:</strong> 각 시점마다 <code>텍스트(32토큰) – 이미지(576토큰) – 액션(2토큰)</code> 순서로 붙인다. 텍스트는 T5-large 인코더, 액션은 <strong>속도와 곡률 두 개의 스칼라</strong>뿐이다. 조향각·스로틀 대신 <em>경로의 기하(곡률)</em>를 조건으로 준 선택이 이후 계획기와의 접점을 만든다.</li>
+                <li><strong>세 가지 조건부 생성:</strong> ① 비디오 프롬프트만 주고 <em>여러 갈래의 미래</em>를 뽑거나, ② 액션을 강제해 "이 속도로 좌회전하면 세계가 어떻게 반응하는가"를 생성하거나, ③ 텍스트("빨간 버스가 앞에 있다", "비 오는 밤")로 장면 자체를 상상한다. 분류기 없는 가이던스(classifier-free guidance)와 <strong>네거티브 프롬프팅</strong>까지 쓴다.</li>
+                <li><strong>학습 중 얻은 창발적 능력:</strong> 정적·동적 객체(버스·보행자·자전거·신호등)를 분리해 표현하고, 과속방지턱에서 생기는 <em>피치·롤</em>까지 3D 기하로 이해한다. 논문은 "학습 데이터에 없던 조합"을 만들어내는 외삽(extrapolation)과, 앞차가 <strong>후진해 길을 비켜주는</strong> 식의 상호작용 추론을 사례로 보여준다.</li>
+                <li><strong>알려진 한계:</strong> 자기회귀 생성은 <span class="hl">실시간보다 느리다</span>(병렬 샘플링으로 완화 가능). argmax로 뽑으면 반복 루프에 갇히고, 순수 샘플링은 분포 꼬리에서 out-of-distribution으로 튄다 — 언어모델의 고질병이 주행 영상에서 그대로 재현된다.</li>
+                <li><strong>후속 계보:</strong> 같은 팀의 <a href="https://arxiv.org/abs/2503.20523" target="_blank">GAIA-2</a>(2025)는 멀티뷰 일관성과 세밀한 제어를 잠재 확산 모델로 옮겼다. GAIA-1은 "토큰 자기회귀로도 주행 세계가 성립한다"를 먼저 증명한 1세대다.</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>'데이터 엔진'이라는 발상의 전환:</strong> 자율주행의 병목을 인지 성능이 아니라 <em>롱테일 장면의 부족</em>으로 규정하고, 그 부족분을 <strong>생성으로 메우겠다</strong>고 선언했다. 실제 4,700시간에서 학습한 모델이 몇 분짜리 런던 주행을 처음부터 "상상"해낸다는 결과는, 시뮬레이터를 손으로 만드는 CARLA식 접근과 정면으로 대비된다.</li>
+                <li><strong>액션 조건부 = 반사실(counterfactual) 실험실:</strong> 같은 장면에서 "브레이크 없이 우회전했다면?"을 물리적으로 재현하지 않고 생성해 볼 수 있다. 실패 케이스를 <em>다시 찍지 않고 만들어내는</em> 능력은 롱테일 검증 비용 구조를 바꾼다.</li>
+                <li><strong>스케일링 법칙의 이식:</strong> "데이터·모델을 키우면 좋아진다"는 LLM의 경험칙을 주행 생성에 그대로 옮겼고, 논문은 모델 크기 0.65M~650M 구간에서 성능-컴퓨트 관계를 실측해 제시한다. 생성 모델을 <em>부품이 아니라 기반(substrate)</em>으로 놓는 산업적 선언이다.</li>
+                <li><strong>Wayve의 노선 증명:</strong> 이 보고서 이후 Wayve는 엔드투엔드 주행(GAIA 계열) + 월드 모델 노선으로 투자를 받아 런던 공공도로 주행까지 확장했다. GAIA-1은 "월드 모델이 연구 장난감이 아니라 제품 로드맵의 1단계"임을 보여준 사례로 자주 인용된다.</li>
+                <li><strong>실무적 한계도 정직하게:</strong> 실시간 미달, 비공개 데이터·비공개 가중치, 평가가 정성적 사례 중심이라는 점은 그대로 남은 숙제다. 반대로 말하면 <em>재현 불가</em>가 이 분야 산업 연구의 공통 조건이며, 그래서 후속 오픈소스(NAVSIM·AlpaSim 같은 폐루프 평가)가 중요해진다.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>GAIA-1의 진짜 기여는 9.4B라는 숫자가 아니라 <strong>문제 설정의 이동</strong>이다. 인지·예측·계획을 모듈로 쪼개 각각의 mAP와 minADE를 올리던 시대에서, "세계가 다음에 무엇을 보여줄지"를 하나의 확률분포로 학습하고 그 분포 위에서 행동을 조건화하는 시대로 축을 옮겼다. 액션이 <em>속도·곡률 두 스칼라</em>로 충분했다는 사실은, 월드 모델이 조향 API가 아니라 <span class="hl">기하 수준의 인터페이스</span>만 있으면 계획기와 결합된다는 것을 뜻한다.</p>
+            <p>동시에 이 논문은 생성 모델의 평가 문제를 남긴다. "그럴듯한 영상"과 "주행에 쓸 수 있는 영상"은 다르고, FVD 같은 지표는 후자를 보장하지 않는다. 그래서 월드 모델의 가치는 <strong>그것으로 학습한 정책이 폐루프에서 더 안전해지는가</strong>로만 증명된다 — 본 블로그에서 다룬 NAVSIM·AlpaSim 같은 폐루프 평가 하네스, 그리고 DA-WAM처럼 예측과 계획을 한 목적함수로 묶는 후속 연구가 정확히 그 자리를 메우는 작업이다.</p>
+            <blockquote>정리: GAIA-1은 "주행 = 다음 토큰 예측"이라는 가장 단순한 형식으로 월드 모델 시대를 열었다. 남은 질문은 생성 품질이 아니라 <em>생성 데이터로 학습한 정책이 실제 도로에서 책임질 수 있는가</em>다.</blockquote>
+
+            <p>원문: <a href="https://arxiv.org/abs/2309.17080" target="_blank">https://arxiv.org/abs/2309.17080</a><br>
+            후속: <a href="https://arxiv.org/abs/2503.20523" target="_blank">GAIA-2 (2503.20523)</a> · 제작: <a href="https://wayve.ai/" target="_blank">Wayve</a></p>
+
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
