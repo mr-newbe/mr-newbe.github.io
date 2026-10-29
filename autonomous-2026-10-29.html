@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - Frustum PointNets (Stanford·Nuro, CVPR 2018): '2D로 찾고 3D로 자른다' — 원뿔(frustum) 하나로 KITTI 3D AP 64.70→70.39, 센서퓨전 없이 MV3D를 이긴 RGB-D 검출의 원형</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        code { background: #0b1220; padding: 2px 6px; border-radius: 4px; color: #7dd3fc; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92rem; }
+        th, td { border: 1px solid var(--border-color); padding: 8px 10px; text-align: center; }
+        th { background: #0b1220; color: var(--accent-color); font-weight: 600; }
+        td:first-child, th:first-child { text-align: left; }
+        .hl { color: #7dd3fc; font-weight: 600; }
+        blockquote { margin: 16px 0; padding: 12px 18px; border-left: 3px solid var(--accent-color); background: #0b1220; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <header>
+            <h1>자율주행 리서치 - Frustum PointNets (Stanford·Nuro, CVPR 2018): '2D로 찾고 3D로 자른다' — 원뿔(frustum) 하나로 KITTI 3D AP 64.70→70.39, 센서퓨전 없이 MV3D를 이긴 RGB-D 검출의 원형</h1>
+            <p class="date">2026-10-29</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>논문:</strong> <a href="https://arxiv.org/abs/1711.08488" target="_blank">Frustum PointNets for 3D Object Detection from RGB-D Data</a> (arXiv <code>1711.08488</code> · CVPR 2018 · DOI <code>10.1109/CVPR.2018.00102</code>, pp. 918–927)</li>
+                    <li><strong>저자:</strong> Charles R. Qi, Wei Liu, Chenxia Wu, Hao Su, Leonidas J. Guibas — <strong>Stanford University</strong> · <strong>Nuro Inc.</strong> · UC San Diego</li>
+                    <li><strong>분야:</strong> cs.CV / cs.RO — 3D 객체 검출, 포인트 클라우드 딥러닝 (야외 라이다 KITTI + 실내 SUN RGB-D 동시 평가)</li>
+                    <li><strong>게시일:</strong> 2017-11-22 (arXiv v1) → CVPR 2018 게재</li>
+                    <li><strong>GitHub:</strong> <a href="https://github.com/charlesq34/frustum-pointnets" target="_blank">charlesq34/frustum-pointnets</a> — ⭐ <strong>1,673</strong> · fork 529 · <strong>Apache-2.0</strong> · 생성 2018-04-05 · 마지막 push 2020-03-24</li>
+                    <li><strong>인용:</strong> OpenAlex <strong>2,655</strong> · Semantic Scholar 2,595 · Crossref 2,115 (2026-10-29 조회)</li>
+                    <li><strong>코드 스택:</strong> TensorFlow 1.2/1.4 (GPU) · Python 2.7 · CUDA 커스텀 옵스(<code>models/tf_ops</code>) · GTX 1080 1장, CPU 메모리 8GB 이상</li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>2017년말 3D 검출의 난제는 정확도가 아니라 <strong>탐색 공간</strong>이었다. 라이다 점군 수십만 개에서 물체가 있을 만한 곳을 찾는 일(region proposal)을 3D에서 직접 하면 느리고, 복셀로 바꾸면 기하 구조가 뭉개진다. Frustum PointNets의 답은 <strong>"2D에서 후보를 얻고, 3D에서 상자를 그린다"</strong> — 이미지에서 잘 동작하는 2D 검출기로 경계 상자를 뽑고, 그 상자를 카메라 원점에서 3D로 밀어 올려 <em>원뿔(frustum)</em>을 만든 뒤, <strong>원뿔 안의 점들만</strong> PointNet에 넣는다. 전체 장면의 3D 탐색이 원뿔 내부의 작은 점군 문제로 축소되고, 그 점군은 복셀화·투영 없이 원시 좌표 그대로 신경망에 들어간다.</p>
+            <ul>
+                <li><strong>파이프라인 4단계:</strong> ① 2D CNN 검출기(Faster R-CNN 계열)로 2D 상자 + 클래스 확보 → ② 2D 상자를 frustum으로 승격해 라이다 점 추출 → ③ <strong>3D 인스턴스 분할</strong>(점별 이진 분류)로 배경 점 제거 → ④ <strong>T-Net</strong>이 분할된 점들의 중심을 상자 중심으로 정렬한 뒤 <strong>box estimation net</strong>이 (중심·크기·heading)을 회귀. 네트워크 3개(분할·T-Net·박스)를 multi-task loss로 동시에 학습한다.</li>
+                <li><strong>핵심은 좌표계 정규화 3단계:</strong> frustum 좌표 → mask 좌표(분할된 점들의 무게중심을 빼서 병진 제거) → object 좌표(T-Net 잔차 이동). 논문은 "좌표 정규화가 모델 성공의 핵심"이라고 명시한다. 같은 이유로 입력 채널은 XYZ + <strong>라이다 강도(intensity)</strong> 4개.</li>
+                <li><strong>corner loss:</strong> 중심·크기·heading을 각각 회귀하면 "중심과 크기는 맞는데 각도만 틀려 IoU가 무너지는" 경우가 생긴다. 8개 꼭짓점의 예측/정답 거리를 직접 벌점으로 넣어 3D IoU 기준으로 파라미터를 공동 최적화한다.</li>
+                <li><strong>v1 vs v2:</strong> v1은 PointNet 기반, v2는 PointNet++의 <strong>MSG(multi-scale grouping)</strong> 세트 추상화를 써서 <em>거리에 따라 희소해지는 라이다 밀도 변화</em>에 강건하게 만들었다. 두 모델 모두 2D 분류 결과를 클래스 one-hot 벡터로 붙여 분할·박스 추정이 의미 정보를 쓰게 한다.</li>
+            </ul>
+
+            <table>
+                <tr><th>KITTI test (IoU 0.7, Car)</th><th>Easy</th><th>Moderate</th><th>Hard</th></tr>
+                <tr><td>MV3D (직전 SOTA, 멀티뷰 퓨전)</td><td>71.09</td><td>62.35</td><td>55.12</td></tr>
+                <tr><td>Ours v1 (PointNet)</td><td>80.62</td><td>64.70</td><td>56.07</td></tr>
+                <tr><td>Ours v2 (PointNet++)</td><td><span class="hl">81.20</span></td><td><span class="hl">70.39</span></td><td><span class="hl">62.19</span></td></tr>
+                <tr><td>Ours v2 — BEV(3D localization) AP</td><td>88.70</td><td>84.00</td><td>75.33</td></tr>
+                <tr><td>MV3D — BEV AP (비교)</td><td>86.02</td><td>76.90</td><td>68.49</td></tr>
+            </table>
+
+            <ul>
+                <li><strong>수치가 말하는 것:</strong> 3D AP moderate 기준 <span class="hl">62.35 → 70.39</span>(+8.04%p), hard <span class="hl">55.12 → 62.19</span>(+7.07%p). 센서퓨전도 멀티뷰 집계도 없이, 2D 검출 + 원시 점군만으로 LiDAR BEV 이미지 기반 SOTA를 눌렀다. 검증셋(cars) 3D AP도 v2 83.76 / 70.92 / 63.65.</li>
+                <li><strong>약한 물체에서도:</strong> 보행자 3D AP 51.21 / <strong>44.89</strong> / 40.23, 자전거 71.96 / <strong>56.77</strong> / 50.39. 점군만으로는 놓치기 쉬운 작은 물체를 <em>고해상도 이미지의 2D 후보</em>가 살려내는 구조적 이점이다.</li>
+                <li><strong>실내까지 같은 파이프라인:</strong> SUN RGB-D에서 mAP <strong>54.0</strong>, 프레임당 <strong>0.12초</strong>. COG(47.6, 10–30분), 2D-driven(45.1, 4.15초) 대비 mAP 6.4~11.9%p 높으면서 <strong>1~3 자릿수(order) 빠르다</strong> — "야외는 BEV, 실내는 복셀"로 갈라져 있던 두 진영을 하나의 원뿔 파이프라인으로 묶었다.</li>
+                <li><strong>실행 속도:</strong> PointNet++ 기반 v2가 <strong>5 fps</strong>(GTX 1080). 2018년 기준 실시간에 근접한 3D 검출이며, 논문도 "real-time capability"를 명시적 기여로 든다.</li>
+            </ul>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>2단계 검출 패러다임을 정립했다:</strong> "2D로 후보를 좁히고 3D로 정밀화한다"는 분업은 이후 카메라-라이다 융합, BEV 검출의 ROI/쿼리 설계, 심지어 2D 세그멘테이션 마스크로 3D 박스를 뽑는 최근 파운데이션 모델 계열까지 <em>그대로 반복되는 문법</em>이다. 인용 2,600회대는 이 문법이 얼마나 넓게 재사용됐는지를 보여준다.</li>
+                <li><strong>계산 복잡도를 구조로 해결:</strong> 3D proposal을 학습하는 대신 기하학(원뿔)으로 탐색 공간을 잘라냈다. 학습 파라미터를 늘리지 않고 문제를 작게 만드는 이 접근은, 연산 예산이 빠듯한 <strong>양산 임베디드 perception</strong>에서 여전히 유효한 설계 원칙이다.</li>
+                <li><strong>PointNet 계보의 산업화 지점:</strong> 저자 Charles R. Qi는 PointNet·PointNet++의 저자이고, 공저자 상당수가 <strong>Nuro</strong>(무인 배달 자율주행 스타트업) 소속이다. 학회 논문 → 오픈소스 코드 → 실제 무인차 스택으로 이어지는 연구-산업 연결의 대표 사례다. 본 블로그의 <a href="autonomous-2026-10-23.html">PointNet(2026-10-23)</a> 글이 "점을 그대로 넣는 법"을 다뤘다면, 이 글은 <em>그 점을 어디서 잘라 올 것인가</em>를 다룬다.</li>
+                <li><strong>재현 자산이 공개돼 있다:</strong> 전처리된 학습 데이터(960MB), v1/v2 사전학습 스냅샷(40MB), KITTI 오프라인 평가 코드(<code>train/kitti_eval</code>), 2D 검출 결과 사전 계산본까지 저장소에 포함돼 "2D 검출기 없이도" 재현이 가능하다. 2020년 이후 업데이트가 멈춰 TF1.x/Python 2.7에 고정돼 있고 open issue 92건이 남아 있다는 점은 한계 — <strong>지금 실습용으로는</strong> <a href="autonomous-2026-10-18.html">MMDetection3D</a>나 <a href="https://github.com/open-mmlab/OpenPCDet" target="_blank">OpenPCDet</a>이 실질적 대안이다.</li>
+                <li><strong>frustum 어휘의 출발점:</strong> 본 블로그에서 다룬 <a href="autonomous-2026-10-21.html">CenterFusion(2026-10-21)</a>이 카메라 검출점과 레이더 점을 원뿔로 묶어 속도를 보정했듯, 원뿔은 이기종 센서를 <em>기하로 정렬하는 공용 언어</em>가 됐다. Frustum PointNets는 그 언어를 3D 검출에 처음 본격 적용한 논문이다.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>Frustum PointNets의 진짜 기여는 "PointNet을 3D 검출에 썼다"가 아니라 <strong>문제를 쪼개는 방식</strong>이다. 인식의 어려운 부분(작은 물체, 가림, 희소 점군)을 <em>이미지가 잘하는 일</em>로 넘기고, 3D 신경망에게는 자기가 잘하는 일(원뿔 안의 점으로 정확한 상자 그리기)만 남겼다. 이 분업 덕분에 2D 검출기가 좋아지면 3D 성능도 같이 올라가는 구조가 만들어졌고, 실제로 이후 연구들은 2D 백본만 교체하며 성능을 끌어올렸다. 대가는 명확하다 — <strong>2D에서 놓친 물체는 3D에서 영원히 볼 수 없다</strong>. 원뿔은 강력한 사전확률이지만 동시에 상한선이다.</p>
+            <p>그래서 이 논문은 오늘날 <em>BEV 중심 설계</em>의 반대편 극단을 보여주는 기준점으로 읽는 것이 유용하다. BEV 융합은 2D 후보에 의존하지 않고 장면 전체를 균일 격자에 투영해 "2D에 없는 것을 3D에서 찾는" 방향으로 갔고, 원뿔 기반 방법은 반대로 계산을 아끼는 방향으로 남았다. 실무적으로는 두 극단 사이의 예산 문제다: <strong>연산이 빠듯하면 원뿔(후보 기반), 정확도와 재현율이 우선이면 조밀한 3D/BEV</strong>. 2018년 KITTI에서 8%p를 벌어준 아이디어가 2020년대에는 ROI 헤드·쿼리 선택·인스턴스 마스크 투영이라는 이름으로 조용히 살아남아 있다.</p>
+            <blockquote>정리: Frustum PointNets는 "2D는 후보, 3D는 정밀도"라는 역할 분담을 확립해 3D 검출의 계산 구조를 바꿨다. 지금 코드를 그대로 돌리기는 어렵지만, 그 설계 원칙은 오늘날 카메라-라이다 융합 스택의 기본 골격으로 남아 있다.</blockquote>
+
+            <p>원문: <a href="https://arxiv.org/abs/1711.08488" target="_blank">https://arxiv.org/abs/1711.08488</a><br>
+            코드: <a href="https://github.com/charlesq34/frustum-pointnets" target="_blank">https://github.com/charlesq34/frustum-pointnets</a><br>
+            프로젝트 페이지: <a href="https://stanford.edu/~rqi/frustum-pointnets/" target="_blank">https://stanford.edu/~rqi/frustum-pointnets/</a></p>
+
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
