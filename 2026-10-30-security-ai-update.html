@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-10-30</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-10-30 | <i class="fa-solid fa-tags"></i> Daily News, 크립토 해킹, 일본 데이터 유출, 텔레그램 RCE, 자격증명 유출, Cisco 제로데이, 리눅스 커널, GitLab, AI 공급망
+        </div>
+
+        <div class="content">
+            <h2>1. 바이낸스, 최대 58억 달러 탈취 의혹 — 테더·서클 23억 달러 동결</h2>
+            <p>가상자산 거래소 <strong>바이낸스</strong>가 <strong>최대 58억 달러</strong> 규모의 자산 탈취 의혹을 조사 중이다. 확인될 경우 2025년 2월 북한 연계 조직이 저지른 바이비트(Bybit) 15억 달러를 넘어 <strong>역대 최대 암호화폐 해킹</strong>이 된다. 바이낸스 측은 "사용자 자금은 완전히 안전하다"며 공식 채널을 통해서만 업데이트하겠다고 밝혔고, 창업자 자오창펑(CZ)은 X에서 "해킹으로 보인다"고 언급했다.</p>
+            <ul>
+                <li><strong>자금 이동 정황:</strong> 블록체인 분석에 따르면 'Binance 14' 핫월렛에서 <strong>64개 토큰 25억 3,000만 달러</strong>가 신규 이더리움 주소로 이동했고, 24초 뒤 두 번째 지갑에서 1억 7,440만 달러가 추가됐다. 이후 세 번째 핫월렛의 <strong>7억 8,000만 USDC</strong>까지 같은 주소로 보내져 추적 총액은 약 34억 8,000만 달러로 늘었다.</li>
+                <li><strong>추적 현황:</strong> 아캄 인텔리전스는 <strong>'binance-hacker-1029'</strong> 엔터티로 55개 주소를 묶어 약 57억 8,000만 달러(USDT 17.7억·BTC 14.4억·ETH 8.76억·USDC 8.23억)를 추적 중이다. 이더스캔은 최초 수신 주소에 <strong>'Binance Hot Wallet Exploiter 2'</strong> 라벨과 Exploit·Heist 태그를 붙였다.</li>
+                <li><strong>스테이블코인 동결:</strong> 테더가 15억 6,700만 USDT, 서클이 8억 USDC를 동결해 <strong>23억 달러 이상</strong>이 묶였다. 서클은 수사기관과 공조 중이라고 밝혔다.</li>
+                <li><strong>주의:</strong> 57억 8,000만 달러는 <strong>추적 지갑의 보유 자산 합계</strong>이지 확인된 피해액이 아니다. 바이낸스는 아직 무단 이체 여부·침해 경로·총 피해액을 확정하지 않았으므로, 공식 발표 전까지 사칭 복구·에어드랍 링크가 활개칠 구간이다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/binance-probes-potential-58-billion-crypto-theft-hack/" target="_blank">BleepingComputer - Binance probes potential $5.8 billion crypto-theft hack</a></p>
+
+            <h2>2. 일본항공, 아마데우스 예약시스템 침해로 9만 2,000명 정보 유출 — 3년간 노출</h2>
+            <p><strong>일본항공(JAL)</strong>이 예약·발권·체크인을 담당하는 <strong>아마데우스(Amadeus) 승객서비스시스템(PSS)</strong> 침해로 고객 약 <strong>9만 2,000명</strong>의 정보가 유출됐다고 공지했다. 아마데우스는 <strong>10월 23일</strong> JAL에 통보했고, 무단 접근 기간은 <strong>2023년 8월 10일 ~ 2026년 9월 23일</strong>로 3년 넘게 이어졌다.</p>
+            <ul>
+                <li><strong>유출 항목:</strong> 약 9만 명은 예약번호(PNR)·이름·항공편 날짜·구간·좌석 등급. 나머지 <strong>2,000명</strong>은 여기에 이메일·전화번호·<strong>여권번호</strong>·국적·상용고객(FPP) 번호·항공권/좌석 번호까지 포함됐다. 신용카드 번호와 비밀번호는 유출되지 않았고, 현재까지 악용 정황은 없다고 밝혔다.</li>
+                <li><strong>원인:</strong> 아마데우스는 <strong>10월 1일</strong> 자사 '여행 예약 표시(display) 환경'의 취약점을 발견해 공지했고, 당시 랜섬웨어 조직의 악용 정황은 없다고 설명했다. JAL은 아마데우스가 보안 조치를 완료했으며 운항에는 영향이 없다고 덧붙였다.</li>
+                <li><strong>파급 범위:</strong> 아마데우스는 <strong>400개 이상 항공사, 210개 공항 운영사, 34개 크루즈·페리, 200만 개 호텔</strong>이 쓰는 항공 IT 대표 공급사다. 즉 이 취약점은 JAL 한 곳의 문제가 아니라 <strong>예약 인프라 공통 리스크</strong>이며, 다른 항공사 고지가 순차적으로 나올 가능성이 높다.</li>
+                <li><strong>일본 연쇄 유출:</strong> 소니 ISP(258만 건), KDDI, 니혼콜롬비아, 타임즈카, GMO 오나마에에 이어 JAL까지 — 올해 일본은 <strong>'유출 러시'</strong> 상태다. 여권번호가 포함된 2,000명은 항공사 사칭 피싱·보이스피싱의 정밀 표적이 되므로, JAL 공식 앱·홈페이지 외 채널의 '환불·보상' 안내는 전부 의심해야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/japan-airlines-suffers-third-party-data-breach-exposing-passenger-info/" target="_blank">BleepingComputer - Japan Airlines suffers third-party data breach exposing passenger info</a></p>
+
+            <h2>3. 텔레그램 안드로이드, 통화 수락만으로 코드 실행 — 12.10.4에서 조용히 수정</h2>
+            <p>보안 스타트업 <strong>NebuSec</strong>이 텔레그램 안드로이드 앱의 통화 처리 결함을 공개했다. 공격자는 <strong>평범한 텔레그램 계정 하나</strong>로 피해자에게 전화를 걸고 상대가 <strong>수락하기만 하면</strong> 앱을 벗어나 안드로이드로 탈출할 수 있다. 정보 유출 버그와 안드로이드 루트 익스플로잇을 연쇄하면 메시지·마이크·카메라까지 완전 장악된다. 텔레그램은 <strong>12.10.4</strong>(9월 말)에서 수정했고 NebuSec은 10월 29일 공개했다.</p>
+            <ul>
+                <li><strong>기술 원인:</strong> 통화 상태를 주고받는 <strong>MediaState</strong> 메시지 파싱에서 필드 누락을 처리하지 않아 엉뚱한 메모리를 읽는다. 회전(rotation) 값을 검사한 뒤 실제로는 <strong>존재하지 않을 수 있는 비디오 상태 필드</strong>를 읽는 구조로, 12.10.4는 올바른 필드에서 값을 읽도록 바꿨다.</li>
+                <li><strong>영향 버전:</strong> <strong>8.6.2 ~ 12.10.3</strong>(2022년 3월 ~ 2026년 9월). ARM64 기기 사설 통화로 확인됐고, iOS·데스크톱·그룹 통화에 대한 직접 영향 증거는 아직 없다. 공유 라이브러리 <strong>tgcalls</strong>는 4월 21일 'Fix camera rotation'으로 이미 수정돼 iOS 12.7·데스크톱 7.0.1에는 반영됐다.</li>
+                <li><strong>CVE 없음:</strong> NebuSec은 9월 26일 신고했지만 텔레그램은 RCE로 이어질 수 있다는 판단에 동의하지 않아 <strong>CVE 미발급·바운티 미지급</strong>으로 끝났다. 공개 자료도 데모 영상과 회사 설명뿐이고 기술 상세 문서는 없다 — 심각도 평가가 갈리는 지점이다.</li>
+                <li><strong>즉시 조치:</strong> 설정 하단에서 버전이 <strong>12.10.4 이상</strong>인지 확인. 통화 개인정보 설정을 <strong>'아무도 안 함(Nobody)'</strong>으로 바꾸거나 모르는 통화를 거절하는 것만으로 차단된다. 국내 사용자 비중이 높은 앱인 만큼 자동 업데이트 여부를 직접 확인할 가치가 있다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/telegram-android-flaw-lets-attackers.html" target="_blank">The Hacker News - Telegram Android Flaw Lets Attackers Run Code When Users Answer Voice Calls</a></p>
+
+            <h2>4. Gitee 공개 저장소에서 '지금도 유효한' 클라우드·AI 자격증명 2만 6,400개 발견</h2>
+            <p>독립 연구자 <strong>Ben Zimmermann</strong>이 중국 코드 호스팅 <strong>Gitee</strong>의 공개 저장소 <strong>725만 개</strong>를 한 달간 스캔해, 실제로 인증에 성공한 자격증명 <strong>2만 6,400개</strong>를 찾아냈다(10월 28일 공개). 대부분 클라우드와 AI 서비스 키였고, <strong>알리바바 클라우드 AccessKey 쌍 9,473개</strong>가 최대였다.</p>
+            <ul>
+                <li><strong>서비스별 분포:</strong> 유튜브 API 키 3,805개, <strong>DeepSeek 키 3,170개</strong>, 즈푸(Zhipu) BigModel 1,489개, <strong>OpenAI 키 1,348개</strong>, 그 외 GitHub·AWS·GCP·Gemini 소수. 이 중 하나는 <strong>"주요 엔터프라이즈 AI 플랫폼의 조직 관리자(org-admin) 자격증명"</strong>이었다고 밝혔지만 플랫폼 이름은 공개하지 않았다.</li>
+                <li><strong>왜 '유효'가 핵심인가:</strong> TruffleHog와 Kingfisher 두 스캐너로 <strong>발급처에 직접 인증을 시도해 성공한 것만</strong> 집계했다. 전체 커밋 이력을 읽었기 때문에 코드에서 지운 키도 포함된다. 커밋 연도 기준 <strong>1만 2,242개가 2025년</strong>이고, 2000년대 후반 키도 남아 있었다.</li>
+                <li><strong>도구별 편차:</strong> TruffleHog 1만 2,737개, Kingfisher 1만 4,664개를 찾았지만 <strong>양쪽 모두가 찾은 건 1,001개</strong>뿐. 스캐너 하나만 돌리면 절반을 놓친다는 뜻으로, 시크릿 스캐닝 파이프라인 설계에 바로 반영할 수치다.</li>
+                <li><strong>실무 대응:</strong> 공개 저장소에 한 번이라도 올라간 키는 <strong>코드 삭제·히스토리 재작성으로 회수되지 않는다</strong>. ① 발급처에서 즉시 로테이션·비활성화 ② 알리바바 ActionTrail(90일)·OSS/SLS 개별 로그로 이상 호출 확인 ③ OpenAI는 사용 한도 설정 ④ 유튜브/GCP 키는 API 제한(restriction) 부여. 리포지토리 삭제로 끝났다고 생각하는 팀이 여전히 가장 위험하다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/26400-valid-cloud-and-ai-credentials.html" target="_blank">The Hacker News - 26,400 Valid Cloud and AI Credentials Found Exposed in Public Gitee Repositories</a></p>
+
+            <h2>5. 시스코 ASA·FTD 제로데이(CVE-2026-76418) 실제 악용 — SSL VPN 5만 1,000대 인터넷 노출</h2>
+            <p>시스코가 <strong>Secure Firewall ASA·FTD</strong>의 서비스거부(DoS) 제로데이 <strong>CVE-2026-76418</strong>(CVSS 8.6) 패치를 배포했다. PSIRT가 이달 초 <strong>실제 악용 정황</strong>을 확인했다고 밝혔지만, 표적 조직·공격자·침해지표(IoC)는 공개하지 않았다. 섀도서버는 인터넷에 노출된 시스코 ASA SSL VPN 장비를 <strong>5만 1,000대 이상</strong>으로 집계한다.</p>
+            <ul>
+                <li><strong>취약 조건:</strong> 설정에 <strong>'webvpn'</strong> 키워드가 있고 최소 한 인터페이스에서 SSL VPN이 켜진 장비. 터널 그룹에 <strong>2차 인증(secondary authentication)</strong>이 설정된 상태에서의 로직 오류가 원인이며, 무인증 원격 공격자가 조작된 요청을 보내면 장비가 <strong>예고 없이 재부팅</strong>된다.</li>
+                <li><strong>완화책:</strong> 시스코는 우회 설정을 제공하지 않는다. 즉시 패치가 어렵다면 <strong>DefaultWEBVPNGroup 또는 사용자 정의 터널 그룹의 2차 인증을 비활성화</strong>하는 것이 유일한 임시 조치다. CISA는 10월 29일 KEV에 추가하고 <strong>연방기관 패치 기한을 11월 1일</strong>로 못박았다.</li>
+                <li><strong>반복되는 시스코 악용:</strong> 2025년 9월 ArcaneDoor 연계 <strong>CVE-2025-20362·20333</strong>(긴급지시 ED 25-03, 24시간 내 조치) → 2026년 8월 CVE-2026-20349 → 이달 초 Secure Email Gateway <strong>CVE-2026-76519</strong>(무인증 root RCE) → 이번 ASA/FTD까지. 2021년 11월 이후 CISA가 '실제 악용'으로 지정한 시스코 취약점은 <strong>101건</strong>이다.</li>
+                <li><strong>실무 우선순위:</strong> 엣지 VPN 장비는 패치 주기가 길고 재부팅 창의 제약이 크다. ① 자산 인벤토리에서 webvpn 설정 장비 추출 ② 2차 인증 사용 여부 확인 후 임시 완화 ③ 재부팅 이력·비정상 TLS 핸드셰이크 로그 점검 ④ 가능하면 유지보수 창에 즉시 업그레이드.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/cisco-warns-of-firewall-zero-day-exploited-to-crash-ssl-vpn-devices/" target="_blank">BleepingComputer - New Cisco firewall zero-day exploited to crash SSL VPN devices</a></p>
+
+            <h2>6. Volt Typhoon 연계 의심 UAT-11473, SD-WAN 컨트롤러에 'KeyDrift' 키 탈취 프레임워크</h2>
+            <p>시스코 탈로스가 <strong>CVE-2026-20127</strong>(Catalyst SD-WAN 컨트롤러 인증 우회, 최고 심각도)을 악용해 <strong>KeyDrift</strong>라는 맞춤형 악성 프레임워크를 심는 <strong>UAT-11473</strong> 조직을 확인했다. 표적은 <strong>우주·위성 서비스, 방위·항공우주 기술, 정책 연구 기관</strong>이다. 탈로스는 이 클러스터가 볼트 타이푼의 은닉 접근망 <strong>'Silent Train'</strong>과 겹친다고 보지만 확정적 연결은 유보했다.</p>
+            <ul>
+                <li><strong>목적:</strong> SD-WAN <strong>컨트롤 플레인 프로세스 내부</strong>에서 동작하며, 복호화된 제어 트래픽을 가로채 세션 메타데이터와 <strong>데이터플레인 키링 자료</strong>를 수집·암호화해 유출한다. 탈로스는 "장기 상시 접근과 자동화된 키 자료 탈취"를 목적으로 설계됐다고 <strong>높은 신뢰도</strong>로 평가했다.</li>
+                <li><strong>구성요소:</strong> <strong>PolyFlame</strong>은 정상 <em>vdaemon</em> 프로세스에 주입돼 명령 실행(TinyShell 스타일)·파일 업/다운로드·C2 중계를 담당한다. <strong>LittleFilch</strong>는 <strong>SSL_read를 후킹</strong>해 복호화된 제어 메시지를 검사하고, 지정 엣지 노드에서 IP 식별자와 <strong>32바이트 AES-256 IPsec 키 자료</strong>로 추정되는 필드를 추출한다.</li>
+                <li><strong>은닉·유출:</strong> 수집 데이터는 RSA로 암호화해 <strong>/var/tmp/vdaemon.bin</strong>에 저장한 뒤 <strong>UDP</strong>로 공격자에게 전송한다. 두 구성요소 모두 디버깅 방지와 프로세스 위장 기능이 계속 개발되고 있어 초기 버전보다 탐지가 어려워졌다.</li>
+                <li><strong>대응:</strong> CVE-2026-20127은 2026년 2월 패치됐고 UAT-8616이 2023년부터 제로데이로 악용한 이력이 있다. SD-WAN 컨트롤러는 <strong>패치 + 시스코 하드닝 가이드</strong>를 함께 적용해야 하며, 컨트롤러에서 <strong>비정상 vdaemon 재시작·서비스 스크립트 변조·/var/tmp 바이너리</strong>를 직접 점검해야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/hackers-exploit-cisco-sd-wan-flaw-to-deploy-custom-keydrift-malware/" target="_blank">BleepingComputer - Hackers exploit Cisco SD-WAN flaw to deploy custom KeyDrift malware</a></p>
+
+            <h2>7. 리눅스 커널 TCP CVE-2026-98432 (CVSS 9.8) — 우분투·RHEL은 아직 미패치</h2>
+            <p>리눅스 커널 TCP 코드의 경쟁 조건(race condition) 취약점 <strong>CVE-2026-98432</strong>가 커널 CVE 팀 기준 <strong>CVSS 9.8</strong>로 평가됐다. 우분투·RHEL을 포함한 주요 배포판에 영향을 주며, 10월 29일 기준 <strong>우분투와 RHEL은 수정 커널을 내놓지 않았다</strong>. 안트로픽은 10월 27일 자사 AI 모델이 이 결함으로 <strong>무자격 원격에서 root 권한 명령 실행</strong>이 가능한 익스플로잇을 작성했다고 밝혔다.</p>
+            <ul>
+                <li><strong>결함 구조:</strong> IPv4 TCP 연결 수립 시 커널이 대기 요청에 저장된 <strong>IP 옵션을 복사하지 않고 새 소켓에 넘긴다</strong>. 다른 CPU가 재전송된 연결 요청에 응답하려는 사이 소켓이 파괴되면 <strong>해제된 메모리를 읽는 UAF</strong>가 발생한다. IPv6는 옵션을 복사하므로 영향받지 않는다. 결함은 <strong>리눅스 4.4</strong>에서 유입됐다.</li>
+                <li><strong>패치 현황:</strong> 업스트림 수정은 <strong>10월 5일</strong> 적용돼 모든 유지보수 안정 브랜치에 백포트됐다. Debian(10/16·10/17), Oracle Linux(10/16), Amazon Linux(10/24·10/29), SUSE(일부 수정·일부 테스트 중)는 패키지가 나왔다. <strong>우분투</strong>는 22.04/24.04/26.04/26.10 모두 작업 중, 16.04/18.04/20.04는 취약 상태로 <strong>패키지 없음</strong>. <strong>RHEL 8/9/10·OpenShift 4</strong>는 "향후 업데이트로 연기(deferred)"이며 일정 미정이다.</li>
+                <li><strong>점수 이견:</strong> 커널 팀은 9.8이지만 레드햇·아마존·오라클·SUSE는 <strong>5.9~8.1</strong>로 낮게 본다. MPTCP(멀티패스 TCP) 리스너가 전제라는 점이 완화 요인으로 작용한 것으로 보이나, 반대로 <strong>MPTCP는 애플리케이션이 소켓을 열 때 명시적으로 요청</strong>해야 하고 CVE 레코드·수정 커밋에는 MPTCP 언급이 없다는 점도 함께 확인해야 한다.</li>
+                <li><strong>실무 조치:</strong> 롤링 배포판(아치 등)은 10월 초 이후 커널에 업스트림 수정이 포함된 상태이므로 <code>pacman -Syu</code> 후 재부팅으로 정리된다. 반면 우분투 LTS·RHEL 운영 서버는 <strong>벤더 패키지가 나올 때까지 대기</strong>해야 하며, MPTCP를 쓰지 않는 서버라면 완화 여지가 있지만 근본 해결은 커널 교체다. 재부팅 없이 커널만 올린 서버는 <strong>여전히 취약한 커널로 부팅</strong>된다는 점을 잊지 말 것.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/linux-kernel-tcp-flaw-with-98-cvss.html" target="_blank">The Hacker News - Linux Kernel TCP Flaw With 9.8 CVSS Score Affects Ubuntu, Red Hat and Other Distributions</a></p>
+
+            <h2>8. GitLab CVE-2026-97229 (CVSS 10.0) — 무인증 원격 코드 실행, KEV 기한 11월 1일</h2>
+            <p>GitLab이 커뮤니티(CE)·엔터프라이즈(EE) 에디션의 <strong>무인증 원격 코드 실행</strong> 취약점 <strong>CVE-2026-97229</strong>를 수정했다. NVD 기준 <strong>CVSS 10.0</strong>이며, CISA는 10월 29일 <strong>KEV에 등록하고 연방기관 패치 기한을 11월 1일</strong>로 지정했다.</p>
+            <ul>
+                <li><strong>영향 버전:</strong> 19.2 &lt; 19.2.8, 19.3 &lt; 19.3.5, 19.4 &lt; 19.4.2. 수정 버전은 <strong>19.2.8 / 19.3.5 / 19.4.2</strong>다. 자체 호스팅(GitLab Self-Managed) 운영자는 즉시 확인이 필요하다.</li>
+                <li><strong>취약점 유형:</strong> KEV 설명 기준 <strong>정수 오버플로(integer overflow/wraparound)</strong>로, 특수하게 조작된 정규식 처리에서 무인증 사용자가 서버 임의 코드를 실행할 수 있다. 별도 인증·권한 없이 원격에서 성립한다는 점이 10.0 점수의 근거다.</li>
+                <li><strong>왜 KEV가 중요한가:</strong> KEV 등재는 "실제 악용이 확인됐다"는 신호다. 소스 저장소가 뚫리면 코드·CI 시크릿·러너 토큰이 연쇄로 노출되므로 <strong>공급망 전체가 피해 범위</strong>가 된다. 아직 악용 상세는 공개되지 않았으므로 침해 흔적 점검(비정상 사용자·러너·웹훅·CI 변수 변경)을 함께 수행할 것을 권한다.</li>
+            </ul>
+            <p>출처: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-97229" target="_blank">NVD - CVE-2026-97229</a> · <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA - Known Exploited Vulnerabilities Catalog</a></p>
+
+            <h2>9. NVD 3일 헤드: 히타치 JP1·HiRDB 9.8 다발, NVIDIA AI 에이전트 프레임워크 10.0</h2>
+            <p>10월 27~30일 NVD 고위험군(총 1,994건, 상위 200건 조회)을 주제별로 묶어보면 <strong>일본 엔터프라이즈 운영 소프트웨어</strong>와 <strong>AI 에이전트 스택</strong>이 두 개의 뚜렷한 축을 이룬다. 개별 CVE 수십 건이지만 실질적으로는 <strong>"신뢰 경계가 사라진 내부 시스템"</strong> 하나의 이야기다.</p>
+            <ul>
+                <li><strong>히타치 JP1·HiRDB:</strong> JP1/Automatic Job Management System 3에서 <strong>스택 버퍼 오버플로 CVE-2026-76934</strong>(9.8), <strong>인증 우회 CVE-2026-76938</strong>(9.8), 힙 오버플로 76939, JP1/Base 힙 오버플로 <strong>CVE-2026-86574</strong>(9.8) 등 9.8점이 다수. HiRDB는 <strong>중요 기능 무인증 CVE-2026-82116</strong>(9.8), 스푸핑 인증 우회 82117, 스택 오버플로 82118, <strong>OS 명령 주입 82119</strong>, 힙 오버플로 82120이 모두 9.8이다. 패치 버전은 JP1 13-50-31, HiRDB 10-12-01 계열.</li>
+                <li><strong>NVIDIA NeMo Agent Toolkit CVE-2026-65145 (10.0):</strong> <strong>인증 누락(missing authentication)</strong>으로 코드 실행·권한 상승·데이터 변조·DoS·정보 노출까지 이어질 수 있다. LLM 에이전트 프레임워크가 사내 시스템에 붙는 구조에서 <strong>인증 경계 자체가 없는 구간</strong>이 생긴 전형적 사례다.</li>
+                <li><strong>Mistral Vibe CVE-2026-116843 (8.8):</strong> 3.0.3 이전 버전에서 <strong>신뢰할 수 없는 저장소의 .git/config에 git filter 드라이버를 정의</strong>해 명령을 실행할 수 있다. <code>--worktree</code>로 시작할 때 <code>git worktree add</code>가 트리거된다. AI 코딩 에이전트를 클론·체크아웃 자동화에 붙여 쓰는 환경에서 <strong>리포지토리 하나가 곧 RCE</strong>가 되는 경로다.</li>
+                <li><strong>공통 교훈:</strong> 9.8점 다발의 정체는 최신 제로데이가 아니라 <strong>사내 운영 소프트웨어의 오래된 입력 검증 결함</strong>이다. 스케줄러·DB·에이전트 툴킷처럼 "내부망이라 안전하다"고 전제한 시스템부터 자산 목록에 넣고, AI 에이전트가 <strong>외부 리포지토리를 읽는 순간을 신뢰 경계로 재정의</strong>해야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-76934" target="_blank">NVD - CVE-2026-76934 (JP1/AJS3)</a> · <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-82116" target="_blank">NVD - CVE-2026-82116 (HiRDB)</a> · <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-65145" target="_blank">NVD - CVE-2026-65145 (NeMo Agent Toolkit)</a></p>
+
+            <h2>10. GitHub, npm '설치 시점 방화벽' 공개 프리뷰 — 악성 패키지 설치 전 차단</h2>
+            <p>GitHub가 <strong>패키지 방화벽(package firewall)</strong>을 공개 프리뷰로 공개했다. npm 패키지 설치 시점에 <strong>메타데이터 요청과 패키지 다운로드 양쪽을 검사</strong>해 악성 징후가 있으면 설치를 막는 <strong>인스톨 타임 정책 게이트</strong>로 동작한다. 현재 지원 범위는 <strong>npm 패키지에 한정</strong>된다.</p>
+            <ul>
+                <li><strong>의미:</strong> 기존 SCA·SBOM은 "설치된 뒤 스캔"이라 악성 패키지의 <strong>postinstall 스크립트가 이미 실행된 후</strong>에야 탐지하는 경우가 많다. 설치 시점 차단은 이 순서를 뒤집는다는 점에서 실질적 개선이다.</li>
+                <li><strong>한계:</strong> npm만 지원하고, 프리뷰 단계이며, 판단 근거는 GitHub의 정책·평판 데이터다. 사내 프라이빗 레지스트리·미러를 쓰는 조직은 정책이 우회될 수 있어 <strong>lockfile 고정·출처 검증·설치 스크립트 차단(--ignore-scripts)</strong>과 병행해야 한다.</li>
+                <li><strong>맥락:</strong> 같은 날 공개된 조사에서 <strong>Hugging Face 악성 모델 3만 2,000회 다운로드</strong>, <strong>319개 크롬 확장(1,340만 설치)</strong> 검색 하이재킹, 가짜 솔라나 스타터킷이 확인됐다(항목 12). 패키지·모델·확장을 아우르는 <strong>설치 시점 통제</strong>가 업계 공통 과제로 떠오른 흐름과 맞물린다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/github-launches-npm-firewall-to-block.html" target="_blank">The Hacker News - GitHub Launches npm Firewall to Block Malicious Packages Before Installation</a></p>
+
+            <h2>11. 마이크로소프트, Windows 11 KB5127936 프리뷰 배포 — RDP 연결 실패도 수정</h2>
+            <p>마이크로소프트가 Windows 11 <strong>25H2·26H2</strong>용 누적 프리뷰 <strong>KB5127936</strong>을 배포했다. <strong>41개 변경</strong>이 포함됐고 파일 탐색기와 클라우드(Cloud) 재구축 관련 개선이 중심이다. 별도로 최근 업데이트로 생긴 <strong>원격 데스크톱 연결 실패</strong> 문제도 해결됐다.</p>
+            <ul>
+                <li><strong>RDP 수정:</strong> <strong>'관리자 보호(Administrator protection)'</strong> 보안 기능이 켜진 상태에서 <strong>비관리자(non-admin) 사용자가 원격 데스크톱으로 접속하지 못하던</strong> 알려진 문제를 마이크로소프트가 해결했다. 재택·원격 지원 환경에서 체감 영향이 큰 결함이었다.</li>
+                <li><strong>프리뷰의 성격:</strong> KB5127936은 선택적(프리뷰) 업데이트로 다음 정기 패치에 통합된다. 운영 환경은 정기 롤업을 기다리되, RDP 이슈로 업무가 막힌 조직은 선적용 판단이 필요하다.</li>
+                <li><strong>실무 체크:</strong> ① RDP 문제 발생 기기에서 관리자 보호 설정과 업데이트 이력 대조 ② 프리뷰 적용 후 파일 탐색기·클라우드 폴더 동기화 회귀 테스트 ③ 다음 정기 패치에서 재적용 여부 확인.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/microsoft/windows-11-kb5127936-update-released-with-41-changes-and-fixes/" target="_blank">BleepingComputer - Windows 11 KB5127936 update released with 41 changes and fixes</a> · <a href="https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-remote-desktop-failures-caused-by-recent-windows-updates/" target="_blank">BleepingComputer - Microsoft fixes Remote Desktop failures caused by recent Windows updates</a></p>
+
+            <h2>12. 트렌드: 'AI 브랜드 사칭 + 모델 저장소 악용' — 설치 시점이 새 공격면이 됐다</h2>
+            <p>이번 주 캠페인의 공통점은 <strong>사용자가 신뢰하는 이름(AI 브랜드·모델 허브·개발 도구)을 빌려 설치 순간을 노린다</strong>는 것이다. 체크포인트 리서치가 공개한 <strong>Yoba</strong> 캠페인은 GPT-5.6 Sol·GPT-6 Astra·Claude Opus 같은 <strong>가짜 AI 데스크톱 앱 GitHub 프로젝트</strong>를 만들고, GitHub.io 페이지까지 붙여 신뢰도를 높인 뒤 SEO 포이즈닝으로 검색 상위에 노출시켰다.</p>
+            <ul>
+                <li><strong>Yoba 체인:</strong> 배포 ZIP에는 <strong>정품 서명된 OpenAI Codex/Claude 실행파일(Setup.exe)</strong>과 악성 <strong>winmm.dll</strong>이 함께 들어 있어 <strong>DLL 사이드로딩</strong>으로 로더가 실행된다. YobaDropper는 호스트 파일명 해시(<code>0xE6C2F326</code>)를 검사해 <code>Setup.exe</code>에서만 동작하고, <strong>Sleep(5500) × 20만 회 ≈ 12.73일</strong> 지연과 CIS 지역(러시아·벨라루스·카자흐스탄 등) 회피로 샌드박스 분석을 무력화한다.</li>
+                <li><strong>C2 은닉:</strong> 2차 로더 YobaLoader는 <strong>텔레그램 채널(t.me/yoba_fanclub) 이미지</strong>를 받아 마지막 50바이트를 시드로 <strong>DGA 도메인(형용사-명사-동사-숫자.dedyn.io)</strong>을 생성하고, 구글 DNS-over-HTTPS로 조회해 탐지·차단을 우회한다. 정상 <em>wmpdmc.exe</em>를 ProgramData\WMProcess로 복사해 예약 작업으로 지속성을 확보한다.</li>
+                <li><strong>Hugging Face 모델 악용 재개:</strong> 큐웬2-tiny(Qwen2-tiny)로 위장한 악성 모델 <strong>31개·계정 7개</strong>가 9월 이후 2차에 걸쳐 게시됐고 다운로드 <strong>3만 2,000회 이상</strong>(대표 모델 2만 8,412회)을 기록했다. pickle 익스플로잇이 아니라 <strong>trust_remote_code</strong> 옵션으로 모델이 자체 Python 코드를 실행시키는 구조를 악용해, Xinference·GPUStack 같은 <strong>자체 호스팅 추론 서버의 GPU를 채굴</strong>에 끌어다 쓴다. 역방향 셸과 <strong>컨테이너 탈출</strong> 스크립트까지 포함됐고, 신고 후에도 8일간 살아 있었다.</li>
+                <li><strong>브라우저·개발자 도구:</strong> <strong>319개 크롬 확장(1,340만 설치)</strong>이 검색어를 추적 서버로 우회시켜 Bing·Yahoo 광고 수익을 빼돌린 캠페인이 확인됐고, 2025년 말부터 유지된 <strong>가짜 솔라나 스타터킷</strong>은 AI 코딩 에이전트를 속여 <strong>NetSupport RAT</strong>를 설치하도록 유도한다.</li>
+                <li><strong>반대편의 진전:</strong> 구글은 <strong>Gemini 4 Carbon</strong>으로 취약점 탐색 <strong>SEC-bench Pro 88.2%</strong>, 익스플로잇 <strong>ExploitGym 54.8%</strong>를 기록했다고 발표했다. 같은 주에 안트로픽 모델이 커널 9.8 취약점의 실제 익스플로잇을 작성했다는 소식(항목 7)과 겹치면서, <strong>공격·방어 양쪽의 자동화 속도가 동시에 올라간</strong> 국면이 됐다.</li>
+                <li><strong>방어 우선순위:</strong> ① <code>trust_remote_code</code>는 신뢰 모델에만, 추론 서버는 아웃바운드 제한 ② 서명된 실행파일 옆 DLL이 있으면 그 자체가 경고 신호 ③ 텔레그램·DoH·GitHub.io를 경유하는 C2는 프록시 로그 상관분석으로 탐지 ④ 개발자 도구·확장은 설치 목록을 주기적으로 감사.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/fake-chatgpt-and-claude-apps-abuse.html" target="_blank">The Hacker News - Fake ChatGPT and Claude Apps Abuse Signed Executables to Deploy Crypto Miners</a> · <a href="https://www.bleepingcomputer.com/news/security/hugging-face-malware-campaign-returns-to-hijack-gpus-for-crypto-mining/" target="_blank">BleepingComputer - Hugging Face malware campaign returns to hijack GPUs for crypto mining</a> · <a href="https://www.bleepingcomputer.com/news/security/chrome-extensions-with-134-million-installs-caught-hijacking-searches/" target="_blank">BleepingComputer - Chrome extensions with 13.4 million installs caught hijacking searches</a> · <a href="https://thehackernews.com/2026/10/googles-gemini-4-carbon-leads.html" target="_blank">The Hacker News - Google's Gemini 4 Carbon Leads Benchmarks for Finding, Exploiting, and Patching Vulnerabilities</a></p>
+
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
