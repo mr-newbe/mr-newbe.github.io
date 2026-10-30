@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ [클래식] Key Reinstallation Attacks (CCS 2017) — '재전송' 한 번으로 WPA2의 논스를 되감다: 14년 된 4-way 핸드셰이크, 10개 CVE, 안드로이드 all-zero 키</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚡ [클래식] Key Reinstallation Attacks — 암호는 멀쩡한데, 핸드셰이크가 논스를 되감았다</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-30 · 카테고리: Research (클래식 보안 논문 · 무선/프로토콜 보안 · WPA2 · 논스 재사용)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> Key Reinstallation Attacks: Forcing Nonce Reuse in WPA2<br>
+                <strong>저자:</strong> Mathy Vanhoef, Frank Piessens (imec-DistriNet, KU Leuven)<br>
+                <strong>게재지:</strong> <em>ACM CCS 2017</em> (Proceedings of the 2017 ACM SIGSAC Conference on Computer and Communications Security), Dallas, 2017년 10월 30일–11월 3일 · 본문 16쪽<br>
+                <strong>발표:</strong> 2017년 11월 1일 (수) · <strong>원고 제출:</strong> 2017년 5월 19일<br>
+                <strong>공개(취약점):</strong> 2017년 10월 16일 · CERT/CC <strong>VU#228519</strong> · CVE <strong>10건</strong> (CVE-2017-13077 ~ 13088 계열)<br>
+                <strong>분야:</strong> 무선 네트워크 보안 · 802.11i 4-way 핸드셰이크 · 암호 프로토콜 상태 기계 · 논스/IV 재사용 · 형식 검증의 한계<br>
+                <strong>인용:</strong> Semantic Scholar 기준 <strong>464회</strong> · OpenAlex 기준 <strong>379회</strong> (집계 차이 있음, 2026-10-30 조회)<br>
+                <strong>원문:</strong> <a href="https://dl.acm.org/doi/10.1145/3133956.3134027" target="_blank" rel="noopener">ACM DL (DOI 10.1145/3133956.3134027)</a> · <a href="https://papers.mathyvanhoef.com/ccs2017.pdf" target="_blank" rel="noopener">저자 공개 PDF</a> · <a href="https://www.krackattacks.com/" target="_blank" rel="noopener">프로젝트 페이지(KRACK)</a>
+            </div>
+
+            <h2><i class="fa-solid fa-circle-question"></i> 왜 이 논문인가 — '증명된 프로토콜'이 구현에서 무너지는 순간</h2>
+            <p>2017년 10월 16일, KU Leuven의 <strong>Mathy Vanhoef</strong>와 <strong>Frank Piessens</strong>는 Wi-Fi의 근간을 흔드는 결과를 공개합니다. 대상은 WPA2 — 2004년부터 전 세계 거의 모든 무선 네트워크를 지켜온 암호화 방식이고, 핵심인 <strong>4-way handshake</strong>는 2003년 WPA로 도입된 이래 <em>14년 동안 공격 사례가 없었으며</em>, 심지어 <strong>형식적 안전성 증명까지 통과한</strong> 프로토콜이었습니다.</p>
+            <p>그런데 이 논문이 보여준 것은 <strong>AES도, CCMP도, 키 유도 함수도 깨지지 않았다</strong>는 사실입니다. 깨진 것은 <em>키를 '설치하는 시점'에 대한 상태 기계</em>였습니다. 공격자는 암호문을 풀지 않습니다. 그저 <strong>이미 보낸 핸드셰이크 3번 메시지를 다시 배달</strong>시켜, 피해자가 <em>같은 키를 두 번 설치</em>하게 만듭니다. 키가 두 번 설치되면 그 키에 딸린 <strong>논스(송신 패킷 번호)와 리플레이 카운터가 초기값으로 되감기고</strong>, 그 순간 같은 키로 같은 논스를 쓰는 스트림 암호의 고전적 재앙 — <strong>키스트림 재사용</strong> — 이 열립니다.</p>
+            <p>결과는 논문의 표현대로 "모든 Wi-Fi 기기는 우리 공격의 <em>어떤 변형</em>에 취약했다"였고, 특히 <strong>안드로이드 6.0 이상에서는 예측 가능한 all-zero 암호화 키가 설치되어</strong> 보안 보장이 문자 그대로 0이 되었습니다. 화려한 제로데이도, 메모리 손상도 아닙니다. <strong>표준 문서의 모호한 한 문장</strong>과 <strong>재전송을 받아주도록 요구하는 규격</strong>이 만든 구멍입니다. 2026년에 다시 읽는 이유는 이것입니다 — 우리가 지금 쓰는 프로토콜도 "안전하다고 증명됐다"와 "안전하게 구현됐다" 사이에서 같은 방식으로 미끄러질 수 있기 때문입니다.</p>
+
+            <h2><i class="fa-solid fa-diagram-project"></i> 무대 설정 — 4-way handshake가 실제로 하는 일</h2>
+            <p>WPA2-Personal(PSK)이든 WPA2-Enterprise(802.1X)든, 암호화의 출발점은 동일합니다. 인증이 끝나면 양쪽은 <strong>PMK(Pairwise Master Key)</strong>를 공유하고, 이 PMK로 세션마다 새 <strong>PTK(Pairwise Transient Key)</strong>를 유도합니다. 이 유도 과정이 4-way handshake입니다.</p>
+            <ul>
+                <li><strong>Msg1 (AP → client):</strong> AP가 <strong>ANonce</strong>(AP의 난수)를 보냅니다.</li>
+                <li><strong>Msg2 (client → AP):</strong> 클라이언트가 <strong>SNonce</strong>와 MIC를 보냅니다. 이제 양쪽 모두 <code>PTK = PRF(PMK, ANonce, SNonce, AP MAC, client MAC)</code>를 계산할 수 있습니다.</li>
+                <li><strong>Msg3 (AP → client):</strong> AP가 <strong>ANonce를 다시 넣고</strong>, MIC와 함께 <strong>GTK(그룹 키)</strong>까지 암호화해 전달합니다. 클라이언트는 이 메시지를 받으면 <em>PTK와 GTK를 설치</em>하고 802.1X 포트를 열어 일반 데이터를 주고받기 시작합니다.</li>
+                <li><strong>Msg4 (client → AP):</strong> "설치 완료" 확인. 여기서 핸드셰이크가 끝납니다.</li>
+            </ul>
+            <p>핵심은 그 다음입니다. 키를 설치할 때 데이터 기밀성 프로토콜(TKIP/CCMP/GCMP)은 그 키에 <strong>송신용 논스(패킷 번호, PN)</strong>와 <strong>수신용 리플레이 카운터</strong>를 묶어서 초기화합니다. 정상 흐름에서는 이 값이 <strong>한 번만</strong> 0(또는 1)으로 시작하고, 이후 절대 되돌아가지 않습니다. 스트림 암호 계열 암호화에서 논스는 <em>"같은 키로 두 번 쓰면 안 되는 값"</em>이기 때문입니다.</p>
+            <p>그런데 802.11 표준은 메시지가 유실될 수 있음을 전제로, AP가 <strong>Msg3를 재전송</strong>하도록 규정합니다("Msg4를 못 받았으면 다시 보내라"). 클라이언트는 그 재전송도 <em>정상적으로 처리해야</em> 합니다. 여기까지는 합리적입니다. 문제는 클라이언트가 재전송된 Msg3를 받을 때 <strong>이미 설치된 키를 다시 설치</strong>한다는 점 — 그리고 그 재설치가 <strong>논스와 리플레이 카운터를 초기화</strong>한다는 점입니다.</p>
+            <blockquote>"Because messages may be lost or dropped, the Access Point will retransmit message 3 if it did not receive an appropriate response. As a result, the client may receive message 3 multiple times. Each time it receives this message, it will reinstall the same session key, and thereby reset the incremental transmit packet number (nonce) and receive replay counter."</blockquote>
+
+            <h2><i class="fa-solid fa-shoe-prints"></i> 공격 5단계 — 암호문을 풀지 않고 논스를 되감는 방법</h2>
+            <p>공격은 "패킷을 위조한다"가 아니라 "<strong>정상적인 재전송을 골라서 배달한다</strong>"는 발상입니다. 논문 Figure 4의 흐름을 그대로 옮기면 이렇습니다.</p>
+            <table>
+                <tr><th>단계</th><th>하는 일</th><th>결과</th></tr>
+                <tr><td>0</td><td>채널 기반 MitM 위치 확보 (피해 AP를 다른 채널에 복제)</td><td>핸드셰이크 메시지를 가로채고 보류·전달할 수 있음</td></tr>
+                <tr><td>1</td><td>Msg1·Msg2·Msg3를 정상 중계, <strong>Msg4만 AP에 도달하지 못하게 차단</strong></td><td>클라이언트는 PTK·GTK를 설치하고 첫 데이터를 <em>논스 1</em>로 전송</td></tr>
+                <tr><td>2</td><td>AP는 Msg4를 못 받았으므로 <strong>Msg3를 재전송</strong> (EAPOL 리플레이 카운터 증가)</td><td>공격자는 이 재전송을 붙잡아 두었다가 원하는 시점에 전달</td></tr>
+                <tr><td>3</td><td>클라이언트가 재전송된 Msg3를 수락 → <strong>같은 PTK를 재설치</strong></td><td><strong>논스·리플레이 카운터가 초기값으로 리셋</strong></td></tr>
+                <tr><td>4</td><td>클라이언트의 다음 데이터 프레임</td><td>이미 쓴 논스를 <strong>다시 사용</strong> → 키스트림 재사용</td></tr>
+            </table>
+            <p>세 가지 세부가 이 공격을 실용적으로 만듭니다.</p>
+            <ul>
+                <li><strong>재전송은 '진짜' 재전송이어야 합니다.</strong> 공격자가 예전 Msg3를 그대로 리플레이하면 EAPOL 리플레이 카운터가 낡아서 거부됩니다. 그래서 공격자는 <em>AP가 새로 만들어 보내는 재전송</em>을 가로채 보류했다가 흘려보냅니다. 즉 공격자는 <strong>타이밍만 조절</strong>하고 메시지는 만들지 않습니다.</li>
+                <li><strong>언제든 반복할 수 있습니다.</strong> 재전송을 붙잡아 둔 시간이 길수록 되감기는 논스의 개수가 많아집니다. 공격자는 피해자를 deauth시켜 새 핸드셰이크를 강제하고 같은 과정을 다시 돌릴 수 있습니다.</li>
+                <li><strong>공격자 없이도 발생합니다.</strong> 배경 잡음 때문에 Msg4가 유실되면, 클라이언트는 <em>스스로</em> 논스를 재사용합니다. 이 지적이 논문의 가장 불편한 부분입니다 — 이건 누군가 악의적으로 만들어야만 생기는 상태가 아닙니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-key"></i> 최악의 변형 — wpa_supplicant가 'all-zero 키'를 설치한 이유</h2>
+            <p>논문의 6.3절은 별도의 구현 버그를 하나 더 끌어냅니다. <strong>wpa_supplicant 2.4와 2.5</strong>는 재전송된 Msg3를 받으면 <em>PTK를 재설치하는 대신 all-zero TK를 설치</em>했습니다. 원인은 표준 문서의 한 구절 — 키가 설치된 뒤에는 메모리에서 TK를 지우라는 취지의 언급(<code>802.11 §12.7.6.6</code>)이었습니다. 이미 지워진 키를 "다시 설치"하니, 설치되는 값이 0이 된 것입니다.</p>
+            <p>이 버그는 <strong>2.6에서 고쳐졌지만 보안 문제로 취급되지 않아 구버전에 백포트되지 않았습니다</strong>. 당시 패치 리뷰는 "Msg4가 잡음 때문에 유실되는 정상 상황"만 상정했고, <em>공격자가 의도적으로 Msg4를 막을 수 있다</em>는 가능성을 고려하지 않았습니다. 그 결과:</p>
+            <ul>
+                <li>안드로이드는 내부적으로 wpa_supplicant를 쓰므로 <strong>모든 안드로이드 6.0 릴리스가 all-zero 키 취약점을 포함</strong>합니다. 논문 작성 시점 기준 <strong>안드로이드 스마트폰의 31.2%</strong>가 이 변형에 노출될 가능성이 있다고 추정했습니다.</li>
+                <li>논문 공개 후 <em>John A. Van Boxtel</em>이 <strong>wpa_supplicant 2.6도 all-zero 키에 취약</strong>함을 발견했고, 이는 곧 6.0을 초과하는 안드로이드 버전 전체로 범위가 확대된다는 뜻이었습니다. 프로젝트 페이지는 당시 <strong>안드로이드 기기의 50%가 이 "치명적 변형"에 취약</strong>하다고 갱신했습니다(언론에서 인용된 41% 수치도 같은 맥락).</li>
+                <li>논문은 <strong>Chromium</strong>에서도 all-zero 키 설치를 실증했습니다.</li>
+            </ul>
+            <p>all-zero 키가 설치되면 더 이상 "복호화가 어려운" 문제가 아닙니다. 키를 아는 것과 같으므로 <strong>피해자가 보내는 트래픽 전체를 그대로 읽고, 주입할 수 있습니다</strong>. 데모 영상에서 공격자가 안드로이드 폰의 트래픽을 실시간으로 복호화해 보여준 장면이 이 경로입니다.</p>
+
+            <h2><i class="fa-solid fa-table-cells"></i> 암호별로 피해가 다른 이유 — TKIP · CCMP · GCMP</h2>
+            <p>논문은 논스 재사용의 영향을 데이터 기밀성 프로토콜별로 정리합니다(Table 3). 셋 다 <strong>스트림 암호 방식</strong>으로 암호화하므로, 논스가 재사용되면 <em>키스트림이 재사용</em>됩니다. 차이는 그 다음에 벌어집니다.</p>
+            <table>
+                <tr><th>프로토콜</th><th>재전송(replay)</th><th>복호화(decrypt)</th><th>위조(forge)</th><th>비고</th></tr>
+                <tr><td><strong>TKIP</strong> (WPA)</td><td>가능</td><td>가능</td><td>가능 (한 방향)</td><td>패킷을 복호화해 MIC까지 얻으면 취약한 Michael 함수를 역산해 <strong>MIC 키 복구</strong></td></tr>
+                <tr><td><strong>CCMP</strong> (WPA2/AES)</td><td>가능</td><td>가능</td><td>불가</td><td>논문 기준 실용적 위조는 이론에 머묾 → <strong>재전송 + 복호화</strong>까지</td></tr>
+                <tr><td><strong>GCMP</strong> (802.11ad/WiGig)</td><td>가능</td><td>가능</td><td>가능 (양 방향)</td><td>인증 키가 <strong>양방향 공용</strong>이라 인증 키까지 복구 → 사실상 전면 붕괴</td></tr>
+            </table>
+            <p>CCMP만 보면 "위조는 안 되니 별거 아니네" 싶지만, <strong>복호화 + 재전송</strong>만으로 논문이 든 시나리오는 충분히 나쁩니다.</p>
+            <ul>
+                <li><strong>TCP 하이재킹:</strong> 암호화된 TCP SYN 패킷을 복호화해 시퀀스 번호를 알아내고, 이어서 스트림에 데이터를 주입합니다. 논문의 표현대로 "암호화되지 않은 HTTP 연결에 악성 데이터를 넣는, Wi-Fi에서 가장 흔한 공격"이 됩니다.</li>
+                <li><strong>브로드캐스트/멀티캐스트 재전송:</strong> 그룹 키 공격으로 인증된 브로드캐스트 프레임을 재전송할 수 있습니다. 논문이 든 예가 흥미로운데, <em>broadcast 모드 NTP</em>입니다. Malhotra와 Goldberg가 지적한 대로 브로드캐스트 NTP 프레임을 재전송하면 피해 시계가 특정 시각에 <strong>영원히 고정</strong>될 수 있고, 이는 TLS 인증서·DNSSEC·Kerberos·비트코인처럼 <em>시간에 의존하는</em> 보안 메커니즘을 흔듭니다. xAP/xPL 같은 홈 오토메이션의 브로드캐스트 명령 재전송도 같은 범주입니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-tower-broadcast"></i> 4-way 하나가 아니다 — FT · 그룹 키 · PeerKey · TDLS</h2>
+            <p>논문의 진짜 무게는 "4-way 하나 뚫렸다"가 아니라 <strong>같은 설계 결함이 802.11의 다른 핸드셰이크에도 반복된다</strong>는 데 있습니다.</p>
+            <ul>
+                <li><strong>FT(Fast BSS Transition, 802.11r) 핸드셰이크 — 가장 치명적.</strong> FT 메시지에는 <em>리플레이 카운터가 아예 없습니다</em>. 그래서 공격자는 재association request를 계속 재전송해 AP의 논스와 리플레이 카운터를 반복해서 되감을 수 있고, <strong>MitM 없이 도청·재전송 능력만으로</strong> 성립합니다. 논문은 hostapd, MediaTek 기반 Linksys RE7000, 상용 Aerohive AP <strong>세 개 모두</strong>에서 이를 확인했습니다. 특히 <strong>MFP(Management Frame Protection)를 켜도 막지 못합니다</strong> — MFP는 인증·재association 프레임을 보호하지 않기 때문입니다. 로밍이 잦은 기업 Wi-Fi에서 이 메시지가 갖는 의미를 생각하면 무게가 다르게 느껴집니다.</li>
+                <li><strong>그룹 키 핸드셰이크.</strong> AP가 group message 1을 보낸 직후 GTK를 설치하는 구현에서, 공격자는 group message 1을 재전송해 클라이언트의 리플레이 카운터를 되감습니다. 논문은 <em>테스트한 모든 Wi-Fi 클라이언트</em>가 이 공격에 취약했다고 적습니다 — OS X, macOS, iOS, Windows 7/10, OpenBSD, wpa_supplicant, 안드로이드, MediaTek 전부.</li>
+                <li><strong>PeerKey · TDLS.</strong> CVE 목록에 STK(PeerKey)와 TPK(TDLS) 재설치가 별도 항목으로 들어 있습니다.</li>
+                <li><strong>WNM Sleep Mode Response.</strong> 절전 모드 응답 프레임을 처리할 때 GTK/IGTK를 재설치하는 경로도 CVE로 등록됐습니다(CVE-2017-13087/13088).</li>
+            </ul>
+            <p>CVE 10건은 <em>각각이 하나의 프로토콜 취약점</em>이고, 하나의 CVE에 여러 벤더 제품이 걸립니다. 즉 "제품 10개"가 아니라 <strong>"설계 결함 10개"</strong>입니다.</p>
+            <table>
+                <tr><th>CVE</th><th>대상</th></tr>
+                <tr><td>CVE-2017-13077</td><td>4-way 핸드셰이크에서 pairwise 키(PTK-TK) 재설치</td></tr>
+                <tr><td>CVE-2017-13078 / 13079</td><td>4-way 핸드셰이크에서 그룹 키(GTK) / 무결성 그룹 키(IGTK) 재설치</td></tr>
+                <tr><td>CVE-2017-13080 / 13081</td><td>그룹 키 핸드셰이크에서 GTK / IGTK 재설치</td></tr>
+                <tr><td>CVE-2017-13082</td><td>FT 재association request 재전송 수용 → PTK-TK 재설치</td></tr>
+                <tr><td>CVE-2017-13084</td><td>PeerKey 핸드셰이크의 STK 재설치</td></tr>
+                <tr><td>CVE-2017-13086</td><td>TDLS 핸드셰이크의 TPK 재설치</td></tr>
+                <tr><td>CVE-2017-13087 / 13088</td><td>WNM Sleep Mode Response 처리 시 GTK / IGTK 재설치</td></tr>
+            </table>
+
+            <h2><i class="fa-solid fa-scale-unbalanced"></i> 형식 증명은 왜 이걸 못 잡았나 — '언제 설치하는가'가 모델에 없었다</h2>
+            <p>이 논문에서 가장 오래 남을 부분은 아마 6.4절입니다. 4-way handshake는 <strong>형식 검증을 통과한 프로토콜</strong>입니다. He 등은 2005년에 이 핸드셰이크와 그룹 키 핸드셰이크의 <strong>키 비밀성(key secrecy)</strong>과 <strong>세션 인증(session authentication)</strong>을 증명했습니다. 그런데 이 공격은 그 정리들을 <em>위반하지 않습니다</em>.</p>
+            <ul>
+                <li><strong>키 비밀성은 유지됩니다.</strong> 공격자는 PTK를 알아내지 못합니다. 단지 <em>같은 키를 두 번 쓰게</em> 만들 뿐입니다.</li>
+                <li><strong>세션 인증도 유지됩니다.</strong> 증명의 정의는 "프로토콜을 완료시키는 유일한 방법은 메시지를 성실히 중계하는 것"인데, 공격자는 정확히 <em>재전송 메시지를 중계</em>합니다. 즉 정직한 중계자입니다.</li>
+                <li><strong>모델에 없던 것: 키 설치 시점.</strong> 증명은 "키를 설치한다"는 사건의 <em>타이밍</em>과 <em>횟수</em>를 정의하지 않았습니다. 그래서 "같은 키가 두 번 설치될 수 있다"는 사실이 정리 바깥에 남았고, 그 바깥이 실제 공격면이었습니다.</li>
+            </ul>
+            <blockquote>"The proofs do not model key installation. Put differently, they do not state when the key is installed for use by the data-confidentiality protocol."</blockquote>
+            <p>저자들은 여기서 한 걸음 더 나갑니다. <strong>형식 증명이 오히려 역효과를 낳을 수 있다</strong>는 지적입니다 — 어떤 프로토콜이 "검증됨"이 되면 커뮤니티가 <em>실제 구현을 감사할 동기</em>를 잃는다는 것. 그리고 자기들이 제안한 완화책의 NuSMV 증명에 대해서도 같은 경고를 붙입니다. "우리 모델이 맞다는 보장도 없다. 벤더 패치는 틀릴 수 있고, 아직 모르는 변형이 있을 수 있다. 그러니 감사를 멈추지 마라."</p>
+
+            <h2><i class="fa-solid fa-timeline"></i> 타임라인 — 5월의 원고, 10월의 공개</h2>
+            <ul>
+                <li><strong>2017-05-19:</strong> 논문 원고 제출(이후 수정은 경미). 즉 공개 시점에 이미 발견은 수개월 전.</li>
+                <li><strong>2017-07-14 전후:</strong> 자체 테스트한 벤더들에게 비공개 통보. 이 과정에서 "구현 버그 몇 개"가 아니라 <strong>프로토콜 설계 결함</strong>임을 확신.</li>
+                <li><strong>2017-07-15:</strong> OpenBSD에 별도 통보(이후 Theo de Raadt가 엠바고 기간에 공개적으로 이의를 제기한 것으로 유명합니다).</li>
+                <li><strong>2017-08-28:</strong> CERT/CC가 광범위 벤더 통보(VU#228519) 발송.</li>
+                <li><strong>2017-08-30:</strong> OpenBSD가 <strong>조용히 errata 배포</strong>(6.0/6.1) — 공격을 사전 차단.</li>
+                <li><strong>2017-10-16:</strong> 공개. 같은 날 대형 벤더 패치가 쏟아지고 언론이 대서특필.</li>
+                <li><strong>2017-11-01:</strong> CCS 2017에서 정식 발표.</li>
+            </ul>
+            <p>주목할 점은 <strong>패치의 성격</strong>입니다. 대부분의 수정은 암호 알고리즘 교체가 아니라 상태 기계에 <strong>불리언 변수 하나</strong>를 추가하는 수준이었습니다. 논문이 제시한 완화책은 이렇습니다.</p>
+            <ul>
+                <li><strong>이미 사용 중인 키를 다시 설치하지 마라.</strong> 재전송된 Msg3에는 응답하되, <em>키 설치는 건너뛴다</em>. PTK-START에서 <code>installed = false</code>로 두고, PTK-DONE 진입 시 true일 때만 설치하는 식입니다. 이미 설치됐다면 논스·리플레이 카운터를 건드리지 않습니다.</li>
+                <li><strong>수신 그룹 메시지의 리플레이 카운터는 오직 증가만.</strong> 그렇지 않으면 공격자가 오래된 group message 1로 옛 키를 잠깐 설치시킨 뒤 현재 키를 재설치하게 만들 수 있습니다.</li>
+                <li><strong>논스 오용에 강한 AEAD를 쓰라.</strong> AES-SIV, GCM-SIV, HS1-SIV 같은 방식은 논스가 재사용돼도 피해가 제한됩니다. GCMP가 인증 키까지 넘겨주는 것과 CCMP가 그렇지 않은 것의 차이가 바로 이 지점입니다 — <em>암호 선택이 사고의 상한을 결정</em>합니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 논문이 인정한 한계 — 과장하지 않기</h2>
+            <ul>
+                <li><strong>MitM 위치가 필요합니다.</strong> 4-way 공격은 피해자와 AP 사이에서 메시지를 조절할 수 있어야 하고, MAC 주소가 키 유도에 들어가므로 단순한 가짜 AP로는 안 되고 <strong>채널 기반 MitM</strong>(피해 AP를 다른 채널에 복제)을 씁니다. 물리적 근접성이 전제입니다.</li>
+                <li><strong>CCMP에서는 위조가 안 됩니다.</strong> 재전송과 복호화까지입니다. "WPA2가 전부 뚫렸다"는 식의 보도는 과장이었고, 논문 자신도 그렇게 주장하지 않습니다. 다만 <em>복호화된 TCP로 HTTP 세션을 하이재킹</em>하는 것만으로 실질 피해는 충분합니다.</li>
+                <li><strong>WPA2를 버릴 이유는 아닙니다.</strong> 패치된 구현에서 이 공격은 성립하지 않으며, 저자들도 "WPA2를 쓰지 말라"가 아니라 "패치하라"고 말했습니다. 프로토콜 교체(WPA3)는 별개의 문제입니다.</li>
+                <li><strong>일부 기기는 구조적으로 영향이 작습니다.</strong> Windows와 iOS는 재전송된 Msg3를 아예 받지 않아 4-way 변형에는 해당하지 않았지만(표에서 ✗), <strong>그룹 키 재설치에는 여전히 취약</strong>했습니다. 즉 "OS가 안전하다"가 아니라 "공격면이 좁다"입니다.</li>
+                <li><strong>논문 자체가 "초기 버전"입니다.</strong> 공개 시점에 저자들은 더 쉬운 공격 기법을 추가로 찾았고, macOS/OpenBSD 공격이 논문보다 훨씬 쉽다고 밝혔습니다. 2.6의 all-zero 키 취약점도 논문 이후 외부 연구자가 발견했습니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-diagram-successor"></i> 계보 — WEP의 유령에서 WPA3까지</h2>
+            <p>이 논문은 무선 보안의 <strong>세 번째 반복</strong>에 위치합니다. 10월 21일 다룬 <a href="security-research-2026-10-21.html">RC4 키 스케줄링 공격(FMS, SAC 2001)</a>이 WEP를 죽인 방식도 결국 <em>IV 재사용으로 키스트림이 겹치는 문제</em>였습니다. WEP의 24비트 IV → TKIP의 IV 확장과 Michael → CCMP의 48비트 PN. <strong>모두 "논스를 절대 재사용하지 않는다"는 약속 위에 서 있었고</strong>, KRACK은 그 약속을 <em>암호가 아니라 핸드셰이크 쪽에서</em> 깼습니다. 흥미로운 대칭입니다 — WEP는 설계가 허술해서, WPA2는 설계가 너무 "관대해서" 무너졌습니다.</p>
+            <ul>
+                <li><strong>2018 — WPA3:</strong> SAE(동시 인증)로 오프라인 사전 공격을 막았지만, Vanhoef는 2019년 <em>Dragonblood</em>로 WPA3의 SAE 핸드셰이크에서 다시 부채널·다운그레이드 문제를 찾아냅니다. 핸드셰이크는 계속 공격면입니다.</li>
+                <li><strong>2021 — FragAttacks:</strong> 같은 저자가 단편화·집합체(aggregation) 설계 결함을 정리합니다. "프로토콜 설계 수준의 결함은 구현 패치로 완전히 사라지지 않는다"는 교훈의 연장.</li>
+                <li><strong>형식 검증의 재조정:</strong> 이후 프로토콜 분석은 <em>키 설치·상태 전이</em>를 명시적으로 모델링하는 쪽으로 무게가 옮겨갑니다. "증명됐다"는 문장을 쓸 때 <em>무엇을 모델에 넣었는지</em>를 함께 읽어야 한다는 규범이 이 사건으로 굳었습니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 2026년의 관점 — 이 논문에서 가져갈 세 문장</h2>
+            <ul>
+                <li><strong>① "암호가 안전하다"와 "프로토콜이 안전하다"와 "구현이 안전하다"는 세 개의 다른 명제다.</strong> KRACK은 세 번째에서 두 번째로 올라가며 첫 번째를 무력화했습니다.</li>
+                <li><strong>② 재전송·재시도·재연결은 기능이 아니라 공격면이다.</strong> 메시지 유실을 견디라고 넣은 <em>관대함</em>이 논스를 되감았습니다. 오늘의 재시도 로직(idempotency, replay window, 토큰 갱신)도 같은 질문을 받아야 합니다 — <em>같은 상태를 두 번 초기화하면 무엇이 깨지는가?</em></li>
+                <li><strong>③ 표준 문서의 모호한 한 문장은 구현에서 버그가 된다.</strong> "설치 후 키를 지우라"는 취지의 언급이 all-zero 키가 되었고, "리플레이 카운터가 어떤 값과 맞으면 된다"는 모호함이 FT 공격의 통로가 됐습니다. 규격의 <em>불명확성</em>은 곧 <em>구현 다양성</em>이고, 구현 다양성은 공격면의 다양성입니다.</li>
+            </ul>
+            <p>마지막으로 실무적인 결론. 무선은 여전히 신뢰 경계가 아니고, 그 위에 얹힌 HTTPS·HSTS·인증서 검증이 마지막 방어선입니다. KRACK의 가장 현실적인 피해 시나리오가 <em>"암호화되지 않은 HTTP에 데이터 주입"</em>이었다는 사실이 이를 잘 보여줍니다. 계층을 하나 더 얹는 것이 프로토콜 하나를 완벽하게 만드는 것보다 오래 견딥니다 — 1973년 Lampson이 <a href="security-research-2026-10-28.html">격리 문제</a>에서 "완벽한 차단 대신 채널 용량을 계량하라"고 한 것과 같은 논리입니다.</p>
+
+            <h2><i class="fa-solid fa-book-open"></i> 더 읽기</h2>
+            <ul>
+                <li>원문: <a href="https://dl.acm.org/doi/10.1145/3133956.3134027" target="_blank" rel="noopener">CCS 2017, DOI 10.1145/3133956.3134027</a> · <a href="https://papers.mathyvanhoef.com/ccs2017.pdf" target="_blank" rel="noopener">저자 공개 PDF (16쪽)</a></li>
+                <li>프로젝트/FAQ: <a href="https://www.krackattacks.com/" target="_blank" rel="noopener">krackattacks.com</a> — CVE 10건 설명, 벤더별 영향, 데모 영상, 애디넘(wpa_supplicant 2.6 all-zero 키)</li>
+                <li>조정/공지: <a href="https://kb.cert.org/vuls/id/228519" target="_blank" rel="noopener">CERT/CC VU#228519</a> · <a href="https://www.wi-fi.org/news-events/newsroom/wi-fi-alliance-security-update" target="_blank" rel="noopener">Wi-Fi Alliance 보안 업데이트</a></li>
+                <li>인용 수: <a href="https://api.semanticscholar.org/graph/v1/paper/search?query=Key%20Reinstallation%20Attacks" target="_blank" rel="noopener">Semantic Scholar 464회</a> · <a href="https://api.openalex.org/works?search=Key%20Reinstallation%20Attacks" target="_blank" rel="noopener">OpenAlex 379회</a> (2026-10-30 조회)</li>
+                <li>함께 읽기:
+                    <ul>
+                        <li>2026-10-21 <a href="security-research-2026-10-21.html">RC4 키 스케줄링 공격 (SAC 2001)</a>: WEP를 죽인 IV 재사용 문제. KRACK과 같은 재앙(키스트림 재사용)의 1세대.</li>
+                        <li>2026-09-21 <a href="security-research-2026-09-21.html">On the Security of Public Key Protocols (Dolev–Yao, 1983)</a>: "능동적 공격자는 메시지를 재전송할 수 있다"를 공리로 세운 모델. KRACK은 그 공리가 실제로 얼마나 강한지 보여준 사례.</li>
+                        <li>2026-10-14 <a href="security-research-2026-10-14.html">Spectre Attacks (2019)</a>: "구현이 명세를 배신한다"는 주제의 하드웨어판. 증명과 실물 사이의 간극이라는 같은 문제의식.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
