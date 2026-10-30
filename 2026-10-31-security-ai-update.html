@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-10-31</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-10-31 | <i class="fa-solid fa-tags"></i> Daily News, AI 공급망, 하드웨어 임플란트, 대규모 유출, Drupal, jackson-databind, 백업 어플라이언스, 브라우저 패치, AI 인프라, AI 사칭 봇
+        </div>
+
+        <div class="content">
+            <h2>1. Cursor 마켓플레이스의 '진짜' Claude Code 확장이 위·변조됐다 — SSH 백도어·역터널</h2>
+            <p>Anthropic 공식 <strong>Claude Code</strong> VS Code 확장이 <strong>Cursor 마켓플레이스를 통해 위·변조된 채 배포</strong>됐다. 문제의 버전은 <strong>2.1.313</strong>으로, 가짜 확장이 아니라 <strong>정품 확장 ID(anthropic.claude-code)</strong>를 그대로 사용한 '정상 업데이트' 형태였다. Cursor는 <strong>10월 29일 약 11시간</strong> 노출됐고 영향 사용자는 <strong>최대 5,000명</strong>이라고 밝혔다. 현재 악성 버전은 제거됐고 Anthropic은 <strong>2.1.314</strong>를 Open VSX·마이크로소프트 마켓플레이스에 배포했다.</p>
+            <ul>
+                <li><strong>페이로드:</strong> 정품 JS 번들 앞에 <strong>66줄 로더</strong>가 삽입됐다. VS Code 시작 및 웹뷰가 열릴 때 동작해 <code>~/.ssh/authorized_keys</code>에 공격자 키를 추가한다. 키 이름은 <strong>"svc-telemetry"</strong>로 위장했다.</li>
+                <li><strong>지속성·통신:</strong> SSH 활성화를 시도한 뒤 <strong>134.209.82[.]225</strong>로 역터널을 열고, 예약 작업·crontab·LaunchAgent로 지속성을 심는다. 정찰 데이터는 <strong>134.209.82[.]225:8099/beacon</strong>으로 <strong>암호화되지 않은 HTTP</strong>로 전송된다.</li>
+                <li><strong>수집 항목:</strong> 공인 IP, 호스트명·로컬 계정, OS·CPU 아키텍처, 홈·작업 디렉터리, <code>git config --global user.email</code>, 그리고 이름에 KEY·TOKEN·SECRET·PASS·AWS·GCP가 들어간 <strong>최대 40개 환경변수의 '이름'</strong>. 값은 초기 비콘에 담기지 않지만, 이름만으로 어떤 클라우드·CI·자격증명 체계가 붙어 있는지 드러난다.</li>
+                <li><strong>핵심 교훈:</strong> Cursor의 "Anthropic이 만든 버전이 아니다"라는 해명은 초점이 빗나간다. 침해 지점은 <strong>정품 게시자 신원과 정품 확장 ID</strong>였고, 그래서 사용자는 검증할 방법이 없었다. macOS·Windows에서는 SSH 서비스 활성화에 관리자 권한이 필요해 터널 로그인까지 이어지지 않은 경우가 많지만, <strong>공격자 키 등록·지속성·정찰 전송은 권한 없이도 성공</strong>한다.</li>
+                <li><strong>즉시 조치:</strong> Claude Code를 Cursor에서 설치했다면 <code>~/.ssh/authorized_keys</code>의 <strong>svc-telemetry</strong> 항목 삭제, 확장 버전 확인(2.1.314 이상), 예약 작업·crontab·LaunchAgent에 낯선 항목 점검, 환경변수에 있던 토큰 전부 로테이션.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/official-claude-code-vs-code-extension.html" target="_blank">The Hacker News - Official Claude Code Extension on Cursor Marketplace Trojanized with Persistent SSH Backdoor</a> · <a href="https://www.bleepingcomputer.com/news/security/malicious-claude-code-extension-on-cursor-planted-ssh-backdoors/" target="_blank">BleepingComputer - Malicious Claude Code extension on Cursor planted SSH backdoors</a></p>
+
+            <h2>2. Trezor 지갑에서 '휴대폰 회선으로 시드 전송' 하드웨어 임플란트 발견</h2>
+            <p>Trezor가 <strong>CryptoBilis</strong>에서 판매된 <strong>Trezor Safe 5</strong> 한 대에서 <strong>추가 회로 기판</strong>이 발견됐다고 경고했다. 인도네시아 사용자가 <strong>토코페디아(Tokopedia)</strong>를 통해 8월에 구매한 제품으로, 기판은 <strong>메인보드와 화면 사이</strong>에 들어가 <strong>셀룰러 모듈과 안테나</strong>를 갖췄다. 화면을 읽어 <strong>복구 시드(recovery phrase)</strong>를 빼내고, 기기가 전원에 연결될 때마다 외부로 전송하는 구조다.</p>
+            <ul>
+                <li><strong>경고 범위:</strong> Trezor는 아직 기기를 직접 검사하지 못했지만, 실험실 확인을 기다리는 동안 구매자를 방치할 수 없다며 <strong>2026년 3월 이후 CryptoBilis가 공급한 모든 Trezor</strong>(토코페디아 등 하위 판매처 포함) 구매자에게 즉시 자금 이동을 권고했다.</li>
+                <li><strong>중요한 함정:</strong> <strong>기존 시드를 다른 기기에 복원하는 것으로는 해결되지 않는다.</strong> 변조된 지갑이 이미 시드를 전송했을 수 있기 때문이다. 반드시 <strong>새 지갑 + 새 시드</strong>로 옮겨야 하며, 아직 설정하지 않은 기기는 설정하지 말고 기존 시드를 절대 입력하면 안 된다.</li>
+                <li><strong>Ledger 연쇄:</strong> Trezor는 <strong>10월 9일</strong> 동남아 공식 리셀러 CryptoBilis를 해지했다. 그 전에 Ledger가 CryptoBilis 구매자들의 자산 유실을 조사하면서 시작됐고, Ledger는 한 피해자 지갑에서 <strong>설정 단계의 시드를 가로채는 무단 하드웨어 임플란트</strong>를 확인했다고 밝혔다.</li>
+                <li><strong>싱가포르 경찰 권고:</strong> 10월 28일 싱가포르 경찰은 일부 소매점에서 판매된 Ledger 지갑에 악성 하드웨어 부품이 들어 있었다고 발표했다. <strong>9월 10일 이후 최소 2건</strong>이 신고됐다.</li>
+                <li><strong>사용자 점검의 한계:</strong> Trezor는 사용자가 자체적으로 임플란트를 판별할 수 없으며, <strong>무게를 재거나 기기를 열어보지 말라</strong>고 당부했다. 피해자는 무게 차이를 눈치챘지만 무게 차이는 다른 원인으로도 생긴다.</li>
+                <li><strong>추가 위험:</strong> Trezor는 이 사건을 악용한 <strong>가짜 이메일·우편·전화 피싱</strong>을 예상한다고 밝혔다. 지원센터를 사칭해 시드를 요구하는 연락은 100% 사기다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/trezor-warns-of-suspected-hardware.html" target="_blank">The Hacker News - Trezor Warns of Suspected Hardware Implant in One of Its Wallets Sold by CryptoBilis</a></p>
+
+            <h2>3. 플로리다 교육부 침해 — 재정지원 신청자 490만 명, 주민번호 포함</h2>
+            <p>미국 <strong>플로리다주 교육부(FDOE)</strong>가 학자금·재정지원 웹사이트 <strong>FloridaStudentFinancialAidSG.org</strong>에 대한 무단 침해를 공지했다. 영향 범위는 <strong>약 490만 명</strong>이며, 유출 항목에 <strong>사회보장번호(SSN)</strong>가 포함된다. FDOE는 <strong>10월 19일</strong> 침해를 인지했고 <strong>10월 29일</strong> 공식 발표했다.</p>
+            <ul>
+                <li><strong>기관 설명:</strong> "범죄적 무단 접근"으로 규정하고 있으며, 재정지원 지급 지연이나 장학금·보조금·학자금 대출 자격에는 영향이 없다고 밝혔다. 그러나 SSN 유출은 <strong>수년 후까지 재사용되는 신원 사기 원료</strong>이므로 기관의 '서비스 정상' 안내와 별개로 개인 조치가 필요하다.</li>
+                <li><strong>플로리다 연쇄:</strong> 앞서 플로리다 당국은 <strong>운전면허 정보 유출</strong> 사건도 확인했다. 주(州) 단위 시스템이 연속으로 뚫리면서 '주 행정망 = 단일 실패점'이라는 구조적 문제가 드러났다.</li>
+                <li><strong>피해자 조치:</strong> ① 3대 신용평가사 신용동결(credit freeze) ② IRS 신분보호 PIN 발급(세금 환급 사기 차단) ③ 플로리다 실업수당 사기 신청 모니터링 ④ FDOE가 안내한 무료 신용모니터링 등록. 신청 이력이 있다면 <strong>본인 정보가 포함됐다고 가정</strong>하는 편이 안전하다.</li>
+                <li><strong>맥락:</strong> 같은 주에 미국 <strong>국토안보부(DHS)</strong> 직원 4만여 명 정보 노출, <strong>법무법인 Baker McKenzie·Troutman</strong> 침해 등 연방·민간 대형 유출이 겹쳤다. 10월 하순은 '유출 신고 폭주' 구간이었다.</li>
+            </ul>
+            <p>출처: <a href="https://www.fldoe.org/databreach.stml" target="_blank">Florida Department of Education - Data Breach Notice</a> · <a href="https://www.wpbf.com/article/florida-department-of-education-data-breach-affecting-49-million-people-financial-aid/74287584" target="_blank">WPBF - Florida Department of Education reports data breach affecting 4.9 million people</a></p>
+
+            <h2>4. 코펜하겐대 침해 — 52만 5,000명 주민번호, 직원·학생 2만 명 카드 PIN까지</h2>
+            <p>덴마크 <strong>코펜하겐대학교</strong>는 침해자가 <strong>테스트 환경</strong>에 접근해 재학생·졸업생·교직원 약 <strong>52만 5,000명</strong>의 개인정보를 확보했다고 밝혔다. 침해는 <strong>10월 20일</strong> 탐지 후 차단됐으며, 공격자와 동기는 아직 확인되지 않았다.</p>
+            <ul>
+                <li><strong>유출 항목:</strong> 이름, 전화번호, 개인 이메일, 그리고 상당수에 대해 덴마크 <strong>주민등록번호(CPR)</strong>. CPR은 덴마크에서 금융·의료·정부 서비스 전반의 신원 키로 쓰여 <strong>비밀번호 재설정 공격의 기반</strong>이 된다.</li>
+                <li><strong>가장 심각한 항목:</strong> 교직원·학생 약 <strong>2만 명</strong>의 <strong>신분증 카드 PIN</strong>이 유출돼 전원 재발급됐다. PIN은 물리 출입·프린터·건물 접근에 쓰이므로, 재발급 전 구간이 물리 보안 공백이 된다.</li>
+                <li><strong>구조적 교훈:</strong> '테스트 환경'이 운영 데이터의 사본을 들고 있으면 그것은 더 이상 테스트 환경이 아니다. 익명화·마스킹 없이 운영 데이터를 복제한 스테이징은 <strong>보안 등급이 가장 낮은 곳에 가장 민감한 데이터를 두는 구성</strong>이다.</li>
+            </ul>
+            <p>출처: <a href="http://news.ku.dk/all_news/2026/10/university-of-copenhagen-hit-by-cyber-attack/" target="_blank">University of Copenhagen - Hit by cyber attack</a> · <a href="https://www.securityweek.com/in-other-news-anthropic-breach-dispute-uefi-flaw-hits-most-servers-cloudflare-ai-data-leak/" target="_blank">SecurityWeek - In Other News (2026-10-30)</a></p>
+
+            <h2>5. 미 연방선거위원회(FEC), 전자신고 시스템 침해 시도로 중간선거 직전 오프라인</h2>
+            <p>미국 <strong>연방선거위원회(FEC)</strong>가 전자신고 시스템에 대한 <strong>침해 시도</strong> 이후 시스템을 내렸다. 로이터가 입수한 내부 메일에 따르면 이 조치는 <strong>11월 3일 중간선거를 일주일 앞둔 시점</strong>이었고, 정치 단체들은 <strong>24시간·48시간 긴급 지출 신고</strong>를 제출할 수 없게 됐다. 과거 신고 내역은 계속 검색 가능했고 시스템은 <strong>10월 28일</strong> 복구됐다.</p>
+            <ul>
+                <li><strong>왜 중요한가:</strong> 24·48시간 신고는 선거 직전 <strong>막판 지출의 실시간 추적 장치</strong>다. 이 창구가 며칠 닫히면 유권자가 후보별 막판 자금 흐름을 볼 수 있는 시간이 그만큼 사라진다.</li>
+                <li><strong>공격 성격:</strong> 현재까지 확인된 것은 '침해 시도'이며 데이터 유출이나 표 집계 시스템 침해는 보고되지 않았다. 미국 선거 인프라는 <strong>투표기(집계)와 행정·신고 시스템(공개)</strong>이 분리돼 있어, 신고 시스템 장애가 곧 투표 무결성 훼손은 아니다.</li>
+                <li><strong>실무 시사점:</strong> 선거·공공 마감일이 걸린 시스템은 <strong>'의심 시 즉시 차단' 런북</strong>과 <strong>오프라인 대체 제출 경로</strong>를 함께 준비해야 한다. 가용성을 지키려고 침해 의심 시스템을 켜두는 선택은 대개 더 큰 비용으로 돌아온다.</li>
+            </ul>
+            <p>출처: <a href="https://www.securityweek.com/in-other-news-anthropic-breach-dispute-uefi-flaw-hits-most-servers-cloudflare-ai-data-leak/" target="_blank">SecurityWeek - In Other News: FEC intrusion attempt (Reuters 인용)</a></p>
+
+            <h2>6. Drupal Commerce Core CVE-2026-118539 — 실제 악용 중, 4만 2,000개 사이트가 영향권</h2>
+            <p>Drupal 보안팀이 <strong>Commerce Core</strong> 모듈의 <strong>권한 누락(access bypass)</strong> 취약점 <strong>CVE-2026-118539</strong>가 <strong>실제 공격에 악용 중</strong>이라고 경고했다. 인증 없이 악용 가능하며, 영향 버전은 <strong>0.0.0 ~ 2.41</strong>과 <strong>3.0.0 ~ 3.3.13</strong>이다.</p>
+            <ul>
+                <li><strong>패치:</strong> 3.x 계열은 <strong>Commerce Core 3.3.13</strong>으로, 구 버전 계열은 <strong>8.x-2.41</strong>로 즉시 업그레이드해야 한다. Drupal은 패치와 함께 <strong>주문(orders) 데이터의 불일치 감사</strong>를 권고했다 — 이미 침해가 발생했을 수 있다는 뜻이다.</li>
+                <li><strong>영향 규모:</strong> Commerce Core는 <strong>4만 2,000개 이상 웹사이트</strong>가 사용하는 커뮤니티 모듈로, 포춘500 기업과 연구 대학 다수가 포함된다. Drupal은 이 취약점을 <strong>"highly critical"</strong>로 분류했다. NVD에는 아직 CVSS 점수가 없다(N/A).</li>
+                <li><strong>공격 표면:</strong> "모듈이 특정 라우트와 엔티티 필드를 충분히 보호하지 못해 접근 우회가 발생하며, <strong>판매자의 재정적 영향</strong>으로 이어질 수 있다"는 설명대로 <strong>주문·결제·할인 로직</strong>이 직접 표적이다. 즉 가용성 사고가 아니라 <strong>매출 사고</strong>다.</li>
+                <li><strong>Drupal 연쇄 이력:</strong> 5월 SQL 인젝션 <strong>CVE-2026-9082</strong>(CISA KEV 등재, 연방기관 3일 내 패치 명령), 2주 전 원격 코드 실행 <strong>CVE-2026-108097·108099</strong> 긴급 패치에 이어 또 한 번 실사용 악용이다. CISA가 지난 수년간 Drupal 취약점을 <strong>5건</strong> KEV에 올렸고 그중 2건은 랜섬웨어 조직이 악용했다.</li>
+                <li><strong>점검:</strong> <code>drush pm:list --filter=commerce --status=enabled</code>로 사용 여부 확인 → 즉시 업그레이드 → 최근 주문 로그에서 비정상 상태 변경·가격 0원 주문·비정상 계정 생성 탐색. 커머스 사이트는 WAF에 <code>/checkout/*</code>, <code>/cart/*</code> 비정상 접근 임시 차단 룰을 병행하는 편이 안전하다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/drupal-warns-of-critical-commerce-core-flaw-exploited-in-attacks/" target="_blank">BleepingComputer - Drupal warns of critical Commerce Core flaw exploited in attacks</a> · <a href="https://www.drupal.org/sa-contrib-2026-254" target="_blank">Drupal Security Advisory SA-CONTRIB-2026-254</a></p>
+
+            <h2>7. jackson-databind CVE-2026-110879 (CVSS 9.8) — 직전 패치를 우회하는 두 번째 탈출구</h2>
+            <p>자바 생태계의 사실상 표준 JSON 라이브러리 <strong>jackson-databind</strong>에 <strong>CVSS 9.8</strong> 취약점 <strong>CVE-2026-110879</strong>가 공개됐다. 핵심은 <strong>직전 취약점(CVE-2026-54512) 수정을 우회</strong>한다는 점이다. 앞선 패치는 다형성 역직렬화의 <code>PolymorphicTypeValidator</code>(PTV)가 <strong>제네릭 인자까지 검증</strong>하도록 고쳤는데, 이번 건은 그 검증이 <strong>배열 요소 타입</strong>과 <strong>중첩 제네릭</strong>에서 여전히 비어 있음을 찌른다.</p>
+            <ul>
+                <li><strong>공격 원리:</strong> 타입 ID 문자열에 <code>&lt;</code>가 들어 있으면 <strong>컨테이너의 원시 클래스 이름만</strong> PTV로 검사하고, <code>&lt;...&gt;</code> 안의 클래스는 검증 없이 <code>Class.forName()</code>으로 로드·인스턴스화한다. 즉 <code>java.util.ArrayList</code>만 허용된 설정에서 <code>java.util.ArrayList&lt;com.evil.Gadget&gt;</code>를 보내면 <strong>컨테이너는 통과, 가젯은 실행</strong>된다.</li>
+                <li><strong>영향 버전 → 수정 버전:</strong> 2.10.0~2.18.11 → <strong>2.18.12</strong> / 2.19.0~2.21.7 → <strong>2.21.8</strong> / 2.22.0~2.22.3 → <strong>2.22.4</strong> / 3.0.0~3.1.7 → <strong>3.1.8</strong> / 3.2.0~3.2.3 → <strong>3.2.4</strong>.</li>
+                <li><strong>노출 경로:</strong> Jackson 3.x 기본 <code>JsonMapper</code>의 애노테이션 기반 클래스명 다형성, 2.x·3.x의 <code>enableDefaultTyping</code> 설정, 그리고 그 기본 타이핑을 외부에 노출하는 프레임워크 연동(Spring·Kafka 등) 전부. 벡터는 <strong>AV:N/AC:L/PR:N/UI:N</strong> — 네트워크에서 인증 없이 단일 요청으로 도달 가능하다.</li>
+                <li><strong>2차 방어:</strong> 버전 업그레이드만으로 끝내지 말 것. ① 다형성 타이핑이 정말 필요한 엔드포인트인지 재검토 ② <code>BasicPolymorphicTypeValidator</code> 허용 목록을 <strong>중첩 타입까지 닫는</strong> 커스텀 검증기로 교체 ③ 역직렬화를 수행하는 서비스의 <strong>아웃바운드 이그레스 제한</strong>(가젯 체인의 최종 단계는 대개 외부 연결이다) ④ 최근 몇 주간 <strong>두 번 연속</strong> 우회가 나왔으므로 Jackson 보안 공지 구독을 필수로.</li>
+            </ul>
+            <p>출처: <a href="https://github.com/FasterXML/jackson-databind/security/advisories/GHSA-m8xf-2cr7-77ph" target="_blank">GitHub Advisory GHSA-m8xf-2cr7-77ph - PolymorphicTypeValidator bypass (incomplete fix for CVE-2026-54512)</a> · <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-110879" target="_blank">NVD - CVE-2026-110879</a></p>
+
+            <h2>8. Dell PowerProtect Data Domain, 나흘 새 CVE 47건 — 9.8점 무인증 결함 4건</h2>
+            <p>NVD에서 10월 27~31일 구간 <strong>'PowerProtect Data Domain'</strong> 키워드로 잡히는 CVE가 <strong>47건</strong>이다. 한 제품군에 이 정도로 몰린 것은 드물다. 최고 심각도는 <strong>9.8</strong>이며, <strong>CVE-2026-86397</strong>(부적절한 인증, <strong>무인증 원격</strong>), <strong>CVE-2026-86400</strong>, <strong>CVE-2026-86384</strong>, <strong>CVE-2026-103780</strong> 네 건이 9.8이다. 관리 콘솔 쪽도 <strong>9.6</strong>(CVE-2026-103792·103799), <strong>9.1</strong>(CVE-2026-90717)이 포함된다.</p>
+            <ul>
+                <li><strong>영향 버전:</strong> Feature Release <strong>7.7.1.0 ~ 8.8</strong>, LTS2024 <strong>7.13.1.0 ~ 7.13.1.80</strong>, LTS2025 <strong>8.3.1.0 ~ 8.3.1.40</strong>, LTS2026 <strong>8.6.1.0 ~ 8.6.1.20</strong>. 즉 <strong>LTS를 포함한 사실상 전 라인</strong>이 해당된다.</li>
+                <li><strong>왜 백업 어플라이언스가 최우선인가:</strong> 랜섬웨어 조직의 표준 절차는 암호화 <em>전에</em> 백업을 먼저 지우는 것이다. 백업 서버에 <strong>무인증 9.8</strong>이 있으면 이는 '마지막 방어선'이 아니라 <strong>가장 먼저 열리는 문</strong>이 된다. Data Domain은 대기업·공공의 1차 백업 타깃이라 파급이 곧 전사 복구 실패로 이어진다.</li>
+                <li><strong>패치·완화:</strong> Dell 보안 공지 <strong>DSA-2026-416</strong>에 따라 즉시 업데이트. 병행 통제로 ① 관리 UI·SSH를 <strong>백업 전용 관리망으로 제한</strong> ② 로컬 계정과 AD 계정 분리, 백업 어플라이언스 자격증명을 도메인 관리자와 공유하지 않기 ③ <strong>불변(immutable)·에어갭 복사본</strong> 유지 ④ 패치 전 구간에는 <strong>신뢰 복사본을 별도 매체에 확보</strong>.</li>
+            </ul>
+            <p>출처: <a href="https://www.dell.com/support/kbdoc/en-us/000515178/dsa-2026-416-security-update-for-dell-powerprotect-data-domain-multiple-vulnerabilities" target="_blank">Dell - DSA-2026-416 Security Update for Dell PowerProtect Data Domain</a> · <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-86397" target="_blank">NVD - CVE-2026-86397</a></p>
+
+            <h2>9. Chrome 156·Firefox 159, 219건 패치 — 크리티컬 4건은 샌드박스 탈출</h2>
+            <p>구글과 모질라가 같은 날 브라우저 업데이트를 냈다. <strong>Chrome 156</strong>은 보안 결함 <strong>52건</strong>, <strong>Firefox 159</strong>는 <strong>167건</strong>(그중 high 108건)을 고쳐 합계 <strong>219건</strong>이다.</p>
+            <ul>
+                <li><strong>Chrome 156:</strong> 크리티컬 4건 — <strong>FileSystem 메모리 손상(CVE-2026-118306, 조작된 HTML로 샌드박스 밖 임의 코드 실행 가능)</strong>, FileAPI·Skia의 부적절한 입력 검증, Layout의 use-after-free. 버전은 Windows·macOS <strong>156.0.8078.73/.74</strong>, Linux <strong>156.0.8078.73</strong>.</li>
+                <li><strong>Firefox 159:</strong> 167건 중 대부분이 use-after-free 계열이며 <strong>샌드박스 탈출, 권한 상승, 경계 검사 오류, 동일출처 정책(SOP) 우회</strong>가 다수 포함됐다. 함께 <strong>Thunderbird 159·153.6</strong>, <strong>Firefox ESR 153.6·115.44</strong>도 배포됐다.</li>
+                <li><strong>현실적 조치:</strong> 브라우저는 <strong>재시작해야</strong> 패치가 적용된다. 며칠째 탭만 닫고 쓰는 환경이 가장 위험하다. 조직은 ESR 라인(153.6/115.44)까지 함께 확인하고, 자동 업데이트를 꺼둔 단말(키오스크·개발 PC)을 별도로 점검해야 한다.</li>
+                <li><strong>판단 기준:</strong> '렌더러 샌드박스 탈출 + use-after-free 다수'는 <strong>원격 코드 실행 체인의 전형적 재료</strong>다. Chrome은 공격 코드가 실제로 쓰이기 전에 패치되는 경우가 많지만, 219건 규모는 공격자에게 <strong>재료 공급</strong>이 되는 양이다.</li>
+            </ul>
+            <p>출처: <a href="https://www.securityweek.com/chrome-and-firefox-updates-patch-over-200-vulnerabilities/" target="_blank">SecurityWeek - Chrome and Firefox Updates Patch Over 200 Vulnerabilities</a> · <a href="https://chromereleases.googleblog.com/2026/10/stable-channel-update-for-desktop_0562499947.html" target="_blank">Chrome Releases - Stable Channel Update for Desktop</a></p>
+
+            <h2>10. Cloudflare Workers AI, KV 캐시 교차 테넌트 유출 — SGLang 0.5.22 이상으로</h2>
+            <p>Cloudflare가 자사 <strong>Workers AI</strong>에서 <strong>다른 고객의 요청 데이터가 응답에 섞여 나온</strong> 사고를 공개했다. 기간은 <strong>8월 27일 ~ 9월 9일</strong>, 모델은 <strong>GLM 5.3</strong>, 해당 응답은 <strong>155건</strong>이며 <strong>모두 68만 1,280 토큰을 넘는 초장문 프롬프트</strong>였다.</p>
+            <ul>
+                <li><strong>원인 2가지의 결합:</strong> ① 설정 불일치로 모델의 <strong>KV 캐시가 광고된 컨텍스트 윈도보다 작게</strong> 잡혀 있었고 ② 추론 엔진 <strong>SGLang의 버그</strong>로 길이 초과 요청이 <strong>이전 세션이 남긴 캐시를 읽을 수 있었다</strong>. 즉 '메모리 재사용 최적화'가 '다른 고객 데이터 열람'이 됐다.</li>
+                <li><strong>대응:</strong> Knostic의 <strong>Gadi Evron</strong>이 HackerOne으로 제보했고 Cloudflare가 수정했다. 의도적 악용 정황은 없었다고 밝혔다. <strong>SGLang 운영자는 0.5.22 이상</strong>으로 올려야 한다.</li>
+                <li><strong>실무 교훈(셀프호스팅 LLM):</strong> vLLM·SGLang 같은 멀티테넌트 서빙에서 <strong>캐시는 곧 메모리 공유</strong>다. ① <code>max_model_len</code>과 KV 캐시 크기를 <strong>설정 검증 단계에서 강제 일치</strong> ② 테넌트별 캐시 격리 옵션 확인 ③ 초장문 입력은 별도 큐·별도 워커로 분리 ④ 업그레이드 노트에서 <strong>캐시·격리 관련 수정</strong>을 최우선으로 읽기.</li>
+                <li><strong>왜 이 사고가 중요한가:</strong> 클라우드 LLM의 유출 사고는 대개 '프롬프트 인젝션'으로 설명되지만, 이번 건은 <strong>모델도 프롬프트도 아닌 인프라 계층</strong>의 결함이었다. AI 서비스의 데이터 경계는 앱이 아니라 <strong>추론 엔진과 캐시 설정</strong>에 있다.</li>
+            </ul>
+            <p>출처: <a href="https://blog.cloudflare.com/kv-cache-exposure-remediation/" target="_blank">Cloudflare Blog - KV cache exposure remediation</a> · <a href="https://www.securityweek.com/in-other-news-anthropic-breach-dispute-uefi-flaw-hits-most-servers-cloudflare-ai-data-leak/" target="_blank">SecurityWeek - In Other News (2026-10-30)</a></p>
+
+            <h2>11. 트렌드 ①: 'AI 봇' 32종을 갈아입은 스캐너가 .env·SSH 키를 훑는다</h2>
+            <p><strong>Cequence</strong>는 <strong>단일 공격자</strong>가 OpenAI·Anthropic·메타·퍼플렉시티의 크롤러·어시스턴트를 사칭한 <strong>약 32개의 AI 봇 아이덴티티를 순환</strong>하며 웹사이트를 스캔하는 활동을 추적했다. 표적은 <code>.env</code> 파일, 클라우드 자격증명, 개인 SSH 키처럼 <strong>비밀이 들어 있기로 유명한 경로</strong>다.</p>
+            <ul>
+                <li><strong>규모:</strong> 최소 <strong>9월 말</strong>부터 대형 클라우드 제공자에서 동작했고, <strong>하루에 300개 이상의 IP</strong>를 사용했다. 10월의 어느 하루에는 AI 봇 트래픽이 관측된 Cequence 보호 조직의 <strong>48%</strong>에 도달했다.</li>
+                <li><strong>가장 위험한 신호:</strong> 일부 조직에서는 <strong>'AI 봇'으로 라벨된 트래픽의 80% 이상</strong>이 이 사칭 주체였다. 즉 <strong>User-Agent 기반 허용 목록은 이미 무의미</strong>하다.</li>
+                <li><strong>방어:</strong> ① AI 봇 허용은 <strong>User-Agent가 아니라 게시된 IP 대역/역DNS 검증</strong>으로 ② WAF에서 <code>/.env</code>, <code>/.git/config</code>, <code>/.aws/credentials</code>, <code>/id_rsa</code> 요청을 <strong>차단(404 위장 아님, 차단)</strong> ③ 저장소 전체 <strong>시크릿 스캔</strong>과 <strong>카나리 .env</strong>(가짜 키 유출 감지) 병행 ④ 스캔이 곧 정찰이므로, 스캔을 받은 호스트의 아웃바운드 로그를 함께 본다.</li>
+                <li><strong>연결점:</strong> 오늘 1번(Cursor 확장 변조)과 같은 흐름이다. <strong>AI 도구의 '신뢰 표식'(게시자·봇 이름·모델명)이 위조 가능한 값</strong>이 되면서, 신뢰 판단의 근거가 브랜드에서 <strong>검증 가능한 신호</strong>로 옮겨가고 있다.</li>
+            </ul>
+            <p>출처: <a href="https://www.cequence.ai/blog/ai-agent-impersonation" target="_blank">Cequence - AI agent impersonation</a> · <a href="https://www.securityweek.com/in-other-news-anthropic-breach-dispute-uefi-flaw-hits-most-servers-cloudflare-ai-data-leak/" target="_blank">SecurityWeek - In Other News (2026-10-30)</a></p>
+
+            <h2>12. 트렌드 ②: AI가 랜섬웨어·C2·회색시장 도구의 '운영 인력'이 됐다</h2>
+            <p>이번 주 발표된 세 건은 AI가 <strong>공격의 보조 도구</strong>를 넘어 <strong>실행 주체</strong>가 됐음을 보여준다.</p>
+            <ul>
+                <li><strong>Aur0ra 랜섬웨어(Gold Ogre):</strong> Sophos에 따르면 이 그룹은 <strong>Cursor로 오케스트레이션한 AI 에이전트</strong>에 네트워크 탐색, 자격증명 공격, 측면 이동을 맡겼다. 사람의 개입은 제한적이었고, 운영자들은 침해를 <strong>"승인된 레드팀 활동"</strong>으로 서술해 가드레일을 우회했다.</li>
+                <li><strong>NIK C2(Cisco Talos):</strong> AI가 통합된 신규 <strong>C2 프레임워크</strong>. Windows 임플란트가 자격증명 탈취, 키스트로크 스트리밍, <strong>화면 잠금형 랜섬웨어</strong> 배포까지 수행한다.</li>
+                <li><strong>Codex·Claude Code '릴레이' 회색시장(Symantec·Carbon Black):</strong> 중국 본토 중심 <strong>12개 조직</strong>에서 관측됐다. <strong>정품 Codex·Claude Code CLI를 설치한 뒤</strong> 모든 요청을 <strong>샌드박스가 꺼진 서드파티 서버</strong>로 라우팅하도록 재구성하는 서비스다. 정품 도구를 쓰기 때문에 탐지가 어렵고, 코드·프롬프트가 전부 제3자에게 흘러간다.</li>
+                <li><strong>공통 패턴:</strong> ① <strong>정품·정식 채널을 그대로 사용</strong>(1번 Cursor 사건과 동일) ② <strong>가드레일을 '정당한 작업'으로 우회</strong> ③ 사람은 방향만 정하고 실행은 에이전트가 담당. 방어 관점에서는 <strong>에이전트가 쓰는 자격증명의 권한 최소화</strong>와 <strong>에이전트 아웃바운드 목적지 고정</strong>이 가장 효과적인 통제가 된다.</li>
+                <li><strong>개인 실무 체크:</strong> 코딩 에이전트(Codex·Claude Code·Cursor) 실행 환경에서 ① <code>~/.ssh</code>·<code>~/.aws</code>·<code>.env</code>를 에이전트 작업 디렉터리에서 분리 ② 에이전트 전용 API 키 사용·주기적 로테이션 ③ 에이전트가 설치한 확장·플러그인의 <strong>게시자와 버전 고정(pin)</strong> ④ 샌드박스/<code>--sandbox</code> 옵션을 끄는 설정 금지.</li>
+            </ul>
+            <p>출처: <a href="https://www.sophos.com/en-us/blog/ai-used-in-aur0ra-ransomware-testing-and-execution" target="_blank">Sophos - AI used in Aur0ra ransomware testing and execution</a> · <a href="https://blog.talosintelligence.com/nik-c2-new-ai-enabled-framework/" target="_blank">Cisco Talos - NIK C2: new AI-enabled framework</a> · <a href="https://www.securityweek.com/in-other-news-anthropic-breach-dispute-uefi-flaw-hits-most-servers-cloudflare-ai-data-leak/" target="_blank">SecurityWeek - In Other News (2026-10-30)</a></p>
+
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
