@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 [최신] From if to Oops (arXiv 2610.39910) — '결정론'이 fault 공격을 막은 게 아니라 표적을 고정시켰다: 마스크 1비트를 0으로 만들면 CSIDH 키가 222번의 질의로 복원된다</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 [최신] From if to Oops — 무작위성을 지운 결정론이 fault 공격의 표적을 고정시켰다</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-10-31 · 카테고리: Research (최신 논문 · 양자내성 암호 · 아이소제니 CSIDH · fault injection · 상수시간 구현)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> From if to Oops: Turning a conditional into a key-recovery oracle<br>
+                <strong>저자:</strong> Gustavo Banegas (Inria · LIX, École Polytechnique / Institut Polytechnique de Paris), Nia Dimitrova (TU Eindhoven), Monika Trimoska (TU Eindhoven)<br>
+                <strong>출처:</strong> <em>arXiv:2610.39910v1</em> [cs.CR] · 2026년 10월 29일 제출 (문서 기준일 2026-10-30) · 프리프린트(학회 게재 표기 없음) · 24쪽<br>
+                <strong>분야:</strong> 아이소제니 기반 양자내성 암호(CSIDH · OSIDH-LD) · fault injection / 안전 오류(safe-error) 공격 · 상수시간(constant-time) 구현 · 결정론적 그룹 작용<br>
+                <strong>키워드:</strong> Isogenies · OSIDH-LD · Fault attacks · Side-channel Attack<br>
+                <strong>인용:</strong> 미확인 (게재 2일차 신규 논문 — Semantic Scholar 429, OpenAlex 미색인, 2026-10-31 조회)<br>
+                <strong>코드:</strong> <a href="https://github.com/gbanegas/faulty_isogenies" target="_blank" rel="noopener">github.com/gbanegas/faulty_isogenies</a> (fault 시뮬레이션 + 키 복구 스크립트)<br>
+                <strong>원문:</strong> <a href="https://arxiv.org/abs/2610.39910" target="_blank" rel="noopener">arXiv:2610.39910</a> · <a href="https://arxiv.org/pdf/2610.39910v1" target="_blank" rel="noopener">PDF (24쪽)</a>
+            </div>
+
+            <h2><i class="fa-solid fa-circle-question"></i> 왜 이 논문인가 — '무작위성을 없애면 안전해진다'는 가정의 반전</h2>
+            <p>CSIDH는 2018년 Castryck·Lange·Martindale·Panny·Renes가 제안한 <strong>아이소제니 기반 양자내성 암호</strong>입니다. 타원곡선 하나에 이상류군(class group)을 작용시켜 공개키를 만드는 구조라, 키 교환·서명을 아주 작은 공개키로 처리할 수 있어 포스트 양자 시대의 유력 후보 중 하나로 꼽혀 왔습니다. 문제는 이 스킴이 <em>비밀 지수 벡터</em>에 따라 매 단계 궤도(lane)를 고르는 구조라, 초기 구현들은 타이밍·전력으로 키가 새는 것을 막기 위해 오랜 시간 <strong>상수시간 구현</strong>과 <strong>더미 아이소제니</strong>, <strong>무작위 점 샘플링</strong>으로 무장해 왔습니다.</p>
+            <p>그리고 최근 흐름은 한 발 더 나아갑니다. <strong>Houben의 결정론적 CSIDH</strong>(CRYPTO 2025)와 <strong>OSIDH-LD</strong>(ASIACRYPT 2025, Wang·Lai·Lin·Zhao가 TCHES 2026에 병렬 구현)는 <em>설계 차원에서</em> 무작위성을 제거합니다. 더미 연산도 없고, 커널 점이 공개 파라미터에 고정되어 있어 샘플링 단계 자체가 없습니다. 지금까지 CSIDH에 대한 fault 공격은 정확히 그 두 가지 비결정성 — <em>더미 아이소제니</em>와 <em>무작위 점 샘플링</em> — 을 표적으로 삼아 왔으니, 결정론화는 "그 문을 닫은 것"처럼 보였습니다.</p>
+            <p>이 논문은 그 문이 닫힌 게 아니라 <strong>표적이 고정된 것</strong>이라고 말합니다. 비밀은 여전히 매 단계 <em>두 궤도 중 어느 쪽이 다음 아이소제니를 계산할지</em>를 결정하고, 상수시간 코드에서 그 결정은 비밀 마스크가 구동하는 조건부 스왑(conditional swap)입니다. 타이밍에는 보이지 않지만 <strong>fault에는 보입니다</strong>. 게다가 스케줄이 공개적이고 고정되어 있으니, 공격자는 <em>매 실행마다 같은 지점</em>을 때릴 수 있습니다. 무작위성이 사라진 자리에 <strong>재현 가능한 fault 표적</strong>이 남은 셈입니다.</p>
+
+            <h2><i class="fa-solid fa-layer-group"></i> 무대 설정 — 두 궤도, 하나의 마스크</h2>
+            <p>결정론적 CSIDH의 메인 루프는 외부 루프 <code>j = 1..B</code>와 소수 인덱스 <code>i = 1..n</code>의 이중 구조입니다. 각 단계에서 구현은 공개 파라미터인 커널 점으로 다음 아이소제니를 계산하는데, 어느 궤도에서 계산할지는 비밀 값이 정합니다. 논문이 지목한 민감한 한 줄은 이것입니다(논문 Listing 2, 3행).</p>
+            <blockquote>bool c = ( e[i] &lt;= k );<br>proj_cswap(&amp;Aright, &amp;Aleft, c); … xMUL … xISOG …</blockquote>
+            <p>여기서 <code>c</code>가 바로 마스크입니다. 비밀 성분 <code>s_i</code>가 "기본 궤도에 보내는 단계 수"를 세는 값이므로, 마스크는 단계 카운터가 임계값을 넘었을 때 정확히 켜집니다.</p>
+            <blockquote>c = 1 ⟺ j &gt; s_i</blockquote>
+            <p>OSIDH-LD 쪽도 구조는 같습니다. 참조 구현 <code>protocols.c</code>의 <code>eval_action</code>에서 <code>digit_t b = compare_gt(t, s[i]);</code> 뒤에 분기 없는 <code>swap_vertices</code>가 두 번 붙는 형태 — 즉 <strong>비밀 임계값 비교가 곧 마스크</strong>입니다. 공격 대상은 이 <code>b</code>입니다.</p>
+
+            <h2><i class="fa-solid fa-bullseye"></i> 공격의 핵심 — '안전 오류(safe-error)' 오라클</h2>
+            <p>공격 모델은 놀랄 만큼 약합니다. 공격자는 <strong>한 번의 실행에 단 하나의 일시적 fault</strong>를 주입하고, 그것도 <strong>비밀 의존 불리언 값을 1에서 0으로</strong> 바꾸는 것만 할 수 있습니다(명령어 스킵, 비교 결과 오염, 분기 조건 레지스터 교란). 임의 값 설정도, 키 직접 수정도, 한 실행 내 다중 fault도 가정하지 않습니다. 그리고 결정론 덕분에 "몇 번째 사이클"이라는 표적 지정이 가능합니다.</p>
+            <p>마스크를 0으로 강제했을 때 출력이 달라지는지를 보면 이렇게 됩니다.</p>
+            <ul>
+                <li><strong>j ≤ s_i</strong>: 마스크는 원래 0입니다. fault를 줘도 아무 일이 없고, 정상 출력과 fault 출력이 <em>같습니다</em> → 오라클 값 1.</li>
+                <li><strong>j &gt; s_i</strong>: 마스크는 원래 1입니다. 스왑이 억제되어 해당 아이소제니가 <em>엉뚱한 궤도</em>에서 계산되고, 출력이 <em>달라집니다</em> → 오라클 값 0.</li>
+            </ul>
+            <p>정리하면 <code>O(j, i) = 1 ⟺ j ≤ s_i</code>. 즉 <strong>fault가 출력을 바꿨는가/안 바꿨는가</strong>라는 1비트가 비밀 임계값에 대한 단조(monotone) 질의가 됩니다. fault가 "성공"했는지조차 몰라도 되는 <strong>safe-error</strong> 형태라, 하드웨어에서 fault 성공률이 낮아도 반복 측정으로 읽어낼 수 있습니다. 여기서 <code>j</code>에 대한 이진 탐색을 하면 성분 하나가 <code>⌈log2(B+1)⌉</code>번의 질의로 끝납니다.</p>
+
+            <h2><i class="fa-solid fa-calculator"></i> 키 복구 — 222번과 297번</h2>
+            <p>파라미터별 복잡도는 논문 Table 1과 4.2·4.3절의 계산 그대로입니다.</p>
+            <ul>
+                <li><strong>결정론적 CSIDH (CSIDH-512)</strong>: <code>n = 74</code>, <code>B = 5</code>. 성분당 <code>⌈log2 6⌉ = 3</code>회 → <strong>최악 222회, 평균 197회</strong>의 오라클 질의. 질의 1회 = fault 1회 + 출력 비교 1회.</li>
+                <li><strong>OSIDH-LD (ld256)</strong>: <code>n = 49</code>, <code>B = 35</code>, 사이클 길이 <code>r = 13</code>. 지수 <code>e_i &gt; 1</code>인 소수가 둘(ℓ=3에 <code>e=4</code>, ℓ=11에 <code>e=2</code>) 있어서 2단계 탐색이 필요합니다. 47개 소수 × 6회 + (6 + ⌈log2 4⌉) + (6 + ⌈log2 2⌉) = <strong>최악 297회, 평균 259회</strong>. 저자들은 이 값이 정보이론적 하한과 정확히 일치한다고 강조합니다(141 = 35·4+1, 71 = 35·2+1에 대해 ⌈log2⌉가 8과 7).</li>
+            </ul>
+            <p>부수적으로 흥미로운 문장이 있습니다. <strong>"fault가 성공했는지 몰라도 된다"</strong>는 safe-error 성질 덕분에, 공격자는 어느 쪽 결과가 나왔는지를 <em>반복 시행으로 확정</em>하면 됩니다. 실제 소요는 fault 성공률 <code>p</code>에 따라 급격히 달라지는데, 논문은 p ≈ 1에서 259회, p = 0.94에서 약 753회, 그리고 하드웨어 전체 스윕에서 측정된 낮은 확률(3/1281 ≈ 2.34×10⁻³)에서는 약 <strong>7.7×10⁵회</strong>의 원시 글리치 시도가 필요하다고 계산합니다.</p>
+
+            <h2><i class="fa-solid fa-bug"></i> 반직관적 발견 — 구현의 '자기 검증'이 이 fault를 못 잡는다</h2>
+            <p>논문에서 가장 실무적인 대목입니다. OSIDH-LD 참조 구현은 <code>-DNDEBUG</code> 없이 빌드하면 매 외부 반복 후 두 궤도가 같은 곡선을 인코딩하는지 <code>assert</code>로 확인합니다. 엉뚱한 궤도로 간 아이소제니 하나면 당연히 걸릴 것 같지만 — <strong>걸리지 않습니다</strong>. fault를 준 반복 <em>안에서는</em> 두 궤도의 j-불변량이 (더 강한 A24 계수까지) 일치합니다.</p>
+            <p>이유는 내부 루프의 <strong>중간 충돌(meet-in-the-middle) 구조</strong>입니다. 궤도 0은 <code>E_j</code>에서, 궤도 1은 <code>E_{j+1}</code>에서 반대 방향으로 출발해 각 아이소제니를 나눠 받고, 두 궤도는 부분곱의 곱이 인접 정점을 잇는 고정류 <code>c</code>와 같아질 때 만납니다(<code>a0·a1 = c</code>). <code>i*</code> 하나를 반대 궤도로 옮기면 <code>a0 → a0·ℓ_{i*}</code>, <code>a1 → a1·ℓ_{i*}⁻¹</code> — <strong>곱은 그대로</strong>입니다. 두 궤도는 여전히 만나고, 도착하는 곡선은 정직한 계산에서 <code>s_{i*}</code>를 <code>s_{i*}+1</code>로 바꾼 곡선입니다. 즉 <strong>공격이 만드는 교란이 바로 그 불변량이 검사하는 성질을 보존</strong>합니다.</p>
+            <p>물론 국소적입니다. 그 반복이 끝나면 정점 <code>j</code>만 ℓ_{i*}만큼 어긋나 이웃과 연결이 끊어지고, 다음 반복에서 assertion이 터집니다. 그래서 <strong>마지막 외부 반복(<code>u = B−1</code>)에서 준 fault만 모든 검사를 통과</strong>합니다. 결론은 두 가지입니다. 첫째, 구현 자체의 일관성 검사는 대책이 아닙니다(릴리스 빌드에서는 컴파일 아웃되고, assertion을 켜도 마지막 반복은 놓칩니다). 둘째, <em>유효한 fault는 전부 출력에 드러납니다</em> — 디버그 빌드는 abort하고, 아니면 반환된 방향 사이클의 13개 j-불변량이 정직한 값과 달라집니다. abort조차 "불일치"로 읽히므로 오라클은 그대로 성립합니다.</p>
+
+            <h2><i class="fa-solid fa-microchip"></i> 하드웨어 실험 — 50번 중 50번, p ≥ 0.94</h2>
+            <p>검증은 두 단계입니다. 먼저 <strong>소프트웨어 fault 시뮬레이션</strong>: OSIDH-LD 참조 구현에 <code>eval_action_faulty</code>를 붙여 지정한 <code>(u, j, i, t)</code>에서 <code>compare_gt</code> 결과만 0으로 강제하고, 2단계 이진 탐색으로 <strong>전체 키를 실제로 복원</strong>했습니다(복원한 키는 피해자 공개키로 최종 검증).</p>
+            <p>다음은 실제 하드웨어입니다. <strong>ChipWhisperer-Lite(CWLITE-ARM)</strong> + <strong>STM32F303RCT6</strong>(Cortex-M4, 최대 72MHz, 플래시 256KB / RAM 48KB), <code>arm-none-eabi-gcc 16.2.0</code>. 전체 클래스군 작용은 보드의 메모리·시간 예산을 넘으므로, 민감한 제어 지점(<code>compare_gt</code> + 상수시간 스왑)만 트리거로 감싼 최소 하네스에 올려 <strong>클록 글리치</strong>를 겨눕니다. 목표 클록 7.37MHz에서 글리치 사이클 1회(<code>scope.glitch.repeat = 1</code>)만 넣어 최대 한 명령어만 스킵되게 했습니다.</p>
+            <ul>
+                <li><strong>거친 스윕</strong>: <code>ext_offset ∈ [0,10]</code>, <code>offset ∈ [−20,20]</code>, <code>width ∈ [6,24]</code> — 2,310개 지점 × 3회 시도. 유효 fault는 <em>전부</em> <code>ext_offset = 3</code>(비교와 스왑이 실행되는 사이클)에 몰렸고, 그 평면에서 11개 지점이 3/3 성공, 리셋·손상 응답 없음. 운용점은 <code>(ext_offset, offset, width) = (3, −6, 12)</code>.</li>
+                <li><strong>신뢰도</strong>: 운용점에서 연속 50회 시도가 <strong>50/50 모두</strong> 0x00(스왑 스킵)을 반환, 단측 95% Clopper–Pearson 하한 <strong>p ≥ 0.94</strong>. 즉 일단 비교 지점에 정렬하면 스킵은 사실상 결정론적입니다.</li>
+                <li><strong>결정론적 CSIDH 쪽</strong>: 같은 보드에서 사이클 단위로 국소화하지 않은 스윕은 1,281회 중 3회 성공(≈2.34×10⁻³). 저자들도 이 수치가 비교 대상이 아니라고 명시합니다 — "정렬 후에는 결정론적, 정렬 전에는 낮은 확률"이라는 두 사실을 같이 보여주는 것이 요점입니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-shield-halved"></i> 그럼 어떻게 막나 — '결정론을 포기하라'</h2>
+            <p>논문의 결론은 명확합니다. <strong>fault에 강한 CSIDH 구현은 결정론적이어서는 안 됩니다.</strong> 결정론은 공격자에게 "어떤 아이소제니를 때릴지"를 골라주기 때문입니다. 저자들이 제안하는 두 가지 대책은 상수시간·더미 없는 성질을 유지한 채 무작위성만 되돌립니다.</p>
+            <ul>
+                <li><strong>소수 순서 셔플(prime-order randomization)</strong>: 클래스군 작용이 가환이라 소수를 어떤 순서로 계산해도 출력은 같습니다. 매 실행마다 <code>τ</code>를 새로 뽑으면 공격자는 "이 물리적 루프 위치가 어느 <code>s_i</code>인지"를 모릅니다. 결정론적 CSIDH에서는 fault가 <em>유효하지만 틀린 곡선</em>을 내므로, 쿠폰 수집기(coupon collector) 분석으로 성공 fault 수가 <strong>723~1605회</strong>로 뛰고, 공격은 확률적이 됩니다(임계값의 하한만 얻음). OSIDH-LD에서는 fault가 다음 반복에서 <strong>abort</strong>로 바뀌어, 셔플만으로 219회 수준의 성공 fault로 얻는 정보가 <code>{i : s_i &gt; (B−1)e_i}</code>로 제한됩니다.</li>
+                <li><strong>마지막 반복 봉인 + 외부 루프 무작위화</strong>: OSIDH-LD의 남은 구멍(마지막 반복은 검사를 통과)은 <strong>지수가 전부 0인 반복을 하나 더 추가</strong>해 닫습니다. 비용은 <code>+1/B ≈ 2.9%</code>. 결정론적 CSIDH에는 외부 루프 순서 <code>ρ</code>까지 무작위화하는 변형(Algorithm 5)을 제시하는데, 이 경우 공격자는 <code>s_i &lt; B</code>라는 사실과 <strong>통계적 추정</strong>만 얻습니다 — 완전한 누출 차단은 아니라고 저자들도 인정합니다.</li>
+            </ul>
+            <table>
+                <tr><th>변형</th><th>스킴</th><th>필요 fault 수</th><th>누출</th><th>추가 비용</th></tr>
+                <tr><td>결정론(원본)</td><td>CSIDH</td><td>222</td><td>전체 키</td><td>–</td></tr>
+                <tr><td>결정론(원본)</td><td>OSIDH-LD</td><td>297</td><td>전체 키</td><td>–</td></tr>
+                <tr><td>소수 순서 셔플</td><td>CSIDH</td><td>723–1605</td><td>키 후보(확률적)</td><td>0</td></tr>
+                <tr><td>소수 순서 셔플</td><td>OSIDH-LD</td><td>219</td><td>{i : s_i &gt; (B−1)e_i}</td><td>0</td></tr>
+                <tr><td>+ 외부 루프 셔플</td><td>CSIDH</td><td>미정</td><td>통계적 추정</td><td>0</td></tr>
+                <tr><td>+ 영(零) 반복 1회 추가</td><td>OSIDH-LD</td><td>–</td><td>–</td><td>+1/B (≈2.9%)</td></tr>
+            </table>
+
+            <h2><i class="fa-solid fa-triangle-exclamation"></i> 논문이 인정한 한계 — 과장하지 않기</h2>
+            <ul>
+                <li>하드웨어 실험은 <strong>전체 그룹 작용이 아니라 고립된 제어 지점</strong>을 때립니다. 보드 예산 때문에 트리거로 감싼 최소 하네스이고, 남은 과제는 "이미 신뢰할 만한 스킵을 실제 <code>(u, i, t)</code> 위치에 발사하는 트리거 격리"입니다. 저자들은 결정론적 공개 스케줄 덕분에 단일 전력 트레이스로 가능할 것으로 봅니다.</li>
+                <li>두 하드웨어 캠페인 모두 <strong>정직한 마스크가 전부 1인 단계</strong>(<code>t &gt; s</code>)만 fault합니다. 0인 단계에서의 1→0 fault는 "효과 없음"이라는 모델 가정에 의존합니다.</li>
+                <li>297·222는 <strong>완벽한 오라클 가정의 정보이론적 수치</strong>이고, 실제 비용은 fault 성공률 p를 반복 시행으로 나눈 값입니다(7.7×10⁵ 수준의 원시 시도가 나올 수 있음).</li>
+                <li>OSIDH-LD 한 번의 전체 실행은 비교를 <code>35 × 13 × 53 = 24,115</code>회 수행합니다. 사이클 차원 <code>r = 13</code>은 <em>타이밍 정밀도</em>를 완화해 줄 뿐, 실행당 성공 확률을 올려주지는 않습니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 2026년의 관점 — 이 논문에서 가져갈 세 문장</h2>
+            <p><strong>1. 무작위성은 성능 비용이 아니라 보안 자산이다.</strong> 더미 연산과 샘플링을 없애 성능을 얻은 결정론적 설계는, 그 대가로 "공격자가 표적을 고르는 자유"를 넘겨줬습니다. fault 환경(스마트카드, TPM, 임베디드)에서 이 맞교환은 성립하지 않습니다.</p>
+            <p><strong>2. 상수시간은 타이밍의 답이지 fault의 답이 아니다.</strong> 분기 없는 코드도 <em>비밀 의존 마스크</em>를 갖고 있고, 그 마스크는 fault로 뒤집힙니다. 2026-10-07에 다룬 <a href="security-research-2026-10-07.html">차분 전력 분석</a>이 "관찰"의 공격이었다면, 이 논문은 "개입"의 공격으로 같은 비밀을 읽습니다.</p>
+            <p><strong>3. '출력이 같은가'만 물어도 키가 나온다.</strong> 복호화 성공/실패, abort/정상, 같은 j-불변량/다른 j-불변량 — 단조성만 있으면 이진 탐색이 붙습니다. 10-18의 <a href="security-research-2026-10-18.html">CKKS 반응 공격</a>과 10-25의 <a href="security-research-2026-10-25.html">Classic McEliece 구조 암호분석</a>이 각각 "암호문 반응"과 "구조"를 팠다면, 여기서는 <strong>구현의 조건식 하나</strong>가 오라클이 됩니다. 양자내성 암호로 갈수록 수학은 단단해지고, 남는 공격면은 구현과 물리 계층이라는 신호가 다시 한 번 반복됩니다.</p>
+
+            <h2><i class="fa-solid fa-book-open"></i> 더 읽기</h2>
+            <ul>
+                <li>원문: <a href="https://arxiv.org/abs/2610.39910" target="_blank" rel="noopener">arXiv:2610.39910 (2026-10-29)</a> · <a href="https://arxiv.org/pdf/2610.39910v1" target="_blank" rel="noopener">PDF 24쪽</a></li>
+                <li>코드/재현: <a href="https://github.com/gbanegas/faulty_isogenies" target="_blank" rel="noopener">gbanegas/faulty_isogenies</a> — 소프트웨어 fault 주입, 2단계 이진 탐색, 전체 키 복구 스크립트</li>
+                <li>선행 연구: <a href="https://doi.org/10.1007/978-3-031-30617-4_11" target="_blank" rel="noopener">Disorientation Faults in CSIDH (EUROCRYPT 2023)</a> · <a href="https://doi.org/10.1145/3692175.3692185" target="_blank" rel="noopener">Practical Fault Injection on Constant-Time CSIDH (ASHES 2024)</a> · <a href="https://eprint.iacr.org/2020/1006" target="_blank" rel="noopener">An Analysis of Fault Attacks on CSIDH (ePrint 2020/1006)</a></li>
+                <li>대상 스킴: <a href="https://eprint.iacr.org/2018/383" target="_blank" rel="noopener">CSIDH (ASIACRYPT 2018)</a> · Houben, <em>Deterministic Algorithms for Class Group Actions</em> (CRYPTO 2025) · Houben, <em>Post-Quantum Commutative Group Actions from Orientations of Large Discriminant</em> (ASIACRYPT 2025) · Wang·Lai·Lin·Zhao, TCHES 2026(3):541–565</li>
+                <li>함께 읽기:
+                    <ul>
+                        <li>2026-10-25 <a href="security-research-2026-10-25.html">Structural Cryptanalysis of Classic McEliece</a>: 같은 양자내성 암호 계보. 수학적 구조를 파고드는 공격 versus 구현의 조건식을 파고드는 공격.</li>
+                        <li>2026-10-18 <a href="security-research-2026-10-18.html">Reaction Attack on CKKS</a>: "복호화 결과가 조금 달라졌다"를 오라클로 쓰는 동형암호 공격. oracle-based key recovery의 사촌.</li>
+                        <li>2026-10-07 <a href="security-research-2026-10-07.html">Differential Power Analysis</a>: 비밀 의존 연산이 물리 계층으로 새는 고전. 이 논문은 관찰 대신 개입을 씁니다.</li>
+                        <li>2026-10-30 <a href="security-research-2026-10-30.html">Key Reinstallation Attacks</a>: "구현/상태 기계가 명세를 배신한다"는 같은 문제의식의 프로토콜 버전.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
