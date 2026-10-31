@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-11-01</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-11-01 | <i class="fa-solid fa-tags"></i> Daily News, AI 에이전트 공격, 자격증명 탈취, Ivanti KEV, WordPress RCE, TeamViewer, Android, DDoS
+        </div>
+
+        <div class="content">
+            <h2>1. Chainalysis, "공격형 에이전트 기법"에 내부 도구 뚫려 — 고객 신원 데이터 노출</h2>
+            <p>블록체인 분석 기업 <strong>Chainalysis</strong>가 외부 공격자에게 내부 시스템과 도구를 내줬다고 공개했다. 회사가 쓴 표현이 눈에 띄는데, 침해 경위를 <strong>"공격형 에이전트 기법(offensive agentic techniques)"</strong>이라고 명시했다. 즉 AI 에이전트를 운용한 침해라는 뜻이지만 구체적 수법·도구는 밝히지 않았다. 노출된 것은 <strong>user ID, 실명, 이메일 주소, 조직 내 역할(role) 라벨</strong> 같은 고객 신원 정보다.</p>
+            <ul>
+                <li><strong>노출 범위:</strong> 회사는 "non-sensitive customer data"라고 규정했지만, 고객사 입장에서는 <strong>직원 명단·직책·이메일</strong>이 그대로 나간 것으로 이후 스피어피싱 표적 목록이 될 수 있다.</li>
+                <li><strong>미노출 주장:</strong> 조사(investigation) 콘텐츠, 인증 자격증명, 세션 토큰은 무단 접근되지 않았다고 밝혔다. 다만 이는 자체 조사 결과다.</li>
+                <li><strong>대응:</strong> 취약점 패치와 시스템 하드닝을 진행 중이라고만 언급. "업계 전반에서 AI 기반 공격이 늘고 있다"는 코멘트를 덧붙였다.</li>
+                <li><strong>맥락:</strong> 체이널리시스는 수사기관·거래소·컴플라이언스 조직이 고객으로, 분석 결과물 자체의 무결성이 신뢰의 핵심인 회사다. "조사 콘텐츠는 안전"이라는 주장의 검증이 관건이다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/chainalysis-confirms-intrusion-into.html" target="_blank">The Hacker News - Chainalysis Confirms Intrusion Into Internal Tools and Exposure of Customer Identity Data</a> / <a href="https://www.bleepingcomputer.com/news/security/chainalysis-discloses-data-breach-from-offensive-agentic-techniques/" target="_blank">BleepingComputer - Chainalysis discloses data breach from "offensive agentic techniques"</a></p>
+
+            <h2>2. Northflank 침해 → 고객 AI API 키 무단 사용… "모든 환경변수가 복호화됐다고 가정하라"</h2>
+            <p>클라우드 애플리케이션 호스팅 플랫폼 <strong>Northflank</strong>가 침해 사고를 공개하고 전 고객에게 <strong>자격증명 전면 로테이션</strong>을 요구했다. 사고는 <strong>10월 30일 11:43 UTC</strong> 클라우드 보안기업 <strong>Wiz</strong>의 위협 경고로 시작됐고, Northflank 엔지니어가 1분 뒤 검토에 착수해 <strong>12:50 UTC와 13:05 UTC</strong>에 추가 네트워크 정책 패치를 적용했다.</p>
+            <ul>
+                <li><strong>최악 가정:</strong> 회사는 고객 공지에서 <strong>"모든 환경변수가 복호화됐다고 가정하고 모든 키를 비활성화·로테이션하라"</strong>고 못 박았다. 환경변수에는 DB 비밀번호, 클라우드 자격증명, 인증 토큰, API 키가 들어 있다.</li>
+                <li><strong>확인된 피해:</strong> 다수 고객이 <strong>플랫폼에 저장한 AI API 키의 무단 사용</strong>을 보고했다. 회사는 AI 프로바이더 사용량·과금 로그를 확인하라고 권고했다.</li>
+                <li><strong>지원 조치:</strong> PostgreSQL, MongoDB, MySQL, Redis 자격증명 로테이션을 활성화했고, 워크로드·시크릿 그룹·글로벌 시크릿 로테이션과 애드온 퍼블릭 접근 차단을 요청했다.</li>
+                <li><strong>미공개:</strong> 침투 경로, 영향 고객 수, AI API 키 외 자격증명 탈취 여부는 아직 밝히지 않았다. BleepingComputer 질의에도 답이 없었다.</li>
+                <li><strong>배경:</strong> BleepingComputer는 이달의 연쇄 사고를 <strong>"Black October"</strong>으로 부르며, <strong>AI 개발 플랫폼이 비싼 AI API 키를 대량 보관</strong>해 표적이 됐다고 분석했다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/northflank-security-breach-leads-to-abuse-of-customers-ai-api-keys/" target="_blank">BleepingComputer - Northflank security breach leads to abuse of customers' AI API keys</a></p>
+
+            <h2>3. Ivanti Connect Secure 2건 추가 KEV 등재 — UTA0576의 3중 체인, 연방 마감 D-1</h2>
+            <p>CISA가 <strong>10월 30일</strong> Ivanti Connect Secure(ICS) 취약점 2건을 <strong>KEV(알려진 익스플로잇 취약점) 카탈로그</strong>에 추가했다. 이미 문서화된 3중 익스플로잇 체인의 나머지 부품들로, Volexity가 이달 초 <strong>UTA0576</strong>이라는 미상 위협 행위자의 무기화 사례로 처음 공개한 체인이다.</p>
+            <ul>
+                <li><strong>CVE-2026-111357 (CVSS 8.8):</strong> 핵심 기능 인증 누락 → 로컬 인증 공격자의 권한 상승. <strong>연방기관(FCEB) 마감 11월 2일</strong>.</li>
+                <li><strong>CVE-2026-118527 (CVSS 4.3):</strong> 예측 가능한 식별자 생성 → 원격 인증 공격자가 파일을 알려진 경로에 업로드. <strong>마감 11월 13일</strong>. 점수는 낮지만 체인의 필수 구성요소다.</li>
+                <li><strong>체인 구성:</strong> 인증 우회 <strong>CVE-2026-104935</strong>(CVSS 8.6, KEV 10월 13일 등재) + RCE + 권한 상승 = <strong>무인증 루트 코드 실행</strong>.</li>
+                <li><strong>공격자 행태:</strong> 웹셸·악성코드 배포가 아니라 <strong>자격증명 추출, 제한적 AD 메타데이터 수집, 호스트 정찰, 관리자 비밀번호와 BitLocker 복구 키 탐색</strong>에 집중했다. 흔적을 남기지 않는 스파이형 침해다.</li>
+                <li><strong>패치:</strong> <strong>25.1.1.3</strong>(25.1.1.2 이하) / <strong>22.8R2.6</strong>(22.8R2.5 이하). Ivanti는 "LPE 수정이 QA 중이었지만, 주 익스플로잇 경로를 먼저 막는 게 고객에게 낫다고 판단해 공개를 미루지 않았다"고 해명했다. 일부는 7월 릴리스 25.1.3.0에서 이미 수정됐다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/attackers-chain-three-ivanti-connect.html" target="_blank">The Hacker News - Attackers Chain Three Ivanti Connect Secure Flaws to Gain Unauthenticated Root Access</a> / <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA - Known Exploited Vulnerabilities Catalog</a></p>
+
+            <h2>4. WordPress 코어 RCE, CVE도 없이 24시간에 6만 2,969회 공격 — 업그레이드 '찰나'를 노린다</h2>
+            <p>WordPress 코어의 고위험 RCE가 <strong>패치 공개 직후</strong> 대규모 스캔에 들어갔다. Wordfence는 <strong>24시간 동안 62,969회</strong>의 익스플로잇 시도를 차단했다고 밝혔다. 이 취약점은 <strong>CVE 식별자가 없고</strong>, CVSS <strong>8.1</strong>, 영향을 받는 버전은 <strong>WordPress 4.7 ~ 7.1.3</strong>이다.</p>
+            <ul>
+                <li><strong>원인:</strong> 전체 패키지(full-package) 코어 업그레이드 시 <strong>wp-content/upgrade 아래 예측 가능한 웹 접근 경로</strong>에 파일을 푸는 구조. 그 사본에 <strong>WordPress 인스톨러(setup-config.php 등)</strong>까지 포함된다.</li>
+                <li><strong>조건:</strong> 업그레이드 창(정상 환경에서 수 초)에 맞춰 스테이징 디렉터리의 인스톨러를 요청하면 <strong>무인증 PHP 코드 실행</strong>으로 이어진다. 공격자는 경로를 미리 알고 <strong>지속 폴링</strong>해 창이 열리는 순간을 잡는다.</li>
+                <li><strong>관측된 패턴:</strong> 가장 큰 두 소스는 <strong>약 14.5시간 동안 소규모 사이트 그룹만 반복 폴링</strong>했고, 다른 소스는 스테이징 디렉터리·버전명 변형을 대량 탐색했다. 레이스 컨디션을 "이해하고" 있다는 정황이다.</li>
+                <li><strong>대응:</strong> <strong>7.1.4</strong>로 즉시 업데이트. <code>wp-content/upgrade</code> 하위 PHP 파일 요청 로그, 낯선 관리자 계정·플러그인·PHP 파일을 점검할 것.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/wordpress-rce-flaw-draws-nearly-63000.html" target="_blank">The Hacker News - WordPress RCE Flaw Draws Nearly 63,000 Attack Attempts in Just 24 Hours</a></p>
+
+            <h2>5. Cloudflare 3분기 DDoS 1,820만 건(+38%) — 짧고 잦은 공격이 208% 급증</h2>
+            <p>Cloudflare가 3분기 DDoS 위협 보고서를 공개했다. <strong>네트워크 계층(L3) DDoS 1,820만 건</strong>과 <strong>HTTP DDoS 요청 14.4조 건</strong>을 자동 완화했는데, 이는 <strong>하루 197,400건, 0.44초당 1건</strong> 수준이다. 2분기 1,320만 건, 1분기 1,000만 건에서 계속 늘었다.</p>
+            <ul>
+                <li><strong>초단기 공격 폭증:</strong> <strong>10분 미만·1Gbps 미만</strong>의 짧은 공격이 <strong>208% 증가</strong>했다. 방어자는 대역폭이 아니라 <strong>탐지·자동화 속도</strong>로 승부해야 하는 국면이다.</li>
+                <li><strong>대형 공격은 감소:</strong> 1Tbps 초과 하이퍼볼류메트릭 공격은 805건 → 251건으로 <strong>69% 줄었다</strong>. 3월 AISURU, KimWolf, JackSkid, Mossad 등에 대한 단속 효과로 보이지만 <strong>Dysphoria, Evooo1Bot</strong> 같은 신종 변종이 등장했다.</li>
+                <li><strong>프로토콜 변화:</strong> DNS 증폭이 <strong>215% 증가</strong>해 전체 L3 공격의 3.43%를 차지했고, CLDAP 플러드는 감소했다.</li>
+                <li><strong>표적 산업:</strong> 미디어·출판, IT·서비스, 도박·카지노, 소프트웨어, 통신 사업자. 국가별로는 미국, 중국, 인도네시아, 영국, 튀르키예 순이며 <strong>캐나다·이스라엘</strong>이 톱10에 새로 진입했다.</li>
+                <li><strong>증가 동력:</strong> DDoS-for-hire <strong>부트/스트레서 서비스</strong>가 수십만 건의 공격을 공급하고 있다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/cloudflare-reports-182-million-network.html" target="_blank">The Hacker News - Cloudflare Reports 18.2 Million Network-Layer DDoS Attacks in Q3, Up 38%</a></p>
+
+            <h2>6. TeamViewer, 원격 세션 '역방향' 공격 — 제어당하는 호스트가 제어하는 뷰어를 뚫는다</h2>
+            <p>TeamViewer가 <strong>CVE-2026-111585</strong>(CVSS <strong>8.8</strong>)를 수정했다. 이 결함의 방향이 특이하다. 통상 원격 지원 공격은 <strong>뷰어(접속해 제어하는 쪽)</strong>가 <strong>호스트(제어당하는 쪽)</strong>를 노리지만, 이번에는 <strong>악성·침해된 호스트가 뷰어의 컴퓨터를 공격</strong>한다.</p>
+            <ul>
+                <li><strong>기술적 원인:</strong> 세션 시작 시 호스트가 <strong>화면 이미지 크기</strong>를 알려주고 뷰어는 그 값으로 메모리를 예약한다. 계산이 오버플로해 <strong>공간을 과소 예약</strong>하고, 이후 도착한 화면 데이터가 힙 경계를 넘어 기록된다.</li>
+                <li><strong>영향:</strong> 최소한 뷰어의 TeamViewer 세션이 크래시하며, 호스트는 원할 때마다 재현할 수 있다. <strong>Windows에서는 OS 완화기법을 우회해 임의 코드 실행</strong>까지 시연됐다(호스트 측 대역이 일부 공격 데이터를 공급하는 형태로, 완전한 원격 단독 공격은 아님). macOS·Linux·Android의 코드 실행 여부는 검증되지 않았다.</li>
+                <li><strong>조건이 험악한 이유:</strong> <strong>비밀번호 불필요, 세션 수락 외 추가 클릭 불필요, 기본 설정에서 동작</strong>한다. 사용자는 "내가 제어하는 쪽"이니 안전하다고 믿는다.</li>
+                <li><strong>영향 버전:</strong> Full Client(Windows/Linux/macOS), Windows Portable, Android Remote Control 앱의 <strong>15.83 이전 전 버전</strong>. 9월 보안 업데이트였던 <strong>15.82도 영향</strong>을 받는다.</li>
+                <li><strong>공개:</strong> Remedio의 Omri Dar가 10월 29일 기술 분석을 공개했다. 야생 악용 정황은 아직 없고, KEV에도 오르지 않았다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/teamviewer-flaw-lets-remote-computers.html" target="_blank">The Hacker News - TeamViewer Flaw Lets Remote Computers Attack Users Who Connect to Control Them</a></p>
+
+            <h2>7. 안드로이드 'SMS of Death' CVE-2026-58882 — 문자 한 통에 통화 끊기고 부트루프</h2>
+            <p>연구자 <strong>Mark Blah</strong>가 최근 패치된 안드로이드 취약점 <strong>CVE-2026-58882</strong>의 <strong>개념증명(PoC) 익스플로잇</strong>을 공개했다. 조작된 문자 한 통으로 <strong>제로클릭 상태에서</strong> 휴대폰을 크래시시키고 셀룰러 서비스를 끊을 수 있다.</p>
+            <ul>
+                <li><strong>원인:</strong> <code>WapPushOverSms.decodeWapPdu</code>의 <strong>헤더 길이 값 검증 미흡</strong>. 8바이트 WAP Push(<code>01 06 88 80 80 80 00 BE</code>, 데이터 SMS 포트 2948)를 보내면 부호 있는 32비트 정수로 변환되며 <strong>-2147483648</strong>이 되고, 음수 크기로 메모리를 할당하다 <strong>NegativeArraySizeException</strong>으로 <code>com.android.phone</code> 프로세스가 죽는다.</li>
+                <li><strong>파급:</strong> 통화가 끊기고 <strong>긴급 통화까지 중단</strong>된다. 메시지가 SMS 인박스에 도달하기 <strong>전에</strong> 처리되므로 사용자는 원인을 볼 수 없다.</li>
+                <li><strong>악화 조건:</strong> <strong>20통</strong>을 보내면 <strong>재부팅 루프</strong>에 빠진다. 한 Android 12 기기는 <strong>약 90초마다 복구 모드로 재부팅</strong>돼 공장 초기화로만 복구됐다. 통신사 재전송이나 기기 내 저장 메시지 처리로 크래시가 반복된다.</li>
+                <li><strong>패치 상태:</strong> Google이 <strong>10월 안드로이드 보안 업데이트(14~17)</strong>에 조용히 포함했으나 <strong>불레틴에는 기재되지 않았다</strong>. <strong>Android 12·13은 미패치</strong>로 남아 있다. 수정 커밋은 "Fix remote DoS in decodeWapPdu"이며 예외 처리와 악성 메시지 DB 삭제를 포함한다.</li>
+                <li><strong>복구:</strong> ADB로 악성 메시지를 삭제하는 방법이 공개됐지만(Sakis) PC와 기술 지식이 필요하다. PoC는 다른 안드로이드 기기에서 발송 가능한 형태로 공개됐다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/new-android-sms-of-death-exploit-can-remotely-crash-unpatched-phones/" target="_blank">BleepingComputer - New Android SMS of Death exploit can remotely crash unpatched phones</a></p>
+
+            <h2>8. 72시간 NVD 클러스터 — WordPress 플러그인 9.9/9.8 4건 + Yamaha 라우터 9.8</h2>
+            <p>NVD 신규 공개분(10/29~11/01, 총 1,333건)의 상위 점수를 <strong>테마로 묶어</strong> 보면 한 가지 패턴이 반복된다. <strong>인증 경계를 클라이언트가 보낸 값에 위임</strong>한 WordPress 플러그인들이 CVSS 9.8~9.9를 받았다.</p>
+            <ul>
+                <li><strong>CVE-2026-113617 (9.9)</strong> — Automated Import Products to Cart &lt; 1.0.4. 사용자 제공 파일 경로 미검증으로 <strong>구독자(subscriber) 수준 권한</strong>만으로 임의 파일 읽기·삭제.</li>
+                <li><strong>CVE-2026-109516 (9.8)</strong> — Bot for Telegram on WooCommerce ≤ 1.3.0. <code>/wp-json/woo-telegram/v1/main/</code> REST 엔드포인트의 <strong>인증 우회 → 계정 탈취</strong>.</li>
+                <li><strong>CVE-2026-113616 (9.8)</strong> — LogixFast Auth &lt; 1.0.4. 비밀번호 재설정 <strong>일회용 코드를 계정 소유자 메일이 아니라 요청에 적힌 주소로</strong> 발송 → 무인증 계정 탈취.</li>
+                <li><strong>CVE-2026-115245 (9.8)</strong> — Chat AI with Dispatcher &lt; 2.4. <strong>스푸핑 가능한 Content-Type만 검증</strong>해 무인증 임의 파일(웹셸 포함) 업로드.</li>
+                <li><strong>CVE-2026-97854 (9.8)</strong> — Yamaha 무선 LAN 라우터 <strong>NWR100</strong>. 조작된 요청으로 <strong>OS 명령 주입</strong>. 엣지 장비인 만큼 노출 여부를 먼저 확인해야 한다.</li>
+                <li><strong>CVE-2026-42922 (9.8)</strong> — FUXA 1.3.2-2809 이하. <code>/nodered</code> 기능의 <strong>인가 우회</strong>로 무인증 임의 코드 실행. OT/ICS 대시보드 계열이라 산업망에서 특히 위험하다.</li>
+            </ul>
+            <p>출처: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-113617" target="_blank">NVD - CVE-2026-113617</a> / <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-109516" target="_blank">NVD - CVE-2026-109516</a> / <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-97854" target="_blank">NVD - CVE-2026-97854</a> / <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-42922" target="_blank">NVD - CVE-2026-42922</a></p>
+
+            <h2>9. KEV 마감 캘린더 — 오늘(11/1) GitLab·Cisco, 내일(11/2) Ivanti</h2>
+            <p>이번 주는 KEV 마감이 몰려 있다. 연방기관 기준이지만, 민간 조직도 <strong>같은 날짜를 자체 SLA로 쓰는 것</strong>이 가장 방어적인 선택이다. KEV 카탈로그는 현재 <strong>1,766건</strong>이다.</p>
+            <ul>
+                <li><strong>오늘 11월 1일 마감</strong> — GitLab CE/EE <strong>CVE-2026-97229</strong>(정수 오버플로/래프어라운드, 조작된 요청으로 <strong>무인증 임의 코드 실행</strong>, CVSS 10.0 계열), Cisco Secure Firewall ASA/FTD <strong>CVE-2026-76418</strong>(널 포인터 역참조, <strong>무인증 원격 장비 재시작</strong>).</li>
+                <li><strong>11월 2일</strong> — Ivanti Connect Secure <strong>CVE-2026-111357</strong>(8.8). 실제 익스플로잇 체인의 권한 상승 축이다.</li>
+                <li><strong>11월 10일</strong> — Adobe Commerce/Magento <strong>CVE-2026-48356</strong>(위험 파일 형식 무제한 업로드 → 임의 코드 실행), Google Brotli <strong>CVE-2026-111497</strong>(반환값 미검사로 디코더 상태 메모리 손상·정보 노출).</li>
+                <li><strong>11월 11일</strong> — Broadcom VMware ESX <strong>CVE-2026-41709</strong>(로깅 미흡, 관리자 권한 작업이 감사 로그에 남지 않음). 사후 포렌식 공백이 생기는 유형이다.</li>
+                <li><strong>11월 13일</strong> — Ivanti <strong>CVE-2026-118527</strong>(4.3, 파일 업로드 축). 점수는 낮지만 <strong>체인의 일부</strong>이므로 단독 패치로 끝내지 말 것.</li>
+            </ul>
+            <p>출처: <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA - Known Exploited Vulnerabilities Catalog</a></p>
+
+            <h2>10. TeamViewer 15.83 적용 범위 주의 — 불레틴에 '호스트'가 빠져 있다</h2>
+            <p>15.83 업데이트는 CVE-2026-111585 외에 <strong>고위험 2건</strong>을 더 고친다. 문제는 <strong>권고문의 나열이 불완전</strong>하다는 점이다. TeamViewer 불레틴은 CVE-2026-111585의 영향을 <strong>Full Client, Windows Portable, Android 앱</strong>으로 적고 <strong>Host 에디션은 언급하지 않는다</strong>. 그러나 같은 15.83이 수정하는 나머지 2건(그중 1건은 Linux·macOS 대상 코드 실행)은 <strong>Host에 영향을 준다</strong>.</p>
+            <ul>
+                <li><strong>실무 결론:</strong> "나는 제어받는 쪽이라 해당 없다"고 판단해 <strong>Host를 15.83으로 올리지 않는 것이 가장 흔한 실수</strong>다. 세 에디션 모두 15.83 이상으로 맞출 것.</li>
+                <li><strong>워크어라운드 없음:</strong> 벤더가 제시한 완화책은 <strong>업그레이드뿐</strong>이다. 구 지원 브랜치용 수정 빌드는 불레틴 표에 별도 기재돼 있다.</li>
+                <li><strong>애드온도 별건:</strong> 같은 날 함께 나온 <strong>TV-2026-1012</strong>는 Remote Management 애드온의 <strong>6개 결함</strong>을 수정하며 <strong>자동 업데이트</strong>로 배포된다. 클라이언트만 확인하고 애드온 버전을 놓치는 사례가 많다.</li>
+                <li><strong>탐지 관점:</strong> 이 취약점은 <strong>뷰어 측에서 크래시/이상 종료</strong>로 나타난다. 원격 지원 세션 직후 TeamViewer가 반복 종료되는 단말은 호스트 평판을 함께 조사해야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/teamviewer-flaw-lets-remote-computers.html" target="_blank">The Hacker News - TeamViewer Flaw Lets Remote Computers Attack Users Who Connect to Control Them</a></p>
+
+            <h2>11. 트렌드: AI 에이전트가 '도구'에서 '실행 주체'로 — 1,200개 사이트·140개 표적</h2>
+            <p>오늘 사건들의 공통분모는 <strong>공격 실행 주체가 사람에서 에이전트로 이동</strong>했다는 점이다. Chainalysis는 침해 경위를 "공격형 에이전트 기법"이라고 썼고, CrowdStrike는 중국 연계 <strong>Vapor Panda</strong>가 Go 기반 <strong>에이전틱 펜테스트 프레임워크 ARTEX</strong>로 <strong>11일 만에 약 140개 표적</strong>을 침해하고 <strong>200개 이상 조직</strong>을 겨냥했다고 밝혔다.</p>
+            <ul>
+                <li><strong>관측된 실사례:</strong> 보안기업 <strong>NorForge</strong>의 Snorre Fagerland가 인터넷에 <strong>로그인 없이 노출된 Cairn(오픈소스 AI 해킹 도구) 패널</strong>을 스캔으로 발견했다. 운영자는 <strong>1,200개 이상 사이트</strong>를 에이전트에 넘겼고, <strong>100개 이상 기업</strong>(Deere, SharkNinja, Cummins 포함)의 웹사이트에 도달했다.</li>
+                <li><strong>지시량:</strong> 운영자가 에이전트에 준 지침은 <strong>중국어 100자 미만</strong>이었다. 나머지 단계(정찰→취약점 선택→웹셸 업로더 업로드)는 에이전트가 수행했다.</li>
+                <li><strong>모델 단서:</strong> 모든 작업이 <code>claudecode_deepseek-v4.1-flash</code>라는 워커 이름으로 실행됐다. Claude Code가 <strong>DeepSeek V4.1 Flash</strong> 모델을 구동한 구성으로 추정되지만, 연구자와 로이터 모두 모델을 확정하지는 않았다.</li>
+                <li><strong>2차 피해:</strong> 노출된 패널 자체가 정보다. Trufflehog 스캔에서 <strong>수백 개 시크릿</strong>이 나왔고 <strong>11%는 여전히 유효</strong>했다. 패널은 표적 목록·발견 취약점·탈취 자격증명을 그대로 보여준다.</li>
+                <li><strong>지금 점검할 것:</strong> ① <strong>8000번 포트</strong> 등에 인증 없이 열린 에이전트/오케스트레이션 패널, ② 숨은 디렉터리에 생긴 <strong>정체불명 파일 업로드 폼</strong>(에이전트가 노리는 1차 발판), ③ Magento/Adobe Commerce <strong>CVE-2026-75650</strong> 핫픽스(2.4.4~2.4.9 / Open Source 2.4.6~2.4.9).</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/chinese-hackers-use-ai-powered-artex-to.html" target="_blank">The Hacker News - Chinese Hackers Use AI-Powered ARTEX to Target Over 200 Organizations Worldwide</a> / <a href="https://thehackernews.com/2026/10/hackers-use-autonomous-ai-agents-to.html" target="_blank">The Hacker News - Hackers Use Autonomous AI Agents to Breach Company Websites, Target Over 1,200 Sites</a> / <a href="https://norforge.com/blog/inside_cairn" target="_blank">NorForge - Inside Cairn</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
