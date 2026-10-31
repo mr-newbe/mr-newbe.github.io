@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자율주행 리서치 - Learning by Cheating (CoRL 2019, UT Austin·Intel Labs): '선생은 반칙해도 된다' — 정답 지도를 보는 교사를 카메라만 보는 학생으로 증류해 CARLA 사상 첫 전 과제 100%·NoCrash 신기록 (⭐338 · MIT · 인용 727회)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        code { background: #0b1220; padding: 2px 6px; border-radius: 4px; color: #7dd3fc; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92rem; }
+        th, td { border: 1px solid var(--border-color); padding: 8px 10px; text-align: center; }
+        th { background: #0b1220; color: var(--accent-color); font-weight: 600; }
+        td:first-child, th:first-child { text-align: left; }
+        .hl { color: #7dd3fc; font-weight: 600; }
+        blockquote { margin: 16px 0; padding: 12px 18px; border-left: 3px solid var(--accent-color); background: #0b1220; color: var(--muted-text); }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <header>
+            <h1>자율주행 리서치 - Learning by Cheating (CoRL 2019, UT Austin·Intel Labs): '선생은 반칙해도 된다' — 정답 지도를 보는 교사를 카메라만 보는 학생으로 증류해 CARLA 사상 첫 전 과제 100%·NoCrash 신기록 (⭐338 · MIT · 인용 727회)</h1>
+            <p class="date">2026-10-31</p>
+        </header>
+        <div class="content">
+            <h2>주제 정보</h2>
+            <div class="paper-info">
+                <ul>
+                    <li><strong>논문:</strong> <a href="https://arxiv.org/abs/1912.12294" target="_blank">Learning by Cheating</a> (arXiv <code>1912.12294</code> · CoRL 2019 · PMLR v100)</li>
+                    <li><strong>저자:</strong> Dian Chen, Brady Zhou, Vladlen Koltun, Philipp Krähenbühl — <strong>UT Austin</strong> (Chen·Zhou·Krähenbühl) · <strong>Intel Labs</strong> (Koltun)</li>
+                    <li><strong>저장소:</strong> <a href="https://github.com/dotchen/LearningByCheating" target="_blank">dotchen/LearningByCheating</a> — ⭐<strong>338</strong> · 🍴104 · <strong>MIT</strong> · Python/PyTorch · 마지막 커밋 2022-04-18 · open issue 11건</li>
+                    <li><strong>게시일:</strong> 2019-12-27 (v1, 단일 버전) — CoRL 2019 채택</li>
+                    <li><strong>인용:</strong> Google Scholar <strong>727회</strong> (2026-09 집계) · OpenAlex arXiv 레코드 256회 (2025년 한 해 27회)</li>
+                    <li><strong>분야:</strong> cs.RO / cs.CV — 모방학습(imitation learning) · 센서모터 제어 · CARLA 폐루프 벤치마크(CoRL2017 · NoCrash)</li>
+                    <li><strong>한 줄 요약:</strong> "정답을 다 보는 교사"를 먼저 만들고, 그 교사가 <em>학생이 실제로 도달한 상태</em>에서 라벨을 찍어 주는 2단계 학습으로 카메라 전용 주행 정책을 만든다.</li>
+                </ul>
+            </div>
+
+            <h2>핵심 내용</h2>
+            <p>모방학습(behavior cloning)이 주행에서 실패하는 이유는 단순하다. 전문가 궤적으로만 학습한 학생은 <strong>자기가 조금만 핸들을 틀어도 다시는 전문가 데이터가 존재하지 않는 상태</strong>로 들어간다. 이른바 분포 편차(covariate shift)다. 기존 해법은 데이터를 더 모으거나, 카메라 각도를 여러 개 두거나, 궤적에 노이즈를 주입해 상태 공간을 억지로 넓히는 것이었다. 이 논문은 질문을 바꾼다. <em>"라벨을 어떻게 더 많이 모을까"</em>가 아니라 <strong>"라벨을 즉석에서 찍어 줄 수 있는 선생을 어떻게 만들까"</strong>.</p>
+            <p>답은 시뮬레이터가 주는 사치, 즉 <strong>특권 정보(privileged information)</strong>다. CARLA 안에서는 도로·차선·차량·보행자·신호등의 정답 위치를 공짜로 읽을 수 있다. 저자들은 이 정답을 보는 에이전트를 먼저 학습시키고(<em>cheating</em>), 그 에이전트를 교사로 삼아 이미지 한 장만 보는 학생을 학습시킨다(<em>learning</em>). 학생은 끝까지 반칙하지 않는다.</p>
+            <ul>
+                <li><strong>1단계 · 특권 교사가 보는 것:</strong> 자기 차량 위치를 중심으로 한 <code>64 m × 64 m</code> 격자(해상도 <code>320×320</code>)에 <strong>7채널 이진 지도</strong>를 렌더링한다 — 도로, 차선 경계, 차량, 보행자, 신호등 3색(적·황·녹). 여기에 차량 속도 <code>v</code>와 고수준 명령 <code>c</code>(직진·좌회전·우회전·차선유지)를 더한다. 라이다도 깊이도 필요 없다. 정답 지도만 있으면 된다.</li>
+                <li><strong>출력은 상자가 아니라 궤적:</strong> 교사는 <strong>ResNet-18</strong>(랜덤 초기화) 백본 + 3개 업컨볼루션으로 waypoint별 히트맵을 뽑고, 미분 가능한 <strong>soft-argmax</strong>로 좌표를 복원한다. 입력 <code>192×192</code> → 히트맵 <code>48×48</code>, 명령별로 4개 헤드가 각각 K개 waypoint 채널을 만든다. 상자 검출 → 추적 → 계획으로 이어지는 파이프라인을 <em>waypoint 하나</em>로 접은 셈이다.</li>
+                <li><strong>교사는 어떻게 배우나:</strong> 강화학습이 아니라 <strong>수작업 오토파일럿의 모방</strong>이다. Town1에서 10 fps로 <strong>궤적 100개 · 약 157K 프레임(4시간 분량)</strong>을 모으고(0.9.6 구현은 174K), L1 손실로 미래 waypoint를 회귀한다. 그 교사는 특권 정보를 잃는 순간에도 학생보다 앞선다(0.9.6 테스트 타운에서 regular 93% · dense 45%, 카메라만 보는 학생은 62% · 39%). 정답 지도를 보면 규칙 기반 오토파일럿보다 훨씬 부드러운 정책이 나온다는 뜻이다.</li>
+                <li><strong>지도 증강 = 궤적 노이즈의 대체물:</strong> 학습 중 지도를 회전·이동시키고, <em>같은 기하 변환을 정답 waypoint에도 전파</em>한다. 차량이 인도나 반대 차선을 향하도록 어긋난 상태를 무한히 만들어 내는 것과 같고, 전 과정이 <strong>오프라인</strong>이라 데이터 수집 절차를 건드릴 필요가 없다. 기존 기법들이 여러 대의 카메라나 궤적 섭동으로 하던 일을 좌표 변환 한 번으로 대신한 셈이다.</li>
+                <li><strong>2단계 · 학생은 카메라만 본다:</strong> RGB 이미지 + 속도 → <strong>카메라 좌표계의 waypoint</strong>. 백본은 ImageNet 사전학습 <strong>ResNet-34</strong>. 카메라 좌표 waypoint <code>w̃</code>와 지도 좌표 waypoint <code>ŵ</code>는 카메라 내부 파라미터·장착 위치·지도 해상도만으로 결정되는 <strong>고정 원근 변환 <code>T_P</code></strong>로 연결되므로(닫힌 형태로 계산), 교사의 라벨을 학생의 출력 공간으로 정확히 옮겨 L1 손실을 걸 수 있다. <em>입력과 출력의 표현을 정렬</em>한 것이 이 설계의 숨은 핵심이다.</li>
+                <li><strong>화이트박스 다중 브랜치 감독:</strong> 명령이 4개인데 기존 조건부 모방학습은 <em>실제로 수행한 브랜치에만</em> 그래디언트를 준다. LBC는 <strong>4개 브랜치를 한 상태에서 동시에 감독</strong>한다. "좌회전 중인데 갑자기 우회전 명령이 떨어졌다면 어떻게 해야 하나"까지 배우게 되고, 저자들은 이 효과를 <em>강력한 데이터 증강</em>에 비유한다.</li>
+                <li><strong>온폴리시 롤아웃 (DAgger식):</strong> 학생이 직접 운전하며 도달한 상태에서 교사가 즉석으로 정답을 찍어 준다. 오프라인 전문가 궤적에 갇히지 않고 <em>학생의 실수 분포</em>를 따라 라벨이 생성된다. 2단계 구조의 진짜 이득이 여기서 나온다 — 교사는 어떤 상태에서도 라벨을 만들 수 있으니까.</li>
+                <li><strong>저수준 제어는 PID 두 개:</strong> 종방향 PID는 waypoint 간 거리로 계산한 목표 속도 <code>v*</code>를 추종하고, 횡방향은 waypoint들에 호(arc)를 적합한 뒤 두 번째 waypoint를 호 위에 투영해 조향한다. waypoint 개별 오차를 평균으로 희석하는 고전적 트릭이다.</li>
+            </ul>
+
+            <p>성능은 벤치마크를 <strong>포화</strong>시켰다. 원래 CARLA 벤치마크(CoRL2017)의 <em>테스트 타운·테스트 날씨</em> 조건에서 8개 항목 전부 100%다. 이 벤치마크에서 만점이 나온 것은 처음이었다.</p>
+            <table>
+                <tr><th>CoRL2017 (테스트 타운)</th><th>MP</th><th>CIL</th><th>CAL</th><th>CILRS</th><th>LBC</th></tr>
+                <tr><td>Straight</td><td>50</td><td>80</td><td>94</td><td>96</td><td class="hl">100</td></tr>
+                <tr><td>One turn</td><td>50</td><td>48</td><td>72</td><td>92</td><td class="hl">100</td></tr>
+                <tr><td>Navigation</td><td>47</td><td>44</td><td>88</td><td>92</td><td class="hl">100</td></tr>
+                <tr><td>Nav. dynamic</td><td>44</td><td>42</td><td>64</td><td>90</td><td class="hl">100</td></tr>
+            </table>
+            <table>
+                <tr><th>NoCrash (테스트 타운, CARLA 0.9.5)</th><th>CILRS</th><th>LBC</th></tr>
+                <tr><td>Empty</td><td>90 ± 2</td><td class="hl">100 ± 0</td></tr>
+                <tr><td>Regular</td><td>87 ± 5</td><td class="hl">94 ± 4</td></tr>
+                <tr><td>Dense</td><td>67 ± 2</td><td class="hl">85 ± 1</td></tr>
+            </table>
+            <p>더 중요한 것은 <strong>절제 실험</strong>이다. 같은 데이터·같은 구조에서 무엇이 성능을 만들었는지가 표 하나로 정리된다(CoRL2017 navigation, 테스트 타운·테스트 날씨).</p>
+            <table>
+                <tr><th>구성</th><th>화이트박스</th><th>온폴리시</th><th>성공률</th></tr>
+                <tr><td>직접 모방 (1단계)</td><td>—</td><td>—</td><td>20</td></tr>
+                <tr><td>2단계 (교사 → 학생)</td><td>—</td><td>—</td><td>16</td></tr>
+                <tr><td>2단계 + 온폴리시 롤아웃</td><td>—</td><td>✓</td><td>64</td></tr>
+                <tr><td>2단계 + 화이트박스 감독</td><td>✓</td><td>—</td><td>96</td></tr>
+                <tr><td>2단계 + 둘 다</td><td>✓</td><td>✓</td><td class="hl">100</td></tr>
+            </table>
+            <p>주목할 점은 <strong>2단계를 만들기만 하면 성능이 오르지 않는다</strong>는 사실이다(20 → 16). 교사를 세우는 것만으로는 부족하고, <em>다중 브랜치 감독(+80)</em>과 <em>학생 자신의 상태에서 라벨링(+48)</em>이 실제 이득을 만든다. "특권 교사"라는 아이디어의 값어치는 <strong>라벨을 아무 상태에나 붙일 수 있다는 성질</strong>에 있었지, 교사 자체가 똑똑해서가 아니었다.</p>
+
+            <h2>왜 유명한가 / 활용 가치</h2>
+            <ul>
+                <li><strong>벤치마크를 끝냈다:</strong> CoRL2017 전 항목 100%는 이후 이 벤치마크의 수명을 사실상 종료시켰다. 커뮤니티는 더 어려운 <strong>NoCrash</strong>(차량 밀도 3단계)로, 다시 <strong>CARLA Leaderboard</strong>로, 2024년 이후 <strong>NAVSIM·nuPlan</strong>류 폐루프 평가로 이동했다. 한 논문이 "다음 벤치마크"를 강제한 사례다.</li>
+                <li><strong>CARLA 리더보드 시대의 표준 레시피가 됐다:</strong> 교사(특권 정보) → 학생(센서) 증류는 2020~2024년 리더보드 상위 기법의 기본 골격이다. Roach(ICCV 2021)는 교사를 RL 코치로 바꿨고, TransFuser·InterFuser·TCP 계열은 특권 감독을 보조 손실로 쓰거나 2단계 학습을 그대로 채택했다. Valeo.ai가 이 저장소를 포크해 자사 파이프라인(<code>valeoai/LearningByCheating</code>)으로 쓴 것도 같은 맥락이다.</li>
+                <li><strong>이 블로그 계보의 빈칸이었다:</strong> <a href="autonomous-2026-09-16.html">CIL(09-16)</a> → <strong>LBC</strong> → CILRS → <a href="autonomous-2026-08-26.html">TransFuser(08-26)</a> → <a href="autonomous-2026-09-12.html">LMDrive(09-12)</a> → <a href="autonomous-2026-09-04.html">Alpamayo 1(09-04)</a>. 명령 조건부 주행에서 "명령"을 어떻게 학습 신호로 쓸 것인가의 축에서, CIL이 만든 조건부 구조를 <em>실제로 작동하는 성능</em>으로 끌어올린 분기점이 이 논문이다.</li>
+                <li><strong>절제 표가 교육 자료다:</strong> "왜 2단계인가"를 20 → 16 → 64 → 96 → 100으로 설명하는 이 표는, 특권 정보 증류를 처음 도입하는 팀이 자기 문제에 그대로 옮겨 볼 수 있는 체크리스트다. 특히 <em>화이트박스 다중 브랜치 감독</em>은 구현 비용이 거의 0인데 오프폴리시 기준 16 → 96(+80)을 만든다.</li>
+                <li><strong>재현 가능성:</strong> 코드가 PyTorch로 공개돼 있고 라이선스가 <strong>MIT</strong>다. ⭐338·포크 104는 최신 대형 모델 저장소보다 작지만, CARLA 0.9.5/0.9.6 두 버전 구현과 벤치마크 스크립트가 함께 들어 있어 <em>논문 수치를 그대로 재현할 수 있는 몇 안 되는 2019년 논문</em>이다.</li>
+                <li><strong>2026년의 재해석 — 교사만 바뀐다:</strong> 특권 정보는 이제 BEV 지도만이 아니다. <a href="autonomous-2026-10-22.html">NAVSIM(10-22)</a>은 규칙 기반 PDM 스코어러를 교사로 쓰고, <a href="autonomous-2026-10-06.html">SparseDrive(10-06)</a>·<a href="autonomous-2026-08-30.html">DiffusionDrive(08-30)</a> 같은 최신 플래너는 "사람이 만든 규칙/선호"를 학습 신호로 증류한다. 최근 VLA 계열은 아예 <em>추론 과정</em>을 특권 라벨로 쓴다. 2019년의 "정답 지도를 보는 선생"은 지금 "정답을 아는 어떤 선생"으로 일반화됐다.</li>
+            </ul>
+
+            <h2>시사점 및 결론</h2>
+            <p>이 논문의 진짜 주장은 "2단계가 좋다"가 아니라 <strong>병목의 위치를 옮겼다</strong>는 것이다. 모방학습의 병목은 라벨의 <em>양</em>이 아니라 <strong>라벨을 붙일 수 있는 상태에 도달하는 능력</strong>이다. 특권 정보를 가진 교사는 학생이 어디로 미끄러지든 그 자리에서 정답을 만들어 준다. 그래서 데이터 수집 예산을 늘리는 대신 <em>교사의 관측 공간을 설계</em>하는 쪽으로 문제가 재정의된다. 실무적으로 이는 "우리 파이프라인에서 무엇을 특권 정보로 쓸 수 있는가"라는 질문으로 번역된다 — HD맵, 오프보드 인지, 시뮬레이터 상태, 사람이 만든 규칙, 혹은 대형 모델의 추론 흔적.</p>
+            <p>한계도 저자들이 정직하게 적어 두었다. 첫째, 특권 정보는 <strong>시뮬레이터에서만</strong> 공짜다. 실차에서는 정답 점유·위치를 실시간으로 알 수 없으므로, 실차 적용은 별도의 sim-to-real 절차를 전제로 한 <em>미검증 약속</em>으로 남아 있다. 둘째, <strong>교사의 천장이 학생의 천장</strong>이다. 저자들은 "RL로 전문가를 능가하는 방향"을 future work로 남겼고, 이는 이후 Roach가 실제로 밀고 나간 축이다. 셋째, 코드는 2022-04 이후 정체돼 있어 최신 CARLA·PyTorch에서 그대로 돌리려면 손이 꽤 간다.</p>
+            <p>가장 값진 교훈은 논문 뒤쪽의 <strong>버전 드리프트</strong>다. 같은 방법을 CARLA 0.9.6에서 다시 평가하자 테스트 타운 성적이 <strong>70 / 62 / 39</strong>로 떨어졌다(0.9.5에서는 100 / 94 / 85). 심지어 자기 교사(특권 에이전트, 100 / 93 / 45)보다 dense 조건에서 낮다. 렌더러와 보행자 로직이 바뀌면 "100%"라는 숫자의 의미 자체가 달라진다는 것 — 저자들은 이 비교 불가능성을 본문에 명시하고 0.9.5 수치를 기준으로 삼았다. 벤치마크 리더보드가 버전·시나리오·평가 코드를 함께 고정하는 방향으로 진화한 이유가 여기에 있다.</p>
+            <blockquote>정리: Learning by Cheating은 "정답을 보는 교사"로 상태 분포 문제를 구조적으로 해결해 CARLA 벤치마크를 사상 첫 100%로 포화시켰다(NoCrash dense 85%). 절제 실험은 다중 브랜치 감독(+80)과 온폴리시 라벨링(+48)이 성능의 실체임을 보여 주며, 이 2단계 증류는 오늘날 규칙·LLM 교사까지 확장된 표준 레시피로 남았다.</blockquote>
+
+            <p>원문: <a href="https://arxiv.org/abs/1912.12294" target="_blank">https://arxiv.org/abs/1912.12294</a><br>
+            코드: <a href="https://github.com/dotchen/LearningByCheating" target="_blank">https://github.com/dotchen/LearningByCheating</a><br>
+            영상: <a href="https://youtu.be/u9ZCxxD-UUw" target="_blank">https://youtu.be/u9ZCxxD-UUw</a></p>
+
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>
