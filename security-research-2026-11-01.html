@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 [최신] DualGuard (arXiv 2610.39374 · NDSS 2027) — '메모리 안전'과 '투기 실행 안전'을 각자 챙기면 둘 다 뚫린다: 4분류로 최소 방어 조합을 찾아 평균 오버헤드 148.4%→43.6%</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 [최신] DualGuard — '순차 실행 안전'과 '투기 실행 안전'을 각자 챙기면 둘 다 뚫린다</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-11-01 · 카테고리: Research (최신 논문 · 메모리 안전 · 투기 실행/Spectre · 컴파일러 기반 완화 · LLVM)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> DualGuard: Comprehensive and Efficient Memory Safety across Sequential and Speculative Execution<br>
+                <strong>저자:</strong> Sixuan Dang (Duke), Quan Zhou (Google), Kaiming Huang (Penn State), Jianan Zhu (UC Riverside), Anitha Gollamudi (UMass Lowell), Trent Jaeger (UC Riverside), Danfeng Zhang (Duke)<br>
+                <strong>출처:</strong> <em>arXiv:2610.39374v1</em> [cs.CR · cs.PL] · 2026년 10월 29일 제출 · <strong>NDSS Symposium 2027</strong> (2027년 3월 22–26일, 서울) 게재 예정 · DOI 10.14722/ndss.2027.232195 · CC BY 4.0<br>
+                <strong>분야:</strong> 시스템 보안 · 메모리 안전성(memory safety) · 투기 실행 부채널(Spectre v1) · 정적 분석 + 런타임 계측 · LLVM<br>
+                <strong>키워드:</strong> Memory Safety · Speculative Execution · Spectre · Baggy Bounds · Delta Pointers · SLH · Composition<br>
+                <strong>인용:</strong> 0회 (2026-11-01 OpenAlex 조회 — 제출 3일차 신규 논문)<br>
+                <strong>원문:</strong> <a href="https://arxiv.org/abs/2610.39374" target="_blank" rel="noopener">arXiv:2610.39374</a> · <a href="https://arxiv.org/pdf/2610.39374v1" target="_blank" rel="noopener">PDF</a> · <a href="https://doi.org/10.14722/ndss.2027.232195" target="_blank" rel="noopener">NDSS 2027 DOI</a>
+            </div>
+
+            <h2><i class="fa-solid fa-question"></i> 왜 이 논문인가 — 방어를 '쌓으면' 안전해진다는 가정의 붕괴</h2>
+            <p>메모리 안전(memory safety)은 40년 넘게 연구된 주제입니다. 그런데 2018년 Spectre가 나온 뒤로 이 분야는 이상한 골칫거리를 안게 됩니다. <strong>순차 실행(architectural execution)에서 완벽하게 동작하는 방어가, 투기 실행(speculative execution) 중의 일시적(transient) 접근 앞에서는 그대로 무력해진다</strong>는 점입니다. 반대 방향도 성립합니다. 투기 실행을 겨냥해 만든 SLH(Speculative Load Hardening) 같은 기법은 정상 실행 경로의 범위 검사를 전혀 보장하지 않습니다.</p>
+            <p>현업에서 자연스럽게 나오는 답은 "둘 다 켜자"입니다. 하지만 이 논문은 그 <em>완화 위의 완화(mitigation-upon-mitigation)</em>가 두 가지 이유로 틀렸다고 지적합니다.</p>
+            <ul>
+                <li><strong>안전하지 않다.</strong> Baggy bounds나 Delta Pointers를 SLH 앞뒤 어디에 붙여도, 그 기법 자체가 <em>코드 재작성으로 분기(branch)를 새로 만들어내거나</em> 하드웨어 수준 검사에 의존하기 때문에 투기 실행 중에 <strong>새로운 메모리 위반</strong>이 생깁니다. 방어를 겹친 결과가 방어의 합집합보다 약해지는 셈입니다.</li>
+                <li><strong>낭비다.</strong> 어떤 배열 접근은 이미 투기 실행에서도 안전합니다(예: <code>x &lt; 8</code>로 이미 범위가 보장된 인덱스). 그런 지점에도 마스킹과 경계 검사를 겹쳐 붙이면 성능만 잃습니다.</li>
+            </ul>
+            <p>즉 질문은 "어떤 방어가 좋은가"가 아니라 <strong>"어떤 방어를, 어디에, 최소 몇 개 조합해야 두 실행 모드 모두에서 안전한가"</strong>입니다. 이 논문은 그 질문을 형식 의미론으로 정리하고, LLVM 위에 실제 도구로 구현해 수치로 답합니다.</p>
+
+            <h2><i class="fa-solid fa-layer-group"></i> 1단계 — 메모리 동작을 4분류하고 '합성 정리'를 세운다</h2>
+            <p>저자들은 투기 실행을 포함하는 언어 의미론(sequential semantics + speculation semantics)을 정의하고, 메모리 접근을 두 축 — <em>순차 실행에서 안전한가</em> / <em>투기 실행에서 안전한가</em> — 으로 나눠 <strong>네 가지 범주</strong>로 분류합니다.</p>
+            <table>
+                <tr><th>범주</th><th>의미</th><th>필요한 방어</th></tr>
+                <tr><td>Always safe</td><td>두 모드 모두 안전 — 예: <code>y = A[3]</code>처럼 인덱스가 상수</td><td>없음 (방어 삽입 금지)</td></tr>
+                <tr><td>Sequentially safe · speculatively unsafe</td><td>정상 경로는 범위 안이지만 투기 중에는 넘어감 — <strong>전형적인 Spectre v1</strong> (<code>if (i &lt; 8) y = A[i]</code>)</td><td>투기용(SLH 계열)만</td></tr>
+                <tr><td>Sequentially unsafe · speculatively safe</td><td>정상 경로에서 위반이지만 투기 경로에서는 도달하지 않음</td><td>순차용만</td></tr>
+                <tr><td>둘 다 unsafe</td><td>양쪽 모두 OOB 접근이 가능</td><td>두 계열 모두 (단, 중복 제거)</td></tr>
+            </table>
+            <p>이 분류 위에서 <strong>합성 정리(composition theorem)</strong>를 증명합니다. 요지는 "두 계열의 방어를 조합했을 때 <em>어떤 성질이 보존되고 어떤 성질이 깨지는지</em>"를 기계적으로 판정할 수 있다는 것입니다. 이 정리로 기존 기법을 재검사한 결과가 흥미롭습니다.</p>
+            <ul>
+                <li><strong>SafeStack, SLH</strong> — 합성해도 안전 성질이 <em>보존됨</em>.</li>
+                <li><strong>Baggy bounds, Delta Pointers</strong> — <em>보존되지 않음</em>. 코드 재작성이 분기를 추가하거나(Baggy), 하드웨어 검사에 의존하기(Delta Pointers) 때문입니다. SLH와 아무리 조합해도 "이중 안전"이 되지 않습니다.</li>
+                <li><strong>CHERI</strong> — 하드웨어 역량(capability) 모델이라 조합 시 별도 취급.</li>
+            </ul>
+            <p>그래서 저자들은 두 기법을 <strong>스스로 이중 안전(dual safe)한 변형</strong>으로 고쳐 씁니다. <strong>DualBaggy</strong>와 <strong>DualDeltaPointers</strong>입니다. 예를 들어 Delta Pointers는 원래 부호 비트를 하드웨어 검사에 맡기는데, DualDeltaPointers는 MSB를 <em>소프트웨어로 명시적으로 검사</em>해 OOB면 주소를 <code>-1</code>(전 비트 1)로 치환합니다.</p>
+            <blockquote>addr = &amp;A[x]; new_addr = addr + (overflow ? -1 : 0);<br>is_oob = asked_addr &lt; 0; final_addr = select(is_oob, -1, masked_addr);<br>y = load(final_addr);</blockquote>
+            <p>이렇게 하면 투기 실행 중에도 실제 <code>load</code>가 일어나기 전에 주소가 무력화됩니다. "소프트웨어 메타데이터와 하드웨어 강제 사이의 간극"을 코드로 메우는 것이 핵심입니다.</p>
+
+            <h2><i class="fa-solid fa-screwdriver-wrench"></i> 2단계 — DualGuard 구현: 분석은 정적으로, 강제는 선택적으로</h2>
+            <p>DualGuard는 LLVM 인프라 위에 <strong>약 1,500줄</strong>을 추가해 구현했습니다. 기존 메모리 안전 분석을 확장한 구조로, 세 가지를 합니다.</p>
+            <ul>
+                <li><strong>정적 분석</strong> — 컴파일 타임에 순차·투기 양쪽의 공간적(spatial) 메모리 위반 <em>발생원</em>을 찾아 4분류로 라벨링합니다.</li>
+                <li><strong>경로 민감성(path sensitivity)</strong> — 같은 배열이라도 어떤 경로로 도달하느냐에 따라 범주가 달라지므로, 경로별로 판정해 <em>불필요한 검사를 만들지 않습니다</em>.</li>
+                <li><strong>윈도우 밖 분석(out-of-window analysis)</strong> — 투기 윈도우 밖으로 나가는(즉 투기로 도달 불가능한) 접근을 식별해 투기용 방어를 생략합니다.</li>
+            </ul>
+            <p>그다음 <strong>선택적 방어 배치(selective defense)</strong>를 합니다. 각 범주에 <em>최소 구성 요건</em>만 충족하도록 DualBaggy / DualDeltaPointers / SLH / SafeStack을 골라 붙이는 방식입니다. 이 논문의 진짜 주장은 여기에 있습니다 — <strong>성능은 "더 좋은 방어"가 아니라 "방어를 덜 붙이는 정확한 판단"에서 나온다</strong>는 것.</p>
+
+            <h2><i class="fa-solid fa-chart-column"></i> 평가 — SPEC CPU 2017 13개 + 암호 라이브러리</h2>
+            <p>C/C++로 완전히 구현된 SPEC CPU 2017 벤치마크 16개 중 13개에서 측정했습니다(제외 3개 중 <code>imagick_r</code>은 두 기법 모두에서 의도적 OOB 접근으로 크래시). 모든 평균은 기하평균입니다.</p>
+            <table>
+                <tr><th>구성</th><th>평균 오버헤드</th><th>비고</th></tr>
+                <tr><td>Baggy + SLH (완화 위의 완화)</td><td><strong>148.4%</strong></td><td>구간 7% ~ 358.5%</td></tr>
+                <tr><td><strong>DualGuard-DualBaggy</strong></td><td><strong>43.6%</strong></td><td>구간 3%(lbm_r) ~ 95.3%(x264_r) 감소, 전체 70.6% 절감</td></tr>
+                <tr><td>Delta Pointers + SLH</td><td>119.7%</td><td>구간 11.6% ~ 241.9%</td></tr>
+                <tr><td><strong>DualGuard-DualDeltaPointers</strong></td><td>가장 낮음</td><td>2개 벤치마크만 소폭 역전</td></tr>
+                <tr><td>Baggy 단독(순차 전용)</td><td>131%</td><td>vs DualGuard-DualBaggy 44% → 66% 절감</td></tr>
+            </table>
+            <p>암호 라이브러리에서도 같은 경향이 나옵니다. 기존 기법들의 단순 조합은 오버헤드가 <strong>0%에서 945.1%</strong>까지 튀는데, DualGuard 구성은 일관되게 더 낮습니다. 예컨대 Baggy 평균 146.6% → DualGuard-DualBaggy 71.9%(약 51% 절감)입니다.</p>
+            <p>저자들이 강조하는 반전은 마지막 문장입니다. 어떤 경우에는 DualGuard가 <strong>"순차 실행만 보장하는 방어"나 "투기 실행만 보장하는 방어"보다도 오버헤드가 낮습니다</strong>. 방어를 하나 더 붙였는데 더 빨라진 역설인데, 이유는 단순합니다. 기존 기법은 자기 담당 범위를 넘어서까지 검사를 넣기 때문입니다. 초록의 요약 그대로 <strong>단순 조합 대비 3%–72% 오버헤드 절감</strong>입니다.</p>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 읽고 남는 생각 — '보안 vs 성능' 트레이드오프의 재정의</h2>
+            <ul>
+                <li><strong>분류가 곧 최적화다.</strong> 이 논문의 성능 이득은 새로운 마법 명령어가 아니라 "이 지점은 방어가 필요 없다"는 판정에서 나옵니다. 정적 분석의 정밀도가 곧 보안 예산이라는 뜻이고, 이는 커널·펌웨어처럼 오버헤드에 극도로 민감한 곳에서 특히 중요한 설계 원리입니다.</li>
+                <li><strong>기존 기법을 '버리지 않고 고쳐 쓴다'.</strong> DualBaggy/DualDeltaPointers는 새 기법 발명이 아니라 <em>합성 실패 지점을 코드로 봉합</em>한 변형입니다. 실무 관점에서 채택 장벽이 낮다는 장점이 있습니다.</li>
+                <li><strong>한계도 분명하다.</strong> 공간적(spatial) 메모리 안전에 집중하며, 투기 실행 모델은 Spectre v1 계열 분기 오예측을 전제로 합니다. SLH가 이미 있는 하드웨어(예: 특정 마이크로아키텍처 완화 지원)를 가정하고, 분석 대상은 C/C++로 한정됩니다. 또한 정적 분석의 <em>거짓 음성</em>은 곧 보안 구멍이므로, 분석 정밀도 자체가 신뢰 경계가 됩니다.</li>
+                <li><strong>NDSS 2027 게재 예정</strong>이라는 점도 눈여겨볼 만합니다. Spectre 이후 "메모리 안전 기법의 조합 가능성"을 형식적으로 다룬 연구는 드물었고, 이 논문은 그 빈칸을 정리와 구현 양쪽으로 채웁니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>원문: <a href="https://arxiv.org/abs/2610.39374" target="_blank" rel="noopener">arXiv:2610.39374 — DualGuard: Comprehensive and Efficient Memory Safety across Sequential and Speculative Execution</a> (2026-10-29 제출)</li>
+                <li>PDF: <a href="https://arxiv.org/pdf/2610.39374v1" target="_blank" rel="noopener">arxiv.org/pdf/2610.39374v1</a></li>
+                <li>학회: <a href="https://doi.org/10.14722/ndss.2027.232195" target="_blank" rel="noopener">NDSS Symposium 2027, Seoul — DOI 10.14722/ndss.2027.232195</a></li>
+                <li>인용 수: <a href="https://api.openalex.org/works?search=DualGuard%20Comprehensive%20and%20Efficient%20Memory%20Safety" target="_blank" rel="noopener">OpenAlex</a> 기준 0회 (2026-11-01 조회)</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
