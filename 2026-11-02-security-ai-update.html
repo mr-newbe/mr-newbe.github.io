@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Security &amp; AI Update - 2026-11-02</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-color); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        h2 { color: #818cf8; margin-top: 30px; }
+        .meta { color: var(--muted-text); font-size: 0.9rem; margin-bottom: 20px; }
+        .content { margin-top: 20px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daily Security &amp; AI Update</h1>
+        <div class="meta">
+            <i class="fa-regular fa-calendar"></i> 2026-11-02 | <i class="fa-solid fa-tags"></i> Daily News, 서드파티 스크립트, 빌드 파이프라인, GitLab RCE, LXD, IoT 라우터, 버그바운티, 북한 TraderTraitor
+        </div>
+
+        <div class="content">
+            <h2>1. Polymarket, 외부 스크립트 교체로 726개 지갑에서 264만 달러 탈취 — DebugBear DNS 하이재킹</h2>
+            <p>예측시장 <strong>Polymarket</strong>이 사이트가 외부 업체에서 불러오던 <strong>페이지 속도 측정 스크립트</strong>를 공격자 코드로 바꿔치기당해, <strong>10월 29일</strong> 로그인 상태의 트레이더 포지션이 매도되고 자금이 빼돌려졌다. 바꿔치기된 스크립트는 실사용자 모니터링(RUM) 업체 <strong>DebugBear</strong>의 것이었고, DebugBear는 자사 <strong>도메인 등록기관</strong>을 통해 DNS 레코드가 침해됐다고 밝혔다. 초기 조사 결과 공격은 <strong>특정 고객사 한 곳</strong>을 겨냥했다.</p>
+            <ul>
+                <li><strong>자금 흐름:</strong> 공격자 지갑은 17:10 UTC에 첫 입금을 받아 18:02 UTC까지 <strong>33개 지갑에서 2,860만 POL</strong>과 포지션을 모았다. 18:19 UTC 기준 약 <strong>264만 달러</strong>였고, 18:28~18:38 UTC에 3개 주소로 다시 분산됐다.</li>
+                <li><strong>공격 방식:</strong> 악성 코드는 <strong>이미 로그인된 페이지의 권한을 그대로 재사용</strong>했다. 브라우저에 보관된 트레이딩 API 키를 읽고, 페이지에서 주문 실행 코드와 서명기(signer)를 찾아냈다. 지갑 로그인 계정은 포지션을 공격자 지갑으로 바로 옮겼고, 이메일 로그인 계정은 <strong>점점 불리한 가격으로 포지션을 매도</strong>한 뒤 자금을 이동시켰다.</li>
+                <li><strong>주목할 점:</strong> API 키만으로는 주문이 불가능하다(지갑 서명 필요). 코드에는 키·비밀번호·시드·개인키를 외부로 보내는 부분이 없었고, 대신 <strong>피해자 계정의 서명기에게 서명을 요청</strong>해 릴레이어로 넘겼다. Hudson Rock은 "서명 요청 자체가 사용자가 프롬프트를 보지 않고 서명했다는 증거는 아니다"라고 선을 그었다.</li>
+                <li><strong>대응·보상:</strong> Polymarket은 18:05 UTC <strong>취소 전용 모드</strong>로 전환하고 1시간 내 스크립트를 제거, 전체 캐시 삭제·로그인 세션 초기화를 진행했다. <strong>726개 지갑에 약 270만 달러</strong>를 환불(10월 30일까지 689개 완료)하고, 거래 중단 피해 <strong>약 5,500개 지갑에 119만 달러</strong>를 추가 보상해 총 <strong>390만 달러</strong>를 돌려준다. 사건은 수사기관에 이관됐다.</li>
+                <li><strong>교훈:</strong> 결제·거래 화면에 서드파티 스크립트가 붙어 있으면, 그 업체의 <strong>DNS/등록기관 계정</strong>이 곧 내 거래소의 세션 권한이다. SRI·CSP·서드파티 스크립트 인벤토리 없이는 이번 유형을 막을 수 없다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/11/hackers-steal-about-27-million-from.html" target="_blank">The Hacker News - Hackers Steal About $2.7 Million From Polymarket Traders via Hijacked DebugBear Script</a></p>
+
+            <h2>2. Alpine Linux, GitLab 전면 재구축 — CVE-2026-97229 실제 익스플로잇 시도 8회</h2>
+            <p>경량 리눅스 배포판 <strong>Alpine Linux</strong>가 개발 인프라 GitLab에서 <strong>10월 20~21일</strong> 원격 코드 실행 공격 시도를 받고 <strong>서버를 처음부터 재구축</strong>하고 전 사용자 비밀번호를 초기화했다. 노린 것은 GitLab 최대 심각도 결함 <strong>CVE-2026-97229</strong>로, CI/CD 파이프라인 설정에 조작된 정규식을 넣어 <strong>무인증 RCE</strong>를 일으키는 정수 오버플로다(Ruby에 번들된 정규식 컴파일러 Onigmo).</p>
+            <ul>
+                <li><strong>왜 패치가 안 먹혔나:</strong> Alpine은 수정 버전(19.3.5)이 아닌 <strong>19.3.4</strong>를 설치했다. 이후 19.3.6으로 올렸지만, 이 결함의 완전한 수정에는 <strong>Ruby 패치</strong>가 필요했고 GitLab 공식 패키지는 Ruby를 번들하지만 <strong>Alpine의 자체 컨테이너 이미지는 그 Ruby를 포함하지 않았다</strong>.</li>
+                <li><strong>공격 결과:</strong> 워커 크래시 <strong>8회</strong>, 그중 <strong>4회는 부분적 성공</strong>. 끝까지 성공한 흔적은 없었으나, 공격자들이 <strong>Alpine의 GitLab 컨테이너 이미지를 내려받은 정황</strong>이 확인돼 공급망 공격 준비 가능성이 제기됐다.</li>
+                <li><strong>피해 범위:</strong> 10월 27일까지 저장소 커밋·패키지·릴리스에서 변조는 발견되지 않았고, 서명 키는 GitLab 서버에 없어 노출되지 않았다. 다만 익스플로잇이 성공했다면 사용자 정보, 비밀번호 해시, <strong>2FA 시크릿</strong>, CI/CD 시크릿, 연동 자격증명, 비공개 프로젝트 내용이 노출될 수 있었다.</li>
+                <li><strong>재구축 결정:</strong> "코드 실행을 배제할 수 없고, 배제에 필요한 증거(로그·아웃바운드 연결 기록)가 이미 남아 있지 않다"는 이유로 재구축을 택했다. Alpine은 Docker 이미지의 기반 배포판이라 <strong>aports 빌드 레시피</strong>가 오염되면 하위 생태계 전체가 영향을 받는다.</li>
+                <li><strong>지금 할 일:</strong> GitLab 비밀번호 재설정, 그리고 <strong>10월 27일 공개된 <code>alpinelinux/gitlab:19.3.6</code> 이미지</strong>(Ruby 3.3.13 포함)로 교체. 같은 CVE를 쓰는 자체 빌드 환경은 "패키지 버전이 아니라 런타임(Ruby)까지 확인"해야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/alpine-linux-rebuilds-gitlab-after-attempted-rce-attack/" target="_blank">BleepingComputer - Alpine Linux rebuilds GitLab after attempted RCE attack</a></p>
+
+            <h2>3. 아시아 정부 전용 Windows 10 빌드 노린 NetamLoader — Patch My PC CAB 재활용한 .NET 주입</h2>
+            <p>카스퍼스키가 <strong>아시아 정부 기관 전용 커스텀 Windows 10 빌드</strong>를 겨냥한 "고도로 정교한 감염 체인"을 공개했다. 핵심은 이전에 보고되지 않은 <strong>.NET 어셈블리 로딩 프레임워크 NetamLoader</strong>로, <strong>2026년 상반기</strong>에 처음 발견됐다. 특정 조직·행위자로 귀속되지는 않았고, 감염 시스템이 1대를 넘는지, 민감 정보 유출이 있었는지도 확인되지 않았다.</p>
+            <ul>
+                <li><strong>드롭 위치:</strong> 악성 <strong>CAB 아카이브</strong>가 <code>C:\Windows\SoftwareDistribution\Download\e4537a17…</code>에 놓이고 내용이 <code>…\Download\Install\</code>로 풀렸다. 즉 <strong>정상적인 Windows 업데이트 패키지 저장 경로</strong>를 위장 장소로 썼다.</li>
+                <li><strong>구성:</strong> 7개 파일 중 4개는 <strong>Patch My PC</strong>(엔드포인트 관리 소프트웨어)의 정상 컴포넌트였다. 이 중 <code>PatchMyPC-ScriptRunner.exe.config</code>가 <strong>AppDomainManager 인젝션</strong>을 일으켜 <code>Microsoft.HostIntegration.Connectors.dll</code>을 실행시키고, 그 DLL이 <code>fabric.config</code>를 파싱해 <code>Resources.resx</code>를 로드한다.</li>
+                <li><strong>2단계 체인:</strong> <code>Resources.resx</code>에는 인코딩·압축·암호화된 다층 페이로드(XAML, .NET 어셈블리, JSON)가 들어 있다. XAML-1이 XAML-2를, XAML-2가 <strong>AMSI 우회용</strong> XAML-2-1과 <strong>.NET 로더 + C2 설정(JSON-1)</strong>을 담은 XAML-2-2를 로드하는 구조다.</li>
+                <li><strong>공급망 의심:</strong> 카스퍼스키는 신뢰된 <strong>서드파티 벤더가 침해</strong>돼 하위 사용자에게 전달됐을 가능성을 제시했다. 정상 서명된 관리 도구의 파일 구성만 재활용하는 방식이라 파일 평판 기반 탐지가 쉽지 않다.</li>
+                <li><strong>탐지 관점:</strong> <code>SoftwareDistribution\Download</code> 하위의 <strong>비정상 CAB</strong>, 그리고 <code>PatchMyPC-ScriptRunner.exe.config</code>의 변조 여부를 확인해야 한다. AppDomainManager 인젝션은 <strong>합법 프로세스 안에서</strong> 실행되므로 부모-자식 프로세스 관계만으로는 잡히지 않는다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/11/netamloader-malware-targets-government.html" target="_blank">The Hacker News - NetamLoader Malware Targets Government Windows 10 Systems in Asia via .NET Injection</a></p>
+
+            <h2>4. ChatGPT 공유 링크 하나로 세션 내 코드 실행 — OpenAI P1, 발판은 MathLive 리스너</h2>
+            <p>보안기업 <strong>Parameter</strong>는 악성 <strong>ChatGPT 공유 링크</strong>를 열기만 하면 로그인된 사용자 세션에서 공격자 코드가 실행되고, 한 번도 공유한 적 없는 <strong>비공개 대화</strong>까지 읽을 수 있음을 증명했다. 10월 18일 버그바운티로 신고했고 OpenAI는 <strong>8일 뒤 수정</strong>하며 <strong>P1</strong>(최고 등급)으로 올렸다. 실제 악용 정황은 보고되지 않았다.</p>
+            <ul>
+                <li><strong>공격 조건:</strong> 피해자는 아무것도 설치할 필요가 없었다. 가장 안정적인 버전은 링크를 열고 <strong>Preview 버튼을 한 번 클릭</strong>하는 것, 이후 버전은 <strong>링크를 여는 것만</strong>으로 자동 실행됐다.</li>
+                <li><strong>샌드박스가 뚫린 3가지 설계:</strong> ① 대화 안의 인터랙티브 그래프가 메인 페이지에 수학 라이브러리 <strong>MathLive</strong>를 로드했고, ② MathLive가 <strong>보낸 프레임을 확인하지 않고</strong> 온스크린 키보드 설정 메시지를 받아들였으며(게다가 <strong>원시 HTML</strong> 운반 허용), ③ 그 HTML이 <strong>샌드박스가 없고 chatgpt.com 신원을 물려받는 프레임</strong>을 만들 수 있었다.</li>
+                <li><strong>마지막 단계:</strong> ChatGPT CSP가 인라인 스크립트는 막지만 <strong>YouTube 스크립트는 허용</strong>했기 때문에, 공격자는 YouTube에서 코드를 불러와 그 프레임 안에서 실행했다. Parameter는 "YouTube 차단만으로는 막히지 않는다"고 못 박았다 — 근본 원인은 <strong>신뢰되지 않은 Preview가 메인 사이트에 HTML을 밀어넣는 것</strong>이다.</li>
+                <li><strong>무엇이 가능했나:</strong> 화면을 긁는 방식이 아니라 <strong>ChatGPT의 로그인 API를 직접 호출</strong>했다. 최근 대화 목록 조회, 공유된 적 없는 비공개 대화 열람, 일부 내용을 연구진 서버로 전송, 그리고 "계정을 대신해 할 수 있는 모든 행위"가 가능했다.</li>
+                <li><strong>사용자 조치:</strong> 10월 26일까지 두 웹 프론트엔드 모두에서 공격에 쓰인 메시지가 거부되도록 수정됐다. 사용자가 따로 할 일은 없다. 다만 같은 패턴(<strong>postMessage origin 미검증 + HTML 운반 허용</strong>)은 다른 SaaS에도 그대로 존재한다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/10/a-shared-chatgpt-link-could-run.html" target="_blank">The Hacker News - A Shared ChatGPT Link Could Run Attacker Code in Your Session and Read Private Chats</a></p>
+
+            <h2>5. FBI, 바이낸스 64억 3,000만 달러 탈취를 북한 TraderTraitor로 공식 지목 — 28억 5,000만 달러는 온체인 동결</h2>
+            <p>미 <strong>FBI</strong>가 비밀경호국(USSS)·IRS 형사수사국(IRS-CI)과 함께, 바이낸스에서 탈취된 <strong>60억 달러 이상</strong>의 가상자산을 북한 연계 해킹 조직 <strong>TraderTraitor</strong>(Jade Sleet, Pressure Chollima, PUKCHONG, Slow Pisces, UNC4899)의 소행으로 <strong>공식 귀속</strong>했다. 규모는 <strong>64억 3,000만 달러</strong>로 2025년 2월 Bybit의 14억 6,000만 달러를 넘어 <strong>역대 최대 암호화폐 탈취</strong>다.</p>
+            <ul>
+                <li><strong>자금 세탁:</strong> FBI는 조직이 탈취 자산을 주로 <strong>이더리움(ETH)</strong>으로 바꾸고 있으며, 이후 <strong>DeFi·즉시 스왑 서비스</strong>를 거쳐 추가 세탁 단계로 넘길 것으로 본다고 밝혔다. 세탁에 쓰이는 <strong>지갑 주소 목록</strong>도 공개됐다.</li>
+                <li><strong>동결 규모:</strong> 64억 3,000만 달러 중 <strong>28억 5,000만 달러</strong>가 Tether·Circle·Ripple·Arbitrum·Optimism에 의해 온체인에서 동결됐다. 탈취 자금은 <strong>11개 블록체인</strong>에 걸쳐 있었고 <strong>82%가 이더리움·비트코인</strong>이었다.</li>
+                <li><strong>국가 예산 규모:</strong> Elliptic은 "이번 단일 사건이 북한이 그간 탈취한 암호자산 총액을 거의 두 배로 늘렸다"며 DPRK 연계 조직의 누적 탈취액을 <strong>65억 달러 이상</strong>으로 추정했다.</li>
+                <li><strong>새 수법:</strong> 최근 이 조직은 <strong>악성화된 Terraform 프로바이더</strong>를 유통 경로로 쓰고, 껍데기 회사를 세워 <strong>보안·AI·블록체인·채용 업계 종사자</strong>를 직무 사칭으로 겨냥한다. Bash 로더가 OS별 악성코드를 골라 받고, 정보 탈취기 <strong>FLATROOF</strong>와 원격 제어 백도어 <strong>ROOFDECK</strong>을 설치하는 흐름이다.</li>
+                <li><strong>현황:</strong> 바이낸스는 11월 1일 06~09시(UTC)부터 <strong>1단계 출금을 재개</strong>했다. 입금 서비스는 사고 기간에도 정상 운영됐다. 개발자 입장에서는 <strong>Terraform 모듈·프로바이더 버전 고정과 서명 검증</strong>이 새 필수 점검이 됐다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/11/fbi-links-north-koreas-tradertraitor-to.html" target="_blank">The Hacker News - FBI Links North Korea's TraderTraitor to Record $6.43 Billion Binance Crypto Heist</a> / <a href="https://www.bleepingcomputer.com/news/security/fbi-links-63-billion-binance-crypto-heist-to-north-korean-hackers/" target="_blank">BleepingComputer - FBI links $6.3 billion Binance crypto heist to North Korean hackers</a></p>
+
+            <h2>6. LXD·MicroCloud CVE-2026-112816 (CVSS 10.0) — 인증서 체인 검증 오류로 '신뢰 클라이언트' 사칭</h2>
+            <p>Canonical의 <strong>LXD</strong>와 <strong>MicroCloud</strong>에서 <strong>최대 CVSS 10.0</strong> 결함이 나왔다. 공격자는 <strong>해당 클라이언트의 개인키 없이</strong> 신뢰된 클라이언트로 로그인할 수 있다. 조건은 <strong>네트워크로 HTTPS API에 도달</strong>하고, <strong>신뢰된 클라이언트의 공개 인증서</strong>를 갖는 것 — 공개 인증서는 비밀이 아니다.</p>
+            <ul>
+                <li><strong>결함의 정체:</strong> LXD·MicroCloud는 상호 TLS(mTLS)로 API를 노출한다. 서버는 클라이언트가 보낸 <strong>모든 인증서를 신뢰 저장소와 대조</strong>했는데, TLS 연결은 <strong>체인의 첫 번째(리프) 인증서</strong>에 대해서만 개인키 소유를 증명한다. 나머지 체인은 클라이언트가 임의로 붙일 수 있다.</li>
+                <li><strong>공격:</strong> 공격자는 자기 인증서 뒤에 <strong>신뢰된 클라이언트의 공개 인증서</strong>를 붙이는 것만으로 그 클라이언트로 인정받는다. 이후 클러스터와 VM에 접근하고, 사칭한 계정이 <strong>권한 있는 계정이면 호스트 root</strong>까지 얻는다.</li>
+                <li><strong>영향 버전:</strong> CVE 기록은 <strong>LXD 4.0.14, 5.0.10, 5.21.8, 6.9</strong> 이전 버전을 영향 대상으로 든다. 수정 snap은 <strong>6/stable 6.10.1, 5.21/stable 5.21.9, 5.0/stable 5.0.11, 4.0/stable 4.0.15, MicroCloud 3/stable 3.4.1</strong>.</li>
+                <li><strong>MicroCloud 특이점:</strong> 여러 머신을 하나의 클러스터로 묶는 구조라, <strong>멤버가 클러스터에 조인하는 순간의 공개 인증서를 캡처</strong>할 수 있으면 그 멤버로 로그인할 수 있다. 클러스터 조인 트래픽을 볼 수 있는 위치(같은 L2·미러링·프록시)가 곧 공격 위치다.</li>
+                <li><strong>노출 판단:</strong> 단독 LXD 서버는 기본적으로 로컬 소켓만 열고, 관리자가 <code>core.https_address</code>를 켜야 네트워크 API가 열린다. 즉 <strong>"네트워크 API를 켠 적이 있는가"</strong>가 첫 질문이고, 켰다면 snap 채널별 수정 버전 적용이 즉시 필요하다.</li>
+            </ul>
+            <p>출처: <a href="https://thehackernews.com/2026/11/critical-lxd-and-microcloud-flaw-cvss.html" target="_blank">The Hacker News - CVSS 10.0 LXD, MicroCloud Flaw Lets Attackers Impersonate Trusted Clients Without a Private Key</a> / <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-112816" target="_blank">NVD - CVE-2026-112816</a></p>
+
+            <h2>7. 사흘간 NVD CRITICAL 24건 중 16건이 공유기 — WAVLINK 12건, Oray 3건, D-Link 1건</h2>
+            <p>10월 31일~11월 2일 사흘간 NVD에 <strong>CRITICAL 등급 24건</strong>이 등록됐는데, 그중 <strong>16건이 소형 공유기·라우터</strong> 제품이었다(<strong>WAVLINK 12건, Oray 3건, D-Link 1건</strong>). 상당수가 CVSS 9.9~10.0이며, 원인이 <strong>거의 동일한 CGI 계열 코드</strong>에 몰려 있다.</p>
+            <ul>
+                <li><strong>10.0 등급:</strong> <strong>CVE-2026-120198</strong>(WAVLINK WL-WN530BE1-A, <code>con_check_read_finish</code>), <strong>CVE-2026-120195</strong>(WAVLINK WL-WN579A3-A), <strong>CVE-2026-120189</strong>(D-Link DIR-505 1.10B02, <code>save_upload_file</code>/<code>mp_upload_file</code>) — 모두 <strong>무인증 원격 명령 실행</strong> 계열이다.</li>
+                <li><strong>9.9 등급:</strong> WAVLINK WN553X1-B·WN701AE·WL-WN530HG4B의 <code>port_forward</code>, <code>del_vlan_group</code>, <code>del_staticrule</code> 등 <strong>관리 CGI 함수</strong>가 무더기로 올라왔고, <strong>Oray Pugongying X5 Pro 7.6.1 이하</strong>는 <code>run_apis_by_json</code> 경로로 9.9를 받았다.</li>
+                <li><strong>패턴:</strong> 인증 확인 없이 <strong>파라미터를 시스템 명령·파일 경로로 직결</strong>하는 구식 CGI 구조가 반복된다. 벤더가 CVE를 한꺼번에 발급하는 경우가 많아, 개별 CVE 대응보다 <strong>펌웨어 계열 단위 대응</strong>이 현실적이다.</li>
+                <li><strong>실무 판단:</strong> 인터넷에 관리 포트가 열린 공유기는 봇넷 스캐너의 1순위 표적이다. 원격 관리가 필요 없다면 WAN 측 관리 접근을 끄고, <strong>EOL 펌웨어면 교체</strong>가 답이다(패치가 나와도 자동 업데이트가 없는 모델이 대부분).</li>
+                <li><strong>주의:</strong> 이 계열 CVE는 PoC·툴 공개 속도가 빨라 <strong>공개 후 1~2주 내 스캔이 시작</strong>된다. 자산 목록에서 가정용·지사용 공유기를 "IT 자산 아님"으로 빼두면 이번 주에도 그대로 남는다.</li>
+            </ul>
+            <p>출처: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-120198" target="_blank">NVD - CVE-2026-120198</a> / <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-120189" target="_blank">NVD - CVE-2026-120189</a> / <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-120224" target="_blank">NVD - CVE-2026-120224 (Oray)</a></p>
+
+            <h2>8. ClickHouse CVE-2026-116366 (9.5)·Teltonika RUTOS 9.4 — '네트워크만 닿으면' 무인증 RCE</h2>
+            <p>인프라 양 끝에서 <strong>무인증 원격 코드 실행</strong> 결함이 나왔다. 분석용 데이터베이스 <strong>ClickHouse Server</strong>는 특정 조건에서 <strong>네트워크 접근 권한만 있는 무인증 사용자</strong>가 임의 코드를 실행할 수 있고(<strong>CVE-2026-116366, CVSS 9.5</strong>, 10월 30일 NVD 등록), 산업용 셀룰러 라우터 <strong>Teltonika RUTOS/TSWOS</strong>는 <strong>LUA 함수를 직접 호출</strong>해 검증을 우회할 수 있다(<strong>CVE-2026-82104, CVSS 9.4</strong>).</p>
+            <ul>
+                <li><strong>ClickHouse:</strong> "특정 조건에서"라는 단서가 붙지만, 조건이 충족되면 <strong>인증 없이 코드 실행</strong>이다. 대화형 분석 환경 특성상 <strong>8123/9000 포트가 사내망 전체에 열려 있는 구성</strong>이 흔하다.</li>
+                <li><strong>Teltonika:</strong> RUTOS <strong>7.22~7.24.2</strong>, TSWOS <strong>1.9~1.10</strong>이 영향 범위다. 라우터 펌웨어에서 LUA 함수를 무인증으로 직접 호출할 수 있어 <strong>설정 변경·명령 실행</strong>으로 이어진다.</li>
+                <li><strong>왜 위험한가:</strong> 두 제품 모두 <strong>경계 장비 또는 데이터 평면</strong>에 놓인다. Teltonika는 산업·물류·원격지 현장에서 VPN 종단으로 쓰이고, ClickHouse는 내부 분석계의 중심에 있다.</li>
+                <li><strong>지금 할 일:</strong> ① ClickHouse는 <strong>신뢰 네트워크로만 접근 제한</strong>(프록시·mTLS·사용자 인증 강제) 및 벤더 수정 버전 적용, ② Teltonika는 최신 펌웨어 적용 + <strong>WAN 측 웹 관리 콘솔 비활성</strong>, ③ 두 제품 모두 <strong>인터넷 노출 여부를 먼저 확인</strong>.</li>
+            </ul>
+            <p>출처: <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-116366" target="_blank">NVD - CVE-2026-116366 (ClickHouse)</a> / <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-82104" target="_blank">NVD - CVE-2026-82104 (Teltonika)</a></p>
+
+            <h2>9. Bitcoin Core, 보안 결함 3건 공개 — 29.5·30.4·31.2·32.1에 백포트, 32비트는 여전히 영향</h2>
+            <p>Bitcoin Core가 10월 28일 <strong>보안 권고 3건</strong>을 연달아 공개했다. 모두 <strong>Low</strong> 등급이고 "쉽게 발견 가능(easily discoverable)"으로 분류돼, 별도 엠바고 없이 <strong>포인트 릴리스와 동시에</strong> 공개됐다.</p>
+            <ul>
+                <li><strong>CVE-2026-117346 (undo 파일 오버플로):</strong> 채굴자가 다른 노드의 undo 데이터를 손상시켜, 정교하게 맞춘 리오그가 뒤따르면 노드가 종료된다. 블록 파일 위치가 <strong>32비트 정수</strong>여서 4GiB를 넘으면 위치가 감긴다. 64비트 위치 저장으로 수정됐고, <strong>64비트 시스템용 수정은 29.5·30.4·31.2·32.1</strong>에 들어갔다.</li>
+                <li><strong>잔여 위험:</strong> <strong>32비트 시스템</strong>과 <strong>FAT32에 블록을 저장하는 노드</strong>는 이번 릴리스에서도 영향받는다(FAT32는 4GiB 파일 한계). 해당 구성은 <code>-reindex</code>로도 완전 복구가 안 될 수 있어 <strong>64비트·비FAT32로 이전</strong>이 근본 대응이다.</li>
+                <li><strong>CVE-2026-117349 (일시정지 피어 큐 무한 증가):</strong> pre-BIP31 피어는 영원히 일시정지 상태로 남을 수 있고, Bitcoin Core가 그런 피어에게도 공지(announcement)를 계속 큐에 쌓아 메모리가 무한히 증가한다.</li>
+                <li><strong>CVE-2026-117350 (TCP urgent data OOM):</strong> <strong>리눅스 이외 플랫폼</strong>에서 악성 피어가 TCP urgent(out-of-band) 데이터를 보내 노드 메모리를 고갈시킬 수 있다.</li>
+                <li><strong>일정·정책:</strong> 10월 27일 <strong>31.2·32.1</strong>, 10월 28일 <strong>29.5·30.4</strong> 릴리스. Bitcoin Core는 "간단한 LLM 프롬프트로 발견 가능한" 취약점을 <strong>easily discoverable</strong>로 분류해 즉시 포인트 릴리스하는 정책을 쓰고 있다 — AI 시대의 공개 정책 변화로 읽을 부분이다.</li>
+            </ul>
+            <p>출처: <a href="https://bitcoincore.org/en/2026/10/28/disclose-undo-overflow/" target="_blank">Bitcoin Core - CVE-2026-117346 Undo file overflow</a> / <a href="https://bitcoincore.org/en/security-advisories/" target="_blank">Bitcoin Core - Security Advisories</a> / <a href="https://bitcoincore.org/en/releases/32.1/" target="_blank">Bitcoin Core - 32.1 Release Notes</a></p>
+
+            <h2>10. Microsoft, 9월 패치가 깨뜨린 Always On VPN 회귀 수정 — "이미 고쳤다"던 안내도 정정</h2>
+            <p>마이크로소프트가 <strong>2026년 9월 Windows 11 보안 업데이트</strong> 이후 발생한 <strong>Always On VPN 연결 실패</strong>를 마침내 해결했다. 수정은 <strong>10월 프리뷰 업데이트 KB5127936</strong>을 설치한 사용자에게 적용된다. 회사는 앞서 이 문제를 10월 누적 업데이트에서 <strong>이미 고쳤다고 잘못 표기</strong>했다가 정정했다.</p>
+            <ul>
+                <li><strong>증상:</strong> 자동 프로토콜 선택(<strong>IKEv2 + SSTP</strong>) 구성에서 VPN이 <strong>계속 "Connecting" 상태</strong>에 머물거나, 첫 연결 실패 후 재시도 시 <strong>"지정한 포트가 이미 사용 중"</strong> 오류가 뜬다.</li>
+                <li><strong>영향 범위:</strong> Always On VPN은 DirectAccess를 대체한 원격 접속 솔루션으로, 도메인 조인·비조인·Entra ID 조인 Windows 10/11·Windows Server 단말을 모두 지원한다. 즉 <strong>재택·지사 단말 전체</strong>가 대상이다.</li>
+                <li><strong>임시 우회:</strong> 프리뷰 업데이트를 건너뛰고 다음 패치 화요일까지 기다리려면, VPN 프로필을 <strong>자동 선택에서 단일 프로토콜(SSTP only 또는 IKEv2 only)</strong>로 바꾸면 된다. 조직 환경에 맞는 프로토콜을 골라야 한다.</li>
+                <li><strong>함께 고친 것:</strong> 같은 프리뷰 업데이트는 <strong>"Administrator protection"</strong> 기능이 켜진 상태에서 <strong>비관리자 사용자가 RDP로 접속하지 못하던 문제</strong>도 수정한다.</li>
+                <li><strong>실무 메모:</strong> 이번 건은 "패치가 만든 회귀"의 전형이다. 9월 업데이트 이후 VPN 헬프데스크 티켓이 늘었다면 <strong>KB5127936 적용 여부</strong>를 먼저 확인하고, 자동 선택 프로필을 쓰는 그룹 정책이 있는지 점검해야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/microsoft/microsoft-finally-fixes-vpn-issues-caused-by-september-updates/" target="_blank">BleepingComputer - Microsoft finally fixes VPN issues caused by September updates</a></p>
+
+            <h2>11. 트렌드 ①: 공격선이 '코드'에서 '빌드·배포 파이프라인'으로 — DebugBear DNS, Patch My PC CAB, Alpine GitLab</h2>
+            <p>오늘 사건 1~3의 공통점은 <strong>취약한 코드가 아니라 신뢰된 배포 채널</strong>이 뚫렸다는 것이다. 예측시장의 <strong>RUM 스크립트</strong>, 정부 단말의 <strong>엔드포인트 관리 도구</strong>, 배포판의 <strong>CI/CD 서버</strong> — 셋 다 "우리가 직접 만들지 않았지만 우리 사용자에게 그대로 전달되는" 계층이다.</p>
+            <ul>
+                <li><strong>공통 구조:</strong> 공격자는 ① 서드파티의 <strong>DNS/등록기관 계정</strong>(DebugBear), ② 관리 도구의 <strong>정상 파일 구성 재활용 + 설정 파일 변조</strong>(NetamLoader/Patch My PC), ③ <strong>CI 러너에서 실행되는 코드</strong>(Alpine GitLab)를 노린다. 셋 모두 <strong>애플리케이션 코드 리뷰 밖</strong>에 있다.</li>
+                <li><strong>공급망 의도의 신호:</strong> Alpine 사건에서 공격자들이 <strong>GitLab 컨테이너 이미지를 직접 내려받은</strong> 정황은 단순 침해가 아니라 <strong>빌드 산출물 오염 준비</strong>로 읽힌다. Polymarket 스크립트도 <strong>고객별 사본</strong> 중 하나만 바꿔치기됐다.</li>
+                <li><strong>가장 아픈 교훈:</strong> Alpine은 <strong>아웃바운드 연결 기록이 없어</strong> 침해 여부를 배제하지 못해 서버를 재구축했다. 즉 <strong>로그 보존이 사고 대응 비용을 결정</strong>한다. CI 러너·배포 서버의 egress 로깅을 끄고 있다면 오늘 켜야 한다.</li>
+                <li><strong>오늘 점검:</strong> ① 결제·로그인 화면의 서드파티 스크립트 인벤토리와 <strong>SRI/CSP</strong>, ② 벤더 도메인의 <strong>등록기관 계정 MFA·레지스트라 락</strong>, ③ 엔드포인트 관리 에이전트의 <strong>.config 변조 탐지</strong>(AppDomainManager 인젝션), ④ CI에서 <strong>PR 기반 파이프라인 설정 변경</strong>에 대한 승인 게이트.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/alpine-linux-rebuilds-gitlab-after-attempted-rce-attack/" target="_blank">BleepingComputer - Alpine Linux rebuilds GitLab after attempted RCE attack</a> / <a href="https://thehackernews.com/2026/11/netamloader-malware-targets-government.html" target="_blank">The Hacker News - NetamLoader Malware Targets Government Windows 10 Systems in Asia</a> / <a href="https://thehackernews.com/2026/11/hackers-steal-about-27-million-from.html" target="_blank">The Hacker News - Polymarket DebugBear Script Hijack</a></p>
+
+            <h2>12. 트렌드 ②: AI가 '취약점 신고서'까지 양산 — 버그바운티가 먼저 마비되고, 벤더는 데이터를 닫는다</h2>
+            <p>AI가 공격 도구를 넘어 <strong>신고 프로세스 자체</strong>를 압박하고 있다. 버그바운티 프로그램에는 <strong>AI가 생성한 취약점 보고서</strong>가 쏟아져 트리아지가 막히고, 벤더들은 <strong>공개 정보의 양 자체를 줄이는</strong> 쪽으로 움직인다.</p>
+            <ul>
+                <li><strong>버그바운티 포화:</strong> BleepingComputer는 "AI가 생성한 취약점 보고서가 일부 버그바운티 프로그램을 압도해, 신진 연구자들이 어디서 시작해야 할지 알기 어려워졌다"고 전했다. 보고서 품질보다 <strong>검증 비용</strong>이 병목이 된 상태다.</li>
+                <li><strong>패치가 곧 경계선:</strong> GlobalData는 PHP2Shell 사례를 통해 "AI 기반 익스플로잇이 <strong>즉시 패치를 새로운 경계(perimeter)</strong>로 만들었다"고 분석했다. 취약점 공개와 무기화 사이의 간격이 사라지는 방향이다.</li>
+                <li><strong>벤더의 반응:</strong> Reddit은 콘텐츠를 <strong>로그인 뒤로 잠그는</strong> "logged-in service" 전환을 예고하며 스크래퍼 대응을 명분으로 들었다. AI 학습·수집에 대한 통제가 <strong>일반 사용자 접근성 축소</strong>로 이어지는 흐름이다.</li>
+                <li><strong>정책도 바뀐다:</strong> Bitcoin Core는 "간단한 LLM 프롬프트로 발견 가능한" 취약점을 별도 등급(<strong>easily discoverable</strong>)으로 분류해 <strong>엠바고 없이 즉시 포인트 릴리스</strong>하는 정책을 명문화했다. 즉 <strong>AI가 발견 속도를 올린 만큼 공개 속도도 올리는</strong> 방향으로 업계 규범이 이동 중이다.</li>
+                <li><strong>실무 함의:</strong> ① 외부 신고를 받는 조직은 <strong>AI 생성 보고서 검증 절차(재현 스크립트 필수화)</strong>를 먼저 정비, ② 방어 조직은 <strong>패치 주기를 '월 1회'에서 '공개 후 72시간'</strong>으로 재조정, ③ 자동 수집에 의존하는 자산 인벤토리는 <strong>로그인 장벽 상승</strong>을 전제로 소스를 다변화해야 한다.</li>
+            </ul>
+            <p>출처: <a href="https://www.bleepingcomputer.com/news/security/from-beginner-to-bug-hunter-learning-cybersecurity-in-the-ai-era/" target="_blank">BleepingComputer - From Beginner to Bug Hunter: Learning Cybersecurity in the AI Era</a> / <a href="https://www.bleepingcomputer.com/news/security/reddit-to-lock-content-behind-logins-to-fight-scrapers/" target="_blank">BleepingComputer - Reddit to lock content behind logins to fight scrapers</a> / <a href="https://bitcoincore.org/en/security-advisories/" target="_blank">Bitcoin Core - Security Advisories (easily discoverable 정책)</a></p>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
